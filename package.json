@@ -1,0 +1,54 @@
+{
+  "name": "@speechly/browser-client",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Browser client for Speechly API",
+  "scripts": {
+    "all": "npm run lint && npm run test && npm run dist && npm run docs",
+    "build": "WEBPACK_MODE='prd' npx webpack --config ./config/webpack.config.js",
+    "clean": "rm -rf dist/",
+    "dist": "npm run rebuild && npm run extract && npm run prepdist",
+    "docs": "npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist",
+    "extract": "npx api-extractor run --local --verbose",
+    "lint": "eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
+    "prepdist": "node ./config/prepare_dist.js",
+    "rebuild": "npm run clean && npm run build",
+    "test": "jest --config ./config/jest.config.js",
+    "watch": "WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/speechly/browser-client"
+  },
+  "main": "./dist/speechly.js",
+  "module": "./dist/speechly.js",
+  "types": "./dist/speechly.d.ts",
+  "author": "Speechly",
+  "license": "MIT",
+  "dependencies": {
+    "locale-codes": "^1.1.0",
+    "typedoc": "^0.16.10"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.7.8",
+    "@types/jest": "^25.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard-with-typescript": "^13.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.7.0",
+    "eslint-plugin-node": "^9.2.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-tsdoc": "^0.2.1",
+    "jest": "^25.1.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^25.2.0",
+    "ts-loader": "^6.2.1",
+    "typedoc-plugin-markdown": "^2.2.16",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.11"
+  }
+}
