@@ -1,22 +1,22 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [IWord](_speechly_d_.iword.md)
+[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [Word](_speechly_d_.word.md)
 
-# Interface: IWord
+# Interface: Word
 
 A single word detected by the SLU API.
 
 ## Hierarchy
 
-* **IWord**
+* **Word**
 
 ## Index
 
 ### Properties
 
-* [endTimestamp](_speechly_d_.iword.md#endtimestamp)
-* [index](_speechly_d_.iword.md#index)
-* [isFinal](_speechly_d_.iword.md#isfinal)
-* [startTimestamp](_speechly_d_.iword.md#starttimestamp)
-* [value](_speechly_d_.iword.md#value)
+* [endTimestamp](_speechly_d_.word.md#endtimestamp)
+* [index](_speechly_d_.word.md#index)
+* [isFinal](_speechly_d_.word.md#isfinal)
+* [startTimestamp](_speechly_d_.word.md#starttimestamp)
+* [value](_speechly_d_.word.md#value)
 
 ## Properties
 
@@ -24,7 +24,7 @@ A single word detected by the SLU API.
 
 • **endTimestamp**: *number*
 
-Defined in speechly.d.ts:261
+Defined in speechly.d.ts:298
 
 End timestamp of the word within the audio of the context.
 
@@ -34,7 +34,7 @@ ___
 
 • **index**: *number*
 
-Defined in speechly.d.ts:253
+Defined in speechly.d.ts:290
 
 The index of the word within a segment.
 
@@ -44,7 +44,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:265
+Defined in speechly.d.ts:302
 
 Whether the word was detected as final.
 
@@ -54,7 +54,7 @@ ___
 
 • **startTimestamp**: *number*
 
-Defined in speechly.d.ts:257
+Defined in speechly.d.ts:294
 
 Start timestamp of the word within the audio of the context.
 
@@ -64,6 +64,6 @@ ___
 
 • **value**: *string*
 
-Defined in speechly.d.ts:249
+Defined in speechly.d.ts:286
 
 The value of the word.

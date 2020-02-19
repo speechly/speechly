@@ -1,19 +1,19 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [IIntent](_speechly_d_.iintent.md)
+[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [Intent](_speechly_d_.intent.md)
 
-# Interface: IIntent
+# Interface: Intent
 
 The intent detected by the SLU API.
 
 ## Hierarchy
 
-* **IIntent**
+* **Intent**
 
 ## Index
 
 ### Properties
 
-* [intent](_speechly_d_.iintent.md#intent)
-* [isFinal](_speechly_d_.iintent.md#isfinal)
+* [intent](_speechly_d_.intent.md#intent)
+* [isFinal](_speechly_d_.intent.md#isfinal)
 
 ## Properties
 

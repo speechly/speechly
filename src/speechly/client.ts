@@ -3,18 +3,29 @@ import { getByTag as getLocaleByTag } from 'locale-codes'
 import { ErrorCallback, ContextCallback } from '../types'
 import { Microphone, DefaultSampleRate, ErrNoAudioConsent, ErrNoBrowserSupport } from '../microphone/microphone'
 import {
-  IWebsocketClient, WebsocketClient, WebsocketResponse, WebsocketResponseType,
-  TentativeTranscriptResponse, TranscriptResponse, TentativeEntitiesResponse, EntityResponse, IntentResponse
+  Websocket,
+  WebsocketClient,
+  WebsocketResponse,
+  WebsocketResponseType,
+  TentativeTranscriptResponse,
+  TranscriptResponse,
+  TentativeEntitiesResponse,
+  EntityResponse,
+  IntentResponse
 } from '../websocket'
 
 import { stateToString } from './state'
 import { SegmentState } from './segment'
+import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
 import {
-  parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity
-} from './parsers'
-import {
-  IClientOptions, ClientState, StateChangeCallback,
-  SegmentChangeCallback, TentativeTranscriptCallback, TranscriptCallback, TentativeEntitiesCallback, EntityCallback,
+  ClientOptions,
+  ClientState,
+  StateChangeCallback,
+  SegmentChangeCallback,
+  TentativeTranscriptCallback,
+  TranscriptCallback,
+  TentativeEntitiesCallback,
+  EntityCallback,
   IntentCallback
 } from './types'
 
@@ -27,31 +38,34 @@ import {
 export class Client {
   private readonly debug: boolean
   private readonly microphone: Microphone
-  private readonly websocket: IWebsocketClient
+  private readonly websocket: WebsocketClient
   private readonly activeContexts = new Map<string, SegmentState>()
 
   private state: ClientState = ClientState.Disconnected
   private reconnectAttemptCount = initialReconnectCount
   private nextReconnectDelay = initialReconnectDelay
 
-  private stateChangeCb: StateChangeCallback = () => { }
-  private segmentChangeCb: SegmentChangeCallback = () => { }
-  private tentativeTranscriptCb: TentativeTranscriptCallback = () => { }
-  private tentativeEntitiesCb: TentativeEntitiesCallback = () => { }
-  private tentativeIntentCb: IntentCallback = () => { }
-  private transcriptCb: TranscriptCallback = () => { }
-  private entityCb: EntityCallback = () => { }
-  private intentCb: IntentCallback = () => { }
+  private stateChangeCb: StateChangeCallback = () => {}
+  private segmentChangeCb: SegmentChangeCallback = () => {}
+  private tentativeTranscriptCb: TentativeTranscriptCallback = () => {}
+  private tentativeEntitiesCb: TentativeEntitiesCallback = () => {}
+  private tentativeIntentCb: IntentCallback = () => {}
+  private transcriptCb: TranscriptCallback = () => {}
+  private entityCb: EntityCallback = () => {}
+  private intentCb: IntentCallback = () => {}
 
-  constructor (options: IClientOptions) {
+  constructor(options: ClientOptions) {
     if (getLocaleByTag(options.language) === undefined) {
       throw Error(`[SpeechlyClient] Invalid language "${options.language}"`)
     }
 
     this.debug = options.debug ?? false
     this.microphone = new Microphone(options.sampleRate ?? DefaultSampleRate)
-    this.websocket = new WebsocketClient(
-      options.url, options.appId, options.language, options.deviceId ?? uuidv4(),
+    this.websocket = new Websocket(
+      options.url,
+      options.appId,
+      options.language,
+      options.deviceId ?? uuidv4(),
       options.sampleRate ?? DefaultSampleRate
     )
 
@@ -64,7 +78,7 @@ export class Client {
    * Initializes the client, by initializing the microphone and establishing connection to the API.
    * @param cb - the callback which is invoked when the initialization is complete.
    */
-  initialize (cb: ErrorCallback): void {
+  initialize(cb: ErrorCallback): void {
     if (this.state !== ClientState.Disconnected) {
       return cb(new Error('Cannot initialize client - client is not in Disconnected state'))
     }
@@ -105,7 +119,7 @@ export class Client {
    * Closes the client by closing the API connection and disabling the microphone.
    * @param cb - the callback which is invoked when closure is complete.
    */
-  close (cb: ErrorCallback = () => { }): void {
+  close(cb: ErrorCallback = () => {}): void {
     this.microphone.close((err?: Error) => {
       const errs = []
       if (err !== undefined) {
@@ -119,7 +133,7 @@ export class Client {
 
       this.activeContexts.clear()
 
-      return (errs.length > 0) ? cb(Error(errs.join(','))) : cb()
+      return errs.length > 0 ? cb(Error(errs.join(','))) : cb()
     })
   }
 
@@ -127,7 +141,7 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  startContext (cb: ContextCallback): void {
+  startContext(cb: ContextCallback): void {
     if (this.state !== ClientState.Connected) {
       return cb(Error('Cannot start context - client is not connected'))
     }
@@ -157,7 +171,7 @@ export class Client {
    * Stops current SLU context by sending a stop context event to the API and muting the microphone.
    * @param cb - the callback which is invoked when the context stop was acknowledged by the API.
    */
-  stopContext (cb: ContextCallback): void {
+  stopContext(cb: ContextCallback): void {
     if (this.state !== ClientState.Recording) {
       return cb(new Error('Cannot stop context - client is not recording'))
     }
@@ -187,49 +201,65 @@ export class Client {
    * Adds a listener for client state change events.
    * @param cb - the callback to invoke on state change events.
    */
-  onStateChange (cb: StateChangeCallback): void { this.stateChangeCb = cb }
+  onStateChange(cb: StateChangeCallback): void {
+    this.stateChangeCb = cb
+  }
 
   /**
    * Adds a listener for current segment change events.
    * @param cb - the callback to invoke on segment change events.
    */
-  onSegmentChange (cb: SegmentChangeCallback): void { this.segmentChangeCb = cb }
+  onSegmentChange(cb: SegmentChangeCallback): void {
+    this.segmentChangeCb = cb
+  }
 
   /**
    * Adds a listener for tentative transcript responses from the API.
    * @param cb - the callback to invoke on a tentative transcript response.
    */
-  onTentativeTranscript (cb: TentativeTranscriptCallback): void { this.tentativeTranscriptCb = cb }
+  onTentativeTranscript(cb: TentativeTranscriptCallback): void {
+    this.tentativeTranscriptCb = cb
+  }
 
   /**
    * Adds a listener for transcript responses from the API.
    * @param cb - the callback to invoke on a transcript response.
    */
-  onTranscript (cb: TranscriptCallback): void { this.transcriptCb = cb }
+  onTranscript(cb: TranscriptCallback): void {
+    this.transcriptCb = cb
+  }
 
   /**
    * Adds a listener for tentative entities responses from the API.
    * @param cb - the callback to invoke on a tentative entities response.
    */
-  onTentativeEntities (cb: TentativeEntitiesCallback): void { this.tentativeEntitiesCb = cb }
+  onTentativeEntities(cb: TentativeEntitiesCallback): void {
+    this.tentativeEntitiesCb = cb
+  }
 
   /**
    * Adds a listener for entity responses from the API.
    * @param cb - the callback to invoke on an entity response.
    */
-  onEntity (cb: EntityCallback): void { this.entityCb = cb }
+  onEntity(cb: EntityCallback): void {
+    this.entityCb = cb
+  }
 
   /**
    * Adds a listener for tentative intent responses from the API.
    * @param cb - the callback to invoke on a tentative intent response.
    */
-  onTentativeIntent (cb: IntentCallback): void { this.tentativeIntentCb = cb }
+  onTentativeIntent(cb: IntentCallback): void {
+    this.tentativeIntentCb = cb
+  }
 
   /**
    * Adds a listener for intent responses from the API.
    * @param cb - the callback to invoke on an intent response.
    */
-  onIntent (cb: IntentCallback): void { this.intentCb = cb }
+  onIntent(cb: IntentCallback): void {
+    this.intentCb = cb
+  }
 
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
     if (this.debug) {
@@ -309,7 +339,7 @@ export class Client {
     this.reconnectWebsocket()
   }
 
-  private reconnectWebsocket (): void {
+  private reconnectWebsocket(): void {
     if (this.reconnectAttemptCount < 1) {
       return this.setState(ClientState.Disconnected)
     }
@@ -350,7 +380,7 @@ export class Client {
     }
   }
 
-  private setState (newState: ClientState): void {
+  private setState(newState: ClientState): void {
     if (this.state === newState) {
       return
     }
@@ -367,10 +397,11 @@ export class Client {
 const initialReconnectDelay = 1000
 const initialReconnectCount = 5
 
-function uuidv4 (): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+function uuidv4(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     // eslint-disable-next-line one-var
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : ((r & 0x3) | 0x8)
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)
   })
 }

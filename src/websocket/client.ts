@@ -1,26 +1,30 @@
 import { ContextCallback, ErrorCallback } from '../types'
-import { IWebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
+import { WebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
-export class WebsocketClient implements IWebsocketClient {
+export class Websocket implements WebsocketClient {
   private readonly url: URL
   private readonly appId: string
-
   private websocket?: WebSocket
+
   private startCbs: ContextCallback[] = []
   private stopCbs: ContextCallback[] = []
-  private onResponseCb: ResponseCallback = () => { }
+  private onResponseCb: ResponseCallback = () => {}
+  private onCloseCb: CloseCallback = () => {}
 
-  private onCloseCb: CloseCallback = () => { }
+  onResponse(cb: ResponseCallback): void {
+    this.onResponseCb = cb
+  }
 
-  onResponse (cb: ResponseCallback): void { this.onResponseCb = cb }
-  onClose (cb: CloseCallback): void { this.onCloseCb = cb }
+  onClose(cb: CloseCallback): void {
+    this.onCloseCb = cb
+  }
 
-  constructor (url: string, appId: string, language: string, deviceId: string, sampleRate: number) {
+  constructor(url: string, appId: string, language: string, deviceId: string, sampleRate: number) {
     this.url = generateWsUrl(url, deviceId, language, sampleRate)
     this.appId = appId
   }
 
-  initialize (cb: ErrorCallback): void {
+  initialize(cb: ErrorCallback): void {
     if (this.websocket !== undefined) {
       return cb(Error('Cannot initialize an already initialized websocket client'))
     }
@@ -39,7 +43,7 @@ export class WebsocketClient implements IWebsocketClient {
     })
   }
 
-  close (closeCode: number, closeReason: string): Error | void {
+  close(closeCode: number, closeReason: string): Error | void {
     if (this.websocket === undefined) {
       return Error('Websocket is not open')
     }
@@ -52,7 +56,7 @@ export class WebsocketClient implements IWebsocketClient {
     this.websocket = undefined
   }
 
-  start (cb: ContextCallback): void {
+  start(cb: ContextCallback): void {
     if (!this.isOpen()) {
       return cb(Error('Websocket is not ready'))
     }
@@ -62,7 +66,7 @@ export class WebsocketClient implements IWebsocketClient {
     ws.send(StartEventJSON)
   }
 
-  stop (cb: ContextCallback): void {
+  stop(cb: ContextCallback): void {
     if (!this.isOpen()) {
       return cb(new Error('websocket is not ready'))
     }
@@ -72,7 +76,7 @@ export class WebsocketClient implements IWebsocketClient {
     ws.send(StopEventJSON)
   }
 
-  send (data: ArrayBuffer): Error | void {
+  send(data: ArrayBuffer): Error | void {
     if (!this.isOpen()) {
       return Error('Cannot send data through inactive websocket')
     }
@@ -81,8 +85,8 @@ export class WebsocketClient implements IWebsocketClient {
     ws.send(data)
   }
 
-  private isOpen (): boolean {
-    return (this.websocket !== undefined) && (this.websocket.readyState === this.websocket.OPEN)
+  private isOpen(): boolean {
+    return this.websocket !== undefined && this.websocket.readyState === this.websocket.OPEN
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
@@ -96,7 +100,7 @@ export class WebsocketClient implements IWebsocketClient {
 
     switch (response.type) {
       case WebsocketResponseType.Started:
-        this.startCbs.forEach((cb) => {
+        this.startCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -106,7 +110,7 @@ export class WebsocketClient implements IWebsocketClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
-        this.stopCbs.forEach((cb) => {
+        this.stopCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -133,7 +137,7 @@ export class WebsocketClient implements IWebsocketClient {
 const StartEventJSON = JSON.stringify({ event: 'start' })
 const StopEventJSON = JSON.stringify({ event: 'stop' })
 
-function generateWsUrl (url: string, deviceId: string, languageCode: string, sampleRate: number): URL {
+function generateWsUrl(url: string, deviceId: string, languageCode: string, sampleRate: number): URL {
   const params = new URLSearchParams()
   params.set('deviceId', deviceId)
   params.set('languageCode', languageCode)
@@ -149,7 +153,7 @@ function generateWsUrl (url: string, deviceId: string, languageCode: string, sam
   return wsUrl
 }
 
-function initializeWebsocket (url: string, protocol: string, cb: (err?: Error, ws?: WebSocket) => void): void {
+function initializeWebsocket(url: string, protocol: string, cb: (err?: Error, ws?: WebSocket) => void): void {
   const ws = new WebSocket(url, protocol)
 
   const errhandler = (): void => {

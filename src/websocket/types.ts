@@ -1,15 +1,15 @@
 import { ErrorCallback, ContextCallback } from '../types'
 
-export interface IWebsocketClient {
-  initialize (cb: ErrorCallback): void
-  close (closeCode: number, closeReason: string): Error | void
+export interface WebsocketClient {
+  initialize(cb: ErrorCallback): void
+  close(closeCode: number, closeReason: string): Error | void
 
-  start (cb: ContextCallback): void
-  stop (cb: ContextCallback): void
-  send (data: ArrayBuffer): Error | void
+  start(cb: ContextCallback): void
+  stop(cb: ContextCallback): void
+  send(data: ArrayBuffer): Error | void
 
-  onResponse (cb: ResponseCallback): void
-  onClose (cb: CloseCallback): void
+  onResponse(cb: ResponseCallback): void
+  onClose(cb: CloseCallback): void
 }
 
 export type ResponseCallback = (response: WebsocketResponse) => void

@@ -1,10 +1,9 @@
-import { generateDownsampler, float32ToInt16, AudioFilter } from './downsampler'
 import { ErrorCallback } from '../types'
+import { generateDownsampler, float32ToInt16, AudioFilter } from './downsampler'
 
 export type AudioCallback = (audioBuffer: ArrayBuffer) => void
 
 export const DefaultSampleRate = 16000
-
 export const ErrNotInitialized = new Error('Microphone is not initialized')
 export const ErrAlreadyInitialized = new Error('Microphone is already initialized')
 export const ErrNoBrowserSupport = new Error('Current browser does not support audio API')
@@ -12,7 +11,7 @@ export const ErrNoAudioConsent = new Error('Microphone consent is no given')
 
 export class Microphone {
   private readonly sampleRate: number
-  private onAudioCb: AudioCallback = () => { }
+  private onAudioCb: AudioCallback = () => {}
 
   // The media stream and audio track are initialized during `initialize()` call.
   private audioTrack?: MediaStreamTrack
@@ -25,13 +24,15 @@ export class Microphone {
   private audioContext?: AudioContext
   private downsampler?: AudioFilter
 
-  constructor (sampleRate: number) {
+  constructor(sampleRate: number) {
     this.sampleRate = sampleRate
   }
 
-  onAudio (cb: AudioCallback): void { this.onAudioCb = cb }
+  onAudio(cb: AudioCallback): void {
+    this.onAudioCb = cb
+  }
 
-  initialize (cb: ErrorCallback): void {
+  initialize(cb: ErrorCallback): void {
     if (this.audioTrack !== undefined) {
       return cb(ErrAlreadyInitialized)
     }
@@ -40,8 +41,9 @@ export class Microphone {
       return cb(ErrNoBrowserSupport)
     }
 
-    window.navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-      .then((mediaStream) => {
+    window.navigator.mediaDevices
+      .getUserMedia({ audio: true, video: false })
+      .then(mediaStream => {
         this.mediaStream = mediaStream
         this.audioTrack = this.mediaStream.getAudioTracks()[0]
         // Mute the microphone, since that is the chosen initial state.
@@ -54,7 +56,7 @@ export class Microphone {
       })
   }
 
-  close (cb: ErrorCallback): void {
+  close(cb: ErrorCallback): void {
     if (this.mediaStream === undefined) {
       return cb(ErrNotInitialized)
     }
@@ -89,12 +91,13 @@ export class Microphone {
       return cb()
     }
 
-    this.audioContext.close()
+    this.audioContext
+      .close()
       .then(callback)
       .catch(callback)
   }
 
-  mute (): void {
+  mute(): void {
     if (this.audioTrack === undefined) {
       return
     }
@@ -102,7 +105,7 @@ export class Microphone {
     this.audioTrack.enabled = false
   }
 
-  unmute (): void {
+  unmute(): void {
     if (this.audioTrack === undefined) {
       return
     }
@@ -114,7 +117,7 @@ export class Microphone {
     }
   }
 
-  private initializeAudioContext (): void {
+  private initializeAudioContext(): void {
     if (this.mediaStream === undefined) {
       throw Error('Microphone media stream is not initialized')
     }
@@ -132,7 +135,7 @@ export class Microphone {
     // Connect processor to destination.
     this.audioProcessor.connect(this.audioContext.destination)
     // Bind audio handler to receive audio data.
-    this.audioProcessor.onaudioprocess = (audioProcessingEvent) => {
+    this.audioProcessor.onaudioprocess = audioProcessingEvent => {
       if (this.audioTrack === undefined) {
         throw Error('Microphone audio track is not initialized')
       }

@@ -1,10 +1,13 @@
+import { Word, Entity, Intent } from './types'
 import {
-  TentativeTranscriptResponse, TranscriptResponse, TentativeEntitiesResponse, EntityResponse, IntentResponse
+  TentativeTranscriptResponse,
+  TranscriptResponse,
+  TentativeEntitiesResponse,
+  EntityResponse,
+  IntentResponse
 } from '../websocket'
 
-import { IWord, IEntity, IIntent } from './types'
-
-export function parseTentativeTranscript (data: TentativeTranscriptResponse): IWord[] {
+export function parseTentativeTranscript(data: TentativeTranscriptResponse): Word[] {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return data.words.map(({ word, index, start_timestamp, end_timestamp }) => {
     return {
@@ -17,7 +20,7 @@ export function parseTentativeTranscript (data: TentativeTranscriptResponse): IW
   })
 }
 
-export function parseTranscript (data: TranscriptResponse): IWord {
+export function parseTranscript(data: TranscriptResponse): Word {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     value: data.word,
@@ -28,7 +31,7 @@ export function parseTranscript (data: TranscriptResponse): IWord {
   }
 }
 
-export function parseTentativeEntities (data: TentativeEntitiesResponse): IEntity[] {
+export function parseTentativeEntities(data: TentativeEntitiesResponse): Entity[] {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return data.entities.map(({ entity, value, start_position, end_position }) => {
     return {
@@ -41,7 +44,7 @@ export function parseTentativeEntities (data: TentativeEntitiesResponse): IEntit
   })
 }
 
-export function parseEntity (data: EntityResponse): IEntity {
+export function parseEntity(data: EntityResponse): Entity {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     type: data.entity,
@@ -52,7 +55,7 @@ export function parseEntity (data: EntityResponse): IEntity {
   }
 }
 
-export function parseIntent (data: IntentResponse, isFinal: boolean): IIntent {
+export function parseIntent(data: IntentResponse, isFinal: boolean): Intent {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     intent: data.intent,

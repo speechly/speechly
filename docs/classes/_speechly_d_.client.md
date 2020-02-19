@@ -35,7 +35,7 @@ and dispatching them, as well as providing a high-level API for interacting with
 
 ###  constructor
 
-\+ **new Client**(`options`: [IClientOptions](../interfaces/_speechly_d_.iclientoptions.md)): *[Client](_speechly_d_.client.md)*
+\+ **new Client**(`options`: [ClientOptions](../interfaces/_speechly_d_.clientoptions.md)): *[Client](_speechly_d_.client.md)*
 
 Defined in speechly.d.ts:23
 
@@ -43,7 +43,7 @@ Defined in speechly.d.ts:23
 
 Name | Type |
 ------ | ------ |
-`options` | [IClientOptions](../interfaces/_speechly_d_.iclientoptions.md) |
+`options` | [ClientOptions](../interfaces/_speechly_d_.clientoptions.md) |
 
 **Returns:** *[Client](_speechly_d_.client.md)*
 

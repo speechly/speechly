@@ -24,7 +24,7 @@ import { Client, ISegment } from '@speechly/browser-client'
 // Create a new Client. appId and language are configured in the dashboard.
 const client = new Client({
   appId: 'your-app-id',
-  language: 'en-US',
+  language: 'en-US'
 })
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -36,13 +36,7 @@ client.initialize((err?: Error) => {
 
 // React to the phrases received from the API
 client.onSegmentChange((segment: ISegment) => {
-  console.log(
-    'Received new segment from the API:',
-    segment.intent,
-    segment.entities,
-    segment.words,
-    segment.isFinal,
-  )
+  console.log('Received new segment from the API:', segment.intent, segment.entities, segment.words, segment.isFinal)
 })
 
 // Start recording
@@ -64,7 +58,3 @@ Check the detailed API documentation in the [docs directory](docs/modules/_speec
 ## Contributing
 
 If you found a bug, please submit an issue with steps to reproduce it. If you would like to contribute to the codebase, feel free to submit the PR and request one of the maintainers to review it.
-
-## Maintainers
-
-- [@radiohead](https://github.com/radiohead) - Speechly

@@ -14,11 +14,11 @@
 
 ### Interfaces
 
-* [IClientOptions](../interfaces/_speechly_d_.iclientoptions.md)
-* [IEntity](../interfaces/_speechly_d_.ientity.md)
-* [IIntent](../interfaces/_speechly_d_.iintent.md)
-* [ISegment](../interfaces/_speechly_d_.isegment.md)
-* [IWord](../interfaces/_speechly_d_.iword.md)
+* [ClientOptions](../interfaces/_speechly_d_.clientoptions.md)
+* [Entity](../interfaces/_speechly_d_.entity.md)
+* [Intent](../interfaces/_speechly_d_.intent.md)
+* [Segment](../interfaces/_speechly_d_.segment.md)
+* [Word](../interfaces/_speechly_d_.word.md)
 
 ### Type aliases
 
@@ -42,7 +42,7 @@
 
 Ƭ **ContextCallback**: *function*
 
-Defined in speechly.d.ts:117
+Defined in speechly.d.ts:148
 
 A callback that receives either an error or a contextId.
 
@@ -63,13 +63,13 @@ ___
 
 Ƭ **EntityCallback**: *function*
 
-Defined in speechly.d.ts:123
+Defined in speechly.d.ts:181
 
 A callback that is invoked whenever new entity is received from the API.
 
 #### Type declaration:
 
-▸ (`contextId`: string, `segmentId`: number, `entity`: [IEntity](../interfaces/_speechly_d_.ientity.md)): *void*
+▸ (`contextId`: string, `segmentId`: number, `entity`: [Entity](../interfaces/_speechly_d_.entity.md)): *void*
 
 **Parameters:**
 
@@ -77,7 +77,7 @@ Name | Type |
 ------ | ------ |
 `contextId` | string |
 `segmentId` | number |
-`entity` | [IEntity](../interfaces/_speechly_d_.ientity.md) |
+`entity` | [Entity](../interfaces/_speechly_d_.entity.md) |
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 Ƭ **ErrorCallback**: *function*
 
-Defined in speechly.d.ts:129
+Defined in speechly.d.ts:187
 
 A callback that receives an optional error.
 
@@ -111,7 +111,7 @@ A callback that is invoked whenever new intent (tentative or not) is received fr
 
 #### Type declaration:
 
-▸ (`contextId`: string, `segmentId`: number, `intent`: [IIntent](../interfaces/_speechly_d_.iintent.md)): *void*
+▸ (`contextId`: string, `segmentId`: number, `intent`: [Intent](../interfaces/_speechly_d_.intent.md)): *void*
 
 **Parameters:**
 
@@ -119,7 +119,7 @@ Name | Type |
 ------ | ------ |
 `contextId` | string |
 `segmentId` | number |
-`intent` | [IIntent](../interfaces/_speechly_d_.iintent.md) |
+`intent` | [Intent](../interfaces/_speechly_d_.intent.md) |
 
 ___
 
@@ -127,19 +127,19 @@ ___
 
 Ƭ **SegmentChangeCallback**: *function*
 
-Defined in speechly.d.ts:272
+Defined in speechly.d.ts:245
 
-A callback that is invoked whenever current {@link ISegment | segment} changes.
+A callback that is invoked whenever current {@link Segment | segment} changes.
 
 #### Type declaration:
 
-▸ (`segment`: [ISegment](../interfaces/_speechly_d_.isegment.md)): *void*
+▸ (`segment`: [Segment](../interfaces/_speechly_d_.segment.md)): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`segment` | [ISegment](../interfaces/_speechly_d_.isegment.md) |
+`segment` | [Segment](../interfaces/_speechly_d_.segment.md) |
 
 ___
 
@@ -147,7 +147,7 @@ ___
 
 Ƭ **StateChangeCallback**: *function*
 
-Defined in speechly.d.ts:278
+Defined in speechly.d.ts:251
 
 A callback that is invoked whenever the {@link ClientState | client state} changes.
 
@@ -167,13 +167,13 @@ ___
 
 Ƭ **TentativeEntitiesCallback**: *function*
 
-Defined in speechly.d.ts:291
+Defined in speechly.d.ts:264
 
 A callback that is invoked whenever new tentative entities are received from the API.
 
 #### Type declaration:
 
-▸ (`contextId`: string, `segmentId`: number, `entities`: [IEntity](../interfaces/_speechly_d_.ientity.md)[]): *void*
+▸ (`contextId`: string, `segmentId`: number, `entities`: [Entity](../interfaces/_speechly_d_.entity.md)[]): *void*
 
 **Parameters:**
 
@@ -181,7 +181,7 @@ Name | Type |
 ------ | ------ |
 `contextId` | string |
 `segmentId` | number |
-`entities` | [IEntity](../interfaces/_speechly_d_.ientity.md)[] |
+`entities` | [Entity](../interfaces/_speechly_d_.entity.md)[] |
 
 ___
 
@@ -189,13 +189,13 @@ ___
 
 Ƭ **TentativeTranscriptCallback**: *function*
 
-Defined in speechly.d.ts:297
+Defined in speechly.d.ts:270
 
 A callback that is invoked whenever a new tentative transcript is received from the API.
 
 #### Type declaration:
 
-▸ (`contextId`: string, `segmentId`: number, `words`: [IWord](../interfaces/_speechly_d_.iword.md)[], `text`: string): *void*
+▸ (`contextId`: string, `segmentId`: number, `words`: [Word](../interfaces/_speechly_d_.word.md)[], `text`: string): *void*
 
 **Parameters:**
 
@@ -203,7 +203,7 @@ Name | Type |
 ------ | ------ |
 `contextId` | string |
 `segmentId` | number |
-`words` | [IWord](../interfaces/_speechly_d_.iword.md)[] |
+`words` | [Word](../interfaces/_speechly_d_.word.md)[] |
 `text` | string |
 
 ___
@@ -212,13 +212,13 @@ ___
 
 Ƭ **TranscriptCallback**: *function*
 
-Defined in speechly.d.ts:303
+Defined in speechly.d.ts:276
 
 A callback that is invoked whenever a new transcript is received from the API.
 
 #### Type declaration:
 
-▸ (`contextId`: string, `segmentId`: number, `word`: [IWord](../interfaces/_speechly_d_.iword.md)): *void*
+▸ (`contextId`: string, `segmentId`: number, `word`: [Word](../interfaces/_speechly_d_.word.md)): *void*
 
 **Parameters:**
 
@@ -226,7 +226,7 @@ Name | Type |
 ------ | ------ |
 `contextId` | string |
 `segmentId` | number |
-`word` | [IWord](../interfaces/_speechly_d_.iword.md) |
+`word` | [Word](../interfaces/_speechly_d_.word.md) |
 
 ## Functions
 
@@ -234,7 +234,7 @@ Name | Type |
 
 ▸ **stateToString**(`state`: [ClientState](../enums/_speechly_d_.clientstate.md)): *string*
 
-Defined in speechly.d.ts:285
+Defined in speechly.d.ts:258
 
 Converts client state value to a string, which could be useful for debugging or metrics.
 
