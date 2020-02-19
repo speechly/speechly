@@ -94,7 +94,7 @@ export enum ClientState {
   Connected,
   Starting,
   Stopping,
-  Recording,
+  Recording
 }
 
 /**

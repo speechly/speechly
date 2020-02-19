@@ -5,7 +5,7 @@ import { ClientState } from './types'
  * @param state - the state of the client
  * @public
  */
-export function stateToString (state: ClientState): string {
+export function stateToString(state: ClientState): string {
   return states.get(state) ?? unknown
 }
 

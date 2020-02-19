@@ -13,8 +13,9 @@ module.exports = {
   ],
   rules: {
     'tsdoc/syntax': 'error',
-    '@typescript-eslint/no-empty-function': 'off',
     'no-case-declarations': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/space-before-function-paren': 'off',
   },
   parserOptions: {
     project: './tsconfig.json',

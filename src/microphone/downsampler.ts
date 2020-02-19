@@ -1,6 +1,6 @@
 export type AudioFilter = (audioBuffer: Float32Array) => Float32Array
 
-export function generateDownsampler (sourceSampleRate: number, targetSampleRate: number): AudioFilter {
+export function generateDownsampler(sourceSampleRate: number, targetSampleRate: number): AudioFilter {
   const resampleRatio = sourceSampleRate / targetSampleRate
   const filter = generateFilter(sourceSampleRate, targetSampleRate / 2, 23)
   let buffer = new Float32Array(0)
@@ -32,7 +32,7 @@ export function generateDownsampler (sourceSampleRate: number, targetSampleRate:
   }
 }
 
-export function float32ToInt16 (buffer: Float32Array): ArrayBuffer {
+export function float32ToInt16(buffer: Float32Array): ArrayBuffer {
   let l = buffer.length
   const buf = new Int16Array(l)
 
@@ -43,7 +43,7 @@ export function float32ToInt16 (buffer: Float32Array): ArrayBuffer {
   return buf.buffer
 }
 
-function generateFilter (sourceSampleRate: number, targetSampleRate: number, length: number): number[] {
+function generateFilter(sourceSampleRate: number, targetSampleRate: number, length: number): number[] {
   if (length % 2 === 0) {
     throw Error('Filter length must be odd')
   }
@@ -64,7 +64,7 @@ function generateFilter (sourceSampleRate: number, targetSampleRate: number, len
   return filter
 }
 
-function sinc (x: number): number {
+function sinc(x: number): number {
   if (x === 0.0) {
     return 1.0
   }

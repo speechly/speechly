@@ -8,12 +8,12 @@ export class SegmentState {
   entities: Map<string, IEntity> = new Map<string, IEntity>()
   intent: IIntent = { intent: '', isFinal: false }
 
-  constructor (ctxId: string, sId: number) {
+  constructor(ctxId: string, sId: number) {
     this.contextId = ctxId
     this.id = sId
   }
 
-  toSegment (): ISegment {
+  toSegment(): ISegment {
     let i = 0
     const entities: IEntity[] = new Array(this.entities.size)
     for (const v of this.entities.values()) {
@@ -31,22 +31,24 @@ export class SegmentState {
     }
   }
 
-  updateTranscript (words: IWord[]): SegmentState {
-    words.forEach(w => { this.words[w.index] = w })
+  updateTranscript(words: IWord[]): SegmentState {
+    words.forEach(w => {
+      this.words[w.index] = w
+    })
     return this
   }
 
-  updateEntities (entities: IEntity[]): SegmentState {
+  updateEntities(entities: IEntity[]): SegmentState {
     entities.forEach(e => this.entities.set(entityMapKey(e), e))
     return this
   }
 
-  updateIntent (intent: IIntent): SegmentState {
+  updateIntent(intent: IIntent): SegmentState {
     this.intent = intent
     return this
   }
 
-  finalize (): SegmentState {
+  finalize(): SegmentState {
     // Filter away any entities which were not finalized.
     this.entities.forEach((val, key) => {
       if (!val.isFinal) {
@@ -64,6 +66,6 @@ export class SegmentState {
   }
 }
 
-function entityMapKey (e: IEntity): string {
+function entityMapKey(e: IEntity): string {
   return `${e.startPosition.toString()}:${e.endPosition.toString()}`
 }
