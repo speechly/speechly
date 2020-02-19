@@ -28,7 +28,7 @@ export interface ClientOptions {
     deviceId?: string;
     language: string;
     sampleRate?: number;
-    url: string;
+    url?: string;
 }
 
 // @public

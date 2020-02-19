@@ -19,7 +19,7 @@ npm install --save @speechly/browser-client
 Start using the client:
 
 ```typescript
-import { Client, ISegment } from '@speechly/browser-client'
+import { Client, Segment } from '@speechly/browser-client'
 
 // Create a new Client. appId and language are configured in the dashboard.
 const client = new Client({
@@ -35,7 +35,7 @@ client.initialize((err?: Error) => {
 })
 
 // React to the phrases received from the API
-client.onSegmentChange((segment: ISegment) => {
+client.onSegmentChange((segment: Segment) => {
   console.log('Received new segment from the API:', segment.intent, segment.entities, segment.words, segment.isFinal)
 })
 
@@ -53,7 +53,7 @@ client.startContext((err?: Error) => {
 
 ## Documentation
 
-Check the detailed API documentation in the [docs directory](docs/modules/_speechly_d_.md).
+You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_speechly_d_.md).
 
 ## Contributing
 

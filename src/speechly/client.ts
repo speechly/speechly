@@ -62,7 +62,7 @@ export class Client {
     this.debug = options.debug ?? false
     this.microphone = new Microphone(options.sampleRate ?? DefaultSampleRate)
     this.websocket = new Websocket(
-      options.url,
+      options.url ?? defaultSpeechlyURL,
       options.appId,
       options.language,
       options.deviceId ?? uuidv4(),
@@ -394,6 +394,7 @@ export class Client {
   }
 }
 
+const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
 const initialReconnectDelay = 1000
 const initialReconnectCount = 5
 
