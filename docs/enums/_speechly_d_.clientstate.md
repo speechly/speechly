@@ -29,7 +29,7 @@ to react to non-recoverable states.
 
 • **Connected**: = 6
 
-Defined in speechly.d.ts:107
+Defined in speechly.d.ts:138
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • **Connecting**: = 5
 
-Defined in speechly.d.ts:106
+Defined in speechly.d.ts:137
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • **Disconnected**: = 3
 
-Defined in speechly.d.ts:104
+Defined in speechly.d.ts:135
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • **Disconnecting**: = 4
 
-Defined in speechly.d.ts:105
+Defined in speechly.d.ts:136
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **Failed**: = 0
 
-Defined in speechly.d.ts:101
+Defined in speechly.d.ts:132
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **NoAudioConsent**: = 2
 
-Defined in speechly.d.ts:103
+Defined in speechly.d.ts:134
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **NoBrowserSupport**: = 1
 
-Defined in speechly.d.ts:102
+Defined in speechly.d.ts:133
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **Recording**: = 9
 
-Defined in speechly.d.ts:110
+Defined in speechly.d.ts:141
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 • **Starting**: = 7
 
-Defined in speechly.d.ts:108
+Defined in speechly.d.ts:139
 
 ___
 
@@ -101,4 +101,4 @@ ___
 
 • **Stopping**: = 8
 
-Defined in speechly.d.ts:109
+Defined in speechly.d.ts:140

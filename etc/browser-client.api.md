@@ -6,7 +6,7 @@
 
 // @public
 export class Client {
-    constructor(options: IClientOptions);
+    constructor(options: ClientOptions);
     close(cb?: ErrorCallback): void;
     initialize(cb: ErrorCallback): void;
     onEntity(cb: EntityCallback): void;
@@ -20,6 +20,16 @@ export class Client {
     startContext(cb: ContextCallback): void;
     stopContext(cb: ContextCallback): void;
     }
+
+// @public
+export interface ClientOptions {
+    appId: string;
+    debug?: boolean;
+    deviceId?: string;
+    language: string;
+    sampleRate?: number;
+    url: string;
+}
 
 // @public
 export enum ClientState {
@@ -49,23 +59,7 @@ export enum ClientState {
 export type ContextCallback = (error?: Error, contextId?: string) => void;
 
 // @public
-export type EntityCallback = (contextId: string, segmentId: number, entity: IEntity) => void;
-
-// @public
-export type ErrorCallback = (error?: Error) => void;
-
-// @public
-export interface IClientOptions {
-    appId: string;
-    debug?: boolean;
-    deviceId?: string;
-    language: string;
-    sampleRate?: number;
-    url: string;
-}
-
-// @public
-export interface IEntity {
+export interface Entity {
     endPosition: number;
     isFinal: boolean;
     startPosition: number;
@@ -74,35 +68,32 @@ export interface IEntity {
 }
 
 // @public
-export interface IIntent {
+export type EntityCallback = (contextId: string, segmentId: number, entity: Entity) => void;
+
+// @public
+export type ErrorCallback = (error?: Error) => void;
+
+// @public
+export interface Intent {
     intent: string;
     isFinal: boolean;
 }
 
 // @public
-export type IntentCallback = (contextId: string, segmentId: number, intent: IIntent) => void;
+export type IntentCallback = (contextId: string, segmentId: number, intent: Intent) => void;
 
 // @public
-export interface ISegment {
+export interface Segment {
     contextId: string;
-    entities: IEntity[];
+    entities: Entity[];
     id: number;
-    intent: IIntent;
+    intent: Intent;
     isFinal: boolean;
-    words: IWord[];
+    words: Word[];
 }
 
 // @public
-export interface IWord {
-    endTimestamp: number;
-    index: number;
-    isFinal: boolean;
-    startTimestamp: number;
-    value: string;
-}
-
-// @public
-export type SegmentChangeCallback = (segment: ISegment) => void;
+export type SegmentChangeCallback = (segment: Segment) => void;
 
 // @public
 export type StateChangeCallback = (state: ClientState) => void;
@@ -111,13 +102,22 @@ export type StateChangeCallback = (state: ClientState) => void;
 export function stateToString(state: ClientState): string;
 
 // @public
-export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: IEntity[]) => void;
+export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;
 
 // @public
-export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: IWord[], text: string) => void;
+export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: Word[], text: string) => void;
 
 // @public
-export type TranscriptCallback = (contextId: string, segmentId: number, word: IWord) => void;
+export type TranscriptCallback = (contextId: string, segmentId: number, word: Word) => void;
+
+// @public
+export interface Word {
+    endTimestamp: number;
+    index: number;
+    isFinal: boolean;
+    startTimestamp: number;
+    value: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

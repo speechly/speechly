@@ -3,7 +3,7 @@ import { getByTag as getLocaleByTag } from 'locale-codes'
 import { ErrorCallback, ContextCallback } from '../types'
 import { Microphone, DefaultSampleRate, ErrNoAudioConsent, ErrNoBrowserSupport } from '../microphone/microphone'
 import {
-  IWebsocketClient,
+  Websocket,
   WebsocketClient,
   WebsocketResponse,
   WebsocketResponseType,
@@ -18,7 +18,7 @@ import { stateToString } from './state'
 import { SegmentState } from './segment'
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
 import {
-  IClientOptions,
+  ClientOptions,
   ClientState,
   StateChangeCallback,
   SegmentChangeCallback,
@@ -38,7 +38,7 @@ import {
 export class Client {
   private readonly debug: boolean
   private readonly microphone: Microphone
-  private readonly websocket: IWebsocketClient
+  private readonly websocket: WebsocketClient
   private readonly activeContexts = new Map<string, SegmentState>()
 
   private state: ClientState = ClientState.Disconnected
@@ -54,14 +54,14 @@ export class Client {
   private entityCb: EntityCallback = () => {}
   private intentCb: IntentCallback = () => {}
 
-  constructor(options: IClientOptions) {
+  constructor(options: ClientOptions) {
     if (getLocaleByTag(options.language) === undefined) {
       throw Error(`[SpeechlyClient] Invalid language "${options.language}"`)
     }
 
     this.debug = options.debug ?? false
     this.microphone = new Microphone(options.sampleRate ?? DefaultSampleRate)
-    this.websocket = new WebsocketClient(
+    this.websocket = new Websocket(
       options.url,
       options.appId,
       options.language,

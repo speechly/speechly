@@ -2,7 +2,7 @@
  * The options which can be used to configure the client.
  * @public
  */
-export interface IClientOptions {
+export interface ClientOptions {
   /**
    * The unique identifier of an app in the dashboard.
    */
@@ -41,40 +41,40 @@ export interface IClientOptions {
 export type StateChangeCallback = (state: ClientState) => void
 
 /**
- * A callback that is invoked whenever current {@link ISegment | segment} changes.
+ * A callback that is invoked whenever current {@link Segment | segment} changes.
  * @public
  */
-export type SegmentChangeCallback = (segment: ISegment) => void
+export type SegmentChangeCallback = (segment: Segment) => void
 
 /**
  * A callback that is invoked whenever a new tentative transcript is received from the API.
  * @public
  */
-export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: IWord[], text: string) => void
+export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: Word[], text: string) => void
 
 /**
  * A callback that is invoked whenever a new transcript is received from the API.
  * @public
  */
-export type TranscriptCallback = (contextId: string, segmentId: number, word: IWord) => void
+export type TranscriptCallback = (contextId: string, segmentId: number, word: Word) => void
 
 /**
  * A callback that is invoked whenever new tentative entities are received from the API.
  * @public
  */
-export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: IEntity[]) => void
+export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void
 
 /**
  * A callback that is invoked whenever new entity is received from the API.
  * @public
  */
-export type EntityCallback = (contextId: string, segmentId: number, entity: IEntity) => void
+export type EntityCallback = (contextId: string, segmentId: number, entity: Entity) => void
 
 /**
  * A callback that is invoked whenever new intent (tentative or not) is received from the API.
  * @public
  */
-export type IntentCallback = (contextId: string, segmentId: number, intent: IIntent) => void
+export type IntentCallback = (contextId: string, segmentId: number, intent: Intent) => void
 
 /**
  * All possible states of a Speechly API client. Failed, NoBrowserSupport and NoAudioConsent states are non-recoverable
@@ -101,7 +101,7 @@ export enum ClientState {
  * The smallest component of SLU API, defined by an intent.
  * @public
  */
-export interface ISegment {
+export interface Segment {
   /**
    * The identifier of parent SLU context.
    */
@@ -120,24 +120,24 @@ export interface ISegment {
   /**
    * The intent of the segment.
    */
-  intent: IIntent
+  intent: Intent
 
   /**
    * All words which belong to the segment, ordered by their indices.
    */
-  words: IWord[]
+  words: Word[]
 
   /**
    * All entities which belong to the segment, not ordered.
    */
-  entities: IEntity[]
+  entities: Entity[]
 }
 
 /**
  * The intent detected by the SLU API.
  * @public
  */
-export interface IIntent {
+export interface Intent {
   /**
    * The value of the intent.
    */
@@ -153,7 +153,7 @@ export interface IIntent {
  * A single word detected by the SLU API.
  * @public
  */
-export interface IWord {
+export interface Word {
   /**
    * The value of the word.
    */
@@ -184,7 +184,7 @@ export interface IWord {
  * A single entity detected by the SLU API.
  * @public
  */
-export interface IEntity {
+export interface Entity {
   /**
    * The type specified by the developer in the NLU rules in the dashboard (e.g. restaurant_type).
    */

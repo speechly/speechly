@@ -1,7 +1,7 @@
 import { ContextCallback, ErrorCallback } from '../types'
-import { IWebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
+import { WebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
-export class WebsocketClient implements IWebsocketClient {
+export class Websocket implements WebsocketClient {
   private readonly url: URL
   private readonly appId: string
   private websocket?: WebSocket

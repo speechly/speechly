@@ -1,21 +1,21 @@
-import { IWord, IEntity, IIntent, ISegment } from './types'
+import { Word, Entity, Intent, Segment } from './types'
 
 export class SegmentState {
   id: number
   contextId: string
   isFinalized: boolean = false
-  words: IWord[] = []
-  entities: Map<string, IEntity> = new Map<string, IEntity>()
-  intent: IIntent = { intent: '', isFinal: false }
+  words: Word[] = []
+  entities: Map<string, Entity> = new Map<string, Entity>()
+  intent: Intent = { intent: '', isFinal: false }
 
   constructor(ctxId: string, sId: number) {
     this.contextId = ctxId
     this.id = sId
   }
 
-  toSegment(): ISegment {
+  toSegment(): Segment {
     let i = 0
-    const entities: IEntity[] = new Array(this.entities.size)
+    const entities: Entity[] = new Array(this.entities.size)
     for (const v of this.entities.values()) {
       entities[i] = v
       i++
@@ -31,19 +31,19 @@ export class SegmentState {
     }
   }
 
-  updateTranscript(words: IWord[]): SegmentState {
+  updateTranscript(words: Word[]): SegmentState {
     words.forEach(w => {
       this.words[w.index] = w
     })
     return this
   }
 
-  updateEntities(entities: IEntity[]): SegmentState {
+  updateEntities(entities: Entity[]): SegmentState {
     entities.forEach(e => this.entities.set(entityMapKey(e), e))
     return this
   }
 
-  updateIntent(intent: IIntent): SegmentState {
+  updateIntent(intent: Intent): SegmentState {
     this.intent = intent
     return this
   }
@@ -66,6 +66,6 @@ export class SegmentState {
   }
 }
 
-function entityMapKey(e: IEntity): string {
+function entityMapKey(e: Entity): string {
   return `${e.startPosition.toString()}:${e.endPosition.toString()}`
 }

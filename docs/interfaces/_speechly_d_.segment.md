@@ -1,23 +1,23 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [ISegment](_speechly_d_.isegment.md)
+[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [Segment](_speechly_d_.segment.md)
 
-# Interface: ISegment
+# Interface: Segment
 
 The smallest component of SLU API, defined by an intent.
 
 ## Hierarchy
 
-* **ISegment**
+* **Segment**
 
 ## Index
 
 ### Properties
 
-* [contextId](_speechly_d_.isegment.md#contextid)
-* [entities](_speechly_d_.isegment.md#entities)
-* [id](_speechly_d_.isegment.md#id)
-* [intent](_speechly_d_.isegment.md#intent)
-* [isFinal](_speechly_d_.isegment.md#isfinal)
-* [words](_speechly_d_.isegment.md#words)
+* [contextId](_speechly_d_.segment.md#contextid)
+* [entities](_speechly_d_.segment.md#entities)
+* [id](_speechly_d_.segment.md#id)
+* [intent](_speechly_d_.segment.md#intent)
+* [isFinal](_speechly_d_.segment.md#isfinal)
+* [words](_speechly_d_.segment.md#words)
 
 ## Properties
 
@@ -33,7 +33,7 @@ ___
 
 ###  entities
 
-• **entities**: *[IEntity](_speechly_d_.ientity.md)[]*
+• **entities**: *[Entity](_speechly_d_.entity.md)[]*
 
 Defined in speechly.d.ts:238
 
@@ -53,7 +53,7 @@ ___
 
 ###  intent
 
-• **intent**: *[IIntent](_speechly_d_.iintent.md)*
+• **intent**: *[Intent](_speechly_d_.intent.md)*
 
 Defined in speechly.d.ts:230
 
@@ -73,7 +73,7 @@ ___
 
 ###  words
 
-• **words**: *[IWord](_speechly_d_.iword.md)[]*
+• **words**: *[Word](_speechly_d_.word.md)[]*
 
 Defined in speechly.d.ts:234
 
