@@ -53,6 +53,8 @@ client.startContext((err?: Error) => {
 })
 ```
 
+Check out the demo in [examples directory](examples/README.md).
+
 ## Documentation
 
 You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_speechly_d_.md).
