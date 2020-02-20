@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@speechly/browser-client": "^0.1.0",
+    "@speechly/browser-client": "<=1.0.0",
     "react-scripts": "3.4.0"
   },
   "scripts": {
