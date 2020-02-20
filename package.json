@@ -1,8 +1,27 @@
 {
   "name": "@speechly/browser-client",
-  "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Browser client for Speechly API",
+  "private": true,
+  "keywords": [
+    "client",
+    "voice",
+    "speech",
+    "slu",
+    "spoken language understanding",
+    "speechly",
+    "asr",
+    "nlp",
+    "natural language processing",
+    "nlu",
+    "natural language understanding",
+    "natural language",
+    "vui",
+    "voice ui",
+    "voice user interface",
+    "multimodal",
+    "speech recognition"
+  ],
   "scripts": {
     "all": "npm run lint && npm run test && npm run dist && npm run docs",
     "build": "WEBPACK_MODE='prd' npx webpack --config ./config/webpack.config.js",
@@ -18,7 +37,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/speechly/browser-client"
+    "url": "git+https://github.com/speechly/browser-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/speechly/browser-client/issues"
   },
   "main": "./dist/speechly.js",
   "module": "./dist/speechly.js",
@@ -26,8 +48,7 @@
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
-    "locale-codes": "^1.1.0",
-    "typedoc": "^0.16.10"
+    "locale-codes": "^1.1.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.7.8",
@@ -47,9 +68,13 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.0",
     "ts-loader": "^6.2.1",
+    "typedoc": "^0.16.10",
     "typedoc-plugin-markdown": "^2.2.16",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.11"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

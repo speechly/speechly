@@ -69,7 +69,7 @@ ___
 
 ###  initialize
 
-▸ **initialize**(`cb`: [ErrorCallback](../modules/_speechly_d_.md#errorcallback)): *void*
+▸ **initialize**(`cb?`: [ErrorCallback](../modules/_speechly_d_.md#errorcallback)): *void*
 
 Defined in speechly.d.ts:29
 
@@ -79,7 +79,7 @@ Initializes the client, by initializing the microphone and establishing connecti
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`cb` | [ErrorCallback](../modules/_speechly_d_.md#errorcallback) | the callback which is invoked when the initialization is complete.  |
+`cb?` | [ErrorCallback](../modules/_speechly_d_.md#errorcallback) | the callback which is invoked when the initialization is complete.  |
 
 **Returns:** *void*
 
@@ -231,7 +231,7 @@ ___
 
 ###  startContext
 
-▸ **startContext**(`cb`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
+▸ **startContext**(`cb?`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
 
 Defined in speechly.d.ts:39
 
@@ -241,7 +241,7 @@ Starts a new SLU context by sending a start context event to the API and unmutin
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`cb` | [ContextCallback](../modules/_speechly_d_.md#contextcallback) | the callback which is invoked when the context start was acknowledged by the API.  |
+`cb?` | [ContextCallback](../modules/_speechly_d_.md#contextcallback) | the callback which is invoked when the context start was acknowledged by the API.  |
 
 **Returns:** *void*
 
@@ -249,7 +249,7 @@ ___
 
 ###  stopContext
 
-▸ **stopContext**(`cb`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
+▸ **stopContext**(`cb?`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
 
 Defined in speechly.d.ts:44
 
@@ -259,6 +259,6 @@ Stops current SLU context by sending a stop context event to the API and muting 
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`cb` | [ContextCallback](../modules/_speechly_d_.md#contextcallback) | the callback which is invoked when the context stop was acknowledged by the API.  |
+`cb?` | [ContextCallback](../modules/_speechly_d_.md#contextcallback) | the callback which is invoked when the context stop was acknowledged by the API.  |
 
 **Returns:** *void*

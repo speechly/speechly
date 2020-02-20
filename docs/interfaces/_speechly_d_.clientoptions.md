@@ -17,7 +17,7 @@ The options which can be used to configure the client.
 * [deviceId](_speechly_d_.clientoptions.md#optional-deviceid)
 * [language](_speechly_d_.clientoptions.md#language)
 * [sampleRate](_speechly_d_.clientoptions.md#optional-samplerate)
-* [url](_speechly_d_.clientoptions.md#url)
+* [url](_speechly_d_.clientoptions.md#optional-url)
 
 ## Properties
 
@@ -71,9 +71,9 @@ The sample rate of the audio to use.
 
 ___
 
-###  url
+### `Optional` url
 
-• **url**: *string*
+• **url**? : *undefined | string*
 
 Defined in speechly.d.ts:108
 

@@ -2,7 +2,7 @@ import { ContextCallback, ErrorCallback } from '../types'
 import { WebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
 export class Websocket implements WebsocketClient {
-  private readonly url: URL
+  private readonly url: string
   private readonly appId: string
   private websocket?: WebSocket
 
@@ -19,8 +19,8 @@ export class Websocket implements WebsocketClient {
     this.onCloseCb = cb
   }
 
-  constructor(url: string, appId: string, language: string, deviceId: string, sampleRate: number) {
-    this.url = generateWsUrl(url, deviceId, language, sampleRate)
+  constructor(baseUrl: string, appId: string, language: string, deviceId: string, sampleRate: number) {
+    this.url = generateWsUrl(baseUrl, deviceId, language, sampleRate)
     this.appId = appId
   }
 
@@ -29,7 +29,7 @@ export class Websocket implements WebsocketClient {
       return cb(Error('Cannot initialize an already initialized websocket client'))
     }
 
-    initializeWebsocket(this.url.toJSON(), this.appId, (err, ws) => {
+    initializeWebsocket(this.url, this.appId, (err, ws) => {
       if (err !== undefined) {
         return cb(err)
       }
@@ -137,20 +137,13 @@ export class Websocket implements WebsocketClient {
 const StartEventJSON = JSON.stringify({ event: 'start' })
 const StopEventJSON = JSON.stringify({ event: 'stop' })
 
-function generateWsUrl(url: string, deviceId: string, languageCode: string, sampleRate: number): URL {
+function generateWsUrl(baseUrl: string, deviceId: string, languageCode: string, sampleRate: number): string {
   const params = new URLSearchParams()
   params.set('deviceId', deviceId)
   params.set('languageCode', languageCode)
   params.set('sampleRate', sampleRate.toString())
 
-  const [host, port] = url.split(':')
-  const wsUrl = new URL(`ws://${host}`)
-  if (port !== undefined) {
-    wsUrl.port = port
-  }
-  wsUrl.search = params.toString()
-
-  return wsUrl
+  return `${baseUrl}?${params.toString()}`
 }
 
 function initializeWebsocket(url: string, protocol: string, cb: (err?: Error, ws?: WebSocket) => void): void {

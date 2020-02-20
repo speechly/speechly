@@ -62,7 +62,7 @@ export class Client {
     this.debug = options.debug ?? false
     this.microphone = new Microphone(options.sampleRate ?? DefaultSampleRate)
     this.websocket = new Websocket(
-      options.url,
+      options.url ?? defaultSpeechlyURL,
       options.appId,
       options.language,
       options.deviceId ?? uuidv4(),
@@ -78,7 +78,7 @@ export class Client {
    * Initializes the client, by initializing the microphone and establishing connection to the API.
    * @param cb - the callback which is invoked when the initialization is complete.
    */
-  initialize(cb: ErrorCallback): void {
+  initialize(cb: ErrorCallback = () => {}): void {
     if (this.state !== ClientState.Disconnected) {
       return cb(new Error('Cannot initialize client - client is not in Disconnected state'))
     }
@@ -141,7 +141,7 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  startContext(cb: ContextCallback): void {
+  startContext(cb: ContextCallback = () => {}): void {
     if (this.state !== ClientState.Connected) {
       return cb(Error('Cannot start context - client is not connected'))
     }
@@ -171,7 +171,7 @@ export class Client {
    * Stops current SLU context by sending a stop context event to the API and muting the microphone.
    * @param cb - the callback which is invoked when the context stop was acknowledged by the API.
    */
-  stopContext(cb: ContextCallback): void {
+  stopContext(cb: ContextCallback = () => {}): void {
     if (this.state !== ClientState.Recording) {
       return cb(new Error('Cannot stop context - client is not recording'))
     }
@@ -394,6 +394,7 @@ export class Client {
   }
 }
 
+const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
 const initialReconnectDelay = 1000
 const initialReconnectCount = 5
 

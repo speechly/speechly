@@ -8,7 +8,7 @@
 export class Client {
     constructor(options: ClientOptions);
     close(cb?: ErrorCallback): void;
-    initialize(cb: ErrorCallback): void;
+    initialize(cb?: ErrorCallback): void;
     onEntity(cb: EntityCallback): void;
     onIntent(cb: IntentCallback): void;
     onSegmentChange(cb: SegmentChangeCallback): void;
@@ -17,8 +17,8 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
-    startContext(cb: ContextCallback): void;
-    stopContext(cb: ContextCallback): void;
+    startContext(cb?: ContextCallback): void;
+    stopContext(cb?: ContextCallback): void;
     }
 
 // @public
@@ -28,7 +28,7 @@ export interface ClientOptions {
     deviceId?: string;
     language: string;
     sampleRate?: number;
-    url: string;
+    url?: string;
 }
 
 // @public

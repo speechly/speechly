@@ -1,182 +1,183 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script src="speechly.js"></script>
+    <script type="application/javascript">
+      // Configure Speechly client.
+      const client = new speechly.Client({
+        appId: 'your-app-id',
+        language: 'en-US'
+      })
 
-<head>
-  <script src="speechly.js"></script>
-  <script type="application/javascript">
-    // Configure Speechly client.
-    const client = new speechly.Client({
-      appId: 'your-app-id',
-      language: 'en-US',
-      url: 'api.speechly.com/websocket',
-    });
+      window.onload = () => {
+        // High-level API, that you can use to react to segment changes.
+        client.onSegmentChange(segment => {
+          updateWords(segment.words)
+          updateEntities(segment.entities)
 
-    window.onload = () => {
-      // High-level API, that you can use to react to segment changes.
-      client.onSegmentChange((segment) => {
-        updateWords(segment.words);
-        updateEntities(segment.entities);
+          if (segment.isFinalized) {
+            updateReady(segment.contextId, true)
+          }
+        })
 
-        if (segment.isFinalized) {
-          updateReady(segment.contextId, true);
-        }
-      });
+        // This is low-level API, that you can use to react to tentative events.
+        client.onTentativeTranscript((cid, sid, words, transcript) =>
+          log('tentative_transcript', cid, sid, { words, transcript })
+        )
+        client.onTentativeEntities((cid, sid, entities) => log('tentative_entities', cid, sid, { entities }))
+        client.onTentativeIntent((cid, sid, intent) => log('tentative_intent', cid, sid, { intent }))
 
-      // This is low-level API, that you can use to react to tentative events.
-      client.onTentativeTranscript((cid, sid, words, transcript) => log('tentative_transcript', cid, sid, { words, transcript }));
-      client.onTentativeEntities((cid, sid, entities) => log('tentative_entities', cid, sid, { entities }));
-      client.onTentativeIntent((cid, sid, intent) => log('tentative_intent', cid, sid, { intent }));
+        // This is low-level API, that you can use to react to final events.
+        client.onTranscript((cid, sid, word) => log('transcript', cid, sid, { word }))
+        client.onEntity((cid, sid, entity) => log('entity', cid, sid, { entity }))
+        client.onIntent((cid, sid, intent) => log('intent', cid, sid, { intent }))
 
-      // This is low-level API, that you can use to react to final events.
-      client.onTranscript((cid, sid, word) => log('transcript', cid, sid, { word }));
-      client.onEntity((cid, sid, entity) => log('entity', cid, sid, { entity }));
-      client.onIntent((cid, sid, intent) => log('intent', cid, sid, { intent }));
+        // Initialize the client.
+        client.initialize(err => {
+          if (err) {
+            console.error('Error initializing Speechly client:', err)
+            return
+          }
+        })
 
-      // Initialize the client.
-      client.initialize((err) => {
-        if (err) {
-          console.error('Error initializing Speechly client:', err);
-          return;
-        }
-      });
+        // Use the "Record" button for recording.
+        const recordDiv = document.getElementById('record')
+        recordDiv.addEventListener('mousedown', startRecording)
+        recordDiv.addEventListener('mouseup', stopRecording)
 
-      // Use the "Record" button for recording.
-      const recordDiv = document.getElementById('record');
-      recordDiv.addEventListener('mousedown', startRecording);
-      recordDiv.addEventListener('mouseup', stopRecording);
+        // Use disconnect button to disconnect.
+        const dcDiv = document.getElementById('disconnect')
+        dcDiv.addEventListener('click', () => client.close())
 
-      // Use disconnect button to disconnect.
-      const dcDiv = document.getElementById('disconnect');
-      dcDiv.addEventListener('click', () => client.close());
+        // Update client status on the page.
+        client.onStateChange(state => {
+          if (state < speechly.ClientState.Connected) {
+            recordDiv.setAttribute('disabled', true)
+            dcDiv.setAttribute('disabled', true)
+          } else {
+            recordDiv.removeAttribute('disabled')
+            dcDiv.removeAttribute('disabled')
+          }
 
-      // Update client status on the page.
-      client.onStateChange((state) => {
-        if (state < speechly.ClientState.Connected) {
-          recordDiv.setAttribute('disabled', true);
-          dcDiv.setAttribute('disabled', true);
-        } else {
-          recordDiv.removeAttribute('disabled');
-          dcDiv.removeAttribute('disabled');
-        }
-
-        document.getElementById('status').innerHTML = speechly.stateToString(state);
-      });
-    };
-
-    function startRecording(event) {
-      event.preventDefault();
-
-      client.startContext((err, contextId) => {
-        if (err) {
-          console.error('Could not start recording', err);
-          return;
-        }
-
-        reset(contextId);
-      });
-    }
-
-    function stopRecording(event) {
-      event.preventDefault();
-
-      client.stopContext((err) => {
-        if (err) {
-          console.error('Could not stop recording', err);
-          return;
-        }
-      });
-    }
-
-    function updateWords(words) {
-      const textDiv = document.getElementById('transcript-words');
-      textDiv.innerHTML = words.map(word => word.isFinal ? `<b>${word.value}</b>` : word.value).join(' ');
-
-      const wordsDiv = document.getElementById('transcript-list');
-      wordsDiv.innerHTML = words
-        .map(word => word.isFinal ? `<li><b>${word.value}</b></li>` : `<li>${word.value}</li>`).join('');
-    }
-
-    function updateEntities(entities) {
-      const entitiesDiv = document.getElementById('entities-list');
-      entitiesDiv.innerHTML = entities.map((entity) => {
-        const t = `${entity.type} - ${entity.value} [${entity.startPosition} - ${entity.endPosition}]`;
-        if (entity.isFinal) {
-          return `<li><b>${t}</b></li>`
-        }
-        return `<li>${t}</li>`;
-      }).join('');
-    }
-
-    function updateReady(contextId, isReady) {
-      const readyDiv = document.getElementById('final');
-
-      if (isReady) {
-        readyDiv.innerHTML = `<b>Context</b> ${contextId} Done!`;
-      } else {
-        readyDiv.innerHTML = `<b>Context</b> ${contextId}`;
+          document.getElementById('status').innerHTML = speechly.stateToString(state)
+        })
       }
-    }
 
-    function log(type, contextId, segmentId, data) {
-      const logDiv = document.getElementById('log-list');
-      logDiv.innerHTML = `<tr>
+      function startRecording(event) {
+        event.preventDefault()
+
+        client.startContext((err, contextId) => {
+          if (err) {
+            console.error('Could not start recording', err)
+            return
+          }
+
+          reset(contextId)
+        })
+      }
+
+      function stopRecording(event) {
+        event.preventDefault()
+
+        client.stopContext(err => {
+          if (err) {
+            console.error('Could not stop recording', err)
+            return
+          }
+        })
+      }
+
+      function updateWords(words) {
+        const textDiv = document.getElementById('transcript-words')
+        textDiv.innerHTML = words.map(word => (word.isFinal ? `<b>${word.value}</b>` : word.value)).join(' ')
+
+        const wordsDiv = document.getElementById('transcript-list')
+        wordsDiv.innerHTML = words
+          .map(word => (word.isFinal ? `<li><b>${word.value}</b></li>` : `<li>${word.value}</li>`))
+          .join('')
+      }
+
+      function updateEntities(entities) {
+        const entitiesDiv = document.getElementById('entities-list')
+        entitiesDiv.innerHTML = entities
+          .map(entity => {
+            const t = `${entity.type} - ${entity.value} [${entity.startPosition} - ${entity.endPosition}]`
+            if (entity.isFinal) {
+              return `<li><b>${t}</b></li>`
+            }
+            return `<li>${t}</li>`
+          })
+          .join('')
+      }
+
+      function updateReady(contextId, isReady) {
+        const readyDiv = document.getElementById('final')
+
+        if (isReady) {
+          readyDiv.innerHTML = `<b>Context</b> ${contextId} Done!`
+        } else {
+          readyDiv.innerHTML = `<b>Context</b> ${contextId}`
+        }
+      }
+
+      function log(type, contextId, segmentId, data) {
+        const logDiv = document.getElementById('log-list')
+        logDiv.innerHTML =
+          `<tr>
           <td>${contextId}</td>
           <td>${segmentId}</td>
           <td>${type}</td>
           <td>${JSON.stringify(data)}</td>
-        </tr>` + logDiv.innerHTML;
-    }
+        </tr>` + logDiv.innerHTML
+      }
 
-    function reset(contextId) {
-      updateReady(contextId, false);
+      function reset(contextId) {
+        updateReady(contextId, false)
 
-      document.getElementById('transcript-words').innerHTML = '';
-      document.getElementById('transcript-list').innerHTML = '';
-      document.getElementById('log-list').innerHTML = '';
-      document.getElementById('entities-list').innerHTML = '';
-    }
-  </script>
-</head>
+        document.getElementById('transcript-words').innerHTML = ''
+        document.getElementById('transcript-list').innerHTML = ''
+        document.getElementById('log-list').innerHTML = ''
+        document.getElementById('entities-list').innerHTML = ''
+      }
+    </script>
+  </head>
 
-<body>
-  <h1>Speechly demo</h1>
+  <body>
+    <h1>Speechly demo</h1>
 
-  <div>
-    <h3 id="status">Disconnected</h3>
-    <button id="record" disabled="true">Record</button>
-    <button id="disconnect" disabled="true">Disconnect</button>
-    <p id="final"></p>
-  </div>
+    <div>
+      <h3 id="status">Disconnected</h3>
+      <button id="record" disabled="true">Record</button>
+      <button id="disconnect" disabled="true">Disconnect</button>
+      <p id="final"></p>
+    </div>
 
-  <div id="transcript">
-    <h3>Transcript</h3>
-    <p id="transcript-words"></p>
+    <div id="transcript">
+      <h3>Transcript</h3>
+      <p id="transcript-words"></p>
 
-    <h3>Words</h3>
-    <ol id="transcript-list"></ol>
-  </div>
+      <h3>Words</h3>
+      <ol id="transcript-list"></ol>
+    </div>
 
-  <div id="entities">
-    <h3>Entities</h3>
-    <ol id="entities-list">
-    </ol>
-  </div>
+    <div id="entities">
+      <h3>Entities</h3>
+      <ol id="entities-list"></ol>
+    </div>
 
-  <div id="log">
-    <h3>Log</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Utterance ID</th>
-          <th>Segment ID</th>
-          <th>Event type</th>
-          <th>Event data</th>
-        </tr>
-      </thead>
-      <tbody id="log-list">
-      </tbody>
-    </table>
-  </div>
-</body>
-
+    <div id="log">
+      <h3>Log</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Utterance ID</th>
+            <th>Segment ID</th>
+            <th>Event type</th>
+            <th>Event data</th>
+          </tr>
+        </thead>
+        <tbody id="log-list"></tbody>
+      </table>
+    </div>
+  </body>
 </html>

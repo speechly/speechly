@@ -16,7 +16,7 @@ export interface ClientOptions {
   /**
    * The URL of Speechly API endpoint.
    */
-  url: string
+  url?: string
 
   /**
    * The identifier of the device which is using the client.
