@@ -303,13 +303,13 @@ export class Client {
         break
       case WebsocketResponseType.TentativeIntent:
         data = data as IntentResponse
-        let intent = parseIntent(data, false)
-        this.tentativeIntentCb(audio_context, segment_id, intent)
-        segmentState = segmentState.updateIntent(intent)
+        const tentativeIntent = parseIntent(data, false)
+        this.tentativeIntentCb(audio_context, segment_id, tentativeIntent)
+        segmentState = segmentState.updateIntent(tentativeIntent)
         break
       case WebsocketResponseType.Intent:
         data = data as IntentResponse
-        intent = parseIntent(data, true)
+        const intent = parseIntent(data, true)
         this.intentCb(audio_context, segment_id, intent)
         segmentState = segmentState.updateIntent(intent)
         break

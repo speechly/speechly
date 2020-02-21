@@ -35,6 +35,7 @@ export class SegmentState {
     words.forEach(w => {
       this.words[w.index] = w
     })
+
     return this
   }
 
@@ -44,7 +45,10 @@ export class SegmentState {
   }
 
   updateIntent(intent: Intent): SegmentState {
-    this.intent = intent
+    if (!this.intent.isFinal) {
+      this.intent = intent
+    }
+
     return this
   }
 
@@ -58,6 +62,11 @@ export class SegmentState {
 
     // Filter away any transcripts which were not finalized.
     this.words = this.words.filter(w => w.isFinal)
+
+    if (!this.intent.isFinal) {
+      this.intent.intent = ''
+      this.intent.isFinal = true
+    }
 
     // Mark as final.
     this.isFinalized = true

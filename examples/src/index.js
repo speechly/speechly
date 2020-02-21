@@ -23,6 +23,7 @@ window.onload = () => {
   client.onSegmentChange(segment => {
     updateWords(segment.words)
     updateEntities(segment.entities)
+    updateIntent(segment.intent)
 
     if (segment.isFinalized) {
       updateReady(segment.contextId, true)
@@ -115,6 +116,11 @@ window.onload = () => {
         return `<li>${t}</li>`
       })
       .join('')
+  }
+
+  function updateIntent(intent) {
+    const intentValue = intent.isFinal ? `<b>${intent.intent}</b>` : intent.intent
+    document.getElementById('intent-value').innerHTML = intentValue
   }
 
   function updateReady(contextId, isReady) {
