@@ -126,7 +126,15 @@ export class Microphone {
       throw Error('Microphone audio context is already initialized')
     }
 
-    this.audioContext = new AudioContext()
+    if (window.AudioContext !== undefined) {
+      this.audioContext = new window.AudioContext()
+    } else if (window.webkitAudioContext !== undefined) {
+      // eslint-disable-next-line new-cap
+      this.audioContext = new window.webkitAudioContext()
+    } else {
+      throw Error('Microphone functionality is not supported in your browser')
+    }
+
     this.downsampler = generateDownsampler(this.audioContext.sampleRate, this.sampleRate)
     this.audioProcessor = this.audioContext.createScriptProcessor(4096, 1, 1)
 
