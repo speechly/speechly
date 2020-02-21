@@ -23,17 +23,15 @@
     "speech recognition"
   ],
   "scripts": {
-    "all": "yarn lint && yarn test && yarn dist && yarn docs",
-    "build": "WEBPACK_MODE='prd' npx webpack --config ./config/webpack.config.js",
-    "clean": "rm -rf dist/",
-    "dist": "yarn rebuild && yarn extract && yarn prepdist",
-    "docs": "npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist",
-    "extract": "npx api-extractor run --local --verbose",
-    "lint": "npx prettier --write src/**/*.ts && npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
+    "build": "yarn run lint && yarn run test && rm -rf ./dist/ && WEBPACK_MODE='prd' npx webpack --config ./config/webpack.config.js",
+    "check": "yarn run build && npx api-extractor run --verbose",
+    "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",
+    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist",
+    "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "prepdist": "node ./config/prepare_dist.js",
-    "rebuild": "yarn clean && yarn build",
+    "prerelease": "yarn run check && yarn run prepdist",
     "test": "npx jest --config ./config/jest.config.js",
-    "watch": "WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
+    "watch": "mkdir dist && yarn run prepdist && WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",
