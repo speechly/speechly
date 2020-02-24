@@ -23,7 +23,7 @@ npm run precommit
 
 ### Test setup
 
-You can use the demo example in the `./examples` directory as your test setup. You would need a Speechly app ID to go with it.
+You can use the demo example in the `./examples` directory as your test setup. You will need a Speechly app ID to go with it.
 
 You can set it up by overriding the dependency to point to the `./dist` directory of the client:
 
