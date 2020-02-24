@@ -6,7 +6,7 @@ on:
 
 env:
   WEBPACK_MODE: prd
-  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+  NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
 jobs:
   build:
@@ -19,4 +19,4 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn install --frozen-lockfile
       - run: yarn run prerelease
-      - run: cd ./dist/ && npm publish
+      - run: cd ./dist/ && echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc && npm publish
