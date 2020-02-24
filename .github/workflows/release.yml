@@ -1,0 +1,22 @@
+name: 'Release build'
+
+on:
+  release:
+    types: [published]
+
+env:
+  WEBPACK_MODE: prd
+  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: yarn install --frozen-lockfile
+      - run: yarn run prerelease
+      - run: cd ./dist/ && npm publish
