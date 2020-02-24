@@ -2,6 +2,7 @@
 
 ## speechly-browser-client
 
+![Release build](https://github.com/speechly/browser-client/workflows/Release%20build/badge.svg?branch=master&event=release)
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
 
 This repository contains source code for the browser client for Speechly SLU API. Speechly allows you to easily build applications with voice-enabled UIs.
