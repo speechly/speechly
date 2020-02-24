@@ -31,7 +31,7 @@
     "prepdist": "node ./config/prepare_dist.js",
     "prerelease": "yarn run check && yarn run prepdist",
     "test": "npx jest --config ./config/jest.config.js",
-    "watch": "mkdir dist && yarn run prepdist && WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
+    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
-    "locale-codes": "^1.1.0"
+    "locale-code": "^2.0.2"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.7.8",
