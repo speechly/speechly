@@ -2992,10 +2992,24 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
-iso639-codes@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/iso639-codes/-/iso639-codes-1.0.1.tgz#674a45cdabbfdf3719b8b971b93ca1eedbbb4a1d"
-  integrity sha512-jdTSv8yn6D7GODDrRtuWG7y3du3aoa+ki5H8h/Y48/NleNAd7Fw/M2niTTLXGH4QnqhJ98hg1JMQtP9csQ31Lg==
+iso-3166-1-alpha-2@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/iso-3166-1-alpha-2/-/iso-3166-1-alpha-2-1.0.0.tgz#bc9e0bb94e584df5468a932997a28552e26f97ac"
+  integrity sha1-vJ4LuU5YTfVGipMpl6KFUuJvl6w=
+  dependencies:
+    mout "^0.11.0"
+
+iso-639-1-zh@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/iso-639-1-zh/-/iso-639-1-zh-2.0.4.tgz#61b577d14ee8b0c2c8e73697a3c894fe02dbd541"
+  integrity sha1-YbV30U7osMLI5zaXo8iU/gLb1UE=
+  dependencies:
+    iso-639-1 "^2.0.0"
+
+iso-639-1@^2.0.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/iso-639-1/-/iso-639-1-2.1.0.tgz#df88d7dd14b39c4dc748f8b35b6c7ae490e9d543"
+  integrity sha512-8CTinLimb9ncAJ11wpCETWZ51qsQ3LS4vMHF2wxRRtR3+b7bvIxUlXOGYIdq0413+baWnbyG5dBluVcezOG/LQ==
 
 isobject@^2.0.0:
   version "2.1.0"
@@ -3556,11 +3570,6 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-langs@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/langs/-/langs-2.0.0.tgz#00c32ce48152a49a614450b9ba2632ab58a0a364"
-  integrity sha1-AMMs5IFSpJphRFC5uiYyq1igo2Q=
-
 lcid@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-2.0.0.tgz#6ef5d2df60e52f82eb228a4c373e8d1f397253cf"
@@ -3605,14 +3614,13 @@ loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.2.3:
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
-locale-codes@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/locale-codes/-/locale-codes-1.1.0.tgz#404eefa8cee4c1838430c0c1439bfeaf2b8bd91b"
-  integrity sha512-oZhZL/Es+SxgF9OKiMpxuq0nbAJMysZILPJSYq3neUwT8V1RJ8FIQXUDfCryYOlQptV1qLR51o/XI0rltv0BqA==
+locale-code@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/locale-code/-/locale-code-2.0.2.tgz#660d80c5825d8fe9f3ba4a72de5716833ec7d0ed"
+  integrity sha512-wNcUMwk6Nlc10pnZZXWtKArAOZHhH8p2vohPEIENg7ImwMrib/CwKSvyV4g9Wm7KjylyHzXnEMz4i/W3w57wlw==
   dependencies:
-    iso639-codes "^1.0.1"
-    langs "^2.0.0"
-    windows-locale "^1.0.1"
+    iso-3166-1-alpha-2 "~1.0.0"
+    iso-639-1-zh "^2.0.4"
 
 locate-path@^2.0.0:
   version "2.0.0"
@@ -3890,6 +3898,11 @@ mkdirp@0.x, mkdirp@^0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+mout@^0.11.0:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/mout/-/mout-0.11.1.tgz#ba3611df5f0e5b1ffbfd01166b8f02d1f5fa2b99"
+  integrity sha1-ujYR318OWx/7/QEWa48C0fX6K5k=
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -5895,11 +5908,6 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
-
-windows-locale@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/windows-locale/-/windows-locale-1.0.1.tgz#b965309efddc48bf44912c8e596dd3796387e568"
-  integrity sha512-X8B22Cg9njwV4h3C5j28xmZ2eWaO69j63WhReeglB69LOT3LoqSO4Vb6TTVSfFikh4KQ9qBOJb6+WvR4tVLTfQ==
 
 word-wrap@~1.2.3:
   version "1.2.3"

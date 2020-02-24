@@ -1,4 +1,4 @@
-import { getByTag as getLocaleByTag } from 'locale-codes'
+import localeCode from 'locale-code'
 
 import { ErrorCallback, ContextCallback } from '../types'
 import { Microphone, DefaultSampleRate, ErrNoAudioConsent, ErrNoBrowserSupport } from '../microphone/microphone'
@@ -55,7 +55,7 @@ export class Client {
   private intentCb: IntentCallback = () => {}
 
   constructor(options: ClientOptions) {
-    if (getLocaleByTag(options.language) === undefined) {
+    if (!localeCode.validate(options.language)) {
       throw Error(`[SpeechlyClient] Invalid language "${options.language}"`)
     }
 
