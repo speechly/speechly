@@ -10,6 +10,7 @@
 
 ### Classes
 
+* [BrowserMicrophone](../classes/_speechly_d_.browsermicrophone.md)
 * [Client](../classes/_speechly_d_.client.md)
 
 ### Interfaces
@@ -17,11 +18,13 @@
 * [ClientOptions](../interfaces/_speechly_d_.clientoptions.md)
 * [Entity](../interfaces/_speechly_d_.entity.md)
 * [Intent](../interfaces/_speechly_d_.intent.md)
+* [Microphone](../interfaces/_speechly_d_.microphone.md)
 * [Segment](../interfaces/_speechly_d_.segment.md)
 * [Word](../interfaces/_speechly_d_.word.md)
 
 ### Type aliases
 
+* [AudioCallback](_speechly_d_.md#audiocallback)
 * [ContextCallback](_speechly_d_.md#contextcallback)
 * [EntityCallback](_speechly_d_.md#entitycallback)
 * [ErrorCallback](_speechly_d_.md#errorcallback)
@@ -32,17 +35,45 @@
 * [TentativeTranscriptCallback](_speechly_d_.md#tentativetranscriptcallback)
 * [TranscriptCallback](_speechly_d_.md#transcriptcallback)
 
+### Variables
+
+* [DefaultSampleRate](_speechly_d_.md#const-defaultsamplerate)
+* [ErrAlreadyInitialized](_speechly_d_.md#const-erralreadyinitialized)
+* [ErrDeviceNotSupported](_speechly_d_.md#const-errdevicenotsupported)
+* [ErrNoAudioConsent](_speechly_d_.md#const-errnoaudioconsent)
+* [ErrNotInitialized](_speechly_d_.md#const-errnotinitialized)
+
 ### Functions
 
 * [stateToString](_speechly_d_.md#statetostring)
 
 ## Type aliases
 
+###  AudioCallback
+
+Ƭ **AudioCallback**: *function*
+
+Defined in speechly.d.ts:6
+
+A callback that receives an ArrayBuffer representing a frame of audio.
+
+#### Type declaration:
+
+▸ (`audioBuffer`: ArrayBuffer): *void*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`audioBuffer` | ArrayBuffer |
+
+___
+
 ###  ContextCallback
 
 Ƭ **ContextCallback**: *function*
 
-Defined in speechly.d.ts:148
+Defined in speechly.d.ts:179
 
 A callback that receives either an error or a contextId.
 
@@ -63,7 +94,7 @@ ___
 
 Ƭ **EntityCallback**: *function*
 
-Defined in speechly.d.ts:181
+Defined in speechly.d.ts:218
 
 A callback that is invoked whenever new entity is received from the API.
 
@@ -85,7 +116,7 @@ ___
 
 Ƭ **ErrorCallback**: *function*
 
-Defined in speechly.d.ts:187
+Defined in speechly.d.ts:248
 
 A callback that receives an optional error.
 
@@ -105,7 +136,7 @@ ___
 
 Ƭ **IntentCallback**: *function*
 
-Defined in speechly.d.ts:208
+Defined in speechly.d.ts:269
 
 A callback that is invoked whenever new intent (tentative or not) is received from the API.
 
@@ -127,7 +158,7 @@ ___
 
 Ƭ **SegmentChangeCallback**: *function*
 
-Defined in speechly.d.ts:245
+Defined in speechly.d.ts:318
 
 A callback that is invoked whenever current {@link Segment | segment} changes.
 
@@ -147,7 +178,7 @@ ___
 
 Ƭ **StateChangeCallback**: *function*
 
-Defined in speechly.d.ts:251
+Defined in speechly.d.ts:324
 
 A callback that is invoked whenever the {@link ClientState | client state} changes.
 
@@ -167,7 +198,7 @@ ___
 
 Ƭ **TentativeEntitiesCallback**: *function*
 
-Defined in speechly.d.ts:264
+Defined in speechly.d.ts:337
 
 A callback that is invoked whenever new tentative entities are received from the API.
 
@@ -189,7 +220,7 @@ ___
 
 Ƭ **TentativeTranscriptCallback**: *function*
 
-Defined in speechly.d.ts:270
+Defined in speechly.d.ts:343
 
 A callback that is invoked whenever a new tentative transcript is received from the API.
 
@@ -212,7 +243,7 @@ ___
 
 Ƭ **TranscriptCallback**: *function*
 
-Defined in speechly.d.ts:276
+Defined in speechly.d.ts:349
 
 A callback that is invoked whenever a new transcript is received from the API.
 
@@ -228,13 +259,63 @@ Name | Type |
 `segmentId` | number |
 `word` | [Word](../interfaces/_speechly_d_.word.md) |
 
+## Variables
+
+### `Const` DefaultSampleRate
+
+• **DefaultSampleRate**: *16000* = 16000
+
+Defined in speechly.d.ts:185
+
+Default sample rate for microphone streams.
+
+___
+
+### `Const` ErrAlreadyInitialized
+
+• **ErrAlreadyInitialized**: *Error*
+
+Defined in speechly.d.ts:224
+
+Error to be thrown when the initialize method of a Microphone instance is called more than once.
+
+___
+
+### `Const` ErrDeviceNotSupported
+
+• **ErrDeviceNotSupported**: *Error*
+
+Defined in speechly.d.ts:230
+
+Error to be thrown when the device does not support the Microphone instance's target audio APIs.
+
+___
+
+### `Const` ErrNoAudioConsent
+
+• **ErrNoAudioConsent**: *Error*
+
+Defined in speechly.d.ts:236
+
+Error to be thrown when user did not give consent to the application to record audio.
+
+___
+
+### `Const` ErrNotInitialized
+
+• **ErrNotInitialized**: *Error*
+
+Defined in speechly.d.ts:242
+
+Error to be thrown when the microphone was accessed before it was initialized.
+
 ## Functions
 
 ###  stateToString
 
 ▸ **stateToString**(`state`: [ClientState](../enums/_speechly_d_.clientstate.md)): *string*
 
-Defined in speechly.d.ts:258
+Defined in speechly.d.ts:331
 
 Converts client state value to a string, which could be useful for debugging or metrics.
 

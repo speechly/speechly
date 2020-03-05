@@ -1,15 +1,12 @@
-import { ErrorCallback } from '../types'
+import { AudioCallback, Microphone, ErrorCallback } from '../types'
 import { generateDownsampler, float32ToInt16, AudioFilter } from './downsampler'
+import { ErrAlreadyInitialized, ErrDeviceNotSupported, ErrNoAudioConsent, ErrNotInitialized } from './const'
 
-export type AudioCallback = (audioBuffer: ArrayBuffer) => void
-
-export const DefaultSampleRate = 16000
-export const ErrNotInitialized = new Error('Microphone is not initialized')
-export const ErrAlreadyInitialized = new Error('Microphone is already initialized')
-export const ErrNoBrowserSupport = new Error('Current browser does not support audio API')
-export const ErrNoAudioConsent = new Error('Microphone consent is no given')
-
-export class Microphone {
+/**
+ * Microphone implementation for the browser. Uses getUserMedia and Web Audio API.
+ * @public
+ */
+export class BrowserMicrophone implements Microphone {
   private readonly sampleRate: number
   private onAudioCb: AudioCallback = () => {}
 
@@ -38,7 +35,7 @@ export class Microphone {
     }
 
     if (window.navigator?.mediaDevices === undefined) {
-      return cb(ErrNoBrowserSupport)
+      return cb(ErrDeviceNotSupported)
     }
 
     window.navigator.mediaDevices

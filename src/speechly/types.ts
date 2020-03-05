@@ -1,3 +1,5 @@
+import { Microphone } from '../types'
+
 /**
  * The options which can be used to configure the client.
  * @public
@@ -32,6 +34,11 @@ export interface ClientOptions {
    * Whether to output debug statements to the console.
    */
   debug?: boolean
+
+  /**
+   * Microphone instance.
+   */
+  microphone?: Microphone
 }
 
 /**

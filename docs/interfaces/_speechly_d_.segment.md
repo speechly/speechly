@@ -25,7 +25,7 @@ The smallest component of SLU API, defined by an intent.
 
 • **contextId**: *string*
 
-Defined in speechly.d.ts:218
+Defined in speechly.d.ts:291
 
 The identifier of parent SLU context.
 
@@ -35,7 +35,7 @@ ___
 
 • **entities**: *[Entity](_speechly_d_.entity.md)[]*
 
-Defined in speechly.d.ts:238
+Defined in speechly.d.ts:311
 
 All entities which belong to the segment, not ordered.
 
@@ -45,7 +45,7 @@ ___
 
 • **id**: *number*
 
-Defined in speechly.d.ts:222
+Defined in speechly.d.ts:295
 
 The identifier of the segment within the parent context.
 
@@ -55,7 +55,7 @@ ___
 
 • **intent**: *[Intent](_speechly_d_.intent.md)*
 
-Defined in speechly.d.ts:230
+Defined in speechly.d.ts:303
 
 The intent of the segment.
 
@@ -65,7 +65,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:226
+Defined in speechly.d.ts:299
 
 Whether the segment is final. A final segment is guaranteed to only contain final parts.
 
@@ -75,6 +75,6 @@ ___
 
 • **words**: *[Word](_speechly_d_.word.md)[]*
 
-Defined in speechly.d.ts:234
+Defined in speechly.d.ts:307
 
 All words which belong to the segment, ordered by their indices.

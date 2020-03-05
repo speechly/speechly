@@ -1,7 +1,7 @@
 import localeCode from 'locale-code'
 
-import { ErrorCallback, ContextCallback } from '../types'
-import { Microphone, DefaultSampleRate, ErrNoAudioConsent, ErrNoBrowserSupport } from '../microphone/microphone'
+import { ErrorCallback, ContextCallback, Microphone } from '../types'
+import { BrowserMicrophone, DefaultSampleRate, ErrNoAudioConsent, ErrDeviceNotSupported } from '../microphone'
 import {
   Websocket,
   WebsocketClient,
@@ -60,7 +60,7 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
-    this.microphone = new Microphone(options.sampleRate ?? DefaultSampleRate)
+    this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
     this.websocket = new Websocket(
       options.url ?? defaultSpeechlyURL,
       options.appId,
@@ -87,7 +87,7 @@ export class Client {
     this.microphone.initialize((err?: Error) => {
       if (err !== undefined) {
         switch (err) {
-          case ErrNoBrowserSupport:
+          case ErrDeviceNotSupported:
             this.setState(ClientState.NoBrowserSupport)
             break
           case ErrNoAudioConsent:

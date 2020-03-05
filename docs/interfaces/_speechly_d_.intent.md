@@ -21,7 +21,7 @@ The intent detected by the SLU API.
 
 • **intent**: *string*
 
-Defined in speechly.d.ts:197
+Defined in speechly.d.ts:258
 
 The value of the intent.
 
@@ -31,6 +31,6 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:201
+Defined in speechly.d.ts:262
 
 Whether the intent was detected as final.

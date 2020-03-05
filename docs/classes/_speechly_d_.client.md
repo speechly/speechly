@@ -37,7 +37,7 @@ and dispatching them, as well as providing a high-level API for interacting with
 
 \+ **new Client**(`options`: [ClientOptions](../interfaces/_speechly_d_.clientoptions.md)): *[Client](_speechly_d_.client.md)*
 
-Defined in speechly.d.ts:23
+Defined in speechly.d.ts:50
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ Name | Type |
 
 ▸ **close**(`cb?`: [ErrorCallback](../modules/_speechly_d_.md#errorcallback)): *void*
 
-Defined in speechly.d.ts:34
+Defined in speechly.d.ts:61
 
 Closes the client by closing the API connection and disabling the microphone.
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **initialize**(`cb?`: [ErrorCallback](../modules/_speechly_d_.md#errorcallback)): *void*
 
-Defined in speechly.d.ts:29
+Defined in speechly.d.ts:56
 
 Initializes the client, by initializing the microphone and establishing connection to the API.
 
@@ -89,7 +89,7 @@ ___
 
 ▸ **onEntity**(`cb`: [EntityCallback](../modules/_speechly_d_.md#entitycallback)): *void*
 
-Defined in speechly.d.ts:74
+Defined in speechly.d.ts:101
 
 Adds a listener for entity responses from the API.
 
@@ -107,7 +107,7 @@ ___
 
 ▸ **onIntent**(`cb`: [IntentCallback](../modules/_speechly_d_.md#intentcallback)): *void*
 
-Defined in speechly.d.ts:84
+Defined in speechly.d.ts:111
 
 Adds a listener for intent responses from the API.
 
@@ -125,7 +125,7 @@ ___
 
 ▸ **onSegmentChange**(`cb`: [SegmentChangeCallback](../modules/_speechly_d_.md#segmentchangecallback)): *void*
 
-Defined in speechly.d.ts:54
+Defined in speechly.d.ts:81
 
 Adds a listener for current segment change events.
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **onStateChange**(`cb`: [StateChangeCallback](../modules/_speechly_d_.md#statechangecallback)): *void*
 
-Defined in speechly.d.ts:49
+Defined in speechly.d.ts:76
 
 Adds a listener for client state change events.
 
@@ -161,7 +161,7 @@ ___
 
 ▸ **onTentativeEntities**(`cb`: [TentativeEntitiesCallback](../modules/_speechly_d_.md#tentativeentitiescallback)): *void*
 
-Defined in speechly.d.ts:69
+Defined in speechly.d.ts:96
 
 Adds a listener for tentative entities responses from the API.
 
@@ -179,7 +179,7 @@ ___
 
 ▸ **onTentativeIntent**(`cb`: [IntentCallback](../modules/_speechly_d_.md#intentcallback)): *void*
 
-Defined in speechly.d.ts:79
+Defined in speechly.d.ts:106
 
 Adds a listener for tentative intent responses from the API.
 
@@ -197,7 +197,7 @@ ___
 
 ▸ **onTentativeTranscript**(`cb`: [TentativeTranscriptCallback](../modules/_speechly_d_.md#tentativetranscriptcallback)): *void*
 
-Defined in speechly.d.ts:59
+Defined in speechly.d.ts:86
 
 Adds a listener for tentative transcript responses from the API.
 
@@ -215,7 +215,7 @@ ___
 
 ▸ **onTranscript**(`cb`: [TranscriptCallback](../modules/_speechly_d_.md#transcriptcallback)): *void*
 
-Defined in speechly.d.ts:64
+Defined in speechly.d.ts:91
 
 Adds a listener for transcript responses from the API.
 
@@ -233,7 +233,7 @@ ___
 
 ▸ **startContext**(`cb?`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
 
-Defined in speechly.d.ts:39
+Defined in speechly.d.ts:66
 
 Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
 
@@ -251,7 +251,7 @@ ___
 
 ▸ **stopContext**(`cb?`: [ContextCallback](../modules/_speechly_d_.md#contextcallback)): *void*
 
-Defined in speechly.d.ts:44
+Defined in speechly.d.ts:71
 
 Stops current SLU context by sending a stop context event to the API and muting the microphone.
 

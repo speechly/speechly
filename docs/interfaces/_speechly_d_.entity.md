@@ -24,7 +24,7 @@ A single entity detected by the SLU API.
 
 • **endPosition**: *number*
 
-Defined in speechly.d.ts:170
+Defined in speechly.d.ts:207
 
 The index of the last word that contains this entity.
 
@@ -34,7 +34,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:174
+Defined in speechly.d.ts:211
 
 Whether the entity was detected as final.
 
@@ -44,7 +44,7 @@ ___
 
 • **startPosition**: *number*
 
-Defined in speechly.d.ts:166
+Defined in speechly.d.ts:203
 
 The index of the first word that contains this entity.
 
@@ -54,7 +54,7 @@ ___
 
 • **type**: *string*
 
-Defined in speechly.d.ts:158
+Defined in speechly.d.ts:195
 
 The type specified by the developer in the NLU rules in the dashboard (e.g. restaurant_type).
 
@@ -64,6 +64,6 @@ ___
 
 • **value**: *string*
 
-Defined in speechly.d.ts:162
+Defined in speechly.d.ts:199
 
 The value of the entity (e.g. Papa Joe's).

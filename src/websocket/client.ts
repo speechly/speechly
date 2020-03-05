@@ -139,9 +139,9 @@ const StopEventJSON = JSON.stringify({ event: 'stop' })
 
 function generateWsUrl(baseUrl: string, deviceId: string, languageCode: string, sampleRate: number): string {
   const params = new URLSearchParams()
-  params.set('deviceId', deviceId)
-  params.set('languageCode', languageCode)
-  params.set('sampleRate', sampleRate.toString())
+  params.append('deviceId', deviceId)
+  params.append('languageCode', languageCode)
+  params.append('sampleRate', sampleRate.toString())
 
   return `${baseUrl}?${params.toString()}`
 }

@@ -5,6 +5,24 @@
 ```ts
 
 // @public
+export type AudioCallback = (audioBuffer: ArrayBuffer) => void;
+
+// @public
+export class BrowserMicrophone implements Microphone {
+    constructor(sampleRate: number);
+    // (undocumented)
+    close(cb: ErrorCallback): void;
+    // (undocumented)
+    initialize(cb: ErrorCallback): void;
+    // (undocumented)
+    mute(): void;
+    // (undocumented)
+    onAudio(cb: AudioCallback): void;
+    // (undocumented)
+    unmute(): void;
+}
+
+// @public
 export class Client {
     constructor(options: ClientOptions);
     close(cb?: ErrorCallback): void;
@@ -27,6 +45,7 @@ export interface ClientOptions {
     debug?: boolean;
     deviceId?: string;
     language: string;
+    microphone?: Microphone;
     sampleRate?: number;
     url?: string;
 }
@@ -59,6 +78,9 @@ export enum ClientState {
 export type ContextCallback = (error?: Error, contextId?: string) => void;
 
 // @public
+export const DefaultSampleRate = 16000;
+
+// @public
 export interface Entity {
     endPosition: number;
     isFinal: boolean;
@@ -71,6 +93,18 @@ export interface Entity {
 export type EntityCallback = (contextId: string, segmentId: number, entity: Entity) => void;
 
 // @public
+export const ErrAlreadyInitialized: Error;
+
+// @public
+export const ErrDeviceNotSupported: Error;
+
+// @public
+export const ErrNoAudioConsent: Error;
+
+// @public
+export const ErrNotInitialized: Error;
+
+// @public
 export type ErrorCallback = (error?: Error) => void;
 
 // @public
@@ -81,6 +115,20 @@ export interface Intent {
 
 // @public
 export type IntentCallback = (contextId: string, segmentId: number, intent: Intent) => void;
+
+// @public
+export interface Microphone {
+    // (undocumented)
+    close(cb: ErrorCallback): void;
+    // (undocumented)
+    initialize(cb: ErrorCallback): void;
+    // (undocumented)
+    mute(): void;
+    // (undocumented)
+    onAudio(cb: AudioCallback): void;
+    // (undocumented)
+    unmute(): void;
+}
 
 // @public
 export interface Segment {
