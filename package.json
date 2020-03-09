@@ -23,7 +23,7 @@
     "speech recognition"
   ],
   "scripts": {
-    "build": "yarn run lint && yarn run test && rm -rf ./dist/ && WEBPACK_MODE='prd' npx webpack --config ./config/webpack.config.js",
+    "build": "yarn run lint && yarn run test && rm -rf ./dist/ && npx tsc",
     "check": "yarn run build && npx api-extractor run --verbose",
     "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",
     "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist",
@@ -31,7 +31,7 @@
     "prepdist": "node ./config/prepare_dist.js",
     "prerelease": "yarn run check && yarn run prepdist",
     "test": "npx jest --config ./config/jest.config.js",
-    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && WEBPACK_MODE='dev' npx webpack --watch --config ./config/webpack.config.js"
+    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && npx tsc-watch"
   },
   "repository": {
     "type": "git",
@@ -40,9 +40,8 @@
   "bugs": {
     "url": "https://github.com/speechly/browser-client/issues"
   },
-  "main": "./dist/speechly.js",
-  "module": "./dist/speechly.js",
-  "types": "./dist/speechly.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
@@ -66,11 +65,10 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.0",
     "ts-loader": "^6.2.1",
+    "tsc-watch": "^4.2.3",
     "typedoc": "^0.16.10",
     "typedoc-plugin-markdown": "^2.2.16",
-    "typescript": "^3.7.5",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.11"
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "access": "public"

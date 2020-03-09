@@ -16,10 +16,10 @@ export class SegmentState {
   toSegment(): Segment {
     let i = 0
     const entities: Entity[] = new Array(this.entities.size)
-    for (const v of this.entities.values()) {
+    this.entities.forEach(v => {
       entities[i] = v
       i++
-    }
+    })
 
     return {
       id: this.id,
