@@ -11,7 +11,7 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "../dist/speechly.d.ts"
+    "untrimmedFilePath": "../dist/index.d.ts"
   },
   "tsdocMetadata": {
     "enabled": true
