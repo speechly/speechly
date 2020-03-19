@@ -101,7 +101,9 @@ window.onload = () => {
 
     const wordsDiv = document.getElementById('transcript-list')
     wordsDiv.innerHTML = words
-      .map(word => (word.isFinal ? `<li><b>${word.value}</b></li>` : `<li>${word.value}</li>`))
+      .map(word =>
+        word.isFinal ? `<li><b>${word.value} [${word.index}]</b></li>` : `<li>${word.value} [${word.index}]</li>`
+      )
       .join('')
   }
 
@@ -109,7 +111,7 @@ window.onload = () => {
     const entitiesDiv = document.getElementById('entities-list')
     entitiesDiv.innerHTML = entities
       .map(entity => {
-        const t = `${entity.type} - ${entity.value} [${entity.startPosition} - ${entity.endPosition}]`
+        const t = `${entity.type} - ${entity.value} [${entity.startPosition} - ${entity.endPosition})`
         if (entity.isFinal) {
           return `<li><b>${t}</b></li>`
         }

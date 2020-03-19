@@ -15,7 +15,7 @@ export REACT_APP_APP_ID="your-app-id"
 export REACT_APP_LANGUAGE="your-app-language"
 
 # Runs the demo in the development mode.
-# Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# Open http://localhost:3000 to view it in the browser.
 #
 # The page will reload if you make edits.
 # You will also see any lint errors in the console.
