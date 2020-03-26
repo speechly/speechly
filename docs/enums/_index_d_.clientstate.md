@@ -1,4 +1,4 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [ClientState](_speechly_d_.clientstate.md)
+[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [ClientState](_index_d_.clientstate.md)
 
 # Enumeration: ClientState
 
@@ -12,16 +12,16 @@ to react to non-recoverable states.
 
 ### Enumeration members
 
-* [Connected](_speechly_d_.clientstate.md#connected)
-* [Connecting](_speechly_d_.clientstate.md#connecting)
-* [Disconnected](_speechly_d_.clientstate.md#disconnected)
-* [Disconnecting](_speechly_d_.clientstate.md#disconnecting)
-* [Failed](_speechly_d_.clientstate.md#failed)
-* [NoAudioConsent](_speechly_d_.clientstate.md#noaudioconsent)
-* [NoBrowserSupport](_speechly_d_.clientstate.md#nobrowsersupport)
-* [Recording](_speechly_d_.clientstate.md#recording)
-* [Starting](_speechly_d_.clientstate.md#starting)
-* [Stopping](_speechly_d_.clientstate.md#stopping)
+* [Connected](_index_d_.clientstate.md#connected)
+* [Connecting](_index_d_.clientstate.md#connecting)
+* [Disconnected](_index_d_.clientstate.md#disconnected)
+* [Disconnecting](_index_d_.clientstate.md#disconnecting)
+* [Failed](_index_d_.clientstate.md#failed)
+* [NoAudioConsent](_index_d_.clientstate.md#noaudioconsent)
+* [NoBrowserSupport](_index_d_.clientstate.md#nobrowsersupport)
+* [Recording](_index_d_.clientstate.md#recording)
+* [Starting](_index_d_.clientstate.md#starting)
+* [Stopping](_index_d_.clientstate.md#stopping)
 
 ## Enumeration members
 
@@ -29,7 +29,7 @@ to react to non-recoverable states.
 
 • **Connected**: = 6
 
-Defined in speechly.d.ts:169
+Defined in index.d.ts:172
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • **Connecting**: = 5
 
-Defined in speechly.d.ts:168
+Defined in index.d.ts:171
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • **Disconnected**: = 3
 
-Defined in speechly.d.ts:166
+Defined in index.d.ts:169
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • **Disconnecting**: = 4
 
-Defined in speechly.d.ts:167
+Defined in index.d.ts:170
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **Failed**: = 0
 
-Defined in speechly.d.ts:163
+Defined in index.d.ts:166
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **NoAudioConsent**: = 2
 
-Defined in speechly.d.ts:165
+Defined in index.d.ts:168
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **NoBrowserSupport**: = 1
 
-Defined in speechly.d.ts:164
+Defined in index.d.ts:167
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **Recording**: = 9
 
-Defined in speechly.d.ts:172
+Defined in index.d.ts:175
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 • **Starting**: = 7
 
-Defined in speechly.d.ts:170
+Defined in index.d.ts:173
 
 ___
 
@@ -101,4 +101,4 @@ ___
 
 • **Stopping**: = 8
 
-Defined in speechly.d.ts:171
+Defined in index.d.ts:174

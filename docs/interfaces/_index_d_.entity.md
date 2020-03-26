@@ -1,4 +1,4 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [Entity](_speechly_d_.entity.md)
+[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [Entity](_index_d_.entity.md)
 
 # Interface: Entity
 
@@ -12,11 +12,11 @@ A single entity detected by the SLU API.
 
 ### Properties
 
-* [endPosition](_speechly_d_.entity.md#endposition)
-* [isFinal](_speechly_d_.entity.md#isfinal)
-* [startPosition](_speechly_d_.entity.md#startposition)
-* [type](_speechly_d_.entity.md#type)
-* [value](_speechly_d_.entity.md#value)
+* [endPosition](_index_d_.entity.md#endposition)
+* [isFinal](_index_d_.entity.md#isfinal)
+* [startPosition](_index_d_.entity.md#startposition)
+* [type](_index_d_.entity.md#type)
+* [value](_index_d_.entity.md#value)
 
 ## Properties
 
@@ -24,7 +24,7 @@ A single entity detected by the SLU API.
 
 • **endPosition**: *number*
 
-Defined in speechly.d.ts:207
+Defined in index.d.ts:210
 
 The index of the last word that contains this entity.
 
@@ -34,7 +34,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:211
+Defined in index.d.ts:214
 
 Whether the entity was detected as final.
 
@@ -44,7 +44,7 @@ ___
 
 • **startPosition**: *number*
 
-Defined in speechly.d.ts:203
+Defined in index.d.ts:206
 
 The index of the first word that contains this entity.
 
@@ -54,7 +54,7 @@ ___
 
 • **type**: *string*
 
-Defined in speechly.d.ts:195
+Defined in index.d.ts:198
 
 The type specified by the developer in the NLU rules in the dashboard (e.g. restaurant_type).
 
@@ -64,6 +64,6 @@ ___
 
 • **value**: *string*
 
-Defined in speechly.d.ts:199
+Defined in index.d.ts:202
 
 The value of the entity (e.g. Papa Joe's).
