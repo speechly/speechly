@@ -43,7 +43,7 @@ export class Client {
 export interface ClientOptions {
     appId: string;
     debug?: boolean;
-    deviceId?: string;
+    deviceId: string;
     language: string;
     microphone?: Microphone;
     sampleRate?: number;

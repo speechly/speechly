@@ -27,6 +27,7 @@ import { Client, Segment } from '@speechly/browser-client'
 // Create a new Client. appId and language are configured in the dashboard.
 const client = new Client({
   appId: 'your-app-id',
+  deviceId: 'your-device-id',
   language: 'en-US'
 })
 
@@ -55,6 +56,40 @@ client.startContext((err?: Error) => {
 ```
 
 Check out the demo in [examples directory](examples/README.md).
+
+### Device ID
+
+Device ID is used by the API to improve the latency of consecutive API calls, so it is heavily recommended, that it is properly cached on the client side (e.g. using browser's local storage).
+
+Here's an example of how to generate and store device ID using UUID v4 generator and browser's local storage:
+```javascript
+const defaultId = '00000000-0000-0000-0000-000000000000'
+const idMask = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+const idKey = 'speechly-device-id'
+
+function uuidv4() {
+  return idMask.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
+function getDeviceId() {
+  if (window.localStorage === undefined) {
+    return defaultId
+  }
+
+  let id = window.localStorage.getItem(idKey)
+
+  if (id === null) {
+    id = uuidv4()
+    window.localStorage.setItem(idKey, id)
+  }
+
+  return id
+}
+```
 
 ## Documentation
 

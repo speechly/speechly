@@ -16,14 +16,17 @@ export interface ClientOptions {
   language: string
 
   /**
+   * The identifier of the device which is using the client.
+   * It is suggested that the ID is in UUID v4 format and additionally, it should be persistent,
+   * since there are latency optimisations, which work for consecutive device sessions.
+   * One of options to store the ID is using browser's local storage.
+   */
+  deviceId: string
+
+  /**
    * The URL of Speechly API endpoint.
    */
   url?: string
-
-  /**
-   * The identifier of the device which is using the client.
-   */
-  deviceId?: string
 
   /**
    * The sample rate of the audio to use.

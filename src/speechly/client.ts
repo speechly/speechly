@@ -29,6 +29,10 @@ import {
   IntentCallback
 } from './types'
 
+const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
+const initialReconnectDelay = 1000
+const initialReconnectCount = 5
+
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
  * and websocket connection to Speechly API, passing control events and audio stream to the API, reading the responses
@@ -65,7 +69,7 @@ export class Client {
       options.url ?? defaultSpeechlyURL,
       options.appId,
       options.language,
-      options.deviceId ?? uuidv4(),
+      options.deviceId,
       options.sampleRate ?? DefaultSampleRate
     )
 
@@ -392,17 +396,4 @@ export class Client {
     this.state = newState
     this.stateChangeCb(newState)
   }
-}
-
-const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
-const initialReconnectDelay = 1000
-const initialReconnectCount = 5
-
-function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    // eslint-disable-next-line one-var
-    const r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
 }

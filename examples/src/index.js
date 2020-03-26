@@ -1,5 +1,32 @@
 import { Client, ClientState, stateToString } from '@speechly/browser-client'
 
+const defaultId = '00000000-0000-0000-0000-000000000000'
+const idMask = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+const idKey = 'speechly-device-id'
+
+function uuidv4() {
+  return idMask.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
+function getDeviceId() {
+  if (window.localStorage === undefined) {
+    return defaultId
+  }
+
+  let id = window.localStorage.getItem(idKey)
+
+  if (id === null) {
+    id = uuidv4()
+    window.localStorage.setItem(idKey, id)
+  }
+
+  return id
+}
+
 window.onload = () => {
   const appId = process.env.REACT_APP_APP_ID
   if (appId === undefined) {
@@ -13,9 +40,12 @@ window.onload = () => {
     return
   }
 
+  const deviceId = getDeviceId()
+
   // Configure Speechly client.
   const client = new Client({
     appId,
+    deviceId,
     language
   })
 
