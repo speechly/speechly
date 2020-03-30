@@ -17,6 +17,12 @@ export type ErrorCallback = (error?: Error) => void
 export type AudioCallback = (audioBuffer: ArrayBuffer) => void
 
 /**
+ * A callback that receives either an error or the value retrieved from the storage.
+ * @public
+ */
+export type StorageGetCallback = (error?: Error, val?: string) => void
+
+/**
  * An interface for a microphone.
  * @public
  */
@@ -26,4 +32,13 @@ export interface Microphone {
   close(cb: ErrorCallback): void
   mute(): void
   unmute(): void
+}
+
+/**
+ * An interface for local key-value storage.
+ * @public
+ */
+export interface Storage {
+  get(key: string, cb: StorageGetCallback): void
+  set(key: string, val: string, cb: ErrorCallback): void
 }

@@ -14,10 +14,10 @@ The options which can be used to configure the client.
 
 * [appId](_index_d_.clientoptions.md#appid)
 * [debug](_index_d_.clientoptions.md#optional-debug)
-* [deviceId](_index_d_.clientoptions.md#optional-deviceid)
 * [language](_index_d_.clientoptions.md#language)
 * [microphone](_index_d_.clientoptions.md#optional-microphone)
 * [sampleRate](_index_d_.clientoptions.md#optional-samplerate)
+* [storage](_index_d_.clientoptions.md#optional-storage)
 * [url](_index_d_.clientoptions.md#optional-url)
 
 ## Properties
@@ -26,7 +26,7 @@ The options which can be used to configure the client.
 
 • **appId**: *string*
 
-Defined in index.d.ts:133
+Defined in index.d.ts:115
 
 The unique identifier of an app in the dashboard.
 
@@ -36,19 +36,9 @@ ___
 
 • **debug**? : *undefined | false | true*
 
-Defined in index.d.ts:153
+Defined in index.d.ts:131
 
 Whether to output debug statements to the console.
-
-___
-
-### `Optional` deviceId
-
-• **deviceId**? : *undefined | string*
-
-Defined in index.d.ts:145
-
-The identifier of the device which is using the client.
 
 ___
 
@@ -56,7 +46,7 @@ ___
 
 • **language**: *string*
 
-Defined in index.d.ts:137
+Defined in index.d.ts:119
 
 The language which is used by the app.
 
@@ -66,9 +56,10 @@ ___
 
 • **microphone**? : *[Microphone](_index_d_.microphone.md)*
 
-Defined in index.d.ts:157
+Defined in index.d.ts:136
 
-Microphone instance.
+Custom microphone implementation.
+If not provided, an implementation based on getUserMedia and Web Audio API is used.
 
 ___
 
@@ -76,9 +67,20 @@ ___
 
 • **sampleRate**? : *undefined | number*
 
-Defined in index.d.ts:149
+Defined in index.d.ts:127
 
 The sample rate of the audio to use.
+
+___
+
+### `Optional` storage
+
+• **storage**? : *[Storage](_index_d_.storage.md)*
+
+Defined in index.d.ts:141
+
+Custom storage implementation.
+If not provided, browser's LocalStorage API is used.
 
 ___
 
@@ -86,6 +88,6 @@ ___
 
 • **url**? : *undefined | string*
 
-Defined in index.d.ts:141
+Defined in index.d.ts:123
 
 The URL of Speechly API endpoint.

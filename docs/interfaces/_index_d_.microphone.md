@@ -8,10 +8,6 @@ An interface for a microphone.
 
 * **Microphone**
 
-## Implemented by
-
-* [BrowserMicrophone](../classes/_index_d_.browsermicrophone.md)
-
 ## Index
 
 ### Methods
@@ -28,7 +24,7 @@ An interface for a microphone.
 
 ▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:284
+Defined in index.d.ts:280
 
 **Parameters:**
 
@@ -44,7 +40,7 @@ ___
 
 ▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:283
+Defined in index.d.ts:279
 
 **Parameters:**
 
@@ -60,7 +56,7 @@ ___
 
 ▸ **mute**(): *void*
 
-Defined in index.d.ts:285
+Defined in index.d.ts:281
 
 **Returns:** *void*
 
@@ -70,7 +66,7 @@ ___
 
 ▸ **onAudio**(`cb`: [AudioCallback](../modules/_index_d_.md#audiocallback)): *void*
 
-Defined in index.d.ts:282
+Defined in index.d.ts:278
 
 **Parameters:**
 
@@ -86,6 +82,6 @@ ___
 
 ▸ **unmute**(): *void*
 
-Defined in index.d.ts:286
+Defined in index.d.ts:282
 
 **Returns:** *void*

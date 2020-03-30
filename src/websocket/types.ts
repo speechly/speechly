@@ -1,7 +1,7 @@
 import { ErrorCallback, ContextCallback } from '../types'
 
 export interface WebsocketClient {
-  initialize(cb: ErrorCallback): void
+  initialize(deviceID: string, cb: ErrorCallback): void
   close(closeCode: number, closeReason: string): Error | void
 
   start(cb: ContextCallback): void

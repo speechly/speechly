@@ -1,6 +1,7 @@
 import localeCode from 'locale-code'
+import { v4 as uuidv4 } from 'uuid'
 
-import { ErrorCallback, ContextCallback, Microphone } from '../types'
+import { ErrorCallback, ContextCallback, Microphone, Storage } from '../types'
 import { BrowserMicrophone, DefaultSampleRate, ErrNoAudioConsent, ErrDeviceNotSupported } from '../microphone'
 import {
   Websocket,
@@ -28,6 +29,12 @@ import {
   EntityCallback,
   IntentCallback
 } from './types'
+import { LocalStorage } from '../storage'
+
+const deviceIdStorageKey = 'speechly-device-id'
+const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
+const initialReconnectDelay = 1000
+const initialReconnectCount = 5
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
@@ -37,10 +44,12 @@ import {
  */
 export class Client {
   private readonly debug: boolean
+  private readonly storage: Storage
   private readonly microphone: Microphone
   private readonly websocket: WebsocketClient
   private readonly activeContexts = new Map<string, SegmentState>()
 
+  private deviceId?: string
   private state: ClientState = ClientState.Disconnected
   private reconnectAttemptCount = initialReconnectCount
   private nextReconnectDelay = initialReconnectDelay
@@ -60,12 +69,12 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
+    this.storage = options.storage ?? new LocalStorage()
     this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
     this.websocket = new Websocket(
       options.url ?? defaultSpeechlyURL,
       options.appId,
       options.language,
-      options.deviceId ?? uuidv4(),
       options.sampleRate ?? DefaultSampleRate
     )
 
@@ -107,17 +116,42 @@ export class Client {
         return cb(err)
       }
 
-      this.websocket.initialize((err?: Error) => {
-        if (err !== undefined) {
-          this.reconnectWebsocket()
-          // TODO: I think this can be confusing for the end user.
-          // We should only invoke callback when initialization is finished, either successfully or with an error.
-          // We can instead pass the callback to reconnect and let that invoke it.
+      const initializeWebsocket = (deviceId: string, cb: ErrorCallback): void => {
+        this.websocket.initialize(deviceId, (err?: Error) => {
+          if (err !== undefined) {
+            this.reconnectWebsocket()
+            // TODO: I think this can be confusing for the end user.
+            // We should only invoke callback when initialization is finished, either successfully or with an error.
+            // We can instead pass the callback to reconnect and let that invoke it.
+            return cb()
+          }
+
+          this.setState(ClientState.Connected)
           return cb()
+        })
+      }
+
+      this.storage.get(deviceIdStorageKey, (err?: Error, val?: string) => {
+        if (err !== undefined) {
+          // Device ID was not found in the storage, generate new ID and store it.
+          const deviceId = uuidv4()
+          this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
+            if (err !== undefined) {
+              // At this point we couldn't load device ID from storage, nor we could store a new one there.
+              // Give up initialisation and return an error.
+              return cb(err)
+            }
+
+            // Newly generated ID was stored, proceed with initialization.
+            this.deviceId = deviceId
+            return initializeWebsocket(deviceId, cb)
+          })
         }
 
-        this.setState(ClientState.Connected)
-        return cb()
+        // Device ID was found in the storage, proceed with initialization.
+        const deviceId = val as string
+        this.deviceId = deviceId
+        return initializeWebsocket(deviceId, cb)
       })
     })
   }
@@ -348,6 +382,12 @@ export class Client {
   }
 
   private reconnectWebsocket(): void {
+    if (this.deviceId === undefined) {
+      return this.setState(ClientState.Disconnected)
+    }
+
+    const deviceId = this.deviceId
+
     if (this.reconnectAttemptCount < 1) {
       return this.setState(ClientState.Disconnected)
     }
@@ -368,7 +408,7 @@ export class Client {
       this.reconnectAttemptCount = this.reconnectAttemptCount - 1
       this.nextReconnectDelay = this.nextReconnectDelay * 2
 
-      this.websocket.initialize((err?: Error) => {
+      this.websocket.initialize(deviceId, (err?: Error) => {
         if (err !== undefined) {
           return this.reconnectWebsocket()
         }
@@ -400,17 +440,4 @@ export class Client {
     this.state = newState
     this.stateChangeCb(newState)
   }
-}
-
-const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
-const initialReconnectDelay = 1000
-const initialReconnectCount = 5
-
-function uuidv4(): string {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    // eslint-disable-next-line one-var
-    const r = (Math.random() * 16) | 0,
-      v = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
 }

@@ -1,4 +1,4 @@
-import { Microphone } from '../types'
+import { Microphone, Storage } from '../types'
 
 /**
  * The options which can be used to configure the client.
@@ -21,11 +21,6 @@ export interface ClientOptions {
   url?: string
 
   /**
-   * The identifier of the device which is using the client.
-   */
-  deviceId?: string
-
-  /**
    * The sample rate of the audio to use.
    */
   sampleRate?: number
@@ -36,9 +31,16 @@ export interface ClientOptions {
   debug?: boolean
 
   /**
-   * Microphone instance.
+   * Custom microphone implementation.
+   * If not provided, an implementation based on getUserMedia and Web Audio API is used.
    */
   microphone?: Microphone
+
+  /**
+   * Custom storage implementation.
+   * If not provided, browser's LocalStorage API is used.
+   */
+  storage?: Storage
 }
 
 /**

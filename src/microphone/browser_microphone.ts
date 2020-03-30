@@ -2,10 +2,6 @@ import { AudioCallback, Microphone, ErrorCallback } from '../types'
 import { generateDownsampler, float32ToInt16, AudioFilter } from './downsampler'
 import { ErrAlreadyInitialized, ErrDeviceNotSupported, ErrNoAudioConsent, ErrNotInitialized } from './const'
 
-/**
- * Microphone implementation for the browser. Uses getUserMedia and Web Audio API.
- * @public
- */
 export class BrowserMicrophone implements Microphone {
   private readonly sampleRate: number
   private onAudioCb: AudioCallback = () => {}
