@@ -76,6 +76,13 @@ export class Client {
 
   /**
    * Initializes the client, by initializing the microphone and establishing connection to the API.
+   *
+   * This function HAS to be invoked by a user by e.g. binding it to a button press,
+   * or some other user-performed action.
+   *
+   * If this function is invoked without a user interaction,
+   * the microphone functionality will not work due to security restrictions by the browser.
+   *
    * @param cb - the callback which is invoked when the initialization is complete.
    */
   initialize(cb: ErrorCallback = () => {}): void {

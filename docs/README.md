@@ -6,4 +6,4 @@
 
 ### External modules
 
-* ["speechly.d"](modules/_speechly_d_.md)
+* ["index.d"](modules/_index_d_.md)

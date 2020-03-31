@@ -25,7 +25,7 @@
   "scripts": {
     "build": "yarn run lint && yarn run test && rm -rf ./dist/ && npx tsc",
     "check": "yarn run build && npx api-extractor run --verbose",
-    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist",
+    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
     "getdeps": "yarn install --force --frozen-lockfile",
     "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",

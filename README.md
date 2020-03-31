@@ -31,6 +31,7 @@ const client = new Client({
 })
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
+// Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
 client.initialize((err?: Error) => {
   if (err !== undefined) {
     console.error('Failed to initialize Speechly client:', err)

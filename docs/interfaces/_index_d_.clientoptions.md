@@ -1,4 +1,4 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [ClientOptions](_speechly_d_.clientoptions.md)
+[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [ClientOptions](_index_d_.clientoptions.md)
 
 # Interface: ClientOptions
 
@@ -12,13 +12,13 @@ The options which can be used to configure the client.
 
 ### Properties
 
-* [appId](_speechly_d_.clientoptions.md#appid)
-* [debug](_speechly_d_.clientoptions.md#optional-debug)
-* [deviceId](_speechly_d_.clientoptions.md#optional-deviceid)
-* [language](_speechly_d_.clientoptions.md#language)
-* [microphone](_speechly_d_.clientoptions.md#optional-microphone)
-* [sampleRate](_speechly_d_.clientoptions.md#optional-samplerate)
-* [url](_speechly_d_.clientoptions.md#optional-url)
+* [appId](_index_d_.clientoptions.md#appid)
+* [debug](_index_d_.clientoptions.md#optional-debug)
+* [deviceId](_index_d_.clientoptions.md#optional-deviceid)
+* [language](_index_d_.clientoptions.md#language)
+* [microphone](_index_d_.clientoptions.md#optional-microphone)
+* [sampleRate](_index_d_.clientoptions.md#optional-samplerate)
+* [url](_index_d_.clientoptions.md#optional-url)
 
 ## Properties
 
@@ -26,7 +26,7 @@ The options which can be used to configure the client.
 
 • **appId**: *string*
 
-Defined in speechly.d.ts:127
+Defined in index.d.ts:133
 
 The unique identifier of an app in the dashboard.
 
@@ -36,7 +36,7 @@ ___
 
 • **debug**? : *undefined | false | true*
 
-Defined in speechly.d.ts:147
+Defined in index.d.ts:153
 
 Whether to output debug statements to the console.
 
@@ -46,7 +46,7 @@ ___
 
 • **deviceId**? : *undefined | string*
 
-Defined in speechly.d.ts:139
+Defined in index.d.ts:145
 
 The identifier of the device which is using the client.
 
@@ -56,7 +56,7 @@ ___
 
 • **language**: *string*
 
-Defined in speechly.d.ts:131
+Defined in index.d.ts:137
 
 The language which is used by the app.
 
@@ -64,9 +64,9 @@ ___
 
 ### `Optional` microphone
 
-• **microphone**? : *[Microphone](_speechly_d_.microphone.md)*
+• **microphone**? : *[Microphone](_index_d_.microphone.md)*
 
-Defined in speechly.d.ts:151
+Defined in index.d.ts:157
 
 Microphone instance.
 
@@ -76,7 +76,7 @@ ___
 
 • **sampleRate**? : *undefined | number*
 
-Defined in speechly.d.ts:143
+Defined in index.d.ts:149
 
 The sample rate of the audio to use.
 
@@ -86,6 +86,6 @@ ___
 
 • **url**? : *undefined | string*
 
-Defined in speechly.d.ts:135
+Defined in index.d.ts:141
 
 The URL of Speechly API endpoint.

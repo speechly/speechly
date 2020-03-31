@@ -1,4 +1,4 @@
-[@speechly/browser-client](../README.md) › ["speechly.d"](../modules/_speechly_d_.md) › [Intent](_speechly_d_.intent.md)
+[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [Intent](_index_d_.intent.md)
 
 # Interface: Intent
 
@@ -12,8 +12,8 @@ The intent detected by the SLU API.
 
 ### Properties
 
-* [intent](_speechly_d_.intent.md#intent)
-* [isFinal](_speechly_d_.intent.md#isfinal)
+* [intent](_index_d_.intent.md#intent)
+* [isFinal](_index_d_.intent.md#isfinal)
 
 ## Properties
 
@@ -21,7 +21,7 @@ The intent detected by the SLU API.
 
 • **intent**: *string*
 
-Defined in speechly.d.ts:258
+Defined in index.d.ts:264
 
 The value of the intent.
 
@@ -31,6 +31,6 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in speechly.d.ts:262
+Defined in index.d.ts:268
 
 Whether the intent was detected as final.
