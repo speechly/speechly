@@ -132,6 +132,7 @@ export class Client {
       }
 
       this.activeContexts.clear()
+      this.setState(ClientState.Disconnected)
 
       return errs.length > 0 ? cb(Error(errs.join(','))) : cb()
     })
