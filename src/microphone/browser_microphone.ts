@@ -43,8 +43,44 @@ export class BrowserMicrophone implements Microphone {
       .then(mediaStream => {
         this.mediaStream = mediaStream
         this.audioTrack = this.mediaStream.getAudioTracks()[0]
+
         // Mute the microphone, since that is the chosen initial state.
         this.audioTrack.enabled = false
+
+        if (window.AudioContext !== undefined) {
+          this.audioContext = new window.AudioContext()
+        } else if (window.webkitAudioContext !== undefined) {
+          // eslint-disable-next-line new-cap
+          this.audioContext = new window.webkitAudioContext()
+        } else {
+          throw Error('Microphone functionality is not supported in your browser')
+        }
+
+        this.downsampler = generateDownsampler(this.audioContext.sampleRate, this.sampleRate)
+        this.audioProcessor = this.audioContext.createScriptProcessor(4096, 1, 1)
+
+        // Connect microphone to processor.
+        this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
+        // Connect processor to destination.
+        this.audioProcessor.connect(this.audioContext.destination)
+        // Bind audio handler to receive audio data.
+        this.audioProcessor.onaudioprocess = audioProcessingEvent => {
+          if (this.audioTrack === undefined) {
+            throw Error('Microphone audio track is not initialized')
+          }
+
+          if (this.downsampler === undefined) {
+            throw Error('Microphone downsampler is not initialized')
+          }
+
+          // Skip audio if the mic is muted.
+          if (!this.audioTrack.enabled) {
+            return
+          }
+
+          const downsampled = float32ToInt16(this.downsampler(audioProcessingEvent.inputBuffer.getChannelData(0)))
+          this.onAudioCb(downsampled)
+        }
 
         cb()
       })
@@ -108,54 +144,5 @@ export class BrowserMicrophone implements Microphone {
     }
 
     this.audioTrack.enabled = true
-
-    if (this.audioContext === undefined) {
-      this.initializeAudioContext()
-    }
-  }
-
-  private initializeAudioContext(): void {
-    if (this.mediaStream === undefined) {
-      throw Error('Microphone media stream is not initialized')
-    }
-
-    if (this.audioContext !== undefined) {
-      throw Error('Microphone audio context is already initialized')
-    }
-
-    if (window.AudioContext !== undefined) {
-      this.audioContext = new window.AudioContext()
-    } else if (window.webkitAudioContext !== undefined) {
-      // eslint-disable-next-line new-cap
-      this.audioContext = new window.webkitAudioContext()
-    } else {
-      throw Error('Microphone functionality is not supported in your browser')
-    }
-
-    this.downsampler = generateDownsampler(this.audioContext.sampleRate, this.sampleRate)
-    this.audioProcessor = this.audioContext.createScriptProcessor(4096, 1, 1)
-
-    // Connect microphone to processor.
-    this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
-    // Connect processor to destination.
-    this.audioProcessor.connect(this.audioContext.destination)
-    // Bind audio handler to receive audio data.
-    this.audioProcessor.onaudioprocess = audioProcessingEvent => {
-      if (this.audioTrack === undefined) {
-        throw Error('Microphone audio track is not initialized')
-      }
-
-      if (this.downsampler === undefined) {
-        throw Error('Microphone downsampler is not initialized')
-      }
-
-      // Skip audio if the mic is muted.
-      if (!this.audioTrack.enabled) {
-        return
-      }
-
-      const downsampled = float32ToInt16(this.downsampler(audioProcessingEvent.inputBuffer.getChannelData(0)))
-      this.onAudioCb(downsampled)
-    }
   }
 }

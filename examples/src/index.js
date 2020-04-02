@@ -43,29 +43,23 @@ window.onload = () => {
   client.onTranscript((cid, sid, word) => log('transcript', cid, sid, { word }))
 
   // Initialize the client.
-  client.initialize(err => {
-    if (err) {
-      console.error('Error initializing Speechly client:', err)
-    }
-  })
+  const initDiv = document.getElementById('initialize')
+  initDiv.addEventListener('mousedown', initialize)
+  initDiv.addEventListener('touchstart', initialize)
 
   // Use the "Record" button for recording.
   const recordDiv = document.getElementById('record')
   recordDiv.addEventListener('mousedown', startRecording)
+  recordDiv.addEventListener('touchstart', startRecording)
   recordDiv.addEventListener('mouseup', stopRecording)
-
-  // Use disconnect button to disconnect.
-  const dcDiv = document.getElementById('disconnect')
-  dcDiv.addEventListener('click', () => client.close())
+  recordDiv.addEventListener('touchend', stopRecording)
 
   // Update client status on the page.
   client.onStateChange(state => {
-    if (state < ClientState.Connected) {
+    if (state < ClientState.Connected || state === ClientState.Stopping) {
       recordDiv.setAttribute('disabled', true)
-      dcDiv.setAttribute('disabled', true)
     } else {
       recordDiv.removeAttribute('disabled')
-      dcDiv.removeAttribute('disabled')
     }
 
     document.getElementById('status').innerHTML = stateToString(state)
@@ -153,5 +147,28 @@ window.onload = () => {
     document.getElementById('transcript-list').innerHTML = ''
     document.getElementById('log-list').innerHTML = ''
     document.getElementById('entities-list').innerHTML = ''
+  }
+
+  function initialize(event) {
+    event.preventDefault()
+    const button = event.target
+
+    if (client.state < ClientState.Connected) {
+      client.initialize(err => {
+        if (err) {
+          console.error('Error initializing Speechly client:', err)
+        }
+
+        button.innerHTML = 'Disconnect'
+      })
+    } else {
+      client.close(err => {
+        if (err) {
+          console.error('Error initializing Speechly client:', err)
+        }
+
+        button.innerHTML = 'Connect'
+      })
+    }
   }
 }
