@@ -131,27 +131,33 @@ export class Client {
         })
       }
 
-      this.storage.get(deviceIdStorageKey, (err?: Error, val?: string) => {
+      this.storage.initialize((err?: Error) => {
         if (err !== undefined) {
-          // Device ID was not found in the storage, generate new ID and store it.
-          const deviceId = uuidv4()
-          this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
-            if (err !== undefined) {
-              // At this point we couldn't load device ID from storage, nor we could store a new one there.
-              // Give up initialisation and return an error.
-              return cb(err)
-            }
-
-            // Newly generated ID was stored, proceed with initialization.
-            this.deviceId = deviceId
-            return initializeWebsocket(deviceId, cb)
-          })
+          return cb(err)
         }
 
-        // Device ID was found in the storage, proceed with initialization.
-        const deviceId = val as string
-        this.deviceId = deviceId
-        return initializeWebsocket(deviceId, cb)
+        this.storage.get(deviceIdStorageKey, (err?: Error, val?: string) => {
+          if (err !== undefined) {
+            // Device ID was not found in the storage, generate new ID and store it.
+            const deviceId = uuidv4()
+            this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
+              if (err !== undefined) {
+                // At this point we couldn't load device ID from storage, nor we could store a new one there.
+                // Give up initialisation and return an error.
+                return cb(err)
+              }
+
+              // Newly generated ID was stored, proceed with initialization.
+              this.deviceId = deviceId
+              return initializeWebsocket(deviceId, cb)
+            })
+          }
+
+          // Device ID was found in the storage, proceed with initialization.
+          const deviceId = val as string
+          this.deviceId = deviceId
+          return initializeWebsocket(deviceId, cb)
+        })
       })
     })
   }
@@ -161,21 +167,28 @@ export class Client {
    * @param cb - the callback which is invoked when closure is complete.
    */
   close(cb: ErrorCallback = () => {}): void {
-    this.microphone.close((err?: Error) => {
-      const errs = []
+    this.storage.close((err?: Error) => {
+      const errs: string[] = []
+
       if (err !== undefined) {
         errs.push(err.message)
       }
 
-      const wsErr = this.websocket.close(1000, 'client disconnecting')
-      if (wsErr !== undefined) {
-        errs.push(wsErr.message)
-      }
+      this.microphone.close((err?: Error) => {
+        if (err !== undefined) {
+          errs.push(err.message)
+        }
 
-      this.activeContexts.clear()
-      this.setState(ClientState.Disconnected)
+        const wsErr = this.websocket.close(1000, 'client disconnecting')
+        if (wsErr !== undefined) {
+          errs.push(wsErr.message)
+        }
 
-      return errs.length > 0 ? cb(Error(errs.join(','))) : cb()
+        this.activeContexts.clear()
+        this.setState(ClientState.Disconnected)
+
+        return errs.length > 0 ? cb(Error(errs.join(','))) : cb()
+      })
     })
   }
 

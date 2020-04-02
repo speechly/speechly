@@ -24,7 +24,7 @@ A single word detected by the SLU API.
 
 • **endTimestamp**: *number*
 
-Defined in index.d.ts:388
+Defined in index.d.ts:453
 
 End timestamp of the word within the audio of the context.
 
@@ -34,7 +34,7 @@ ___
 
 • **index**: *number*
 
-Defined in index.d.ts:380
+Defined in index.d.ts:445
 
 The index of the word within a segment.
 
@@ -44,7 +44,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in index.d.ts:392
+Defined in index.d.ts:457
 
 Whether the word was detected as final.
 
@@ -54,7 +54,7 @@ ___
 
 • **startTimestamp**: *number*
 
-Defined in index.d.ts:384
+Defined in index.d.ts:449
 
 Start timestamp of the word within the audio of the context.
 
@@ -64,6 +64,6 @@ ___
 
 • **value**: *string*
 
-Defined in index.d.ts:376
+Defined in index.d.ts:441
 
 The value of the word.

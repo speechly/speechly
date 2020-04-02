@@ -1,15 +1,19 @@
 import { Storage as IStorage, StorageGetCallback, ErrorCallback } from '../types'
-import { ErrNoStorageSupport, ErrKeyNotFound } from './const'
+import { ErrKeyNotFound } from './const'
 
 export class LocalStorage implements IStorage {
   private readonly storage: Storage
 
   constructor() {
-    if (window.localStorage === undefined) {
-      throw ErrNoStorageSupport
-    }
-
     this.storage = window.localStorage
+  }
+
+  initialize(cb: ErrorCallback): void {
+    cb()
+  }
+
+  close(cb: ErrorCallback): void {
+    cb()
   }
 
   get(key: string, cb: StorageGetCallback): void {

@@ -109,15 +109,10 @@ export type IntentCallback = (contextId: string, segmentId: number, intent: Inte
 
 // @public
 export interface Microphone {
-    // (undocumented)
     close(cb: ErrorCallback): void;
-    // (undocumented)
     initialize(cb: ErrorCallback): void;
-    // (undocumented)
     mute(): void;
-    // (undocumented)
     onAudio(cb: AudioCallback): void;
-    // (undocumented)
     unmute(): void;
 }
 
@@ -142,9 +137,9 @@ export function stateToString(state: ClientState): string;
 
 // @public
 export interface Storage {
-    // (undocumented)
+    close(cb: ErrorCallback): void;
     get(key: string, cb: StorageGetCallback): void;
-    // (undocumented)
+    initialize(cb: ErrorCallback): void;
     set(key: string, val: string, cb: ErrorCallback): void;
 }
 

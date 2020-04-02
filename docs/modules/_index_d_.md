@@ -161,7 +161,7 @@ ___
 
 Ƭ **SegmentChangeCallback**: *function*
 
-Defined in index.d.ts:320
+Defined in index.d.ts:350
 
 A callback that is invoked whenever current {@link Segment | segment} changes.
 
@@ -181,7 +181,7 @@ ___
 
 Ƭ **StateChangeCallback**: *function*
 
-Defined in index.d.ts:326
+Defined in index.d.ts:356
 
 A callback that is invoked whenever the {@link ClientState | client state} changes.
 
@@ -201,7 +201,7 @@ ___
 
 Ƭ **StorageGetCallback**: *function*
 
-Defined in index.d.ts:348
+Defined in index.d.ts:413
 
 A callback that receives either an error or the value retrieved from the storage.
 
@@ -222,7 +222,7 @@ ___
 
 Ƭ **TentativeEntitiesCallback**: *function*
 
-Defined in index.d.ts:354
+Defined in index.d.ts:419
 
 A callback that is invoked whenever new tentative entities are received from the API.
 
@@ -244,7 +244,7 @@ ___
 
 Ƭ **TentativeTranscriptCallback**: *function*
 
-Defined in index.d.ts:360
+Defined in index.d.ts:425
 
 A callback that is invoked whenever a new tentative transcript is received from the API.
 
@@ -267,7 +267,7 @@ ___
 
 Ƭ **TranscriptCallback**: *function*
 
-Defined in index.d.ts:366
+Defined in index.d.ts:431
 
 A callback that is invoked whenever a new transcript is received from the API.
 
@@ -359,7 +359,7 @@ Error to be thrown when the microphone was accessed before it was initialized.
 
 ▸ **stateToString**(`state`: [ClientState](../enums/_index_d_.clientstate.md)): *string*
 
-Defined in index.d.ts:333
+Defined in index.d.ts:363
 
 Converts client state value to a string, which could be useful for debugging or metrics.
 
