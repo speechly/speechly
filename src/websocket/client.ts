@@ -2,7 +2,9 @@ import { ContextCallback, ErrorCallback } from '../types'
 import { WebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
 export class Websocket implements WebsocketClient {
-  private readonly url: string
+  private readonly baseUrl: string
+  private readonly languageCode: string
+  private readonly sampleRate: number
   private readonly appId: string
   private websocket?: WebSocket
 
@@ -19,17 +21,20 @@ export class Websocket implements WebsocketClient {
     this.onCloseCb = cb
   }
 
-  constructor(baseUrl: string, appId: string, language: string, deviceId: string, sampleRate: number) {
-    this.url = generateWsUrl(baseUrl, deviceId, language, sampleRate)
+  constructor(baseUrl: string, appId: string, language: string, sampleRate: number) {
+    this.baseUrl = baseUrl
+    this.languageCode = language
+    this.sampleRate = sampleRate
     this.appId = appId
   }
 
-  initialize(cb: ErrorCallback): void {
+  initialize(deviceId: string, cb: ErrorCallback): void {
     if (this.websocket !== undefined) {
       return cb(Error('Cannot initialize an already initialized websocket client'))
     }
 
-    initializeWebsocket(this.url, this.appId, (err, ws) => {
+    const url = generateWsUrl(this.baseUrl, deviceId, this.languageCode, this.sampleRate)
+    initializeWebsocket(url, this.appId, (err, ws) => {
       if (err !== undefined) {
         return cb(err)
       }

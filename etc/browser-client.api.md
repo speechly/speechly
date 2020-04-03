@@ -8,21 +8,6 @@
 export type AudioCallback = (audioBuffer: ArrayBuffer) => void;
 
 // @public
-export class BrowserMicrophone implements Microphone {
-    constructor(sampleRate: number);
-    // (undocumented)
-    close(cb: ErrorCallback): void;
-    // (undocumented)
-    initialize(cb: ErrorCallback): void;
-    // (undocumented)
-    mute(): void;
-    // (undocumented)
-    onAudio(cb: AudioCallback): void;
-    // (undocumented)
-    unmute(): void;
-}
-
-// @public
 export class Client {
     constructor(options: ClientOptions);
     close(cb?: ErrorCallback): void;
@@ -43,10 +28,10 @@ export class Client {
 export interface ClientOptions {
     appId: string;
     debug?: boolean;
-    deviceId?: string;
     language: string;
     microphone?: Microphone;
     sampleRate?: number;
+    storage?: Storage;
     url?: string;
 }
 
@@ -99,7 +84,13 @@ export const ErrAlreadyInitialized: Error;
 export const ErrDeviceNotSupported: Error;
 
 // @public
+export const ErrKeyNotFound: Error;
+
+// @public
 export const ErrNoAudioConsent: Error;
+
+// @public
+export const ErrNoStorageSupport: Error;
 
 // @public
 export const ErrNotInitialized: Error;
@@ -118,15 +109,10 @@ export type IntentCallback = (contextId: string, segmentId: number, intent: Inte
 
 // @public
 export interface Microphone {
-    // (undocumented)
     close(cb: ErrorCallback): void;
-    // (undocumented)
     initialize(cb: ErrorCallback): void;
-    // (undocumented)
     mute(): void;
-    // (undocumented)
     onAudio(cb: AudioCallback): void;
-    // (undocumented)
     unmute(): void;
 }
 
@@ -148,6 +134,17 @@ export type StateChangeCallback = (state: ClientState) => void;
 
 // @public
 export function stateToString(state: ClientState): string;
+
+// @public
+export interface Storage {
+    close(cb: ErrorCallback): void;
+    get(key: string, cb: StorageGetCallback): void;
+    initialize(cb: ErrorCallback): void;
+    set(key: string, val: string, cb: ErrorCallback): void;
+}
+
+// @public
+export type StorageGetCallback = (error?: Error, val?: string) => void;
 
 // @public
 export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;

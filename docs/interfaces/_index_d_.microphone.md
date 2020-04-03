@@ -8,10 +8,6 @@ An interface for a microphone.
 
 * **Microphone**
 
-## Implemented by
-
-* [BrowserMicrophone](../classes/_index_d_.browsermicrophone.md)
-
 ## Index
 
 ### Methods
@@ -28,13 +24,19 @@ An interface for a microphone.
 
 ▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:284
+Defined in index.d.ts:304
+
+Closes the microphone, tearing down all the infrastructure.
+
+The microphone should stop emitting audio after this is called.
+Calling `initialize` again after calling `close` should succeed and make microphone ready to use again.
+This method will be called by the Client as part of client closure process.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) |
+Name | Type | Description |
+------ | ------ | ------ |
+`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback that should be invoked after the closure process is completed (either successfully or with an error).  |
 
 **Returns:** *void*
 
@@ -44,13 +46,19 @@ ___
 
 ▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:283
+Defined in index.d.ts:293
+
+Initialises the microphone.
+
+This should prepare the microphone infrastructure for receiving audio chunks,
+but the microphone should remain muted after the call.
+This method will be called by the Client as part of client initialisation process.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) |
+Name | Type | Description |
+------ | ------ | ------ |
+`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback that is invoked after initialisation is completed (either successfully or with an error).  |
 
 **Returns:** *void*
 
@@ -60,7 +68,9 @@ ___
 
 ▸ **mute**(): *void*
 
-Defined in index.d.ts:285
+Defined in index.d.ts:308
+
+Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
 
 **Returns:** *void*
 
@@ -70,13 +80,15 @@ ___
 
 ▸ **onAudio**(`cb`: [AudioCallback](../modules/_index_d_.md#audiocallback)): *void*
 
-Defined in index.d.ts:282
+Defined in index.d.ts:283
+
+Registers the callback that is invoked whenever an audio chunk is emitted.
 
 **Parameters:**
 
-Name | Type |
------- | ------ |
-`cb` | [AudioCallback](../modules/_index_d_.md#audiocallback) |
+Name | Type | Description |
+------ | ------ | ------ |
+`cb` | [AudioCallback](../modules/_index_d_.md#audiocallback) | the callback to invoke.  |
 
 **Returns:** *void*
 
@@ -86,6 +98,8 @@ ___
 
 ▸ **unmute**(): *void*
 
-Defined in index.d.ts:286
+Defined in index.d.ts:312
+
+Unmutes the microphone.
 
 **Returns:** *void*
