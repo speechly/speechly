@@ -59,4 +59,4 @@ Check out the demo in [examples directory](examples/README.md).
 
 ## Documentation
 
-You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_speechly_d_.md).
+You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_index_d_.md).
