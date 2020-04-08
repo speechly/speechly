@@ -216,7 +216,7 @@ export class Client {
 
       this.setState(ClientState.Recording)
       this.microphone.unmute()
-      this.activeContexts.set(ctxId, new SegmentState(ctxId, 1))
+      this.activeContexts.set(ctxId, new SegmentState(ctxId, 0))
 
       return cb(undefined, contextId)
     })
@@ -243,11 +243,17 @@ export class Client {
 
       const ctxId = contextId as string
 
-      this.setState(ClientState.Connected)
+      // Finalise current segment if it has not been finalised yet.
+      const segmentState = this.activeContexts.get(ctxId)
+      if (segmentState?.isFinalized === false) {
+        this.segmentChangeCb(segmentState.finalize().toSegment())
+      }
+
       if (!this.activeContexts.delete(ctxId)) {
         console.warn('[SpeechlyClient]', 'Attempted to remove non-existent context', ctxId)
       }
 
+      this.setState(ClientState.Connected)
       return cb()
     })
   }
@@ -326,8 +332,15 @@ export class Client {
     let { data } = response
 
     let segmentState = this.activeContexts.get(audio_context)
-    if (segmentState === undefined) {
-      console.warn('[SpeechlyClient]', 'Received response for non-existent context', audio_context)
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    if (segmentState === undefined || segmentState.id !== segment_id) {
+      console.warn(
+        '[SpeechlyClient]',
+        'Received response for non-existent context / segment ID',
+        audio_context,
+        segment_id
+      )
       return
     }
 
