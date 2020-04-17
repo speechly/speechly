@@ -140,7 +140,8 @@ export class Client {
           if (err !== undefined) {
             // Device ID was not found in the storage, generate new ID and store it.
             const deviceId = uuidv4()
-            this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
+
+            return this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
               if (err !== undefined) {
                 // At this point we couldn't load device ID from storage, nor we could store a new one there.
                 // Give up initialisation and return an error.
