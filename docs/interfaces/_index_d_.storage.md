@@ -23,7 +23,7 @@ The interface for local key-value storage.
 
 ▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:437
+Defined in index.d.ts:502
 
 Closes the storage.
 
@@ -44,7 +44,7 @@ ___
 
 ▸ **get**(`key`: string, `cb`: [StorageGetCallback](../modules/_index_d_.md#storagegetcallback)): *void*
 
-Defined in index.d.ts:445
+Defined in index.d.ts:510
 
 Retrieves a key from the storage.
 
@@ -63,7 +63,7 @@ ___
 
 ▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:427
+Defined in index.d.ts:492
 
 Initialises the storage.
 
@@ -85,7 +85,7 @@ ___
 
 ▸ **set**(`key`: string, `val`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:454
+Defined in index.d.ts:519
 
 Adds a key to the storage, possibly overwriting existing value.
 

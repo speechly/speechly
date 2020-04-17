@@ -24,7 +24,7 @@ Known WebSocket response types.
 
 • **Entity**: = "entity"
 
-Defined in index.d.ts:626
+Defined in index.d.ts:631
 
 ___
 
@@ -32,7 +32,7 @@ ___
 
 • **Intent**: = "intent"
 
-Defined in index.d.ts:627
+Defined in index.d.ts:632
 
 ___
 
@@ -40,7 +40,7 @@ ___
 
 • **SegmentEnd**: = "segment_end"
 
-Defined in index.d.ts:624
+Defined in index.d.ts:629
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 • **Started**: = "started"
 
-Defined in index.d.ts:622
+Defined in index.d.ts:627
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 • **Stopped**: = "stopped"
 
-Defined in index.d.ts:623
+Defined in index.d.ts:628
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 • **TentativeEntities**: = "tentative_entities"
 
-Defined in index.d.ts:629
+Defined in index.d.ts:634
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 • **TentativeIntent**: = "tentative_intent"
 
-Defined in index.d.ts:630
+Defined in index.d.ts:635
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 • **TentativeTranscript**: = "tentative_transcript"
 
-Defined in index.d.ts:628
+Defined in index.d.ts:633
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 • **Transcript**: = "transcript"
 
-Defined in index.d.ts:625
+Defined in index.d.ts:630

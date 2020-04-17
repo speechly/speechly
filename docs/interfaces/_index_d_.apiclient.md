@@ -1,24 +1,24 @@
-[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [WebsocketClient](_index_d_.websocketclient.md)
+[@speechly/browser-client](../README.md) › ["index.d"](../modules/_index_d_.md) › [APIClient](_index_d_.apiclient.md)
 
-# Interface: WebsocketClient
+# Interface: APIClient
 
 The interface for a client for Speechly SLU WebSocket API.
 
 ## Hierarchy
 
-* **WebsocketClient**
+* **APIClient**
 
 ## Index
 
 ### Methods
 
-* [close](_index_d_.websocketclient.md#close)
-* [initialize](_index_d_.websocketclient.md#initialize)
-* [onClose](_index_d_.websocketclient.md#onclose)
-* [onResponse](_index_d_.websocketclient.md#onresponse)
-* [sendAudio](_index_d_.websocketclient.md#sendaudio)
-* [startContext](_index_d_.websocketclient.md#startcontext)
-* [stopContext](_index_d_.websocketclient.md#stopcontext)
+* [close](_index_d_.apiclient.md#close)
+* [initialize](_index_d_.apiclient.md#initialize)
+* [onClose](_index_d_.apiclient.md#onclose)
+* [onResponse](_index_d_.apiclient.md#onresponse)
+* [sendAudio](_index_d_.apiclient.md#sendaudio)
+* [startContext](_index_d_.apiclient.md#startcontext)
+* [stopContext](_index_d_.apiclient.md#stopcontext)
 
 ## Methods
 
@@ -26,7 +26,7 @@ The interface for a client for Speechly SLU WebSocket API.
 
 ▸ **close**(`closeCode`: number, `closeReason`: string): *Error | void*
 
-Defined in index.d.ts:566
+Defined in index.d.ts:38
 
 Closes the client.
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **initialize**(`deviceID`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:556
+Defined in index.d.ts:28
 
 Initialises the client.
 
@@ -70,7 +70,7 @@ ___
 
 ▸ **onClose**(`cb`: [CloseCallback](../modules/_index_d_.md#closecallback)): *void*
 
-Defined in index.d.ts:546
+Defined in index.d.ts:18
 
 Registers a callback that is invoked whenever WebSocket connection is closed (either normally or due to an error).
 
@@ -88,7 +88,7 @@ ___
 
 ▸ **onResponse**(`cb`: [ResponseCallback](../modules/_index_d_.md#responsecallback)): *void*
 
-Defined in index.d.ts:540
+Defined in index.d.ts:12
 
 Registers a callback that is invoked whenever a response is received from the API.
 
@@ -106,7 +106,7 @@ ___
 
 ▸ **sendAudio**(`audioChunk`: ArrayBuffer): *Error | void*
 
-Defined in index.d.ts:587
+Defined in index.d.ts:59
 
 Sends audio to the API.
 If there is no active context (no successful previous calls to `startContext`), this must fail.
@@ -125,7 +125,7 @@ ___
 
 ▸ **startContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
 
-Defined in index.d.ts:573
+Defined in index.d.ts:45
 
 Starts a new audio context by sending the start event to the API.
 The callback must be invoked after the API has responded with confirmation or an error has occured.
@@ -144,7 +144,7 @@ ___
 
 ▸ **stopContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
 
-Defined in index.d.ts:580
+Defined in index.d.ts:52
 
 Stops an audio context by sending the stop event to the API.
 The callback must be invoked after the API has responded with confirmation or an error has occured.

@@ -15,6 +15,7 @@
 
 ### Interfaces
 
+* [APIClient](../interfaces/_index_d_.apiclient.md)
 * [ClientOptions](../interfaces/_index_d_.clientoptions.md)
 * [Entity](../interfaces/_index_d_.entity.md)
 * [EntityResponse](../interfaces/_index_d_.entityresponse.md)
@@ -26,7 +27,6 @@
 * [TentativeEntitiesResponse](../interfaces/_index_d_.tentativeentitiesresponse.md)
 * [TentativeTranscriptResponse](../interfaces/_index_d_.tentativetranscriptresponse.md)
 * [TranscriptResponse](../interfaces/_index_d_.transcriptresponse.md)
-* [WebsocketClient](../interfaces/_index_d_.websocketclient.md)
 * [WebsocketResponse](../interfaces/_index_d_.websocketresponse.md)
 * [Word](../interfaces/_index_d_.word.md)
 
@@ -66,7 +66,7 @@
 
 Ƭ **AudioCallback**: *function*
 
-Defined in index.d.ts:6
+Defined in index.d.ts:66
 
 A callback that receives an ArrayBuffer representing a frame of audio.
 
@@ -86,7 +86,7 @@ ___
 
 Ƭ **CloseCallback**: *function*
 
-Defined in index.d.ts:169
+Defined in index.d.ts:234
 
 A callback that is invoked whenever WebSocket connection is closed.
 
@@ -106,7 +106,7 @@ ___
 
 Ƭ **ContextCallback**: *function*
 
-Defined in index.d.ts:175
+Defined in index.d.ts:240
 
 A callback that receives either an error or a contextId.
 
@@ -127,7 +127,7 @@ ___
 
 Ƭ **EntityCallback**: *function*
 
-Defined in index.d.ts:214
+Defined in index.d.ts:279
 
 A callback that is invoked whenever new entity is received from the API.
 
@@ -149,7 +149,7 @@ ___
 
 Ƭ **ErrorCallback**: *function*
 
-Defined in index.d.ts:281
+Defined in index.d.ts:346
 
 A callback that receives an optional error.
 
@@ -169,7 +169,7 @@ ___
 
 Ƭ **IntentCallback**: *function*
 
-Defined in index.d.ts:302
+Defined in index.d.ts:367
 
 A callback that is invoked whenever new intent (tentative or not) is received from the API.
 
@@ -191,7 +191,7 @@ ___
 
 Ƭ **ResponseCallback**: *function*
 
-Defined in index.d.ts:361
+Defined in index.d.ts:426
 
 A callback that is invoked whenever a response is received from Speechly SLU WebSocket API.
 
@@ -211,7 +211,7 @@ ___
 
 Ƭ **SegmentChangeCallback**: *function*
 
-Defined in index.d.ts:398
+Defined in index.d.ts:463
 
 A callback that is invoked whenever current {@link Segment | segment} changes.
 
@@ -231,7 +231,7 @@ ___
 
 Ƭ **StateChangeCallback**: *function*
 
-Defined in index.d.ts:404
+Defined in index.d.ts:469
 
 A callback that is invoked whenever the {@link ClientState | client state} changes.
 
@@ -251,7 +251,7 @@ ___
 
 Ƭ **StorageGetCallback**: *function*
 
-Defined in index.d.ts:461
+Defined in index.d.ts:526
 
 A callback that receives either an error or the value retrieved from the storage.
 
@@ -272,7 +272,7 @@ ___
 
 Ƭ **TentativeEntitiesCallback**: *function*
 
-Defined in index.d.ts:467
+Defined in index.d.ts:532
 
 A callback that is invoked whenever new tentative entities are received from the API.
 
@@ -294,7 +294,7 @@ ___
 
 Ƭ **TentativeTranscriptCallback**: *function*
 
-Defined in index.d.ts:484
+Defined in index.d.ts:549
 
 A callback that is invoked whenever a new tentative transcript is received from the API.
 
@@ -317,7 +317,7 @@ ___
 
 Ƭ **TranscriptCallback**: *function*
 
-Defined in index.d.ts:505
+Defined in index.d.ts:570
 
 A callback that is invoked whenever a new transcript is received from the API.
 
@@ -339,7 +339,7 @@ Name | Type |
 
 • **DefaultSampleRate**: *16000* = 16000
 
-Defined in index.d.ts:181
+Defined in index.d.ts:246
 
 Default sample rate for microphone streams.
 
@@ -349,7 +349,7 @@ ___
 
 • **ErrAlreadyInitialized**: *Error*
 
-Defined in index.d.ts:245
+Defined in index.d.ts:310
 
 Error to be thrown when the initialize method of a Microphone instance is called more than once.
 
@@ -359,7 +359,7 @@ ___
 
 • **ErrDeviceNotSupported**: *Error*
 
-Defined in index.d.ts:251
+Defined in index.d.ts:316
 
 Error to be thrown when the device does not support the Microphone instance's target audio APIs.
 
@@ -369,7 +369,7 @@ ___
 
 • **ErrKeyNotFound**: *Error*
 
-Defined in index.d.ts:257
+Defined in index.d.ts:322
 
 Error to be thrown if requested key was not found in the storage.
 
@@ -379,7 +379,7 @@ ___
 
 • **ErrNoAudioConsent**: *Error*
 
-Defined in index.d.ts:263
+Defined in index.d.ts:328
 
 Error to be thrown when user did not give consent to the application to record audio.
 
@@ -389,7 +389,7 @@ ___
 
 • **ErrNoStorageSupport**: *Error*
 
-Defined in index.d.ts:269
+Defined in index.d.ts:334
 
 Error to be thrown if storage API is not supported by the device.
 
@@ -399,7 +399,7 @@ ___
 
 • **ErrNotInitialized**: *Error*
 
-Defined in index.d.ts:275
+Defined in index.d.ts:340
 
 Error to be thrown when the microphone was accessed before it was initialized.
 
@@ -409,7 +409,7 @@ Error to be thrown when the microphone was accessed before it was initialized.
 
 ▸ **stateToString**(`state`: [ClientState](../enums/_index_d_.clientstate.md)): *string*
 
-Defined in index.d.ts:411
+Defined in index.d.ts:476
 
 Converts client state value to a string, which could be useful for debugging or metrics.
 

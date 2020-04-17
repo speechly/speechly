@@ -5,6 +5,17 @@
 ```ts
 
 // @public
+export interface APIClient {
+    close(closeCode: number, closeReason: string): Error | void;
+    initialize(deviceID: string, cb: ErrorCallback): void;
+    onClose(cb: CloseCallback): void;
+    onResponse(cb: ResponseCallback): void;
+    sendAudio(audioChunk: ArrayBuffer): Error | void;
+    startContext(cb: ContextCallback): void;
+    stopContext(cb: ContextCallback): void;
+}
+
+// @public
 export type AudioCallback = (audioBuffer: ArrayBuffer) => void;
 
 // @public
@@ -26,6 +37,7 @@ export class Client {
 
 // @public
 export interface ClientOptions {
+    apiClient?: APIClient;
     appId: string;
     debug?: boolean;
     language: string;
@@ -191,17 +203,6 @@ export interface TranscriptResponse {
     index: number;
     start_timestamp: number;
     word: string;
-}
-
-// @public
-export interface WebsocketClient {
-    close(closeCode: number, closeReason: string): Error | void;
-    initialize(deviceID: string, cb: ErrorCallback): void;
-    onClose(cb: CloseCallback): void;
-    onResponse(cb: ResponseCallback): void;
-    sendAudio(audioChunk: ArrayBuffer): Error | void;
-    startContext(cb: ContextCallback): void;
-    stopContext(cb: ContextCallback): void;
 }
 
 // @public

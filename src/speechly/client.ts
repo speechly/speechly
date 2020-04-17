@@ -79,14 +79,16 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
-    this.storage = options.storage ?? new LocalStorage()
     this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
-    this.websocket = new WebsocketClient(
-      options.url ?? defaultSpeechlyURL,
-      options.appId,
-      options.language,
-      options.sampleRate ?? DefaultSampleRate
-    )
+    this.websocket =
+      options.apiClient ??
+      new WebsocketClient(
+        options.url ?? defaultSpeechlyURL,
+        options.appId,
+        options.language,
+        options.sampleRate ?? DefaultSampleRate
+      )
+    this.storage = options.storage ?? new LocalStorage()
 
     this.microphone.onAudio(this.handleMicrophoneAudio)
     this.websocket.onResponse(this.handleWebsocketResponse)
