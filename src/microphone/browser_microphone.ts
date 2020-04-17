@@ -1,6 +1,15 @@
-import { AudioCallback, Microphone, ErrorCallback } from '../types'
+import { ErrorCallback } from '../types'
+
+import {
+  ErrAlreadyInitialized,
+  ErrDeviceNotSupported,
+  ErrNoAudioConsent,
+  ErrNotInitialized,
+  AudioCallback,
+  Microphone
+} from './types'
+
 import { generateDownsampler, float32ToInt16, AudioFilter } from './downsampler'
-import { ErrAlreadyInitialized, ErrDeviceNotSupported, ErrNoAudioConsent, ErrNotInitialized } from './const'
 
 export class BrowserMicrophone implements Microphone {
   private readonly sampleRate: number

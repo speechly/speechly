@@ -1,4 +1,5 @@
-import { Microphone, Storage } from '../types'
+import { Microphone } from '../microphone'
+import { Storage } from '../storage'
 
 /**
  * The options which can be used to configure the client.

@@ -2,7 +2,7 @@
 
 # Interface: Storage
 
-An interface for local key-value storage.
+The interface for local key-value storage.
 
 ## Hierarchy
 
@@ -23,7 +23,7 @@ An interface for local key-value storage.
 
 ▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:389
+Defined in index.d.ts:437
 
 Closes the storage.
 
@@ -44,7 +44,7 @@ ___
 
 ▸ **get**(`key`: string, `cb`: [StorageGetCallback](../modules/_index_d_.md#storagegetcallback)): *void*
 
-Defined in index.d.ts:397
+Defined in index.d.ts:445
 
 Retrieves a key from the storage.
 
@@ -63,7 +63,7 @@ ___
 
 ▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:379
+Defined in index.d.ts:427
 
 Initialises the storage.
 
@@ -85,7 +85,7 @@ ___
 
 ▸ **set**(`key`: string, `val`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:406
+Defined in index.d.ts:454
 
 Adds a key to the storage, possibly overwriting existing value.
 

@@ -1,5 +1,5 @@
-import { Storage as IStorage, StorageGetCallback, ErrorCallback } from '../types'
-import { ErrKeyNotFound } from './const'
+import { ErrorCallback } from '../types'
+import { Storage as IStorage, StorageGetCallback, ErrKeyNotFound } from './types'
 
 export class LocalStorage implements IStorage {
   private readonly storage: Storage

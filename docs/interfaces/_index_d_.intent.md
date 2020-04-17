@@ -21,7 +21,7 @@ The intent detected by the SLU API.
 
 • **intent**: *string*
 
-Defined in index.d.ts:260
+Defined in index.d.ts:291
 
 The value of the intent.
 
@@ -31,6 +31,6 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in index.d.ts:264
+Defined in index.d.ts:295
 
 Whether the intent was detected as final.

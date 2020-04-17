@@ -1,7 +1,15 @@
-import { ContextCallback, ErrorCallback } from '../types'
-import { WebsocketClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
+import { ErrorCallback } from '../types'
 
-export class Websocket implements WebsocketClient {
+import {
+  APIClient,
+  ResponseCallback,
+  CloseCallback,
+  WebsocketResponse,
+  WebsocketResponseType,
+  ContextCallback
+} from './types'
+
+export class WebsocketClient implements APIClient {
   private readonly baseUrl: string
   private readonly languageCode: string
   private readonly sampleRate: number
@@ -61,7 +69,7 @@ export class Websocket implements WebsocketClient {
     this.websocket = undefined
   }
 
-  start(cb: ContextCallback): void {
+  startContext(cb: ContextCallback): void {
     if (!this.isOpen()) {
       return cb(Error('Websocket is not ready'))
     }
@@ -71,7 +79,7 @@ export class Websocket implements WebsocketClient {
     ws.send(StartEventJSON)
   }
 
-  stop(cb: ContextCallback): void {
+  stopContext(cb: ContextCallback): void {
     if (!this.isOpen()) {
       return cb(new Error('websocket is not ready'))
     }
@@ -81,13 +89,13 @@ export class Websocket implements WebsocketClient {
     ws.send(StopEventJSON)
   }
 
-  send(data: ArrayBuffer): Error | void {
+  sendAudio(audioChunk: ArrayBuffer): Error | void {
     if (!this.isOpen()) {
       return Error('Cannot send data through inactive websocket')
     }
 
     const ws = this.websocket as WebSocket
-    ws.send(data)
+    ws.send(audioChunk)
   }
 
   private isOpen(): boolean {

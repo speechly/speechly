@@ -1,0 +1,83 @@
+import { ErrorCallback } from '../types'
+
+/**
+ * Default sample rate for microphone streams.
+ * @public
+ */
+export const DefaultSampleRate = 16000
+
+/**
+ * Error to be thrown when the microphone was accessed before it was initialized.
+ * @public
+ */
+export const ErrNotInitialized = new Error('Microphone is not initialized')
+
+/**
+ * Error to be thrown when the initialize method of a Microphone instance is called more than once.
+ * @public
+ */
+export const ErrAlreadyInitialized = new Error('Microphone is already initialized')
+
+/**
+ * Error to be thrown when the device does not support the Microphone instance's target audio APIs.
+ * @public
+ */
+export const ErrDeviceNotSupported = new Error('Current device does not support microphone API')
+
+/**
+ * Error to be thrown when user did not give consent to the application to record audio.
+ * @public
+ */
+export const ErrNoAudioConsent = new Error('Microphone consent is no given')
+
+/**
+ * A callback that receives an ArrayBuffer representing a frame of audio.
+ * @public
+ */
+export type AudioCallback = (audioBuffer: ArrayBuffer) => void
+
+/**
+ * The interface for a microphone.
+ * @public
+ */
+export interface Microphone {
+  /**
+   * Registers the callback that is invoked whenever an audio chunk is emitted.
+   *
+   * @param cb - the callback to invoke.
+   */
+  onAudio(cb: AudioCallback): void
+
+  /**
+   * Initialises the microphone.
+   *
+   * This should prepare the microphone infrastructure for receiving audio chunks,
+   * but the microphone should remain muted after the call.
+   * This method will be called by the Client as part of client initialisation process.
+   *
+   * @param cb - the callback that is invoked after initialisation is completed (either successfully or with an error).
+   */
+  initialize(cb: ErrorCallback): void
+
+  /**
+   * Closes the microphone, tearing down all the infrastructure.
+   *
+   * The microphone should stop emitting audio after this is called.
+   * Calling `initialize` again after calling `close` should succeed and make microphone ready to use again.
+   * This method will be called by the Client as part of client closure process.
+   *
+   * @param cb - the callback that should be invoked after the closure process is completed
+   * (either successfully or with an error).
+   */
+  close(cb: ErrorCallback): void
+
+  /**
+   * Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
+   */
+  mute(): void
+
+  /**
+   * Unmutes the microphone.
+   */
+  unmute(): void
+}

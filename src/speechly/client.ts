@@ -1,11 +1,20 @@
 import localeCode from 'locale-code'
 import { v4 as uuidv4 } from 'uuid'
 
-import { ErrorCallback, ContextCallback, Microphone, Storage } from '../types'
-import { BrowserMicrophone, DefaultSampleRate, ErrNoAudioConsent, ErrDeviceNotSupported } from '../microphone'
+import { ErrorCallback } from '../types'
+
 import {
-  Websocket,
+  Microphone,
+  BrowserMicrophone,
+  DefaultSampleRate,
+  ErrNoAudioConsent,
+  ErrDeviceNotSupported
+} from '../microphone'
+
+import {
+  APIClient,
   WebsocketClient,
+  ContextCallback,
   WebsocketResponse,
   WebsocketResponseType,
   TentativeTranscriptResponse,
@@ -15,9 +24,8 @@ import {
   IntentResponse
 } from '../websocket'
 
-import { stateToString } from './state'
-import { SegmentState } from './segment'
-import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
+import { Storage, LocalStorage } from '../storage'
+
 import {
   ClientOptions,
   ClientState,
@@ -29,7 +37,9 @@ import {
   EntityCallback,
   IntentCallback
 } from './types'
-import { LocalStorage } from '../storage'
+import { stateToString } from './state'
+import { SegmentState } from './segment'
+import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
 
 const deviceIdStorageKey = 'speechly-device-id'
 const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
@@ -46,8 +56,8 @@ export class Client {
   private readonly debug: boolean
   private readonly storage: Storage
   private readonly microphone: Microphone
-  private readonly websocket: WebsocketClient
-  private readonly activeContexts = new Map<string, SegmentState>()
+  private readonly websocket: APIClient
+  private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
 
   private deviceId?: string
   private state: ClientState = ClientState.Disconnected
@@ -71,7 +81,7 @@ export class Client {
     this.debug = options.debug ?? false
     this.storage = options.storage ?? new LocalStorage()
     this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
-    this.websocket = new Websocket(
+    this.websocket = new WebsocketClient(
       options.url ?? defaultSpeechlyURL,
       options.appId,
       options.language,
@@ -207,19 +217,19 @@ export class Client {
     this.nextReconnectDelay = initialReconnectDelay
 
     this.setState(ClientState.Starting)
-    this.websocket.start((err?: Error, contextId?: string) => {
+    this.websocket.startContext((err?: Error, contextId?: string) => {
       if (err !== undefined) {
         this.setState(ClientState.Connected)
         return cb(err)
       }
 
-      const ctxId = contextId as string
-
       this.setState(ClientState.Recording)
       this.microphone.unmute()
-      this.activeContexts.set(ctxId, new SegmentState(ctxId, 1))
 
-      return cb(undefined, contextId)
+      const ctxId = contextId as string
+      this.activeContexts.set(ctxId, new Map<number, SegmentState>())
+
+      return cb(undefined, ctxId)
     })
   }
 
@@ -234,7 +244,7 @@ export class Client {
 
     this.setState(ClientState.Stopping)
     this.microphone.mute()
-    this.websocket.stop((err?: Error, contextId?: string) => {
+    this.websocket.stopContext((err?: Error, contextId?: string) => {
       if (err !== undefined) {
         // Sending stop event failed, which means recovering from this isn't viable.
         // Developers should react to this state by reloading the app.
@@ -243,13 +253,13 @@ export class Client {
       }
 
       const ctxId = contextId as string
-
-      this.setState(ClientState.Connected)
       if (!this.activeContexts.delete(ctxId)) {
         console.warn('[SpeechlyClient]', 'Attempted to remove non-existent context', ctxId)
       }
 
-      return cb()
+      this.setState(ClientState.Connected)
+
+      return cb(undefined, ctxId)
     })
   }
 
@@ -326,11 +336,13 @@ export class Client {
     const { audio_context, segment_id, type } = response
     let { data } = response
 
-    let segmentState = this.activeContexts.get(audio_context)
-    if (segmentState === undefined) {
+    const context = this.activeContexts.get(audio_context)
+    if (context === undefined) {
       console.warn('[SpeechlyClient]', 'Received response for non-existent context', audio_context)
       return
     }
+
+    let segmentState = context.get(segment_id) ?? new SegmentState(audio_context, segment_id)
 
     switch (type) {
       case WebsocketResponseType.TentativeTranscript:
@@ -376,15 +388,14 @@ export class Client {
       // TODO: handle unexpected response types.
     }
 
-    this.segmentChangeCb(segmentState.toSegment())
+    // Update the segment in current context.
+    context.set(segment_id, segmentState)
 
-    if (segmentState.isFinalized) {
-      // If previous segment was finalized, replace it with an empty one.
-      this.activeContexts.set(audio_context, new SegmentState(audio_context, segmentState.id + 1))
-    } else {
-      // If the segment was not yet finalized, update it in the state.
-      this.activeContexts.set(audio_context, segmentState)
-    }
+    // Update current contexts.
+    this.activeContexts.set(audio_context, context)
+
+    // Fire segment change event.
+    this.segmentChangeCb(segmentState.toSegment())
   }
 
   private readonly handleWebsocketClosure = (err: Error): void => {
@@ -432,13 +443,13 @@ export class Client {
     }, this.nextReconnectDelay)
   }
 
-  private readonly handleMicrophoneAudio = (audio: ArrayBuffer): void => {
+  private readonly handleMicrophoneAudio = (audioChunk: ArrayBuffer): void => {
     if (this.state === ClientState.Recording) {
       if (this.debug) {
-        console.log('[SpeechlyClient]', 'Sending audio data', audio)
+        console.log('[SpeechlyClient]', 'Sending audio data', audioChunk)
       }
 
-      this.websocket.send(audio)
+      this.websocket.sendAudio(audioChunk)
     }
   }
 
