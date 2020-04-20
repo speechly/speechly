@@ -1163,10 +1163,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@speechly/browser-client@0.3.4-alpha.1":
-  version "0.3.4-alpha.1"
-  resolved "https://registry.yarnpkg.com/@speechly/browser-client/-/browser-client-0.3.4-alpha.1.tgz#10600e6139fa38a803f39b6ee92ab1858202a605"
-  integrity sha512-YV20DpLlpLGienQ/PsGa+8CqQBrDpi6aRH7LTgNZK3qhmPkj0wL0QIdkAv3yhP02zE9B4O24QcmseA3jsJknIg==
+"@speechly/browser-client@0.3.4-alpha.2":
+  version "0.3.4-alpha.2"
+  resolved "https://registry.yarnpkg.com/@speechly/browser-client/-/browser-client-0.3.4-alpha.2.tgz#dbf7ce21e83c5bd41db0323d112d078ffd472f19"
+  integrity sha512-C/eRKVPGmSV7vEcRLAp/Q0zulu0ZUynC+lvEdn6CKwLFT8hPtxbHl15IQfuX4GrN0eYKNlrKLFAW0zb825t1uA==
   dependencies:
     locale-code "^2.0.2"
     uuid "^7.0.2"
