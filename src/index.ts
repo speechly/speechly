@@ -7,6 +7,8 @@ import {
   Intent,
 } from "@speechly/browser-client";
 
+let clientState = ClientState.Disconnected;
+
 window.onload = () => {
   let client: Client;
 
@@ -146,6 +148,8 @@ function updateStatus(status: string): void {
 }
 
 function bindStartStop(client: Client) {
+  const initDiv = document.getElementById("initialize") as HTMLElement;
+
   const recordDiv = document.getElementById("record") as HTMLElement;
   recordDiv.addEventListener("mousedown", startRecording);
   recordDiv.addEventListener("touchstart", startRecording);
@@ -153,8 +157,16 @@ function bindStartStop(client: Client) {
   recordDiv.addEventListener("touchend", stopRecording);
 
   client.onStateChange((state) => {
+    clientState = state;
+
+    if (state !== ClientState.Connected && state !== ClientState.Disconnected) {
+      initDiv.setAttribute("disabled", "disabled");
+    } else {
+      initDiv.removeAttribute("disabled");
+    }
+
     if (state < ClientState.Connected || state === ClientState.Stopping) {
-      recordDiv.setAttribute("disabled", "true");
+      recordDiv.setAttribute("disabled", "disabled");
     } else {
       recordDiv.removeAttribute("disabled");
     }
@@ -189,8 +201,6 @@ function bindStartStop(client: Client) {
 }
 
 function bindInitialize(client: Client) {
-  let isInitialized = false;
-
   const initDiv = document.getElementById("initialize") as HTMLElement;
   initDiv.addEventListener("mousedown", initialize);
   initDiv.addEventListener("touchstart", initialize);
@@ -199,24 +209,24 @@ function bindInitialize(client: Client) {
     event.preventDefault();
     const button = event.target as HTMLElement;
 
-    if (!isInitialized) {
-      client.initialize((err) => {
-        if (err) {
+    if (clientState === ClientState.Disconnected) {
+      client.initialize((err?: Error) => {
+        if (err !== undefined) {
           console.error("Error initializing Speechly client:", err);
           return;
         }
 
-        isInitialized = true;
         button.innerHTML = "Disconnect";
       });
-    } else {
-      client.close((err) => {
-        if (err) {
+    }
+
+    if (clientState === ClientState.Connected) {
+      client.close((err?: Error) => {
+        if (err !== undefined) {
           console.error("Error initializing Speechly client:", err);
           return;
         }
 
-        isInitialized = false;
         button.innerHTML = "Connect";
       });
     }
