@@ -46,8 +46,6 @@ export class BrowserAudioProcessor implements AudioProcessor {
       throw ErrDeviceNotSupported
     }
 
-    await this.audioContext.resume()
-
     try {
       this.mediaStream = await window.navigator.mediaDevices.getUserMedia({ audio: true, video: false })
     } catch {
@@ -56,6 +54,8 @@ export class BrowserAudioProcessor implements AudioProcessor {
 
     this.audioTrack = this.mediaStream.getAudioTracks()[0]
     this.audioTrack.enabled = false
+
+    await this.audioContext.resume()
 
     this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 2, 1)
     this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
