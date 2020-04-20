@@ -3,7 +3,7 @@
 ![Deploy](https://github.com/speechly/browser-client-example/workflows/Deploy/badge.svg?branch=master)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-This is a simple demo showcasing usage of Speechly API.
+This is a simple demo showcasing usage of Speechly API. Speechly configuration for the app can be found in [speechly_config.sal](speechly_config.sal).
 
 Built with:
 
