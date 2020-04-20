@@ -1,8 +1,19 @@
-## browser-client-example
+# browser-client-example
 
-This is a simple demo showcasing usage of browser client for Speechly API. The demo is a [create-react-app](https://github.com/facebook/create-react-app) project, with all unnecessary parts removed.
+![Deploy](https://github.com/speechly/browser-client-example/workflows/Deploy/badge.svg?branch=master)
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-Running the demo is simple:
+This is a simple demo showcasing usage of Speechly API.
+
+Built with:
+
+- [speechly-browser-client](https://github.com/speechly/browser-client)
+- [TypeScript](https://www.typescriptlang.org)
+- [create-react-app](https://github.com/facebook/create-react-app).
+
+Check it out at https://speechly.github.io/browser-client-example/.
+
+## Development
 
 ```shell
 # Install dependencies
@@ -22,4 +33,8 @@ export REACT_APP_LANGUAGE="your-app-language"
 yarn start
 ```
 
-You can check out the code in [index.js](src/index.js) and the layout in [index.html](public/index.html).
+You can check out the code in [index.ts](src/index.ts) and the layout in [index.html](public/index.html).
+
+## Screenshot
+
+![Screenshot](screenshot.png)
