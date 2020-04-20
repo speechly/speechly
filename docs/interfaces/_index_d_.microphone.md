@@ -2,7 +2,7 @@
 
 # Interface: Microphone
 
-An interface for a microphone.
+The interface for a microphone.
 
 ## Hierarchy
 
@@ -24,7 +24,7 @@ An interface for a microphone.
 
 ▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:304
+Defined in index.d.ts:411
 
 Closes the microphone, tearing down all the infrastructure.
 
@@ -46,7 +46,7 @@ ___
 
 ▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:293
+Defined in index.d.ts:400
 
 Initialises the microphone.
 
@@ -68,7 +68,7 @@ ___
 
 ▸ **mute**(): *void*
 
-Defined in index.d.ts:308
+Defined in index.d.ts:415
 
 Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
 
@@ -80,7 +80,7 @@ ___
 
 ▸ **onAudio**(`cb`: [AudioCallback](../modules/_index_d_.md#audiocallback)): *void*
 
-Defined in index.d.ts:283
+Defined in index.d.ts:390
 
 Registers the callback that is invoked whenever an audio chunk is emitted.
 
@@ -98,7 +98,7 @@ ___
 
 ▸ **unmute**(): *void*
 
-Defined in index.d.ts:312
+Defined in index.d.ts:419
 
 Unmutes the microphone.
 

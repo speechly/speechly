@@ -25,7 +25,7 @@ The smallest component of SLU API, defined by an intent.
 
 • **contextId**: *string*
 
-Defined in index.d.ts:323
+Defined in index.d.ts:436
 
 The identifier of parent SLU context.
 
@@ -35,7 +35,7 @@ ___
 
 • **entities**: *[Entity](_index_d_.entity.md)[]*
 
-Defined in index.d.ts:343
+Defined in index.d.ts:456
 
 All entities which belong to the segment, not ordered.
 
@@ -45,7 +45,7 @@ ___
 
 • **id**: *number*
 
-Defined in index.d.ts:327
+Defined in index.d.ts:440
 
 The identifier of the segment within the parent context.
 
@@ -55,7 +55,7 @@ ___
 
 • **intent**: *[Intent](_index_d_.intent.md)*
 
-Defined in index.d.ts:335
+Defined in index.d.ts:448
 
 The intent of the segment.
 
@@ -65,7 +65,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in index.d.ts:331
+Defined in index.d.ts:444
 
 Whether the segment is final. A final segment is guaranteed to only contain final parts.
 
@@ -75,6 +75,6 @@ ___
 
 • **words**: *[Word](_index_d_.word.md)[]*
 
-Defined in index.d.ts:339
+Defined in index.d.ts:452
 
 All words which belong to the segment, ordered by their indices.

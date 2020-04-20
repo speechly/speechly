@@ -5,6 +5,17 @@
 ```ts
 
 // @public
+export interface APIClient {
+    close(closeCode: number, closeReason: string): Error | void;
+    initialize(deviceID: string, cb: ErrorCallback): void;
+    onClose(cb: CloseCallback): void;
+    onResponse(cb: ResponseCallback): void;
+    sendAudio(audioChunk: ArrayBuffer): Error | void;
+    startContext(cb: ContextCallback): void;
+    stopContext(cb: ContextCallback): void;
+}
+
+// @public
 export type AudioCallback = (audioBuffer: ArrayBuffer) => void;
 
 // @public
@@ -26,6 +37,7 @@ export class Client {
 
 // @public
 export interface ClientOptions {
+    apiClient?: APIClient;
     appId: string;
     debug?: boolean;
     language: string;
@@ -60,6 +72,9 @@ export enum ClientState {
 }
 
 // @public
+export type CloseCallback = (err: Error) => void;
+
+// @public
 export type ContextCallback = (error?: Error, contextId?: string) => void;
 
 // @public
@@ -76,6 +91,14 @@ export interface Entity {
 
 // @public
 export type EntityCallback = (contextId: string, segmentId: number, entity: Entity) => void;
+
+// @public
+export interface EntityResponse {
+    end_position: number;
+    entity: string;
+    start_position: number;
+    value: string;
+}
 
 // @public
 export const ErrAlreadyInitialized: Error;
@@ -108,6 +131,11 @@ export interface Intent {
 export type IntentCallback = (contextId: string, segmentId: number, intent: Intent) => void;
 
 // @public
+export interface IntentResponse {
+    intent: string;
+}
+
+// @public
 export interface Microphone {
     close(cb: ErrorCallback): void;
     initialize(cb: ErrorCallback): void;
@@ -115,6 +143,9 @@ export interface Microphone {
     onAudio(cb: AudioCallback): void;
     unmute(): void;
 }
+
+// @public
+export type ResponseCallback = (response: WebsocketResponse) => void;
 
 // @public
 export interface Segment {
@@ -150,10 +181,59 @@ export type StorageGetCallback = (error?: Error, val?: string) => void;
 export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;
 
 // @public
+export interface TentativeEntitiesResponse {
+    entities: EntityResponse[];
+}
+
+// @public
 export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: Word[], text: string) => void;
 
 // @public
+export interface TentativeTranscriptResponse {
+    transcript: string;
+    words: TranscriptResponse[];
+}
+
+// @public
 export type TranscriptCallback = (contextId: string, segmentId: number, word: Word) => void;
+
+// @public
+export interface TranscriptResponse {
+    end_timestamp: number;
+    index: number;
+    start_timestamp: number;
+    word: string;
+}
+
+// @public
+export interface WebsocketResponse {
+    audio_context: string;
+    data: TranscriptResponse | EntityResponse | IntentResponse | TentativeTranscriptResponse | TentativeEntitiesResponse;
+    segment_id: number;
+    type: WebsocketResponseType;
+}
+
+// @public
+export enum WebsocketResponseType {
+    // (undocumented)
+    Entity = "entity",
+    // (undocumented)
+    Intent = "intent",
+    // (undocumented)
+    SegmentEnd = "segment_end",
+    // (undocumented)
+    Started = "started",
+    // (undocumented)
+    Stopped = "stopped",
+    // (undocumented)
+    TentativeEntities = "tentative_entities",
+    // (undocumented)
+    TentativeIntent = "tentative_intent",
+    // (undocumented)
+    TentativeTranscript = "tentative_transcript",
+    // (undocumented)
+    Transcript = "transcript"
+}
 
 // @public
 export interface Word {

@@ -33,19 +33,28 @@ export class SegmentState {
 
   updateTranscript(words: Word[]): SegmentState {
     words.forEach(w => {
-      this.words[w.index] = w
+      // Only accept tentative words if the segment is tentative.
+      if (!this.isFinalized || w.isFinal) {
+        this.words[w.index] = w
+      }
     })
 
     return this
   }
 
   updateEntities(entities: Entity[]): SegmentState {
-    entities.forEach(e => this.entities.set(entityMapKey(e), e))
+    entities.forEach(e => {
+      // Only accept tentative entities if the segment is tentative.
+      if (!this.isFinalized || e.isFinal) {
+        this.entities.set(entityMapKey(e), e)
+      }
+    })
     return this
   }
 
   updateIntent(intent: Intent): SegmentState {
-    if (!this.intent.isFinal) {
+    // Only accept tentative intent if the segment is tentative.
+    if (!this.isFinalized || intent.isFinal) {
       this.intent = intent
     }
 

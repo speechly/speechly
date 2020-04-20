@@ -16,7 +16,8 @@ window.onload = () => {
   // Configure Speechly client.
   const client = new Client({
     appId,
-    language
+    language,
+    debug: true
   })
 
   // High-level API, that you can use to react to segment changes.

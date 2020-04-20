@@ -1,4 +1,3 @@
-import { Word, Entity, Intent } from './types'
 import {
   TentativeTranscriptResponse,
   TranscriptResponse,
@@ -6,6 +5,7 @@ import {
   EntityResponse,
   IntentResponse
 } from '../websocket'
+import { Word, Entity, Intent } from './types'
 
 export function parseTentativeTranscript(data: TentativeTranscriptResponse): Word[] {
   // eslint-disable-next-line @typescript-eslint/camelcase

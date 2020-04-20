@@ -37,7 +37,7 @@ and dispatching them, as well as providing a high-level API for interacting with
 
 \+ **new Client**(`options`: [ClientOptions](../interfaces/_index_d_.clientoptions.md)): *[Client](_index_d_.client.md)*
 
-Defined in index.d.ts:31
+Defined in index.d.ts:91
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ Name | Type |
 
 ▸ **close**(`cb?`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:49
+Defined in index.d.ts:109
 
 Closes the client by closing the API connection and disabling the microphone.
 
@@ -71,7 +71,7 @@ ___
 
 ▸ **initialize**(`cb?`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
 
-Defined in index.d.ts:44
+Defined in index.d.ts:104
 
 Initializes the client, by initializing the microphone and establishing connection to the API.
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **onEntity**(`cb`: [EntityCallback](../modules/_index_d_.md#entitycallback)): *void*
 
-Defined in index.d.ts:89
+Defined in index.d.ts:149
 
 Adds a listener for entity responses from the API.
 
@@ -113,7 +113,7 @@ ___
 
 ▸ **onIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:99
+Defined in index.d.ts:159
 
 Adds a listener for intent responses from the API.
 
@@ -131,7 +131,7 @@ ___
 
 ▸ **onSegmentChange**(`cb`: [SegmentChangeCallback](../modules/_index_d_.md#segmentchangecallback)): *void*
 
-Defined in index.d.ts:69
+Defined in index.d.ts:129
 
 Adds a listener for current segment change events.
 
@@ -149,7 +149,7 @@ ___
 
 ▸ **onStateChange**(`cb`: [StateChangeCallback](../modules/_index_d_.md#statechangecallback)): *void*
 
-Defined in index.d.ts:64
+Defined in index.d.ts:124
 
 Adds a listener for client state change events.
 
@@ -167,7 +167,7 @@ ___
 
 ▸ **onTentativeEntities**(`cb`: [TentativeEntitiesCallback](../modules/_index_d_.md#tentativeentitiescallback)): *void*
 
-Defined in index.d.ts:84
+Defined in index.d.ts:144
 
 Adds a listener for tentative entities responses from the API.
 
@@ -185,7 +185,7 @@ ___
 
 ▸ **onTentativeIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:94
+Defined in index.d.ts:154
 
 Adds a listener for tentative intent responses from the API.
 
@@ -203,7 +203,7 @@ ___
 
 ▸ **onTentativeTranscript**(`cb`: [TentativeTranscriptCallback](../modules/_index_d_.md#tentativetranscriptcallback)): *void*
 
-Defined in index.d.ts:74
+Defined in index.d.ts:134
 
 Adds a listener for tentative transcript responses from the API.
 
@@ -221,7 +221,7 @@ ___
 
 ▸ **onTranscript**(`cb`: [TranscriptCallback](../modules/_index_d_.md#transcriptcallback)): *void*
 
-Defined in index.d.ts:79
+Defined in index.d.ts:139
 
 Adds a listener for transcript responses from the API.
 
@@ -239,7 +239,7 @@ ___
 
 ▸ **startContext**(`cb?`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
 
-Defined in index.d.ts:54
+Defined in index.d.ts:114
 
 Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
 
@@ -257,7 +257,7 @@ ___
 
 ▸ **stopContext**(`cb?`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
 
-Defined in index.d.ts:59
+Defined in index.d.ts:119
 
 Stops current SLU context by sending a stop context event to the API and muting the microphone.
 

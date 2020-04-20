@@ -1,4 +1,6 @@
-import { Microphone, Storage } from '../types'
+import { Microphone } from '../microphone'
+import { Storage } from '../storage'
+import { APIClient } from '../websocket'
 
 /**
  * The options which can be used to configure the client.
@@ -35,6 +37,12 @@ export interface ClientOptions {
    * If not provided, an implementation based on getUserMedia and Web Audio API is used.
    */
   microphone?: Microphone
+
+  /**
+   * Custom API client implementation.
+   * If not provided, an implementation based on Speechly SLU WebSocket API is used.
+   */
+  apiClient?: APIClient
 
   /**
    * Custom storage implementation.
