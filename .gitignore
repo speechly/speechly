@@ -13,8 +13,5 @@ package-lock.json
 # Ignore api-extractor temp files
 temp/
 
-# Ignore the examples by default
-examples/
-
 # Ignore IDE configs
 .vscode/
