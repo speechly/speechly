@@ -18,6 +18,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
   readonly sampleRate: number
 
   // Audio callback invoked when audio is returned by the script processor.
+  private readonly isSafari: boolean
   private readonly onAudio: AudioHandler
   private readonly audioContext: AudioContext
 
@@ -31,12 +32,17 @@ export class BrowserAudioProcessor implements AudioProcessor {
   private audioProcessor?: ScriptProcessorNode
 
   constructor(onAudio: AudioHandler) {
-    const AudioCtx = window.AudioContext ?? window.webkitAudioContext
-    if (AudioCtx === undefined) {
+    if (window.AudioContext !== undefined) {
+      this.audioContext = new window.AudioContext()
+      this.isSafari = false
+    } else if (window.webkitAudioContext !== undefined) {
+      // eslint-disable-next-line new-cap
+      this.audioContext = new window.webkitAudioContext()
+      this.isSafari = true
+    } else {
       throw ErrDeviceNotSupported
     }
 
-    this.audioContext = new AudioCtx()
     this.sampleRate = this.audioContext.sampleRate
     this.onAudio = onAudio
   }
@@ -44,6 +50,10 @@ export class BrowserAudioProcessor implements AudioProcessor {
   async initialize(): Promise<void> {
     if (window.navigator?.mediaDevices === undefined) {
       throw ErrDeviceNotSupported
+    }
+
+    if (this.isSafari) {
+      await this.audioContext.resume()
     }
 
     try {
@@ -55,7 +65,9 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.audioTrack = this.mediaStream.getAudioTracks()[0]
     this.audioTrack.enabled = false
 
-    await this.audioContext.resume()
+    if (!this.isSafari) {
+      await this.audioContext.resume()
+    }
 
     this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 2, 1)
     this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
