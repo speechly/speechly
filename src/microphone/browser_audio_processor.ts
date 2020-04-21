@@ -8,7 +8,6 @@ export interface AudioProcessor {
   close(): void
   mute(): void
   unmute(): void
-  isMuted(): boolean
 }
 
 const audioProcessEvent = 'audioprocess'
@@ -110,15 +109,6 @@ export class BrowserAudioProcessor implements AudioProcessor {
       const t = this.audioTrack as MediaStreamTrack
       t.enabled = true
     }
-  }
-
-  isMuted(): boolean {
-    if (!this.initialized) {
-      return true
-    }
-
-    const t = this.audioTrack as MediaStreamTrack
-    return !t.enabled
   }
 
   private readonly handleAudio = (event: AudioProcessingEvent): void => {
