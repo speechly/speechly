@@ -1,35 +1,47 @@
-export type AudioFilter = (audioBuffer: Float32Array) => Float32Array
+export interface AudioFilter {
+  call(input: Float32Array): Float32Array
+}
 
-export function generateDownsampler(sourceSampleRate: number, targetSampleRate: number): AudioFilter {
-  const resampleRatio = sourceSampleRate / targetSampleRate
-  const filter = generateFilter(sourceSampleRate, targetSampleRate / 2, 23)
-  let buffer = new Float32Array(0)
+export class Downsampler implements AudioFilter {
+  private buffer: Float32Array
+  private readonly resampleRatio: number
+  private readonly filter: number[]
 
-  return (input: Float32Array): Float32Array => {
-    const inputBuffer = new Float32Array(buffer.length + input.length)
-    inputBuffer.set(buffer, 0)
-    inputBuffer.set(input, buffer.length)
+  constructor(sourceSampleRate: number, targetSampleRate: number, filter: number[]) {
+    this.buffer = new Float32Array(0)
+    this.resampleRatio = sourceSampleRate / targetSampleRate
+    this.filter = filter
+  }
 
-    const outputLength = Math.ceil((inputBuffer.length - filter.length) / resampleRatio)
+  call(input: Float32Array): Float32Array {
+    const inputBuffer = new Float32Array(this.buffer.length + input.length)
+    inputBuffer.set(this.buffer, 0)
+    inputBuffer.set(input, this.buffer.length)
+
+    const outputLength = Math.ceil((inputBuffer.length - this.filter.length) / this.resampleRatio)
     const outputBuffer = new Float32Array(outputLength)
 
     for (let i = 0; i < outputLength; i++) {
-      const offset = Math.round(resampleRatio * i)
+      const offset = Math.round(this.resampleRatio * i)
 
-      for (let j = 0; j < filter.length; j++) {
-        outputBuffer[i] += inputBuffer[offset + j] * filter[j]
+      for (let j = 0; j < this.filter.length; j++) {
+        outputBuffer[i] += inputBuffer[offset + j] * this.filter[j]
       }
     }
 
-    const remainingOffset = Math.round(resampleRatio * outputLength)
+    const remainingOffset = Math.round(this.resampleRatio * outputLength)
     if (remainingOffset < inputBuffer.length) {
-      buffer = inputBuffer.slice(remainingOffset)
+      this.buffer = inputBuffer.slice(remainingOffset)
     } else {
-      buffer = new Float32Array(0)
+      this.buffer = this.buffer.slice(0, 0)
     }
 
     return outputBuffer
   }
+}
+
+export function generateDownsampler(sourceSampleRate: number, targetSampleRate: number): Downsampler {
+  return new Downsampler(sourceSampleRate, targetSampleRate, generateFilter(sourceSampleRate, targetSampleRate / 2, 23))
 }
 
 export function float32ToInt16(buffer: Float32Array): ArrayBuffer {

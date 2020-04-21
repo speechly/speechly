@@ -446,13 +446,11 @@ export class Client {
   }
 
   private readonly handleMicrophoneAudio = (audioChunk: ArrayBuffer): void => {
-    if (this.state === ClientState.Recording) {
-      if (this.debug) {
-        console.log('[SpeechlyClient]', 'Sending audio data', audioChunk)
-      }
-
-      this.websocket.sendAudio(audioChunk)
+    if (this.state !== ClientState.Recording) {
+      return
     }
+
+    this.websocket.sendAudio(audioChunk)
   }
 
   private setState(newState: ClientState): void {
