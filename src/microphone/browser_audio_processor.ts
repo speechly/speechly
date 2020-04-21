@@ -17,7 +17,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
   readonly sampleRate: number
 
   // Audio callback invoked when audio is returned by the script processor.
-  private readonly isSafari: boolean
+  private readonly isWebkit: boolean
   private readonly onAudio: AudioHandler
   private readonly audioContext: AudioContext
 
@@ -33,11 +33,11 @@ export class BrowserAudioProcessor implements AudioProcessor {
   constructor(onAudio: AudioHandler) {
     if (window.AudioContext !== undefined) {
       this.audioContext = new window.AudioContext()
-      this.isSafari = false
+      this.isWebkit = false
     } else if (window.webkitAudioContext !== undefined) {
       // eslint-disable-next-line new-cap
       this.audioContext = new window.webkitAudioContext()
-      this.isSafari = true
+      this.isWebkit = true
     } else {
       throw ErrDeviceNotSupported
     }
@@ -51,12 +51,22 @@ export class BrowserAudioProcessor implements AudioProcessor {
       throw ErrDeviceNotSupported
     }
 
-    if (this.isSafari) {
+    // Start audio context if we are dealing with a WebKit browser.
+    //
+    // WebKit browsers (e.g. Safari) require to resume the context first,
+    // before obtaining user media by calling `mediaDevices.getUserMedia`.
+    //
+    // If done in a different order, the audio context will resume successfully,
+    // but will emit empty audio buffers.
+    if (this.isWebkit) {
       await this.audioContext.resume()
     }
 
     try {
-      this.mediaStream = await window.navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      this.mediaStream = await window.navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false
+      })
     } catch {
       throw ErrNoAudioConsent
     }
@@ -64,7 +74,14 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.audioTrack = this.mediaStream.getAudioTracks()[0]
     this.audioTrack.enabled = false
 
-    if (!this.isSafari) {
+    // Start audio context if we are dealing with a non-WebKit browser.
+    //
+    // Non-webkit browsers (currently only Chrome on Android)
+    // require that user media is obtained before resuming the audio context.
+    //
+    // If audio context is attempted to be resumed before `mediaDevices.getUserMedia`,
+    // `audioContext.resume()` will hang indefinitely, without being resolved or rejected.
+    if (!this.isWebkit) {
       await this.audioContext.resume()
     }
 
