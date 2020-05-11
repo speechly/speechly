@@ -14,6 +14,7 @@ The interface for local key-value storage.
 
 * [close](_index_d_.storage.md#close)
 * [get](_index_d_.storage.md#get)
+* [getOrSet](_index_d_.storage.md#getorset)
 * [initialize](_index_d_.storage.md#initialize)
 * [set](_index_d_.storage.md#set)
 
@@ -21,30 +22,24 @@ The interface for local key-value storage.
 
 ###  close
 
-▸ **close**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:502
+Defined in index.d.ts:468
 
 Closes the storage.
 
 Calling `initialize` again after calling `close` should succeed and make storage ready to use again.
 This method will be called by the Client as part of client closure process.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback that should be invoked after the closure process is completed (either successfully or with an error).  |
-
-**Returns:** *void*
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  get
 
-▸ **get**(`key`: string, `cb`: [StorageGetCallback](../modules/_index_d_.md#storagegetcallback)): *void*
+▸ **get**(`key`: string): *Promise‹string›*
 
-Defined in index.d.ts:510
+Defined in index.d.ts:474
 
 Retrieves a key from the storage.
 
@@ -52,18 +47,42 @@ Retrieves a key from the storage.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`key` | string | the key to retrieve |
-`cb` | [StorageGetCallback](../modules/_index_d_.md#storagegetcallback) | the callback that should be invoked after retrieval operation is done, either with the value or with an error.  |
+`key` | string | the key to retrieve  |
 
-**Returns:** *void*
+**Returns:** *Promise‹string›*
+
+___
+
+###  getOrSet
+
+▸ **getOrSet**(`key`: string, `genFn`: function): *Promise‹string›*
+
+Defined in index.d.ts:489
+
+Adds a key to the storage, possibly overwriting existing value.
+
+**Parameters:**
+
+▪ **key**: *string*
+
+the key to write
+
+▪ **genFn**: *function*
+
+generator function that will be invoked if the key cannot be found in the storage.
+The return value of the function will be used as the value that will be stored under the given key.
+
+▸ (): *string*
+
+**Returns:** *Promise‹string›*
 
 ___
 
 ###  initialize
 
-▸ **initialize**(`cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **initialize**(): *Promise‹void›*
 
-Defined in index.d.ts:492
+Defined in index.d.ts:461
 
 Initialises the storage.
 
@@ -71,21 +90,15 @@ Any long-running operation (or operation that can fail), should be done in this 
 rather than in a constructor.
 This method will be called by the Client as part of client initialisation process.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback that is invoked after initialisation is completed (either successfully or with an error).  |
-
-**Returns:** *void*
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  set
 
-▸ **set**(`key`: string, `val`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **set**(`key`: string, `val`: string): *Promise‹void›*
 
-Defined in index.d.ts:519
+Defined in index.d.ts:481
 
 Adds a key to the storage, possibly overwriting existing value.
 
@@ -94,7 +107,6 @@ Adds a key to the storage, possibly overwriting existing value.
 Name | Type | Description |
 ------ | ------ | ------ |
 `key` | string | the key to write |
-`val` | string | the value to write |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback that should be invoked after retrieval operation is done, either with the value or with an error.  |
+`val` | string | the value to write  |
 
-**Returns:** *void*
+**Returns:** *Promise‹void›*

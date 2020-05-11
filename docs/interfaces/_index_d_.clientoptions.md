@@ -27,7 +27,7 @@ The options which can be used to configure the client.
 
 • **apiClient**? : *[APIClient](_index_d_.apiclient.md)*
 
-Defined in index.d.ts:201
+Defined in index.d.ts:189
 
 Custom API client implementation.
 If not provided, an implementation based on Speechly SLU WebSocket API is used.
@@ -38,7 +38,7 @@ ___
 
 • **appId**: *string*
 
-Defined in index.d.ts:175
+Defined in index.d.ts:163
 
 The unique identifier of an app in the dashboard.
 
@@ -48,7 +48,7 @@ ___
 
 • **debug**? : *undefined | false | true*
 
-Defined in index.d.ts:191
+Defined in index.d.ts:179
 
 Whether to output debug statements to the console.
 
@@ -58,7 +58,7 @@ ___
 
 • **language**: *string*
 
-Defined in index.d.ts:179
+Defined in index.d.ts:167
 
 The language which is used by the app.
 
@@ -68,7 +68,7 @@ ___
 
 • **microphone**? : *[Microphone](_index_d_.microphone.md)*
 
-Defined in index.d.ts:196
+Defined in index.d.ts:184
 
 Custom microphone implementation.
 If not provided, an implementation based on getUserMedia and Web Audio API is used.
@@ -79,7 +79,7 @@ ___
 
 • **sampleRate**? : *undefined | number*
 
-Defined in index.d.ts:187
+Defined in index.d.ts:175
 
 The sample rate of the audio to use.
 
@@ -89,7 +89,7 @@ ___
 
 • **storage**? : *[Storage](_index_d_.storage.md)*
 
-Defined in index.d.ts:206
+Defined in index.d.ts:194
 
 Custom storage implementation.
 If not provided, browser's LocalStorage API is used.
@@ -100,6 +100,6 @@ ___
 
 • **url**? : *undefined | string*
 
-Defined in index.d.ts:183
+Defined in index.d.ts:171
 
 The URL of Speechly API endpoint.

@@ -24,31 +24,24 @@ The interface for a client for Speechly SLU WebSocket API.
 
 ###  close
 
-▸ **close**(`closeCode`: number, `closeReason`: string): *Error | void*
+▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:38
+Defined in index.d.ts:34
 
 Closes the client.
 
 This should close the connection and tear down all infrastructure related to it.
 Calling `initialize` again after calling `close` should be possible.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`closeCode` | number | WebSocket close code to send to the API. |
-`closeReason` | string | WebSocket close reason to send to the API.  |
-
-**Returns:** *Error | void*
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  initialize
 
-▸ **initialize**(`deviceID`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **initialize**(`deviceID`: string): *Promise‹void›*
 
-Defined in index.d.ts:28
+Defined in index.d.ts:27
 
 Initialises the client.
 
@@ -59,10 +52,9 @@ This method will be called by the Client as part of the initialisation process.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`deviceID` | string | device ID to use when connecting to the API. |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback to invoke when initialisation is completed (either successfully or with an error).  |
+`deviceID` | string | device ID to use when connecting to the API.  |
 
-**Returns:** *void*
+**Returns:** *Promise‹void›*
 
 ___
 
@@ -106,7 +98,7 @@ ___
 
 ▸ **sendAudio**(`audioChunk`: ArrayBuffer): *Error | void*
 
-Defined in index.d.ts:59
+Defined in index.d.ts:51
 
 Sends audio to the API.
 If there is no active context (no successful previous calls to `startContext`), this must fail.
@@ -123,36 +115,24 @@ ___
 
 ###  startContext
 
-▸ **startContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **startContext**(): *Promise‹string›*
 
-Defined in index.d.ts:45
+Defined in index.d.ts:39
 
 Starts a new audio context by sending the start event to the API.
-The callback must be invoked after the API has responded with confirmation or an error has occured.
+The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback to invoke after the starting has finished.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*
 
 ___
 
 ###  stopContext
 
-▸ **stopContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:52
+Defined in index.d.ts:44
 
 Stops an audio context by sending the stop event to the API.
-The callback must be invoked after the API has responded with confirmation or an error has occured.
+The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback to invoke after the stopping has finished.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*

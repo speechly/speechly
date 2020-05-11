@@ -1,13 +1,6 @@
-import { ErrorCallback } from '../types'
+import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
-import {
-  APIClient,
-  ResponseCallback,
-  CloseCallback,
-  WebsocketResponse,
-  WebsocketResponseType,
-  ContextCallback
-} from './types'
+type ContextCallback = (err?: Error, contextId?: string) => void
 
 export class WebsocketClient implements APIClient {
   private readonly baseUrl: string
@@ -36,57 +29,63 @@ export class WebsocketClient implements APIClient {
     this.appId = appId
   }
 
-  initialize(deviceId: string, cb: ErrorCallback): void {
+  async initialize(deviceId: string): Promise<void> {
     if (this.websocket !== undefined) {
-      return cb(Error('Cannot initialize an already initialized websocket client'))
+      throw Error('Cannot initialize an already initialized websocket client')
     }
 
-    const url = generateWsUrl(this.baseUrl, deviceId, this.languageCode, this.sampleRate)
-    initializeWebsocket(url, this.appId, (err, ws) => {
-      if (err !== undefined) {
-        return cb(err)
-      }
+    this.websocket = await initializeWebsocket(
+      generateWsUrl(this.baseUrl, deviceId, this.languageCode, this.sampleRate),
+      this.appId
+    )
 
-      this.websocket = ws as WebSocket
-      this.websocket.addEventListener('message', this.onWebsocketMessage)
-      this.websocket.addEventListener('error', this.onWebsocketError)
-      this.websocket.addEventListener('close', this.onWebsocketClose)
+    this.websocket.addEventListener('message', this.onWebsocketMessage)
+    this.websocket.addEventListener('error', this.onWebsocketError)
+    this.websocket.addEventListener('close', this.onWebsocketClose)
+  }
 
-      return cb()
+  async close(): Promise<void> {
+    return this.closeWebsocket(1000, 'Client has ended the session')
+  }
+
+  async startContext(): Promise<string> {
+    if (!this.isOpen()) {
+      throw Error('Websocket is not ready')
+    }
+
+    const ws = this.websocket as WebSocket
+
+    return new Promise((resolve, reject) => {
+      this.startCbs.push((err?, id?) => {
+        if (err !== undefined) {
+          reject(err)
+        } else {
+          resolve(id as string)
+        }
+      })
+
+      ws.send(StartEventJSON)
     })
   }
 
-  close(closeCode: number, closeReason: string): Error | void {
-    if (this.websocket === undefined) {
-      return Error('Websocket is not open')
-    }
-
-    this.websocket.removeEventListener('message', this.onWebsocketMessage)
-    this.websocket.removeEventListener('error', this.onWebsocketError)
-    this.websocket.removeEventListener('close', this.onWebsocketClose)
-
-    this.websocket.close(closeCode, closeReason)
-    this.websocket = undefined
-  }
-
-  startContext(cb: ContextCallback): void {
+  async stopContext(): Promise<string> {
     if (!this.isOpen()) {
-      return cb(Error('Websocket is not ready'))
+      throw Error('Websocket is not ready')
     }
 
-    this.startCbs.push(cb)
     const ws = this.websocket as WebSocket
-    ws.send(StartEventJSON)
-  }
 
-  stopContext(cb: ContextCallback): void {
-    if (!this.isOpen()) {
-      return cb(new Error('websocket is not ready'))
-    }
+    return new Promise((resolve, reject) => {
+      this.stopCbs.push((err?, id?) => {
+        if (err !== undefined) {
+          reject(err)
+        } else {
+          resolve(id as string)
+        }
+      })
 
-    this.stopCbs.push(cb)
-    const ws = this.websocket as WebSocket
-    ws.send(StopEventJSON)
+      ws.send(StopEventJSON)
+    })
   }
 
   sendAudio(audioChunk: ArrayBuffer): Error | void {
@@ -100,6 +99,21 @@ export class WebsocketClient implements APIClient {
 
   private isOpen(): boolean {
     return this.websocket !== undefined && this.websocket.readyState === this.websocket.OPEN
+  }
+
+  private async closeWebsocket(code: number, message: string): Promise<void> {
+    if (this.websocket === undefined) {
+      throw Error('Websocket is not open')
+    }
+
+    this.websocket.removeEventListener('message', this.onWebsocketMessage)
+    this.websocket.removeEventListener('error', this.onWebsocketError)
+    this.websocket.removeEventListener('close', this.onWebsocketClose)
+
+    this.websocket.close(code, message)
+    this.websocket = undefined
+
+    return Promise.resolve()
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
@@ -141,8 +155,11 @@ export class WebsocketClient implements APIClient {
     this.onCloseCb(Error(`Websocket was closed: ${event.reason}`))
   }
 
-  private readonly onWebsocketError = (event: Event): void => {
-    this.close(1000, 'Client disconnecting due to an error')
+  private readonly onWebsocketError = (_event: Event): void => {
+    this.closeWebsocket(1000, 'Client disconnecting due to an error').catch(e =>
+      console.error('[SpeechlyClient] Error closing WebSocket connection:', e)
+    )
+
     this.onCloseCb(Error('Websocket was closed because of error'))
   }
 }
@@ -159,26 +176,28 @@ function generateWsUrl(baseUrl: string, deviceId: string, languageCode: string, 
   return `${baseUrl}?${params.toString()}`
 }
 
-function initializeWebsocket(url: string, protocol: string, cb: (err?: Error, ws?: WebSocket) => void): void {
+async function initializeWebsocket(url: string, protocol: string): Promise<WebSocket> {
   const ws = new WebSocket(url, protocol)
 
-  const errhandler = (): void => {
-    ws.removeEventListener('close', errhandler)
-    ws.removeEventListener('error', errhandler)
-    ws.removeEventListener('open', openhandler)
+  return new Promise((resolve, reject) => {
+    const errhandler = (): void => {
+      ws.removeEventListener('close', errhandler)
+      ws.removeEventListener('error', errhandler)
+      ws.removeEventListener('open', openhandler)
 
-    cb(Error('Connection failed'))
-  }
+      reject(Error('Connection failed'))
+    }
 
-  const openhandler = (): void => {
-    ws.removeEventListener('close', errhandler)
-    ws.removeEventListener('error', errhandler)
-    ws.removeEventListener('open', openhandler)
+    const openhandler = (): void => {
+      ws.removeEventListener('close', errhandler)
+      ws.removeEventListener('error', errhandler)
+      ws.removeEventListener('open', openhandler)
 
-    cb(undefined, ws)
-  }
+      resolve(ws)
+    }
 
-  ws.addEventListener('close', errhandler)
-  ws.addEventListener('error', errhandler)
-  ws.addEventListener('open', openhandler)
+    ws.addEventListener('close', errhandler)
+    ws.addEventListener('error', errhandler)
+    ws.addEventListener('open', openhandler)
+  })
 }

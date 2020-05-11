@@ -1,4 +1,3 @@
-import { ErrorCallback } from '../types'
 import { AudioCallback, Microphone } from './types'
 import { AudioProcessor, BrowserAudioProcessor } from './browser_audio_processor'
 import { AudioFilter, generateDownsampler, float32ToInt16 } from './downsampler'
@@ -19,17 +18,13 @@ export class BrowserMicrophone implements Microphone {
     this.onAudioCb = cb
   }
 
-  initialize(cb: ErrorCallback): void {
-    this.audioProcessor
-      .initialize()
-      .then(() => cb())
-      .catch(cb)
+  async initialize(): Promise<void> {
+    return this.audioProcessor.initialize()
   }
 
-  close(cb: ErrorCallback): void {
+  async close(): Promise<void> {
     this.mute()
-    this.audioProcessor.close()
-    cb()
+    return this.audioProcessor.close()
   }
 
   mute(): void {

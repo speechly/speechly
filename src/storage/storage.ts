@@ -1,5 +1,4 @@
-import { ErrorCallback } from '../types'
-import { Storage as IStorage, StorageGetCallback, ErrKeyNotFound } from './types'
+import { Storage as IStorage, ErrKeyNotFound } from './types'
 
 export class LocalStorage implements IStorage {
   private readonly storage: Storage
@@ -8,25 +7,35 @@ export class LocalStorage implements IStorage {
     this.storage = window.localStorage
   }
 
-  initialize(cb: ErrorCallback): void {
-    cb()
+  async initialize(): Promise<void> {
+    return Promise.resolve()
   }
 
-  close(cb: ErrorCallback): void {
-    cb()
+  async close(): Promise<void> {
+    return Promise.resolve()
   }
 
-  get(key: string, cb: StorageGetCallback): void {
+  async get(key: string): Promise<string> {
     const val = this.storage.getItem(key)
     if (val === null) {
-      return cb(ErrKeyNotFound)
+      return Promise.reject(ErrKeyNotFound)
     }
 
-    return cb(undefined, val)
+    return Promise.resolve(val)
   }
 
-  set(key: string, val: string, cb: ErrorCallback): void {
+  async set(key: string, val: string): Promise<void> {
     this.storage.setItem(key, val)
-    return cb()
+    return Promise.resolve()
+  }
+
+  async getOrSet(key: string, genFn: () => string): Promise<string> {
+    let val = this.storage.getItem(key)
+    if (val === null) {
+      val = genFn()
+      this.storage.setItem(key, val)
+    }
+
+    return Promise.resolve(val)
   }
 }

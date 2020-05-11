@@ -5,7 +5,7 @@ export type AudioHandler = (audioBuffer: Float32Array) => void
 export interface AudioProcessor {
   readonly sampleRate: number
   initialize(): Promise<void>
-  close(): void
+  close(): Promise<void>
   mute(): void
   unmute(): void
 }
@@ -93,7 +93,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.initialized = true
   }
 
-  close(): void {
+  async close(): Promise<void> {
     if (!this.initialized) {
       throw ErrNotInitialized
     }
@@ -112,6 +112,8 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.audioTrack = undefined
     this.audioProcessor = undefined
     this.initialized = false
+
+    return Promise.resolve()
   }
 
   mute(): void {
