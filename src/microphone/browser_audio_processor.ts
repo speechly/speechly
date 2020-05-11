@@ -65,7 +65,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
     try {
       this.mediaStream = await window.navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: false
+        video: false,
       })
     } catch {
       throw ErrNoAudioConsent
@@ -100,7 +100,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
 
     // Stop all media tracks
     const stream = this.mediaStream as MediaStream
-    stream.getTracks().forEach(t => t.stop())
+    stream.getTracks().forEach((t) => t.stop())
 
     // Disconnect and stop ScriptProcessorNode
     const proc = this.audioProcessor as ScriptProcessorNode
@@ -112,8 +112,6 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.audioTrack = undefined
     this.audioProcessor = undefined
     this.initialized = false
-
-    return Promise.resolve()
   }
 
   mute(): void {

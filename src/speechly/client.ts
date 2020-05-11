@@ -6,7 +6,7 @@ import {
   BrowserMicrophone,
   DefaultSampleRate,
   ErrNoAudioConsent,
-  ErrDeviceNotSupported
+  ErrDeviceNotSupported,
 } from '../microphone'
 
 import {
@@ -18,7 +18,7 @@ import {
   TranscriptResponse,
   TentativeEntitiesResponse,
   EntityResponse,
-  IntentResponse
+  IntentResponse,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
@@ -32,7 +32,7 @@ import {
   TranscriptCallback,
   TentativeEntitiesCallback,
   EntityCallback,
-  IntentCallback
+  IntentCallback,
 } from './types'
 import { stateToString } from './state'
 import { SegmentState } from './segment'
@@ -83,7 +83,7 @@ export class Client {
         options.url ?? defaultSpeechlyURL,
         options.appId,
         options.language,
-        options.sampleRate ?? DefaultSampleRate
+        options.sampleRate ?? DefaultSampleRate,
       )
     this.storage = options.storage ?? new LocalStorage()
 
@@ -378,7 +378,7 @@ export class Client {
   }
 
   private async reconnectWebsocket(deviceId: string): Promise<void> {
-    return await AsyncRetry(
+    return AsyncRetry(
       async (_, attempt: number): Promise<void> => {
         if (this.debug) {
           console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt)
@@ -388,8 +388,8 @@ export class Client {
       },
       {
         retries: this.reconnectAttemptCount,
-        minTimeout: this.reconnectMinDelay
-      }
+        minTimeout: this.reconnectMinDelay,
+      },
     )
   }
 

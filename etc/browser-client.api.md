@@ -43,7 +43,7 @@ export interface ClientOptions {
     language: string;
     microphone?: Microphone;
     sampleRate?: number;
-    storage?: Storage;
+    storage?: Storage_2;
     url?: string;
 }
 
@@ -161,13 +161,15 @@ export type StateChangeCallback = (state: ClientState) => void;
 export function stateToString(state: ClientState): string;
 
 // @public
-export interface Storage {
+interface Storage_2 {
     close(): Promise<void>;
     get(key: string): Promise<string>;
     getOrSet(key: string, genFn: () => string): Promise<string>;
     initialize(): Promise<void>;
     set(key: string, val: string): Promise<void>;
 }
+
+export { Storage_2 as Storage }
 
 // @public
 export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;

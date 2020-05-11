@@ -21,5 +21,5 @@ const states = new Map<ClientState, string>([
   [ClientState.Connected, 'Connected'],
   [ClientState.Starting, 'Starting'],
   [ClientState.Stopping, 'Stopping'],
-  [ClientState.Recording, 'Recording']
+  [ClientState.Recording, 'Recording'],
 ])

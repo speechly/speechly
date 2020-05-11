@@ -1,8 +1,12 @@
 [@speechly/browser-client](../README.md) › ["index.d"](_index_d_.md)
 
-# External module: "index.d"
+# Module: "index.d"
 
 ## Index
+
+### References
+
+* [Storage](_index_d_.md#storage)
 
 ### Enumerations
 
@@ -23,7 +27,6 @@
 * [IntentResponse](../interfaces/_index_d_.intentresponse.md)
 * [Microphone](../interfaces/_index_d_.microphone.md)
 * [Segment](../interfaces/_index_d_.segment.md)
-* [Storage](../interfaces/_index_d_.storage.md)
 * [TentativeEntitiesResponse](../interfaces/_index_d_.tentativeentitiesresponse.md)
 * [TentativeTranscriptResponse](../interfaces/_index_d_.tentativetranscriptresponse.md)
 * [TranscriptResponse](../interfaces/_index_d_.transcriptresponse.md)
@@ -56,6 +59,12 @@
 ### Functions
 
 * [stateToString](_index_d_.md#statetostring)
+
+## References
+
+###  Storage
+
+• **Storage**:
 
 ## Type aliases
 
@@ -207,7 +216,7 @@ ___
 
 Ƭ **TentativeEntitiesCallback**: *function*
 
-Defined in index.d.ts:496
+Defined in index.d.ts:497
 
 A callback that is invoked whenever new tentative entities are received from the API.
 
@@ -229,7 +238,7 @@ ___
 
 Ƭ **TentativeTranscriptCallback**: *function*
 
-Defined in index.d.ts:513
+Defined in index.d.ts:514
 
 A callback that is invoked whenever a new tentative transcript is received from the API.
 
@@ -252,7 +261,7 @@ ___
 
 Ƭ **TranscriptCallback**: *function*
 
-Defined in index.d.ts:534
+Defined in index.d.ts:535
 
 A callback that is invoked whenever a new transcript is received from the API.
 

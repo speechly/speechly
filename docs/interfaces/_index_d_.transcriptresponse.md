@@ -23,7 +23,7 @@ Transcript response payload.
 
 • **end_timestamp**: *number*
 
-Defined in index.d.ts:556
+Defined in index.d.ts:557
 
 End timestamp of the transcript in the audio stream in milliseconds.
 
@@ -33,7 +33,7 @@ ___
 
 • **index**: *number*
 
-Defined in index.d.ts:548
+Defined in index.d.ts:549
 
 The index of the transcripted word in the segment.
 
@@ -43,7 +43,7 @@ ___
 
 • **start_timestamp**: *number*
 
-Defined in index.d.ts:552
+Defined in index.d.ts:553
 
 Start timestamp of the transcript in the audio stream in milliseconds.
 
@@ -53,6 +53,6 @@ ___
 
 • **word**: *string*
 
-Defined in index.d.ts:544
+Defined in index.d.ts:545
 
 Transcripted word.

@@ -41,7 +41,7 @@ export enum WebsocketResponseType {
   Intent = 'intent',
   TentativeTranscript = 'tentative_transcript',
   TentativeEntities = 'tentative_entities',
-  TentativeIntent = 'tentative_intent'
+  TentativeIntent = 'tentative_intent',
 }
 
 /**

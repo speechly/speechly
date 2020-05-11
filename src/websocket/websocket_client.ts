@@ -36,7 +36,7 @@ export class WebsocketClient implements APIClient {
 
     this.websocket = await initializeWebsocket(
       generateWsUrl(this.baseUrl, deviceId, this.languageCode, this.sampleRate),
-      this.appId
+      this.appId,
     )
 
     this.websocket.addEventListener('message', this.onWebsocketMessage)
@@ -101,7 +101,7 @@ export class WebsocketClient implements APIClient {
     return this.websocket !== undefined && this.websocket.readyState === this.websocket.OPEN
   }
 
-  private async closeWebsocket(code: number, message: string): Promise<void> {
+  private closeWebsocket(code: number, message: string): void {
     if (this.websocket === undefined) {
       throw Error('Websocket is not open')
     }
@@ -112,8 +112,6 @@ export class WebsocketClient implements APIClient {
 
     this.websocket.close(code, message)
     this.websocket = undefined
-
-    return Promise.resolve()
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
@@ -127,7 +125,7 @@ export class WebsocketClient implements APIClient {
 
     switch (response.type) {
       case WebsocketResponseType.Started:
-        this.startCbs.forEach(cb => {
+        this.startCbs.forEach((cb) => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -137,7 +135,7 @@ export class WebsocketClient implements APIClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
-        this.stopCbs.forEach(cb => {
+        this.stopCbs.forEach((cb) => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -156,10 +154,7 @@ export class WebsocketClient implements APIClient {
   }
 
   private readonly onWebsocketError = (_event: Event): void => {
-    this.closeWebsocket(1000, 'Client disconnecting due to an error').catch(e =>
-      console.error('[SpeechlyClient] Error closing WebSocket connection:', e)
-    )
-
+    this.closeWebsocket(1000, 'Client disconnecting due to an error')
     this.onCloseCb(Error('Websocket was closed because of error'))
   }
 }

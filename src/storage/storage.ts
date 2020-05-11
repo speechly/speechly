@@ -7,26 +7,20 @@ export class LocalStorage implements IStorage {
     this.storage = window.localStorage
   }
 
-  async initialize(): Promise<void> {
-    return Promise.resolve()
-  }
-
-  async close(): Promise<void> {
-    return Promise.resolve()
-  }
+  async initialize(): Promise<void> {}
+  async close(): Promise<void> {}
 
   async get(key: string): Promise<string> {
     const val = this.storage.getItem(key)
     if (val === null) {
-      return Promise.reject(ErrKeyNotFound)
+      throw ErrKeyNotFound
     }
 
-    return Promise.resolve(val)
+    return val
   }
 
   async set(key: string, val: string): Promise<void> {
     this.storage.setItem(key, val)
-    return Promise.resolve()
   }
 
   async getOrSet(key: string, genFn: () => string): Promise<string> {
@@ -36,6 +30,6 @@ export class LocalStorage implements IStorage {
       this.storage.setItem(key, val)
     }
 
-    return Promise.resolve(val)
+    return val
   }
 }

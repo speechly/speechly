@@ -87,7 +87,7 @@ ___
 
 ### `Optional` storage
 
-• **storage**? : *[Storage](_index_d_.storage.md)*
+• **storage**? : *Storage_2*
 
 Defined in index.d.ts:194
 
