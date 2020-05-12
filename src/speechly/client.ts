@@ -40,7 +40,9 @@ import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeE
 import AsyncRetry from 'async-retry'
 
 const deviceIdStorageKey = 'speechly-device-id'
-const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
+const authTokenKey = 'speechly-auth-token'
+const defaultApiUrl = 'wss://api.speechly.com/ws'
+const defaultLoginUrl = 'https://api.speechly.com/login'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
@@ -50,6 +52,7 @@ const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
  */
 export class Client {
   private readonly debug: boolean
+  private readonly appId: string
   private readonly storage: Storage
   private readonly microphone: Microphone
   private readonly websocket: APIClient
@@ -59,6 +62,7 @@ export class Client {
   private readonly reconnectMinDelay = 1000
 
   private deviceId?: string
+  private authToken?: string
   private state: ClientState = ClientState.Disconnected
 
   private stateChangeCb: StateChangeCallback = () => {}
@@ -76,12 +80,13 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
+    this.appId = options.appId
     this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
     this.websocket =
       options.apiClient ??
       new WebsocketClient(
-        options.url ?? defaultSpeechlyURL,
-        options.appId,
+        options.loginUrl ?? defaultLoginUrl,
+        options.apiUrl ?? defaultApiUrl,
         options.language,
         options.sampleRate ?? DefaultSampleRate,
       )
@@ -108,13 +113,25 @@ export class Client {
 
     this.setState(ClientState.Connecting)
 
-    // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-    await this.storage.initialize()
-    this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-
-    // 2. Initialise the microphone stack.
     try {
+      // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
+      await this.storage.initialize()
+      this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+
+      // 2. Fetch auth token. It doesn't matter if it's not present.
+      try {
+        this.authToken = await this.storage.get(authTokenKey)
+      } catch (err) {
+        if (this.debug) {
+          console.warn('[SpeechlyClient]', 'Error fetching auth token from storage:', err)
+        }
+      }
+
+      // 2. Initialise the microphone stack.
       await this.microphone.initialize()
+
+      // 3. Initialise websocket.
+      await this.initializeWebsocket(this.deviceId)
     } catch (err) {
       switch (err) {
         case ErrDeviceNotSupported:
@@ -129,10 +146,6 @@ export class Client {
 
       throw err
     }
-
-    // 3. Initialise websocket.
-    // Do not attempt to re-connect, to make sure we don't block the client.
-    await this.websocket.initialize(this.deviceId)
 
     this.setState(ClientState.Connected)
   }
@@ -384,13 +397,28 @@ export class Client {
           console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt)
         }
 
-        await this.websocket.initialize(deviceId)
+        await this.initializeWebsocket(deviceId)
       },
       {
         retries: this.reconnectAttemptCount,
         minTimeout: this.reconnectMinDelay,
       },
     )
+  }
+
+  private async initializeWebsocket(deviceId: string): Promise<void> {
+    // Initialise websocket and save the auth token.
+    this.authToken = await this.websocket.initialize(this.appId, deviceId, this.authToken)
+
+    // Cache the auth token in local storage for future use.
+    try {
+      await this.storage.set(authTokenKey, this.authToken)
+    } catch (err) {
+      // No need to fail if the token caching failed, we will just re-fetch it next time.
+      if (this.debug) {
+        console.warn('[SpeechlyClient]', 'Error caching auth token in storage:', err)
+      }
+    }
   }
 
   private readonly handleMicrophoneAudio = (audioChunk: ArrayBuffer): void => {

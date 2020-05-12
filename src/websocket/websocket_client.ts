@@ -1,12 +1,14 @@
+import { decode as jwtDecode } from 'jsonwebtoken'
+
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
 export class WebsocketClient implements APIClient {
-  private readonly baseUrl: string
-  private readonly languageCode: string
-  private readonly sampleRate: number
-  private readonly appId: string
+  private readonly loginUrl: string
+  private readonly apiUrl: string
+
+  private authToken?: string
   private websocket?: WebSocket
 
   private startCbs: ContextCallback[] = []
@@ -22,26 +24,30 @@ export class WebsocketClient implements APIClient {
     this.onCloseCb = cb
   }
 
-  constructor(baseUrl: string, appId: string, language: string, sampleRate: number) {
-    this.baseUrl = baseUrl
-    this.languageCode = language
-    this.sampleRate = sampleRate
-    this.appId = appId
+  constructor(loginUrl: string, apiUrl: string, languageCode: string, sampleRate: number) {
+    this.loginUrl = loginUrl
+    this.apiUrl = generateWsUrl(apiUrl, languageCode, sampleRate)
   }
 
-  async initialize(deviceId: string): Promise<void> {
+  async initialize(appId: string, deviceId: string, token?: string): Promise<string> {
     if (this.websocket !== undefined) {
       throw Error('Cannot initialize an already initialized websocket client')
     }
 
-    this.websocket = await initializeWebsocket(
-      generateWsUrl(this.baseUrl, deviceId, this.languageCode, this.sampleRate),
-      this.appId,
-    )
+    if (token !== undefined && isValidToken(token, appId, deviceId)) {
+      // If the token is still valid, don't refresh it.
+      this.authToken = token
+    } else {
+      this.authToken = await login(this.loginUrl, appId, deviceId)
+    }
+
+    this.websocket = await initializeWebsocket(this.apiUrl, this.authToken)
 
     this.websocket.addEventListener('message', this.onWebsocketMessage)
     this.websocket.addEventListener('error', this.onWebsocketError)
     this.websocket.addEventListener('close', this.onWebsocketClose)
+
+    return this.authToken
   }
 
   async close(): Promise<void> {
@@ -125,7 +131,7 @@ export class WebsocketClient implements APIClient {
 
     switch (response.type) {
       case WebsocketResponseType.Started:
-        this.startCbs.forEach((cb) => {
+        this.startCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -135,7 +141,7 @@ export class WebsocketClient implements APIClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
-        this.stopCbs.forEach((cb) => {
+        this.stopCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -150,7 +156,8 @@ export class WebsocketClient implements APIClient {
   }
 
   private readonly onWebsocketClose = (event: CloseEvent): void => {
-    this.onCloseCb(Error(`Websocket was closed: ${event.reason}`))
+    this.websocket = undefined
+    this.onCloseCb(Error(`Websocket was closed with code "${event.code}" and reason "${event.reason}"`))
   }
 
   private readonly onWebsocketError = (_event: Event): void => {
@@ -161,14 +168,69 @@ export class WebsocketClient implements APIClient {
 
 const StartEventJSON = JSON.stringify({ event: 'start' })
 const StopEventJSON = JSON.stringify({ event: 'stop' })
+const secondsInHour = 60 * 60
 
-function generateWsUrl(baseUrl: string, deviceId: string, languageCode: string, sampleRate: number): string {
+function generateWsUrl(baseUrl: string, languageCode: string, sampleRate: number): string {
   const params = new URLSearchParams()
-  params.append('deviceId', deviceId)
   params.append('languageCode', languageCode)
   params.append('sampleRate', sampleRate.toString())
 
   return `${baseUrl}?${params.toString()}`
+}
+
+function isValidToken(token: string, appId: string, deviceId: string): boolean {
+  const decoded = jwtDecode(token)
+
+  if (decoded === null || typeof decoded !== 'object') {
+    return false
+  }
+
+  if (decoded.exp === undefined || typeof decoded.exp !== 'number') {
+    return false
+  }
+
+  // If the token will expire in an hour or less, mark it as invalid.
+  if (decoded.exp - Date.now() / 1000 < secondsInHour) {
+    return false
+  }
+
+  if (decoded.appId !== appId) {
+    return false
+  }
+
+  if (decoded.deviceId !== deviceId) {
+    return false
+  }
+
+  return true
+}
+
+async function login(baseUrl: string, appId: string, deviceId: string): Promise<string> {
+  const body = { appId, deviceId }
+
+  const response = await fetch(baseUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+
+  const json = await response.json()
+
+  if (response.status !== 200) {
+    throw Error(json.error ?? `Speechly API login request failed with ${response.status}`)
+  }
+
+  if (json.access_token === undefined) {
+    throw Error('Invalid login response from Speechly API')
+  }
+
+  if (!isValidToken(json.access_token, appId, deviceId)) {
+    throw Error('Invalid token received from Speechly API')
+  }
+
+  return json.access_token
 }
 
 async function initializeWebsocket(url: string, protocol: string): Promise<WebSocket> {

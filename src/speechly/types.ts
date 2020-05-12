@@ -18,9 +18,14 @@ export interface ClientOptions {
   language: string
 
   /**
-   * The URL of Speechly API endpoint.
+   * The URL of Speechly login endpoint.
    */
-  url?: string
+  loginUrl?: string
+
+  /**
+   * The URL of Speechly SLU API endpoint.
+   */
+  apiUrl?: string
 
   /**
    * The sample rate of the audio to use.

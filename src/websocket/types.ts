@@ -173,9 +173,15 @@ export interface APIClient {
    * This should prepare websocket to be used (i.e. establish connection to the API).
    * This method will be called by the Client as part of the initialisation process.
    *
-   * @param deviceID - device ID to use when connecting to the API.
+   * @param appId - app ID to use when connecting to the API.
+   * @param deviceId - device ID to use when connecting to the API.
+   * @param token - login token in JWT format, which was e.g. cached from previous session.
+   *                If the token is not provided or is invalid, a new token will be fetched instead.
+   *
+   * @returns - the token that was used to establish connection to the API, so that it can be cached for later.
+   *            If the provided token was used, it will be returned instead.
    */
-  initialize(deviceID: string): Promise<void>
+  initialize(appId: string, deviceId: string, token?: string): Promise<string>
 
   /**
    * Closes the client.
