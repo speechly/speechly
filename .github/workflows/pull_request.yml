@@ -3,7 +3,8 @@ name: 'PR build'
 on:
   pull_request:
     branches:
-      - master
+      - 'master'
+      - 'release/**'
 
 env:
   WEBPACK_MODE: prd
