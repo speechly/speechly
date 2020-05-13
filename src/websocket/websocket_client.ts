@@ -131,7 +131,7 @@ export class WebsocketClient implements APIClient {
 
     switch (response.type) {
       case WebsocketResponseType.Started:
-        this.startCbs.forEach(cb => {
+        this.startCbs.forEach((cb) => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {
@@ -141,7 +141,7 @@ export class WebsocketClient implements APIClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
-        this.stopCbs.forEach(cb => {
+        this.stopCbs.forEach((cb) => {
           try {
             cb(undefined, response.audio_context)
           } catch (e) {

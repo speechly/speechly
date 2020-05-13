@@ -7,7 +7,7 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    initialize(deviceID: string): Promise<void>;
+    initialize(appId: string, deviceId: string, token?: string): Promise<string>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
     sendAudio(audioChunk: ArrayBuffer): Error | void;
@@ -38,13 +38,14 @@ export class Client {
 // @public
 export interface ClientOptions {
     apiClient?: APIClient;
+    apiUrl?: string;
     appId: string;
     debug?: boolean;
     language: string;
+    loginUrl?: string;
     microphone?: Microphone;
     sampleRate?: number;
     storage?: Storage_2;
-    url?: string;
 }
 
 // @public

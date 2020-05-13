@@ -24,7 +24,7 @@ The interface for a microphone.
 
 ▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:382
+Defined in index.d.ts:395
 
 Closes the microphone, tearing down all the infrastructure.
 
@@ -40,7 +40,7 @@ ___
 
 ▸ **initialize**(): *Promise‹void›*
 
-Defined in index.d.ts:374
+Defined in index.d.ts:387
 
 Initialises the microphone.
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **mute**(): *void*
 
-Defined in index.d.ts:386
+Defined in index.d.ts:399
 
 Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
 
@@ -68,7 +68,7 @@ ___
 
 ▸ **onAudio**(`cb`: [AudioCallback](../modules/_index_d_.md#audiocallback)): *void*
 
-Defined in index.d.ts:366
+Defined in index.d.ts:379
 
 Registers the callback that is invoked whenever an audio chunk is emitted.
 
@@ -86,7 +86,7 @@ ___
 
 ▸ **unmute**(): *void*
 
-Defined in index.d.ts:390
+Defined in index.d.ts:403
 
 Unmutes the microphone.
 

@@ -29,7 +29,7 @@ to react to non-recoverable states.
 
 • **Connected**: = 6
 
-Defined in index.d.ts:212
+Defined in index.d.ts:225
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 • **Connecting**: = 5
 
-Defined in index.d.ts:211
+Defined in index.d.ts:224
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 • **Disconnected**: = 3
 
-Defined in index.d.ts:209
+Defined in index.d.ts:222
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 • **Disconnecting**: = 4
 
-Defined in index.d.ts:210
+Defined in index.d.ts:223
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 • **Failed**: = 0
 
-Defined in index.d.ts:206
+Defined in index.d.ts:219
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 • **NoAudioConsent**: = 2
 
-Defined in index.d.ts:208
+Defined in index.d.ts:221
 
 ___
 
@@ -77,7 +77,7 @@ ___
 
 • **NoBrowserSupport**: = 1
 
-Defined in index.d.ts:207
+Defined in index.d.ts:220
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 • **Recording**: = 9
 
-Defined in index.d.ts:215
+Defined in index.d.ts:228
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 • **Starting**: = 7
 
-Defined in index.d.ts:213
+Defined in index.d.ts:226
 
 ___
 
@@ -101,4 +101,4 @@ ___
 
 • **Stopping**: = 8
 
-Defined in index.d.ts:214
+Defined in index.d.ts:227

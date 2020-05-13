@@ -26,7 +26,7 @@ The interface for a client for Speechly SLU WebSocket API.
 
 ▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:34
+Defined in index.d.ts:40
 
 Closes the client.
 
@@ -39,9 +39,9 @@ ___
 
 ###  initialize
 
-▸ **initialize**(`deviceID`: string): *Promise‹void›*
+▸ **initialize**(`appId`: string, `deviceId`: string, `token?`: undefined | string): *Promise‹string›*
 
-Defined in index.d.ts:27
+Defined in index.d.ts:33
 
 Initialises the client.
 
@@ -52,9 +52,14 @@ This method will be called by the Client as part of the initialisation process.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`deviceID` | string | device ID to use when connecting to the API.  |
+`appId` | string | app ID to use when connecting to the API. |
+`deviceId` | string | device ID to use when connecting to the API. |
+`token?` | undefined &#124; string | login token in JWT format, which was e.g. cached from previous session.                If the token is not provided or is invalid, a new token will be fetched instead.  |
 
-**Returns:** *Promise‹void›*
+**Returns:** *Promise‹string›*
+
+- the token that was used to establish connection to the API, so that it can be cached for later.
+           If the provided token was used, it will be returned instead.
 
 ___
 
@@ -98,7 +103,7 @@ ___
 
 ▸ **sendAudio**(`audioChunk`: ArrayBuffer): *Error | void*
 
-Defined in index.d.ts:51
+Defined in index.d.ts:57
 
 Sends audio to the API.
 If there is no active context (no successful previous calls to `startContext`), this must fail.
@@ -117,7 +122,7 @@ ___
 
 ▸ **startContext**(): *Promise‹string›*
 
-Defined in index.d.ts:39
+Defined in index.d.ts:45
 
 Starts a new audio context by sending the start event to the API.
 The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
@@ -130,7 +135,7 @@ ___
 
 ▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:44
+Defined in index.d.ts:50
 
 Stops an audio context by sending the stop event to the API.
 The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.

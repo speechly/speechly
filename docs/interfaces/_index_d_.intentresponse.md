@@ -20,6 +20,6 @@ Intent response payload.
 
 • **intent**: *string*
 
-Defined in index.d.ts:353
+Defined in index.d.ts:366
 
 Intent type (e.g. "book", "find", "turn_on").
