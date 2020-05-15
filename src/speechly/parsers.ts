@@ -3,7 +3,7 @@ import {
   TranscriptResponse,
   TentativeEntitiesResponse,
   EntityResponse,
-  IntentResponse
+  IntentResponse,
 } from '../websocket'
 import { Word, Entity, Intent } from './types'
 
@@ -15,7 +15,7 @@ export function parseTentativeTranscript(data: TentativeTranscriptResponse): Wor
       index: index,
       startTimestamp: start_timestamp,
       endTimestamp: end_timestamp,
-      isFinal: false
+      isFinal: false,
     }
   })
 }
@@ -27,7 +27,7 @@ export function parseTranscript(data: TranscriptResponse): Word {
     index: data.index,
     startTimestamp: data.start_timestamp,
     endTimestamp: data.end_timestamp,
-    isFinal: true
+    isFinal: true,
   }
 }
 
@@ -39,7 +39,7 @@ export function parseTentativeEntities(data: TentativeEntitiesResponse): Entity[
       value: value,
       startPosition: start_position,
       endPosition: end_position,
-      isFinal: false
+      isFinal: false,
     }
   })
 }
@@ -51,7 +51,7 @@ export function parseEntity(data: EntityResponse): Entity {
     value: data.value,
     startPosition: data.start_position,
     endPosition: data.end_position,
-    isFinal: true
+    isFinal: true,
   }
 }
 
@@ -59,6 +59,6 @@ export function parseIntent(data: IntentResponse, isFinal: boolean): Intent {
   // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     intent: data.intent,
-    isFinal: isFinal
+    isFinal: isFinal,
   }
 }

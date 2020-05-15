@@ -1,5 +1,3 @@
-import { ErrorCallback } from '../types'
-
 /**
  * Default sample rate for microphone streams.
  * @public
@@ -54,10 +52,8 @@ export interface Microphone {
    * This should prepare the microphone infrastructure for receiving audio chunks,
    * but the microphone should remain muted after the call.
    * This method will be called by the Client as part of client initialisation process.
-   *
-   * @param cb - the callback that is invoked after initialisation is completed (either successfully or with an error).
    */
-  initialize(cb: ErrorCallback): void
+  initialize(): Promise<void>
 
   /**
    * Closes the microphone, tearing down all the infrastructure.
@@ -65,11 +61,8 @@ export interface Microphone {
    * The microphone should stop emitting audio after this is called.
    * Calling `initialize` again after calling `close` should succeed and make microphone ready to use again.
    * This method will be called by the Client as part of client closure process.
-   *
-   * @param cb - the callback that should be invoked after the closure process is completed
-   * (either successfully or with an error).
    */
-  close(cb: ErrorCallback): void
+  close(): Promise<void>
 
   /**
    * Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.

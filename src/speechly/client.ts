@@ -1,27 +1,24 @@
 import localeCode from 'locale-code'
 import { v4 as uuidv4 } from 'uuid'
 
-import { ErrorCallback } from '../types'
-
 import {
   Microphone,
   BrowserMicrophone,
   DefaultSampleRate,
   ErrNoAudioConsent,
-  ErrDeviceNotSupported
+  ErrDeviceNotSupported,
 } from '../microphone'
 
 import {
   APIClient,
   WebsocketClient,
-  ContextCallback,
   WebsocketResponse,
   WebsocketResponseType,
   TentativeTranscriptResponse,
   TranscriptResponse,
   TentativeEntitiesResponse,
   EntityResponse,
-  IntentResponse
+  IntentResponse,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
@@ -35,16 +32,17 @@ import {
   TranscriptCallback,
   TentativeEntitiesCallback,
   EntityCallback,
-  IntentCallback
+  IntentCallback,
 } from './types'
 import { stateToString } from './state'
 import { SegmentState } from './segment'
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
+import AsyncRetry from 'async-retry'
 
 const deviceIdStorageKey = 'speechly-device-id'
-const defaultSpeechlyURL = 'wss://api.speechly.com/ws'
-const initialReconnectDelay = 1000
-const initialReconnectCount = 5
+const authTokenKey = 'speechly-auth-token'
+const defaultApiUrl = 'wss://api.speechly.com/ws'
+const defaultLoginUrl = 'https://api.speechly.com/login'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
@@ -54,15 +52,18 @@ const initialReconnectCount = 5
  */
 export class Client {
   private readonly debug: boolean
+  private readonly appId: string
   private readonly storage: Storage
   private readonly microphone: Microphone
   private readonly websocket: APIClient
+
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
+  private readonly reconnectAttemptCount = 5
+  private readonly reconnectMinDelay = 1000
 
   private deviceId?: string
+  private authToken?: string
   private state: ClientState = ClientState.Disconnected
-  private reconnectAttemptCount = initialReconnectCount
-  private nextReconnectDelay = initialReconnectDelay
 
   private stateChangeCb: StateChangeCallback = () => {}
   private segmentChangeCb: SegmentChangeCallback = () => {}
@@ -79,14 +80,15 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
+    this.appId = options.appId
     this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
     this.websocket =
       options.apiClient ??
       new WebsocketClient(
-        options.url ?? defaultSpeechlyURL,
-        options.appId,
+        options.loginUrl ?? defaultLoginUrl,
+        options.apiUrl ?? defaultApiUrl,
         options.language,
-        options.sampleRate ?? DefaultSampleRate
+        options.sampleRate ?? DefaultSampleRate,
       )
     this.storage = options.storage ?? new LocalStorage()
 
@@ -103,166 +105,132 @@ export class Client {
    *
    * If this function is invoked without a user interaction,
    * the microphone functionality will not work due to security restrictions by the browser.
-   *
-   * @param cb - the callback which is invoked when the initialization is complete.
    */
-  initialize(cb: ErrorCallback = () => {}): void {
+  async initialize(): Promise<void> {
     if (this.state !== ClientState.Disconnected) {
-      return cb(new Error('Cannot initialize client - client is not in Disconnected state'))
+      throw Error('Cannot initialize client - client is not in Disconnected state')
     }
 
     this.setState(ClientState.Connecting)
-    this.microphone.initialize((err?: Error) => {
-      if (err !== undefined) {
-        switch (err) {
-          case ErrDeviceNotSupported:
-            this.setState(ClientState.NoBrowserSupport)
-            break
-          case ErrNoAudioConsent:
-            this.setState(ClientState.NoAudioConsent)
-            break
-          default:
-            this.setState(ClientState.Failed)
-        }
 
-        return cb(err)
+    try {
+      // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
+      await this.storage.initialize()
+      this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+
+      // 2. Fetch auth token. It doesn't matter if it's not present.
+      try {
+        this.authToken = await this.storage.get(authTokenKey)
+      } catch (err) {
+        if (this.debug) {
+          console.warn('[SpeechlyClient]', 'Error fetching auth token from storage:', err)
+        }
       }
 
-      const initializeWebsocket = (deviceId: string, cb: ErrorCallback): void => {
-        this.websocket.initialize(deviceId, (err?: Error) => {
-          if (err !== undefined) {
-            this.reconnectWebsocket()
-            // TODO: I think this can be confusing for the end user.
-            // We should only invoke callback when initialization is finished, either successfully or with an error.
-            // We can instead pass the callback to reconnect and let that invoke it.
-            return cb()
-          }
+      // 2. Initialise the microphone stack.
+      await this.microphone.initialize()
 
-          this.setState(ClientState.Connected)
-          return cb()
-        })
+      // 3. Initialise websocket.
+      await this.initializeWebsocket(this.deviceId)
+    } catch (err) {
+      switch (err) {
+        case ErrDeviceNotSupported:
+          this.setState(ClientState.NoBrowserSupport)
+          break
+        case ErrNoAudioConsent:
+          this.setState(ClientState.NoAudioConsent)
+          break
+        default:
+          this.setState(ClientState.Failed)
       }
 
-      this.storage.initialize((err?: Error) => {
-        if (err !== undefined) {
-          return cb(err)
-        }
+      throw err
+    }
 
-        this.storage.get(deviceIdStorageKey, (err?: Error, val?: string) => {
-          if (err !== undefined) {
-            // Device ID was not found in the storage, generate new ID and store it.
-            const deviceId = uuidv4()
-
-            return this.storage.set(deviceIdStorageKey, deviceId, (err?: Error) => {
-              if (err !== undefined) {
-                // At this point we couldn't load device ID from storage, nor we could store a new one there.
-                // Give up initialisation and return an error.
-                return cb(err)
-              }
-
-              // Newly generated ID was stored, proceed with initialization.
-              this.deviceId = deviceId
-              return initializeWebsocket(deviceId, cb)
-            })
-          }
-
-          // Device ID was found in the storage, proceed with initialization.
-          const deviceId = val as string
-          this.deviceId = deviceId
-          return initializeWebsocket(deviceId, cb)
-        })
-      })
-    })
+    this.setState(ClientState.Connected)
   }
 
   /**
    * Closes the client by closing the API connection and disabling the microphone.
-   * @param cb - the callback which is invoked when closure is complete.
    */
-  close(cb: ErrorCallback = () => {}): void {
-    this.storage.close((err?: Error) => {
-      const errs: string[] = []
+  async close(): Promise<void> {
+    const errs: string[] = []
 
-      if (err !== undefined) {
-        errs.push(err.message)
-      }
+    try {
+      await this.storage.close()
+    } catch (err) {
+      errs.push(err.message)
+    }
 
-      this.microphone.close((err?: Error) => {
-        if (err !== undefined) {
-          errs.push(err.message)
-        }
+    try {
+      await this.microphone.close()
+    } catch (err) {
+      errs.push(err.message)
+    }
 
-        const wsErr = this.websocket.close(1000, 'client disconnecting')
-        if (wsErr !== undefined) {
-          errs.push(wsErr.message)
-        }
+    try {
+      await this.websocket.close()
+    } catch (err) {
+      errs.push(err.message)
+    }
 
-        this.activeContexts.clear()
-        this.setState(ClientState.Disconnected)
+    this.activeContexts.clear()
+    this.setState(ClientState.Disconnected)
 
-        return errs.length > 0 ? cb(Error(errs.join(','))) : cb()
-      })
-    })
+    if (errs.length > 0) {
+      throw Error(errs.join(','))
+    }
   }
 
   /**
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  startContext(cb: ContextCallback = () => {}): void {
+  async startContext(): Promise<string> {
     if (this.state !== ClientState.Connected) {
-      return cb(Error('Cannot start context - client is not connected'))
+      throw Error('Cannot start context - client is not connected')
     }
 
-    // Re-set reconnection settings here, so that we avoid flip-flopping in `_reconnectWebsocket`.
-    this.reconnectAttemptCount = initialReconnectCount
-    this.nextReconnectDelay = initialReconnectDelay
-
     this.setState(ClientState.Starting)
-    this.websocket.startContext((err?: Error, contextId?: string) => {
-      if (err !== undefined) {
-        this.setState(ClientState.Connected)
-        return cb(err)
-      }
 
-      this.setState(ClientState.Recording)
-      this.microphone.unmute()
+    let contextId: string
+    try {
+      contextId = await this.websocket.startContext()
+    } catch (err) {
+      this.setState(ClientState.Connected)
+      throw err
+    }
 
-      const ctxId = contextId as string
-      this.activeContexts.set(ctxId, new Map<number, SegmentState>())
+    this.setState(ClientState.Recording)
+    this.microphone.unmute()
+    this.activeContexts.set(contextId, new Map<number, SegmentState>())
 
-      return cb(undefined, ctxId)
-    })
+    return contextId
   }
 
   /**
    * Stops current SLU context by sending a stop context event to the API and muting the microphone.
-   * @param cb - the callback which is invoked when the context stop was acknowledged by the API.
    */
-  stopContext(cb: ContextCallback = () => {}): void {
+  async stopContext(): Promise<string> {
     if (this.state !== ClientState.Recording) {
-      return cb(new Error('Cannot stop context - client is not recording'))
+      throw Error('Cannot stop context - client is not recording')
     }
 
     this.setState(ClientState.Stopping)
     this.microphone.mute()
-    this.websocket.stopContext((err?: Error, contextId?: string) => {
-      if (err !== undefined) {
-        // Sending stop event failed, which means recovering from this isn't viable.
-        // Developers should react to this state by reloading the app.
-        this.setState(ClientState.Failed)
-        return cb(err)
-      }
 
-      const ctxId = contextId as string
-      if (!this.activeContexts.delete(ctxId)) {
-        console.warn('[SpeechlyClient]', 'Attempted to remove non-existent context', ctxId)
-      }
+    let contextId: string
+    try {
+      contextId = await this.websocket.stopContext()
+    } catch (err) {
+      this.setState(ClientState.Failed)
+      throw err
+    }
 
-      this.setState(ClientState.Connected)
+    this.setState(ClientState.Connected)
+    this.activeContexts.delete(contextId)
 
-      return cb(undefined, ctxId)
-    })
+    return contextId
   }
 
   /**
@@ -405,44 +373,52 @@ export class Client {
       console.error('[SpeechlyClient]', 'Server connection closed', err)
     }
 
-    this.reconnectWebsocket()
+    // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
+    if (this.deviceId === undefined) {
+      this.setState(ClientState.Failed)
+      return
+    }
+
+    // Make sure we don't have concurrent reconnection procedures or attempt to reconnect from a failed state.
+    if (this.state === ClientState.Connecting || this.state === ClientState.Failed) {
+      return
+    }
+    this.setState(ClientState.Connecting)
+
+    this.reconnectWebsocket(this.deviceId)
+      .then(() => this.setState(ClientState.Connected))
+      .catch(() => this.setState(ClientState.Failed))
   }
 
-  private reconnectWebsocket(): void {
-    if (this.deviceId === undefined) {
-      return this.setState(ClientState.Disconnected)
-    }
-
-    const deviceId = this.deviceId
-
-    if (this.reconnectAttemptCount < 1) {
-      return this.setState(ClientState.Disconnected)
-    }
-
-    if (this.state !== ClientState.Connecting) {
-      this.setState(ClientState.Connecting)
-    }
-
-    if (this.debug) {
-      console.log(
-        '[SpeechlyClient]',
-        `Attempting to re-connect to the server in ${this.nextReconnectDelay.toString()}ms`
-      )
-    }
-
-    // TODO: extract this as a "re-trier" (check existing libraries first).
-    setTimeout(() => {
-      this.reconnectAttemptCount = this.reconnectAttemptCount - 1
-      this.nextReconnectDelay = this.nextReconnectDelay * 2
-
-      this.websocket.initialize(deviceId, (err?: Error) => {
-        if (err !== undefined) {
-          return this.reconnectWebsocket()
+  private async reconnectWebsocket(deviceId: string): Promise<void> {
+    return AsyncRetry(
+      async (_, attempt: number): Promise<void> => {
+        if (this.debug) {
+          console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt)
         }
 
-        this.setState(ClientState.Connected)
-      })
-    }, this.nextReconnectDelay)
+        await this.initializeWebsocket(deviceId)
+      },
+      {
+        retries: this.reconnectAttemptCount,
+        minTimeout: this.reconnectMinDelay,
+      },
+    )
+  }
+
+  private async initializeWebsocket(deviceId: string): Promise<void> {
+    // Initialise websocket and save the auth token.
+    this.authToken = await this.websocket.initialize(this.appId, deviceId, this.authToken)
+
+    // Cache the auth token in local storage for future use.
+    try {
+      await this.storage.set(authTokenKey, this.authToken)
+    } catch (err) {
+      // No need to fail if the token caching failed, we will just re-fetch it next time.
+      if (this.debug) {
+        console.warn('[SpeechlyClient]', 'Error caching auth token in storage:', err)
+      }
+    }
   }
 
   private readonly handleMicrophoneAudio = (audioChunk: Int16Array): void => {

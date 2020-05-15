@@ -24,31 +24,24 @@ The interface for a client for Speechly SLU WebSocket API.
 
 ###  close
 
-▸ **close**(`closeCode`: number, `closeReason`: string): *Error | void*
+▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:38
+Defined in index.d.ts:40
 
 Closes the client.
 
 This should close the connection and tear down all infrastructure related to it.
 Calling `initialize` again after calling `close` should be possible.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`closeCode` | number | WebSocket close code to send to the API. |
-`closeReason` | string | WebSocket close reason to send to the API.  |
-
-**Returns:** *Error | void*
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  initialize
 
-▸ **initialize**(`deviceID`: string, `cb`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **initialize**(`appId`: string, `deviceId`: string, `token?`: undefined | string): *Promise‹string›*
 
-Defined in index.d.ts:28
+Defined in index.d.ts:33
 
 Initialises the client.
 
@@ -59,10 +52,14 @@ This method will be called by the Client as part of the initialisation process.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`deviceID` | string | device ID to use when connecting to the API. |
-`cb` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback to invoke when initialisation is completed (either successfully or with an error).  |
+`appId` | string | app ID to use when connecting to the API. |
+`deviceId` | string | device ID to use when connecting to the API. |
+`token?` | undefined &#124; string | login token in JWT format, which was e.g. cached from previous session.                If the token is not provided or is invalid, a new token will be fetched instead.  |
 
-**Returns:** *void*
+**Returns:** *Promise‹string›*
+
+- the token that was used to establish connection to the API, so that it can be cached for later.
+           If the provided token was used, it will be returned instead.
 
 ___
 
@@ -106,7 +103,7 @@ ___
 
 ▸ **sendAudio**(`audioChunk`: Int16Array): *Error | void*
 
-Defined in index.d.ts:59
+Defined in index.d.ts:57
 
 Sends audio to the API.
 If there is no active context (no successful previous calls to `startContext`), this must fail.
@@ -123,36 +120,24 @@ ___
 
 ###  startContext
 
-▸ **startContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **startContext**(): *Promise‹string›*
 
 Defined in index.d.ts:45
 
 Starts a new audio context by sending the start event to the API.
-The callback must be invoked after the API has responded with confirmation or an error has occured.
+The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback to invoke after the starting has finished.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*
 
 ___
 
 ###  stopContext
 
-▸ **stopContext**(`cb`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:52
+Defined in index.d.ts:50
 
 Stops an audio context by sending the stop event to the API.
-The callback must be invoked after the API has responded with confirmation or an error has occured.
+The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback to invoke after the stopping has finished.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*
