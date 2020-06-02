@@ -30,9 +30,10 @@ export class BrowserAudioProcessor implements AudioProcessor {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
-  constructor(onAudio: AudioHandler) {
+  constructor(sampleRate: number, onAudio: AudioHandler) {
     if (window.AudioContext !== undefined) {
-      this.audioContext = new window.AudioContext()
+      // Chrome / FF support passing sampleRate to audio context.
+      this.audioContext = new window.AudioContext({ sampleRate })
       this.isWebkit = false
     } else if (window.webkitAudioContext !== undefined) {
       // eslint-disable-next-line new-cap
