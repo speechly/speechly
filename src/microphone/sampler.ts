@@ -2,7 +2,19 @@ export interface AudioFilter {
   call(input: Float32Array): Float32Array
 }
 
-export class Downsampler implements AudioFilter {
+/**
+ * BypassSampler is a re-sampler that simply returns the passed buffer without performing any sampling.
+ */
+export class BypassSampler implements AudioFilter {
+  call(input: Float32Array): Float32Array {
+    return input
+  }
+}
+
+/**
+ * DownSampler is a re-sampler that performs downsampling on the passed audio buffer.
+ */
+export class DownSampler implements AudioFilter {
   private buffer: Float32Array
   private readonly resampleRatio: number
   private readonly filter: number[]
@@ -40,8 +52,20 @@ export class Downsampler implements AudioFilter {
   }
 }
 
-export function generateDownsampler(sourceSampleRate: number, targetSampleRate: number): Downsampler {
-  return new Downsampler(sourceSampleRate, targetSampleRate, generateFilter(sourceSampleRate, targetSampleRate / 2, 23))
+export function newSampler(sourceSampleRate: number, targetSampleRate: number): AudioFilter {
+  if (sourceSampleRate === targetSampleRate) {
+    console.log('bypass')
+    return new BypassSampler()
+  } else if (sourceSampleRate > targetSampleRate) {
+    console.log('downsample')
+    return new DownSampler(
+      sourceSampleRate,
+      targetSampleRate,
+      generateFilter(sourceSampleRate, targetSampleRate / 2, 23)
+    )
+  } else {
+    throw Error('Upsampling is not supported!')
+  }
 }
 
 export function float32ToInt16(buffer: Float32Array): ArrayBuffer {

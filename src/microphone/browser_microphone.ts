@@ -1,7 +1,7 @@
 import { ErrorCallback } from '../types'
 import { AudioCallback, Microphone } from './types'
 import { AudioProcessor, BrowserAudioProcessor } from './browser_audio_processor'
-import { float32ToInt16, AudioFilter, generateDownsampler } from './downsampler'
+import { float32ToInt16, AudioFilter, newSampler } from './sampler'
 
 export class BrowserMicrophone implements Microphone {
   private readonly audioProcessor: AudioProcessor
@@ -10,9 +10,9 @@ export class BrowserMicrophone implements Microphone {
   private isMuted: boolean = false
   private onAudioCb: AudioCallback = () => {}
 
-  constructor(sampleRate: number, audioProcessor?: AudioProcessor, downsampler?: AudioFilter) {
+  constructor(sampleRate: number, audioProcessor?: AudioProcessor, sampler?: AudioFilter) {
     this.audioProcessor = audioProcessor ?? new BrowserAudioProcessor(sampleRate, this.handleAudio)
-    this.downsampler = downsampler ?? generateDownsampler(this.audioProcessor.sampleRate, sampleRate)
+    this.downsampler = sampler ?? newSampler(this.audioProcessor.sampleRate, sampleRate)
   }
 
   onAudio(cb: AudioCallback): void {
