@@ -54,10 +54,8 @@ export class DownSampler implements AudioFilter {
 
 export function newSampler(sourceSampleRate: number, targetSampleRate: number): AudioFilter {
   if (sourceSampleRate === targetSampleRate) {
-    console.log('bypass')
     return new BypassSampler()
   } else if (sourceSampleRate > targetSampleRate) {
-    console.log('downsample')
     return new DownSampler(
       sourceSampleRate,
       targetSampleRate,
