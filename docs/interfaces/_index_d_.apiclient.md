@@ -104,7 +104,7 @@ ___
 
 ###  sendAudio
 
-▸ **sendAudio**(`audioChunk`: ArrayBuffer): *Error | void*
+▸ **sendAudio**(`audioChunk`: Int16Array): *Error | void*
 
 Defined in index.d.ts:59
 
@@ -115,7 +115,7 @@ If there is no active context (no successful previous calls to `startContext`), 
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`audioChunk` | ArrayBuffer | audio chunk to send.  |
+`audioChunk` | Int16Array | audio chunk to send.  |
 
 **Returns:** *Error | void*
 

@@ -89,7 +89,7 @@ export class WebsocketClient implements APIClient {
     ws.send(StopEventJSON)
   }
 
-  sendAudio(audioChunk: ArrayBuffer): Error | void {
+  sendAudio(audioChunk: Int16Array): Error | void {
     if (!this.isOpen()) {
       return Error('Cannot send data through inactive websocket')
     }

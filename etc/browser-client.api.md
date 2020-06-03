@@ -10,13 +10,13 @@ export interface APIClient {
     initialize(deviceID: string, cb: ErrorCallback): void;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
-    sendAudio(audioChunk: ArrayBuffer): Error | void;
+    sendAudio(audioChunk: Int16Array): Error | void;
     startContext(cb: ContextCallback): void;
     stopContext(cb: ContextCallback): void;
 }
 
 // @public
-export type AudioCallback = (audioBuffer: ArrayBuffer) => void;
+export type AudioCallback = (audioBuffer: Int16Array) => void;
 
 // @public
 export class Client {

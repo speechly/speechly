@@ -72,13 +72,13 @@ A callback that receives an ArrayBuffer representing a frame of audio.
 
 #### Type declaration:
 
-▸ (`audioBuffer`: ArrayBuffer): *void*
+▸ (`audioBuffer`: Int16Array): *void*
 
 **Parameters:**
 
 Name | Type |
 ------ | ------ |
-`audioBuffer` | ArrayBuffer |
+`audioBuffer` | Int16Array |
 
 ___
 
