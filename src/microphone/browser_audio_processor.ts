@@ -1,9 +1,9 @@
 import { ErrDeviceNotSupported, ErrNoAudioConsent, ErrNotInitialized } from './types'
+import { AudioFilter, newSampler } from './sampler'
 
-export type AudioHandler = (audioBuffer: Float32Array) => void
+export type AudioHandler = (audioBuffer: Int16Array) => void
 
 export interface AudioProcessor {
-  readonly sampleRate: number
   initialize(): Promise<void>
   close(): void
   mute(): void
@@ -11,15 +11,17 @@ export interface AudioProcessor {
 }
 
 const audioProcessEvent = 'audioprocess'
+const baseBufferSize = 4096
 
 export class BrowserAudioProcessor implements AudioProcessor {
   private initialized: boolean = false
-  readonly sampleRate: number
+  private muted: boolean = false
 
   // Audio callback invoked when audio is returned by the script processor.
   private readonly isWebkit: boolean
   private readonly onAudio: AudioHandler
   private readonly audioContext: AudioContext
+  private readonly sampler: AudioFilter
 
   // The media stream and audio track are initialized during `initialize()` call.
   private audioTrack?: MediaStreamTrack
@@ -30,7 +32,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
-  constructor(sampleRate: number, onAudio: AudioHandler) {
+  constructor(sampleRate: number, onAudio: AudioHandler, sampler?: AudioFilter) {
     if (window.AudioContext !== undefined) {
       // Chrome / FF support passing sampleRate to audio context.
       this.audioContext = new window.AudioContext({ sampleRate })
@@ -43,7 +45,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
       throw ErrDeviceNotSupported
     }
 
-    this.sampleRate = this.audioContext.sampleRate
+    this.sampler = sampler ?? newSampler(this.audioContext.sampleRate, sampleRate)
     this.onAudio = onAudio
   }
 
@@ -86,7 +88,15 @@ export class BrowserAudioProcessor implements AudioProcessor {
       await this.audioContext.resume()
     }
 
-    this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 2, 1)
+    if (this.isWebkit) {
+      // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
+      // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
+      const bufSize = baseBufferSize * Math.pow(2, Math.ceil(Math.log(this.sampler.resampleRatio) / Math.log(2)))
+      this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1)
+    } else {
+      this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
+    }
+
     this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
     this.audioProcessor.connect(this.audioContext.destination)
     this.audioProcessor.addEventListener(audioProcessEvent, this.handleAudio)
@@ -116,6 +126,8 @@ export class BrowserAudioProcessor implements AudioProcessor {
   }
 
   mute(): void {
+    this.muted = true
+
     if (this.initialized) {
       const t = this.audioTrack as MediaStreamTrack
       t.enabled = false
@@ -123,6 +135,8 @@ export class BrowserAudioProcessor implements AudioProcessor {
   }
 
   unmute(): void {
+    this.muted = false
+
     if (this.initialized) {
       const t = this.audioTrack as MediaStreamTrack
       t.enabled = true
@@ -130,6 +144,10 @@ export class BrowserAudioProcessor implements AudioProcessor {
   }
 
   private readonly handleAudio = (event: AudioProcessingEvent): void => {
-    this.onAudio(event.inputBuffer.getChannelData(0))
+    if (this.muted) {
+      return
+    }
+
+    this.onAudio(this.sampler.call(event.inputBuffer.getChannelData(0)))
   }
 }

@@ -219,5 +219,5 @@ export interface APIClient {
    *
    * @param audioChunk - audio chunk to send.
    */
-  sendAudio(audioChunk: ArrayBuffer): Error | void
+  sendAudio(audioChunk: Int16Array): Error | void
 }

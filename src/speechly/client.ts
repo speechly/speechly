@@ -445,7 +445,7 @@ export class Client {
     }, this.nextReconnectDelay)
   }
 
-  private readonly handleMicrophoneAudio = (audioChunk: ArrayBuffer): void => {
+  private readonly handleMicrophoneAudio = (audioChunk: Int16Array): void => {
     if (this.state !== ClientState.Recording) {
       return
     }

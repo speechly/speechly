@@ -34,7 +34,7 @@ export const ErrNoAudioConsent = new Error('Microphone consent is no given')
  * A callback that receives an ArrayBuffer representing a frame of audio.
  * @public
  */
-export type AudioCallback = (audioBuffer: ArrayBuffer) => void
+export type AudioCallback = (audioBuffer: Int16Array) => void
 
 /**
  * The interface for a microphone.
