@@ -22,6 +22,8 @@ export class BrowserAudioProcessor implements AudioProcessor {
   private readonly onAudio: AudioHandler
   private readonly audioContext: AudioContext
   private readonly sampler: AudioFilter
+  private readonly nativeResamplingSupported: boolean
+  private readonly sampleRate: number
 
   // The media stream and audio track are initialized during `initialize()` call.
   private audioTrack?: MediaStreamTrack
@@ -33,9 +35,20 @@ export class BrowserAudioProcessor implements AudioProcessor {
   private audioProcessor?: ScriptProcessorNode
 
   constructor(sampleRate: number, onAudio: AudioHandler, sampler?: AudioFilter) {
+    try {
+      const constraints = window.navigator.mediaDevices.getSupportedConstraints()
+      this.nativeResamplingSupported = constraints.sampleRate === true
+    } catch {
+      this.nativeResamplingSupported = false
+    }
+
     if (window.AudioContext !== undefined) {
-      // Chrome / FF support passing sampleRate to audio context.
-      this.audioContext = new window.AudioContext({ sampleRate })
+      const opts: AudioContextOptions = {}
+      if (this.nativeResamplingSupported) {
+        opts.sampleRate = sampleRate
+      }
+
+      this.audioContext = new window.AudioContext(opts)
       this.isWebkit = false
     } else if (window.webkitAudioContext !== undefined) {
       // eslint-disable-next-line new-cap
@@ -46,6 +59,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
     }
 
     this.sampler = sampler ?? newSampler(this.audioContext.sampleRate, sampleRate)
+    this.sampleRate = sampleRate
     this.onAudio = onAudio
   }
 
@@ -66,10 +80,19 @@ export class BrowserAudioProcessor implements AudioProcessor {
     }
 
     try {
-      this.mediaStream = await window.navigator.mediaDevices.getUserMedia({
-        audio: true,
+      const opts: MediaStreamConstraints = {
         video: false
-      })
+      }
+
+      if (this.nativeResamplingSupported) {
+        opts.audio = {
+          sampleRate: this.sampleRate
+        }
+      } else {
+        opts.audio = true
+      }
+
+      this.mediaStream = await window.navigator.mediaDevices.getUserMedia(opts)
     } catch {
       throw ErrNoAudioConsent
     }
