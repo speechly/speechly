@@ -67,7 +67,11 @@ function newClient(): Client {
     throw Error("Missing Speechly language!");
   }
 
-  return new Client({ appId, language });
+  return new Client({
+    appId,
+    language,
+    debug: true,
+  });
 }
 
 function updateWords(words: Word[]) {
