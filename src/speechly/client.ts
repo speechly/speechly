@@ -41,7 +41,7 @@ import AsyncRetry from 'async-retry'
 
 const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
-const defaultApiUrl = 'wss://api.speechly.com/ws'
+const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
 
 /**
