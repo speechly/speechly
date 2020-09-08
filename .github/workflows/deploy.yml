@@ -16,6 +16,9 @@ jobs:
         env:
           REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
           REACT_APP_LANGUAGE: ${{ secrets.REACT_APP_LANGUAGE }}
+          REACT_APP_LOGIN_URL: ${{ secrets.REACT_APP_LOGIN_URL }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_DEBUG: "false"
       - name: deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
