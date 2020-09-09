@@ -16,7 +16,7 @@ export class SegmentState {
   toSegment(): Segment {
     let i = 0
     const entities: Entity[] = new Array(this.entities.size)
-    this.entities.forEach((v) => {
+    this.entities.forEach(v => {
       entities[i] = v
       i++
     })
@@ -32,7 +32,7 @@ export class SegmentState {
   }
 
   updateTranscript(words: Word[]): SegmentState {
-    words.forEach((w) => {
+    words.forEach(w => {
       // Only accept tentative words if the segment is tentative.
       if (!this.isFinalized || w.isFinal) {
         this.words[w.index] = w
@@ -43,7 +43,7 @@ export class SegmentState {
   }
 
   updateEntities(entities: Entity[]): SegmentState {
-    entities.forEach((e) => {
+    entities.forEach(e => {
       // Only accept tentative entities if the segment is tentative.
       if (!this.isFinalized || e.isFinal) {
         this.entities.set(entityMapKey(e), e)
@@ -70,7 +70,7 @@ export class SegmentState {
     })
 
     // Filter away any transcripts which were not finalized.
-    this.words = this.words.filter((w) => w.isFinal)
+    this.words = this.words.filter(w => w.isFinal)
 
     if (!this.intent.isFinal) {
       this.intent.intent = ''
