@@ -1,8 +1,9 @@
 import { decode as base64Decode } from 'base-64'
 
-const secondsInHour = 60 * 60
 type fetchFn = (input: RequestInfo, init?: RequestInit) => Promise<Response>
 type nowFn = () => number
+
+export const minTokenValidTime = 60 * 60 * 1000 // 1 hour
 
 export interface Token {
   appId: string
@@ -11,7 +12,7 @@ export interface Token {
   scopes: string[]
   issuer: string
   audience: string
-  expiresAt: number
+  expiresAtMs: number
 }
 
 export async function fetchToken(
@@ -51,8 +52,7 @@ export async function fetchToken(
 export function validateToken(token: string, appId: string, deviceId: string, now: nowFn = Date.now): boolean {
   const decoded = decodeToken(token)
 
-  // If the token will expire in an hour or less, mark it as invalid.
-  if ((decoded.expiresAt - now()) / 1000 < secondsInHour) {
+  if (decoded.expiresAtMs - now() < minTokenValidTime) {
     return false
   }
 
@@ -84,6 +84,6 @@ export function decodeToken(token: string): Token {
     scopes: body.scope.split(' '),
     issuer: body.iss,
     audience: body.aud,
-    expiresAt: body.exp,
+    expiresAtMs: body.exp * 1000, // JWT exp is in seconds, convert to ms, since that's what JS works with.
   }
 }

@@ -1,11 +1,11 @@
-import { Token, decodeToken, validateToken, fetchToken } from './token'
+import { Token, decodeToken, validateToken, fetchToken, minTokenValidTime } from './token'
 
 describe('token', () => {
   describe('.fetchToken', () => {
     test('returns the token succesfully', async () => {
       const f = mockFetch(200, { access_token: testTokenString })
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).resolves.toBe(testTokenString)
     })
 
@@ -14,7 +14,7 @@ describe('token', () => {
       const f = jest.fn().mockRejectedValue(err)
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow(err)
     })
 
@@ -22,7 +22,7 @@ describe('token', () => {
       const f = mockFetch(400, { access_token: testTokenString })
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
 
@@ -31,7 +31,7 @@ describe('token', () => {
       const f = mockFailFetch(500, err)
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow(err)
     })
 
@@ -39,7 +39,7 @@ describe('token', () => {
       const f = mockFetch(200, {})
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
 
@@ -47,34 +47,26 @@ describe('token', () => {
       const f = mockFetch(200, { access_token: 'some-invalid-token' })
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, jest.fn().mockReturnValue(0)),
+        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
   })
 
   describe('.validateToken', () => {
     test('returns true for correct token', () => {
-      expect(
-        validateToken(testTokenString, testToken.appId, testToken.deviceId, jest.fn().mockReturnValue(0)),
-      ).toBeTruthy()
+      expect(validateToken(testTokenString, testToken.appId, testToken.deviceId, beforeExpiry(testToken))).toBeTruthy()
     })
 
     test('returns false when appId does not match', () => {
-      expect(
-        validateToken(testTokenString, 'other-app-id', testToken.deviceId, jest.fn().mockReturnValue(0)),
-      ).toBeFalsy()
+      expect(validateToken(testTokenString, 'other-app-id', testToken.deviceId, beforeExpiry(testToken))).toBeFalsy()
     })
 
     test('returns false when deviceId does not match', () => {
-      expect(
-        validateToken(testTokenString, testToken.appId, 'other-device-id', jest.fn().mockReturnValue(0)),
-      ).toBeFalsy()
+      expect(validateToken(testTokenString, testToken.appId, 'other-device-id', beforeExpiry(testToken))).toBeFalsy()
     })
 
     test('returns false when token is expired', () => {
-      expect(
-        validateToken(testTokenString, testToken.appId, testToken.deviceId, jest.fn().mockReturnValue(9999999999)),
-      ).toBeFalsy()
+      expect(validateToken(testTokenString, testToken.appId, testToken.deviceId, afterExpiry(testToken))).toBeFalsy()
     })
   })
 
@@ -113,7 +105,7 @@ const testToken: Token = {
   scopes: ['slu'],
   issuer: 'https://api.speechly.com/',
   audience: 'https://api.speechly.com/',
-  expiresAt: 1599313656,
+  expiresAtMs: 1599313656000,
 }
 
 function mockFetch(status: number, data: any): jest.Mock {
@@ -126,4 +118,12 @@ function mockFailFetch(status: number, err: Error): jest.Mock {
   const response = { status, json: async () => Promise.reject(err) }
 
   return jest.fn().mockResolvedValue(response)
+}
+
+function beforeExpiry(t: Token): jest.Mock {
+  return jest.fn().mockReturnValue(t.expiresAtMs - minTokenValidTime)
+}
+
+function afterExpiry(t: Token): jest.Mock {
+  return jest.fn().mockReturnValue(t.expiresAtMs)
 }
