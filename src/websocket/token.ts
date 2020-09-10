@@ -74,7 +74,7 @@ export function decodeToken(token: string): Token {
   try {
     body = JSON.parse(base64Decode(b))
   } catch (e) {
-    throw new Error('Error decoding token header')
+    throw new Error('Error decoding Speechly token!')
   }
 
   return {
