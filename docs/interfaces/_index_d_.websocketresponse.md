@@ -23,7 +23,7 @@ The interface for response returned by WebSocket client.
 
 • **audio_context**: *string*
 
-Defined in index.d.ts:607
+Defined in index.d.ts:585
 
 Audio context ID.
 
@@ -33,7 +33,7 @@ ___
 
 • **data**: *[TranscriptResponse](_index_d_.transcriptresponse.md) | [EntityResponse](_index_d_.entityresponse.md) | [IntentResponse](_index_d_.intentresponse.md) | [TentativeTranscriptResponse](_index_d_.tentativetranscriptresponse.md) | [TentativeEntitiesResponse](_index_d_.tentativeentitiesresponse.md)*
 
-Defined in index.d.ts:619
+Defined in index.d.ts:597
 
 Response payload.
 
@@ -47,7 +47,7 @@ ___
 
 • **segment_id**: *number*
 
-Defined in index.d.ts:611
+Defined in index.d.ts:589
 
 Segment ID.
 
@@ -57,6 +57,6 @@ ___
 
 • **type**: *[WebsocketResponseType](../enums/_index_d_.websocketresponsetype.md)*
 
-Defined in index.d.ts:603
+Defined in index.d.ts:581
 
 Response type.

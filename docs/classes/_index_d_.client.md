@@ -51,27 +51,21 @@ Name | Type |
 
 ###  close
 
-▸ **close**(`cb?`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:109
+Defined in index.d.ts:106
 
 Closes the client by closing the API connection and disabling the microphone.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb?` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback which is invoked when closure is complete.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹void›*
 
 ___
 
 ###  initialize
 
-▸ **initialize**(`cb?`: [ErrorCallback](../modules/_index_d_.md#errorcallback)): *void*
+▸ **initialize**(): *Promise‹void›*
 
-Defined in index.d.ts:104
+Defined in index.d.ts:102
 
 Initializes the client, by initializing the microphone and establishing connection to the API.
 
@@ -81,13 +75,7 @@ or some other user-performed action.
 If this function is invoked without a user interaction,
 the microphone functionality will not work due to security restrictions by the browser.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb?` | [ErrorCallback](../modules/_index_d_.md#errorcallback) | the callback which is invoked when the initialization is complete.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹void›*
 
 ___
 
@@ -95,7 +83,7 @@ ___
 
 ▸ **onEntity**(`cb`: [EntityCallback](../modules/_index_d_.md#entitycallback)): *void*
 
-Defined in index.d.ts:149
+Defined in index.d.ts:145
 
 Adds a listener for entity responses from the API.
 
@@ -113,7 +101,7 @@ ___
 
 ▸ **onIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:159
+Defined in index.d.ts:155
 
 Adds a listener for intent responses from the API.
 
@@ -131,7 +119,7 @@ ___
 
 ▸ **onSegmentChange**(`cb`: [SegmentChangeCallback](../modules/_index_d_.md#segmentchangecallback)): *void*
 
-Defined in index.d.ts:129
+Defined in index.d.ts:125
 
 Adds a listener for current segment change events.
 
@@ -149,7 +137,7 @@ ___
 
 ▸ **onStateChange**(`cb`: [StateChangeCallback](../modules/_index_d_.md#statechangecallback)): *void*
 
-Defined in index.d.ts:124
+Defined in index.d.ts:120
 
 Adds a listener for client state change events.
 
@@ -167,7 +155,7 @@ ___
 
 ▸ **onTentativeEntities**(`cb`: [TentativeEntitiesCallback](../modules/_index_d_.md#tentativeentitiescallback)): *void*
 
-Defined in index.d.ts:144
+Defined in index.d.ts:140
 
 Adds a listener for tentative entities responses from the API.
 
@@ -185,7 +173,7 @@ ___
 
 ▸ **onTentativeIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:154
+Defined in index.d.ts:150
 
 Adds a listener for tentative intent responses from the API.
 
@@ -203,7 +191,7 @@ ___
 
 ▸ **onTentativeTranscript**(`cb`: [TentativeTranscriptCallback](../modules/_index_d_.md#tentativetranscriptcallback)): *void*
 
-Defined in index.d.ts:134
+Defined in index.d.ts:130
 
 Adds a listener for tentative transcript responses from the API.
 
@@ -221,7 +209,7 @@ ___
 
 ▸ **onTranscript**(`cb`: [TranscriptCallback](../modules/_index_d_.md#transcriptcallback)): *void*
 
-Defined in index.d.ts:139
+Defined in index.d.ts:135
 
 Adds a listener for transcript responses from the API.
 
@@ -237,34 +225,22 @@ ___
 
 ###  startContext
 
-▸ **startContext**(`cb?`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **startContext**(): *Promise‹string›*
 
-Defined in index.d.ts:114
+Defined in index.d.ts:111
 
 Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb?` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback which is invoked when the context start was acknowledged by the API.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*
 
 ___
 
 ###  stopContext
 
-▸ **stopContext**(`cb?`: [ContextCallback](../modules/_index_d_.md#contextcallback)): *void*
+▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:119
+Defined in index.d.ts:115
 
 Stops current SLU context by sending a stop context event to the API and muting the microphone.
 
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb?` | [ContextCallback](../modules/_index_d_.md#contextcallback) | the callback which is invoked when the context stop was acknowledged by the API.  |
-
-**Returns:** *void*
+**Returns:** *Promise‹string›*

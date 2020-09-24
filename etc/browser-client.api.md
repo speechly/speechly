@@ -6,13 +6,13 @@
 
 // @public
 export interface APIClient {
-    close(closeCode: number, closeReason: string): Error | void;
-    initialize(deviceID: string, cb: ErrorCallback): void;
+    close(): Promise<void>;
+    initialize(appId: string, deviceId: string, token?: string): Promise<string>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
     sendAudio(audioChunk: Int16Array): Error | void;
-    startContext(cb: ContextCallback): void;
-    stopContext(cb: ContextCallback): void;
+    startContext(): Promise<string>;
+    stopContext(): Promise<string>;
 }
 
 // @public
@@ -21,8 +21,8 @@ export type AudioCallback = (audioBuffer: Int16Array) => void;
 // @public
 export class Client {
     constructor(options: ClientOptions);
-    close(cb?: ErrorCallback): void;
-    initialize(cb?: ErrorCallback): void;
+    close(): Promise<void>;
+    initialize(): Promise<void>;
     onEntity(cb: EntityCallback): void;
     onIntent(cb: IntentCallback): void;
     onSegmentChange(cb: SegmentChangeCallback): void;
@@ -31,20 +31,21 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
-    startContext(cb?: ContextCallback): void;
-    stopContext(cb?: ContextCallback): void;
+    startContext(): Promise<string>;
+    stopContext(): Promise<string>;
     }
 
 // @public
 export interface ClientOptions {
     apiClient?: APIClient;
+    apiUrl?: string;
     appId: string;
     debug?: boolean;
     language: string;
+    loginUrl?: string;
     microphone?: Microphone;
     sampleRate?: number;
-    storage?: Storage;
-    url?: string;
+    storage?: Storage_2;
 }
 
 // @public
@@ -73,9 +74,6 @@ export enum ClientState {
 
 // @public
 export type CloseCallback = (err: Error) => void;
-
-// @public
-export type ContextCallback = (error?: Error, contextId?: string) => void;
 
 // @public
 export const DefaultSampleRate = 16000;
@@ -119,9 +117,6 @@ export const ErrNoStorageSupport: Error;
 export const ErrNotInitialized: Error;
 
 // @public
-export type ErrorCallback = (error?: Error) => void;
-
-// @public
 export interface Intent {
     intent: string;
     isFinal: boolean;
@@ -137,8 +132,8 @@ export interface IntentResponse {
 
 // @public
 export interface Microphone {
-    close(cb: ErrorCallback): void;
-    initialize(cb: ErrorCallback): void;
+    close(): Promise<void>;
+    initialize(): Promise<void>;
     mute(): void;
     onAudio(cb: AudioCallback): void;
     unmute(): void;
@@ -167,15 +162,15 @@ export type StateChangeCallback = (state: ClientState) => void;
 export function stateToString(state: ClientState): string;
 
 // @public
-export interface Storage {
-    close(cb: ErrorCallback): void;
-    get(key: string, cb: StorageGetCallback): void;
-    initialize(cb: ErrorCallback): void;
-    set(key: string, val: string, cb: ErrorCallback): void;
+interface Storage_2 {
+    close(): Promise<void>;
+    get(key: string): Promise<string>;
+    getOrSet(key: string, genFn: () => string): Promise<string>;
+    initialize(): Promise<void>;
+    set(key: string, val: string): Promise<void>;
 }
 
-// @public
-export type StorageGetCallback = (error?: Error, val?: string) => void;
+export { Storage_2 as Storage }
 
 // @public
 export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;

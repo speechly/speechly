@@ -23,37 +23,38 @@ npm install --save @speechly/browser-client
 Start using the client:
 
 ```typescript
-import { Client, Segment } from '@speechly/browser-client'
+import { Client, Segment } from "@speechly/browser-client";
 
 // Create a new Client. appId and language are configured in the dashboard.
 const client = new Client({
-  appId: 'your-app-id',
-  language: 'en-US'
-})
+  appId: "your-app-id",
+  language: "en-US",
+});
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
 // Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
-client.initialize((err?: Error) => {
-  if (err !== undefined) {
-    console.error('Failed to initialize Speechly client:', err)
-  }
-})
+await client.initialize();
 
-// React to the phrases received from the API
+// React to the updates from the API.
 client.onSegmentChange((segment: Segment) => {
-  console.log('Received new segment from the API:', segment.intent, segment.entities, segment.words, segment.isFinal)
-})
+  console.log(
+    "Received new segment from the API:",
+    segment.intent,
+    segment.entities,
+    segment.words,
+    segment.isFinal
+  );
+});
 
-// Start recording
-client.startContext((err?: Error) => {
-  if (err !== undefined) {
-    console.error('Failed to start recording:', err)
-    return
-  }
+// Start recording.
+// Ideally this should be bound to e.g. a button press.
+await client.startContext();
 
-  // Stop recording after 3 seconds
-  setTimeout(client.stopContext, 3000)
-})
+// Stop recording after a timeout.
+// Ideally this should be bound to e.g. a button press.
+setTimeout(async function() {
+  await client.stopContext();
+}, 3000);
 ```
 
 Check out the [browser-client-example](https://github.com/speechly/browser-client-example) repository for a demo app built using this client.

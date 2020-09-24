@@ -1,5 +1,3 @@
-import { ErrorCallback } from '../types'
-
 /**
  * The interface for response returned by WebSocket client.
  * @public
@@ -43,7 +41,7 @@ export enum WebsocketResponseType {
   Intent = 'intent',
   TentativeTranscript = 'tentative_transcript',
   TentativeEntities = 'tentative_entities',
-  TentativeIntent = 'tentative_intent'
+  TentativeIntent = 'tentative_intent',
 }
 
 /**
@@ -151,12 +149,6 @@ export type ResponseCallback = (response: WebsocketResponse) => void
 export type CloseCallback = (err: Error) => void
 
 /**
- * A callback that receives either an error or a contextId.
- * @public
- */
-export type ContextCallback = (error?: Error, contextId?: string) => void
-
-/**
  * The interface for a client for Speechly SLU WebSocket API.
  * @public
  */
@@ -181,37 +173,35 @@ export interface APIClient {
    * This should prepare websocket to be used (i.e. establish connection to the API).
    * This method will be called by the Client as part of the initialisation process.
    *
-   * @param deviceID - device ID to use when connecting to the API.
-   * @param cb - the callback to invoke when initialisation is completed (either successfully or with an error).
+   * @param appId - app ID to use when connecting to the API.
+   * @param deviceId - device ID to use when connecting to the API.
+   * @param token - login token in JWT format, which was e.g. cached from previous session.
+   *                If the token is not provided or is invalid, a new token will be fetched instead.
+   *
+   * @returns - the token that was used to establish connection to the API, so that it can be cached for later.
+   *            If the provided token was used, it will be returned instead.
    */
-  initialize(deviceID: string, cb: ErrorCallback): void
+  initialize(appId: string, deviceId: string, token?: string): Promise<string>
 
   /**
    * Closes the client.
    *
    * This should close the connection and tear down all infrastructure related to it.
    * Calling `initialize` again after calling `close` should be possible.
-   *
-   * @param closeCode - WebSocket close code to send to the API.
-   * @param closeReason - WebSocket close reason to send to the API.
    */
-  close(closeCode: number, closeReason: string): Error | void
+  close(): Promise<void>
 
   /**
    * Starts a new audio context by sending the start event to the API.
-   * The callback must be invoked after the API has responded with confirmation or an error has occured.
-   *
-   * @param cb - the callback to invoke after the starting has finished.
+   * The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
    */
-  startContext(cb: ContextCallback): void
+  startContext(): Promise<string>
 
   /**
    * Stops an audio context by sending the stop event to the API.
-   * The callback must be invoked after the API has responded with confirmation or an error has occured.
-   *
-   * @param cb - the callback to invoke after the stopping has finished.
+   * The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
    */
-  stopContext(cb: ContextCallback): void
+  stopContext(): Promise<string>
 
   /**
    * Sends audio to the API.

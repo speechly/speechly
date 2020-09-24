@@ -5,7 +5,7 @@ export type AudioHandler = (audioBuffer: Int16Array) => void
 
 export interface AudioProcessor {
   initialize(): Promise<void>
-  close(): void
+  close(): Promise<void>
   mute(): void
   unmute(): void
 }
@@ -81,12 +81,12 @@ export class BrowserAudioProcessor implements AudioProcessor {
 
     try {
       const opts: MediaStreamConstraints = {
-        video: false
+        video: false,
       }
 
       if (this.nativeResamplingSupported) {
         opts.audio = {
-          sampleRate: this.sampleRate
+          sampleRate: this.sampleRate,
         }
       } else {
         opts.audio = true
@@ -127,7 +127,7 @@ export class BrowserAudioProcessor implements AudioProcessor {
     this.initialized = true
   }
 
-  close(): void {
+  async close(): Promise<void> {
     if (!this.initialized) {
       throw ErrNotInitialized
     }

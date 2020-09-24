@@ -20,6 +20,6 @@ Tenative entities response payload.
 
 • **entities**: *[EntityResponse](_index_d_.entityresponse.md)[]*
 
-Defined in index.d.ts:542
+Defined in index.d.ts:520
 
 Individual entities.

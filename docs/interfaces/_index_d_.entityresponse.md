@@ -23,7 +23,7 @@ Entity response payload.
 
 • **end_position**: *number*
 
-Defined in index.d.ts:303
+Defined in index.d.ts:298
 
 End position of the entity in the segment. Correlates with TranscriptResponse indices.
 Exclusive.
@@ -34,7 +34,7 @@ ___
 
 • **entity**: *string*
 
-Defined in index.d.ts:289
+Defined in index.d.ts:284
 
 Entity type (e.g. restaurant, direction, room, device).
 
@@ -44,7 +44,7 @@ ___
 
 • **start_position**: *number*
 
-Defined in index.d.ts:298
+Defined in index.d.ts:293
 
 Start position of the entity in the segment. Correlates with TranscriptResponse indices.
 Inclusive.
@@ -55,6 +55,6 @@ ___
 
 • **value**: *string*
 
-Defined in index.d.ts:293
+Defined in index.d.ts:288
 
 Entity value (e.g. "sushi bar", "northwest", "living room", "kitchen lights").

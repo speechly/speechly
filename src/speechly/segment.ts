@@ -27,7 +27,7 @@ export class SegmentState {
       isFinal: this.isFinalized,
       words: this.words,
       entities: entities,
-      intent: this.intent
+      intent: this.intent,
     }
   }
 
