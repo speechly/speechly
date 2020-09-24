@@ -1372,10 +1372,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@speechly/browser-client@1.0.0-beta.4":
-  version "1.0.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@speechly/browser-client/-/browser-client-1.0.0-beta.4.tgz#19d63b4f461bc978bb2eda51bfab6b0992ec4130"
-  integrity sha512-zIcG2xIcYTZuMve4H8fsYTbQdxG/r7i6XpFMfC8YnpV4Ctz0KFhbQRUtJixwyIY46IZTNiqeEy4EqzoDnxyzWQ==
+"@speechly/browser-client@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@speechly/browser-client/-/browser-client-1.0.0.tgz#8b0bb557816ce966c24c8886c51fb5b9d33ae66f"
+  integrity sha512-9bCMWVNbQxZF+DxMKSMUq66a0GropIkeUNa9ZlJ/rg6Do99TXwcWmQIF3eI9EGYHRhD9Nlj9DVn4Zg11LAYTVQ==
   dependencies:
     async-retry "^1.3.1"
     base-64 "^0.1.0"
