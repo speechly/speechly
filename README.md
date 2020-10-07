@@ -51,6 +51,8 @@ function SpeechlyApp() {
 }
 ```
 
+Check out the [react-client-example](https://github.com/speechly/react-client-example) repository for a demo app built using this client.
+
 ## Documentation
 
 You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/react-client/blob/master/docs/modules/_index_d_.md).
