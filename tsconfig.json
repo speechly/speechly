@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "outDir": "./dist/",
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "lib": [
+      "dom",
+      "es2015"
+    ], /* Specify library files to be included in the compilation. */
+  },
+  "include": [
+    "src/**/*",
+    "src/index.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
