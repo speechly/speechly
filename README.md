@@ -1,3 +1,5 @@
+# <a href="https://speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
+
 # browser-client-example
 
 ![Deploy](https://github.com/speechly/browser-client-example/workflows/Deploy/badge.svg?branch=master)
