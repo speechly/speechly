@@ -51,7 +51,7 @@ function SpeechlyApp() {
 }
 ```
 
-Check out the [react-client-example](https://github.com/speechly/react-client-example) repository for a demo app built using this client.
+Check out the [react-example-repo-filtering](https://github.com/speechly/react-example-repo-filtering) repository for a demo app built using this client.
 
 ## Documentation
 
