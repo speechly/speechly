@@ -1,4 +1,4 @@
-# <a href="https://speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
+# <a href="https://www.speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
 
 # speechly-browser-client
 
@@ -6,7 +6,9 @@
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-This repository contains source code for the browser client for Speechly SLU API. Speechly allows you to easily build applications with voice-enabled UIs.
+This repository contains source code for the browser client for [Speechly](https://www.speechly.com/) SLU API. Speechly allows you to easily build applications with voice-enabled user interfaces for touch screen devices. 
+
+NOTE: If you are using React, you should be using the [React client](https://github.com/speechly/react-client) instead.
 
 ## Usage
 
@@ -61,7 +63,8 @@ Check out the [browser-client-example](https://github.com/speechly/browser-clien
 
 ## Documentation
 
-You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_index_d_.md).
+You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_index_d_.md). 
+You can also refer to [Speechly Docs](https://www.speechly.com/docs/) for more information.
 
 ## Contributing
 
