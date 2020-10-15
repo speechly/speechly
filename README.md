@@ -8,6 +8,8 @@
 
 This repository contains source code for the React client for [Speechly](https://www.speechly.com/) SLU API. Speechly allows you to easily build applications with voice-enabled UIs.
 
+Check out [Speechly documentation](https://www.speechly.com/docs/client-libraries/react-client/) for a tutorial on how to build a voice filtering app using this client.
+
 ## Usage
 
 Install the package:
