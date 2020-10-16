@@ -1,6 +1,6 @@
 # <a href="https://www.speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
 
-# React client for Speechl SLU API
+# React client for Speechly SLU API
 
 ![Release build](https://github.com/speechly/react-client/workflows/Release%20build/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client)
