@@ -5,7 +5,7 @@
 Complete your touch user interface with voice
 </h2>
 
-[Speechly website](https://www.speechly.com/)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/)
+[Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=browser-clien-examplet&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)
 
 # browser-client-example
 
