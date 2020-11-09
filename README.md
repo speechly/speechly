@@ -1,5 +1,5 @@
 <h1 align="center">
-<a href="https://www.speechly.com/?utm_source=github&utm_medium=react-client&utm_campaign=header"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
+<a href="https://www.speechly.com/?utm_source=github&utm_medium=react-client&utm_campaign=header"><img src="https://www.speechly.com/img/logo-speechly.svg" height="100" alt="Speechly"></a>
 </h1>
 <h2 align="center">
 Complete your touch user interface with voice
