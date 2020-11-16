@@ -43,6 +43,7 @@ const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
 const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
+const defaultLanguage = 'en-US'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
@@ -87,7 +88,7 @@ export class Client {
       new WebsocketClient(
         options.loginUrl ?? defaultLoginUrl,
         options.apiUrl ?? defaultApiUrl,
-        options.language,
+        options.language ?? defaultLanguage,
         options.sampleRate ?? DefaultSampleRate,
       )
     this.storage = options.storage ?? new LocalStorage()
