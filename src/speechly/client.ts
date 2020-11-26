@@ -89,7 +89,7 @@ export class Client {
       new WebsocketClient(
         options.loginUrl ?? defaultLoginUrl,
         options.apiUrl ?? defaultApiUrl,
-        language
+        language,
         options.sampleRate ?? DefaultSampleRate,
       )
     this.storage = options.storage ?? new LocalStorage()
