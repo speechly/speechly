@@ -76,7 +76,7 @@ export class Client {
   private intentCb: IntentCallback = () => {}
 
   constructor(options: ClientOptions) {
-    if (options.language && !localeCode.validate(options.language)) {
+    if (options.language != null && !localeCode.validate(options.language)) {
       throw Error(`[SpeechlyClient] Invalid language "${options.language}"`)
     }
 
