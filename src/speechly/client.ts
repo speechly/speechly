@@ -78,7 +78,7 @@ export class Client {
   constructor(options: ClientOptions) {
     const language = options.language ?? defaultLanguage
     if (!localeCode.validate(language)) {
-      throw Error(`[SpeechlyClient] Invalid language "${options.language}"`)
+      throw Error(`[SpeechlyClient] Invalid language "${language}"`)
     }
 
     this.debug = options.debug ?? false
