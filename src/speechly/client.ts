@@ -226,30 +226,29 @@ export class Client {
     }
 
     this.setState(ClientState.Stopping)
-    const contextId: string = await new Promise((resolveContextId) => {
-        Promise.race([
-            new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
-            new Promise((resolve) => {this.resolveStopContext = resolve})
-        ]).then(() => this._stopContext().then(id => resolveContextId(id)))
+    const contextId: string = await new Promise((resolve, reject) => {
+      Promise.race([
+        new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
+        new Promise((resolve) => { this.resolveStopContext = resolve }),
+      ]).then(() => this._stopContext().then(id => { resolve(id) }))
     })
 
     this.setState(ClientState.Connected)
     this.activeContexts.delete(contextId)
-    
+
     return contextId
   }
 
   private async _stopContext(): Promise<string> {
-      this.microphone.mute()
-      let contextId: string
-      try {
-        contextId = await this.websocket.stopContext()
-      } catch (err) {
-        this.setState(ClientState.Failed)
-        throw err
-      }
-      
-      return contextId
+    this.microphone.mute()
+    let contextId: string
+    try {
+      contextId = await this.websocket.stopContext()
+    } catch (err) {
+      this.setState(ClientState.Failed)
+      throw err
+    }
+    return contextId
   }
 
   /**
