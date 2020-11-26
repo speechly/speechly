@@ -226,11 +226,11 @@ export class Client {
     }
 
     this.setState(ClientState.Stopping)
-    const contextId: string = await new Promise((resolve, reject) => {
+    const contextId: string = await new Promise((resolve) => {
       Promise.race([
         new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
         new Promise((resolve) => { this.resolveStopContext = resolve }),
-      ]).then(() => this._stopContext().then(id => { resolve(id) }))
+      ]).then(() => { this._stopContext().then(id => { resolve(id) }) })
     })
 
     this.setState(ClientState.Connected)
