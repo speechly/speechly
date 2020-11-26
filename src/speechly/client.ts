@@ -231,8 +231,12 @@ export class Client {
         new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
         new Promise((resolve) => { this.resolveStopContext = resolve }),
       ])
-      .then(() => { this._stopContext().then(id => { resolve(id) }).catch(err => { throw err }) })
-      .catch(err => { throw err })
+        .then(() => {
+          this._stopContext()
+            .then(id => { resolve(id) })
+            .catch(err => { throw err })
+        })
+        .catch(err => { throw err })
     })
 
     this.setState(ClientState.Connected)
