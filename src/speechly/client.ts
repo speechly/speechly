@@ -230,7 +230,9 @@ export class Client {
       Promise.race([
         new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
         new Promise((resolve) => { this.resolveStopContext = resolve }),
-      ]).then(() => { this._stopContext().then(id => { resolve(id) }) })
+      ])
+      .then(() => { this._stopContext().then(id => { resolve(id) }).catch(err => { throw err }) })
+      .catch(err => { throw err })
     })
 
     this.setState(ClientState.Connected)
