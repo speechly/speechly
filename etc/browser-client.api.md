@@ -41,7 +41,7 @@ export interface ClientOptions {
     apiUrl?: string;
     appId: string;
     debug?: boolean;
-    language: string;
+    language?: string;
     loginUrl?: string;
     microphone?: Microphone;
     sampleRate?: number;

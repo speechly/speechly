@@ -65,9 +65,9 @@ Whether to output debug statements to the console.
 
 ___
 
-###  language
+###  `Optional` language
 
-• **language**: *string*
+• **language**?: *undefined | string*
 
 Defined in index.d.ts:176
 

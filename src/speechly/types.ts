@@ -15,7 +15,7 @@ export interface ClientOptions {
   /**
    * The language which is used by the app.
    */
-  language: string
+  language?: string
 
   /**
    * The URL of Speechly login endpoint.
