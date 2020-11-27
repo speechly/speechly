@@ -62,6 +62,7 @@ export class Client {
   private readonly reconnectAttemptCount = 5
   private readonly reconnectMinDelay = 1000
   private readonly contextStopDelay = 250
+  private stoppedContextIdPromise?: Promise<string>
   private resolveStopContext?: (value?: unknown) => void
 
   private deviceId?: string
@@ -193,6 +194,7 @@ export class Client {
   async startContext(): Promise<string> {
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
+      await this.stoppedContextIdPromise
     }
 
     if (this.state !== ClientState.Connected) {
@@ -226,7 +228,8 @@ export class Client {
     }
 
     this.setState(ClientState.Stopping)
-    const contextId: string = await new Promise((resolve) => {
+
+    this.stoppedContextIdPromise = new Promise((resolve) => {
       Promise.race([
         new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
         new Promise((resolve) => { this.resolveStopContext = resolve }),
@@ -238,6 +241,8 @@ export class Client {
         })
         .catch(err => { throw err })
     })
+
+    const contextId: string = await this.stoppedContextIdPromise
 
     this.setState(ClientState.Connected)
     this.activeContexts.delete(contextId)
