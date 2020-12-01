@@ -1,11 +1,14 @@
+import { Microphone } from '../microphone'
+import { APIClient } from '../websocket'
+import { Storage } from '../storage'
 import { Client } from './client'
-import { ClientState } from './types'
+import { ClientState, StateChangeCallback } from './types'
 
-let microphone
-let apiClient
-let storage
-let client
-let stateChangeCb
+let microphone: Microphone
+let apiClient: APIClient
+let storage: Storage
+let client: Client
+let stateChangeCb: StateChangeCallback
 
 describe('Speechly Client', function () {
   beforeEach(async function() {
