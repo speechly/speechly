@@ -9,7 +9,7 @@ import {
   BigTranscriptContainer,
   PushToTalkButton,
   PushToTalkButtonContainer,
-} from "./@speechly/react-ui";
+} from "@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
 
 type DeviceStates = {
@@ -161,7 +161,7 @@ function SpeechlyApp() {
             }}
           >
             {Object.keys(appState.rooms[room]).map((device) => (
-              <Device device={device} state={appState.rooms[room][device]} tentativeState={tentativeAppState.rooms[room][device]} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+              <Device key={device} device={device} state={appState.rooms[room][device]} tentativeState={tentativeAppState.rooms[room][device]} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
             ))}
           </div>
         </div>
