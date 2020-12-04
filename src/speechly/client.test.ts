@@ -4,14 +4,19 @@ import { Storage } from '../storage'
 import { Client } from './client'
 import { ClientState, StateChangeCallback } from './types'
 
+type StateChangeCallbackMock = StateChangeCallback & jest.Mock<any, any>
+
 let microphone: Microphone
 let apiClient: APIClient
 let storage: Storage
 let client: Client
-let stateChangeCb: StateChangeCallback
+let stateChangeCb: StateChangeCallbackMock
 
 describe('Speechly Client', function () {
   beforeEach(async function() {
+    const stopContextMock: jest.Mock<Promise<string>, []> =
+    jest.fn(async (): Promise<string> => new Promise(resolve => resolve(Date.now().toString())))
+
     microphone = {
       onAudio: jest.fn(),
       initialize: jest.fn(),
@@ -25,8 +30,8 @@ describe('Speechly Client', function () {
       onClose: jest.fn(),
       initialize: jest.fn(),
       close: jest.fn(),
-      startContext: jest.fn(() => Date.now()),
-      stopContext: jest.fn(() => Date.now()),
+      startContext: jest.fn(),
+      stopContext: stopContextMock,
       sendAudio: jest.fn(),
     }
 
@@ -60,25 +65,23 @@ describe('Speechly Client', function () {
 
   it('delay stop context after call for 250 ms', async function () {
     await client.startContext()
-    expect(apiClient.startContext.mock.calls.length).toBe(1)
+    // expect(apiClient.startContext.mock.calls.length).toBe(1)
     expect(stateChangeCb.mock.calls[2][0]).toBe(ClientState.Starting)
     expect(stateChangeCb.mock.calls[3][0]).toBe(ClientState.Recording)
     const callStopTime = Date.now()
-    client.stopContext()
-    await new Promise((resolve) => setTimeout(resolve, 250))
+    const stopPromise = client.stopContext()
+    const realStopTime = await stopPromise
     expect(apiClient.stopContext.mock.calls.length).toBe(1)
-    const actualCallStopTime = apiClient.stopContext.mock.results[0].value
-    expect(actualCallStopTime - callStopTime).toBeGreaterThanOrEqual(250)
+    expect(parseInt(realStopTime) - callStopTime).toBeGreaterThanOrEqual(250)
   })
 
   it('cancel delay stop context on start context', async function () {
     await client.startContext()
     const callStopTime = Date.now()
-    client.stopContext()
+    const stopPromise = client.stopContext()
     await client.startContext()
-    await new Promise((resolve) => setTimeout(resolve, 100))
+    const realStopTime = await stopPromise
     expect(apiClient.stopContext.mock.calls.length).toBe(1)
-    const actualCallStopTime = apiClient.stopContext.mock.results[0].value
-    expect(actualCallStopTime - callStopTime).toBeLessThan(250)
+    expect(parseInt(realStopTime) - callStopTime).toBeLessThan(250)
   })
 })
