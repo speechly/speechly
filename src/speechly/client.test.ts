@@ -6,17 +6,18 @@ import { ClientState, StateChangeCallback } from './types'
 
 type StateChangeCallbackMock = StateChangeCallback & jest.Mock<any, any>
 
+type APIClientMock = APIClient & {
+  stopContext: jest.Mock<Promise<string>, []>
+}
+
 let microphone: Microphone
-let apiClient: APIClient
+let apiClient: APIClientMock
 let storage: Storage
 let client: Client
 let stateChangeCb: StateChangeCallbackMock
 
 describe('Speechly Client', function () {
   beforeEach(async function() {
-    const stopContextMock: jest.Mock<Promise<string>, []> =
-    jest.fn(async (): Promise<string> => new Promise(resolve => resolve(Date.now().toString())))
-
     microphone = {
       onAudio: jest.fn(),
       initialize: jest.fn(),
@@ -31,7 +32,7 @@ describe('Speechly Client', function () {
       initialize: jest.fn(),
       close: jest.fn(),
       startContext: jest.fn(),
-      stopContext: stopContextMock,
+      stopContext: jest.fn(async (): Promise<string> => new Promise(resolve => resolve(Date.now().toString()))),
       sendAudio: jest.fn(),
     }
 
