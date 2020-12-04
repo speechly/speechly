@@ -7,6 +7,7 @@ import { ClientState, StateChangeCallback } from './types'
 type StateChangeCallbackMock = StateChangeCallback & jest.Mock<any, any>
 
 type APIClientMock = APIClient & {
+  startContext: jest.Mock<Promise<string>, []>
   stopContext: jest.Mock<Promise<string>, []>
 }
 
@@ -66,7 +67,7 @@ describe('Speechly Client', function () {
 
   it('delay stop context after call for 250 ms', async function () {
     await client.startContext()
-    // expect(apiClient.startContext.mock.calls.length).toBe(1)
+    expect(apiClient.startContext.mock.calls.length).toBe(1)
     expect(stateChangeCb.mock.calls[2][0]).toBe(ClientState.Starting)
     expect(stateChangeCb.mock.calls[3][0]).toBe(ClientState.Recording)
     const callStopTime = Date.now()
