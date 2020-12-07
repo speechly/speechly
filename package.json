@@ -48,7 +48,7 @@
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
-    "@speechly/browser-client": "^1.0.0"
+    "@speechly/browser-client": "^1.0.2"
   },
   "peerDependencies": {
     "react": "^16.13.1"

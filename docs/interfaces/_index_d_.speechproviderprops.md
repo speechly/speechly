@@ -35,7 +35,7 @@ Props for SpeechContext provider, which are used to initialise API client.
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[apiClient](_index_d_.speechproviderprops.md#apiclient)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:202*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:207*
 
 Custom API client implementation.
 If not provided, an implementation based on Speechly SLU WebSocket API is used.
@@ -48,7 +48,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[apiUrl](_index_d_.speechproviderprops.md#apiurl)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:184*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:189*
 
 The URL of Speechly SLU API endpoint.
 
@@ -60,7 +60,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[appId](_index_d_.speechproviderprops.md#appid)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:172*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:177*
 
 The unique identifier of an app in the dashboard.
 
@@ -72,7 +72,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[debug](_index_d_.speechproviderprops.md#debug)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:192*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:197*
 
 Whether to output debug statements to the console.
 
@@ -90,11 +90,11 @@ ___
 
 ### language
 
-•  **language**: string
+• `Optional` **language**: undefined \| string
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[language](_index_d_.speechproviderprops.md#language)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:176*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:181*
 
 The language which is used by the app.
 
@@ -106,7 +106,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[loginUrl](_index_d_.speechproviderprops.md#loginurl)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:180*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:185*
 
 The URL of Speechly login endpoint.
 
@@ -118,7 +118,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[microphone](_index_d_.speechproviderprops.md#microphone)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:197*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:202*
 
 Custom microphone implementation.
 If not provided, an implementation based on getUserMedia and Web Audio API is used.
@@ -131,7 +131,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[sampleRate](_index_d_.speechproviderprops.md#samplerate)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:188*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:193*
 
 The sample rate of the audio to use.
 
@@ -143,7 +143,7 @@ ___
 
 *Inherited from [SpeechProviderProps](_index_d_.speechproviderprops.md).[storage](_index_d_.speechproviderprops.md#storage)*
 
-*Defined in node_modules/@speechly/browser-client/index.d.ts:207*
+*Defined in node_modules/@speechly/browser-client/index.d.ts:212*
 
 Custom storage implementation.
 If not provided, browser's LocalStorage API is used.
