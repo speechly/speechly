@@ -61,6 +61,9 @@ export class Client {
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
   private readonly reconnectAttemptCount = 5
   private readonly reconnectMinDelay = 1000
+  private readonly contextStopDelay = 250
+  private stoppedContextIdPromise?: Promise<string>
+  private resolveStopContext?: (value?: unknown) => void
 
   private deviceId?: string
   private authToken?: string
@@ -189,6 +192,11 @@ export class Client {
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
   async startContext(): Promise<string> {
+    if (this.resolveStopContext != null) {
+      this.resolveStopContext()
+      await this.stoppedContextIdPromise
+    }
+
     if (this.state !== ClientState.Connected) {
       throw Error('Cannot start context - client is not connected')
     }
@@ -211,7 +219,8 @@ export class Client {
   }
 
   /**
-   * Stops current SLU context by sending a stop context event to the API and muting the microphone.
+   * Stops current SLU context by sending a stop context event to the API and muting the microphone
+   * delayed by contextStopDelay = 250 ms
    */
   async stopContext(): Promise<string> {
     if (this.state !== ClientState.Recording) {
@@ -219,8 +228,30 @@ export class Client {
     }
 
     this.setState(ClientState.Stopping)
-    this.microphone.mute()
 
+    this.stoppedContextIdPromise = new Promise((resolve) => {
+      Promise.race([
+        new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
+        new Promise((resolve) => { this.resolveStopContext = resolve }),
+      ])
+        .then(() => {
+          this._stopContext()
+            .then(id => { resolve(id) })
+            .catch(err => { throw err })
+        })
+        .catch(err => { throw err })
+    })
+
+    const contextId: string = await this.stoppedContextIdPromise
+
+    this.setState(ClientState.Connected)
+    this.activeContexts.delete(contextId)
+
+    return contextId
+  }
+
+  private async _stopContext(): Promise<string> {
+    this.microphone.mute()
     let contextId: string
     try {
       contextId = await this.websocket.stopContext()
@@ -228,10 +259,6 @@ export class Client {
       this.setState(ClientState.Failed)
       throw err
     }
-
-    this.setState(ClientState.Connected)
-    this.activeContexts.delete(contextId)
-
     return contextId
   }
 
