@@ -11,9 +11,19 @@ import {
   PushToTalkButtonContainer,
 } from "@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
+import imgBase from "./res/base.png";
+import imgLivingRoomLights from "./res/livingroom-lights.png";
+import imgLivingRoomMusic from "./res/livingroom-music.png";
+import imgLivingRoomTv from "./res/livingroom-tv.png";
+import imgBedroomLights from  "./res/bedroom-lights.png";
+import imgBedroomMusic from  "./res/bedroom-music.png";
+import imgKitchenLights from  "./res/kitchen-lights.png";
 
 type DeviceStates = {
-  [device: string]: boolean;
+  [device: string]: {
+    powerOn: boolean;
+    img?: string;
+  }
 };
 
 type Rooms<T> = {
@@ -27,17 +37,16 @@ type AppState = {
 const DefaultAppState = {
   rooms: {
     "living room": {
-      radio: false,
-      television: false,
-      lights: false,
+      lights: {powerOn: true, img: imgLivingRoomLights},
+      radio: {powerOn: true, img: imgLivingRoomMusic},
+      television: {powerOn: true, img: imgLivingRoomTv},
     },
     bedroom: {
-      radio: false,
-      lights: false,
+      lights: {powerOn: true, img: imgBedroomLights},
+      radio: {powerOn: true, img: imgBedroomMusic},
     },
     kitchen: {
-      radio: false,
-      lights: false,
+      lights: {powerOn: true, img: imgKitchenLights},
     },
   },
 };
@@ -63,8 +72,10 @@ export default function App() {
 
 function SpeechlyApp() {
   const { segment } = useSpeechContext();
-  const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
+
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
+  const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
+
   const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
   const [selectedDevice, setSelectedDevice] = useState<string | undefined>();
 
@@ -112,7 +123,7 @@ function SpeechlyApp() {
               ...appState,
               rooms: {
                 ...appState.rooms,
-                [room]: { ...appState.rooms[room], [device]: isPowerOn },
+                [room]: { ...appState.rooms[room], [device]: {...appState.rooms[room][device], powerOn: isPowerOn }},
               },
             };
           }
@@ -127,6 +138,7 @@ function SpeechlyApp() {
   return (
     <div
       style={{
+        position: "relative",
         display: "flex",
         height: "100vh",
         flexDirection: "row",
@@ -136,41 +148,17 @@ function SpeechlyApp() {
         flexWrap: "wrap",
       }}
     >
-      {Object.keys(appState.rooms).map((room) => (
-        <div
-          key={room}
-          style={{
-            width: "12rem",
-            height: "12rem",
-            padding: "0.5rem",
-            borderWidth: "2px",
-            borderStyle: "solid",
-            borderColor: selectedRoom === room ? "cyan" : "black",
-          }}
-        >
-          {room}
-          <div
-            style={{
-              paddingTop: "1rem",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "start",
-              alignItems: "start",
-              flexWrap: "wrap",
-              position: "relative",
-            }}
-          >
-            {Object.keys(appState.rooms[room]).map((device) => (
-              <Device key={device} device={device} state={appState.rooms[room][device]} tentativeState={tentativeAppState.rooms[room][device]} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
-            ))}
-          </div>
-        </div>
-      ))}
+      <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
+      {Object.keys(appState.rooms).map((room) => 
+          {return Object.keys(appState.rooms[room]).map((device) => (
+            <Device key={device} url={appState.rooms[room][device].img} device={device} state={appState.rooms[room][device].powerOn} tentativeState={tentativeAppState.rooms[room][device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+          ))}
+      )}
     </div>
   );
 }
 
-const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean }> = props => {
+const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean, url?: string }> = props => {
   const [springProps, setSpringProps] = useSpring(() => ({
     backgroundColor: "lightgray",
     config: { tension: 500 },
@@ -195,41 +183,30 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
     const changed = props.state !== props.tentativeState;
     if (changed) {
       setChangeEffect({
-        to: [{changeEffect: 1, config: { tension: 0 }}, {changeEffect: 0, config: { tension: 200 }}],
+        to: [{changeEffect: 1, config: { tension: 0 }}, {changeEffect: 0, config: { duration: 650 }}],
       });
     }
   }, [props.state, props.tentativeState]);
 
+  if (!props.url) return null;
+
   return (
-    <animated.div
+    <animated.img
       key={props.device}
+      src={props.url}
       style={{
-        flexBasis: "5rem",
-        margin: "0.2rem",
-        padding: "0.2rem",
+        position: "absolute",
+        height: "100%",
+        opacity: props.state ? 1 : 0,
         transform: changeEffect.changeEffect.interpolate(
-          x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -5}px, 0)`,
+          x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
         ),
         boxShadow: changeEffect.changeEffect.interpolate(
-          x => `0 0 ${Math.sin((x as number) * Math.PI) * 50}px cyan`,
+          x => `0 0 ${(x as number) * 50}px cyan`,
         ),
-        ...springProps
       }}
     >
-      {props.device}
-      <br />
-      {props.state ? (
-        props.tentativeState ? (
-          <span style={{ color: "green" }}>On</span>
-        ) : (
-          <span style={{ color: "red" }}>Turning off...</span>
-        )
-      ) : !props.tentativeState ? (
-        <span style={{ color: "red" }}>Off</span>
-      ) : (
-        <span style={{ color: "green" }}>Turning on...</span>
-      )}
-    </animated.div>
+    </animated.img>
   )
 }
 
