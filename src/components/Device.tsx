@@ -7,7 +7,12 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
       backgroundColor: "lightgray",
       config: { tension: 500 },
     }));
-  
+
+    const [selectionProps, setSelectionProps] = useSpring(() => ({
+      selection: props.isTentativelySelected ? 1 : 0,
+      config: { tension: 500 },
+    }));
+
     const [changeEffect, setChangeEffect] = useSpring(() => ({
       changeEffect: 0,
       to: {changeEffect: 0}
@@ -16,13 +21,18 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
     useEffect(() => {
       setSpringProps({
         from: {backgroundColor: "#ffffff"},
-        backgroundColor: props.isTentativelySelected
-          ? "cyan"
-          : props.state ? "green" : "red",
+        backgroundColor: props.state ? "green" : "red",
         config: { tension: 200 }
       })
-    }, [props.isTentativelySelected, props.state]);
-  
+    }, [props.state]);
+
+    useEffect(() => {
+      setSelectionProps({
+        selection: props.isTentativelySelected ? 1 : 0,
+        config: { tension: 200 }
+      })
+    }, [props.isTentativelySelected]);
+
     useEffect(() => {
       const changed = props.state !== props.tentativeState;
       if (changed) {
@@ -44,8 +54,8 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
           transform: changeEffect.changeEffect.interpolate(
             x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
           ),
-          boxShadow: changeEffect.changeEffect.interpolate(
-            x => `0 0 ${(x as number) * 50}px cyan`,
+          boxShadow: selectionProps.selection.interpolate(
+            x => `0 0 ${(x as number) * 10}px cyan`,
           ),
           ...springProps
         }}

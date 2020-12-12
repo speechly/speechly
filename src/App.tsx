@@ -9,7 +9,7 @@ import {
   BigTranscriptContainer,
   PushToTalkButton,
   PushToTalkButtonContainer,
-} from "@speechly/react-ui";
+} from "./@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
 
 import Device from "./components/Device";
@@ -123,8 +123,8 @@ function SpeechlyApp() {
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        setSelectedRoom(undefined);
-        setSelectedDevice(undefined);
+        // setSelectedRoom(undefined);
+        // setSelectedDevice(undefined);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,40 +133,51 @@ function SpeechlyApp() {
   // Create a modified app state by applying the speech segment info to the base state
   const alterAppState = useCallback(
     (segment: SpeechSegment): AppState => {
-      // console.log(segment);
+      console.log(segment);
       switch (segment.intent.intent) {
         case "turn_on":
         case "turn_off":
-          // Get values for room and device entities. Note that values are UPPER CASE by default.
-          const room = segment.entities
+        case "select":
+            // Get values for room and device entities. Note that values are UPPER CASE by default.
+          let room = segment.entities
             .find((entity) => entity.type === "room")
             ?.value.toLowerCase();
-          const device = segment.entities
+          let device = segment.entities
             .find((entity) => entity.type === "device")
             ?.value.toLowerCase();
-          setSelectedRoom(room);
-          setSelectedDevice(device);
+          if (room) {
+            setSelectedRoom(room);
+          } else {
+            room = selectedRoom;
+          }
+          if (device) {
+            setSelectedDevice(device);
+          } else {
+            device = selectedDevice;
+          }
           // Set desired device powerOn based on the intent
-          const isPowerOn = segment.intent.intent === "turn_on";
-          if (
-            room &&
-            device &&
-            appState.rooms[room] !== undefined &&
-            appState.rooms[room].devices[device] !== undefined
-          ) {
-            return {
-              ...appState,
-              rooms: {
-                ...appState.rooms,
-                [room]: { ...appState.rooms[room], devices: {...appState.rooms[room].devices, [device]: {...appState.rooms[room].devices[device], powerOn: isPowerOn }}},
-              },
-            };
+          if (segment.intent.intent === "turn_on" || segment.intent.intent === "turn_off") {
+            const isPowerOn = segment.intent.intent === "turn_on";
+            if (
+              room &&
+              device &&
+              appState.rooms[room] !== undefined &&
+              appState.rooms[room].devices[device] !== undefined
+            ) {
+              return {
+                ...appState,
+                rooms: {
+                  ...appState.rooms,
+                  [room]: { ...appState.rooms[room], devices: {...appState.rooms[room].devices, [device]: {...appState.rooms[room].devices[device], powerOn: isPowerOn }}},
+                },
+              };
+            }
           }
           break;
       }
       return appState;
     },
-    [appState]
+    [appState, selectedRoom, selectedDevice]
   );
 
   // Render the app state as outlined boxes representing rooms with devices in them
