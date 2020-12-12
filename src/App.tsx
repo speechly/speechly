@@ -192,7 +192,7 @@ function SpeechlyApp() {
             <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
           ))}
       )}
-      <img src={imgBase} style={{zIndex: -1, height:"100%", position: "relative"}}/>
+      <img src={imgBase} style={{zIndex: -1, height:"100%", width:"auto", position: "relative"}}/>
       {Object.keys(appState.rooms).map((room) => (
         <div
           key={room}
