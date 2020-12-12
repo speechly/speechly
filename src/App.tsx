@@ -173,7 +173,6 @@ function SpeechlyApp() {
   return (
     <div
       style={{
-        position: "relative",
         display: "flex",
         height: "100vh",
         flexDirection: "row",
@@ -183,12 +182,17 @@ function SpeechlyApp() {
         overflow:"hidden",
       }}
     >
-      <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
+      <div
+      style={{
+        position: "relative",
+        height: "100vh",
+      }}>
       {Object.keys(appState.rooms).map((room) => 
           {return Object.keys(appState.rooms[room].devices).map((device) => (
             <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
           ))}
       )}
+      <img src={imgBase} style={{zIndex: -1, height:"100%", position: "relative"}}/>
       {Object.keys(appState.rooms).map((room) => (
         <div
           key={room}
@@ -224,7 +228,7 @@ function SpeechlyApp() {
           </div>
         </div>
       ))}
-
+    </div>
     </div>
   );
 }
