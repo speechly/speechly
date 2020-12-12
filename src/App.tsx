@@ -11,6 +11,9 @@ import {
   PushToTalkButtonContainer,
 } from "@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
+
+import Device from "./components/Device";
+
 import imgBase from "./res/base.png";
 import imgLivingRoomLights from "./res/livingroom-lights.png";
 import imgLivingRoomMusic from "./res/livingroom-music.png";
@@ -18,11 +21,17 @@ import imgLivingRoomTv from "./res/livingroom-tv.png";
 import imgBedroomLights from  "./res/bedroom-lights.png";
 import imgBedroomMusic from  "./res/bedroom-music.png";
 import imgKitchenLights from  "./res/kitchen-lights.png";
+import imgTerraceLights from  "./res/terrace-lights.png";
+import imgGarageLights from  "./res/garage-lights.png";
 
 type DeviceStates = {
-  [device: string]: {
-    powerOn: boolean;
-    img?: string;
+  statusLeft: string,
+  statusTop: string,
+  devices: {
+    [device: string]: {
+      powerOn: boolean;
+      img?: string;
+    }
   }
 };
 
@@ -37,16 +46,42 @@ type AppState = {
 const DefaultAppState = {
   rooms: {
     "living room": {
-      lights: {powerOn: true, img: imgLivingRoomLights},
-      radio: {powerOn: true, img: imgLivingRoomMusic},
-      television: {powerOn: true, img: imgLivingRoomTv},
+      statusLeft: "65%",
+      statusTop: "35%",
+      devices: {
+        lights: {powerOn: true, img: imgLivingRoomLights},
+        radio: {powerOn: true, img: imgLivingRoomMusic},
+        television: {powerOn: true, img: imgLivingRoomTv},
+      }
     },
     bedroom: {
-      lights: {powerOn: true, img: imgBedroomLights},
-      radio: {powerOn: true, img: imgBedroomMusic},
+      statusLeft: "40%",
+      statusTop: "10%",
+      devices: {
+        lights: {powerOn: true, img: imgBedroomLights},
+        radio: {powerOn: true, img: imgBedroomMusic},
+      }
+    },
+    garage: {
+      statusLeft: "20%",
+      statusTop: "35%",
+      devices: {
+        lights: {powerOn: true, img: imgGarageLights},
+      }
     },
     kitchen: {
-      lights: {powerOn: true, img: imgKitchenLights},
+      statusLeft: "40%",
+      statusTop: "60%",
+      devices: {
+        lights: {powerOn: true, img: imgKitchenLights},
+      }
+    },
+    terrace: {
+      statusLeft: "80%",
+      statusTop: "60%",
+      devices: {
+        lights: {powerOn: true, img: imgTerraceLights},
+      }
     },
   },
 };
@@ -117,13 +152,13 @@ function SpeechlyApp() {
             room &&
             device &&
             appState.rooms[room] !== undefined &&
-            appState.rooms[room][device] !== undefined
+            appState.rooms[room].devices[device] !== undefined
           ) {
             return {
               ...appState,
               rooms: {
                 ...appState.rooms,
-                [room]: { ...appState.rooms[room], [device]: {...appState.rooms[room][device], powerOn: isPowerOn }},
+                [room]: { ...appState.rooms[room], devices: {...appState.rooms[room].devices, [device]: {...appState.rooms[room].devices[device], powerOn: isPowerOn }}},
               },
             };
           }
@@ -145,48 +180,67 @@ function SpeechlyApp() {
         justifyContent: "center",
         alignItems: "center",
         alignContent: "center",
-        flexWrap: "wrap",
+        overflow:"hidden",
       }}
     >
       <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
       {Object.keys(appState.rooms).map((room) => 
-          {return Object.keys(appState.rooms[room]).map((device) => (
-            <Device key={device} url={appState.rooms[room][device].img} device={device} state={appState.rooms[room][device].powerOn} tentativeState={tentativeAppState.rooms[room][device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+          {return Object.keys(appState.rooms[room].devices).map((device) => (
+            <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
           ))}
       )}
+      {Object.keys(appState.rooms).map((room) => (
+        <div
+          key={room}
+          style={{
+            position: "absolute",
+            left: appState.rooms[room].statusLeft,
+            top: appState.rooms[room].statusTop,
+            width: "12rem",
+            height: "12rem",
+            padding: "0rem",
+          }}
+        >
+          <span style={{
+            borderRadius: "1rem",
+            padding: "0rem 0.5rem",
+            backgroundColor:
+              selectedRoom === room ? "cyan" : "white"}}>
+          {room}</span>
+          <div
+            style={{
+              paddingTop: "0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "start",
+              alignItems: "start",
+              flexWrap: "wrap",
+              position: "relative",
+            }}
+          >
+            {Object.keys(appState.rooms[room].devices).map((device) => (
+              <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+            ))}
+          </div>
+        </div>
+      ))}
+
     </div>
   );
 }
 
-const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean, url?: string }> = props => {
+const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean, url?: string }> = props => {
   const [springProps, setSpringProps] = useSpring(() => ({
-    backgroundColor: "lightgray",
+    opacity: props.state ? 1 : 0,
     config: { tension: 500 },
-  }));
-
-  const [changeEffect, setChangeEffect] = useSpring(() => ({
-    changeEffect: 0,
-    to: {changeEffect: 0}
   }));
 
   useEffect(() => {
     setSpringProps({
-      from: {backgroundColor: "#ffffff"},
-      backgroundColor: props.isTentativelySelected
-        ? "cyan"
-        : "lightgray",
-      config: { tension: 200 }
+      opacity: props.state ? 1 : 0,
+      config: { tension: 50 }
     })
-  }, [props.isTentativelySelected]);
-
-  useEffect(() => {
-    const changed = props.state !== props.tentativeState;
-    if (changed) {
-      setChangeEffect({
-        to: [{changeEffect: 1, config: { tension: 0 }}, {changeEffect: 0, config: { duration: 650 }}],
-      });
-    }
-  }, [props.state, props.tentativeState]);
+  }, [props.state]);
 
   if (!props.url) return null;
 
@@ -197,13 +251,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
       style={{
         position: "absolute",
         height: "100%",
-        opacity: props.state ? 1 : 0,
-        transform: changeEffect.changeEffect.interpolate(
-          x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
-        ),
-        boxShadow: changeEffect.changeEffect.interpolate(
-          x => `0 0 ${(x as number) * 50}px cyan`,
-        ),
+        ...springProps,
       }}
     >
     </animated.img>

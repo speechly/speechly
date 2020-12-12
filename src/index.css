@@ -7,6 +7,7 @@ body {
   margin: 0;
   font-family: "Organetto";
   line-height: 1.15;
+  background-color: #CEDCEE;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
