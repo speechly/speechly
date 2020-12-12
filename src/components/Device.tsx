@@ -4,7 +4,8 @@ import { animated, useSpring } from "react-spring";
 
 const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean }> = props => {
     const [springProps, setSpringProps] = useSpring(() => ({
-      backgroundColor: "lightgray",
+      backgroundColor: props.state ? "green" : "red",
+      active: props.state ? 12 : 36,
       config: { tension: 500 },
     }));
 
@@ -22,6 +23,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
       setSpringProps({
         from: {backgroundColor: "#ffffff"},
         backgroundColor: props.state ? "green" : "red",
+        active: props.state ? 12 : 36,
         config: { tension: 200 }
       })
     }, [props.state]);
@@ -48,9 +50,14 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
         style={{
           fontSize: "85%",
           borderRadius: "1rem",
-          padding: "0rem 0.5rem",
+          padding: "0rem 0.5rem 0 0.2rem",
           margin: "0.1rem 0",
           minWidth: "4rem",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "start",
+          alignItems: "center",
+          color: "#000000",
           transform: changeEffect.changeEffect.interpolate(
             x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
           ),
@@ -60,15 +67,24 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
           ...springProps
         }}
       >
+        <animated.svg style={{paddingRight: "0.2rem"}}
+          width="20" height="10"
+          viewBox="0 0 48 24"
+          xmlns="http://www.w3.org/2000/svg">
+
+          <rect x="0" width="48" height="24" rx="12" fill="#00000080"/>
+          <circle cx={springProps.active.getValue() as number} cy="12" r="12" fill="#ffffffff" />
+        </animated.svg>
+
         {props.device}
         {props.state ? (
           props.tentativeState ? (
-            <span style={{ color: "green" }}>On</span>
+            <span style={{ color: "green" }}></span>
           ) : (
             <span style={{ color: "red" }}>Turning off...</span>
           )
         ) : !props.tentativeState ? (
-          <span style={{ color: "red" }}>Off</span>
+          <span style={{ color: "red" }}></span>
         ) : (
           <span style={{ color: "green" }}>Turning on...</span>
         )}
