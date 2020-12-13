@@ -96,10 +96,10 @@ export default function App() {
         <BigTranscriptContainer>
           <BigTranscript />
         </BigTranscriptContainer>
-        <SpeechlyApp />
         <PushToTalkButtonContainer>
           <PushToTalkButton captureKey=" " />
         </PushToTalkButtonContainer>
+        <SpeechlyApp />
       </SpeechProvider>
     </div>
   );
@@ -184,61 +184,66 @@ function SpeechlyApp() {
   return (
     <div
       style={{
-        display: "flex",
-        height: "100vh",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-        overflow:"hidden",
+        minWidth: "100%",
+        minHeight: "100%",
+        backgroundColor: "red",
       }}
     >
       <div
-      style={{
-        position: "relative",
-        height: "100vh",
-      }}>
-      {Object.keys(appState.rooms).map((room) => 
-          {return Object.keys(appState.rooms[room].devices).map((device) => (
-            <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
-          ))}
-      )}
-      <img src={imgBase} style={{zIndex: -1, height:"100%", width:"auto", position: "relative"}}/>
-      {Object.keys(appState.rooms).map((room) => (
-        <div
-          key={room}
-          style={{
-            position: "absolute",
-            left: appState.rooms[room].statusLeft,
-            top: appState.rooms[room].statusTop,
-            width: "12rem",
-            height: "12rem",
-            padding: "0rem",
-          }}
-        >
-          <span style={{
-            borderRadius: "1rem",
-            padding: "0rem 0.5rem",
-            backgroundColor:
-              selectedRoom === room ? "cyan" : "white"}}>
-          {room}</span>
+        style={{
+          margin: "auto",
+        }}
+      >
+      <div
+        style={{
+          position: "relative",
+          display: "inline-block",
+          overflow: "hidden",
+          backgroundColor: "yellow",
+        }}
+      >
+        <img src={imgBase} style={{height:"100vh"}}/>
+        {Object.keys(appState.rooms).map((room) => 
+            {return Object.keys(appState.rooms[room].devices).map((device) => (
+              <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+            ))}
+        )}
+        {Object.keys(appState.rooms).map((room) => (
           <div
+            key={room}
             style={{
-              paddingTop: "0.5rem",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "start",
-              alignItems: "start",
-              flexWrap: "wrap",
-              position: "relative",
+              position: "absolute",
+              left: appState.rooms[room].statusLeft,
+              top: appState.rooms[room].statusTop,
+              width: "12rem",
+              height: "12rem",
+              padding: "0rem",
             }}
           >
-            {Object.keys(appState.rooms[room].devices).map((device) => (
-              <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
-            ))}
+            <span style={{
+              borderRadius: "1rem",
+              padding: "0rem 0.5rem",
+              backgroundColor:
+                selectedRoom === room ? "cyan" : "white"}}>
+            {room}</span>
+            <div
+              style={{
+                paddingTop: "0.5rem",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "start",
+                alignItems: "start",
+                flexWrap: "wrap",
+                position: "relative",
+              }}
+            >
+              {Object.keys(appState.rooms[room].devices).map((device) => (
+                <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
     </div>
   );
@@ -265,6 +270,8 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
       src={props.url}
       style={{
         position: "absolute",
+        top: "0",
+        left: "0",
         height: "100%",
         ...springProps,
       }}
