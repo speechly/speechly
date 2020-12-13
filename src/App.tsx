@@ -186,23 +186,30 @@ function SpeechlyApp() {
       style={{
         minWidth: "100%",
         minHeight: "100%",
-        backgroundColor: "red",
+        overflow: "auto",
       }}
     >
       <div
         style={{
-          margin: "auto",
+          minWidth: "115vh",
+          minHeight: "100vh",
+          display: "flex",
+          alignContent: "center",
+          alignItems: "start",
+          justifyContent: "center",
         }}
       >
       <div
         style={{
+          flexShrink: 0,
+          flexGrow: 0,
           position: "relative",
-          display: "inline-block",
+          width: "115vh",
+          height: "90vh",
           overflow: "hidden",
-          backgroundColor: "yellow",
         }}
       >
-        <img src={imgBase} style={{height:"100vh"}}/>
+        <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
         {Object.keys(appState.rooms).map((room) => 
             {return Object.keys(appState.rooms[room].devices).map((device) => (
               <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
