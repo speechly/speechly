@@ -185,7 +185,6 @@ function SpeechlyApp() {
       <MapInteractionCSS minScale={0.5} maxScale={3.0} defaultValue={{scale: 0.90, translation: {x:0, y:0}}}>
       <div
         style={{
-          margin: "auto",
           position: "relative",
           width: "125vh",
           height: "100vh",
