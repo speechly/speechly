@@ -11,7 +11,7 @@ import {
   PushToTalkButtonContainer,
 } from "./@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
-
+import { MapInteractionCSS } from 'react-map-interaction';
 import Device from "./components/Device";
 
 import imgBase from "./res/base.png";
@@ -182,30 +182,14 @@ function SpeechlyApp() {
 
   // Render the app state as outlined boxes representing rooms with devices in them
   return (
-    <div
-      style={{
-        minWidth: "100%",
-        minHeight: "100%",
-        overflow: "auto",
-      }}
-    >
-      <div
-        style={{
-          minWidth: "115vh",
-          minHeight: "100vh",
-          display: "flex",
-          alignContent: "center",
-          alignItems: "start",
-          justifyContent: "center",
-        }}
-      >
+      <MapInteractionCSS defaultValue={{scale: 0.90, translation: {x:0, y:0}}}>
       <div
         style={{
           flexShrink: 0,
           flexGrow: 0,
           position: "relative",
-          width: "115vh",
-          height: "90vh",
+          width: "125vh",
+          height: "100vh",
           overflow: "hidden",
         }}
       >
@@ -251,8 +235,7 @@ function SpeechlyApp() {
           </div>
         ))}
       </div>
-    </div>
-    </div>
+      </MapInteractionCSS>
   );
 }
 
