@@ -9,6 +9,7 @@ import {
   BigTranscriptContainer,
   PushToTalkButton,
   PushToTalkButtonContainer,
+  ErrorPanel,
 } from "./@speechly/react-ui";
 import { animated, useSpring } from "react-spring";
 import { MapInteractionCSS } from 'react-map-interaction';
@@ -23,6 +24,7 @@ import imgBedroomMusic from  "./res/bedroom-music.png";
 import imgKitchenLights from  "./res/kitchen-lights.png";
 import imgTerraceLights from  "./res/terrace-lights.png";
 import imgGarageLights from  "./res/garage-lights.png";
+import HttpsRedirect from "./components/HttpsRedirect";
 
 type DeviceStates = {
   statusLeft: string,
@@ -89,18 +91,21 @@ const DefaultAppState = {
 export default function App() {
   return (
     <div className="App">
-      <SpeechProvider
-        appId="a14e42a3-917e-4a57-81f7-7433ec71abad"
-        language="en-US"
-      >
-        <BigTranscriptContainer>
-          <BigTranscript />
-        </BigTranscriptContainer>
-        <PushToTalkButtonContainer>
-          <PushToTalkButton captureKey=" " />
-        </PushToTalkButtonContainer>
-        <SpeechlyApp />
-      </SpeechProvider>
+      <HttpsRedirect>
+        <SpeechProvider
+          appId="738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
+          language="en-US"
+        >
+          <BigTranscriptContainer>
+            <BigTranscript />
+          </BigTranscriptContainer>
+          <PushToTalkButtonContainer>
+            <ErrorPanel/>
+            <PushToTalkButton captureKey=" " />
+          </PushToTalkButtonContainer>
+          <SpeechlyApp />
+        </SpeechProvider>
+      </HttpsRedirect>
     </div>
   );
 }

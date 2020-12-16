@@ -13,6 +13,7 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.4",
+    "pubsub-js": "^1.9.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-map-interaction": "^2.0.0",
@@ -24,7 +25,8 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/server.js",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -47,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/pubsub-js": "^1.8.1"
   }
 }

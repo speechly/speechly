@@ -3,16 +3,18 @@ import React, {
   useCallback,
   SyntheticEvent,
   useReducer,
-} from "react";
+} from 'react'
 import {
   useSpring,
   animated,
   interpolate,
   OpaqueInterpolation,
-} from "react-spring";
-import { useKeyboardEvent } from "../hooks/useKeyboardEvent";
-import { SpeechState, useSpeechContext } from "@speechly/react-client";
-import styled, { keyframes, css } from "styled-components";
+} from 'react-spring'
+import { useKeyboardEvent } from '../hooks/useKeyboardEvent'
+import { SpeechState, useSpeechContext } from '@speechly/react-client'
+import PubSub from 'pubsub-js'
+import styled, { keyframes, css } from 'styled-components'
+import { SpeechlyUiEvents } from '../types'
 
 /**
  * Properties for PushToTalkButton component.
@@ -24,24 +26,24 @@ export type PushToTalkButtonProps = {
    * Keyboard key to use for controlling the button.
    * Passing e.g. ` ` (a spacebar) will mean that holding down the spacebar key will key the button pressed.
    */
-  captureKey?: string;
+  captureKey?: string
 
   /**
    * The size of the button, as CSS (e.g. `5rem`).
    */
-  size?: string;
+  size?: string
 
   /**
    * Colours of the gradient around the button.
    * Valid input is an array of two hex colour codes, e.g. `['#fff', '#000']`.
    */
-  gradientStops?: string[];
+  gradientStops?: string[]
 
   /**
    * Drag start event
    */
-  onDragStart?: () => void;
-};
+  onDragStart?: () => void
+}
 
 /**
  * A React component that renders a push-to-talk microphone button.
@@ -52,44 +54,44 @@ export type PushToTalkButtonProps = {
  */
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   captureKey,
-  size = "6.0rem",
-  gradientStops = ["#15e8b5", "#4fa1f9"],
+  size = '6.0rem',
+  gradientStops = ['#15e8b5', '#4fa1f9'],
   onDragStart = () => {},
 }) => {
-  const { speechState, toggleRecording, initialise } = useSpeechContext();
+  const { speechState, toggleRecording, initialise } = useSpeechContext()
   const [tangentButtonState, buttonDispatch] = useReducer(
     buttonReducer,
-    ButtonDefaultState
-  );
+    ButtonDefaultState,
+  )
 
   const [springProps, setSpringProps] = useSpring(() => ({
     holdScale: 1,
     effectOpacity: 0,
-  }));
+  }))
 
   useKeyboardEvent(
     async (event: KeyboardEvent) => {
       try {
-        await onKeyPress(event);
+        await onKeyPress(event)
       } catch (err) {
-        console.error("Error handling onKeyPress", err);
+        console.error('Error handling onKeyPress', err)
       }
     },
     (event: KeyboardEvent) => onKeyRelease(event),
-    [captureKey, speechState] // useState dependencies used in the callback, or in the functions used by the callback
-  );
+    [captureKey, speechState], // useState dependencies used in the callback, or in the functions used by the callback
+  )
 
   const tangentPressAction = async (): Promise<void> => {
     // Speechly & Mic initialise needs to be here (a function triggered by event handler), otherwise it won't work reliably on Safari iOS as of 11/2020
-    vibrate();
+    vibrate()
 
     if (isStartButtonVisible(speechState)) {
-      setSpringProps({ holdScale: 1.35, config: { tension: 500 } });
+      setSpringProps({ holdScale: 1.35, config: { tension: 500 } })
 
       try {
-        await initialise();
+        await initialise()
       } catch (err) {
-        console.error("Error initiasing Speechly", err);
+        console.error('Error initiasing Speechly', err)
       }
     } else {
       setSpringProps({
@@ -97,85 +99,86 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         effectOpacity: 1,
         holdScale: 1.35,
         config: { tension: 500 },
-      });
-      onDragStart();
+      })
+      onDragStart()
 
-      await micStart();
+      await micStart()
     }
 
-    buttonDispatch({ type: TangentEvents.Hold });
-  };
+    buttonDispatch({ type: TangentEvents.Hold })
+  }
 
   const onTangentButtonPress = async (event: SyntheticEvent): Promise<void> => {
-    event.preventDefault();
-    event.stopPropagation();
+    event.preventDefault()
+    event.stopPropagation()
 
-    await tangentPressAction();
-  };
+    await tangentPressAction()
+  }
 
   const onKeyPress = async (event: KeyboardEvent): Promise<void> => {
     if (captureKey !== undefined) {
       if (event.key === captureKey) {
         if (!event.repeat) {
-          await tangentPressAction();
+          await tangentPressAction()
         }
 
-        event.preventDefault();
-        event.stopPropagation();
+        event.preventDefault()
+        event.stopPropagation()
       }
     }
-  };
+  }
 
   const onTangentButtonRelease = (event: SyntheticEvent): void => {
-    buttonDispatch({ type: TangentEvents.Release });
-  };
+    buttonDispatch({ type: TangentEvents.Release })
+  }
 
   const onKeyRelease = (event: KeyboardEvent): void => {
     if (event.key === captureKey) {
-      buttonDispatch({ type: TangentEvents.Release });
+      buttonDispatch({ type: TangentEvents.Release })
     }
-  };
+  }
 
   const micStart = useCallback(async () => {
     switch (speechState) {
       case SpeechState.Idle:
       case SpeechState.Recording:
       case SpeechState.Loading:
-        return;
+        return
     }
 
-    await toggleRecording();
+    await toggleRecording()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speechState]);
+  }, [speechState])
 
   const micStop = useCallback(async () => {
     switch (speechState) {
       case SpeechState.Idle:
       case SpeechState.Connecting:
       case SpeechState.Ready:
-        return;
+        return
     }
 
-    await toggleRecording();
+    await toggleRecording()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speechState]);
+  }, [speechState])
 
   // Handle tangent release (via button, keyboard hotkey)
   useEffect(() => {
     async function handle(): Promise<void> {
-      let animateButtonToReleaseState = false;
+      let animateButtonToReleaseState = false
 
       if (tangentButtonState.processEvent) {
+        PubSub.publish(SpeechlyUiEvents.TangentClick, { state: speechState })
         if (!tangentButtonState.mouseDrag) {
-          vibrate();
-          animateButtonToReleaseState = true;
+          vibrate()
+          animateButtonToReleaseState = true
 
           if (!isStartButtonVisible(speechState)) {
-            await micStop();
+            await micStop()
           }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        buttonDispatch({ type: TangentEvents.Handled });
+        buttonDispatch({ type: TangentEvents.Handled })
       }
 
       // Put button in resting state. Also do this on SpeechState.Ready as we may not get the keyboard up press due to permission prompt
@@ -185,35 +188,35 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           effectOpacity: 0,
           holdScale: 1.0,
           config: { tension: 170 },
-        });
+        })
       }
     }
 
     handle().catch((err) =>
-      console.error("Error handling tangent release", err)
-    );
+      console.error('Error handling tangent release', err),
+    )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tangentButtonState, speechState]);
+  }, [tangentButtonState, speechState])
 
   const isStartButtonVisible = (state: SpeechState): boolean => {
     switch (state) {
       case SpeechState.Idle:
       case SpeechState.Connecting:
-        return true;
+        return true
     }
-    return false;
-  };
+    return false
+  }
 
   // Track document mouseup to reliably release the mic if user drags outside button area.
   React.useEffect(() => {
     const handleMouseUp = (): void =>
-      buttonDispatch({ type: TangentEvents.Cancel });
-    document.addEventListener("mouseup", handleMouseUp);
+      buttonDispatch({ type: TangentEvents.Cancel })
+    document.addEventListener('mouseup', handleMouseUp)
 
     return () => {
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, []);
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [])
 
   return (
     <MicWidgetDiv
@@ -222,8 +225,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         transform: interpolate(
           [springProps.holdScale as OpaqueInterpolation<number>],
           (h) => {
-            return `scale(${h})`;
-          }
+            return `scale(${h})`
+          },
         ),
       }}
     >
@@ -253,8 +256,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         </MicButton>
       )}
     </MicWidgetDiv>
-  );
-};
+  )
+}
 
 const MicFx: React.FC<{ gradientStops: string[] }> = (props) => {
   return (
@@ -284,14 +287,14 @@ const MicFx: React.FC<{ gradientStops: string[] }> = (props) => {
         fillRule="evenodd"
       />
     </MicFxSvg>
-  );
-};
+  )
+}
 
 const MicButton: React.FC<{
-  onClick?: (e: SyntheticEvent) => void;
-  onMouseDown?: (e: SyntheticEvent) => void;
-  onMouseUp?: (e: SyntheticEvent) => void;
-  gradientStops: string[];
+  onClick?: (e: SyntheticEvent) => void
+  onMouseDown?: (e: SyntheticEvent) => void
+  onMouseUp?: (e: SyntheticEvent) => void
+  gradientStops: string[]
 }> = (props) => {
   return (
     <StyledMicButton
@@ -326,8 +329,8 @@ const MicButton: React.FC<{
       </StyledButtonFrameSvg>
       {props.children}
     </StyledMicButton>
-  );
-};
+  )
+}
 
 const MicIcon: React.FC<{ state: string }> = (props) => {
   switch (props.state) {
@@ -339,15 +342,15 @@ const MicIcon: React.FC<{ state: string }> = (props) => {
           viewBox="0 0 56 56"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g fill="#000" fill-rule="evenodd">
+          <g fill="#000" fillRule="evenodd">
             <path
               d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"
-              fill-rule="nonzero"
+              fillRule="nonzero"
             />
             <path d="M37 13.081V31a8 8 0 11-16 0v-1.919l16-16zM26 1a8 8 0 018 8v1.319L18 26.318V9a8 8 0 018-8zM37.969 7.932l3.74-7.35 3.018 2.625zM39.654 10.608l7.531-3.359.695 3.94z" />
           </g>
         </MicIconSvg>
-      );
+      )
     case SpeechState.NoAudioConsent:
       return (
         <MicIconSvg
@@ -355,12 +358,12 @@ const MicIcon: React.FC<{ state: string }> = (props) => {
           viewBox="0 0 56 56"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g fill="#000" fill-rule="nonzero">
+          <g fill="#000" fillRule="nonzero">
             <path d="M36 14.828V30a8 8 0 01-15.961.79l15.96-15.962zM28 1a8 8 0 018 8v.172L20 25.173V9a8 8 0 018-8z" />
             <path d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z" />
           </g>
         </MicIconSvg>
-      );
+      )
     default:
       return (
         <MicIconSvg
@@ -373,9 +376,9 @@ const MicIcon: React.FC<{ state: string }> = (props) => {
             <rect x="20" y="1" width="16" height="37" rx="8" />
           </g>
         </MicIconSvg>
-      );
+      )
   }
-};
+}
 
 const PowerIcon: React.FC<{ state: string }> = (props) => {
   return (
@@ -392,8 +395,8 @@ const PowerIcon: React.FC<{ state: string }> = (props) => {
         <rect x="24" y="1" width="8" height="23" rx="4" />
       </g>
     </MicIconSvg>
-  );
-};
+  )
+}
 
 const MicColorSpinKeys = keyframes`
   from {
@@ -402,7 +405,7 @@ const MicColorSpinKeys = keyframes`
   to {
     transform: rotate(360deg);
   }
-`;
+`
 
 const MicOpacityPulseKeys = keyframes`
   0% {
@@ -414,13 +417,13 @@ const MicOpacityPulseKeys = keyframes`
   100% {
     opacity: 0.1;
   }
-`;
+`
 
 const MicWidgetDiv = styled(animated.div)<{ size: string }>`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
   position: relative;
-`;
+`
 
 const StyledMicButton = styled.div`
   position: absolute;
@@ -431,13 +434,13 @@ const StyledMicButton = styled.div`
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none !important;
   -webkit-user-select: none !important;
-`;
+`
 
 const StyledButtonFrameSvg = styled.svg`
   @media (prefers-reduced-motion: no-preference) {
     animation: ${MicColorSpinKeys} infinite 2.5s linear;
   }
-`;
+`
 
 const MicFxSvg = styled.svg`
   top: -75%;
@@ -449,7 +452,7 @@ const MicFxSvg = styled.svg`
   @media (prefers-reduced-motion: no-preference) {
     animation: ${MicColorSpinKeys} infinite 2.5s linear;
   }
-`;
+`
 
 const MicIconSvg = styled.svg<{ state: string }>`
   width: auto;
@@ -466,73 +469,73 @@ const MicIconSvg = styled.svg<{ state: string }>`
         return css`
           animation: ${MicOpacityPulseKeys} 4.5s infinite;
           transition: 0.25s;
-        `;
+        `
       case SpeechState.NoAudioConsent:
       case SpeechState.Failed:
       case SpeechState.NoBrowserSupport:
         return css`
           opacity: 0.1;
           transition: 0.25s;
-        `;
+        `
       case SpeechState.Connecting:
       case SpeechState.Loading:
         return css`
           animation: ${MicOpacityPulseKeys} 1s infinite;
           transition: 0.25s;
-        `;
+        `
     }
   }}
-`;
+`
 
 const vibrate = (durationMs: number = 5): void => {
   if (navigator.vibrate !== undefined) {
-    navigator.vibrate(durationMs);
+    navigator.vibrate(durationMs)
   }
-};
+}
 
 type IButtonState = {
-  processEvent: boolean;
-  mouseDrag: boolean;
-};
+  processEvent: boolean
+  mouseDrag: boolean
+}
 
 enum TangentEvents {
-  Hold = "Hold",
-  Release = "Release",
-  Cancel = "Cancel",
-  Handled = "Handled",
+  Hold = 'Hold',
+  Release = 'Release',
+  Cancel = 'Cancel',
+  Handled = 'Handled',
 }
 
 const ButtonDefaultState: IButtonState = {
   mouseDrag: false,
   processEvent: false,
-};
+}
 
 const buttonReducer = (state: IButtonState, action: any): IButtonState => {
   switch (action.type) {
     case TangentEvents.Hold: {
-      if (state.mouseDrag) return state;
+      if (state.mouseDrag) return state
       return {
         ...state,
         mouseDrag: true,
         processEvent: true,
-      };
+      }
     }
     case TangentEvents.Cancel:
     case TangentEvents.Release: {
-      if (!state.mouseDrag) return state;
+      if (!state.mouseDrag) return state
       return {
         ...state,
         mouseDrag: false,
         processEvent: true,
-      };
+      }
     }
     case TangentEvents.Handled: {
       return {
         ...state,
         processEvent: false,
-      };
+      }
     }
     default:
-      throw new Error();
+      throw new Error()
   }
-};
+}
