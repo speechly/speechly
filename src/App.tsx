@@ -251,7 +251,7 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
   useEffect(() => {
     setSpringProps({
       opacity: props.state ? 1 : 0,
-      config: { tension: 50 }
+      config: { tension: 500 }
     })
   }, [props.state]);
 

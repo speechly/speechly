@@ -62,7 +62,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
             x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
           ),
           boxShadow: selectionProps.selection.interpolate(
-            x => `0 0 ${(x as number) * 10}px cyan`,
+            x => `0 0 ${(x as number) * 10}px ${(x as number) * 4}px cyan`,
           ),
           ...springProps
         }}
@@ -79,14 +79,14 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
         {props.device}
         {props.state ? (
           props.tentativeState ? (
-            <span style={{ color: "green" }}></span>
+            <span style={{ color: "cyan" }}></span>
           ) : (
-            <span style={{ color: "red" }}>Turning off...</span>
+            <span style={{ color: "cyan" }}>&nbsp;Turning off...</span>
           )
         ) : !props.tentativeState ? (
-          <span style={{ color: "red" }}></span>
+          <span style={{ color: "cyan" }}></span>
         ) : (
-          <span style={{ color: "green" }}>Turning on...</span>
+          <span style={{ color: "cyan" }}>&nbsp;Turning on...</span>
         )}
       </animated.div>
     )
