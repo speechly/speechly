@@ -116,8 +116,8 @@ function SpeechlyApp() {
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
 
-  const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
-  const [selectedDevice, setSelectedDevice] = useState<string | undefined>();
+  const [selectedRooms, setSelectedRooms] = useState<string[]>([]);
+  const [selectedDevices, setSelectedDevices] = useState<string[]>([]);
 
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
@@ -144,45 +144,47 @@ function SpeechlyApp() {
         case "turn_off":
         case "select":
             // Get values for room and device entities. Note that values are UPPER CASE by default.
-          let room = segment.entities
-            .find((entity) => entity.type === "room")
-            ?.value.toLowerCase();
-          let device = segment.entities
-            .find((entity) => entity.type === "device")
-            ?.value.toLowerCase();
-          if (room) {
-            setSelectedRoom(room);
+          let rooms = segment.entities
+            .filter((entity) => entity.type === "room").map(entity => entity.value.toLowerCase());
+          let devices = segment.entities
+            .filter((entity) => entity.type === "device").map(entity => entity.value.toLowerCase());
+          if (rooms.length > 0) {
+            setSelectedRooms(rooms);
           } else {
-            room = selectedRoom;
+            rooms = selectedRooms;
           }
-          if (device) {
-            setSelectedDevice(device);
+          if (devices.length > 0) {
+            setSelectedDevices(devices);
           } else {
-            device = selectedDevice;
+            devices = selectedDevices;
           }
           // Set desired device powerOn based on the intent
           if (segment.intent.intent === "turn_on" || segment.intent.intent === "turn_off") {
             const isPowerOn = segment.intent.intent === "turn_on";
-            if (
-              room &&
-              device &&
-              appState.rooms[room] !== undefined &&
-              appState.rooms[room].devices[device] !== undefined
-            ) {
-              return {
-                ...appState,
-                rooms: {
-                  ...appState.rooms,
-                  [room]: { ...appState.rooms[room], devices: {...appState.rooms[room].devices, [device]: {...appState.rooms[room].devices[device], powerOn: isPowerOn }}},
-                },
-              };
-            }
+            return rooms.reduce((prev: AppState, room: string) => {
+              return devices.reduce((prev: AppState, device: string) => {
+                if (
+                  prev.rooms[room] !== undefined &&
+                  prev.rooms[room].devices[device] !== undefined
+                ) {
+                  return {
+                    ...prev,
+                    rooms: {
+                      ...prev.rooms,
+                      [room]: { ...prev.rooms[room], devices: {...prev.rooms[room].devices, [device]: {...prev.rooms[room].devices[device], powerOn: isPowerOn }}},
+                    },
+                  };
+                } else {
+                  return prev;
+                };
+              }, prev);
+            }, {...appState});
           }
           break;
       }
       return appState;
     },
-    [appState, selectedRoom, selectedDevice]
+    [appState, selectedRooms, selectedDevices]
   );
 
   // Render the app state as outlined boxes representing rooms with devices in them
@@ -199,7 +201,7 @@ function SpeechlyApp() {
         <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
         {Object.keys(appState.rooms).map((room) => 
             {return Object.keys(appState.rooms[room].devices).map((device) => (
-              <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+              <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevices.includes(device) && (selectedRooms.length === 0 || selectedRooms.includes(room))}/>
             ))}
         )}
         {Object.keys(appState.rooms).map((room) => (
@@ -218,7 +220,7 @@ function SpeechlyApp() {
               borderRadius: "1rem",
               padding: "0rem 0.5rem",
               backgroundColor:
-                selectedRoom === room ? "cyan" : "white"}}>
+                selectedRooms.includes(room) ? "cyan" : "white"}}>
             {room}</span>
             <div
               style={{
@@ -232,7 +234,7 @@ function SpeechlyApp() {
               }}
             >
               {Object.keys(appState.rooms[room].devices).map((device) => (
-                <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevice === device && (!selectedRoom || selectedRoom === room)}/>
+                <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevices.includes(device) && (selectedRooms.length === 0 || selectedRooms.includes(room))}/>
               ))}
             </div>
           </div>
