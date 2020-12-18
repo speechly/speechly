@@ -60,6 +60,12 @@ const validDevices = [
   "television",
 ]
 
+const allDevices = [
+  "everything",
+  "all devices",
+  "every device",
+]
+
 const DefaultAppState = {
   rooms: {
     "living room": {
@@ -154,12 +160,27 @@ function SpeechlyApp() {
   const alterAppState = useCallback(
     (segment: SpeechSegment): AppState => {
       console.log(segment);
-      // Get values for room and device entities. Note that values are UPPER CASE by default.
       let workingState = appState;
+      // Get values for room and device entities. Note that values are UPPER CASE by default.
       let newRooms = segment.entities
         .filter((entity) => entity.type === "room" && validRooms.includes(entity.value.toLowerCase()));
-      let newDevices = segment.entities
-        .filter((entity) => entity.type === "device" && validDevices.includes(entity.value.toLocaleLowerCase()));
+      let newDevices: Entity[] = [];
+
+      // Check if all devices are targeted and if that's final
+      let selectAll = segment.entities
+        .reduce((prev, entity) => {
+          if (entity.type === "device" && allDevices.includes(entity.value.toLocaleLowerCase())) {
+            return Math.max(prev, entity.isFinal ? 2 : 1)
+          }
+          return prev
+        }, 0)
+
+      if (selectAll > 0) {
+        newDevices = validDevices.map(deviceName => ({value: deviceName, isFinal: selectAll > 1} as Entity));
+      } else {
+        newDevices = segment.entities
+          .filter((entity) => entity.type === "device" && validDevices.includes(entity.value.toLocaleLowerCase()));
+      }
 
       let rooms = newRooms.length > 0 ? newRooms : selectedRooms;
       let devices = newDevices.length > 0 ? newDevices : selectedDevices;
@@ -173,7 +194,7 @@ function SpeechlyApp() {
             const isPowerOn = segment.intent.intent === "turn_on";
             workingState = rooms.reduce((prev: AppState, room: Entity) => {
               return devices.reduce((prev: AppState, device: Entity) => {
-                if (room.isFinal && device.isFinal) {
+                if ((room.isFinal && device.isFinal) || segment.isFinal) {
                   const roomKey = room.value.toLowerCase();
                   const deviceKey = device.value.toLowerCase();
                   if (
