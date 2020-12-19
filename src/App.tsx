@@ -4,6 +4,7 @@ import {
   SpeechProvider,
   useSpeechContext,
   Entity,
+  Intent,
 } from "@speechly/react-client";
 import {
   BigTranscript,
@@ -139,6 +140,7 @@ function SpeechlyApp() {
 
   const [selectedRooms, setSelectedRooms] = useState<Entity[]>([]);
   const [selectedDevices, setSelectedDevices] = useState<Entity[]>([]);
+  const [selectedIntent, setSelectedIntent] = useState<Intent>({intent: "", isFinal: false});
 
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
@@ -184,36 +186,45 @@ function SpeechlyApp() {
 
       let rooms = newRooms.length > 0 ? newRooms : selectedRooms;
       let devices = newDevices.length > 0 ? newDevices : selectedDevices;
+      let intent = segment.intent;
 
       switch (segment.intent.intent) {
         case "turn_on":
         case "turn_off":
-        case "select":
+          setSelectedIntent(intent);
+          break;
+        default:
+          // Restore earlier intent
+          intent = selectedIntent;
+          break;
+      }
+
+      switch (intent.intent) {
+        case "turn_on":
+        case "turn_off":
           // Set desired device powerOn based on the intent
-          if (segment.intent.intent === "turn_on" || segment.intent.intent === "turn_off") {
-            const isPowerOn = segment.intent.intent === "turn_on";
-            workingState = rooms.reduce((prev: AppState, room: Entity) => {
-              return devices.reduce((prev: AppState, device: Entity) => {
-                if ((room.isFinal && device.isFinal) || segment.isFinal) {
-                  const roomKey = room.value.toLowerCase();
-                  const deviceKey = device.value.toLowerCase();
-                  if (
-                    prev.rooms[roomKey] !== undefined &&
-                    prev.rooms[roomKey].devices[deviceKey] !== undefined
-                  ) {
-                    return {
-                      ...prev,
-                      rooms: {
-                        ...prev.rooms,
-                        [roomKey]: { ...prev.rooms[roomKey], devices: {...prev.rooms[roomKey].devices, [deviceKey]: {...prev.rooms[roomKey].devices[deviceKey], powerOn: isPowerOn }}},
-                      },
-                    };
-                  }
+          const isPowerOn = intent.intent === "turn_on";
+          workingState = rooms.reduce((prev: AppState, room: Entity) => {
+            return devices.reduce((prev: AppState, device: Entity) => {
+              if ((room.isFinal && device.isFinal) || segment.isFinal) {
+                const roomKey = room.value.toLowerCase();
+                const deviceKey = device.value.toLowerCase();
+                if (
+                  prev.rooms[roomKey] !== undefined &&
+                  prev.rooms[roomKey].devices[deviceKey] !== undefined
+                ) {
+                  return {
+                    ...prev,
+                    rooms: {
+                      ...prev.rooms,
+                      [roomKey]: { ...prev.rooms[roomKey], devices: {...prev.rooms[roomKey].devices, [deviceKey]: {...prev.rooms[roomKey].devices[deviceKey], powerOn: isPowerOn }}},
+                    },
+                  };
                 }
-                return prev;
-              }, prev);
-            }, {...workingState});
-          }
+              }
+              return prev;
+            }, prev);
+          }, {...workingState});
           break;
       }
 
@@ -221,6 +232,7 @@ function SpeechlyApp() {
         // Set entities as tentative for the next segment
         rooms.forEach(x => x.isFinal = false);
         devices.forEach(x => x.isFinal = false);
+        intent.isFinal = false;
       }
 
       setSelectedRooms(rooms);
