@@ -16,6 +16,7 @@
     "pubsub-js": "^1.9.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-image-webp": "^0.7.0",
     "react-map-interaction": "^2.0.0",
     "react-refresh": "^0.9.0",
     "react-scripts": "4.0.1",

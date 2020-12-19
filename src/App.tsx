@@ -13,19 +13,11 @@ import {
   PushToTalkButtonContainer,
   ErrorPanel,
 } from "./@speechly/react-ui";
+import { isWebpSupported } from 'react-image-webp/dist/utils';
 import { animated, useSpring } from "react-spring";
 import { MapInteractionCSS } from 'react-map-interaction';
 import Device from "./components/Device";
 
-import imgBase from "./res/base.png";
-import imgLivingRoomLights from "./res/livingroom-lights.png";
-import imgLivingRoomMusic from "./res/livingroom-music.png";
-import imgLivingRoomTv from "./res/livingroom-tv.png";
-import imgBedroomLights from  "./res/bedroom-lights.png";
-import imgBedroomMusic from  "./res/bedroom-music.png";
-import imgKitchenLights from  "./res/kitchen-lights.png";
-import imgTerraceLights from  "./res/terrace-lights.png";
-import imgGarageLights from  "./res/garage-lights.png";
 import HttpsRedirect from "./components/HttpsRedirect";
 
 type DeviceStates = {
@@ -75,38 +67,38 @@ const DefaultAppState = {
       statusLeft: "65%",
       statusTop: "35%",
       devices: {
-        lights: {powerOn: true, img: imgLivingRoomLights},
-        radio: {powerOn: true, img: imgLivingRoomMusic},
-        television: {powerOn: true, img: imgLivingRoomTv},
+        lights: {powerOn: true, img: "livingroom-lights"},
+        radio: {powerOn: true, img: "livingroom-music"},
+        television: {powerOn: true, img: "livingroom-tv"},
       }
     },
     bedroom: {
       statusLeft: "40%",
       statusTop: "10%",
       devices: {
-        lights: {powerOn: true, img: imgBedroomLights},
-        radio: {powerOn: true, img: imgBedroomMusic},
+        lights: {powerOn: true, img: "bedroom-lights"},
+        radio: {powerOn: true, img: "bedroom-music"},
       }
     },
     garage: {
       statusLeft: "20%",
       statusTop: "35%",
       devices: {
-        lights: {powerOn: true, img: imgGarageLights},
+        lights: {powerOn: true, img: "garage-lights"},
       }
     },
     kitchen: {
       statusLeft: "40%",
       statusTop: "60%",
       devices: {
-        lights: {powerOn: true, img: imgKitchenLights},
+        lights: {powerOn: true, img: "kitchen-lights"},
       }
     },
     terrace: {
       statusLeft: "80%",
       statusTop: "60%",
       devices: {
-        lights: {powerOn: true, img: imgTerraceLights},
+        lights: {powerOn: true, img: "terrace-lights"},
       }
     },
   },
@@ -266,7 +258,7 @@ function SpeechlyApp() {
           overflow: "hidden",
         }}
       >
-        <img src={imgBase} style={{height:"100%", position: "absolute"}}/>
+        <img src={isWebpSupported() ? `img-webp/base.webp` : `img-png/base.png`} style={{height:"100%", position: "absolute"}}/>
         {Object.keys(appState.rooms).map((room) => 
             {return Object.keys(appState.rooms[room].devices).map((device) => (
               <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn}/>
@@ -330,7 +322,7 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
   return (
     <animated.img
       key={props.device}
-      src={props.url}
+      src={isWebpSupported() ? `img-webp/${props.url}.webp` : `img-png/${props.url}.png`}
       style={{
         position: "absolute",
         top: "0",
