@@ -38,13 +38,14 @@ export const BigTranscript: React.FC = props => {
   // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
   let words: ITaggedWord[] = []
   segment.words.forEach(w => {
-    words[w.index] = { word: w.value, serialNumber: w.index, entityType: null }
+    words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
   })
 
   // Tag words with entities
   segment.entities.forEach(e => {
     words.slice(e.startPosition, e.endPosition).forEach(w => {
       w.entityType = e.type
+      w.isFinal = e.isFinal
     })
   })
 
@@ -61,7 +62,7 @@ export const BigTranscript: React.FC = props => {
         const key = `${segment.contextId}/${segment.id}/${index}`
         return (
           <span key={key}>
-            <TransscriptItem entityType={w.entityType}>{w.word}</TransscriptItem>{' '}
+            <TransscriptItem word={w}>{w.word}</TransscriptItem>{' '}
           </span>
         )
       })}
@@ -69,7 +70,7 @@ export const BigTranscript: React.FC = props => {
   )
 }
 
-const TransscriptItem: React.FC<{ entityType: string | null }> = props => {
+const TransscriptItem: React.FC<{ word: ITaggedWord }> = props => {
   const [springProps] = useSpring(() => ({
     from: { opacity: 0 },
     to: { opacity: 1 },
@@ -77,12 +78,12 @@ const TransscriptItem: React.FC<{ entityType: string | null }> = props => {
   }))
 
   const entityProps = useSpring({
-    entityEffect: props.entityType !== null ? 1 : 0,
+    entityEffect: props.word.entityType !== null ? 1 : 0,
     config: { duration: 250 },
   })
 
   return (
-    <TransscriptItemDiv className={props.entityType !== null ? `Entity ${props.entityType}` : ''}>
+    <TransscriptItemDiv className={`${props.word.entityType ? 'Entity' : ''} ${props.word.isFinal ? 'Final' : ''} ${props.word.entityType || ''}`}>
       <TransscriptItemBgDiv style={springProps} />
       <TransscriptItemContent
         style={{
@@ -127,4 +128,5 @@ type ITaggedWord = {
   word: string
   serialNumber: number
   entityType: string | null
+  isFinal: boolean
 }

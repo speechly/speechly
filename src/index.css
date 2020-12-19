@@ -22,6 +22,10 @@ code {
   font-size: 1.4rem;
 }
 
+.BigTranscript .Final {
+  text-decoration: underline;
+}
+
 .BigTranscript .Entity.room {
   color: #1fd3f3;
 }

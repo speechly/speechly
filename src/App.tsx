@@ -39,6 +39,8 @@ type DeviceStates = {
   }
 };
 
+const FORGETTING_TIMEOUT_MS = 20000;
+
 type Rooms<T> = {
   [room: string]: T;
 };
@@ -138,6 +140,7 @@ function SpeechlyApp() {
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
 
+  const [timer, setTimer] = useState<number | null>(null);
   const [selectedRooms, setSelectedRooms] = useState<Entity[]>([]);
   const [selectedDevices, setSelectedDevices] = useState<Entity[]>([]);
   const [selectedIntent, setSelectedIntent] = useState<Intent>({intent: "", isFinal: false});
@@ -145,15 +148,24 @@ function SpeechlyApp() {
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
     if (segment) {
+      if (timer) {
+        clearInterval(timer)
+        setTimer(null);
+    }
+
       let alteredState = alterAppState(segment);
       // Set current app state
       setTentativeAppState(alteredState);
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        // setSelectedRoom(undefined);
-        // setSelectedDevice(undefined);
-      }
+        let t = setInterval(() => {
+          // setSelectedRooms([]);
+          // setSelectedDevices([]);
+          setSelectedIntent({intent: "", isFinal: false});
+        }, FORGETTING_TIMEOUT_MS);
+        setTimer(t);
+     }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
