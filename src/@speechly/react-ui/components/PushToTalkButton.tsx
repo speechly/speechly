@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useCallback,
   SyntheticEvent,
-  useReducer,
+  useRef,
 } from 'react'
 import {
   useSpring,
@@ -54,10 +54,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   gradientStops = ['#15e8b5', '#4fa1f9'],
 }) => {
   const { speechState, toggleRecording, initialise } = useSpeechContext()
-  const [tangentButtonState, buttonDispatch] = useReducer(
-    buttonReducer,
-    ButtonDefaultState,
-  )
+  const tangentButtonState = useRef(ButtonDefaultState)
 
   const [springProps, setSpringProps] = useSpring(() => ({
     holdScale: 1,
@@ -76,56 +73,88 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     [captureKey, speechState], // useState dependencies used in the callback, or in the functions used by the callback
   )
 
-  const tangentPressAction = async (): Promise<void> => {
-    // Speechly & Mic initialise needs to be here (a function triggered by event handler), otherwise it won't work reliably on Safari iOS as of 11/2020
-    vibrate()
-    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: speechState })
-
-    if (isStartButtonVisible(speechState)) {
-      setSpringProps({ holdScale: 1.35, config: { tension: 500 } })
-
-      try {
-        await initialise()
-      } catch (err) {
-        console.error('Error initiasing Speechly', err)
-      }
-    } else {
-      setPressedAppearance(true)
-      await micStart()
-    }
-
-    buttonDispatch({ type: TangentEvents.Hold })
-  }
-
   const onTangentButtonPress = async (event: SyntheticEvent): Promise<void> => {
     event.preventDefault()
     event.stopPropagation()
 
-    await tangentPressAction()
+    tangentPressHandler()
   }
 
+  const onTangentButtonRelease = (event: SyntheticEvent): void => {
+    tangentReleaseHandler()
+  }
+  
   const onKeyPress = async (event: KeyboardEvent): Promise<void> => {
     if (captureKey !== undefined) {
       if (event.key === captureKey) {
         if (!event.repeat) {
-          await tangentPressAction()
+          tangentPressHandler()
         }
-
         event.preventDefault()
         event.stopPropagation()
       }
     }
   }
 
-  const onTangentButtonRelease = (event: SyntheticEvent): void => {
-    buttonDispatch({ type: TangentEvents.Release })
-  }
-
   const onKeyRelease = (event: KeyboardEvent): void => {
     if (event.key === captureKey) {
-      buttonDispatch({ type: TangentEvents.Release })
+      tangentReleaseHandler()
     }
   }
+
+  const tangentPressAction = useCallback(async(): Promise<void> => {
+    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: speechState })
+
+    if (isStartButtonVisible(speechState)) {
+      setSpringProps({ holdScale: 1.35, config: { tension: 500 } })
+    } else {
+      setPressedAppearance(true)
+      await micStart()
+    }
+
+  }, [speechState]);
+
+  const tangentReleaseAction = useCallback(async (timeMs: number) => {
+    PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: speechState, timeMs })
+
+    setPressedAppearance(false)
+
+    switch (speechState) {
+      case SpeechState.Idle:
+        try {
+          // Speechly & Mic initialise needs to be in a function triggered by event handler
+          // otherwise it won't work reliably on Safari iOS as of 11/2020
+          await initialise()
+        } catch (err) {
+          console.error('Error initiasing Speechly', err)
+        }
+        break;
+      case SpeechState.Connecting:
+      case SpeechState.Ready:
+        return
+      default:
+        await toggleRecording()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speechState])
+
+  const tangentPressHandler = useCallback(() => {
+    if (!tangentButtonState.current.mouseDrag) {
+      tangentButtonState.current.mouseDrag = true;
+      tangentButtonState.current.startTimestamp = Date.now();
+      vibrate()
+      tangentPressAction();
+    }
+  }, [tangentPressAction]);
+
+  const tangentReleaseHandler = useCallback(() => {
+    if (tangentButtonState.current.mouseDrag) {
+      tangentButtonState.current.mouseDrag = false;
+      vibrate()
+      tangentReleaseAction(Date.now() - tangentButtonState.current.startTimestamp)
+    }
+  }, [tangentReleaseAction])
 
   const micStart = useCallback(async () => {
     switch (speechState) {
@@ -139,6 +168,14 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speechState])
+
+  // Track document mouseup to reliably release the mic if user drags outside button area.
+  useEffect(() => {
+    document.addEventListener('mouseup', tangentReleaseHandler)
+    return () => {
+      document.removeEventListener('mouseup', tangentReleaseHandler)
+    }
+  }, [tangentReleaseHandler])
 
   const setPressedAppearance = (pressed: boolean): void => {
     if (pressed) {
@@ -169,44 +206,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speechState])
 
-  const tangentReleaseActions = useCallback(async (timeMs: number) => {
-    PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: speechState, timeMs })
-
-    setPressedAppearance(false)
-
-    switch (speechState) {
-      case SpeechState.Idle:
-      case SpeechState.Connecting:
-      case SpeechState.Ready:
-        return
-      default:
-        await toggleRecording()
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speechState])
-
-  // Detect tangent release (via button, keyboard hotkey, drag release anywhere)
-  useEffect(() => {
-    async function handle(): Promise<void> {
-      if (tangentButtonState.processEvent) {
-        if (!tangentButtonState.mouseDrag) {
-          vibrate()
-
-          // Try micStop. It should have logic in place to detect if the mic should actually stop
-          await tangentReleaseActions(Date.now() - tangentButtonState.startTimestamp)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        buttonDispatch({ type: TangentEvents.Handled })
-      }
-    }
-
-    handle().catch((err) =>
-      console.error('Error handling tangent release', err),
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tangentButtonState])
-
   const isStartButtonVisible = (state: SpeechState): boolean => {
     switch (state) {
       case SpeechState.Idle:
@@ -215,17 +214,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
     return false
   }
-
-  // Track document mouseup to reliably release the mic if user drags outside button area.
-  useEffect(() => {
-    const handleMouseUp = (): void =>
-      buttonDispatch({ type: TangentEvents.Cancel })
-    document.addEventListener('mouseup', handleMouseUp)
-
-    return () => {
-      document.removeEventListener('mouseup', handleMouseUp)
-    }
-  }, [])
 
   return (
     <MicContainerDiv
@@ -518,50 +506,10 @@ const vibrate = (durationMs: number = 5): void => {
 
 type IButtonState = {
   startTimestamp: number
-  processEvent: boolean
   mouseDrag: boolean
-}
-
-enum TangentEvents {
-  Hold = 'Hold',
-  Release = 'Release',
-  Cancel = 'Cancel',
-  Handled = 'Handled',
 }
 
 const ButtonDefaultState: IButtonState = {
   startTimestamp: 0,
   mouseDrag: false,
-  processEvent: false,
-}
-
-const buttonReducer = (state: IButtonState, action: any): IButtonState => {
-  switch (action.type) {
-    case TangentEvents.Hold: {
-      if (state.mouseDrag) return state
-      return {
-        ...state,
-        startTimestamp: Date.now(),
-        mouseDrag: true,
-        processEvent: true,
-      }
-    }
-    case TangentEvents.Cancel:
-    case TangentEvents.Release: {
-      if (!state.mouseDrag) return state
-      return {
-        ...state,
-        mouseDrag: false,
-        processEvent: true,
-      }
-    }
-    case TangentEvents.Handled: {
-      return {
-        ...state,
-        processEvent: false,
-      }
-    }
-    default:
-      throw new Error()
-  }
 }
