@@ -64,18 +64,29 @@ const isLocalHost = (hostname: string): boolean =>
     hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/) !== null
   )
 
+/**
+ * An optional dismissable React component that renders an error message if something
+ * prevents Speechly SDK from functioning. It also provides recovery instructions.
+ * <ErrorPanel> responds to <PushToTalkButton> presses so it needs to exist somewhere in the component hierarchy.
+ *
+ * It is intented to be displayed at the lower part of the screen like so:
+ * <PushToTalkButtonContainer><ErrorPanel/><PushToTalkButton/><PushToTalkButtonContainer>.
+ *
+ * @public
+ */
 export const ErrorPanel: React.FC = (props) => {
   const [visible, setVisible] = useState<string | null>(null)
 
   useEffect(() => {
     const subTangentClick = PubSub.subscribe(
-      SpeechlyUiEvents.TangentClick,
+      SpeechlyUiEvents.TangentRelease,
       (message: string, payload: { state: SpeechState }) => {
         switch (payload.state) {
           case SpeechState.NoAudioConsent:
           case SpeechState.NoBrowserSupport:
+            // Provide special instructions for non-https access
             if (
-              window?.location?.protocol === 'http:' &&
+              window?.location?.protocol !== 'https:' &&
               !isLocalHost(window.location.hostname)
             ) {
               setVisible(HttpsRequired)

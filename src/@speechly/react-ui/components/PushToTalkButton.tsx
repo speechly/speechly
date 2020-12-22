@@ -15,6 +15,7 @@ import { SpeechState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import styled, { keyframes, css } from 'styled-components'
 import { SpeechlyUiEvents } from '../types'
+import { HintCallout } from './HintCallout'
 
 /**
  * Properties for PushToTalkButton component.
@@ -38,11 +39,6 @@ export type PushToTalkButtonProps = {
    * Valid input is an array of two hex colour codes, e.g. `['#fff', '#000']`.
    */
   gradientStops?: string[]
-
-  /**
-   * Drag start event
-   */
-  onDragStart?: () => void
 }
 
 /**
@@ -56,7 +52,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   captureKey,
   size = '6.0rem',
   gradientStops = ['#15e8b5', '#4fa1f9'],
-  onDragStart = () => {},
 }) => {
   const { speechState, toggleRecording, initialise } = useSpeechContext()
   const [tangentButtonState, buttonDispatch] = useReducer(
@@ -84,6 +79,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   const tangentPressAction = async (): Promise<void> => {
     // Speechly & Mic initialise needs to be here (a function triggered by event handler), otherwise it won't work reliably on Safari iOS as of 11/2020
     vibrate()
+    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: speechState })
 
     if (isStartButtonVisible(speechState)) {
       setSpringProps({ holdScale: 1.35, config: { tension: 500 } })
@@ -94,14 +90,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         console.error('Error initiasing Speechly', err)
       }
     } else {
-      setSpringProps({
-        reset: false,
-        effectOpacity: 1,
-        holdScale: 1.35,
-        config: { tension: 500 },
-      })
-      onDragStart()
-
+      setPressedAppearance(true)
       await micStart()
     }
 
@@ -144,51 +133,71 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       case SpeechState.Recording:
       case SpeechState.Loading:
         return
+      default:
+        await toggleRecording()
     }
 
-    await toggleRecording()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speechState])
 
-  const micStop = useCallback(async () => {
+  const setPressedAppearance = (pressed: boolean): void => {
+    if (pressed) {
+      setSpringProps({
+        reset: false,
+        effectOpacity: 1,
+        holdScale: 1.35,
+        config: { tension: 500 },
+      })
+    } else {
+      setSpringProps({
+        reset: false,
+        effectOpacity: 0,
+        holdScale: 1.0,
+        config: { tension: 170 },
+      })
+    }
+  }
+
+  useEffect(() => {
+    switch (speechState) {
+      case SpeechState.Ready:
+        // Put button in resting state. Also do this on SpeechState.Ready as we may not get the keyboard up press due to permission prompt
+        setPressedAppearance(false)
+        break
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speechState])
+
+  const tangentReleaseActions = useCallback(async (timeMs: number) => {
+    PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: speechState, timeMs })
+
+    setPressedAppearance(false)
+
     switch (speechState) {
       case SpeechState.Idle:
       case SpeechState.Connecting:
       case SpeechState.Ready:
         return
+      default:
+        await toggleRecording()
     }
 
-    await toggleRecording()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speechState])
 
-  // Handle tangent release (via button, keyboard hotkey)
+  // Detect tangent release (via button, keyboard hotkey, drag release anywhere)
   useEffect(() => {
     async function handle(): Promise<void> {
-      let animateButtonToReleaseState = false
-
       if (tangentButtonState.processEvent) {
-        PubSub.publish(SpeechlyUiEvents.TangentClick, { state: speechState })
         if (!tangentButtonState.mouseDrag) {
           vibrate()
-          animateButtonToReleaseState = true
 
-          if (!isStartButtonVisible(speechState)) {
-            await micStop()
-          }
+          // Try micStop. It should have logic in place to detect if the mic should actually stop
+          await tangentReleaseActions(Date.now() - tangentButtonState.startTimestamp)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
         buttonDispatch({ type: TangentEvents.Handled })
-      }
-
-      // Put button in resting state. Also do this on SpeechState.Ready as we may not get the keyboard up press due to permission prompt
-      if (animateButtonToReleaseState || speechState === SpeechState.Ready) {
-        setSpringProps({
-          reset: false,
-          effectOpacity: 0,
-          holdScale: 1.0,
-          config: { tension: 170 },
-        })
       }
     }
 
@@ -196,7 +205,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       console.error('Error handling tangent release', err),
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tangentButtonState, speechState])
+  }, [tangentButtonState])
 
   const isStartButtonVisible = (state: SpeechState): boolean => {
     switch (state) {
@@ -208,7 +217,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   }
 
   // Track document mouseup to reliably release the mic if user drags outside button area.
-  React.useEffect(() => {
+  useEffect(() => {
     const handleMouseUp = (): void =>
       buttonDispatch({ type: TangentEvents.Cancel })
     document.addEventListener('mouseup', handleMouseUp)
@@ -219,43 +228,51 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   }, [])
 
   return (
-    <MicWidgetDiv
+    <MicContainerDiv
       size={size}
-      style={{
-        transform: interpolate(
-          [springProps.holdScale as OpaqueInterpolation<number>],
-          (h) => {
-            return `scale(${h})`
-          },
-        ),
-      }}
     >
-      <animated.div
+
+      <HintCallout/>
+
+      <MicWidgetDiv
+        size={size}
         style={{
-          opacity: springProps.effectOpacity as OpaqueInterpolation<number>,
+          transform: interpolate(
+            [springProps.holdScale as OpaqueInterpolation<number>],
+            (h) => {
+              return `scale(${h})`
+            },
+          ),
         }}
       >
-        <MicFx gradientStops={gradientStops} />
-      </animated.div>
-      {!isStartButtonVisible(speechState) && (
-        <MicButton
-          onMouseDown={onTangentButtonPress}
-          onMouseUp={onTangentButtonRelease}
-          gradientStops={gradientStops}
+
+        <animated.div
+          style={{
+            opacity: springProps.effectOpacity as OpaqueInterpolation<number>,
+          }}
         >
-          <MicIcon state={speechState} />
-        </MicButton>
-      )}
-      {isStartButtonVisible(speechState) && (
-        <MicButton
-          onMouseDown={onTangentButtonPress}
-          onMouseUp={onTangentButtonRelease}
-          gradientStops={gradientStops}
-        >
-          <PowerIcon state={speechState} />
-        </MicButton>
-      )}
-    </MicWidgetDiv>
+          <MicFx gradientStops={gradientStops} />
+        </animated.div>
+        {!isStartButtonVisible(speechState) && (
+          <MicButton
+            onMouseDown={onTangentButtonPress}
+            onMouseUp={onTangentButtonRelease}
+            gradientStops={gradientStops}
+          >
+            <MicIcon state={speechState} />
+          </MicButton>
+        )}
+        {isStartButtonVisible(speechState) && (
+          <MicButton
+            onMouseDown={onTangentButtonPress}
+            onMouseUp={onTangentButtonRelease}
+            gradientStops={gradientStops}
+          >
+            <PowerIcon state={speechState} />
+          </MicButton>
+        )}
+      </MicWidgetDiv>
+    </MicContainerDiv>
   )
 }
 
@@ -419,6 +436,12 @@ const MicOpacityPulseKeys = keyframes`
   }
 `
 
+const MicContainerDiv = styled.div<{ size: string }>`
+  width: ${(props) => props.size};
+  height: ${(props) => props.size};
+  position: relative;
+`
+
 const MicWidgetDiv = styled(animated.div)<{ size: string }>`
   width: ${(props) => props.size};
   height: ${(props) => props.size};
@@ -494,6 +517,7 @@ const vibrate = (durationMs: number = 5): void => {
 }
 
 type IButtonState = {
+  startTimestamp: number
   processEvent: boolean
   mouseDrag: boolean
 }
@@ -506,6 +530,7 @@ enum TangentEvents {
 }
 
 const ButtonDefaultState: IButtonState = {
+  startTimestamp: 0,
   mouseDrag: false,
   processEvent: false,
 }
@@ -516,6 +541,7 @@ const buttonReducer = (state: IButtonState, action: any): IButtonState => {
       if (state.mouseDrag) return state
       return {
         ...state,
+        startTimestamp: Date.now(),
         mouseDrag: true,
         processEvent: true,
       }
