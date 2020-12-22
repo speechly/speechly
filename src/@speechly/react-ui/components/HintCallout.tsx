@@ -11,14 +11,14 @@ export const HintCallout: React.FC = props => {
     const subTangentPress = PubSub.subscribe(
       SpeechlyUiEvents.TangentPress,
       (message: string, payload: { state: SpeechState }) => {
-        console.log('TangentPress', payload.state)
+        // console.log('TangentPress', payload.state)
         hideHints()
       },
     )
     const subTangentClick = PubSub.subscribe(
       SpeechlyUiEvents.TangentRelease,
       (message: string, payload: { state: SpeechState, timeMs: number }) => {
-        console.log('TangentRelease ', payload.state, payload.timeMs)
+        // console.log('TangentRelease ', payload.state, payload.timeMs)
         if (payload.state === SpeechState.Recording && payload.timeMs < 350) {
           if (timeout.current === null) {
             timeout.current = window.setTimeout(() => {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   SpeechSegment,
   SpeechProvider,
@@ -31,7 +31,7 @@ type DeviceStates = {
   }
 };
 
-const FORGETTING_TIMEOUT_MS = 20000;
+const FORGETTING_TIMEOUT_MS = 12000;
 
 type Rooms<T> = {
   [room: string]: T;
@@ -132,7 +132,7 @@ function SpeechlyApp() {
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
 
-  const [timer, setTimer] = useState<number | null>(null);
+  const timer = useRef<number | null>(null);
   const [selectedRooms, setSelectedRooms] = useState<Entity[]>([]);
   const [selectedDevices, setSelectedDevices] = useState<Entity[]>([]);
   const [selectedIntent, setSelectedIntent] = useState<Intent>({intent: "", isFinal: false});
@@ -140,10 +140,10 @@ function SpeechlyApp() {
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
     if (segment) {
-      if (timer) {
-        clearInterval(timer)
-        setTimer(null);
-    }
+      if (timer.current) {
+        clearTimeout(timer.current)
+        timer.current = null;
+      }
 
       let alteredState = alterAppState(segment);
       // Set current app state
@@ -151,12 +151,11 @@ function SpeechlyApp() {
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        let t = setInterval(() => {
-          // setSelectedRooms([]);
-          // setSelectedDevices([]);
+        timer.current = setTimeout(() => {
+          setSelectedRooms([]);
+          setSelectedDevices([]);
           setSelectedIntent({intent: "", isFinal: false});
         }, FORGETTING_TIMEOUT_MS);
-        setTimer(t);
      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,7 +187,7 @@ function SpeechlyApp() {
           .filter((entity) => entity.type === "device" && validDevices.includes(entity.value.toLocaleLowerCase()));
       }
 
-      let rooms = newRooms.length > 0 ? newRooms : selectedRooms;
+      let rooms = newRooms.length > 0 ? newRooms : selectedRooms.length > 0 ? selectedRooms : newDevices = validRooms.map(name => ({value: name, isFinal: false} as Entity));
       let devices = newDevices.length > 0 ? newDevices : selectedDevices;
       let intent = segment.intent;
 
