@@ -75,10 +75,10 @@ type CalloutProps = {
 export const Callout: React.FC<CalloutProps> = ({
   children,
   onClick = () => {},
-  sourceAnchors = {x: '50%', y: '5%'},
-  destAnchors = {x: '50%', y: '100%'},
+  sourceAnchors = { x: '50%', y: '5%' },
+  destAnchors = { x: '50%', y: '100%' },
   visible = true,
-  arrowSize = {value: 0.5, unit: 'rem'},
+  arrowSize = { value: 0.5, unit: 'rem' },
   useShadow = false,
   backgroundColor = '#000',
   borderRadius,
