@@ -128,8 +128,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         initialise().catch(err => console.error('Error initiasing Speechly', err))
         break
       case SpeechState.Recording:
-      default:
         toggleRecording().catch(err => console.error('Error while stopping recording', err))
+        break
+      default:
         break
     }
 
