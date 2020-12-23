@@ -82,7 +82,7 @@ export const Callout: React.FC<CalloutProps> = ({
 
   return (
     <CalloutContainerDiv ax={sourceAnchors[0]} ay={sourceAnchors[1]} halign={destAnchors[0]} valign={destAnchors[1]} arrowpad={`${arrowSize}${cssUnit}`} onClick={() => onClick()} style={{
-      visibility: springProps.v.getValue() as number > 0 ? 'visible' : 'hidden',
+      visibility: springProps.v.interpolate(x => x as number > 0 ? 'visible' : 'hidden'),
       clipPath: springProps.v.interpolate(x => `circle(${x as number * 100}% at center)`),
     }}>
       <CalloutDiv useShadow={useShadow} backgroundColor={backgroundColor} borderRadius={borderRadius}>{children}</CalloutDiv>
