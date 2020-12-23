@@ -51,13 +51,22 @@ const ArrowShadowDiv = styled.div<{size: string, ax: string, ay: string, offsetX
   z-index: 9;
 `
 
+type AnchorProps = {
+  x: string
+  y: string
+}
+
+type CssDimension = {
+  value: number
+  unit: string
+}
+
 type CalloutProps = {
   visible?: boolean
   onClick?: () => void
-  sourceAnchors?: string[]
-  destAnchors?: string[]
-  cssUnit?: string
-  arrowSize?: number
+  sourceAnchors?: AnchorProps
+  destAnchors?: AnchorProps
+  arrowSize?: CssDimension
   useShadow?: boolean
   backgroundColor?: string
   borderRadius?: string
@@ -66,11 +75,10 @@ type CalloutProps = {
 export const Callout: React.FC<CalloutProps> = ({
   children,
   onClick = () => {},
-  sourceAnchors = ['50%', '5%'],
-  destAnchors = ['50%', '100%'],
+  sourceAnchors = {x: '50%', y: '5%'},
+  destAnchors = {x: '50%', y: '100%'},
   visible = true,
-  cssUnit = 'rem',
-  arrowSize = 0.5,
+  arrowSize = {value: 0.5, unit: 'rem'},
   useShadow = false,
   backgroundColor = '#000',
   borderRadius,
@@ -81,13 +89,13 @@ export const Callout: React.FC<CalloutProps> = ({
   })
 
   return (
-    <CalloutContainerDiv ax={sourceAnchors[0]} ay={sourceAnchors[1]} halign={destAnchors[0]} valign={destAnchors[1]} arrowpad={`${arrowSize}${cssUnit}`} onClick={() => onClick()} style={{
+    <CalloutContainerDiv ax={sourceAnchors.x} ay={sourceAnchors.y} halign={destAnchors.x} valign={destAnchors.y} arrowpad={`${arrowSize.value}${arrowSize.unit}`} onClick={() => onClick()} style={{
       visibility: springProps.v.interpolate(x => x as number > 0 ? 'visible' : 'hidden'),
       clipPath: springProps.v.interpolate(x => `circle(${x as number * 100}% at center)`),
     }}>
       <CalloutDiv useShadow={useShadow} backgroundColor={backgroundColor} borderRadius={borderRadius}>{children}</CalloutDiv>
-      <ArrowDiv backgroundColor={backgroundColor} size={`${arrowSize * Math.sqrt(2)}${cssUnit}`} ax="50%" ay="100%" offsetX="0rem" offsetY={`${arrowSize}${cssUnit}`}/>
-      {useShadow && <ArrowShadowDiv size={`${arrowSize * Math.sqrt(2)}${cssUnit}`} ax="50%" ay="100%" offsetX="0rem" offsetY={`${arrowSize}${cssUnit}`}/>}
+      <ArrowDiv backgroundColor={backgroundColor} size={`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`} ax="50%" ay="100%" offsetX="0rem" offsetY={`${arrowSize.value}${arrowSize.unit}`}/>
+      {useShadow && <ArrowShadowDiv size={`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`} ax="50%" ay="100%" offsetX="0rem" offsetY={`${arrowSize.value}${arrowSize.unit}`}/>}
     </CalloutContainerDiv>
   )
 }

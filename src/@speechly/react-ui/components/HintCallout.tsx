@@ -46,5 +46,5 @@ export const HintCallout: React.FC = props => {
     }
   }
 
-  return <Callout sourceAnchors={['50%', '6%']} visible={visible} onClick={() => hideHints()}>Hold to talk</Callout>
+  return <Callout sourceAnchors={{x: '50%', y: '6%'}} visible={visible} onClick={() => hideHints()}>Hold to talk</Callout>
 }
