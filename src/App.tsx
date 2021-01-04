@@ -141,7 +141,7 @@ function SpeechlyApp() {
   useEffect(() => {
     if (segment) {
       if (timer.current) {
-        clearTimeout(timer.current)
+        window.clearTimeout(timer.current)
         timer.current = null;
       }
 
@@ -151,7 +151,7 @@ function SpeechlyApp() {
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        timer.current = setTimeout(() => {
+        timer.current = window.setTimeout(() => {
           setSelectedRooms([]);
           setSelectedDevices([]);
           setSelectedIntent({intent: "", isFinal: false});
