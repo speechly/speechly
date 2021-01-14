@@ -119,10 +119,17 @@ export class BrowserAudioProcessor implements AudioProcessor {
     } else {
       this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
     }
-
-    this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
-    this.audioProcessor.connect(this.audioContext.destination)
-    this.audioProcessor.addEventListener(audioProcessEvent, this.handleAudio)
+    if (window.AudioWorkletNode !== undefined && this.nativeResamplingSupported) {
+      await this.audioContext.audioWorklet.addModule('speechly-processor.js')
+      const speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
+      this.audioContext.createMediaStreamSource(this.mediaStream).connect(speechlyNode)
+      speechlyNode.connect(this.audioContext.destination)
+      speechlyNode.port.onmessage = this.handleWorkletAudio
+    } else {
+      this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
+      this.audioProcessor.connect(this.audioContext.destination)
+      this.audioProcessor.addEventListener(audioProcessEvent, this.handleAudio)
+    }
 
     this.initialized = true
   }
@@ -172,5 +179,13 @@ export class BrowserAudioProcessor implements AudioProcessor {
     }
 
     this.onAudio(this.sampler.call(event.inputBuffer.getChannelData(0)))
+  }
+
+  private readonly handleWorkletAudio = (event: MessageEvent): void => {
+    if (this.muted) {
+      return
+    }
+
+    this.onAudio(event.data)
   }
 }
