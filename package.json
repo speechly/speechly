@@ -14,6 +14,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/styled-components": "^5.1.4",
     "pubsub-js": "^1.9.1",
+    "query-string": "^6.13.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-image-webp": "^0.7.0",

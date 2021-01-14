@@ -17,8 +17,11 @@ import { isWebpSupported } from 'react-image-webp/dist/utils';
 import { animated, useSpring } from "react-spring";
 import { MapInteractionCSS } from 'react-map-interaction';
 import Device from "./components/Device";
+import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
+
+const FORGETTING_TIMEOUT_MS = 12000;
 
 type DeviceStates = {
   statusLeft: string,
@@ -30,8 +33,6 @@ type DeviceStates = {
     }
   }
 };
-
-const FORGETTING_TIMEOUT_MS = 12000;
 
 type Rooms<T> = {
   [room: string]: T;
@@ -106,7 +107,7 @@ const DefaultAppState = {
 
 export default function App() {
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor: queryParams.backgroundColor}}>
       <HttpsRedirect>
         <SpeechProvider
           appId="738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
@@ -119,11 +120,21 @@ export default function App() {
             <ErrorPanel/>
             <PushToTalkButton captureKey=" " />
           </PushToTalkButtonContainer>
-          <SpeechlyApp />
+          <MapInteractionCSS minScale={0.5} maxScale={3.0} disableZoom={!queryParams.zoomPan} disablePan={!queryParams.zoomPan} defaultValue={{scale: queryParams.zoom, translation: {x:0, y:0}}}>
+            <SpeechlyApp />
+          </MapInteractionCSS>
         </SpeechProvider>
       </HttpsRedirect>
     </div>
   );
+}
+
+// http://localhost:3000/?backgroundColor=%23ff00ff&zoom=0.5&zoomPan=false
+const queryParams = {
+  backgroundColor: "#CEDCEE",
+  ...QueryString.parse(window.location.search), // This suffices for strings
+  zoom: Number(QueryString.parse(window.location.search).zoom || 0.9),
+  zoomPan: !(QueryString.parse(window.location.search).zoomPan === "false")
 }
 
 function SpeechlyApp() {
@@ -248,7 +259,6 @@ function SpeechlyApp() {
 
   // Render the app state as outlined boxes representing rooms with devices in them
   return (
-      <MapInteractionCSS minScale={0.5} maxScale={3.0} defaultValue={{scale: 0.90, translation: {x:0, y:0}}}>
       <div
         style={{
           position: "relative",
@@ -257,7 +267,7 @@ function SpeechlyApp() {
           overflow: "hidden",
         }}
       >
-        <img src={isWebpSupported() ? `img-webp/base.webp` : `img-png/base.png`} style={{height:"100%", position: "absolute"}}/>
+        <img src={isWebpSupported() ? `img-webp/base.webp` : `img-png/base.png`} alt="" style={{height:"100%", position: "absolute"}}/>
         {Object.keys(appState.rooms).map((room) => 
             {return Object.keys(appState.rooms[room].devices).map((device) => (
               <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn}/>
@@ -299,7 +309,6 @@ function SpeechlyApp() {
           </div>
         ))}
       </div>
-      </MapInteractionCSS>
   );
 }
 
