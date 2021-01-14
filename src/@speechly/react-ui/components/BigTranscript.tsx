@@ -83,7 +83,7 @@ const TransscriptItem: React.FC<{ word: ITaggedWord }> = props => {
   })
 
   return (
-    <TransscriptItemDiv className={`${props.word.entityType ?? 'Entity'} ${props.word.isFinal ? 'Final' : ''} ${props.word.entityType ?? ''}`}>
+    <TransscriptItemDiv className={`${props.word.entityType !== null ? 'Entity' : ''} ${props.word.isFinal ? 'Final' : ''} ${props.word.entityType ?? ''}`}>
       <TransscriptItemBgDiv style={springProps} />
       <TransscriptItemContent
         style={{

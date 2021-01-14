@@ -7,6 +7,10 @@ export const HintCallout: React.FC = props => {
   const [visible, setVisible] = useState<boolean>(false)
   const timeout = useRef<number | null>(null)
 
+  const SHORT_PRESS_TRESHOLD_MS = 600
+  const INSTRUCTION_PREROLL_MS = 500
+  const INSTRUCTION_SHOW_TIME_MS = 3000
+
   useEffect(() => {
     const subTangentPress = PubSub.subscribe(
       SpeechlyUiEvents.TangentPress,
@@ -19,15 +23,21 @@ export const HintCallout: React.FC = props => {
       SpeechlyUiEvents.TangentRelease,
       (message: string, payload: { state: SpeechState, timeMs: number }) => {
         // console.log('TangentRelease ', payload.state, payload.timeMs)
-        if (payload.state === SpeechState.Recording && payload.timeMs < 350) {
-          if (timeout.current === null) {
-            timeout.current = window.setTimeout(() => {
-              setVisible(true)
-              timeout.current = window.setTimeout(() => {
-                setVisible(false)
-                timeout.current = null
-              }, 3000)
-            }, 500)
+        // Detect short record button presses
+        if (payload.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+          switch (payload.state) {
+            case SpeechState.Ready:
+            case SpeechState.Recording:
+            case SpeechState.Loading:
+              if (timeout.current === null) {
+                timeout.current = window.setTimeout(() => {
+                  setVisible(true)
+                  timeout.current = window.setTimeout(() => {
+                    setVisible(false)
+                    timeout.current = null
+                  }, INSTRUCTION_SHOW_TIME_MS)
+                }, INSTRUCTION_PREROLL_MS)
+              }
           }
         }
       },

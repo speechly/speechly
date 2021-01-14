@@ -103,11 +103,13 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       case SpeechState.Idle:
       case SpeechState.Failed:
         setSpringProps({ holdScale: 1.35, config: { tension: 500 } })
+        vibrate()
         break
 
       case SpeechState.Ready:
         setPressedAppearance(true)
         toggleRecording().catch(err => console.error('Error while starting to record', err))
+        vibrate()
         break
       default:
         break
@@ -126,9 +128,11 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         // Speechly & Mic initialise needs to be in a function triggered by event handler
         // otherwise it won't work reliably on Safari iOS as of 11/2020
         initialise().catch(err => console.error('Error initiasing Speechly', err))
+        vibrate()
         break
       case SpeechState.Recording:
         toggleRecording().catch(err => console.error('Error while stopping recording', err))
+        vibrate()
         break
       default:
         break
@@ -141,7 +145,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     if (!tangentButtonState.current.mouseDrag) {
       tangentButtonState.current.mouseDrag = true
       tangentButtonState.current.startTimestamp = Date.now()
-      vibrate()
       tangentPressAction()
     }
   }, [tangentPressAction])
@@ -149,7 +152,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   const tangentReleaseHandler = useCallback(() => {
     if (tangentButtonState.current.mouseDrag) {
       tangentButtonState.current.mouseDrag = false
-      vibrate()
       tangentReleaseAction(Date.now() - tangentButtonState.current.startTimestamp)
     }
   }, [tangentReleaseAction])
