@@ -1,6 +1,31 @@
 import { ErrDeviceNotSupported, ErrNoAudioConsent, ErrNotInitialized } from './types'
 import { AudioFilter, newSampler } from './sampler'
 
+const processor = `
+function float32ToInt16(buffer) {
+  const buf = new Int16Array(buffer.length);
+
+  for (let l = 0; l < buffer.length; l++) {
+      buf[l] = buffer[l] * (buffer[l] < 0 ? 0x8000 : 0x7fff);
+  }
+
+  return buf;
+}
+
+class SpeechlyProcessor extends AudioWorkletProcessor {
+  process(inputs, outputs, parameters) {
+      if (inputs[0][0] !== undefined) {
+          const audioChunk = float32ToInt16(inputs[0][0]);
+          this.port.postMessage(audioChunk);
+      }
+      
+      return true;
+  }
+}
+
+registerProcessor('speechly-worklet', SpeechlyProcessor);
+`
+
 export type AudioHandler = (audioBuffer: Int16Array) => void
 
 export interface AudioProcessor {
@@ -120,7 +145,9 @@ export class BrowserAudioProcessor implements AudioProcessor {
       this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
     }
     if (window.AudioWorkletNode !== undefined && this.nativeResamplingSupported) {
-      await this.audioContext.audioWorklet.addModule('speechly-processor.js')
+      const blob = new Blob([processor], { type: 'text/javascript' })
+      const blobURL = window.URL.createObjectURL(blob)
+      await this.audioContext.audioWorklet.addModule(blobURL)
       const speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
       this.audioContext.createMediaStreamSource(this.mediaStream).connect(speechlyNode)
       speechlyNode.connect(this.audioContext.destination)
