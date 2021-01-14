@@ -15,8 +15,8 @@ import {
 } from "./@speechly/react-ui";
 import { isWebpSupported } from 'react-image-webp/dist/utils';
 import { animated, useSpring } from "react-spring";
-import { MapInteractionCSS } from 'react-map-interaction';
 import Device from "./components/Device";
+import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
@@ -108,7 +108,6 @@ const DefaultAppState = {
 export default function App() {
   return (
     <div className="App" style={{backgroundColor: queryParams.backgroundColor}}>
-      <HttpsRedirect>
         <SpeechProvider
           appId="738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
           language="en-US"
@@ -120,11 +119,12 @@ export default function App() {
             <ErrorPanel/>
             <PushToTalkButton captureKey=" " />
           </PushToTalkButtonContainer>
-          <MapInteractionCSS minScale={0.5} maxScale={3.0} disableZoom={!queryParams.zoomPan} disablePan={!queryParams.zoomPan} defaultValue={{scale: queryParams.zoom, translation: {x:0, y:0}}}>
+          <div style={{width:"100vw", height: "100vh", overflow:"hidden", position:"relative"}}>
+          <PanContainer minScale={0.5} maxScale={3.0} disableZoom={!queryParams.zoomPan} disablePan={!queryParams.zoomPan} defaultValue={{scale: queryParams.zoom, translation: {x:0, y:0}}}>
             <SpeechlyApp />
-          </MapInteractionCSS>
+          </PanContainer>
+          </div>
         </SpeechProvider>
-      </HttpsRedirect>
     </div>
   );
 }
