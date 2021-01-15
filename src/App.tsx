@@ -13,7 +13,7 @@ import {
   PushToTalkButtonContainer,
   ErrorPanel,
 } from "./@speechly/react-ui";
-import { isWebpSupported } from 'react-image-webp/dist/utils';
+import { isWebpSupported } from "react-image-webp/dist/utils";
 import { animated, useSpring } from "react-spring";
 import Device from "./components/Device";
 import PanContainer from "./components/PanContainer";
@@ -24,14 +24,14 @@ import HttpsRedirect from "./components/HttpsRedirect";
 const FORGETTING_TIMEOUT_MS = 12000;
 
 type DeviceStates = {
-  statusLeft: string,
-  statusTop: string,
+  statusLeft: string;
+  statusTop: string;
   devices: {
     [device: string]: {
       powerOn: boolean;
       img?: string;
-    }
-  }
+    };
+  };
 };
 
 type Rooms<T> = {
@@ -42,25 +42,11 @@ type AppState = {
   rooms: Rooms<DeviceStates>;
 };
 
-const validRooms = [
-  "living room",
-  "bedroom",
-  "kitchen",
-  "garage",
-  "terrace",
-]
+const validRooms = ["living room", "bedroom", "kitchen", "garage", "terrace"];
 
-const validDevices = [
-  "lights",
-  "radio",
-  "television",
-]
+const validDevices = ["lights", "radio", "television"];
 
-const allDevices = [
-  "everything",
-  "all devices",
-  "every device",
-]
+const allDevices = ["everything", "all devices", "every device"];
 
 const DefaultAppState = {
   rooms: {
@@ -68,46 +54,47 @@ const DefaultAppState = {
       statusLeft: "65%",
       statusTop: "35%",
       devices: {
-        lights: {powerOn: true, img: "livingroom-lights"},
-        radio: {powerOn: true, img: "livingroom-music"},
-        television: {powerOn: true, img: "livingroom-tv"},
-      }
+        lights: { powerOn: true, img: "livingroom-lights" },
+        radio: { powerOn: true, img: "livingroom-music" },
+        television: { powerOn: true, img: "livingroom-tv" },
+      },
     },
     bedroom: {
       statusLeft: "40%",
       statusTop: "10%",
       devices: {
-        lights: {powerOn: true, img: "bedroom-lights"},
-        radio: {powerOn: true, img: "bedroom-music"},
-      }
+        lights: { powerOn: true, img: "bedroom-lights" },
+        radio: { powerOn: true, img: "bedroom-music" },
+      },
     },
     garage: {
       statusLeft: "20%",
       statusTop: "35%",
       devices: {
-        lights: {powerOn: true, img: "garage-lights"},
-      }
+        lights: { powerOn: true, img: "garage-lights" },
+      },
     },
     kitchen: {
       statusLeft: "40%",
       statusTop: "60%",
       devices: {
-        lights: {powerOn: true, img: "kitchen-lights"},
-      }
+        lights: { powerOn: true, img: "kitchen-lights" },
+      },
     },
     terrace: {
       statusLeft: "80%",
       statusTop: "60%",
       devices: {
-        lights: {powerOn: true, img: "terrace-lights"},
-      }
+        lights: { powerOn: true, img: "terrace-lights" },
+      },
     },
   },
 };
 
 export default function App() {
   return (
-    <div className="App" style={{backgroundColor: queryParams.backgroundColor}}>
+    <HttpsRedirect>
+      <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
         <SpeechProvider
           appId="738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
           language="en-US"
@@ -116,16 +103,24 @@ export default function App() {
             <BigTranscript />
           </BigTranscriptContainer>
           <PushToTalkButtonContainer>
-            <ErrorPanel/>
+            <ErrorPanel />
             <PushToTalkButton captureKey=" " />
           </PushToTalkButtonContainer>
-          <div style={{width:"100vw", height: "100vh", overflow:"hidden", position:"relative"}}>
-          <PanContainer minScale={0.5} maxScale={3.0} disableZoom={!queryParams.zoomPan} disablePan={!queryParams.zoomPan} defaultValue={{scale: queryParams.zoom, translation: {x:0, y:0}}}>
+          <PanContainer
+            minScale={0.5}
+            maxScale={3.0}
+            disableZoom={!queryParams.zoomPan}
+            disablePan={!queryParams.zoomPan}
+            defaultValue={{
+              scale: queryParams.zoom,
+              translation: { x: 0, y: 0 },
+            }}
+          >
             <SpeechlyApp />
           </PanContainer>
-          </div>
         </SpeechProvider>
-    </div>
+      </div>
+    </HttpsRedirect>
   );
 }
 
@@ -134,25 +129,30 @@ const queryParams = {
   backgroundColor: "#CEDCEE",
   ...QueryString.parse(window.location.search), // This suffices for strings
   zoom: Number(QueryString.parse(window.location.search).zoom || 0.9),
-  zoomPan: !(QueryString.parse(window.location.search).zoomPan === "false")
-}
+  zoomPan: !(QueryString.parse(window.location.search).zoomPan === "false"),
+};
 
 function SpeechlyApp() {
   const { segment } = useSpeechContext();
 
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
-  const [tentativeAppState, setTentativeAppState] = useState<AppState>(DefaultAppState);
+  const [tentativeAppState, setTentativeAppState] = useState<AppState>(
+    DefaultAppState
+  );
 
   const timer = useRef<number | null>(null);
   const [selectedRooms, setSelectedRooms] = useState<Entity[]>([]);
   const [selectedDevices, setSelectedDevices] = useState<Entity[]>([]);
-  const [selectedIntent, setSelectedIntent] = useState<Intent>({intent: "", isFinal: false});
+  const [selectedIntent, setSelectedIntent] = useState<Intent>({
+    intent: "",
+    isFinal: false,
+  });
 
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
     if (segment) {
       if (timer.current) {
-        window.clearTimeout(timer.current)
+        window.clearTimeout(timer.current);
         timer.current = null;
       }
 
@@ -165,9 +165,9 @@ function SpeechlyApp() {
         timer.current = window.setTimeout(() => {
           setSelectedRooms([]);
           setSelectedDevices([]);
-          setSelectedIntent({intent: "", isFinal: false});
+          setSelectedIntent({ intent: "", isFinal: false });
         }, FORGETTING_TIMEOUT_MS);
-     }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
@@ -178,27 +178,45 @@ function SpeechlyApp() {
       console.log(segment);
       let workingState = appState;
       // Get values for room and device entities. Note that values are UPPER CASE by default.
-      let newRooms = segment.entities
-        .filter((entity) => entity.type === "room" && validRooms.includes(entity.value.toLowerCase()));
+      let newRooms = segment.entities.filter(
+        (entity) =>
+          entity.type === "room" &&
+          validRooms.includes(entity.value.toLowerCase())
+      );
       let newDevices: Entity[] = [];
 
       // Check if all devices are targeted and if that's final
-      let selectAll = segment.entities
-        .reduce((prev, entity) => {
-          if (entity.type === "device" && allDevices.includes(entity.value.toLocaleLowerCase())) {
-            return Math.max(prev, entity.isFinal ? 2 : 1)
-          }
-          return prev
-        }, 0)
+      let selectAll = segment.entities.reduce((prev, entity) => {
+        if (
+          entity.type === "device" &&
+          allDevices.includes(entity.value.toLocaleLowerCase())
+        ) {
+          return Math.max(prev, entity.isFinal ? 2 : 1);
+        }
+        return prev;
+      }, 0);
 
       if (selectAll > 0) {
-        newDevices = validDevices.map(deviceName => ({value: deviceName, isFinal: selectAll > 1} as Entity));
+        newDevices = validDevices.map(
+          (deviceName) =>
+            ({ value: deviceName, isFinal: selectAll > 1 } as Entity)
+        );
       } else {
-        newDevices = segment.entities
-          .filter((entity) => entity.type === "device" && validDevices.includes(entity.value.toLocaleLowerCase()));
+        newDevices = segment.entities.filter(
+          (entity) =>
+            entity.type === "device" &&
+            validDevices.includes(entity.value.toLocaleLowerCase())
+        );
       }
 
-      let rooms = newRooms.length > 0 ? newRooms : selectedRooms.length > 0 ? selectedRooms : newDevices = validRooms.map(name => ({value: name, isFinal: false} as Entity));
+      let rooms =
+        newRooms.length > 0
+          ? newRooms
+          : selectedRooms.length > 0
+          ? selectedRooms
+          : (newDevices = validRooms.map(
+              (name) => ({ value: name, isFinal: false } as Entity)
+            ));
       let devices = newDevices.length > 0 ? newDevices : selectedDevices;
       let intent = segment.intent;
 
@@ -218,34 +236,46 @@ function SpeechlyApp() {
         case "turn_off":
           // Set desired device powerOn based on the intent
           const isPowerOn = intent.intent === "turn_on";
-          workingState = rooms.reduce((prev: AppState, room: Entity) => {
-            return devices.reduce((prev: AppState, device: Entity) => {
-              if ((room.isFinal && device.isFinal) || segment.isFinal) {
-                const roomKey = room.value.toLowerCase();
-                const deviceKey = device.value.toLowerCase();
-                if (
-                  prev.rooms[roomKey] !== undefined &&
-                  prev.rooms[roomKey].devices[deviceKey] !== undefined
-                ) {
-                  return {
-                    ...prev,
-                    rooms: {
-                      ...prev.rooms,
-                      [roomKey]: { ...prev.rooms[roomKey], devices: {...prev.rooms[roomKey].devices, [deviceKey]: {...prev.rooms[roomKey].devices[deviceKey], powerOn: isPowerOn }}},
-                    },
-                  };
+          workingState = rooms.reduce(
+            (prev: AppState, room: Entity) => {
+              return devices.reduce((prev: AppState, device: Entity) => {
+                if ((room.isFinal && device.isFinal) || segment.isFinal) {
+                  const roomKey = room.value.toLowerCase();
+                  const deviceKey = device.value.toLowerCase();
+                  if (
+                    prev.rooms[roomKey] !== undefined &&
+                    prev.rooms[roomKey].devices[deviceKey] !== undefined
+                  ) {
+                    return {
+                      ...prev,
+                      rooms: {
+                        ...prev.rooms,
+                        [roomKey]: {
+                          ...prev.rooms[roomKey],
+                          devices: {
+                            ...prev.rooms[roomKey].devices,
+                            [deviceKey]: {
+                              ...prev.rooms[roomKey].devices[deviceKey],
+                              powerOn: isPowerOn,
+                            },
+                          },
+                        },
+                      },
+                    };
+                  }
                 }
-              }
-              return prev;
-            }, prev);
-          }, {...workingState});
+                return prev;
+              }, prev);
+            },
+            { ...workingState }
+          );
           break;
       }
 
       if (segment.isFinal) {
         // Set entities as tentative for the next segment
-        rooms.forEach(x => x.isFinal = false);
-        devices.forEach(x => x.isFinal = false);
+        rooms.forEach((x) => (x.isFinal = false));
+        devices.forEach((x) => (x.isFinal = false));
         intent.isFinal = false;
       }
 
@@ -259,60 +289,100 @@ function SpeechlyApp() {
 
   // Render the app state as outlined boxes representing rooms with devices in them
   return (
-      <div
-        style={{
-          position: "relative",
-          width: "125vh",
-          height: "100vh",
-          overflow: "hidden",
-        }}
-      >
-        <img src={isWebpSupported() ? `img-webp/base.webp` : `img-png/base.png`} alt="" style={{height:"100%", position: "absolute"}}/>
-        {Object.keys(appState.rooms).map((room) => 
-            {return Object.keys(appState.rooms[room].devices).map((device) => (
-              <DeviceImage key={device} url={appState.rooms[room].devices[device].img} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn}/>
-            ))}
-        )}
-        {Object.keys(appState.rooms).map((room) => (
-          <div
-            key={room}
+    <div
+      style={{
+        position: "relative",
+        width: "125vh",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <img
+        src={isWebpSupported() ? `img-webp/base.webp` : `img-png/base.png`}
+        alt=""
+        style={{ height: "100%", position: "absolute" }}
+      />
+      {Object.keys(appState.rooms).map((room) => {
+        return Object.keys(appState.rooms[room].devices).map((device) => (
+          <DeviceImage
+            key={device}
+            url={appState.rooms[room].devices[device].img}
+            device={device}
+            state={appState.rooms[room].devices[device].powerOn}
+            tentativeState={
+              tentativeAppState.rooms[room].devices[device].powerOn
+            }
+          />
+        ));
+      })}
+      {Object.keys(appState.rooms).map((room) => (
+        <div
+          key={room}
+          style={{
+            position: "absolute",
+            left: appState.rooms[room].statusLeft,
+            top: appState.rooms[room].statusTop,
+            width: "12rem",
+            height: "12rem",
+            padding: "0rem",
+          }}
+        >
+          <span
             style={{
-              position: "absolute",
-              left: appState.rooms[room].statusLeft,
-              top: appState.rooms[room].statusTop,
-              width: "12rem",
-              height: "12rem",
-              padding: "0rem",
-            }}
-          >
-            <span style={{
               borderRadius: "1rem",
               padding: "0rem 0.5rem",
-              backgroundColor:
-                selectedRooms.find(x => x.value.toLowerCase() === room) ? "cyan" : "white"}}>
-            {room}</span>
-            <div
-              style={{
-                paddingTop: "0.5rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "start",
-                alignItems: "start",
-                flexWrap: "wrap",
-                position: "relative",
-              }}
-            >
-              {Object.keys(appState.rooms[room].devices).map((device) => (
-                <Device key={device} device={device} state={appState.rooms[room].devices[device].powerOn} tentativeState={tentativeAppState.rooms[room].devices[device].powerOn} isTentativelySelected={selectedDevices.find(d => d.value.toLowerCase() === device) !== undefined && (selectedRooms.length === 0 || selectedRooms.find(d => d.value.toLowerCase() === room) !== undefined)}/>
-              ))}
-            </div>
+              backgroundColor: selectedRooms.find(
+                (x) => x.value.toLowerCase() === room
+              )
+                ? "cyan"
+                : "white",
+            }}
+          >
+            {room}
+          </span>
+          <div
+            style={{
+              paddingTop: "0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "start",
+              alignItems: "start",
+              flexWrap: "wrap",
+              position: "relative",
+            }}
+          >
+            {Object.keys(appState.rooms[room].devices).map((device) => (
+              <Device
+                key={device}
+                device={device}
+                state={appState.rooms[room].devices[device].powerOn}
+                tentativeState={
+                  tentativeAppState.rooms[room].devices[device].powerOn
+                }
+                isTentativelySelected={
+                  selectedDevices.find(
+                    (d) => d.value.toLowerCase() === device
+                  ) !== undefined &&
+                  (selectedRooms.length === 0 ||
+                    selectedRooms.find(
+                      (d) => d.value.toLowerCase() === room
+                    ) !== undefined)
+                }
+              />
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
   );
 }
 
-const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: boolean, url?: string }> = props => {
+const DeviceImage: React.FC<{
+  device: string;
+  state: boolean;
+  tentativeState: boolean;
+  url?: string;
+}> = (props) => {
   const [springProps, setSpringProps] = useSpring(() => ({
     opacity: props.tentativeState ? 1 : 0,
     config: { tension: 500 },
@@ -321,8 +391,8 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
   useEffect(() => {
     setSpringProps({
       opacity: props.tentativeState ? 1 : 0,
-      config: { tension: 500 }
-    })
+      config: { tension: 500 },
+    });
   }, [props.tentativeState]);
 
   if (!props.url) return null;
@@ -330,7 +400,11 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
   return (
     <animated.img
       key={props.device}
-      src={isWebpSupported() ? `img-webp/${props.url}.webp` : `img-png/${props.url}.png`}
+      src={
+        isWebpSupported()
+          ? `img-webp/${props.url}.webp`
+          : `img-png/${props.url}.png`
+      }
       style={{
         position: "absolute",
         top: "0",
@@ -338,8 +412,6 @@ const DeviceImage: React.FC<{ device: string, state: boolean, tentativeState: bo
         height: "100%",
         ...springProps,
       }}
-    >
-    </animated.img>
-  )
-}
-
+    ></animated.img>
+  );
+};
