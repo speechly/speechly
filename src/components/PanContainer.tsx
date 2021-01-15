@@ -1,5 +1,5 @@
 import React from "react";
-import MapInteraction from "react-map-interaction";
+import MapInteraction from "../react-map-interaction";
 
 /*
   This component provides a map like interaction to any content that you place in it. It will let
@@ -12,7 +12,7 @@ type IPanContainer = {
   disableZoom: boolean;
   disablePan: boolean;
   defaultValue: ITranslation;
-}
+};
 
 type ITranslation = {
   translation: {
@@ -20,7 +20,7 @@ type ITranslation = {
     y: number;
   };
   scale: number;
-}
+};
 
 const PanContainer: React.FC<IPanContainer> = (props) => {
   return (
@@ -31,11 +31,10 @@ const PanContainer: React.FC<IPanContainer> = (props) => {
         return (
           <div
             style={{
-              backgroundColor: "red",
-              top:"0",
-              left:"0",
-              right:"0",
-              bottom:"0",
+              top: "0",
+              left: "0",
+              right: "0",
+              bottom: "0",
               position: "absolute", // for absolutely positioned children
               overflow: "hidden",
               touchAction: "none", // Not supported in Safari :(
@@ -49,34 +48,22 @@ const PanContainer: React.FC<IPanContainer> = (props) => {
             <div
               style={{
                 boxSizing: "border-box",
-                width:"100%",
-                height:"100%",
-                position: "relative", // for absolutely positioned children
-                backgroundColor: "blue",
-              }}
-            >
-            <div
-              style={{
-                boxSizing: "border-box",
                 left: "50%",
                 top: "50%",
-                position: "relative", // for absolutely positioned children
+                position: "absolute", // for absolutely positioned children
                 transform: transform,
                 transformOrigin: "0 0 ",
               }}
             >
-
-            <div
-              style={{
-                position:"absolute",
-                display: "inline-block", // size to content
-                transform: "translate(-50%, -50%)",
-                overflow: "hidden",
-              }}
-            >
-              {props.children}
-            </div>
-            </div>
+              <div
+                style={{
+                  position: "absolute",
+                  display: "inline-block", // size to content
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                {props.children}
+              </div>
             </div>
           </div>
         );
