@@ -40,20 +40,13 @@ export type AudioCallback = (audioBuffer: Int16Array) => void
  */
 export interface Microphone {
   /**
-   * Registers the callback that is invoked whenever an audio chunk is emitted.
-   *
-   * @param cb - the callback to invoke.
-   */
-  onAudio(cb: AudioCallback): void
-
-  /**
    * Initialises the microphone.
    *
    * This should prepare the microphone infrastructure for receiving audio chunks,
    * but the microphone should remain muted after the call.
    * This method will be called by the Client as part of client initialisation process.
    */
-  initialize(): Promise<void>
+  initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void>
 
   /**
    * Closes the microphone, tearing down all the infrastructure.

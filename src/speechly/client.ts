@@ -1,6 +1,8 @@
 import localeCode from 'locale-code'
 import { v4 as uuidv4 } from 'uuid'
 
+import { validateToken, fetchToken } from '../websocket/token'
+
 import {
   Microphone,
   BrowserMicrophone,
@@ -11,7 +13,7 @@ import {
 
 import {
   APIClient,
-  WebsocketClient,
+  WebWorkerController,
   WebsocketResponse,
   WebsocketResponseType,
   TentativeTranscriptResponse,
@@ -56,7 +58,12 @@ export class Client {
   private readonly appId: string
   private readonly storage: Storage
   private readonly microphone: Microphone
-  private readonly websocket: APIClient
+  private readonly apiClient: APIClient
+  private readonly loginUrl: string
+  private readonly isWebkit: boolean
+  private readonly audioContext: AudioContext
+  private readonly sampleRate: number
+  private readonly nativeResamplingSupported: boolean
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
   private readonly reconnectAttemptCount = 5
@@ -79,27 +86,49 @@ export class Client {
   private intentCb: IntentCallback = () => {}
 
   constructor(options: ClientOptions) {
+    this.sampleRate = options.sampleRate ?? DefaultSampleRate
+
+    try {
+      const constraints = window.navigator.mediaDevices.getSupportedConstraints()
+      this.nativeResamplingSupported = constraints.sampleRate === true
+    } catch {
+      this.nativeResamplingSupported = false
+    }
+
+    if (window.AudioContext !== undefined) {
+      const opts: AudioContextOptions = {}
+      if (this.nativeResamplingSupported) {
+        opts.sampleRate = this.sampleRate
+      }
+
+      this.audioContext = new window.AudioContext(opts)
+      this.isWebkit = false
+    } else if (window.webkitAudioContext !== undefined) {
+      // eslint-disable-next-line new-cap
+      this.audioContext = new window.webkitAudioContext()
+      this.isWebkit = true
+    } else {
+      throw ErrDeviceNotSupported
+    }
+
     const language = options.language ?? defaultLanguage
     if (!localeCode.validate(language)) {
       throw Error(`[SpeechlyClient] Invalid language "${language}"`)
     }
 
     this.debug = options.debug ?? false
+    this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId
-    this.microphone = options.microphone ?? new BrowserMicrophone(options.sampleRate ?? DefaultSampleRate)
-    this.websocket =
-      options.apiClient ??
-      new WebsocketClient(
-        options.loginUrl ?? defaultLoginUrl,
-        options.apiUrl ?? defaultApiUrl,
-        language,
-        options.sampleRate ?? DefaultSampleRate,
-      )
-    this.storage = options.storage ?? new LocalStorage()
 
-    this.microphone.onAudio(this.handleMicrophoneAudio)
-    this.websocket.onResponse(this.handleWebsocketResponse)
-    this.websocket.onClose(this.handleWebsocketClosure)
+    const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
+    this.apiClient =
+      options.apiClient ??
+      new WebWorkerController(apiUrl)
+
+    this.microphone = options.microphone ?? new BrowserMicrophone(this.audioContext, this.sampleRate, this.apiClient)
+    this.storage = options.storage ?? new LocalStorage()
+    this.apiClient.onResponse(this.handleWebsocketResponse)
+    this.apiClient.onClose(this.handleWebsocketClosure)
   }
 
   /**
@@ -132,11 +161,37 @@ export class Client {
         }
       }
 
-      // 2. Initialise the microphone stack.
-      await this.microphone.initialize()
+      if (this.authToken === undefined || !validateToken(this.authToken, this.appId, this.deviceId)) {
+        this.authToken = await fetchToken(defaultLoginUrl, this.appId, this.deviceId)
+        // Cache the auth token in local storage for future use.
+        try {
+          await this.storage.set(authTokenKey, this.authToken)
+        } catch (err) {
+          // No need to fail if the token caching failed, we will just re-fetch it next time.
+          if (this.debug) {
+            console.warn('[SpeechlyClient]', 'Error caching auth token in storage:', err)
+          }
+        }
+      }
 
-      // 3. Initialise websocket.
-      await this.initializeWebsocket(this.deviceId)
+      const opts: MediaStreamConstraints = {
+        video: false,
+      }
+
+      if (this.nativeResamplingSupported) {
+        console.log('nativeResamplingSupported')
+        opts.audio = {
+          sampleRate: this.sampleRate,
+        }
+      } else {
+        opts.audio = true
+      }
+
+      // 2. Initialise websocket.
+      await this.apiClient.initialize(this.authToken, this.audioContext.sampleRate, this.sampleRate)
+
+      // 3. Initialise the microphone stack.
+      await this.microphone.initialize(this.isWebkit, opts)
     } catch (err) {
       switch (err) {
         case ErrDeviceNotSupported:
@@ -174,7 +229,7 @@ export class Client {
     }
 
     try {
-      await this.websocket.close()
+      await this.apiClient.close()
     } catch (err) {
       errs.push(err.message)
     }
@@ -205,7 +260,7 @@ export class Client {
 
     let contextId: string
     try {
-      contextId = await this.websocket.startContext()
+      contextId = await this.apiClient.startContext()
     } catch (err) {
       this.setState(ClientState.Connected)
       throw err
@@ -254,7 +309,7 @@ export class Client {
     this.microphone.mute()
     let contextId: string
     try {
-      contextId = await this.websocket.stopContext()
+      contextId = await this.apiClient.stopContext()
     } catch (err) {
       this.setState(ClientState.Failed)
       throw err
@@ -426,36 +481,13 @@ export class Client {
           console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt)
         }
 
-        await this.initializeWebsocket(deviceId)
+        // await this.initializeWebsocket(deviceId)
       },
       {
         retries: this.reconnectAttemptCount,
         minTimeout: this.reconnectMinDelay,
       },
     )
-  }
-
-  private async initializeWebsocket(deviceId: string): Promise<void> {
-    // Initialise websocket and save the auth token.
-    this.authToken = await this.websocket.initialize(this.appId, deviceId, this.authToken)
-
-    // Cache the auth token in local storage for future use.
-    try {
-      await this.storage.set(authTokenKey, this.authToken)
-    } catch (err) {
-      // No need to fail if the token caching failed, we will just re-fetch it next time.
-      if (this.debug) {
-        console.warn('[SpeechlyClient]', 'Error caching auth token in storage:', err)
-      }
-    }
-  }
-
-  private readonly handleMicrophoneAudio = (audioChunk: Int16Array): void => {
-    if (this.state !== ClientState.Recording) {
-      return
-    }
-
-    this.websocket.sendAudio(audioChunk)
   }
 
   private setState(newState: ClientState): void {
@@ -470,4 +502,12 @@ export class Client {
     this.state = newState
     this.stateChangeCb(newState)
   }
+}
+
+function generateWsUrl(baseUrl: string, languageCode: string, sampleRate: number): string {
+  const params = new URLSearchParams()
+  params.append('languageCode', languageCode)
+  params.append('sampleRate', sampleRate.toString())
+
+  return `${baseUrl}?${params.toString()}`
 }

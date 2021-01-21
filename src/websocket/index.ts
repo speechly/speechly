@@ -1,2 +1,2 @@
-export * from './client'
+export * from './webWorkerController'
 export * from './types'
