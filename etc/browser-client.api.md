@@ -134,9 +134,8 @@ export interface IntentResponse {
 // @public
 export interface Microphone {
     close(): Promise<void>;
-    initialize(): Promise<void>;
+    initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void>;
     mute(): void;
-    onAudio(cb: AudioCallback): void;
     unmute(): void;
 }
 
