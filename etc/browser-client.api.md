@@ -10,8 +10,8 @@ export interface APIClient {
     initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
-    sendAudio(audioChunk: Float32Array): void;
     postMessage(message: Object): void;
+    sendAudio(audioChunk: Float32Array): void;
     startContext(): Promise<string>;
     stopContext(): Promise<string>;
 }
