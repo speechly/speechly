@@ -7,10 +7,11 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    initialize(appId: string, deviceId: string, token?: string): Promise<string>;
+    initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
-    sendAudio(audioChunk: Int16Array): Error | void;
+    sendAudio(audioChunk: Float32Array): void;
+    postMessage(message: Object): void;
     startContext(): Promise<string>;
     stopContext(): Promise<string>;
 }
