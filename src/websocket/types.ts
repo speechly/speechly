@@ -181,7 +181,7 @@ export interface APIClient {
    * @returns - the token that was used to establish connection to the API, so that it can be cached for later.
    *            If the provided token was used, it will be returned instead.
    */
-  initialize(appId: string, deviceId: string, token?: string): Promise<string>
+  initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>
 
   /**
    * Closes the client.
@@ -209,5 +209,12 @@ export interface APIClient {
    *
    * @param audioChunk - audio chunk to send.
    */
-  sendAudio(audioChunk: Int16Array): Error | void
+  sendAudio(audioChunk: Float32Array): void
+
+  /**
+   * Sends message to the Worker.
+   *
+   * @param message - message to send.
+   */
+  postMessage(message: Object): void
 }

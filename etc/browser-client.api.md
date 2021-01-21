@@ -7,10 +7,11 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    initialize(appId: string, deviceId: string, token?: string): Promise<string>;
+    initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
-    sendAudio(audioChunk: Int16Array): Error | void;
+    postMessage(message: Object): void;
+    sendAudio(audioChunk: Float32Array): void;
     startContext(): Promise<string>;
     stopContext(): Promise<string>;
 }
@@ -133,9 +134,8 @@ export interface IntentResponse {
 // @public
 export interface Microphone {
     close(): Promise<void>;
-    initialize(): Promise<void>;
+    initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void>;
     mute(): void;
-    onAudio(cb: AudioCallback): void;
     unmute(): void;
 }
 
