@@ -179,7 +179,6 @@ export class Client {
       }
 
       if (this.nativeResamplingSupported) {
-        console.log('nativeResamplingSupported')
         opts.audio = {
           sampleRate: this.sampleRate,
         }
