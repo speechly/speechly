@@ -4,7 +4,7 @@ class Analytics {
   private static LOG_ANALYTICS = process.env.NODE_ENV === "production";
   private static DEBUG_LOG_ANALYTICS = process.env.NODE_ENV !== "production";
   private static APP_NAME = "smart-home";
-  private static APP_VERSION = 100; // Major * 100 + Minor
+  private static APP_VERSION = 101; // Major * 100 + Minor
 
   public static trackLaunch(appParams: {}) {
     this.track("App launched", {
@@ -36,6 +36,8 @@ class Analytics {
       })),
       numChanges,
       transcript: segment.words.map(word => word.value).join(' '),
+      appName: Analytics.APP_NAME,
+      appVersion: Analytics.APP_VERSION,
     });
   }
 

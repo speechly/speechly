@@ -1,6 +1,6 @@
 {
   "name": "smart-home",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@speechly/react-client": "^0.0.5",
