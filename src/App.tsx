@@ -20,6 +20,8 @@ import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
+import { AnalyticsWrapper } from "AnalyticsWrapper";
+import Analytics from "analytics";
 
 const FORGETTING_TIMEOUT_MS = 12000;
 
@@ -91,39 +93,6 @@ const DefaultAppState = {
   },
 };
 
-export default function App() {
-  return (
-    <HttpsRedirect>
-      <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
-        <SpeechProvider
-          appId="738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
-          language="en-US"
-        >
-          <BigTranscriptContainer>
-            <BigTranscript />
-          </BigTranscriptContainer>
-          <PushToTalkButtonContainer>
-            <ErrorPanel />
-            <PushToTalkButton captureKey=" " />
-          </PushToTalkButtonContainer>
-          <PanContainer
-            minScale={0.5}
-            maxScale={3.0}
-            disableZoom={!queryParams.zoomPan}
-            disablePan={!queryParams.zoomPan}
-            defaultValue={{
-              scale: queryParams.zoom,
-              translation: { x: 0, y: 0 },
-            }}
-          >
-            <SpeechlyApp />
-          </PanContainer>
-        </SpeechProvider>
-      </div>
-    </HttpsRedirect>
-  );
-}
-
 // http://localhost:3000/?backgroundColor=%23ff00ff&zoom=0.5&zoomPan=false
 const queryParams = {
   backgroundColor: "#CEDCEE",
@@ -131,6 +100,41 @@ const queryParams = {
   zoom: Number(QueryString.parse(window.location.search).zoom || 0.9),
   zoomPan: !(QueryString.parse(window.location.search).zoomPan === "false"),
 };
+
+export default function App() {
+  return (
+    <HttpsRedirect>
+      <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
+        <SpeechProvider
+          appId={process.env.REACT_APP__SPEECHLY_APP_ID || "missing app id"}
+          language={process.env.REACT_APP__SPEECHLY_LANGUAGE_CODE || "en-US"}
+        >
+          <AnalyticsWrapper queryParams={queryParams}>
+            <BigTranscriptContainer>
+              <BigTranscript />
+            </BigTranscriptContainer>
+            <PushToTalkButtonContainer>
+              <ErrorPanel />
+              <PushToTalkButton captureKey=" " />
+            </PushToTalkButtonContainer>
+            <PanContainer
+              minScale={0.5}
+              maxScale={3.0}
+              disableZoom={!queryParams.zoomPan}
+              disablePan={!queryParams.zoomPan}
+              defaultValue={{
+                scale: queryParams.zoom,
+                translation: { x: 0, y: 0 },
+              }}
+            >
+              <SpeechlyApp />
+            </PanContainer>
+          </AnalyticsWrapper>
+        </SpeechProvider>
+      </div>
+    </HttpsRedirect>
+  );
+}
 
 function SpeechlyApp() {
   const { segment } = useSpeechContext();
@@ -156,12 +160,13 @@ function SpeechlyApp() {
         timer.current = null;
       }
 
-      let alteredState = alterAppState(segment);
+      const {alteredState, effectiveIntent, numChanges} = alterAppState(segment);
       // Set current app state
       setTentativeAppState(alteredState);
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
+        Analytics.trackIntent(effectiveIntent, segment, numChanges);
         timer.current = window.setTimeout(() => {
           setSelectedRooms([]);
           setSelectedDevices([]);
@@ -174,8 +179,10 @@ function SpeechlyApp() {
 
   // Create a modified app state by applying the speech segment info to the base state
   const alterAppState = useCallback(
-    (segment: SpeechSegment): AppState => {
-      console.log(segment);
+    (segment: SpeechSegment): {alteredState: AppState, effectiveIntent: string, numChanges: number} => {
+      let numChanges = 0;
+      let numSelections = 0;
+      // console.log(segment);
       let workingState = appState;
       // Get values for room and device entities. Note that values are UPPER CASE by default.
       let newRooms = segment.entities.filter(
@@ -201,12 +208,14 @@ function SpeechlyApp() {
           (deviceName) =>
             ({ value: deviceName, isFinal: selectAll > 1 } as Entity)
         );
+        numSelections++;
       } else {
         newDevices = segment.entities.filter(
           (entity) =>
             entity.type === "device" &&
             validDevices.includes(entity.value.toLocaleLowerCase())
         );
+        numSelections += newDevices.length;
       }
 
       let rooms =
@@ -214,11 +223,13 @@ function SpeechlyApp() {
           ? newRooms
           : selectedRooms.length > 0
           ? selectedRooms
-          : (newDevices = validRooms.map(
+          : validRooms.map(
               (name) => ({ value: name, isFinal: false } as Entity)
-            ));
+            );
       let devices = newDevices.length > 0 ? newDevices : selectedDevices;
       let intent = segment.intent;
+
+      numSelections += newRooms.length;
 
       switch (segment.intent.intent) {
         case "turn_on":
@@ -231,10 +242,13 @@ function SpeechlyApp() {
           break;
       }
 
+      let effectiveIntent = "select";
+
       switch (intent.intent) {
         case "turn_on":
         case "turn_off":
           // Set desired device powerOn based on the intent
+          effectiveIntent = intent.intent;
           const isPowerOn = intent.intent === "turn_on";
           workingState = rooms.reduce(
             (prev: AppState, room: Entity) => {
@@ -246,22 +260,25 @@ function SpeechlyApp() {
                     prev.rooms[roomKey] !== undefined &&
                     prev.rooms[roomKey].devices[deviceKey] !== undefined
                   ) {
-                    return {
-                      ...prev,
-                      rooms: {
-                        ...prev.rooms,
-                        [roomKey]: {
-                          ...prev.rooms[roomKey],
-                          devices: {
-                            ...prev.rooms[roomKey].devices,
-                            [deviceKey]: {
-                              ...prev.rooms[roomKey].devices[deviceKey],
-                              powerOn: isPowerOn,
+                    if (prev.rooms[roomKey].devices[deviceKey].powerOn !== isPowerOn) {
+                      numChanges++;
+                      return {
+                        ...prev,
+                        rooms: {
+                          ...prev.rooms,
+                          [roomKey]: {
+                            ...prev.rooms[roomKey],
+                            devices: {
+                              ...prev.rooms[roomKey].devices,
+                              [deviceKey]: {
+                                ...prev.rooms[roomKey].devices[deviceKey],
+                                powerOn: isPowerOn,
+                              },
                             },
                           },
                         },
-                      },
-                    };
+                      };
+                    }
                   }
                 }
                 return prev;
@@ -282,7 +299,10 @@ function SpeechlyApp() {
       setSelectedRooms(rooms);
       setSelectedDevices(devices);
 
-      return workingState;
+      return {
+        alteredState: workingState,
+        effectiveIntent,
+        numChanges: effectiveIntent === "select" ? numSelections : numChanges };
     },
     [appState, selectedRooms, selectedDevices]
   );

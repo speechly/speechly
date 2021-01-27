@@ -1,9 +1,9 @@
 {
-  "name": "testbench",
-  "version": "0.1.0",
+  "name": "smart-home",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@speechly/react-client": "^0.0.3",
+    "@speechly/react-client": "^0.0.5",
     "@speechly/react-ui": "^1.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -12,7 +12,9 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@types/segment-analytics": "^0.0.33",
     "@types/styled-components": "^5.1.4",
+    "logrocket": "^1.0.14",
     "pubsub-js": "^1.9.1",
     "query-string": "^6.13.8",
     "react": "^17.0.1",

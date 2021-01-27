@@ -30,7 +30,7 @@ code {
 }
 
 .BigTranscript .Final {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .BigTranscript .Entity.room {
