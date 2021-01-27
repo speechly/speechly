@@ -1,4 +1,16 @@
-# Home Automation Demo
+# Smart Home Demo
+
+Voice-enabled web app for controlling home smart devices.
+
+You can say...
+
+"Turn off lights"
+"Turn off television in the living room"
+"Switch on lights in the bedroom and in the kitchen"
+"On the terrace..."
+"...turn on lights"
+"Turn off living room lights..."
+"...and the radio"
 
 ## Available Scripts
 
