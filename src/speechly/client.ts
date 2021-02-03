@@ -162,7 +162,7 @@ export class Client {
       }
 
       if (this.authToken === undefined || !validateToken(this.authToken, this.appId, this.deviceId)) {
-        this.authToken = await fetchToken(defaultLoginUrl, this.appId, this.deviceId)
+        this.authToken = await fetchToken(this.loginUrl, this.appId, this.deviceId)
         // Cache the auth token in local storage for future use.
         try {
           await this.storage.set(authTokenKey, this.authToken)
