@@ -1,11 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Notifications } from './Notifications'
 
-const BigTranscriptContainerDiv = styled.div`
-  position: absolute;
-  top: 3rem;
-  left: 2rem;
-  right: 2rem;
+/**
+ * Properties for BigTranscriptContainer component.
+ *
+ * @public
+ */
+export type BigTranscriptContainerProps = {
+  /**
+   * The override value for CSS position (default: `"fixed"`).
+   */
+  position?: string
+
+  /**
+   * The override value for CSS margin(default: `"3rem 2rem 0 2rem"`).
+   */
+  margin?: string
+}
+
+const BigTranscriptContainerDiv = styled.div<{
+  position: string
+  margin: string
+}>`
+  position: ${(props) => props.position};
+  margin: ${(props) => props.margin};
   z-index: 10;
 
   color: #fff;
@@ -25,6 +44,16 @@ const BigTranscriptContainerDiv = styled.div`
  *
  * @public
  */
-export const BigTranscriptContainer: React.FC = props => {
-  return <BigTranscriptContainerDiv>{props.children}</BigTranscriptContainerDiv>
+
+export const BigTranscriptContainer: React.FC<BigTranscriptContainerProps> = ({
+  position = 'fixed',
+  margin = '3rem 2rem 0 2rem',
+  children,
+}) => {
+  return (
+    <BigTranscriptContainerDiv position={position} margin={margin}>
+      <Notifications />
+      {children}
+    </BigTranscriptContainerDiv>
+  )
 }

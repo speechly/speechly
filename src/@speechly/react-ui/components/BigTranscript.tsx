@@ -13,19 +13,37 @@ import styled from 'styled-components'
 export const BigTranscript: React.FC = props => {
   const { segment } = useSpeechContext()
   const [springProps, setSpringProps] = useSpring(() => ({
-    effectOpacity: 1,
+    to: {
+      opacity: 0,
+      maxHeight: '0rem',
+      marginBottom: '0rem',
+    },
   }))
 
   useEffect(() => {
     if (segment?.isFinal === true) {
       setSpringProps({
-        effectOpacity: 0,
+        to: async (next: any, cancel: any) => {
+          await next({
+            opacity: 0,
+          })
+          await next({
+            maxHeight: '0rem',
+            marginBottom: '0rem',
+          })
+        },
         delay: 2000,
         config: { tension: 200 },
       })
     } else {
       setSpringProps({
-        effectOpacity: 1,
+        to: async (next: any, cancel: any) => {
+          await next({
+            opacity: 1,
+            maxHeight: '10rem',
+            marginBottom: '1.5rem',
+          })
+        },
         config: { tension: 500 },
       })
     }
@@ -56,7 +74,7 @@ export const BigTranscript: React.FC = props => {
   return (
     <BigTranscriptDiv
       className="BigTranscript"
-      style={{ opacity: springProps.effectOpacity.interpolate(x => x as number) }}
+      style={springProps}
     >
       {words.map<React.ReactNode>((w, index) => {
         const key = `${segment.contextId}/${segment.id}/${index}`

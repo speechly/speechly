@@ -5,6 +5,7 @@ import {
   useSpeechContext,
   Entity,
   Intent,
+  SpeechState,
 } from "@speechly/react-client";
 import {
   BigTranscript,
@@ -22,6 +23,7 @@ import QueryString from "query-string";
 import HttpsRedirect from "./components/HttpsRedirect";
 import { AnalyticsWrapper } from "AnalyticsWrapper";
 import Analytics from "analytics";
+import { SpeechlyUiEvents } from "@speechly/react-ui/types";
 
 const FORGETTING_TIMEOUT_MS = 12000;
 
@@ -137,7 +139,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { segment } = useSpeechContext();
+  const { segment, speechState } = useSpeechContext();
 
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(
@@ -151,6 +153,19 @@ function SpeechlyApp() {
     intent: "",
     isFinal: false,
   });
+
+  useEffect(() => {
+    switch(speechState) {
+      case SpeechState.Idle:
+        PubSub.publish(SpeechlyUiEvents.Notification, {message: `Press the button to start`});
+        break;
+      case SpeechState.Ready:
+        if (appState === DefaultAppState) {
+          PubSub.publish(SpeechlyUiEvents.Notification, {message: `Say "Turn off everything"`, footnote: "Hold the button while talking"});
+        }
+        break;
+    }
+  }, [speechState, appState]);
 
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {
