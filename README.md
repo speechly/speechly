@@ -1,9 +1,10 @@
 # Smart Home Demo
 
-Voice-enabled web app for controlling home smart devices.
+Voice control for home smart devices with a web app.
 
 You can say...
 
+"Turn off everything"
 "Turn off lights"
 "Turn off television in the living room"
 "Switch on lights in the bedroom and in the kitchen"
