@@ -5,7 +5,7 @@ import { animated, useSpring } from "react-spring";
 const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean }> = props => {
     const [springProps, setSpringProps] = useSpring(() => ({
       backgroundColor: props.state ? "green" : "red",
-      active: props.state ? 12 : 36,
+      active: props.state ? 36 : 12,
       config: { tension: 500 },
     }));
 
@@ -23,7 +23,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
       setSpringProps({
         from: {backgroundColor: "#ffffff"},
         backgroundColor: props.state ? "green" : "red",
-        active: props.state ? 12 : 36,
+        active: props.state ? 36 : 12,
         config: { tension: 200 }
       })
     }, [props.state]);
@@ -67,14 +67,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
           ...springProps
         }}
       >
-        <animated.svg style={{paddingRight: "0.2rem"}}
-          width="20" height="10"
-          viewBox="0 0 48 24"
-          xmlns="http://www.w3.org/2000/svg">
-
-          <rect x="0" width="48" height="24" rx="12" fill="#00000080"/>
-          <circle cx={springProps.active.getValue() as number} cy="12" r="12" fill="#ffffffff" />
-        </animated.svg>
+        <Knob cx={springProps.active.interpolate(x => x as number)}/>
 
         {props.device}
         {props.state ? (
@@ -92,4 +85,15 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
     )
   }
   
+  const Knob: React.FC<{cx: number}> = (props) => (
+    <svg style={{paddingRight: "0.2rem"}}
+      width="20" height="10"
+      viewBox="0 0 48 24"
+      xmlns="http://www.w3.org/2000/svg">
+
+      <rect x="0" width="48" height="24" rx="12" fill="#00000080"/>
+      <animated.circle cx={props.cx} cy="12" r="12" fill="#ffffffff" />
+    </svg>
+  );
+
   export default Device;
