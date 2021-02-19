@@ -14,6 +14,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/segment-analytics": "^0.0.33",
     "@types/styled-components": "^5.1.4",
+    "express": "^4.17.1",
     "logrocket": "^1.0.14",
     "pubsub-js": "^1.9.1",
     "query-string": "^6.13.8",
