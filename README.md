@@ -40,3 +40,5 @@ heroku login
 git remote add heroku https://git.heroku.com/home-automation-app-demo.git
 git push heroku main
 ```
+
+- Edit .env variables in Heroku Dashboard
