@@ -46,7 +46,7 @@ export interface Microphone {
    * but the microphone should remain muted after the call.
    * This method will be called by the Client as part of client initialisation process.
    */
-  initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void>
+  initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void>
 
   /**
    * Closes the microphone, tearing down all the infrastructure.

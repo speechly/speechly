@@ -8,6 +8,7 @@ export class WebWorkerController implements APIClient {
 
   private authToken?: string
   private worker?: Worker
+  private resolveInitialization?: (value?: void) => void
 
   private startCbs: ContextCallback[] = []
   private stopCbs: ContextCallback[] = []
@@ -46,6 +47,10 @@ export class WebWorkerController implements APIClient {
     if (this.worker != null) {
       this.worker.addEventListener('message', this.onWebsocketMessage)
     }
+
+    return new Promise((resolve) => {
+      this.resolveInitialization = resolve
+    })
   }
 
   async close(): Promise<void> {
@@ -100,6 +105,11 @@ export class WebWorkerController implements APIClient {
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
     const response: WebsocketResponse = event.data
     switch (response.type) {
+      case WebsocketResponseType.Opened:
+        if (this.resolveInitialization != null) {
+          this.resolveInitialization()
+        }
+        break
       case WebsocketResponseType.Started:
         this.startCbs.forEach(cb => {
           try {

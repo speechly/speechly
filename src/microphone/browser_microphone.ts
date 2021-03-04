@@ -6,13 +6,15 @@ const audioProcessEvent = 'audioprocess'
 const baseBufferSize = 4096
 
 export class BrowserMicrophone implements Microphone {
-  private readonly audioContext: AudioContext
+  private readonly isWebkit: boolean
   private readonly apiClient: APIClient
-  private readonly resampleRatio: number
   private readonly sampleRate: number
 
   private initialized: boolean = false
   private muted: boolean = false
+
+  private audioContext?: AudioContext
+  private resampleRatio?: number
 
   // The media stream and audio track are initialized during `initialize()` call.
   private audioTrack?: MediaStreamTrack
@@ -23,17 +25,19 @@ export class BrowserMicrophone implements Microphone {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
-  constructor(audioContext: AudioContext, sampleRate: number, apiClient: APIClient) {
-    this.audioContext = audioContext
+  constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient) {
+    this.isWebkit = isWebkit
     this.apiClient = apiClient
     this.sampleRate = sampleRate
-    this.resampleRatio = this.audioContext.sampleRate / this.sampleRate
   }
 
-  async initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void> {
+  async initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void> {
     if (window.navigator?.mediaDevices === undefined) {
       throw ErrDeviceNotSupported
     }
+
+    this.audioContext = audioContext
+    this.resampleRatio = this.audioContext.sampleRate / this.sampleRate
 
     // Start audio context if we are dealing with a WebKit browser.
     //
@@ -42,7 +46,7 @@ export class BrowserMicrophone implements Microphone {
     //
     // If done in a different order, the audio context will resume successfully,
     // but will emit empty audio buffers.
-    if (isWebkit) {
+    if (this.isWebkit) {
       await this.audioContext.resume()
     }
 
@@ -62,7 +66,7 @@ export class BrowserMicrophone implements Microphone {
     //
     // If audio context is attempted to be resumed before `mediaDevices.getUserMedia`,
     // `audioContext.resume()` will hang indefinitely, without being resolved or rejected.
-    if (!isWebkit) {
+    if (!this.isWebkit) {
       await this.audioContext.resume()
     }
 
@@ -94,8 +98,8 @@ export class BrowserMicrophone implements Microphone {
         }
       }
     } else {
-    // Safari, iOS Safari and Internet Explorer
-      if (isWebkit) {
+      // Safari, iOS Safari and Internet Explorer
+      if (this.isWebkit) {
         // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
         // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
         const bufSize = baseBufferSize * Math.pow(2, Math.ceil(Math.log(this.resampleRatio) / Math.log(2)))
