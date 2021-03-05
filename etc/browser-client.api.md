@@ -134,7 +134,7 @@ export interface IntentResponse {
 // @public
 export interface Microphone {
     close(): Promise<void>;
-    initialize(isWebkit: boolean, opts: MediaStreamConstraints): Promise<void>;
+    initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void>;
     mute(): void;
     unmute(): void;
 }
@@ -214,6 +214,8 @@ export enum WebsocketResponseType {
     Entity = "entity",
     // (undocumented)
     Intent = "intent",
+    // (undocumented)
+    Opened = "WEBSOCKET_OPEN",
     // (undocumented)
     SegmentEnd = "segment_end",
     // (undocumented)

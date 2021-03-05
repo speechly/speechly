@@ -33,6 +33,7 @@ export interface WebsocketResponse {
  * @public
  */
 export enum WebsocketResponseType {
+  Opened = 'WEBSOCKET_OPEN',
   Started = 'started',
   Stopped = 'stopped',
   SegmentEnd = 'segment_end',

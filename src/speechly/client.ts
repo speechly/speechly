@@ -61,7 +61,6 @@ export class Client {
   private readonly apiClient: APIClient
   private readonly loginUrl: string
   private readonly isWebkit: boolean
-  private readonly audioContext: AudioContext
   private readonly sampleRate: number
   private readonly nativeResamplingSupported: boolean
 
@@ -74,6 +73,7 @@ export class Client {
 
   private deviceId?: string
   private authToken?: string
+  private audioContext?: AudioContext
   private state: ClientState = ClientState.Disconnected
 
   private stateChangeCb: StateChangeCallback = () => {}
@@ -95,22 +95,6 @@ export class Client {
       this.nativeResamplingSupported = false
     }
 
-    if (window.AudioContext !== undefined) {
-      const opts: AudioContextOptions = {}
-      if (this.nativeResamplingSupported) {
-        opts.sampleRate = this.sampleRate
-      }
-
-      this.audioContext = new window.AudioContext(opts)
-      this.isWebkit = false
-    } else if (window.webkitAudioContext !== undefined) {
-      // eslint-disable-next-line new-cap
-      this.audioContext = new window.webkitAudioContext()
-      this.isWebkit = true
-    } else {
-      throw ErrDeviceNotSupported
-    }
-
     const language = options.language ?? defaultLanguage
     if (!localeCode.validate(language)) {
       throw Error(`[SpeechlyClient] Invalid language "${language}"`)
@@ -125,7 +109,15 @@ export class Client {
       options.apiClient ??
       new WebWorkerController(apiUrl)
 
-    this.microphone = options.microphone ?? new BrowserMicrophone(this.audioContext, this.sampleRate, this.apiClient)
+    if (window.AudioContext !== undefined) {
+      this.isWebkit = false
+    } else if (window.webkitAudioContext !== undefined) {
+      this.isWebkit = true
+    } else {
+      throw ErrDeviceNotSupported
+    }
+
+    this.microphone = options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient)
     this.storage = options.storage ?? new LocalStorage()
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
@@ -174,6 +166,21 @@ export class Client {
         }
       }
 
+      // 2. Initialise the microphone stack.
+      if (this.isWebkit) {
+        if (window.webkitAudioContext !== undefined) {
+          // eslint-disable-next-line new-cap
+          this.audioContext = new window.webkitAudioContext()
+        }
+      } else {
+        const opts: AudioContextOptions = {}
+        if (this.nativeResamplingSupported) {
+          opts.sampleRate = this.sampleRate
+        }
+
+        this.audioContext = new window.AudioContext(opts)
+      }
+
       const opts: MediaStreamConstraints = {
         video: false,
       }
@@ -186,11 +193,13 @@ export class Client {
         opts.audio = true
       }
 
-      // 2. Initialise websocket.
-      await this.apiClient.initialize(this.authToken, this.audioContext.sampleRate, this.sampleRate)
-
-      // 3. Initialise the microphone stack.
-      await this.microphone.initialize(this.isWebkit, opts)
+      if (this.audioContext != null) {
+        // 3. Initialise websocket.
+        await this.apiClient.initialize(this.authToken, this.audioContext.sampleRate, this.sampleRate)
+        await this.microphone.initialize(this.audioContext, opts)
+      } else {
+        throw ErrDeviceNotSupported
+      }
     } catch (err) {
       switch (err) {
         case ErrDeviceNotSupported:

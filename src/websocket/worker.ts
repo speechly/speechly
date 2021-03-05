@@ -90,6 +90,9 @@ self.onmessage = function(e) {
     case 'INIT':
       if (ws === undefined) {
         initializeWebsocket(e.data.apiUrl, e.data.authToken).then(function() {
+          self.postMessage({
+              type: 'WEBSOCKET_OPEN'
+          })
           ws.addEventListener('message', onWebsocketMessage)
           ws.addEventListener('error', onWebsocketError)
           ws.addEventListener('close', onWebsocketClose)
@@ -117,6 +120,8 @@ self.onmessage = function(e) {
         state.isContextStarted = true
         const StartEventJSON = JSON.stringify({ event: 'start' })
         ws.send(StartEventJSON)
+      } else {
+        console.log('can not start context')
       }
       break
     case 'STOP_CONTEXT':
