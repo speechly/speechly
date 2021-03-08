@@ -117,6 +117,7 @@ interface SpeechProviderState {
   clientState: ClientState
   recordingState: SpeechState
   toggleIsOn: boolean
+  startedContextPromise?: Promise<string>
   segment?: SpeechSegment
   tentativeTranscript?: TentativeSpeechTranscript
   transcript?: SpeechTranscript
@@ -139,12 +140,12 @@ interface SpeechProviderState {
 export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechProviderState> {
   constructor(props: SpeechProviderProps) {
     super(props)
-
     this.state = {
       client: this.initialiseClient(props),
       recordingState: SpeechState.Idle,
       clientState: ClientState.Disconnected,
       toggleIsOn: false,
+      startedContextPromise: undefined,
     }
   }
 
@@ -161,29 +162,33 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   readonly startContext = async (): Promise<void> => {
     const { client, clientState } = this.state
 
+    let startedContextPromise
     switch (clientState) {
       case ClientState.Disconnected:
         await client.initialize()
-        await client.startContext()
-        return
+        startedContextPromise = client.startContext()
+        break
       case ClientState.Connected:
-        await client.startContext()
-        return
+        startedContextPromise = client.startContext()
+        break
       default:
-        throw Error('Cannot start context - client is not connected')
+        console.warn('Cannot start context - client is not connected')
+    }
+
+    this.setState({ startedContextPromise })
+    if (startedContextPromise !== undefined) {
+      await startedContextPromise
     }
   }
 
   readonly stopContext = async (): Promise<void> => {
-    const { client, clientState } = this.state
+    const { client, clientState, startedContextPromise } = this.state
+
+    if (startedContextPromise !== undefined) {
+      await startedContextPromise
+    }
 
     switch (clientState) {
-      case ClientState.Starting:
-        await client.stopContext()
-        return
-      case ClientState.Connected:
-        await client.stopContext()
-        return
       case ClientState.Recording:
         await client.stopContext()
         return
