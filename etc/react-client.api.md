@@ -65,6 +65,10 @@ export class SpeechProvider extends React_2.Component<SpeechProviderProps, Speec
     // (undocumented)
     render(): JSX.Element;
     // (undocumented)
+    readonly startContext: () => Promise<void>;
+    // (undocumented)
+    readonly stopContext: () => Promise<void>;
+    // (undocumented)
     readonly toggleRecording: () => Promise<void>;
 }
 

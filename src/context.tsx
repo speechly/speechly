@@ -116,6 +116,7 @@ interface SpeechProviderState {
   client: Client
   clientState: ClientState
   recordingState: SpeechState
+  toggleIsOn: boolean
   segment?: SpeechSegment
   tentativeTranscript?: TentativeSpeechTranscript
   transcript?: SpeechTranscript
@@ -143,6 +144,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       client: this.initialiseClient(props),
       recordingState: SpeechState.Idle,
       clientState: ClientState.Disconnected,
+      toggleIsOn: false,
     }
   }
 
@@ -156,7 +158,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return Promise.resolve()
   }
 
-  readonly toggleRecording = async (): Promise<void> => {
+  readonly startContext = async (): Promise<void> => {
     const { client, clientState } = this.state
 
     switch (clientState) {
@@ -167,12 +169,36 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       case ClientState.Connected:
         await client.startContext()
         return
+      default:
+        throw Error('Cannot start context - client is not connected')
+    }
+  }
+
+  readonly stopContext = async (): Promise<void> => {
+    const { client, clientState } = this.state
+
+    switch (clientState) {
+      case ClientState.Starting:
+        await client.stopContext()
+        return
+      case ClientState.Connected:
+        await client.stopContext()
+        return
       case ClientState.Recording:
         await client.stopContext()
         return
       default:
         return Promise.resolve()
     }
+  }
+
+  readonly toggleRecording = async (): Promise<void> => {
+    const { toggleIsOn } = this.state
+    this.setState({ toggleIsOn: !toggleIsOn })
+    if (!toggleIsOn) {
+      return this.startContext()
+    }
+    return this.stopContext()
   }
 
   render(): JSX.Element {

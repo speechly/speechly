@@ -15,3 +15,5 @@ temp/
 
 # Ignore IDE configs
 .vscode/
+
+.DS_Store
