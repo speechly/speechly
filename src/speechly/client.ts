@@ -260,12 +260,16 @@ export class Client {
       await this.stoppedContextIdPromise
     }
 
-    if (this.state !== ClientState.Connected) {
+    if (this.state === ClientState.Disconnected) {
       throw Error('Cannot start context - client is not connected')
     }
 
     this.setState(ClientState.Starting)
+    const contextId: string = await this._startContext()
+    return contextId
+  }
 
+  private async _startContext(): Promise<string> {
     let contextId: string
     try {
       contextId = await this.apiClient.startContext()
@@ -286,7 +290,7 @@ export class Client {
    * delayed by contextStopDelay = 250 ms
    */
   async stopContext(): Promise<string> {
-    if (this.state !== ClientState.Recording) {
+    if (this.state !== ClientState.Recording && this.state !== ClientState.Starting) {
       throw Error('Cannot stop context - client is not recording')
     }
 
