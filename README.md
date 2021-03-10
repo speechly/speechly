@@ -67,6 +67,9 @@ Check out the [browser-client-example](https://github.com/speechly/browser-clien
 You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_index_d_.md).
 You can also refer to [Speechly Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
+### Client states
+<img width="246" height="506" src="https://raw.githubusercontent.com/speechly/android-repo-filtering/master/assets/states.jpeg" />
+
 ## Contributing
 
 See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/browser-client/blob/master/CONTRIBUTING.md).
