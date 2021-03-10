@@ -265,7 +265,8 @@ export class Client {
     }
 
     this.setState(ClientState.Starting)
-    return await this._startContext()
+    const contextId: string = await this._startContext()
+    return contextId
   }
 
   private async _startContext(): Promise<string> {
