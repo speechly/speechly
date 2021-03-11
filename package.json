@@ -1,6 +1,6 @@
 {
   "name": "@speechly/react-client",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "React client for Speechly SLU API",
   "private": true,
   "keywords": [
@@ -48,7 +48,7 @@
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
-    "@speechly/browser-client": "^1.0.5"
+    "@speechly/browser-client": "^1.0.6"
   },
   "peerDependencies": {
     "react": "^16.13.1"

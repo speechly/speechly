@@ -166,9 +166,10 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     switch (clientState) {
       case ClientState.Disconnected:
         await client.initialize()
-        startedContextPromise = client.startContext()
-        break
+        // falls through
       case ClientState.Connected:
+        // falls through
+      case ClientState.Stopping:
         startedContextPromise = client.startContext()
         break
       default:
@@ -182,19 +183,14 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   }
 
   readonly stopContext = async (): Promise<void> => {
-    const { client, clientState, startedContextPromise } = this.state
+    const { client, startedContextPromise } = this.state
 
     if (startedContextPromise !== undefined) {
       await startedContextPromise
     }
 
-    switch (clientState) {
-      case ClientState.Recording:
-        await client.stopContext()
-        return
-      default:
-        return Promise.resolve()
-    }
+    await client.stopContext()
+    return Promise.resolve()
   }
 
   readonly toggleRecording = async (): Promise<void> => {
