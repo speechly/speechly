@@ -1,4 +1,4 @@
-import { Storage as IStorage, ErrKeyNotFound } from './types'
+import { Storage as IStorage } from './types'
 
 export class LocalStorage implements IStorage {
   private readonly storage: Storage
@@ -7,23 +7,16 @@ export class LocalStorage implements IStorage {
     this.storage = window.localStorage
   }
 
-  async initialize(): Promise<void> {}
-  async close(): Promise<void> {}
-
-  async get(key: string): Promise<string> {
+  get(key: string): string | null {
     const val = this.storage.getItem(key)
-    if (val === null) {
-      throw ErrKeyNotFound
-    }
-
     return val
   }
 
-  async set(key: string, val: string): Promise<void> {
+  set(key: string, val: string): void {
     this.storage.setItem(key, val)
   }
 
-  async getOrSet(key: string, genFn: () => string): Promise<string> {
+  getOrSet(key: string, genFn: () => string): string {
     let val = this.storage.getItem(key)
     if (val === null) {
       val = genFn()

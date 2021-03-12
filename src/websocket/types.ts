@@ -34,6 +34,7 @@ export interface WebsocketResponse {
  */
 export enum WebsocketResponseType {
   Opened = 'WEBSOCKET_OPEN',
+  SourceSampleRateSetSuccess = 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
   SegmentEnd = 'segment_end',
@@ -169,20 +170,23 @@ export interface APIClient {
   onClose(cb: CloseCallback): void
 
   /**
-   * Initialises the client.
+   * The client establishes a WebSocket connection to SLU API.
    *
-   * This should prepare websocket to be used (i.e. establish connection to the API).
-   * This method will be called by the Client as part of the initialisation process.
-   *
-   * @param appId - app ID to use when connecting to the API.
-   * @param deviceId - device ID to use when connecting to the API.
    * @param token - login token in JWT format, which was e.g. cached from previous session.
    *                If the token is not provided or is invalid, a new token will be fetched instead.
-   *
-   * @returns - the token that was used to establish connection to the API, so that it can be cached for later.
-   *            If the provided token was used, it will be returned instead.
+   * @param targetSampleRate - sample rate of audio to be sent.
    */
-  initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>
+  connect(token: string, targetSampleRate: number): void
+
+  /**
+   * Initialises the client.
+   *
+   * This should prepare websocket to be used (set source sample rate).
+   * This method will be called by the Client as part of the initialisation process.
+   *
+   * @param sourceSampleRate - sample rate of audio source.
+   */
+  initialize(sourceSampleRate: number): Promise<void>
 
   /**
    * Closes the client.
