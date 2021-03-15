@@ -16,28 +16,11 @@ export const ErrKeyNotFound = new Error('Requested key was not present in storag
  */
 export interface Storage {
   /**
-   * Initialises the storage.
-   *
-   * Any long-running operation (or operation that can fail), should be done in this method,
-   * rather than in a constructor.
-   * This method will be called by the Client as part of client initialisation process.
-   */
-  initialize(): Promise<void>
-
-  /**
-   * Closes the storage.
-   *
-   * Calling `initialize` again after calling `close` should succeed and make storage ready to use again.
-   * This method will be called by the Client as part of client closure process.
-   */
-  close(): Promise<void>
-
-  /**
    * Retrieves a key from the storage.
    *
    * @param key - the key to retrieve
    */
-  get(key: string): Promise<string>
+  get(key: string): string | null
 
   /**
    * Adds a key to the storage, possibly overwriting existing value.
@@ -45,7 +28,7 @@ export interface Storage {
    * @param key - the key to write
    * @param val - the value to write
    */
-  set(key: string, val: string): Promise<void>
+  set(key: string, val: string): void
 
   /**
    * Adds a key to the storage, possibly overwriting existing value.
@@ -54,5 +37,5 @@ export interface Storage {
    * @param genFn - generator function that will be invoked if the key cannot be found in the storage.
    * The return value of the function will be used as the value that will be stored under the given key.
    */
-  getOrSet(key: string, genFn: () => string): Promise<string>
+  getOrSet(key: string, genFn: () => string): string
 }

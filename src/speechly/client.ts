@@ -70,8 +70,7 @@ export class Client {
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
   private resolveStopContext?: (value?: unknown) => void
-
-  private deviceId?: string
+  private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
   private state: ClientState = ClientState.Disconnected
@@ -103,11 +102,26 @@ export class Client {
     this.debug = options.debug ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId
-
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
-    this.apiClient =
-      options.apiClient ??
-      new WebWorkerController(apiUrl)
+    this.apiClient = options.apiClient ?? new WebWorkerController(apiUrl)
+
+    this.storage = options.storage ?? new LocalStorage()
+    this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+    const storedToken = this.storage.get(authTokenKey)
+
+    // 2. Fetch auth token. It doesn't matter if it's not present.
+    if (storedToken == null || !validateToken(storedToken, this.appId, this.deviceId)) {
+      fetchToken(this.loginUrl, this.appId, this.deviceId).then((token) => {
+        this.authToken = token
+        // Cache the auth token in local storage for future use.
+        this.storage.set(authTokenKey, this.authToken)
+        // Esteblish websocket connection
+        this.apiClient.connect(this.authToken, this.sampleRate)
+      }).catch(err => { throw err })
+    } else {
+      this.authToken = storedToken
+      this.apiClient.connect(this.authToken, this.sampleRate)
+    }
 
     if (window.AudioContext !== undefined) {
       this.isWebkit = false
@@ -118,7 +132,7 @@ export class Client {
     }
 
     this.microphone = options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient)
-    this.storage = options.storage ?? new LocalStorage()
+
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
   }
@@ -141,30 +155,8 @@ export class Client {
 
     try {
       // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-      await this.storage.initialize()
-      this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-
-      // 2. Fetch auth token. It doesn't matter if it's not present.
-      try {
-        this.authToken = await this.storage.get(authTokenKey)
-      } catch (err) {
-        if (this.debug) {
-          console.warn('[SpeechlyClient]', 'Error fetching auth token from storage:', err)
-        }
-      }
-
-      if (this.authToken === undefined || !validateToken(this.authToken, this.appId, this.deviceId)) {
-        this.authToken = await fetchToken(this.loginUrl, this.appId, this.deviceId)
-        // Cache the auth token in local storage for future use.
-        try {
-          await this.storage.set(authTokenKey, this.authToken)
-        } catch (err) {
-          // No need to fail if the token caching failed, we will just re-fetch it next time.
-          if (this.debug) {
-            console.warn('[SpeechlyClient]', 'Error caching auth token in storage:', err)
-          }
-        }
-      }
+      // await this.storage.initialize()
+      // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
 
       // 2. Initialise the microphone stack.
       if (this.isWebkit) {
@@ -195,7 +187,7 @@ export class Client {
 
       if (this.audioContext != null) {
         // 3. Initialise websocket.
-        await this.apiClient.initialize(this.authToken, this.audioContext.sampleRate, this.sampleRate)
+        await this.apiClient.initialize(this.audioContext.sampleRate)
         await this.microphone.initialize(this.audioContext, opts)
       } else {
         throw ErrDeviceNotSupported
@@ -223,12 +215,6 @@ export class Client {
    */
   async close(): Promise<void> {
     const errs: string[] = []
-
-    try {
-      await this.storage.close()
-    } catch (err) {
-      errs.push(err.message)
-    }
 
     try {
       await this.microphone.close()

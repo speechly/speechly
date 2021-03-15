@@ -7,7 +7,8 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void>;
+    connect(token: string, targetSampleRate: number): void;
+    initialize(sourceSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
     postMessage(message: Object): void;
@@ -163,11 +164,9 @@ export function stateToString(state: ClientState): string;
 
 // @public
 interface Storage_2 {
-    close(): Promise<void>;
-    get(key: string): Promise<string>;
-    getOrSet(key: string, genFn: () => string): Promise<string>;
-    initialize(): Promise<void>;
-    set(key: string, val: string): Promise<void>;
+    get(key: string): string | null;
+    getOrSet(key: string, genFn: () => string): string;
+    set(key: string, val: string): void;
 }
 
 export { Storage_2 as Storage }
@@ -218,6 +217,8 @@ export enum WebsocketResponseType {
     Opened = "WEBSOCKET_OPEN",
     // (undocumented)
     SegmentEnd = "segment_end",
+    // (undocumented)
+    SourceSampleRateSetSuccess = "SOURSE_SAMPLE_RATE_SET_SUCCESS",
     // (undocumented)
     Started = "started",
     // (undocumented)

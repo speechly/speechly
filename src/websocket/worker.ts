@@ -97,13 +97,19 @@ self.onmessage = function(e) {
           ws.addEventListener('error', onWebsocketError)
           ws.addEventListener('close', onWebsocketClose)
         })
-        state.sourceSampleRate = e.data.sourceSampleRate
+        
         state.targetSampleRate = e.data.targetSampleRate
-        state.resampleRatio = e.data.sourceSampleRate / e.data.targetSampleRate
-        if (state.resampleRatio > 1) {
-          state.filter = generateFilter(e.data.sourceSampleRate, e.data.targetSampleRate, 127)
-        }
       }
+      break
+    case 'SET_SOURSE_SAMPLE_RATE':
+      state.sourceSampleRate = e.data.sourceSampleRate
+      state.resampleRatio = e.data.sourceSampleRate / e.data.targetSampleRate
+      if (state.resampleRatio > 1) {
+        state.filter = generateFilter(e.data.sourceSampleRate, e.data.targetSampleRate, 127)
+      }
+      self.postMessage({
+        type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS'
+      })
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
       state.controlSAB = new Int32Array(e.data.controlSAB);

@@ -27,7 +27,7 @@ export class WebWorkerController implements APIClient {
     this.apiUrl = apiUrl
   }
 
-  async initialize(token: string, sourceSampleRate: number, targetSampleRate: number): Promise<void> {
+  connect(token: string, targetSampleRate: number): void {
     this.authToken = token
     if (this.worker !== undefined) {
       throw Error('Cannot initialize an already initialized worker')
@@ -40,13 +40,19 @@ export class WebWorkerController implements APIClient {
       type: 'INIT',
       apiUrl: this.apiUrl,
       authToken: this.authToken,
-      sourceSampleRate,
       targetSampleRate,
     })
 
     if (this.worker != null) {
       this.worker.addEventListener('message', this.onWebsocketMessage)
     }
+  }
+
+  async initialize(sourceSampleRate: number): Promise<void> {
+    this.worker?.postMessage({
+      type: 'SET_SOURSE_SAMPLE_RATE',
+      sourceSampleRate,
+    })
 
     return new Promise((resolve) => {
       this.resolveInitialization = resolve
@@ -106,6 +112,8 @@ export class WebWorkerController implements APIClient {
     const response: WebsocketResponse = event.data
     switch (response.type) {
       case WebsocketResponseType.Opened:
+        break
+      case WebsocketResponseType.SourceSampleRateSetSuccess:
         if (this.resolveInitialization != null) {
           this.resolveInitialization()
         }
