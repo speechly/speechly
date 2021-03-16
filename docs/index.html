@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1'>
+
+	<title>Svelte app</title>
+
+	<link rel='icon' type='image/png' href='/favicon.png'>
+	<link rel='stylesheet' href='/global.css'>
+    <link rel="stylesheet" href="/PushToTalkContainer.css">
+
+	<script defer src='/dev/push-to-talk-button.js'></script>
+</head>
+
+<body>
+    <h1>&lt;push-to-talk-button/&gt;</h1>
+	Autonomous customElement for connecting to Speechly and controlling listening on/off.
+    <h3>Attributes</h3>
+    <ul>
+      <li>appid - Speechly App id to connect to.
+      <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
+      <li>size - Optional string (css). Defines the button frame width and height. Default: "6rem"</li>
+      <li>icon - Optional string. Defines the initial icon on button: idle | ready | noaudioconsent | failed | nobrowsersupport </li>
+    </ul>
+    <h3>Properties</h3>
+    <ul>
+      <li>onholdstart - set callback function to be triggered upon hold start</li>
+      <li>onholdend - set callback function to be triggered upon hold end</li>
+    </ul>
+    <h3>Events</h3>
+    <ul>
+      <li>onholdstart - CustomEvent triggered upon hold start</li>
+      <li>onholdend - CustomEvent triggered upon hold end</li>
+	  <li>segment-update - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
+      <li>error - Details: Failed | NoBrowserSupport | NoAudioConsent</li>
+    </ul>
+
+    <div class="PushToTalkContainer">
+		<push-to-talk-button appid="cd8bb08b-c0ca-403c-9b14-4a24cd169f06"></push-to-talk-button>
+	</div>
+
+	<script>
+		const el = document.getElementsByTagName("push-to-talk-button")[0];
+		el.onholdstart = () => {console.log("onholdstart property triggered")};
+		el.onholdend = () => {console.log("onholdend property triggered")};
+		el.addEventListener("onholdstart", (e) => {console.log("onholdstart message received")});
+		el.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
+		el.addEventListener("segment-update", (e) => {console.log("segment-update message received:", e.detail)});
+		el.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
+	</script>
+</body>
+</html>
