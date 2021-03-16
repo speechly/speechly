@@ -1,7 +1,7 @@
 <svelte:options tag="push-to-talk-button" immutable={true} />
 
-<script>
-  import { Client, ClientState } from "@speechly/browser-client";
+<script lang="ts">
+  import { Client, ClientState, Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
   import "./components/mic-frame.svelte";
@@ -11,7 +11,7 @@
   export let size = "6rem";
   export let icon = "poweron";
   export let capturekey = " ";
-  export let appid;
+  export let appid: string;
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
 
@@ -22,13 +22,13 @@
   let client = null;
   let ready = false;
   let listening = false;
-  let clientState;
-  let pendingClientState;
-  let timeout = null
+  let clientState: ClientState;
+  let pendingClientState: ClientState;
+  let timeout = null;
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
-  const dispatchUnbounded = (name, detail) => {
+  const dispatchUnbounded = (name: string, detail?) => {
     thisComponent.dispatchEvent(new CustomEvent(name, {
       detail,
       composed: true, // propagate across the shadow DOM
@@ -62,7 +62,7 @@
     return () => cancelAnimationFrame(requestId);
   });
 
-  const connectSpeechly = (appid) => {
+  const initializeSpeechly = () => {
     // Create a new Client. appid and language are configured in the dashboard.
 
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -77,7 +77,7 @@
     })();
 
     // Pass on segment updates from Speechly API.
-    client.onSegmentChange((segment) => {
+    client.onSegmentChange((segment: Segment) => {
       dispatchUnbounded("segment-update", segment);
     })
   }
@@ -107,7 +107,7 @@
             timeout = null;
           }, 500);
         }
-        if (appid) connectSpeechly(appid);
+        if (appid) initializeSpeechly();
       }
 
       // Control speechly
@@ -162,11 +162,11 @@
     }
   };
 
-  const setIcon = (newIcon) => {
+  const setIcon = (newIcon: string) => {
     icon = newIcon.toLowerCase();
   };
 
-  const animateValue = (value, pull) => {
+  const animateValue = (value: number[], pull: number) => {
     return [
       value[0],
       value[1] = value[1] * (1.0 - pull) + value[0] * pull
@@ -203,7 +203,7 @@
     }
   };
 
-  const onStateChange = (s) => {
+  const onStateChange = (s: ClientState) => {
     pendingClientState = s;
     switch (s) {
       case ClientState.Starting:
