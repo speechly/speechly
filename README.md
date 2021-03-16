@@ -2,7 +2,7 @@
 
 ---
 
-# svelte app
+# Browser UI
 
 This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
 
@@ -14,6 +14,11 @@ cd svelte-app
 ```
 
 *Note that you will need to have [Node.js](https://nodejs.org) installed.*
+
+## Files served at
+
+https://speechly.github.io/browser-ui (Usage)
+https://speechly.github.io/browser-ui/dev/push-to-talk-button.js (latest snapshot)
 
 
 ## Get started
