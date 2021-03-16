@@ -28,7 +28,7 @@
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
-  const dispatchUnbounded = (name: string, detail?) => {
+  const dispatchUnbounded = (name: string, detail?: {}) => {
     thisComponent.dispatchEvent(new CustomEvent(name, {
       detail,
       composed: true, // propagate across the shadow DOM
@@ -189,15 +189,15 @@
           break;
         case ClientState.Failed:
           setIcon("failed");
-          dispatchUnbounded("error", "Failed");
+          dispatchUnbounded("error", {status: "Failed"});
           break;
         case ClientState.NoBrowserSupport:
           setIcon("failed");
-          dispatchUnbounded("error", "NoBrowserSupport");
+          dispatchUnbounded("error", {status: "NoBrowserSupport"});
           break;
         case ClientState.NoAudioConsent:
           setIcon("noaudioconsent");
-          dispatchUnbounded("error", "NoAudioConsent");
+          dispatchUnbounded("error", {status: "NoAudioConsent"});
           break;
       }
     }
