@@ -107,13 +107,17 @@ self.onmessage = function(e) {
       break
     case 'SET_SOURSE_SAMPLE_RATE':
       state.sourceSampleRate = e.data.sourceSampleRate
-      state.resampleRatio = e.data.sourceSampleRate / e.data.targetSampleRate
+      state.resampleRatio = e.data.sourceSampleRate / state.targetSampleRate
       if (state.resampleRatio > 1) {
-        state.filter = generateFilter(e.data.sourceSampleRate, e.data.targetSampleRate, 127)
+        state.filter = generateFilter(e.data.sourceSampleRate, state.targetSampleRate, 127)
       }
       self.postMessage({
         type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
       })
+
+      if (isNaN(state.resampleRatio)) {
+        throw Error('resampleRatio is NaN')
+      }
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
       state.controlSAB = new Int32Array(e.data.controlSAB)
@@ -154,11 +158,13 @@ self.onmessage = function(e) {
       break
     case 'AUDIO':
       if (ws !== undefined && state.isContextStarted) {
-        if (state.resampleRatio > 1) {
-          // Downsampling
-          ws.send(downsample(e.data.payload))
-        } else {
-          ws.send(float32ToInt16(e.data.payload))
+        if (e.data.payload.length > 0) {
+          if (state.resampleRatio > 1) {
+            // Downsampling
+            ws.send(downsample(e.data.payload))
+          } else {
+            ws.send(float32ToInt16(e.data.payload))
+          }
         }
       }
       break
@@ -172,10 +178,12 @@ function sendAudioFromSAB() {
     const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE])
     state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
     state.controlSAB[CONTROL.WRITE_INDEX] = 0
-    if (state.resampleRatio > 1) {
-      ws.send(downsample(data))
-    } else {
-      ws.send(float32ToInt16(data))
+    if (data.length > 0) {
+      if (state.resampleRatio > 1) {
+        ws.send(downsample(data))
+      } else {
+        ws.send(float32ToInt16(data))
+      }
     }
   } else {
     if (!state.isContextStarted) {

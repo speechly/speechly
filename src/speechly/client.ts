@@ -70,6 +70,7 @@ export class Client {
   private readonly reconnectMinDelay = 1000
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
+  private initializeMicrophonePromise?: Promise<void>
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
@@ -189,9 +190,20 @@ export class Client {
       }
 
       if (this.audioContext != null) {
+        // Start audio context if we are dealing with a WebKit browser.
+        //
+        // WebKit browsers (e.g. Safari) require to resume the context first,
+        // before obtaining user media by calling `mediaDevices.getUserMedia`.
+        //
+        // If done in a different order, the audio context will resume successfully,
+        // but will emit empty audio buffers.
+        if (this.isWebkit) {
+          await this.audioContext.resume()
+        }
         // 3. Initialise websocket.
         await this.apiClient.initialize(this.audioContext.sampleRate)
-        await this.microphone.initialize(this.audioContext, opts)
+        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, opts)
+        await this.initializeMicrophonePromise
       } else {
         throw ErrDeviceNotSupported
       }
@@ -249,7 +261,7 @@ export class Client {
       await this.stoppedContextIdPromise
     }
 
-    if (this.state === ClientState.Disconnected) {
+    if (this.state === ClientState.Disconnected || this.state === ClientState.Connecting) {
       throw Error('Cannot start context - client is not connected')
     }
 
@@ -261,7 +273,11 @@ export class Client {
   private async _startContext(appId: string): Promise<string> {
     let contextId: string
     try {
-      contextId = await this.apiClient.startContext(appId)
+      if (this.projectId != null) {
+        contextId = await this.apiClient.startContext(appId)
+      } else {
+        contextId = await this.apiClient.startContext()
+      }
     } catch (err) {
       this.setState(ClientState.Connected)
       throw err
