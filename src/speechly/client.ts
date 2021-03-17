@@ -47,6 +47,10 @@ const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
 const defaultLanguage = 'en-US'
 
+declare global {
+  interface Window { SpeechlyClient: Client }
+}
+
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
  * and websocket connection to Speechly API, passing control events and audio stream to the API, reading the responses
@@ -55,8 +59,8 @@ const defaultLanguage = 'en-US'
  */
 export class Client {
   private readonly debug: boolean
-  private readonly projectId: string
-  private readonly appId: string
+  private readonly projectId?: string
+  private readonly appId?: string
   private readonly storage: Storage
   private readonly microphone: Microphone
   private readonly apiClient: APIClient
@@ -87,7 +91,6 @@ export class Client {
   private intentCb: IntentCallback = () => {}
 
   constructor(options: ClientOptions) {
-    console.log(defaultLoginUrl)
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
 
     try {
@@ -104,8 +107,8 @@ export class Client {
 
     this.debug = options.debug ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
-    this.appId = options.appId ?? null
-    this.projectId = options.projectId ?? null
+    this.appId = options.appId ?? undefined
+    this.projectId = options.projectId ?? undefined
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController(apiUrl)
 
@@ -139,6 +142,7 @@ export class Client {
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
+    window.SpeechlyClient = this
   }
 
   /**

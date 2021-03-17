@@ -41,12 +41,12 @@ export class Client {
 export interface ClientOptions {
     apiClient?: APIClient;
     apiUrl?: string;
-    appId: string;
+    appId?: string;
     debug?: boolean;
     language?: string;
     loginUrl?: string;
     microphone?: Microphone;
-    projectId: string;
+    projectId?: string;
     sampleRate?: number;
     storage?: Storage_2;
 }

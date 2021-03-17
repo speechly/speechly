@@ -18,14 +18,14 @@ export interface Token {
 
 export async function fetchToken(
   baseUrl: string,
-  projectId: string,
-  appId: string,
+  projectId: string | undefined,
+  appId: string | undefined,
   deviceId: string,
   fetcher: fetchFn = fetch,
   nowFn: nowFn = Date.now,
 ): Promise<string> {
   let body
-  if (projectId != null) {
+  if (projectId !== undefined) {
     body = { projectId, deviceId }
   } else {
     body = { appId, deviceId }
@@ -56,7 +56,7 @@ export async function fetchToken(
   return json.access_token
 }
 
-export function validateToken(token: string, projectId: string, appId: string, deviceId: string, now: nowFn = Date.now): boolean {
+export function validateToken(token: string, projectId: string | undefined, appId: string | undefined, deviceId: string, now: nowFn = Date.now): boolean {
   const decoded = decodeToken(token)
   if (decoded.expiresAtMs - now() < minTokenValidTime) {
     return false
