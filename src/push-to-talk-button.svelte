@@ -20,6 +20,7 @@
   let scale = [0.0, 0.0];
   let fxOpacity = [0.0, 0.0];
   let client = null;
+  let attemptConnect = true;
   let ready = false;
   let listening = false;
   let clientState: ClientState;
@@ -40,12 +41,18 @@
     scale[0] = 1;
 
     if (appid) {
-      console.log("Connecting", appid)
+      console.log("Create client with appId", appid)
       client = new Client({
-        appId: appid
+        appId: appid,
+        language: "en-US",
       });
 
       client.onStateChange(onStateChange);
+
+      client.onSegmentChange((segment: Segment) => {
+        // Pass on segment updates from Speechly API.
+        dispatchUnbounded("segment-update", segment);
+      })
     }
 
     let requestId = null;
@@ -69,17 +76,14 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
     (async () => {
       try {
+        console.log("Initializing...", client)
         await client.initialize();
-      }
-      catch (e) {
+        console.log("Initialized")
+      } catch (e) {
+        console.log("Initialization failed", e)
         client = null;
       }
     })();
-
-    // Pass on segment updates from Speechly API.
-    client.onSegmentChange((segment: Segment) => {
-      dispatchUnbounded("segment-update", segment);
-    })
   }
 
   const tangentStart = () => {
@@ -95,7 +99,8 @@
       dispatchUnbounded('onholdstart');
 
       // Connect on 1st press
-      if (!ready) {
+      if (attemptConnect) {
+        attemptConnect = false;
         // Play a rotation whirl
         rotation[0] += 720;
         // Auto-release hold after some time
@@ -111,7 +116,7 @@
       }
 
       // Control speechly
-      if (client && ready && !listening)
+      else if (client && ready && !listening)
         (async () => {
           await client.startContext();
         })();
