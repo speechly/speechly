@@ -34,10 +34,14 @@ Start using the client:
 ```typescript
 import { Client, Segment } from '@speechly/browser-client'
 
-// Create a new Client. appId and language are configured in the dashboard.
+// Create a new Client. appId is configured in the dashboard.
 const client = new Client({
   appId: 'your-app-id',
-  language: 'en-US',
+})
+
+// Also Client can be created with a projectId
+const client = new Client({
+  projectId: 'your-project-id',
 })
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -52,6 +56,9 @@ client.onSegmentChange((segment: Segment) => {
 // Start recording.
 // Ideally this should be bound to e.g. a button press.
 await client.startContext()
+
+// If Client been created with a projectId then call the function with an appId
+await client.startContext('your-app-id)
 
 // Stop recording after a timeout.
 // Ideally this should be bound to e.g. a button press.
