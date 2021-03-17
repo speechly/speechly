@@ -58,9 +58,7 @@ export async function fetchToken(
 
 export function validateToken(token: string, projectId: string, appId: string, deviceId: string, now: nowFn = Date.now): boolean {
   const decoded = decodeToken(token)
-  console.log('decoded token', decoded)
   if (decoded.expiresAtMs - now() < minTokenValidTime) {
-    console.log('EXPIRED', decoded.expiresAtMs)
     return false
   }
 
@@ -69,7 +67,6 @@ export function validateToken(token: string, projectId: string, appId: string, d
   }
 
   if (decoded.deviceId !== deviceId) {
-    console.log('WRONG deviceId ' + deviceId, decoded.deviceId)
     return false
   }
 
