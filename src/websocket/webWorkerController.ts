@@ -72,7 +72,7 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async startContext(): Promise<string> {
+  async startContext(appId: string): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -82,7 +82,7 @@ export class WebWorkerController implements APIClient {
         }
       })
 
-      this.worker?.postMessage({ type: 'START_CONTEXT' })
+      this.worker?.postMessage({ type: 'START_CONTEXT', appId })
     })
   }
 

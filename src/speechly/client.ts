@@ -55,6 +55,7 @@ const defaultLanguage = 'en-US'
  */
 export class Client {
   private readonly debug: boolean
+  private readonly projectId: string
   private readonly appId: string
   private readonly storage: Storage
   private readonly microphone: Microphone
@@ -85,6 +86,7 @@ export class Client {
   private intentCb: IntentCallback = () => {}
 
   constructor(options: ClientOptions) {
+    console.log(defaultLoginUrl)
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
 
     try {
@@ -101,7 +103,8 @@ export class Client {
 
     this.debug = options.debug ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
-    this.appId = options.appId
+    this.appId = options.appId ?? null
+    this.projectId = options.projectId ?? null
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController(apiUrl)
 
@@ -110,8 +113,8 @@ export class Client {
     const storedToken = this.storage.get(authTokenKey)
 
     // 2. Fetch auth token. It doesn't matter if it's not present.
-    if (storedToken == null || !validateToken(storedToken, this.appId, this.deviceId)) {
-      fetchToken(this.loginUrl, this.appId, this.deviceId).then((token) => {
+    if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId).then((token) => {
         this.authToken = token
         // Cache the auth token in local storage for future use.
         this.storage.set(authTokenKey, this.authToken)
@@ -240,7 +243,7 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  async startContext(): Promise<string> {
+  async startContext(appId: string): Promise<string> {
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise
@@ -251,14 +254,14 @@ export class Client {
     }
 
     this.setState(ClientState.Starting)
-    const contextId: string = await this._startContext()
+    const contextId: string = await this._startContext(appId)
     return contextId
   }
 
-  private async _startContext(): Promise<string> {
+  private async _startContext(appId: string): Promise<string> {
     let contextId: string
     try {
-      contextId = await this.apiClient.startContext()
+      contextId = await this.apiClient.startContext(appId)
     } catch (err) {
       this.setState(ClientState.Connected)
       throw err

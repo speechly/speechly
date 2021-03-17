@@ -13,6 +13,11 @@ export interface ClientOptions {
   appId: string
 
   /**
+   * The unique identifier of a project in the dashboard.
+   */
+  projectId: string
+
+  /**
    * The language which is used by the app.
    */
   language?: string
