@@ -33,7 +33,7 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
-    startContext(appId: string): Promise<string>;
+    startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
     }
 

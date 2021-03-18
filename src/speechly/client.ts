@@ -259,7 +259,7 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  async startContext(appId: string): Promise<string> {
+  async startContext(appId?: string): Promise<string> {
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise
@@ -274,7 +274,7 @@ export class Client {
     return contextId
   }
 
-  private async _startContext(appId: string): Promise<string> {
+  private async _startContext(appId?: string): Promise<string> {
     let contextId: string
     try {
       if (this.projectId != null) {
