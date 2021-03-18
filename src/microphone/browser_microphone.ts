@@ -39,17 +39,6 @@ export class BrowserMicrophone implements Microphone {
     this.audioContext = audioContext
     this.resampleRatio = this.audioContext.sampleRate / this.sampleRate
 
-    // Start audio context if we are dealing with a WebKit browser.
-    //
-    // WebKit browsers (e.g. Safari) require to resume the context first,
-    // before obtaining user media by calling `mediaDevices.getUserMedia`.
-    //
-    // If done in a different order, the audio context will resume successfully,
-    // but will emit empty audio buffers.
-    if (this.isWebkit) {
-      await this.audioContext.resume()
-    }
-
     try {
       this.mediaStream = await window.navigator.mediaDevices.getUserMedia(opts)
     } catch {
@@ -57,7 +46,6 @@ export class BrowserMicrophone implements Microphone {
     }
 
     this.audioTrack = this.mediaStream.getAudioTracks()[0]
-    this.audioTrack.enabled = false
 
     // Start audio context if we are dealing with a non-WebKit browser.
     //
@@ -115,7 +103,6 @@ export class BrowserMicrophone implements Microphone {
     }
 
     this.initialized = true
-
     this.mute()
   }
 
@@ -124,6 +111,9 @@ export class BrowserMicrophone implements Microphone {
     if (!this.initialized) {
       throw ErrNotInitialized
     }
+
+    const t = this.audioTrack as MediaStreamTrack
+    t.enabled = false
 
     // Stop all media tracks
     const stream = this.mediaStream as MediaStream
@@ -144,27 +134,18 @@ export class BrowserMicrophone implements Microphone {
 
   mute(): void {
     this.muted = true
-
-    if (this.initialized) {
-      const t = this.audioTrack as MediaStreamTrack
-      t.enabled = false
-    }
   }
 
   unmute(): void {
     this.muted = false
-
-    if (this.initialized) {
-      const t = this.audioTrack as MediaStreamTrack
-      t.enabled = true
-    }
   }
 
   private readonly handleAudio = (array: Float32Array): void => {
     if (this.muted) {
       return
     }
-
-    this.apiClient.sendAudio(array)
+    if (array.length > 0) {
+      this.apiClient.sendAudio(array)
+    }
   }
 }

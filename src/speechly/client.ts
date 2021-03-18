@@ -47,6 +47,10 @@ const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
 const defaultLanguage = 'en-US'
 
+declare global {
+  interface Window { SpeechlyClient: Client }
+}
+
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
  * and websocket connection to Speechly API, passing control events and audio stream to the API, reading the responses
@@ -55,7 +59,8 @@ const defaultLanguage = 'en-US'
  */
 export class Client {
   private readonly debug: boolean
-  private readonly appId: string
+  private readonly projectId?: string
+  private readonly appId?: string
   private readonly storage: Storage
   private readonly microphone: Microphone
   private readonly apiClient: APIClient
@@ -69,6 +74,7 @@ export class Client {
   private readonly reconnectMinDelay = 1000
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
+  private initializeMicrophonePromise?: Promise<void>
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
@@ -101,7 +107,8 @@ export class Client {
 
     this.debug = options.debug ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
-    this.appId = options.appId
+    this.appId = options.appId ?? undefined
+    this.projectId = options.projectId ?? undefined
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController(apiUrl)
 
@@ -110,8 +117,8 @@ export class Client {
     const storedToken = this.storage.get(authTokenKey)
 
     // 2. Fetch auth token. It doesn't matter if it's not present.
-    if (storedToken == null || !validateToken(storedToken, this.appId, this.deviceId)) {
-      fetchToken(this.loginUrl, this.appId, this.deviceId).then((token) => {
+    if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId).then((token) => {
         this.authToken = token
         // Cache the auth token in local storage for future use.
         this.storage.set(authTokenKey, this.authToken)
@@ -135,6 +142,7 @@ export class Client {
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
+    window.SpeechlyClient = this
   }
 
   /**
@@ -186,9 +194,20 @@ export class Client {
       }
 
       if (this.audioContext != null) {
+        // Start audio context if we are dealing with a WebKit browser.
+        //
+        // WebKit browsers (e.g. Safari) require to resume the context first,
+        // before obtaining user media by calling `mediaDevices.getUserMedia`.
+        //
+        // If done in a different order, the audio context will resume successfully,
+        // but will emit empty audio buffers.
+        if (this.isWebkit) {
+          await this.audioContext.resume()
+        }
         // 3. Initialise websocket.
         await this.apiClient.initialize(this.audioContext.sampleRate)
-        await this.microphone.initialize(this.audioContext, opts)
+        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, opts)
+        await this.initializeMicrophonePromise
       } else {
         throw ErrDeviceNotSupported
       }
@@ -240,25 +259,29 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  async startContext(): Promise<string> {
+  async startContext(appId: string): Promise<string> {
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise
     }
 
-    if (this.state === ClientState.Disconnected) {
+    if (this.state === ClientState.Disconnected || this.state === ClientState.Connecting) {
       throw Error('Cannot start context - client is not connected')
     }
 
     this.setState(ClientState.Starting)
-    const contextId: string = await this._startContext()
+    const contextId: string = await this._startContext(appId)
     return contextId
   }
 
-  private async _startContext(): Promise<string> {
+  private async _startContext(appId: string): Promise<string> {
     let contextId: string
     try {
-      contextId = await this.apiClient.startContext()
+      if (this.projectId != null) {
+        contextId = await this.apiClient.startContext(appId)
+      } else {
+        contextId = await this.apiClient.startContext()
+      }
     } catch (err) {
       this.setState(ClientState.Connected)
       throw err

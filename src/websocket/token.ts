@@ -7,6 +7,7 @@ export const minTokenValidTime = 60 * 60 * 1000 // 1 hour
 
 export interface Token {
   appId: string
+  projectId: string
   deviceId: string
   configId: string
   scopes: string[]
@@ -17,12 +18,18 @@ export interface Token {
 
 export async function fetchToken(
   baseUrl: string,
-  appId: string,
+  projectId: string | undefined,
+  appId: string | undefined,
   deviceId: string,
   fetcher: fetchFn = fetch,
   nowFn: nowFn = Date.now,
 ): Promise<string> {
-  const body = { appId, deviceId }
+  let body
+  if (projectId !== undefined) {
+    body = { projectId, deviceId }
+  } else {
+    body = { appId, deviceId }
+  }
 
   const response = await fetcher(baseUrl, {
     method: 'POST',
@@ -42,21 +49,20 @@ export async function fetchToken(
     throw Error('Invalid login response from Speechly API')
   }
 
-  if (!validateToken(json.access_token, appId, deviceId, nowFn)) {
+  if (!validateToken(json.access_token, projectId, appId, deviceId, nowFn)) {
     throw Error('Invalid token received from Speechly API')
   }
 
   return json.access_token
 }
 
-export function validateToken(token: string, appId: string, deviceId: string, now: nowFn = Date.now): boolean {
+export function validateToken(token: string, projectId: string | undefined, appId: string | undefined, deviceId: string, now: nowFn = Date.now): boolean {
   const decoded = decodeToken(token)
-
   if (decoded.expiresAtMs - now() < minTokenValidTime) {
     return false
   }
 
-  if (decoded.appId !== appId) {
+  if (decoded.appId !== appId && decoded.projectId !== projectId) {
     return false
   }
 
@@ -79,6 +85,7 @@ export function decodeToken(token: string): Token {
 
   return {
     appId: body.appId,
+    projectId: body.projectId,
     deviceId: body.deviceId,
     configId: body.configId,
     scopes: body.scope.split(' '),

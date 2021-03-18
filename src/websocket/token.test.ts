@@ -5,7 +5,7 @@ describe('token', () => {
     test('returns the token succesfully', async () => {
       const f = mockFetch(200, { access_token: testTokenString })
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).resolves.toBe(testTokenString)
     })
 
@@ -14,7 +14,7 @@ describe('token', () => {
       const f = jest.fn().mockRejectedValue(err)
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow(err)
     })
 
@@ -22,7 +22,7 @@ describe('token', () => {
       const f = mockFetch(400, { access_token: testTokenString })
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
 
@@ -31,7 +31,7 @@ describe('token', () => {
       const f = mockFailFetch(500, err)
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow(err)
     })
 
@@ -39,7 +39,7 @@ describe('token', () => {
       const f = mockFetch(200, {})
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
 
@@ -47,26 +47,26 @@ describe('token', () => {
       const f = mockFetch(200, { access_token: 'some-invalid-token' })
 
       await expect(
-        fetchToken('base-url', testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
+        fetchToken('base-url', testToken.projectId, testToken.appId, testToken.deviceId, f, beforeExpiry(testToken)),
       ).rejects.toThrow()
     })
   })
 
   describe('.validateToken', () => {
     test('returns true for correct token', () => {
-      expect(validateToken(testTokenString, testToken.appId, testToken.deviceId, beforeExpiry(testToken))).toBeTruthy()
+      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, testToken.deviceId, beforeExpiry(testToken))).toBeTruthy()
     })
 
-    test('returns false when appId does not match', () => {
-      expect(validateToken(testTokenString, 'other-app-id', testToken.deviceId, beforeExpiry(testToken))).toBeFalsy()
+    test('returns false when projectId and appId does not match', () => {
+      expect(validateToken(testTokenString, 'other-app-id', testToken.projectId, testToken.deviceId, beforeExpiry(testToken))).toBeFalsy()
     })
 
     test('returns false when deviceId does not match', () => {
-      expect(validateToken(testTokenString, testToken.appId, 'other-device-id', beforeExpiry(testToken))).toBeFalsy()
+      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, 'other-device-id', beforeExpiry(testToken))).toBeFalsy()
     })
 
     test('returns false when token is expired', () => {
-      expect(validateToken(testTokenString, testToken.appId, testToken.deviceId, afterExpiry(testToken))).toBeFalsy()
+      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, testToken.deviceId, afterExpiry(testToken))).toBeFalsy()
     })
   })
 
@@ -96,10 +96,11 @@ describe('token', () => {
 })
 
 const testTokenString =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsImRldmljZUlkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwic2NvcGUiOiJzbHUiLCJleHAiOjE1OTkzMTM2NTYsImNvbmZpZ0lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiaXNzIjoiaHR0cHM6Ly9hcGkuc3BlZWNobHkuY29tLyIsImF1ZCI6Imh0dHBzOi8vYXBpLnNwZWVjaGx5LmNvbS8ifQ.fVn2ENG8eTF_30CrY6PDuuBjSD2NkZHkvgUDqkIz2TI'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBJZCI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCIsInByb2plY3RJZCI6IjExMTExMTExLTExMTEtMTExMS0xMTExLTExMTExMTExMTExMSIsImRldmljZUlkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwic2NvcGUiOiJzbHUiLCJleHAiOjE1OTkzMTM2NTYsImNvbmZpZ0lkIjoiMTExMTExMTEtMTExMS0xMTExLTExMTEtMTExMTExMTExMTExIiwiaXNzIjoiaHR0cHM6Ly9hcGkuc3BlZWNobHkuY29tLyIsImF1ZCI6Imh0dHBzOi8vYXBpLnNwZWVjaGx5LmNvbS8ifQ.QqqxerSCgGAReMwS2losF276sJ6vnoPhXn-bbrKgoMU'
 
 const testToken: Token = {
   appId: '00000000-0000-0000-0000-000000000000',
+  projectId: '11111111-1111-1111-1111-111111111111',
   deviceId: '11111111-1111-1111-1111-111111111111',
   configId: '11111111-1111-1111-1111-111111111111',
   scopes: ['slu'],

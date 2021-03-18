@@ -200,7 +200,7 @@ export interface APIClient {
    * Starts a new audio context by sending the start event to the API.
    * The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
    */
-  startContext(): Promise<string>
+  startContext(appId?: string): Promise<string>
 
   /**
    * Stops an audio context by sending the stop event to the API.

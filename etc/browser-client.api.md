@@ -13,7 +13,7 @@ export interface APIClient {
     onResponse(cb: ResponseCallback): void;
     postMessage(message: Object): void;
     sendAudio(audioChunk: Float32Array): void;
-    startContext(): Promise<string>;
+    startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
 }
 
@@ -33,7 +33,7 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
-    startContext(): Promise<string>;
+    startContext(appId: string): Promise<string>;
     stopContext(): Promise<string>;
     }
 
@@ -41,11 +41,12 @@ export class Client {
 export interface ClientOptions {
     apiClient?: APIClient;
     apiUrl?: string;
-    appId: string;
+    appId?: string;
     debug?: boolean;
     language?: string;
     loginUrl?: string;
     microphone?: Microphone;
+    projectId?: string;
     sampleRate?: number;
     storage?: Storage_2;
 }

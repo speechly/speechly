@@ -1,22 +1,23 @@
 export default `
 // Indices for the Control SAB.
 const CONTROL = {
-  'WRITE_INDEX': 0,
-  'FRAMES_AVAILABLE': 1,
-};
-let ws = undefined
-let state = {
+  WRITE_INDEX: 0,
+  FRAMES_AVAILABLE: 1,
+}
+let ws
+const state = {
   isContextStarted: false,
+  isStartContextConfirmed: false,
   sourceSampleRate: undefined,
   targetSampleRate: undefined,
   resampleRatio: 1,
   buffer: new Float32Array(0),
   filter: undefined,
   controlSAB: undefined,
-  dataSAB: undefined
+  dataSAB: undefined,
 }
 
-function initializeWebsocket(url, protocol) {
+async function initializeWebsocket(url, protocol) {
   ws = new WebSocket(url, protocol)
 
   return new Promise((resolve, reject) => {
@@ -52,7 +53,6 @@ function closeWebsocket(code, message) {
   ws.removeEventListener('close', onWebsocketClose)
 
   ws.close(code, message)
-  ws = undefined
 }
 
 function onWebsocketClose(event) {
@@ -70,6 +70,10 @@ function onWebsocketMessage(event) {
   } catch (e) {
     console.error('[SpeechlyClient] Error parsing response from the server:', e)
     return
+  }
+
+  if (response.type === 'started') {
+    state.isStartContextConfirmed = true
   }
 
   self.postMessage(response)
@@ -91,29 +95,33 @@ self.onmessage = function(e) {
       if (ws === undefined) {
         initializeWebsocket(e.data.apiUrl, e.data.authToken).then(function() {
           self.postMessage({
-              type: 'WEBSOCKET_OPEN'
+            type: 'WEBSOCKET_OPEN',
           })
           ws.addEventListener('message', onWebsocketMessage)
           ws.addEventListener('error', onWebsocketError)
           ws.addEventListener('close', onWebsocketClose)
         })
-        
+
         state.targetSampleRate = e.data.targetSampleRate
       }
       break
     case 'SET_SOURSE_SAMPLE_RATE':
       state.sourceSampleRate = e.data.sourceSampleRate
-      state.resampleRatio = e.data.sourceSampleRate / e.data.targetSampleRate
+      state.resampleRatio = e.data.sourceSampleRate / state.targetSampleRate
       if (state.resampleRatio > 1) {
-        state.filter = generateFilter(e.data.sourceSampleRate, e.data.targetSampleRate, 127)
+        state.filter = generateFilter(e.data.sourceSampleRate, state.targetSampleRate, 127)
       }
       self.postMessage({
-        type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS'
+        type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
       })
+
+      if (isNaN(state.resampleRatio)) {
+        throw Error('resampleRatio is NaN')
+      }
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
-      state.controlSAB = new Int32Array(e.data.controlSAB);
-      state.dataSAB = new Float32Array(e.data.dataSAB);
+      state.controlSAB = new Int32Array(e.data.controlSAB)
+      state.dataSAB = new Float32Array(e.data.dataSAB)
       setInterval(sendAudioFromSAB, 4)
       break
     case 'CLOSE':
@@ -122,28 +130,41 @@ self.onmessage = function(e) {
       }
       break
     case 'START_CONTEXT':
-      if (ws !== undefined && !state.isContextStarted) {
-        state.isContextStarted = true
-        const StartEventJSON = JSON.stringify({ event: 'start' })
-        ws.send(StartEventJSON)
+      if (ws === undefined) {
+        throw Error('Cant start context: websocket is undefined')
+      }
+      if (state.isContextStarted) {
+        console.log('Cant start context: it has been already started')
+        break
+      }
+
+      state.isContextStarted = true
+      state.isStartContextConfirmed = false
+
+      const appId = e.data.appId
+      if (appId !== undefined) {
+        ws.send(JSON.stringify({ event: 'start', appId }))
       } else {
-        console.log('can not start context')
+        ws.send(JSON.stringify({ event: 'start' }))
       }
       break
     case 'STOP_CONTEXT':
       if (ws !== undefined && state.isContextStarted) {
         state.isContextStarted = false
+        state.isStartContextConfirmed = false
         const StopEventJSON = JSON.stringify({ event: 'stop' })
         ws.send(StopEventJSON)
       }
       break
     case 'AUDIO':
       if (ws !== undefined && state.isContextStarted) {
-        if (state.resampleRatio > 1) {
-          // Downsampling
-          ws.send(downsample(e.data.payload))
-        } else {
-          ws.send(float32ToInt16(e.data.payload))
+        if (e.data.payload.length > 0) {
+          if (state.resampleRatio > 1) {
+            // Downsampling
+            ws.send(downsample(e.data.payload))
+          } else {
+            ws.send(float32ToInt16(e.data.payload))
+          }
         }
       }
       break
@@ -153,16 +174,22 @@ self.onmessage = function(e) {
 }
 
 function sendAudioFromSAB() {
-  if (state.isContextStarted) {
-    const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE]);
-    state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0;
-    state.controlSAB[CONTROL.WRITE_INDEX] = 0;
-    if (state.resampleRatio > 1) {
-      ws.send(downsample(data))
-    } else {
-      ws.send(float32ToInt16(data))
+  if (state.isStartContextConfirmed && CONTROL.FRAMES_AVAILABLE > 0) {
+    const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE])
+    state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+    state.controlSAB[CONTROL.WRITE_INDEX] = 0
+    if (data.length > 0) {
+      if (state.resampleRatio > 1) {
+        ws.send(downsample(data))
+      } else {
+        ws.send(float32ToInt16(data))
+      }
     }
-    
+  } else {
+    if (!state.isContextStarted) {
+      state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+      state.controlSAB[CONTROL.WRITE_INDEX] = 0
+    }
   }
 }
 
@@ -226,4 +253,5 @@ function sinc(x) {
   const piX = Math.PI * x
   return Math.sin(piX) / piX
 }
+
 `

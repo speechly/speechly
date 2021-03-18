@@ -10,7 +10,12 @@ export interface ClientOptions {
   /**
    * The unique identifier of an app in the dashboard.
    */
-  appId: string
+  appId?: string
+
+  /**
+   * The unique identifier of a project in the dashboard.
+   */
+  projectId?: string
 
   /**
    * The language which is used by the app.
