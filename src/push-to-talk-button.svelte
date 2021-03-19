@@ -43,8 +43,7 @@
     if (appid) {
       console.log("Create client with appId", appid)
       client = new Client({
-        appId: appid,
-        language: "en-US",
+        appId: appid
       });
 
       client.onStateChange(onStateChange);
@@ -53,6 +52,8 @@
         // Pass on segment updates from Speechly API.
         dispatchUnbounded("segment-update", segment);
       })
+    } else {
+      console.warn("No appid attribute specified. Speechly voice services are unavailable.")
     }
 
     let requestId = null;
@@ -107,19 +108,18 @@
         if (timeout === null) {
           timeout = window.setTimeout(() => {
             fxOpacity[0] = 0;
-            scale[0] = 1;
+            scale[0] = 0;
             // updateSkin();
             timeout = null;
           }, 500);
         }
         if (appid) initializeSpeechly();
-      }
-
-      // Control speechly
-      else if (client && ready && !listening)
+      } else {
+        if (client && ready && !listening)
         (async () => {
           await client.startContext();
         })();
+      }
     }
   };
 

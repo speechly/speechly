@@ -1,8 +1,3 @@
-## Files served at
-
-https://speechly.github.io/wix (Usage)
-https://speechly.github.io/wix/push-to-talk-button.js
-
 ## Things to consider:
 
 "For Web platforms (Web sites, Wix), Speechly's quickest-to-adopt solution is to drop the `<push-to-talk-button/>` customElement from our CDN to your web site or app and start implementing responses to voice commands."
@@ -34,6 +29,9 @@ Architecture:
 Contains the definition of `talk-button` component and logic
 
 ## Changelog
+
+- 2021/03: Svelte can't use nested components from customElements. Nested components need to be also customComponents, and thus create their own shadow doms and styles. Seems unnecessarily heavy e.g. with every child node having own <style>, but not sure. Parent's style won't affect the child. Using flat hierarchly in big-transcript for now. As workaround, build script can be tweaked to compile customElements based on file name, but styling issues remained.
+- 2021/03: Transitions on WebComponents not working https://github.com/sveltejs/svelte/issues/4735 > Using transFix.js to wrap transitions
 
 - V5 handles connection to @speechly/browser-client, send update-segment CustomEvent
 - V4 Deprecated `onholdstart` and `onholdend` attributes in favour of CustomEvents of similar names.

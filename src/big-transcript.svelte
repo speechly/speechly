@@ -1,0 +1,135 @@
+<svelte:options tag="big-transcript" immutable={true} />
+
+<script lang="ts">
+  import type { Segment } from "@speechly/browser-client";
+  import { onMount } from "svelte";
+  import type { ITaggedWord } from "./types";
+  import fix from './transFix'
+  import { get_current_component } from "svelte/internal";
+  import { fade as fade_orig } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+  import {interpolateLinearf, fadeIn} from "./TableInterpolator"
+
+  const fade = fix(fade_orig);
+
+  const reveal = fix((node, {delay = 0, duration = 800}) => {
+    return {
+      delay,
+      duration,
+      easing: cubicInOut,
+      css: (t: number) => `
+        opacity: ${interpolateLinearf(fadeIn, t, 0.0, 1.0)};
+        max-height: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 10}rem;
+        margin-bottom: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 1.5}rem;
+      `
+    };
+  });
+  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
+  const thisComponent = get_current_component();
+  const dispatchUnbounded = (name: string, detail?: {}) => {
+    thisComponent.dispatchEvent(new CustomEvent(name, {
+      detail,
+      composed: true, // propagate across the shadow DOM
+    }));
+  };
+
+  let words: ITaggedWord[] = [];
+  let visible = false;
+
+  const onSegmentUpdate = (segment: Segment) => {
+    if (segment === undefined) return;
+
+    visible = !segment.isFinal;
+
+    // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
+    words = []
+    segment.words.forEach(w => {
+      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
+    })
+
+    // Tag words with entities
+    segment.entities.forEach(e => {
+      words.slice(e.startPosition, e.endPosition).forEach(w => {
+        w.entityType = e.type
+        w.isFinal = e.isFinal
+      })
+    })
+
+    // Remove holes from word array
+    words = words.flat()
+    // words = [...words];
+  };
+
+  thisComponent.onSegmentUpdate = onSegmentUpdate;
+
+  onMount (() => {
+    // Transition in button
+    let requestId = null;
+
+    const tick = () => {
+      requestId = requestAnimationFrame(tick);
+    };
+
+    tick();
+
+    return () => cancelAnimationFrame(requestId);
+  });
+
+  const animateValue = (value: number[], pull: number) => {
+    return [
+      value[0],
+      value[1] = value[1] * (1.0 - pull) + value[0] * pull
+    ];
+  };
+
+  const onStateChange = (s: ClientState) => {
+  };
+
+</script>
+
+<main>
+{#if visible}
+<div style="margin-bottom:1.5rem" in:reveal out:reveal="{{delay: 2000}}">
+  {#each words as word}
+    <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
+      <div in:fade class="TransscriptItemBgDiv"/>
+      <div class="TransscriptItemContent">
+        {word.word}{" "}
+      </div>
+    </div>
+  {/each}
+  </div>
+{/if}
+</main>
+
+<style>
+  main {
+    position: relative;
+    user-select: none;
+  }
+
+  .TranscriptItem {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.25em;
+  }
+
+  .Entity {
+    color: cyan;
+  }
+
+  .TransscriptItemContent {
+    z-index: 1;
+  }
+
+  .TransscriptItemBgDiv {
+    position: absolute;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    margin: -0.5em;
+    padding: 0.5em;
+    background-color: #000;
+    z-index: -1;
+  }
+</style>
