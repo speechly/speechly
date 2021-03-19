@@ -110,7 +110,7 @@ export class Client {
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
-    this.apiClient = options.apiClient ?? new WebWorkerController(apiUrl)
+    this.apiClient = options.apiClient ?? new WebWorkerController()
 
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
@@ -122,12 +122,11 @@ export class Client {
         this.authToken = token
         // Cache the auth token in local storage for future use.
         this.storage.set(authTokenKey, this.authToken)
-        // Esteblish websocket connection
-        this.apiClient.connect(this.authToken, this.sampleRate)
+        this.connect(apiUrl)
       }).catch(err => { throw err })
     } else {
       this.authToken = storedToken
-      this.apiClient.connect(this.authToken, this.sampleRate)
+      this.connect(apiUrl)
     }
 
     if (window.AudioContext !== undefined) {
@@ -143,6 +142,18 @@ export class Client {
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
     window.SpeechlyClient = this
+  }
+
+  /**
+   * Esteblish websocket connection
+  */
+  private connect(apiUrl: string): void {
+    this.apiClient.postMessage({
+      type: 'INIT',
+      apiUrl: apiUrl,
+      authToken: this.authToken,
+      targetSampleRate: this.sampleRate,
+    })
   }
 
   /**
@@ -259,7 +270,7 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  async startContext(appId: string): Promise<string> {
+  async startContext(appId?: string): Promise<string> {
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise
@@ -274,7 +285,7 @@ export class Client {
     return contextId
   }
 
-  private async _startContext(appId: string): Promise<string> {
+  private async _startContext(appId?: string): Promise<string> {
     let contextId: string
     try {
       if (this.projectId != null) {

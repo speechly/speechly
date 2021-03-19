@@ -7,7 +7,6 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    connect(token: string, targetSampleRate: number): void;
     initialize(sourceSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
@@ -33,7 +32,7 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
-    startContext(appId: string): Promise<string>;
+    startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
     }
 

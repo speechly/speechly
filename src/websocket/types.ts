@@ -170,15 +170,6 @@ export interface APIClient {
   onClose(cb: CloseCallback): void
 
   /**
-   * The client establishes a WebSocket connection to SLU API.
-   *
-   * @param token - login token in JWT format, which was e.g. cached from previous session.
-   *                If the token is not provided or is invalid, a new token will be fetched instead.
-   * @param targetSampleRate - sample rate of audio to be sent.
-   */
-  connect(token: string, targetSampleRate: number): void
-
-  /**
    * Initialises the client.
    *
    * This should prepare websocket to be used (set source sample rate).
