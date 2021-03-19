@@ -7,7 +7,6 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    connect(token: string, targetSampleRate: number): void;
     initialize(sourceSampleRate: number): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;

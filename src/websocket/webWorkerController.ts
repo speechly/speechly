@@ -4,10 +4,7 @@ import worker from './worker'
 type ContextCallback = (err?: Error, contextId?: string) => void
 
 export class WebWorkerController implements APIClient {
-  private readonly apiUrl: string
-
-  private authToken?: string
-  private worker?: Worker
+  private readonly worker: Worker
   private resolveInitialization?: (value?: void) => void
 
   private startCbs: ContextCallback[] = []
@@ -23,33 +20,15 @@ export class WebWorkerController implements APIClient {
     this.onCloseCb = cb
   }
 
-  constructor(apiUrl: string) {
-    this.apiUrl = apiUrl
-  }
-
-  connect(token: string, targetSampleRate: number): void {
-    this.authToken = token
-    if (this.worker !== undefined) {
-      throw Error('Cannot initialize an already initialized worker')
-    }
-
+  constructor() {
     const blob = new Blob([worker], { type: 'text/javascript' })
     const blobURL = window.URL.createObjectURL(blob)
     this.worker = new Worker(blobURL)
-    this.worker.postMessage({
-      type: 'INIT',
-      apiUrl: this.apiUrl,
-      authToken: this.authToken,
-      targetSampleRate,
-    })
-
-    if (this.worker != null) {
-      this.worker.addEventListener('message', this.onWebsocketMessage)
-    }
+    this.worker.addEventListener('message', this.onWebsocketMessage)
   }
 
   async initialize(sourceSampleRate: number): Promise<void> {
-    this.worker?.postMessage({
+    this.worker.postMessage({
       type: 'SET_SOURSE_SAMPLE_RATE',
       sourceSampleRate,
     })
@@ -61,14 +40,12 @@ export class WebWorkerController implements APIClient {
 
   async close(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (this.worker != null) {
-        this.worker.postMessage({
-          type: 'CLOSE',
-          code: 1000,
-          message: 'Client has ended the session',
-        })
-        resolve()
-      }
+      this.worker.postMessage({
+        type: 'CLOSE',
+        code: 1000,
+        message: 'Client has ended the session',
+      })
+      resolve()
     })
   }
 
@@ -82,9 +59,9 @@ export class WebWorkerController implements APIClient {
         }
       })
       if (appId != null) {
-        this.worker?.postMessage({ type: 'START_CONTEXT', appId })
+        this.worker.postMessage({ type: 'START_CONTEXT', appId })
       } else {
-        this.worker?.postMessage({ type: 'START_CONTEXT' })
+        this.worker.postMessage({ type: 'START_CONTEXT' })
       }
     })
   }
@@ -99,16 +76,16 @@ export class WebWorkerController implements APIClient {
         }
       })
 
-      this.worker?.postMessage({ type: 'STOP_CONTEXT' })
+      this.worker.postMessage({ type: 'STOP_CONTEXT' })
     })
   }
 
   postMessage(message: Object): void {
-    this.worker?.postMessage(message)
+    this.worker.postMessage(message)
   }
 
   sendAudio(audioChunk: Float32Array): void {
-    this.worker?.postMessage({ type: 'AUDIO', payload: audioChunk })
+    this.worker.postMessage({ type: 'AUDIO', payload: audioChunk })
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
