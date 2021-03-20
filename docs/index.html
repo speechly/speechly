@@ -20,7 +20,7 @@
   </div>
 
     <h1>&lt;push-to-talk-button/&gt;</h1>
-	Autonomous customElement for connecting to Speechly and controlling listening on/off.
+	  Autonomous customElement for connecting to Speechly and controlling listening on/off.
     <h3>Attributes</h3>
     <ul>
       <li>appid - Speechly App id to connect to.
@@ -37,8 +37,15 @@
     <ul>
       <li>onholdstart - CustomEvent triggered upon hold start</li>
       <li>onholdend - CustomEvent triggered upon hold end</li>
-	  <li>segment-update - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
+	    <li>segment-update - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
       <li>error - Details: Failed | NoBrowserSupport | NoAudioConsent</li>
+    </ul>
+
+    <h1>&lt;big-transcript/&gt;</h1>
+	  Autonomous customElement for connecting to Speechly and controlling listening on/off.
+    <h3>Properties</h3>
+    <ul>
+      <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>
     </ul>
 
     <div class="PushToTalkContainer">
