@@ -61,3 +61,7 @@ button:not(:disabled):active {
 button:focus {
 	border-color: #666;
 }
+
+big-transcript {
+	font-family: 'Saira Condensed', sans-serif;
+}

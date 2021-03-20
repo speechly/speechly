@@ -88,18 +88,18 @@
 </script>
 
 <main>
-{#if visible}
-<div style="margin-bottom:1.5rem" in:reveal out:reveal="{{delay: 2000}}">
-  {#each words as word}
-    <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
-      <div in:fade class="TransscriptItemBgDiv"/>
-      <div class="TransscriptItemContent">
-        {word.word}{" "}
-      </div>
+  {#if visible}
+    <div style="margin-bottom:1.5rem" in:reveal out:reveal="{{delay: 2000}}">
+      {#each words as word}
+        <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
+          <div in:fade class="TransscriptItemBgDiv"/>
+          <div class="TransscriptItemContent">
+            {word.word}{" "}
+          </div>
+        </div>
+      {/each}
     </div>
-  {/each}
-  </div>
-{/if}
+  {/if}
 </main>
 
 <style>
@@ -111,7 +111,7 @@
   .TranscriptItem {
     position: relative;
     display: inline-block;
-    margin-left: 0.25em;
+    margin-left: 0.25rem;
   }
 
   .Entity {
@@ -127,8 +127,8 @@
     box-sizing: content-box;
     width: 100%;
     height: 100%;
-    margin: -0.5em;
-    padding: 0.5em;
+    margin: -0.4rem -0.6rem;
+    padding: 0.4rem 0.6rem;
     background-color: #000;
     z-index: -1;
   }
