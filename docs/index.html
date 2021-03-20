@@ -8,7 +8,7 @@
 
 	<link rel='icon' type='image/png' href='favicon.png'>
 	<link rel='stylesheet' href='global.css'>
-  <link rel="stylesheet" href="PushToTalkContainer.css">
+  <link rel="stylesheet" href="speechly-ui.css">
 
 	<script defer src='dev/push-to-talk-button.js'></script>
 	<script defer src='dev/big-transcript.js'></script>
@@ -46,18 +46,18 @@
 	  </div>
 
 	<script>
-		const el = document.getElementsByTagName("push-to-talk-button")[0];
+		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
 
-    el.onholdstart = () => {console.log("onholdstart property triggered")};
-		el.onholdend = () => {console.log("onholdend property triggered")};
-		el.addEventListener("onholdstart", (e) => {console.log("onholdstart message received")});
-		el.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
-		el.addEventListener("segment-update", (e) => {
+    pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
+		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
+		pushToTalkEl.addEventListener("onholdstart", (e) => {console.log("onholdstart message received")});
+		pushToTalkEl.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
+		pushToTalkEl.addEventListener("segment-update", (e) => {
       console.log("segment-update message received:", e.detail)
       transcriptEl.onSegmentUpdate(e.detail);
     });
-		el.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
+		pushToTalkEl.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
 	</script>
 </body>
 </html>
