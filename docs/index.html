@@ -72,6 +72,7 @@
 		pushToTalkEl.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
 		pushToTalkEl.addEventListener("segment-update", (e) => {
       console.log("segment-update message received:", e.detail)
+      webLog(e.detail.words.map(w => w.value).join(" "))
       transcriptEl.onSegmentUpdate(e.detail);
     });
 		pushToTalkEl.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
