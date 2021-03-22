@@ -30,6 +30,7 @@ export interface SpeechContextState {
     intent?: SpeechIntent;
     segment?: SpeechSegment;
     speechState: SpeechState;
+    switchApp: (appId: string) => void;
     tentativeEntities?: TentativeSpeechEntities;
     tentativeIntent?: TentativeSpeechIntent;
     tentativeTranscript?: TentativeSpeechTranscript;
@@ -68,6 +69,8 @@ export class SpeechProvider extends React_2.Component<SpeechProviderProps, Speec
     readonly startContext: () => Promise<void>;
     // (undocumented)
     readonly stopContext: () => Promise<void>;
+    // (undocumented)
+    readonly switchApp: (appId: string) => void;
     // (undocumented)
     readonly toggleRecording: () => Promise<void>;
 }

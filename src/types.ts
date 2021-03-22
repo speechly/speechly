@@ -1,7 +1,6 @@
 import { Word, Entity, Intent } from '@speechly/browser-client'
 
 export { Word, Entity, Intent, Segment as SpeechSegment } from '@speechly/browser-client'
-
 /**
  * The state of SpeechContext.
  * @public

@@ -1,5 +1,4 @@
 import { ClientState } from '@speechly/browser-client'
-
 import { SpeechState } from './types'
 
 export function mapClientState(s: ClientState): SpeechState {
