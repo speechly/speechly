@@ -10,6 +10,17 @@
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
+  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
+  const thisComponent = get_current_component();
+  const dispatchUnbounded = (name: string, detail?: {}) => {
+    thisComponent.dispatchEvent(new CustomEvent(name, {
+      detail,
+      composed: true, // propagate across the shadow DOM
+    }));
+  };
+
+  dispatchUnbounded("debug", "big-transcript.init 1");
+
   const fade = fix(fade_orig);
 
   const revealTransition = fix((node, {delay = 0, duration = 800}) => {
@@ -35,14 +46,7 @@
     };
   });
 
-  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
-  const thisComponent = get_current_component();
-  const dispatchUnbounded = (name: string, detail?: {}) => {
-    thisComponent.dispatchEvent(new CustomEvent(name, {
-      detail,
-      composed: true, // propagate across the shadow DOM
-    }));
-  };
+  dispatchUnbounded("debug", "big-transcript.init 2");
 
   let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
   let visible = false;
@@ -78,6 +82,7 @@
   thisComponent.onSegmentUpdate = onSegmentUpdate;
 
   onMount (() => {
+    dispatchUnbounded("debug", "big-transcript.onmount 1");
     // Transition in button
     let requestId = null;
 
@@ -90,6 +95,7 @@
     };
 
     // tick();
+    dispatchUnbounded("debug", "big-transcript.onmount 2");
 
     return () => {
       cancelAnimationFrame(requestId);
