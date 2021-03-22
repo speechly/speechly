@@ -109,6 +109,8 @@
 
 </script>
 
+<svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
+
 <main>
     <!--
   {#if visible}
