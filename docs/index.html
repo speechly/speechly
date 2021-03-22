@@ -75,7 +75,13 @@
       webLog(e.detail.words.map(w => w.value).join(" "))
       transcriptEl.onSegmentUpdate(e.detail);
     });
-		pushToTalkEl.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
+		pushToTalkEl.addEventListener("error", (e) => {
+      webLog(`error message received: ${e.detail}`)
+      console.log(`error message received: ${e.detail}`)
+    });
+		transcriptEl.addEventListener("debug", (e) => {
+      webLog(`${e.detail}`)
+    });
     webLog("Finished index.html script.");
 	</script>
 </body>
