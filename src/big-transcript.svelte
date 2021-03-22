@@ -44,7 +44,7 @@
     }));
   };
 
-  let words: ITaggedWord[] = [];
+  let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
   let visible = false;
 
   const onSegmentUpdate = (segment: Segment) => {

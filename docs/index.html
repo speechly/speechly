@@ -60,7 +60,7 @@
       webLogLines += newLine + "\n";
       document.getElementById("info").innerHTML = webLogLines;
     }
-    webLog("Starting index.html script V1...");
+    webLog("Starting index.html script V2...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
     webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
@@ -118,7 +118,7 @@
           }
       }
       // transcriptEl.onSegmentUpdate(d);
-      // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
+      transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
       window.postMessage({type: "segment-update", segment: d})
     }, 3000);
 	</script>
