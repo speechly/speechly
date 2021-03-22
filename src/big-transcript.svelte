@@ -112,6 +112,7 @@
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
 <main>
+  <div style="color: red;">Test test</div>
     <!--
   {#if visible}
     <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
