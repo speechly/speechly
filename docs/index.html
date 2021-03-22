@@ -50,13 +50,23 @@
       <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>
     </ul>
 
+    <pre id="info" style="padding-bottom: 10rem;"></pre>
+
     <div class="PushToTalkContainer">
-  		<push-to-talk-button appid="cd8bb08b-c0ca-403c-9b14-4a24cd169f06"></push-to-talk-button>
+  		<push-to-talk-button appid="60cf344c-c010-48d7-bc53-9c72b1f65505"></push-to-talk-button>
 	  </div>
 
 	<script>
+    var webLogLines = "";
+    webLog = (newLine) => {
+      webLogLines += newLine + "\n";
+      document.getElementById("info").innerHTML = webLogLines;
+    }
+    webLog("Starting index.html script...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
+    webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
+    webLog("transcriptEl: "+transcriptEl);
 
     pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
 		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
@@ -67,6 +77,7 @@
       transcriptEl.onSegmentUpdate(e.detail);
     });
 		pushToTalkEl.addEventListener("error", (e) => {console.log(`error message received: ${e.detail}`)});
+    webLog("Finished index.html script.");
 	</script>
 </body>
 </html>

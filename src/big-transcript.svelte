@@ -12,7 +12,7 @@
 
   const fade = fix(fade_orig);
 
-  const reveal = fix((node, {delay = 0, duration = 800}) => {
+  const revealTransition = fix((node, {delay = 0, duration = 800}) => {
     return {
       delay,
       duration,
@@ -24,6 +24,17 @@
       `
     };
   });
+
+  const slideTransition = fix((node, {delay = 0, duration = 250}) => {
+    return {
+      delay,
+      duration,
+      css: (t: number) => `
+        max-width: ${interpolateLinearf(fadeIn, t, 0.0, 1.0) * 10}rem;
+      `
+    };
+  });
+
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
@@ -89,10 +100,10 @@
 
 <main>
   {#if visible}
-    <div style="margin-bottom:1.5rem" in:reveal out:reveal="{{delay: 2000}}">
+    <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
       {#each words as word}
         <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
-          <div in:fade class="TransscriptItemBgDiv"/>
+          <div in:slideTransition class="TransscriptItemBgDiv"/>
           <div class="TransscriptItemContent">
             {word.word}{" "}
           </div>
