@@ -65,6 +65,8 @@
     webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
     webLog("transcriptEl: "+transcriptEl);
+    webLog("transcriptEl.onSegmentUpdate: "+transcriptEl.onSegmentUpdate);
+
 
     pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
 		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
@@ -73,7 +75,8 @@
 		pushToTalkEl.addEventListener("segment-update", (e) => {
       console.log("segment-update message received:", e.detail)
       webLog(e.detail.words.map(w => w.value).join(" "))
-      transcriptEl.onSegmentUpdate(e.detail);
+      // transcriptEl.onSegmentUpdate(e.detail);
+      transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
     });
 		pushToTalkEl.addEventListener("error", (e) => {
       webLog(`error message received: ${e.detail}`)
@@ -83,6 +86,39 @@
       webLog(`${e.detail}`)
     });
     webLog("Finished index.html script.");
+
+    i = window.setInterval(() => {
+      console.log("interval");
+      const d = {
+          "id": 0,
+          "contextId": "9d1b252e-7606-4b1b-87d7-6645661ea385",
+          "isFinal": false,
+          "words": [
+              {
+                  "value": "TWO",
+                  "index": 2,
+                  "startTimestamp": 840,
+                  "endTimestamp": 1440,
+                  "isFinal": true
+              }
+          ],
+          "entities": [
+              {
+                  "type": "email",
+                  "value": "2",
+                  "startPosition": 2,
+                  "endPosition": 3,
+                  "isFinal": true
+              }
+          ],
+          "intent": {
+              "intent": "email",
+              "isFinal": false
+          }
+      }
+      // transcriptEl.onSegmentUpdate(d);
+      transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
+    }, 3000);
 	</script>
 </body>
 </html>

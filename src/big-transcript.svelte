@@ -81,13 +81,20 @@
     // Transition in button
     let requestId = null;
 
+    const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
+
+    thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
+
     const tick = () => {
       requestId = requestAnimationFrame(tick);
     };
 
     tick();
 
-    return () => cancelAnimationFrame(requestId);
+    return () => {
+      cancelAnimationFrame(requestId);
+      thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
+    }
   });
 
   const animateValue = (value: number[], pull: number) => {
@@ -103,7 +110,7 @@
 </script>
 
 <main>
-  <!--
+    <!--
   {#if visible}
     <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
     -->
