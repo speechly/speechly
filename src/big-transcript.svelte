@@ -89,7 +89,7 @@
       requestId = requestAnimationFrame(tick);
     };
 
-    tick();
+    // tick();
 
     return () => {
       cancelAnimationFrame(requestId);
@@ -97,21 +97,11 @@
     }
   });
 
-  const animateValue = (value: number[], pull: number) => {
-    return [
-      value[0],
-      value[1] = value[1] * (1.0 - pull) + value[0] * pull
-    ];
-  };
-
-  const onStateChange = (s: ClientState) => {
-  };
-
 </script>
 
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
-<main>
+<div class="BigTranscript">
   <div style="color: red;">Test test</div>
     <!--
   {#if visible}
@@ -131,10 +121,10 @@
 <!--
     {/if}
 -->
-</main>
+</div>
 
 <style>
-  main {
+  .BigTranscript {
     position: relative;
     user-select: none;
   }
