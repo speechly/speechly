@@ -98,42 +98,6 @@
     protoComponentEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
     webLog("Finished index.html script.");
-
-    i = window.setInterval(() => {
-      console.log("interval");
-      const d = {
-          "id": 0,
-          "contextId": "9d1b252e-7606-4b1b-87d7-6645661ea385",
-          "isFinal": false,
-          "words": [
-              {
-                  "value": "TWO",
-                  "index": 2,
-                  "startTimestamp": 840,
-                  "endTimestamp": 1440,
-                  "isFinal": true
-              }
-          ],
-          "entities": [
-              {
-                  "type": "email",
-                  "value": "2",
-                  "startPosition": 2,
-                  "endPosition": 3,
-                  "isFinal": true
-              }
-          ],
-          "intent": {
-              "intent": "email",
-              "isFinal": false
-          }
-      }
-      // transcriptEl.onSegmentUpdate(d);
-      webLog("Interval start");
-      // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
-      window.postMessage({type: "segment-update", segment: d}, "*")
-      webLog("Interval end");
-    }, 3000);
 	</script>
 </body>
 </html>

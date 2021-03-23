@@ -77,24 +77,21 @@
 
   thisComponent.onSegmentUpdate = onSegmentUpdate;
 
+  const entityClass = (word: ITaggedWord) => {
+    return word.entityType || "";
+  }
+
   const pingHandler = (e) => {
     dispatchUnbounded("debug", "big-transcript.ping 1");
   };
 
   onMount (() => {
-    console.log("-------------------------")
     let requestId = null;
 
     const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
 
     thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
     thisComponent.addEventListener("ping", pingHandler);
-
-    const tick = () => {
-      requestId = requestAnimationFrame(tick);
-    };
-
-    // tick();
 
     return () => {
       cancelAnimationFrame(requestId);
@@ -108,11 +105,10 @@
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
 <div class="BigTranscript">
-  <div style="color: red;">Test test</div>
   {#if visible}
     <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
       {#each words as word}
-        <div class="TranscriptItem" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
+        <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
           <div class="TransscriptItemBgDiv" in:slideTransition/>
           <div class="TransscriptItemContent">
             {word.word}{" "}
