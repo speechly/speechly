@@ -109,24 +109,18 @@
 
 <div class="BigTranscript">
   <div style="color: red;">Test test</div>
-    <!--
   {#if visible}
     <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
-    -->
-    <div style="margin-bottom:1.5rem">
-        {#each words as word}
-        <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
-<!--          <div in:slideTransition class="TransscriptItemBgDiv"/> -->
-          <div class="TransscriptItemBgDiv"/>
+      {#each words as word}
+        <div class="TranscriptItem" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
+          <div class="TransscriptItemBgDiv" in:slideTransition/>
           <div class="TransscriptItemContent">
             {word.word}{" "}
           </div>
         </div>
       {/each}
     </div>
-<!--
-    {/if}
--->
+  {/if}
 </div>
 
 <style>
