@@ -107,7 +107,7 @@
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
   <div class="BigTranscript">
-    <div style="color: red;">Test test 3</div>
+    <div style="color: red;">Test test 4</div>
       <!--
     {#if visible}
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
