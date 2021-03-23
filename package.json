@@ -1,6 +1,6 @@
 {
   "name": "@speechly/react-client",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "React client for Speechly SLU API",
   "private": true,
   "keywords": [
@@ -51,11 +51,11 @@
     "@speechly/browser-client": "^1.0.9"
   },
   "peerDependencies": {
-    "react": "^16.13.1"
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.10.4",
-    "@types/react": "^16.9.51",
+    "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "eslint": "^7.10.0",
@@ -67,7 +67,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-tsdoc": "^0.2.7",
     "prettier": "^2.1.2",
-    "react": "^16.13.1",
+    "react": "^17.0.2",
     "ts-loader": "^8.0.4",
     "tsc-watch": "^4.2.9",
     "typedoc": "^0.19.2",
