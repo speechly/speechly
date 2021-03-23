@@ -84,6 +84,7 @@
       webLog(e.detail.words.map(w => w.value).join(" "))
       // transcriptEl.onSegmentUpdate(e.detail);
       // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
+      window.postMessage({type: "segment-update", segment: e.detail})
     });
 		pushToTalkEl.addEventListener("error", (e) => {
       webLog(`error message received: ${e.detail}`)
