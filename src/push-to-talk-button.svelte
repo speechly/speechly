@@ -11,7 +11,7 @@
   export let size = "6rem";
   export let icon = "poweron";
   export let capturekey = " ";
-  export let appid: string;
+  export let appid: string = undefined;
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
 

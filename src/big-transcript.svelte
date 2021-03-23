@@ -114,12 +114,18 @@
   {/if}
 </div>
 
+<svelte:head>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+</svelte:head>
+
 <style>
   .BigTranscript {
     position: relative;
     user-select: none;
-  }
-
+    font-family: 'Saira Condensed', sans-serif;
+    color: #fff;
+    font-size: 1.5rem;
+}
   .TranscriptItem {
     position: relative;
     display: inline-block;

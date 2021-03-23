@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap');
-
 .PushToTalkContainer {
     width: 100vw;
     height: 9.2rem;
@@ -17,10 +15,4 @@
   position: fixed;
   margin: 3rem 2rem 0 2rem;
   z-index: 10;
-  color: #fff;
-  font-size: 1.5rem;
-}
-
-big-transcript {
-	font-family: 'Saira Condensed', sans-serif;
 }
