@@ -9,13 +9,17 @@
   <link rel='icon' type='image/png' href='favicon.png'>
 	<link rel='stylesheet' href='global.css'>
   <link rel="stylesheet" href="speechly-ui.css">
-  
+ 
+  <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
 	<script src='dev/push-to-talk-button.js'></script>
+	<script src='dev/proto-component.js'></script>
 	<script src='dev/big-transcript.js'></script>
 </head>
 
 <body>
   <div class="BigTranscriptContainer">
+    <div style="background-color: black; color: white">Hoi</div>
+    <proto-component></proto-component>
     <big-transcript></big-transcript>
   </div>
 
@@ -65,8 +69,9 @@
     webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
     webLog("transcriptEl: "+transcriptEl);
-    webLog("transcriptEl.onSegmentUpdate: "+transcriptEl.onSegmentUpdate);
-
+		const protoComponentEl = document.getElementsByTagName("proto-component")[0];
+    webLog("protoComponentEl: "+protoComponentEl);
+    // webLog("transcriptEl.onSegmentUpdate: "+transcriptEl.onSegmentUpdate);
 
     pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
 		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
@@ -86,6 +91,11 @@
 		transcriptEl.addEventListener("debug", (e) => {
       webLog(`${e.detail}`)
     });
+		protoComponentEl.addEventListener("debug", (e) => {
+      webLog(`${e.detail}`)
+    });
+    protoComponentEl.dispatchEvent(new CustomEvent("test", {detail: {msg: "test"}}));
+
     webLog("Finished index.html script.");
 
     i = window.setInterval(() => {

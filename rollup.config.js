@@ -29,19 +29,20 @@ function serve() {
 	};
 }
 
-export default [{
-	input: 'src/push-to-talk-button.ts',
+const webComponentDefaults = {
+	input: null,
 	output: {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'docs/dev/push-to-talk-button.js'
+		file: null,
 	},
 	plugins: [
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
 				customElement: true,
+        tag: null, 
 				// enable run-time checks when not in production
 				dev: !production,
 			}
@@ -80,47 +81,30 @@ export default [{
 	watch: {
 		clearScreen: false
 	}
-},
+};
 
-{
-	input: 'src/big-transcript.ts',
-	output: {
-		sourcemap: true,
-		format: 'iife',
-		name: 'app',
-		file: 'docs/dev/big-transcript.js'
-	},
-	plugins: [
-		svelte({
-			preprocess: sveltePreprocess({ sourceMap: !production }),
-			compilerOptions: {
-				customElement: true,
-				// enable run-time checks when not in production
-				dev: !production,
-			}
-		}),
+export default [
+  {...webComponentDefaults, 
+    input: 'src/push-to-talk-button.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/push-to-talk-button.js'
+    },
+  },
 
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
-		// css({ output: 'push-to-talk-button.css' }),
+  {...webComponentDefaults, 
+    input: 'src/big-transcript.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/big-transcript.js'
+    },
+  },
 
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration -
-		// consult the documentation for details:
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
-		resolve({
-			browser: true,
-			dedupe: ['svelte']
-		}),
-		commonjs(),
-		typescript({
-			sourceMap: !production,
-			inlineSources: !production
-		}),
-
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser()
-	],
-}]
+  {...webComponentDefaults, 
+    input: 'src/proto-component.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/proto-component.js'
+    },
+  },
+]
