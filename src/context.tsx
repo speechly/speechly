@@ -152,7 +152,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       recordingState: SpeechState.Idle,
       clientState: ClientState.Disconnected,
       toggleIsOn: false,
-      appId: undefined,
+      appId: props.appId,
       startedContextPromise: undefined,
     }
   }
