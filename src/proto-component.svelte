@@ -50,6 +50,36 @@
     dispatchUnbounded("debug", "proto-component.ping 1");
   };
 
+  const onSegmentUpdate = (segment: Segment) => {
+    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 1");
+
+    if (segment === undefined) return;
+
+    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 2");
+
+    visible = !segment.isFinal;
+
+    // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
+    words = []
+    segment.words.forEach(w => {
+      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
+    })
+
+    // Tag words with entities
+    segment.entities.forEach(e => {
+      words.slice(e.startPosition, e.endPosition).forEach(w => {
+        w.entityType = e.type
+        w.isFinal = e.isFinal
+      })
+    })
+
+    // Remove holes from word array
+    words = words.flat()
+    // words = [...words];
+  };
+
+  thisComponent.onSegmentUpdate = onSegmentUpdate;
+
   onMount (() => {
     console.log("-------------------------")
 
@@ -63,7 +93,7 @@
 </script>
 
 <div class="ProtoComponent">
-  <div style="color: blue;">proto-component 3</div>
+  <div style="color: blue;">proto-component 4</div>
 </div>
 
 <style>
