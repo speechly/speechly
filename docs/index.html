@@ -12,14 +12,11 @@
  
   <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
 	<script src='dev/push-to-talk-button.js'></script>
-	<script src='dev/proto-component.js'></script>
 	<script src='dev/big-transcript.js'></script>
 </head>
 
 <body>
   <div class="BigTranscriptContainer">
-    <div style="background-color: black; color: white">Hoi</div>
-    <proto-component></proto-component>
     <big-transcript></big-transcript>
   </div>
 
@@ -37,7 +34,7 @@
       <li>onholdstart - set callback function to be triggered upon hold start</li>
       <li>onholdend - set callback function to be triggered upon hold end</li>
     </ul>
-    <h3>Events</h3>
+    <h3>Events emitted</h3>
     <ul>
       <li>onholdstart - CustomEvent triggered upon hold start</li>
       <li>onholdend - CustomEvent triggered upon hold end</li>
@@ -50,6 +47,14 @@
     <h3>Properties</h3>
     <ul>
       <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>
+    </ul>
+    <h3>Events listened</h3>
+    <ul>
+      <li>"segment-update", {detail: {} as Segment} - Expect an update whenever a new segment update is available</li>
+    </ul>
+    <h3>Window messages listened</h3>
+    <ul>
+      <li>{type: "segment-update", segment: {} as Segment} - Expects an update whenever a new segment update is available</li>
     </ul>
 
     <pre id="info" style="padding-bottom: 10rem;"></pre>
@@ -69,20 +74,16 @@
     webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
     webLog("transcriptEl: "+transcriptEl);
-		const protoComponentEl = document.getElementsByTagName("proto-component")[0];
-    webLog("protoComponentEl: "+protoComponentEl);
-    // webLog("transcriptEl.onSegmentUpdate: "+transcriptEl.onSegmentUpdate);
 
     pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
 		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
 		pushToTalkEl.addEventListener("onholdstart", (e) => {console.log("onholdstart message received")});
 		pushToTalkEl.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
 		pushToTalkEl.addEventListener("segment-update", (e) => {
-      console.log("segment-update message received:", e.detail)
+      console.log("segment-update", e.detail)
       webLog(e.detail.words.map(w => w.value).join(" "))
       // transcriptEl.onSegmentUpdate(e.detail);
-      transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
-      window.postMessage({type: "segment-update", segment: e.detail})
+      // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
     });
 		pushToTalkEl.addEventListener("error", (e) => {
       webLog(`error message received: ${e.detail}`)
@@ -91,11 +92,7 @@
 		transcriptEl.addEventListener("debug", (e) => {
       webLog(`${e.detail}`)
     });
-		protoComponentEl.addEventListener("debug", (e) => {
-      webLog(`${e.detail}`)
-    });
     transcriptEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
-    protoComponentEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
     webLog("Finished index.html script.");
 	</script>

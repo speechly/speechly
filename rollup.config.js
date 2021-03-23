@@ -99,12 +99,4 @@ export default [
       file: 'docs/dev/big-transcript.js'
     },
   },
-
-  {...webComponentDefaults, 
-    input: 'src/proto-component.ts',
-    output: {
-      ...webComponentDefaults.output,
-      file: 'docs/dev/proto-component.js'
-    },
-  },
 ]

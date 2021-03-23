@@ -21,7 +21,7 @@
 
   const fade = fix(fade_orig);
 
-  const revealTransition = fix((node, {delay = 0, duration = 800}) => {
+  const revealTransition = fix((node, {delay = 0, duration = 400}) => {
     return {
       delay,
       duration,
