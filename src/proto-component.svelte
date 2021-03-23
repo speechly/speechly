@@ -113,15 +113,17 @@
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
       -->
       <div style="margin-bottom:1.5rem">
+<!--
           {#each words as word}
           <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
-  <!--          <div in:slideTransition class="TransscriptItemBgDiv"/> -->
+            <div in:slideTransition class="TransscriptItemBgDiv"/>
             <div class="TransscriptItemBgDiv"/>
             <div class="TransscriptItemContent">
               {word.word}{" "}
             </div>
           </div>
         {/each}
+        -->
       </div>
   <!--
       {/if}
