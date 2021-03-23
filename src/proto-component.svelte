@@ -1,16 +1,14 @@
 <svelte:options tag="proto-component" immutable={true} />
 
 <script lang="ts">
-  import type { Segment } from "@speechly/browser-client";
+  import { get_current_component } from "svelte/internal";
   import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
-  import fix from './transFix'
-  import { get_current_component } from "svelte/internal";
+  import { fadeIn, interpolateLinearf } from "./TableInterpolator";
+  import fix from "./transFix";
+  import { cubicInOut } from "svelte/easing";
   import { fade as fade_orig } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
-  import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
-  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
     thisComponent.dispatchEvent(new CustomEvent(name, {
@@ -47,117 +45,29 @@
   let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
   let visible = false;
 
-  const onSegmentUpdate = (segment: Segment) => {
-    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 1");
-
-    if (segment === undefined) return;
-
-    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 2");
-
-    visible = !segment.isFinal;
-
-    // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
-    words = []
-    segment.words.forEach(w => {
-      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
-    })
-
-    // Tag words with entities
-    segment.entities.forEach(e => {
-      words.slice(e.startPosition, e.endPosition).forEach(w => {
-        w.entityType = e.type
-        w.isFinal = e.isFinal
-      })
-    })
-
-    // Remove holes from word array
-    words = words.flat()
-    // words = [...words];
-  };
-
-  thisComponent.onSegmentUpdate = onSegmentUpdate;
-
   const pingHandler = (e) => {
     dispatchUnbounded("debug", "proto-component.ping 1");
   };
 
   onMount (() => {
     console.log("-------------------------")
-    let requestId = null;
-
-    const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
-
-    thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
-
-    const tick = () => {
-      requestId = requestAnimationFrame(tick);
-    };
 
     thisComponent.addEventListener("ping", pingHandler);
 
-    // tick();
-
     return () => {
-      cancelAnimationFrame(requestId);
       thisComponent.removeEventListener("ping", pingHandler);
-      thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
     }
   });
 
 </script>
 
-<svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
-
-<div class="BigTranscript">
-  <div style="color: red;">Test test</div>
-    <!--
-  {#if visible}
-    <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
-    -->
-    <div style="margin-bottom:1.5rem">
-        {#each words as word}
-        <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
-<!--          <div in:slideTransition class="TransscriptItemBgDiv"/> -->
-          <div class="TransscriptItemBgDiv"/>
-          <div class="TransscriptItemContent">
-            {word.word}{" "}
-          </div>
-        </div>
-      {/each}
-    </div>
-<!--
-    {/if}
--->
+<div class="ProtoComponent">
+  <div style="color: blue;">proto-component 2</div>
 </div>
 
 <style>
-  .BigTranscript {
+  .ProtoComponent {
     position: relative;
     user-select: none;
-  }
-
-  .TranscriptItem {
-    position: relative;
-    display: inline-block;
-    margin-left: 0.25rem;
-  }
-
-  .Entity {
-    color: cyan;
-  }
-
-  .TransscriptItemContent {
-    z-index: 1;
-  }
-
-  .TransscriptItemBgDiv {
-    position: absolute;
-    box-sizing: content-box;
-    width: 100%;
-    height: 100%;
-    margin: -0.4rem -0.6rem;
-    padding: 0.4rem 0.6rem;
-    background-color: #000;
-    z-index: -1;
   }
 </style>
