@@ -106,7 +106,10 @@
     })();
   }
 
-  const tangentStart = () => {
+  const tangentStart = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+
     if (!tangentHeld) {
       tangentHeld = true;
       scale[0] = 1.35;
@@ -170,10 +173,11 @@
     if (capturekey) {
       if (event.key === capturekey) {
         if (!event.repeat) {
-          tangentStart();
+          tangentStart(event);
+        } else {
+          event.preventDefault();
+          event.stopPropagation();
         }
-        event.preventDefault();
-        event.stopPropagation();
       }
     }
   };
