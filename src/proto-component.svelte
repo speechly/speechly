@@ -82,18 +82,30 @@
 
   onMount (() => {
     console.log("-------------------------")
+    let requestId = null;
 
+    const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
+
+    thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
     thisComponent.addEventListener("ping", pingHandler);
 
+    const tick = () => {
+      requestId = requestAnimationFrame(tick);
+    };
+
+    // tick();
+
     return () => {
+      cancelAnimationFrame(requestId);
       thisComponent.removeEventListener("ping", pingHandler);
+      thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
     }
   });
 
 </script>
 
 <div class="ProtoComponent">
-  <div style="color: blue;">proto-component 4</div>
+  <div style="color: blue;">proto-component 5</div>
 </div>
 
 <style>

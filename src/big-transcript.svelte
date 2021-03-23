@@ -88,15 +88,13 @@
     const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
 
     thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
+    thisComponent.addEventListener("ping", pingHandler);
 
     const tick = () => {
       requestId = requestAnimationFrame(tick);
     };
 
-    thisComponent.addEventListener("ping", pingHandler);
-
     // tick();
-    dispatchUnbounded("debug", "big-transcript.onmount 2");
 
     return () => {
       cancelAnimationFrame(requestId);
