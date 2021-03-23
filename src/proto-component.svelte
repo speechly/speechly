@@ -51,11 +51,11 @@
   };
 
   const onSegmentUpdate = (segment: Segment) => {
-    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 1");
+    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 1");
 
     if (segment === undefined) return;
 
-    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 2");
+    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 2");
 
     visible = !segment.isFinal;
 
@@ -104,8 +104,10 @@
 
 </script>
 
+<svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
+
 <div class="ProtoComponent">
-  <div style="color: blue;">proto-component 5</div>
+  <div style="color: blue;">proto-component 6</div>
 </div>
 
 <style>
