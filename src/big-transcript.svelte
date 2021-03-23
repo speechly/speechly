@@ -34,7 +34,7 @@
     };
   });
 
-  const slideTransition = fix((node, {delay = 0, duration = 250}) => {
+  const slideTransition = fix((node, {delay = 0, duration = 350}) => {
     return {
       delay,
       duration,
@@ -44,15 +44,11 @@
     };
   });
 
-  let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
+  let words: ITaggedWord[] = [];
   let visible = false;
 
   const onSegmentUpdate = (segment: Segment) => {
-    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 1");
-
     if (segment === undefined) return;
-
-    dispatchUnbounded("debug", "big-transcript.onSegmentUpdate 2");
 
     visible = !segment.isFinal;
 
@@ -72,7 +68,6 @@
 
     // Remove holes from word array
     words = words.flat()
-    // words = [...words];
   };
 
   thisComponent.onSegmentUpdate = onSegmentUpdate;

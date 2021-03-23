@@ -18,6 +18,7 @@
   let tangentHeld = false;
   let rotation = [0.0, 0.0];
   let scale = [0.0, 0.0];
+  let iconOpacity = [1.0, 1.0];
   let fxOpacity = [0.0, 0.0];
   let client = null;
   let attemptConnect = true;
@@ -26,6 +27,8 @@
   let clientState: ClientState;
   let pendingClientState: ClientState;
   let timeout = null;
+  let prevFrameMillis = 0;
+  let frameMillis = 0;
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -61,9 +64,23 @@
     let requestId = null;
 
     const tick = () => {
-      scale = animateValue(scale, 0.2);
-      fxOpacity = animateValue(fxOpacity, 0.08);
-      rotation = animateValue([rotation[0] + 2.5, rotation[1]], 0.05);
+      prevFrameMillis = frameMillis;
+      frameMillis = new Date().getTime();
+      const tickMs = frameMillis - prevFrameMillis;
+
+      if (icon === "starting") {
+        // Animate iconOpacity when tarting
+        iconOpacity[0] = Math.cos(frameMillis / 2500 * Math.PI*2)* 0.25 + 0.25;
+      }
+      if (icon === "loading") {
+        // Animate iconOpacity when tarting
+        iconOpacity[0] = Math.cos(frameMillis / 1000 * Math.PI*2)* 0.25 + 0.25;
+      }
+
+      scale = animateValue(scale, 0.2, tickMs);
+      iconOpacity = animateValue(iconOpacity, 0.08, tickMs);
+      fxOpacity = animateValue(fxOpacity, 0.08, tickMs);
+      rotation = animateValue([rotation[0] + 2.5, rotation[1]], 0.05, tickMs);
       requestId = requestAnimationFrame(tick);
     };
 
@@ -128,8 +145,6 @@
   const tangentEnd = () => {
     if (tangentHeld) {
       tangentHeld = false;
-      scale[0] = 1.0;
-      fxOpacity[0] = 0.0;
       vibrate();
 
       // Cancel any pending auto-release
@@ -173,7 +188,9 @@
     icon = newIcon.toLowerCase();
   };
 
-  const animateValue = (value: number[], pull: number) => {
+  const animateValue = (value: number[], pull: number, tickMs: number) => {
+    const NOMINAL_FRAME_MILLIS = 1000.0/60;
+    pull = Math.pow(pull, NOMINAL_FRAME_MILLIS / tickMs);
     return [
       value[0],
       value[1] = value[1] * (1.0 - pull) + value[0] * pull
@@ -189,10 +206,20 @@
   const updateSkin = () => {
     if (clientState !== pendingClientState) {
       clientState = pendingClientState;
+      scale[0] = 1.0;
+      fxOpacity[0] = 0.0;
+
       switch (clientState) {
+        case ClientState.Connecting:
+          setIcon("connecting");
+          break;
         case ClientState.Connected:
           ready = true;
           setIcon("mic");
+          iconOpacity[0] = 1.0;
+          break;
+        case ClientState.Stopping:
+          setIcon("loading");
           break;
         case ClientState.Failed:
           setIcon("failed");
@@ -254,7 +281,9 @@
     transform: rotate({rotation[1]}deg);
   "/>
   <mic-frame/>
-  <mic-icon icon={icon}/>
+  <mic-icon icon={icon} style="
+    opacity: {iconOpacity[1]};
+  "/>
 </main>
 
 <style>

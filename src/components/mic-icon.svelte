@@ -4,7 +4,7 @@
     export let icon = "mic";
 </script>
 
-{#if icon == "mic"}
+{#if icon == "mic" || icon == "loading"}
 <svg
   class="buttonIconEl"
   viewBox="0 0 56 56"
@@ -40,7 +40,7 @@
 </svg>
 {/if}
 
-{#if icon == "poweron"}
+{#if icon == "poweron" || icon == "connecting"}
 <svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
   <g fill="#000" fillRule="evenodd">
     <path
