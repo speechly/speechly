@@ -129,8 +129,10 @@
           }
       }
       // transcriptEl.onSegmentUpdate(d);
-      transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
+      webLog("Interval start");
+      // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: d}));
       window.postMessage({type: "segment-update", segment: d})
+      webLog("Interval end");
     }, 3000);
 	</script>
 </body>
