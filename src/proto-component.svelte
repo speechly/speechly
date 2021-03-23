@@ -1,13 +1,14 @@
 <svelte:options tag="proto-component" immutable={true} />
 
 <script lang="ts">
-  import { get_current_component } from "svelte/internal";
+  import type { Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
-  import { fadeIn, interpolateLinearf } from "./TableInterpolator";
-  import fix from "./transFix";
-  import { cubicInOut } from "svelte/easing";
+  import fix from './transFix'
+  import { get_current_component } from "svelte/internal";
   import { fade as fade_orig } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+  import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
@@ -62,7 +63,7 @@
 </script>
 
 <div class="ProtoComponent">
-  <div style="color: blue;">proto-component 2</div>
+  <div style="color: blue;">proto-component 3</div>
 </div>
 
 <style>
