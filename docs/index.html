@@ -69,7 +69,7 @@
       webLogLines += newLine + "\n";
       document.getElementById("info").innerHTML = webLogLines;
     }
-    webLog("Starting index.html script V10...");
+    webLog("Starting index.html script V11...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
     webLog("pushToTalkEl: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
@@ -84,7 +84,7 @@
       webLog(e.detail.words.map(w => w.value).join(" "))
       // transcriptEl.onSegmentUpdate(e.detail);
       // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
-      window.postMessage({type: "segment-update", segment: e.detail}, "*");
+      // window.postMessage({type: "segment-update", segment: e.detail}, "*");
     });
 		pushToTalkEl.addEventListener("error", (e) => {
       webLog(`error message received: ${e.detail}`)
