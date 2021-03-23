@@ -107,13 +107,14 @@
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
   <div class="BigTranscript">
-    <div style="color: red;">Test test 4</div>
+    <div style="color: red;">Test test 5</div>
       <!--
     {#if visible}
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
       -->
       <div style="margin-bottom:1.5rem">
           {#each words as word}
+          {#if word}
           <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
 <!--
             <div in:slideTransition class="TransscriptItemBgDiv"/>
@@ -123,6 +124,7 @@
             </div>
         -->
       </div>
+        {/if}
         {/each}
       </div>
   <!--
