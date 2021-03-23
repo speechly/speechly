@@ -81,9 +81,12 @@
 
   thisComponent.onSegmentUpdate = onSegmentUpdate;
 
+  const pingHandler = (e) => {
+    dispatchUnbounded("debug", "big-transcript.ping 1");
+  };
+
   onMount (() => {
-    dispatchUnbounded("debug", "big-transcript.onmount 1");
-    // Transition in button
+    console.log("-------------------------")
     let requestId = null;
 
     const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
@@ -94,11 +97,14 @@
       requestId = requestAnimationFrame(tick);
     };
 
+    thisComponent.addEventListener("ping", pingHandler);
+
     // tick();
     dispatchUnbounded("debug", "big-transcript.onmount 2");
 
     return () => {
       cancelAnimationFrame(requestId);
+      thisComponent.removeEventListener("ping", pingHandler);
       thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
     }
   });

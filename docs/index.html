@@ -94,7 +94,8 @@
 		protoComponentEl.addEventListener("debug", (e) => {
       webLog(`${e.detail}`)
     });
-    protoComponentEl.dispatchEvent(new CustomEvent("test", {detail: {msg: "test"}}));
+    transcriptEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
+    protoComponentEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
     webLog("Finished index.html script.");
 

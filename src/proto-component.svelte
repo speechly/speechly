@@ -16,17 +16,17 @@
 
   //dispatchUnbounded("debug", "Hello from proto-component constructor 1");
 
-  const testHandler = (e) => {
-    dispatchUnbounded("debug", "proto-component.test 1");
+  const pingHandler = (e) => {
+    dispatchUnbounded("debug", "proto-component.ping 1");
   };
 
   onMount (() => {
     console.log("-------------------------")
 
-    thisComponent.addEventListener("test", testHandler);
+    thisComponent.addEventListener("ping", pingHandler);
 
     return () => {
-      thisComponent.removeEventListener("test", testHandler);
+      thisComponent.removeEventListener("ping", pingHandler);
     }
   });
 
