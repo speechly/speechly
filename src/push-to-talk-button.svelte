@@ -52,7 +52,7 @@
         // Pass on segment updates from Speechly API as events
         dispatchUnbounded("segment-update", segment);
         // And as window.postMessages
-        window.postMessage({type: "segment-update", segment: segment}, "*")
+        // window.postMessage({type: "segment-update", segment: segment}, "*")
       })
     } else {
       console.warn("No appid attribute specified. Speechly voice services are unavailable.")
