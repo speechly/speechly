@@ -106,13 +106,57 @@
 
 <svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
 
-<div class="ProtoComponent">
-  <div style="color: blue;">proto-component 7</div>
-</div>
-
+  <div class="BigTranscript">
+    <div style="color: red;">Test test 2</div>
+      <!--
+    {#if visible}
+      <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
+      -->
+      <div style="margin-bottom:1.5rem">
+          {#each words as word}
+          <div class={`TranscriptItem ${word.entityType !== null ? 'Entity' : ''} ${word.isFinal ? 'Final' : ''} ${word.entityType ?? ''}`}>
+  <!--          <div in:slideTransition class="TransscriptItemBgDiv"/> -->
+            <div class="TransscriptItemBgDiv"/>
+            <div class="TransscriptItemContent">
+              {word.word}{" "}
+            </div>
+          </div>
+        {/each}
+      </div>
+  <!--
+      {/if}
+  -->
+  </div>
+  
 <style>
-  .ProtoComponent {
+  .BigTranscript {
     position: relative;
     user-select: none;
   }
+
+  .TranscriptItem {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.25rem;
+  }
+
+  .Entity {
+    color: cyan;
+  }
+
+  .TransscriptItemContent {
+    z-index: 1;
+  }
+
+  .TransscriptItemBgDiv {
+    position: absolute;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    margin: -0.4rem -0.6rem;
+    padding: 0.4rem 0.6rem;
+    background-color: #000;
+    z-index: -1;
+  }
 </style>
+  
