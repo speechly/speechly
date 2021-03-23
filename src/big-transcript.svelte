@@ -19,8 +19,6 @@
     }));
   };
 
-  dispatchUnbounded("debug", "big-transcript.init 1");
-
   const fade = fix(fade_orig);
 
   const revealTransition = fix((node, {delay = 0, duration = 800}) => {
@@ -45,8 +43,6 @@
       `
     };
   });
-
-  dispatchUnbounded("debug", "big-transcript.init 2");
 
   let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
   let visible = false;

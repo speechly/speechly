@@ -1,14 +1,16 @@
 <svelte:options tag="proto-component" immutable={true} />
 
 <script lang="ts">
-  import { get_current_component } from "svelte/internal";
+  import type { Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
-  import { fadeIn, interpolateLinearf } from "./TableInterpolator";
-  import fix from "./transFix";
-  import { cubicInOut } from "svelte/easing";
+  import fix from './transFix'
+  import { get_current_component } from "svelte/internal";
   import { fade as fade_orig } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+  import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
+  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
     thisComponent.dispatchEvent(new CustomEvent(name, {
@@ -45,17 +47,60 @@
   let words: ITaggedWord[] = [{word: "Initializing", entityType: null, isFinal: true, serialNumber: 1}];
   let visible = false;
 
+  const onSegmentUpdate = (segment: Segment) => {
+    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 1");
+
+    if (segment === undefined) return;
+
+    dispatchUnbounded("debug", "proto-component.onSegmentUpdate 2");
+
+    visible = !segment.isFinal;
+
+    // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
+    words = []
+    segment.words.forEach(w => {
+      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
+    })
+
+    // Tag words with entities
+    segment.entities.forEach(e => {
+      words.slice(e.startPosition, e.endPosition).forEach(w => {
+        w.entityType = e.type
+        w.isFinal = e.isFinal
+      })
+    })
+
+    // Remove holes from word array
+    words = words.flat()
+    // words = [...words];
+  };
+
+  thisComponent.onSegmentUpdate = onSegmentUpdate;
+
   const pingHandler = (e) => {
     dispatchUnbounded("debug", "proto-component.ping 1");
   };
 
   onMount (() => {
     console.log("-------------------------")
+    let requestId = null;
+
+    const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
+
+    thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
+
+    const tick = () => {
+      requestId = requestAnimationFrame(tick);
+    };
 
     thisComponent.addEventListener("ping", pingHandler);
 
+    // tick();
+
     return () => {
+      cancelAnimationFrame(requestId);
       thisComponent.removeEventListener("ping", pingHandler);
+      thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
     }
   });
 
