@@ -80,8 +80,18 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  switchContext(appId: string): void {
-    this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
+  switchContext(appId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.startCbs.push((err?, id?) => {
+        if (err !== undefined) {
+          reject(err)
+        } else {
+          resolve(id as string)
+        }
+      })
+      this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
+    })
+    
   }
 
   postMessage(message: Object): void {

@@ -271,10 +271,11 @@ export class Client {
    * by sending a start context event to the API and unmuting the microphone.
    * @param appId - unique identifier of an app in the dashboard.
    */
-  switchContext(appId: string): void {
+  async switchContext(appId: string): Promise<void> {
     if (this.state === ClientState.Recording) {
       this.resolveStopContext = undefined
-      this.apiClient.switchContext(appId)
+      const contextId = await this.apiClient.switchContext(appId)
+      this.activeContexts.set(contextId, new Map<number, SegmentState>())
     }
   }
 
