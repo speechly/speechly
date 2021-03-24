@@ -148,6 +148,15 @@ self.onmessage = function(e) {
         ws.send(JSON.stringify({ event: 'start' }))
       }
       break
+    case 'SWITCH_CONTEXT':
+      const appId = e.data.appId
+      if (ws !== undefined && state.isContextStarted && appId !== undefined) {
+        state.isStartContextConfirmed = false
+        const StopEventJSON = JSON.stringify({ event: 'stop' })
+        ws.send(StopEventJSON)
+        ws.send(JSON.stringify({ event: 'start', appId }))
+      }
+      break
     case 'STOP_CONTEXT':
       if (ws !== undefined && state.isContextStarted) {
         state.isContextStarted = false
