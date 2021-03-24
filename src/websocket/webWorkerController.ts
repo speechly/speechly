@@ -80,6 +80,10 @@ export class WebWorkerController implements APIClient {
     })
   }
 
+  switchContext(appId: string): void {
+    this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
+  }
+
   postMessage(message: Object): void {
     this.worker.postMessage(message)
   }

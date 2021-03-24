@@ -200,6 +200,12 @@ export interface APIClient {
   stopContext(): Promise<string>
 
   /**
+   * Stops current context and immediately starts a new SLU context
+   * by sending a start context event to the API and unmuting the microphone.
+   */
+  switchContext(appId: string): void
+
+  /**
    * Sends audio to the API.
    * If there is no active context (no successful previous calls to `startContext`), this must fail.
    *

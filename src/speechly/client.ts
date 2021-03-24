@@ -267,6 +267,18 @@ export class Client {
   }
 
   /**
+   * Stops current context and immediately starts a new SLU context
+   * by sending a start context event to the API and unmuting the microphone.
+   * @param appId - unique identifier of an app in the dashboard.
+   */
+  switchContext(appId: string): void {
+    if (this.state === ClientState.Recording) {
+      this.resolveStopContext = undefined
+      this.apiClient.switchContext(appId)
+    }
+  }
+
+  /**
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
