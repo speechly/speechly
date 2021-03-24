@@ -8,10 +8,12 @@ let ws
 const state = {
   isContextStarted: false,
   isStartContextConfirmed: false,
+  shouldResendLastFramesSent: false,
   sourceSampleRate: undefined,
   targetSampleRate: undefined,
   resampleRatio: 1,
   buffer: new Float32Array(0),
+  lastFramesSent: new Int16Array(0), // to re-send after switch context
   filter: undefined,
   controlSAB: undefined,
   dataSAB: undefined,
@@ -74,6 +76,15 @@ function onWebsocketMessage(event) {
 
   if (response.type === 'started') {
     state.isStartContextConfirmed = true
+    if (state.shouldResendLastFramesSent) {
+      if (state.lastFramesSent.length > 0) {
+        if (ws !== undefined) {
+          ws.send(state.lastFramesSent)
+        }
+        state.lastFramesSent = new Int16Array(0)
+      }
+      state.shouldResendLastFramesSent = false
+    }
   }
 
   self.postMessage(response)
@@ -149,12 +160,13 @@ self.onmessage = function(e) {
       }
       break
     case 'SWITCH_CONTEXT':
-      const appId = e.data.appId
-      if (ws !== undefined && state.isContextStarted && appId !== undefined) {
+      const newAppId = e.data.appId
+      if (ws !== undefined && state.isContextStarted && newAppId !== undefined) {
         state.isStartContextConfirmed = false
         const StopEventJSON = JSON.stringify({ event: 'stop' })
         ws.send(StopEventJSON)
-        ws.send(JSON.stringify({ event: 'start', appId }))
+        state.shouldResendLastFramesSent = true
+        ws.send(JSON.stringify({ event: 'start', appId: newAppId }))
       }
       break
     case 'STOP_CONTEXT':
@@ -182,16 +194,31 @@ self.onmessage = function(e) {
   }
 }
 
+let lastTime = Date.now()
+
 function sendAudioFromSAB() {
   if (state.isStartContextConfirmed && CONTROL.FRAMES_AVAILABLE > 0) {
     const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE])
     state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
     state.controlSAB[CONTROL.WRITE_INDEX] = 0
     if (data.length > 0) {
+      let frames
       if (state.resampleRatio > 1) {
-        ws.send(downsample(data))
+        frames = downsample(data)
       } else {
-        ws.send(float32ToInt16(data))
+        frames = float32ToInt16(data)
+      }
+      ws.send(frames)
+
+      // 16000 per second, 1000 in 100 ms
+      // save last 250 ms
+      if (state.lastFramesSent.length > 1024 * 4) {
+        state.lastFramesSent = frames
+      } else {
+        let concat = new Int16Array(state.lastFramesSent.length + frames.length)
+        concat.set(state.lastFramesSent)
+        concat.set(frames, state.lastFramesSent.length)
+        state.lastFramesSent = concat
       }
     }
   } else {
