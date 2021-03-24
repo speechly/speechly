@@ -4,7 +4,7 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
-	<title>Svelte app</title>
+	<title>Speechly Browser-UI</title>
 
   <link rel='icon' type='image/png' href='favicon.png'>
 	<link rel='stylesheet' href='global.css'>
@@ -16,17 +16,59 @@
 </head>
 
 <body>
+
   <div class="BigTranscriptContainer">
     <big-transcript></big-transcript>
   </div>
 
-    <h1>&lt;push-to-talk-button/&gt;</h1>
+  <div class="PushToTalkContainer">
+    <push-to-talk-button appid="60cf344c-c010-48d7-bc53-9c72b1f65505"></push-to-talk-button>
+  </div>
+
+  <main>
+    <h1>Speechly Browser-UI</h1>
+    <h2>Installation from CDN</h2>
+      Include the resources in your <code>&lt;head&gt;</code> block:
+<xmp><head>
+  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/push-to-talk-button.js"></script>
+  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/big-transcript.js"></script>
+  <link rel="stylesheet" href="https://speechly.github.io/browser-ui/speechly-ui.css">
+</head>
+</xmp>
+
+    <h2>Usage</h2>
+      <p>
+        Include the following lines in your <code>&lt;body&gt;</code>:
+      </p>
+<xmp><div class="BigTranscriptContainer">
+  <big-transcript></big-transcript>
+</div> 
+</xmp>
+
+<xmp><div class="PushToTalkContainer">
+  <push-to-talk-button appid="60cf344c-c010-48d7-bc53-9c72b1f65505"></push-to-talk-button>
+</div>
+</xmp>
+
+    <h2>Handling Speech Input</h2>
+    Listen for the broadcasted segment-update messages:
+<xmp><script type="text/javascript">
+  window.addEventListener("message", (e) => {
+    if (e.data.type === "segment-update") {
+      const segment = e.data.segment;
+      console.log("segment-update message:", segment);
+    }
+  });
+</script>
+</xmp>
+    
+    <h2>Element &lt;push-to-talk-button/&gt;</h2>
 	  Autonomous customElement for connecting to Speechly and controlling listening on/off.
     <h3>Attributes</h3>
     <ul>
       <li>appid - Speechly App id to connect to.
       <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-      <li>size - Optional string (css). Defines the button frame width and height. Default: "6rem"</li>
+      <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
       <li>icon - Optional string. Defines the initial icon on button: idle | ready | noaudioconsent | failed | nobrowsersupport </li>
     </ul>
     <h3>Properties</h3>
@@ -41,9 +83,19 @@
 	    <li>segment-update - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
       <li>error - Details: Failed | NoBrowserSupport | NoAudioConsent</li>
     </ul>
+    <h3>Window messages emitted</h3>
+    <ul>
+      <li>{type: "segment-update", segment: {} as Segment} - Uses postMessage to broadcast new segment when an update is available</li>
+    </ul>
 
-    <h1>&lt;big-transcript/&gt;</h1>
-	  Autonomous customElement for connecting to Speechly and controlling listening on/off.
+    <h2>Element &lt;big-transcript/&gt;</h2>
+    <p>
+      <code>&lt;big-transcript/&gt;</code> is an overlay-style component for displaying real-time speech-to-text transcript.
+    </p>
+    <p>
+      It is intended to be placed as an overlay near top-left corner of the screen using <code>BigTranscriptContainer</code> CSS class. It is momentarily displayed and automatically hidden after the end of voice input.
+    </p>
+    <button onclick="showTranscriptSample()">Show sample transcript</button>
     <h3>Properties</h3>
     <ul>
       <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>
@@ -57,35 +109,47 @@
       <li>{type: "segment-update", segment: {} as Segment} - Expects an update whenever a new segment update is available</li>
     </ul>
 
-    <pre id="info" style="padding-bottom: 10rem;"></pre>
+    <h2>Browser-UI Playground Log</h2>
+    <p>
+      Try it out! Hold the button and talk.
+    </p>
+    <pre><xmp id="info"></xmp></pre>
+  </main>
 
-    <div class="PushToTalkContainer">
-  		<push-to-talk-button appid="60cf344c-c010-48d7-bc53-9c72b1f65505"></push-to-talk-button>
-	  </div>
-
-	<script>
+	<script type="text/javascript">
     var webLogLines = "";
     webLog = (newLine) => {
       webLogLines += newLine + "\n";
       document.getElementById("info").innerHTML = webLogLines;
     }
-    webLog("Starting index.html script V11...");
+    webLog("Start of index.html script V11...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
-    webLog("pushToTalkEl: "+pushToTalkEl);
+    webLog("push-to-talk-button: "+pushToTalkEl);
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
-    webLog("transcriptEl: "+transcriptEl);
+    webLog("big-transcript: "+transcriptEl);
 
     pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
 		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
 		pushToTalkEl.addEventListener("onholdstart", (e) => {console.log("onholdstart message received")});
 		pushToTalkEl.addEventListener("onholdend", (e) => {console.log("onholdend message received")});
+		window.addEventListener("message", (e) => {
+      if (e.data.type === "segment-update") {
+        const segment = e.data.segment;
+        console.log("segment-update message:", segment);
+        webLog(segment.words.map(w => w.value).join(" "));
+        // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
+        // window.postMessage({type: "segment-update", segment: e.detail}, "*");
+      }
+    });
+
 		pushToTalkEl.addEventListener("segment-update", (e) => {
-      console.log("segment-update", e.detail)
-      webLog(e.detail.words.map(w => w.value).join(" "))
-      // transcriptEl.onSegmentUpdate(e.detail);
+      const segment = e.detail;
+      console.log("segment-update event:", segment);
+      // webLog(segment.words.map(w => w.value).join(" "));
       // transcriptEl.dispatchEvent(new CustomEvent("segment-update", {detail: e.detail}));
       // window.postMessage({type: "segment-update", segment: e.detail}, "*");
     });
+
 		pushToTalkEl.addEventListener("error", (e) => {
       webLog(`error message received: ${e.detail}`)
       console.log(`error message received: ${e.detail}`)
@@ -95,59 +159,60 @@
     });
     transcriptEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
-    const sampleSegment = {
-    "id": 0,
-    "contextId": "e310e11e-95d4-4f22-98dd-388a1bd84718",
-    "isFinal": false,
-    "words": [
-        {
-            "value": "TURN",
-            "index": 2,
-            "startTimestamp": 2040,
-            "endTimestamp": 2640,
-            "isFinal": true
-        },
-        {
-            "value": "ON",
-            "index": 3,
-            "startTimestamp": 2640,
-            "endTimestamp": 2820,
-            "isFinal": true
-        },
-        {
-            "value": "THE",
-            "index": 4,
-            "startTimestamp": 2820,
-            "endTimestamp": 2940,
-            "isFinal": true
-        },
-        {
-            "value": "LIGHTS",
-            "index": 5,
-            "startTimestamp": 2940,
-            "endTimestamp": 3420,
+    const showTranscriptSample = (e) => {
+      const sampleSegment = {
+        "id": 0,
+        "contextId": "e310e11e-95d4-4f22-98dd-388a1bd84718",
+        "isFinal": false,
+        "words": [
+            {
+                "value": "TURN",
+                "index": 2,
+                "startTimestamp": 2040,
+                "endTimestamp": 2640,
+                "isFinal": true
+            },
+            {
+                "value": "ON",
+                "index": 3,
+                "startTimestamp": 2640,
+                "endTimestamp": 2820,
+                "isFinal": true
+            },
+            {
+                "value": "THE",
+                "index": 4,
+                "startTimestamp": 2820,
+                "endTimestamp": 2940,
+                "isFinal": true
+            },
+            {
+                "value": "LIGHTS",
+                "index": 5,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
+            }
+        ],
+        "entities": [
+            {
+                "type": "email",
+                "value": "thelights",
+                "startPosition": 4,
+                "endPosition": 6,
+                "isFinal": true
+            }
+        ],
+        "intent": {
+            "intent": "email",
             "isFinal": true
         }
-    ],
-    "entities": [
-        {
-            "type": "email",
-            "value": "thelights",
-            "startPosition": 4,
-            "endPosition": 6,
-            "isFinal": true
-        }
-    ],
-    "intent": {
-        "intent": "email",
-        "isFinal": true
+      }
+
+      window.postMessage({type: "segment-update", segment: sampleSegment}, "*");
     }
-  }
 
-  window.postMessage({type: "segment-update", segment: sampleSegment}, "*");
-
-
-    webLog("Finished index.html script.");
+    webLog("End of index.html script");
 	</script>
 </body>
 </html>
