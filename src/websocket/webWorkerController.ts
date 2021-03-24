@@ -80,7 +80,7 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  switchContext(appId: string): Promise<string> {
+  async switchContext(appId: string): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -91,7 +91,6 @@ export class WebWorkerController implements APIClient {
       })
       this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
     })
-    
   }
 
   postMessage(message: Object): void {
