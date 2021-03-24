@@ -14,7 +14,7 @@ export interface APIClient {
     sendAudio(audioChunk: Float32Array): void;
     startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
-    switchContext(appId: string): void;
+    switchContext(appId: string): Promise<string>;
 }
 
 // @public
@@ -35,7 +35,7 @@ export class Client {
     onTranscript(cb: TranscriptCallback): void;
     startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
-    switchContext(appId: string): void;
+    switchContext(appId: string): Promise<void>;
     }
 
 // @public

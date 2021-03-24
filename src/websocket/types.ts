@@ -203,7 +203,7 @@ export interface APIClient {
    * Stops current context and immediately starts a new SLU context
    * by sending a start context event to the API and unmuting the microphone.
    */
-  switchContext(appId: string): void
+  switchContext(appId: string): Promise<string>
 
   /**
    * Sends audio to the API.
