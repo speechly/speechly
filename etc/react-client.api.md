@@ -71,7 +71,7 @@ export class SpeechProvider extends React_2.Component<SpeechProviderProps, Speec
     // (undocumented)
     readonly stopContext: () => Promise<void>;
     // (undocumented)
-    readonly switchApp: (appId: string) => void;
+    readonly switchApp: (appId: string) => Promise<void>;
     // (undocumented)
     readonly toggleRecording: () => Promise<void>;
 }

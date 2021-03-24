@@ -219,11 +219,11 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return this.stopContext()
   }
 
-  readonly switchApp = (appId: string): void => {
+  readonly switchApp = async (appId: string): Promise<void> => {
     const { client, clientState } = this.state
     this.setState({ appId })
     if (clientState === ClientState.Recording) {
-      client.switchContext(appId)
+      return client.switchContext(appId)
     }
   }
 
@@ -245,7 +245,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
         value={{
           initialise: this.initialiseAudio,
           toggleRecording: this.toggleRecording,
-          switchApp: (appId: string) => this.switchApp(appId),
+          switchApp: async(appId: string) => this.switchApp(appId),
           appId,
           speechState: recordingState,
           segment,
