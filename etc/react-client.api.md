@@ -25,6 +25,7 @@ export const SpeechContext: React_2.Context<SpeechContextState>;
 
 // @public
 export interface SpeechContextState {
+    appId?: string;
     entity?: SpeechEntity;
     initialise: ContextFunc;
     intent?: SpeechIntent;

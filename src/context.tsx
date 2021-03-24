@@ -48,6 +48,11 @@ export interface SpeechContextState {
   switchApp: (appId: string) => void
 
   /**
+   * Current appId in multi-app project.
+   */
+  appId?: string
+
+  /**
    * Current state of the context, whether it's idle, recording or failed, etc.
    * It's advised to react to this to enable / disable voice functionality in your app
    * as well as inidicate to the user that recording is in progress or results are being fetched from the API.
@@ -215,11 +220,17 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   }
 
   readonly switchApp = (appId: string): void => {
+    const { clientState } = this.state
     this.setState({ appId })
+    if (clientState === ClientState.Recording) {
+      this.stopContext().then(async (_) => this.startContext())
+        .catch(_ => { throw Error('Cannot stop context') })
+    }
   }
 
   render(): JSX.Element {
     const {
+      appId,
       recordingState,
       segment,
       tentativeTranscript,
@@ -236,6 +247,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
           initialise: this.initialiseAudio,
           toggleRecording: this.toggleRecording,
           switchApp: (appId: string) => this.switchApp(appId),
+          appId,
           speechState: recordingState,
           segment,
           tentativeTranscript,
