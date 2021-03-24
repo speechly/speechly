@@ -220,11 +220,10 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   }
 
   readonly switchApp = (appId: string): void => {
-    const { clientState } = this.state
+    const { client, clientState } = this.state
     this.setState({ appId })
     if (clientState === ClientState.Recording) {
-      this.stopContext().then(async (_) => this.startContext())
-        .catch(_ => { throw Error('Cannot stop context') })
+      client.switchContext(appId)
     }
   }
 
