@@ -21,11 +21,8 @@
   let iconOpacity = [1.0, 1.0];
   let fxOpacity = [0.0, 0.0];
   let client = null;
-  let attemptConnect = true;
-  let ready = false;
-  let listening = false;
-  let clientState: ClientState;
-  let pendingClientState: ClientState;
+  let clientState: ClientState = undefined;
+  let visualClientState: ClientState;
   let timeout = null;
   let prevFrameMillis = 0;
   let frameMillis = 0;
@@ -89,7 +86,7 @@
     return () => cancelAnimationFrame(requestId);
   });
 
-  const initializeSpeechly = () => {
+  const initializeSpeechly = async () => {
     // Create a new Client. appid and language are configured in the dashboard.
 
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -121,32 +118,34 @@
       // Also trigger an event
       dispatchUnbounded('onholdstart');
 
-      // Connect on 1st press
-      if (attemptConnect) {
-        attemptConnect = false;
-        // Play a rotation whirl
-        rotation[0] += 720;
-        // Auto-release hold after some time
-        if (timeout === null) {
-          timeout = window.setTimeout(() => {
-            fxOpacity[0] = 0;
-            scale[0] = 0;
-            // updateSkin();
-            timeout = null;
-          }, 500);
+      if (client) {
+        // Connect on 1st press
+        if (isConnectable(clientState)) {
+          // Play a rotation whirl
+          rotation[0] += 720;
+          // Auto-release hold after some time
+          if (timeout === null) {
+            timeout = window.setTimeout(() => {
+              fxOpacity[0] = 0;
+              scale[0] = 0;
+              // updateSkin();
+              timeout = null;
+            }, 500);
+          }
+          if (appid) initializeSpeechly();
+        } else {
+          if (isStartable(clientState)) {
+            client.startContext();
+          }
         }
-        if (appid) initializeSpeechly();
-      } else {
-        if (client && ready && !listening)
-        (async () => {
-          await client.startContext();
-        })();
       }
     }
   };
 
   const tangentEnd = () => {
     if (tangentHeld) {
+      scale[0] = 1.0;
+      fxOpacity[0] = 0.0;
       tangentHeld = false;
       vibrate();
 
@@ -159,11 +158,13 @@
       if (thisComponent.onholdend) thisComponent.onholdend();
       // Also trigger an event
       dispatchUnbounded('onholdend');
+
       // Control speechly
-      if (client && listening)
-        (async () => {
-          await client.stopContext();
-        })();
+      if (client) {
+        if (isStoppable(clientState)) {
+          client.stopContext();
+        }
+      }
 
       updateSkin();
     }
@@ -208,17 +209,14 @@
   };
 
   const updateSkin = () => {
-    if (clientState !== pendingClientState) {
-      clientState = pendingClientState;
-      scale[0] = 1.0;
-      fxOpacity[0] = 0.0;
+    if (visualClientState !== clientState) {
+      visualClientState = clientState;
 
       switch (clientState) {
         case ClientState.Connecting:
           setIcon("connecting");
           break;
         case ClientState.Connected:
-          ready = true;
           setIcon("mic");
           iconOpacity[0] = 1.0;
           break;
@@ -241,21 +239,30 @@
     }
   };
 
-  const onStateChange = (s: ClientState) => {
-    pendingClientState = s;
+  const isConnectable = (clientState?: ClientState) => {
+    if (!clientState) return true;
+    return clientState === ClientState.Disconnected;
+  }
+
+  const isStartable = (clientState: ClientState) => clientState === ClientState.Connected;
+
+  const isStoppable = (s: ClientState) => {
     switch (s) {
       case ClientState.Starting:
       case ClientState.Recording:
       case ClientState.Stopping:
-        listening = true;
-        break;
-      case ClientState.Connected:
-        listening = false;
-        break;
+        return true;
+      default:
+        return false;
     }
+  };
+
+  const onStateChange = (s: ClientState) => {
+    clientState = s;
     // Immediately apply changes if not button held
     if (!tangentHeld) updateSkin();
   };
+
 </script>
 
 <svelte:window
