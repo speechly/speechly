@@ -17,9 +17,19 @@ cd svelte-app
 
 ## Files served at
 
-https://speechly.github.io/browser-ui (Usage)
-https://speechly.github.io/browser-ui/dev/push-to-talk-button.js (latest snapshot)
+### Dev
 
+https://speechly.github.io/browser-ui (Usage)
+https://speechly.github.io/browser-ui/dev/push-to-talk-button.js
+https://speechly.github.io/browser-ui/dev/big-transcript.js
+
+### V1
+
+Push-to-talk button with integrated browser-client 1.0.8 and button logic
+
+https://speechly.github.io/v1/browser-ui (Usage)
+https://speechly.github.io/v1/browser-ui/v1/push-to-talk-button.js
+https://speechly.github.io/v1/browser-ui/v1/big-transcript.js
 
 ## Get started
 
