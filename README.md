@@ -39,11 +39,6 @@ const client = new Client({
   appId: 'your-app-id',
 })
 
-// Also Client can be created with a projectId
-const client = new Client({
-  projectId: 'your-project-id',
-})
-
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
 // Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
 await client.initialize()
@@ -56,9 +51,6 @@ client.onSegmentChange((segment: Segment) => {
 // Start recording.
 // Ideally this should be bound to e.g. a button press.
 await client.startContext()
-
-// If Client been created with a projectId then call the function with an appId
-await client.startContext('your-app-id)
 
 // Stop recording after a timeout.
 // Ideally this should be bound to e.g. a button press.
