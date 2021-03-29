@@ -35,9 +35,7 @@ Start using the client:
 import { Client, Segment } from '@speechly/browser-client'
 
 // Create a new Client. appId is configured in the dashboard.
-const client = new Client({
-  appId: 'your-app-id',
-})
+const client = new Client({appId: 'your-app-id'})
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
 // Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
