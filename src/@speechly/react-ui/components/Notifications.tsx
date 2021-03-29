@@ -87,9 +87,9 @@ export const Notifications: React.FC = props => {
   }, [])
 
   useEffect(() => {
-    switch(speechState) {
+    switch (speechState) {
       case SpeechState.Recording: {
-        hideHints();
+        hideHints()
       }
     }
   }, [speechState])

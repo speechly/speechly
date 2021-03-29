@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": true,
   "dependencies": {
-    "@speechly/react-client": "^0.0.5",
+    "@speechly/react-client": "^0.0.16",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
