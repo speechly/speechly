@@ -1,10 +1,8 @@
 ## Introduction
 
-This documentation show how to use Speechly Web Toolkit components (from browser-ui repo) for voice-enabled web app development using Wix and Speechly.
+This documentation shows how to use Speechly Web Toolkit to create voice-enabled web sites using Wix and Speechly.
 
-Speechly Web Toolkit provides a special version of `<PushToTalkButton/>` custom element, that contains Speechly's browser-client JS connectivity library. This allows using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
-
-You can get started with voice interfaces by following the instructions below. However, to get most out of your voice-enabled app, you can customize the voice configuration in Speechly Dashboard.
+Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
 
 ## Contents
 
@@ -72,7 +70,7 @@ big-transcript
 
 ## Handling speech input
 
-In HOME script (or preferably on masterPage.js to have the functionality)
+Add the following lines in the Wix site's HOME script (or masterPage.js):
 
 ```js
 import wixLocation from 'wix-location';
@@ -91,5 +89,7 @@ const onSpeechSegment = (segment) => {
     });
 }
 ```
+
+The above example uses a simple voice configuration that only provides a raw speech transcript.
 
 See [docs.speechly.com](http://docs.speechly.com/) for tips on how to configure Speechly to handle complex speech input with speech intents and entities.
