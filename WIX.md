@@ -1,6 +1,8 @@
 ## Introduction
 
-This document describes how to use Speechly Web Toolkit to create voice-enabled web sites using Wix and Speechly.
+Wix sites can be set up to use Speechly Web Toolkit to create voice-enabled web experiences like site navigation and site search.
+
+Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities) using Speechly Dashboard.
 
 Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
 
@@ -97,4 +99,4 @@ const onSpeechSegment = (segment) => {
 
 The above example uses a simple voice configuration that only provides a raw speech transcript.
 
-See [docs.speechly.com](http://docs.speechly.com/) for tips on how to configure Speechly to handle complex speech input with speech intents and entities.
+See [docs.speechly.com](http://docs.speechly.com/) for description of the speech `segment` object and tips on how to configure Speechly to handle complex speech input with speech intents and entities.
