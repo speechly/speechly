@@ -18,6 +18,9 @@ Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library w
 
 - You need to enable Wix Velo development tools to be able to follow the instructions here.
 - You'll need a Wix Premium plan for the site as Custom Elements are only available for paid plans.
+
+### Limitations
+
 - Use Wix Publish function to review the changes to speech related code. In Wix Preview you'll get a broken Mic symbol (due to unavailability of required Web APIs in Preview mode).
 - Usability of components on mobile sites is limited. "Pin to screen" feature is not available so it will be hard to place the components so that they are readily accessible.
 
