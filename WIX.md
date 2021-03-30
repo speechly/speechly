@@ -2,7 +2,7 @@
 
 This document describes how to use Speechly Web Toolkit on Wix sites to create voice-enabled web experiences like site navigation and site search.
 
-Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities) using Speechly Dashboard.
+Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities).
 
 Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
 
@@ -16,9 +16,10 @@ Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library w
 
 ## Requirements
 
-- You will need a Wix Premium plan for the site to use Speechly Web Toolkit as Custom Elements are only available for paid plans.
+- You need to enable Wix Velo development tools to be able to follow the instructions here.
+- You'll need a Wix Premium plan for the site as Custom Elements are only available for paid plans.
 - Use Wix Publish function to review the changes to speech related code. In Wix Preview you'll get a broken Mic symbol (due to unavailability of required Web APIs in Preview mode).
-- Usability of components on mobile sites is limited. Wix does not support "pin to screen" function on mobile, so it will be hard to place the components so that they are readily accessible.
+- Usability of components on mobile sites is limited. "Pin to screen" feature is not available so it will be hard to place the components so that they are readily accessible.
 
 ## Usage
 
@@ -36,8 +37,9 @@ The Push-to-Talk button is intended to be placed as a floating button at the low
 1. Use Add > Embed > Custom Embeds > Custom Element
 2. Select the new element
 3. Set its ID to "#pushtotalk" in the lower panel
-4. Right click it and "Pin settings" it to lower edge
-5. Select "Choose Source", check "Server URL" and enter the following in box:
+4. Resize the component to 96 x 96px to match the default size of "6rem".
+5. Right click it and "Pin settings" it to lower edge
+6. Select "Choose Source", check "Server URL" and enter the following in box:
 
 Server URL:
 ```
@@ -60,6 +62,7 @@ It is intended to be placed as an overlay near top-left corner of the screen wit
 `<BigTranscript/>` communicates with `<PushToTalkButton/>` using `window.postMessage`, so it works just by placing the component in same DOM - no event binding required.
 
 - Use Add > Embed > Custom Embeds > Custom Element
+- Resize the component to about 800 x 120px to make room for the transcript to appear.
 - Right click it, select "Pin settings" and pin it to the top-left edge of the screen
 - Select "Choose Source", check "Server URL" and enter the following in box:
 
@@ -72,6 +75,8 @@ Tag Name:
 ```
 big-transcript
 ```
+
+Please note that the contents of the component is empty by default.
 
 See [Speechly Web Toolkit help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
 
