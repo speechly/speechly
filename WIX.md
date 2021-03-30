@@ -1,6 +1,6 @@
 ## Introduction
 
-This documentation shows how to use Speechly Web Toolkit to create voice-enabled web sites using Wix and Speechly.
+This document describes how to use Speechly Web Toolkit to create voice-enabled web sites using Wix and Speechly.
 
 Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
 
@@ -15,7 +15,8 @@ Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library w
 ## Requirements
 
 - You will need a Wix Premium plan for the site to use Speechly Web Toolkit as Custom Elements are only available for paid plans.
-- Use Wix Publish function to review the changes to speech related code. In Wix Preview you'll get a broken Mic symbol (due to access restrictions to Web APIs in Preview mode.).
+- Use Wix Publish function to review the changes to speech related code. In Wix Preview you'll get a broken Mic symbol (due to unavailability of required Web APIs in Preview mode).
+- Usability of components on mobile sites is limited. Wix does not support "pin to screen" function on mobile, so it will be hard to place the components so that they are readily accessible.
 
 ## Usage
 
@@ -46,6 +47,8 @@ Tag Name:
 push-to-talk-button
 ```
 
+See [Speechly Web Toolkit help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
+
 ## BigTranscript component
 
 `<BigTranscript/>` is an overlay-style component for displaying real-time speech-to-text transcript.
@@ -67,6 +70,8 @@ Tag Name:
 ```
 big-transcript
 ```
+
+See [Speechly Web Toolkit help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
 
 ## Handling speech input
 
