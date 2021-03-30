@@ -1,6 +1,6 @@
 ## Introduction
 
-Wix sites can be set up to use Speechly Web Toolkit to create voice-enabled web experiences like site navigation and site search.
+This document describes how to use Speechly Web Toolkit on Wix sites to create voice-enabled web experiences like site navigation and site search.
 
 Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities) using Speechly Dashboard.
 
