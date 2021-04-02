@@ -1,5 +1,5 @@
 {
-  "name": "svelte-app",
+  "name": "browser-ui",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -27,5 +27,8 @@
   "dependencies": {
     "@speechly/browser-client": "1.0.8",
     "sirv-cli": "^1.0.0"
-  }
+  },
+  "files": [
+    "docs/v1/**/*"
+  ]  
 }
