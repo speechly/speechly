@@ -84,14 +84,14 @@ const webComponentDefaults = {
 };
 
 export default [
-  {...webComponentDefaults, 
-    input: 'src/push-to-talk-button.ts',
-    output: {
-      ...webComponentDefaults.output,
-      file: 'docs/dev/push-to-talk-button.js'
-    },
+	{...webComponentDefaults, 
+		input: 'src/holdable-button.ts',
+		output: {
+		  ...webComponentDefaults.output,
+		  file: 'docs/dev/holdable-button.js'
+		},
   },
-
+	
   {...webComponentDefaults, 
     input: 'src/big-transcript.ts',
     output: {
@@ -99,4 +99,13 @@ export default [
       file: 'docs/dev/big-transcript.js'
     },
   },
+
+	{...webComponentDefaults, 
+    input: 'src/push-to-talk-button.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/push-to-talk-button.js'
+    },
+  },
+
 ]
