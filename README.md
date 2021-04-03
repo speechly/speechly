@@ -36,7 +36,7 @@ https://speechly.github.io/v1/browser-ui/v1/big-transcript.js
 
 ```
 # Creating "linked package". Uses package.json in a subfolder to prevent unnecessary folder structure in the package
-cd browser-ui/docs/v1
+cd browser-ui/docs/dev
 pnpm link 
 
 # Using "linked package" in a project (intead of repo package/installing local)
