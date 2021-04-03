@@ -1,35 +1,37 @@
 <svelte:options tag="holdable-button" immutable={true} />
 
 <script lang="ts">
-  import { ClientState } from "@speechly/browser-client";
+
   import { onMount } from "svelte";
+  import { createEventDispatcher } from 'svelte';
   import { get_current_component } from "svelte/internal";
+  import { Behaviour } from "./types";
   import "./components/mic-frame.svelte";
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
   
   export let size = "6rem";
-  export let icon = "poweron";
+  export let icon = Behaviour.Poweron;
   export let capturekey = " ";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
-
-  export const setSpeechState = (s: ClientState) => {
-    clientState = s;
-    // Immediately apply changes if not button held
-    if (!tangentHeld) updateSkin();
-  };
 
   let tangentHeld = false;
   let rotation = [0.0, 0.0];
   let scale = [0.0, 0.0];
   let iconOpacity = [1.0, 1.0];
   let fxOpacity = [0.0, 0.0];
-  let clientState: ClientState = undefined;
-  let visualClientState: ClientState;
+  let visualClientState: Behaviour = icon;
   let timeout = null;
   let prevFrameMillis = 0;
   let frameMillis = 0;
+
+  // Run this reactive statement whenever icon parameters (icon) changes
+  $: {
+    if (!tangentHeld) updateSkin(icon);
+  };
+
+  const dispatch = createEventDispatcher();
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -51,11 +53,11 @@
       frameMillis = new Date().getTime();
       const tickMs = frameMillis - prevFrameMillis;
 
-      if (icon === "starting") {
-        // Animate iconOpacity when tarting
+      if (icon === Behaviour.Connecting) {
+        // Animate iconOpacity when starting
         iconOpacity[0] = Math.cos(frameMillis / 2500 * Math.PI*2)* 0.25 + 0.25;
       }
-      if (icon === "loading") {
+      if (icon === Behaviour.Loading) {
         // Animate iconOpacity when tarting
         iconOpacity[0] = Math.cos(frameMillis / 1000 * Math.PI*2)* 0.25 + 0.25;
       }
@@ -83,7 +85,7 @@
       vibrate();
 
       // Connect on 1st press
-      if (isConnectable(clientState)) {
+      if (isConnectable(icon)) {
         // Play a rotation whirl
         rotation[0] += 720;
         // Auto-release hold after some time
@@ -100,6 +102,7 @@
       // Trigger callback defined as property
       if (thisComponent.onholdstart) thisComponent.onholdstart();
       // Also trigger an event
+      dispatch('holdstart');  // For internal Svelte use
       dispatchUnbounded('onholdstart');
     }
   };
@@ -119,9 +122,10 @@
       // Trigger callback defined as property
       if (thisComponent.onholdend) thisComponent.onholdend();
       // Also trigger an event
+      dispatch('holdend');  // For internal Svelte use
       dispatchUnbounded('onholdend');
 
-      updateSkin();
+      // updateSkin(icon);
     }
   };
 
@@ -144,10 +148,6 @@
     }
   };
 
-  const setIcon = (newIcon: string) => {
-    icon = newIcon.toLowerCase();
-  };
-
   const animateValue = (value: number[], pull: number, tickMs: number) => {
     const NOMINAL_FRAME_MILLIS = 1000.0/60;
     pull = Math.pow(pull, NOMINAL_FRAME_MILLIS / tickMs);
@@ -163,40 +163,21 @@
     }
   };
 
-  const updateSkin = () => {
-    if (visualClientState !== clientState) {
-      visualClientState = clientState;
+  const updateSkin = (icon: Behaviour) => {
+    if (visualClientState !== icon) {
+      visualClientState = icon;
 
-      switch (clientState) {
-        case ClientState.Connecting:
-          setIcon("connecting");
-          break;
-        case ClientState.Connected:
-          setIcon("mic");
+      switch (icon) {
+        case Behaviour.Mic:
           iconOpacity[0] = 1.0;
-          break;
-        case ClientState.Stopping:
-          setIcon("loading");
-          break;
-        case ClientState.Failed:
-          setIcon("failed");
-          dispatchUnbounded("error", {status: "Failed"});
-          break;
-        case ClientState.NoBrowserSupport:
-          setIcon("failed");
-          dispatchUnbounded("error", {status: "NoBrowserSupport"});
-          break;
-        case ClientState.NoAudioConsent:
-          setIcon("noaudioconsent");
-          dispatchUnbounded("error", {status: "NoAudioConsent"});
           break;
       }
     }
   };
 
-  const isConnectable = (clientState?: ClientState) => {
+  const isConnectable = (clientState?: Behaviour) => {
     if (!clientState) return true;
-    return clientState === ClientState.Disconnected;
+    return clientState === Behaviour.Failed;
   }
 
 </script>
@@ -228,7 +209,7 @@
     transform: rotate({rotation[1]}deg);
   "/>
   <mic-frame/>
-  <mic-icon icon={icon} style="
+  <mic-icon icon={visualClientState} style="
     opacity: {iconOpacity[1]};
   "/>
 </main>
