@@ -71,15 +71,10 @@
       <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
       <li>icon - Optional string. Defines the initial icon on button: idle | ready | noaudioconsent | failed | nobrowsersupport </li>
     </ul>
-    <h3>Properties</h3>
-    <ul>
-      <li>onholdstart - set callback function to be triggered upon hold start</li>
-      <li>onholdend - set callback function to be triggered upon hold end</li>
-    </ul>
     <h3>Events emitted</h3>
     <ul>
       <li>holdstart - CustomEvent triggered upon hold start</li>
-      <li>holdend - CustomEvent triggered upon hold end</li>
+      <li>holdend - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
 	    <li>speechsegment - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
       <li>error - Details: Failed | NoBrowserSupport | NoAudioConsent</li>
     </ul>
@@ -128,10 +123,8 @@
 		const transcriptEl = document.getElementsByTagName("big-transcript")[0];
     webLog("big-transcript: "+transcriptEl);
 
-    pushToTalkEl.onholdstart = () => {console.log("onholdstart property triggered")};
-		pushToTalkEl.onholdend = () => {console.log("onholdend property triggered")};
-		pushToTalkEl.addEventListener("holdstart", (e) => {console.log("holdstart message received")});
-		pushToTalkEl.addEventListener("holdend", (e) => {console.log("holdend message received")});
+		pushToTalkEl.addEventListener("holdstart", (e) => {console.log("holdstart event received")});
+		pushToTalkEl.addEventListener("holdend", (e) => {console.log("holdend event received", e.detail.timeMs)});
 		window.addEventListener("message", (e) => {
       if (e.data.type === "speechsegment") {
         const segment = e.data.segment;

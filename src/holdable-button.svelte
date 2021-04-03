@@ -16,6 +16,7 @@
   export let gradientstop2 = "#4fa1f9";
 
   let tangentHeld = false;
+  let holdStartTimestamp = 0;
   let rotation = [0.0, 0.0];
   let scale = [0.0, 0.0];
   let iconOpacity = [1.0, 1.0];
@@ -77,6 +78,7 @@
 
     if (!tangentHeld) {
       tangentHeld = true;
+      holdStartTimestamp = Date.now()
       scale[0] = 1.35;
       fxOpacity[0] = 1.0;
       vibrate();
@@ -108,6 +110,9 @@
       scale[0] = 1.0;
       fxOpacity[0] = 0.0;
       tangentHeld = false;
+      const eventPayload = {
+        timeMs: Date.now() - holdStartTimestamp
+      };
       vibrate();
 
       // Cancel any pending auto-release
@@ -116,9 +121,9 @@
       }
 
       // Trigger callback defined as property
-      if (thisComponent.onholdend) thisComponent.onholdend();
+      if (thisComponent.onholdend) thisComponent.onholdend(eventPayload);
       // Also trigger an event
-      dispatchUnbounded('holdend');
+      dispatchUnbounded('holdend', eventPayload);
     }
   };
 
