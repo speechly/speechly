@@ -3,7 +3,6 @@
 <script lang="ts">
 
   import { onMount } from "svelte";
-  import { createEventDispatcher } from 'svelte';
   import { get_current_component } from "svelte/internal";
   import { Behaviour } from "./types";
   import "./components/mic-frame.svelte";
@@ -30,8 +29,6 @@
   $: {
     if (!tangentHeld) updateSkin(icon);
   };
-
-  const dispatch = createEventDispatcher();
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -102,8 +99,7 @@
       // Trigger callback defined as property
       if (thisComponent.onholdstart) thisComponent.onholdstart();
       // Also trigger an event
-      dispatch('holdstart');  // For internal Svelte use
-      dispatchUnbounded('onholdstart');
+      dispatchUnbounded('holdstart');
     }
   };
 
@@ -122,10 +118,7 @@
       // Trigger callback defined as property
       if (thisComponent.onholdend) thisComponent.onholdend();
       // Also trigger an event
-      dispatch('holdend');  // For internal Svelte use
-      dispatchUnbounded('onholdend');
-
-      // updateSkin(icon);
+      dispatchUnbounded('holdend');
     }
   };
 

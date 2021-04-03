@@ -12,14 +12,13 @@
   
   export let appid: string = undefined;
   export let size = "6rem";
-  export let icon = "poweron";
+  export let icon: Behaviour = Behaviour.Poweron;
   export let capturekey = " ";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
 
   let client = null;
   let clientState: ClientState = undefined;
-  let visualClientState: ClientState;
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -42,9 +41,9 @@
 
       client.onSegmentChange((segment: Segment) => {
         // Pass on segment updates from Speechly API as events
-        dispatchUnbounded("segment-update", segment);
+        dispatchUnbounded("speechsegment", segment);
         // And as window.postMessages
-        window.postMessage({type: "segment-update", segment: segment}, "*")
+        window.postMessage({type: "speechsegment", segment: segment}, "*")
       })
     } else {
       console.warn("No appid attribute specified. Speechly voice services are unavailable.")
@@ -92,35 +91,31 @@
   };
 
   const updateSkin = () => {
-    if (visualClientState !== clientState) {
-      visualClientState = clientState;
-
-      switch (clientState) {
-        case ClientState.Connecting:
-          icon = Behaviour.Connecting;
-          break;
-        case ClientState.Connected:
-          icon = Behaviour.Mic;
-          break;
-        case ClientState.Recording:
-          icon = Behaviour.Mic;
-          break;
-        case ClientState.Stopping:
-          icon = Behaviour.Loading;
-          break;
-        case ClientState.Failed:
-          icon = Behaviour.Failed;
-          dispatchUnbounded("error", {status: "Failed"});
-          break;
-        case ClientState.NoBrowserSupport:
-          icon = Behaviour.Failed;
-          dispatchUnbounded("error", {status: "NoBrowserSupport"});
-          break;
-        case ClientState.NoAudioConsent:
-          icon = Behaviour.NoAudioConsent;
-          dispatchUnbounded("error", {status: "NoAudioConsent"});
-          break;
-      }
+    switch (clientState) {
+      case ClientState.Connecting:
+        icon = Behaviour.Connecting;
+        break;
+      case ClientState.Connected:
+        icon = Behaviour.Mic;
+        break;
+      case ClientState.Recording:
+        icon = Behaviour.Mic;
+        break;
+      case ClientState.Stopping:
+        icon = Behaviour.Loading;
+        break;
+      case ClientState.Failed:
+        icon = Behaviour.Failed;
+        dispatchUnbounded("error", {status: "Failed"});
+        break;
+      case ClientState.NoBrowserSupport:
+        icon = Behaviour.Failed;
+        dispatchUnbounded("error", {status: "NoBrowserSupport"});
+        break;
+      case ClientState.NoAudioConsent:
+        icon = Behaviour.NoAudioConsent;
+        dispatchUnbounded("error", {status: "NoAudioConsent"});
+        break;
     }
   };
 
@@ -150,8 +145,8 @@
 </script>
 
 <holdable-button
-  on:onholdstart={tangentStart}
-  on:onholdend={tangentEnd}
+  on:holdstart={tangentStart}
+  on:holdend={tangentEnd}
   size={size}
   icon={icon}
   capturekey={capturekey}

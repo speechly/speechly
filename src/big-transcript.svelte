@@ -85,19 +85,19 @@
 
     const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
 
-    thisComponent.addEventListener("segment-update", onSegmentUpdateAdapter);
+    thisComponent.addEventListener("speechsegment", onSegmentUpdateAdapter);
     thisComponent.addEventListener("ping", pingHandler);
 
     return () => {
       cancelAnimationFrame(requestId);
       thisComponent.removeEventListener("ping", pingHandler);
-      thisComponent.removeEventListener("segment-update", onSegmentUpdateAdapter);
+      thisComponent.removeEventListener("speechsegment", onSegmentUpdateAdapter);
     }
   });
 
 </script>
 
-<svelte:window on:message={(e) => {e.data.type === "segment-update" && onSegmentUpdate(e.data.segment)}}/>
+<svelte:window on:message={(e) => {e.data.type === "speechsegment" && onSegmentUpdate(e.data.segment)}}/>
 
 <div class="BigTranscript">
   {#if visible}
