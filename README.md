@@ -31,7 +31,45 @@ https://speechly.github.io/v1/browser-ui (Usage)
 https://speechly.github.io/v1/browser-ui/v1/push-to-talk-button.js
 https://speechly.github.io/v1/browser-ui/v1/big-transcript.js
 
-## Get started
+## Testing browser-ui locally in a test project
+
+
+```
+# Creating "linked package". Uses package.json in a subfolder to prevent unnecessary folder structure in the package
+cd browser-ui/docs/v1
+pnpm link 
+
+# Using "linked package" in a project (intead of repo package/installing local)
+cd my-react-project
+pnpm link browser-ui
+```
+
+## Creating a browser-ui package
+
+```
+# Uses package.json in a subfolder to prevent unnecessary folder structure in the package.
+
+pnpm pack docs/v1/
+```
+
+## Using browser-ui in React
+
+```
+import "browser-ui/push-to-talk-button";
+import "browser-ui/big-transcript";
+import "browser-ui/speechly-ui.css";
+
+<div className="BigTranscriptContainer">
+    <big-transcript></big-transcript>
+</div>
+<div className="PushToTalkContainer">
+    <push-to-talk-button appid="1234"></push-to-talk-button>
+</div>
+```
+
+- Notes: Copying .js from browser-ui directly resulted in compile errors in React project, so using packages solves this problem.
+
+## Svelte: Get started
 
 Install the dependencies...
 
