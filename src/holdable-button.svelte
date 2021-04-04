@@ -4,11 +4,11 @@
 
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
-  import type { IAppearance } from "./types";
-  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types";
   import "./components/mic-frame.svelte";
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
+  import type { IAppearance } from "./types.ts";
+  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types.ts";
   
   export let icon: SpeechlyState = SpeechlyState.Poweron;
   export let capturekey = " ";

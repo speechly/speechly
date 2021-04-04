@@ -1,3 +1,5 @@
+import { ClientState } from "@speechly/browser-client"; 
+
 export type ITaggedWord = {
   word: string
   serialNumber: number
@@ -42,6 +44,17 @@ export enum Effect {
 }
 
 export const stateToAppearance: {[state: string]: IAppearance} = {
+  [ClientState.Disconnected]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.Disconnecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [ClientState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting},
+  [ClientState.Recording]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [ClientState.Stopping]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
+  [ClientState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
+
   [SpeechlyState.Poweron]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
   [SpeechlyState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [SpeechlyState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
