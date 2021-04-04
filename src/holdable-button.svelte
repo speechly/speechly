@@ -8,9 +8,9 @@
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
   import type { IAppearance } from "./types";
-  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types";
+  import { Icon, Effect, Behaviour, SpeechState, stateToAppearance } from "./types";
   
-  export let icon: SpeechlyState = SpeechlyState.Poweron;
+  export let icon = SpeechState.Idle as string;
   export let capturekey = " ";
   export let size = "6rem";
   export let gradientstop1 = "#15e8b5";

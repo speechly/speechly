@@ -13,15 +13,42 @@ export type IAppearance = {
   effect: Effect,
 }
 
-export enum SpeechlyState {
-  Poweron = "poweron",
-  Connecting = "connecting",
-  Ready = "ready",
-  Listening = "listening",
-  Loading = "loading",
-  Failed = "failed",
-  NoBrowserSupport = "nobrowsersupport",
-  NoAudioConsent = "noaudioconsent",
+export enum SpeechState {
+  /**
+   * The context is in a state of unrecoverable error.
+   * It is only possible to fix this by destroying and creating it from scratch.
+   */
+  Failed = "Failed",
+  /**
+   * Current browser is not supported by Speechly - it's not possible to use speech functionality.
+   */
+  NoBrowserSupport = "NoBrowserSupport",
+  /**
+   * The user did not provide permissions to use the microphone - it is not possible to use speech functionality.
+   */
+  NoAudioConsent = "NoAudioConsent",
+  /**
+   * The context has been created but not initialised. The audio and API connection are not enabled.
+   */
+  Idle = "Idle",
+  /**
+   * The context is connecting to the API.
+   */
+  Connecting = "Connecting",
+  /**
+   * The context is ready to use.
+   */
+  Ready = "Ready",
+  /**
+   * The context is current recording audio and sending it to the API for recognition.
+   * The results are also being fetched.
+   */
+  Recording = "Recording",
+  /**
+   * The context is waiting for the API to finish sending trailing responses.
+   * No audio is being sent anymore.
+   */
+  Loading = "Loading"
 }
 
 export enum Icon {
@@ -55,12 +82,12 @@ export const stateToAppearance: {[state: string]: IAppearance} = {
   [ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [ClientState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
 
-  [SpeechlyState.Poweron]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
-  [SpeechlyState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
-  [SpeechlyState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
-  [SpeechlyState.Listening]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
-  [SpeechlyState.Loading]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
-  [SpeechlyState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
-  [SpeechlyState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
-  [SpeechlyState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
+  [SpeechState.Idle]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
+  [SpeechState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [SpeechState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [SpeechState.Recording]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [SpeechState.Loading]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
+  [SpeechState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [SpeechState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [SpeechState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
 }
