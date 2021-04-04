@@ -4,14 +4,15 @@
 
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
-  import { Behaviour } from "./types";
+  import type { IAppearance } from "./types";
+  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types";
   import "./components/mic-frame.svelte";
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
   
-  export let size = "6rem";
-  export let icon = Behaviour.Poweron;
+  export let icon: SpeechlyState = SpeechlyState.Poweron;
   export let capturekey = " ";
+  export let size = "6rem";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
 
@@ -21,14 +22,15 @@
   let scale = [0.0, 0.0];
   let iconOpacity = [1.0, 1.0];
   let fxOpacity = [0.0, 0.0];
-  let visualClientState: Behaviour = icon;
+  let effectiveAppearance: IAppearance = stateToAppearance[icon];
   let timeout = null;
   let prevFrameMillis = 0;
   let frameMillis = 0;
 
+
   // Run this reactive statement whenever icon parameters (icon) changes
   $: {
-    if (!tangentHeld) updateSkin(icon);
+    if (!tangentHeld) updateSkin(stateToAppearance[icon]);
   };
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
@@ -51,11 +53,11 @@
       frameMillis = new Date().getTime();
       const tickMs = frameMillis - prevFrameMillis;
 
-      if (icon === Behaviour.Connecting) {
+      if (effectiveAppearance.effect === Effect.Connecting) {
         // Animate iconOpacity when starting
         iconOpacity[0] = Math.cos(frameMillis / 2500 * Math.PI*2)* 0.25 + 0.25;
       }
-      if (icon === Behaviour.Loading) {
+      if (effectiveAppearance.effect === Effect.Busy) {
         // Animate iconOpacity when tarting
         iconOpacity[0] = Math.cos(frameMillis / 1000 * Math.PI*2)* 0.25 + 0.25;
       }
@@ -84,7 +86,7 @@
       vibrate();
 
       // Connect on 1st press
-      if (isConnectable(icon)) {
+      if (effectiveAppearance.behaviour === Behaviour.Click) {
         // Play a rotation whirl
         rotation[0] += 720;
         // Auto-release hold after some time
@@ -161,22 +163,17 @@
     }
   };
 
-  const updateSkin = (icon: Behaviour) => {
-    if (visualClientState !== icon) {
-      visualClientState = icon;
+  const updateSkin = (newAppearance: IAppearance) => {
+    if (effectiveAppearance !== newAppearance) {
+      effectiveAppearance = newAppearance;
 
-      switch (icon) {
-        case Behaviour.Mic:
+      switch (newAppearance.icon) {
+        case Icon.Mic:
           iconOpacity[0] = 1.0;
           break;
       }
     }
   };
-
-  const isConnectable = (clientState?: Behaviour) => {
-    if (!clientState) return true;
-    return clientState === Behaviour.Failed;
-  }
 
 </script>
 
@@ -207,7 +204,7 @@
     transform: rotate({rotation[1]}deg);
   "/>
   <mic-frame/>
-  <mic-icon icon={visualClientState} style="
+  <mic-icon icon={effectiveAppearance.icon} style="
     opacity: {iconOpacity[1]};
   "/>
 </main>

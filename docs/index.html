@@ -27,7 +27,7 @@
 
   <main>
     <h1>Speechly Web Toolkit and Browser-UI</h1>
-    <h2>Installation from CDN</h2>
+    <h2>Quick installation from CDN</h2>
       Include the resources in your <code>&lt;head&gt;</code> block:
 <xmp><head>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/push-to-talk-button.js"></script>
@@ -69,7 +69,6 @@
       <li>appid - Speechly App id to connect to.
       <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
       <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-      <li>icon - Optional string. Defines the initial icon on button: idle | ready | noaudioconsent | failed | nobrowsersupport </li>
     </ul>
     <h3>Events emitted</h3>
     <ul>
@@ -102,6 +101,33 @@
     <h3>Window messages listened</h3>
     <ul>
       <li>{type: "speechsegment", segment: {} as Segment} - Expects an update whenever a new segment update is available</li>
+    </ul>
+
+    <h2>Element &lt;holdable-button/&gt;</h2>
+	  Autonomous customElement that displays a stateless, holdable button with an icon and emits events on press.
+    <h3>Installation</h3>
+<xmp><head>
+  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/holdable-button.js"></script>
+</head>
+</xmp>
+    
+    <h3>Attributes</h3>
+    <ul>
+      <li>icon - Defines the appearance and behaviour of the button: "poweron" | "connecting" | "ready" | "listening" | "loading" | "failed" | "nobrowsersupport" | "noaudioconsent"</li>
+      <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
+      <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
+      <li>gradientstop1 - Optional string (CSS color). Default: "#15e8b5"
+      <li>gradientstop2 - Optional string (CSS color). Default: "#4fa1f9"
+    </ul>
+    <h3>Callbacks</h3>
+    <ul>
+      <li>onholdstart - Called upon hold start.</li>
+      <li>onholdend - Called hold end. Params: timeMs (number) contains hold time in ms.</li>
+    </ul>
+    <h3>Events emitted</h3>
+    <ul>
+      <li>holdstart - CustomEvent triggered upon hold start</li>
+      <li>holdend - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
     </ul>
 
     <h2>Browser-UI Playground Log</h2>

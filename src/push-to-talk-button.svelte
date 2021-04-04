@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import { Client, ClientState, Segment } from "@speechly/browser-client";
-  import { Behaviour } from "./types";
+  import { SpeechlyState } from "./types";
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
   import "./holdable-button.svelte";
@@ -12,7 +12,7 @@
   
   export let appid: string = undefined;
   export let size = "6rem";
-  export let icon: Behaviour = Behaviour.Poweron;
+  export let icon: SpeechlyState = SpeechlyState.Poweron;
   export let capturekey = " ";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
@@ -93,27 +93,27 @@
   const updateSkin = () => {
     switch (clientState) {
       case ClientState.Connecting:
-        icon = Behaviour.Connecting;
+        icon = SpeechlyState.Connecting;
         break;
       case ClientState.Connected:
-        icon = Behaviour.Mic;
+        icon = SpeechlyState.Ready;
         break;
       case ClientState.Recording:
-        icon = Behaviour.Mic;
+        icon = SpeechlyState.Listening;
         break;
       case ClientState.Stopping:
-        icon = Behaviour.Loading;
+        icon = SpeechlyState.Loading;
         break;
       case ClientState.Failed:
-        icon = Behaviour.Failed;
+        icon = SpeechlyState.Failed;
         dispatchUnbounded("error", {status: "Failed"});
         break;
       case ClientState.NoBrowserSupport:
-        icon = Behaviour.Failed;
+        icon = SpeechlyState.NoBrowserSupport;
         dispatchUnbounded("error", {status: "NoBrowserSupport"});
         break;
       case ClientState.NoAudioConsent:
-        icon = Behaviour.NoAudioConsent;
+        icon = SpeechlyState.NoAudioConsent;
         dispatchUnbounded("error", {status: "NoAudioConsent"});
         break;
     }
