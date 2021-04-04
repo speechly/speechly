@@ -3,12 +3,12 @@
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
-  import type { ITaggedWord } from "./types.ts";
-  import fix from './transFix.ts'
+  import type { ITaggedWord } from "./types";
+  import fix from './transFix'
   import { get_current_component } from "svelte/internal";
   import { fade as fade_orig } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
-  import {interpolateLinearf, fadeIn} from "./TableInterpolator.ts"
+  import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();

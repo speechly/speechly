@@ -1,4 +1,4 @@
-import { ClientState } from "@speechly/browser-client"; 
+import { ClientState } from "@speechly/browser-client/speechly/types"; 
 
 export type ITaggedWord = {
   word: string

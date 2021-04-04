@@ -7,8 +7,8 @@
   import "./components/mic-frame.svelte";
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
-  import type { IAppearance } from "./types.ts";
-  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types.ts";
+  import type { IAppearance } from "./types";
+  import { Icon, Effect, Behaviour, SpeechlyState, stateToAppearance } from "./types";
   
   export let icon: SpeechlyState = SpeechlyState.Poweron;
   export let capturekey = " ";
