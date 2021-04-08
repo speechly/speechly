@@ -13,7 +13,7 @@ import {
   PushToTalkButton,
   PushToTalkButtonContainer,
   ErrorPanel,
-} from "./@speechly/react-ui";
+} from "@speechly/react-ui";
 import { isWebpSupported } from "react-image-webp/dist/utils";
 import { animated, useSpring } from "react-spring";
 import Device from "./components/Device";
