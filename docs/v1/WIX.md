@@ -1,4 +1,4 @@
-# Speechly Web Toolkit for Wix
+# Speechly Web Toolkit Beta for Wix
 
 ## Introduction
 
