@@ -43,3 +43,8 @@ Contains the definition of `talk-button` component and logic
 
 - Icons for remaining app states
 - Communication with @speechly/browser-client
+
+- Prevent double-registering components, e.g. if React app provides one and JS does one.
+if (!window.customElements.get('my-web-component')) {
+    window.customElements.define('my-web-component', MyWebComponent);
+}
