@@ -132,11 +132,19 @@
   const keyDownCallback = (event) => {
     if (capturekey) {
       if (event.key === capturekey) {
-        if (!event.repeat) {
-          tangentStart(event);
-        } else {
-          event.preventDefault();
-          event.stopPropagation();
+        var focused_element = (
+          document.hasFocus() &&
+          document.activeElement !== document.body &&
+          document.activeElement !== document.documentElement &&
+          document.activeElement
+        ) || null;
+        if (!focused_element) {
+          if (!event.repeat) {
+            tangentStart(event);
+          } else {
+            event.preventDefault();
+            event.stopPropagation();
+          }
         }
       }
     }
