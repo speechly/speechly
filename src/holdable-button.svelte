@@ -85,8 +85,8 @@
         animateValue(fxOpacity[1], fxOpacity[0], 0.08, tickMs),
       ];
       rotation = [
-        rotation[0],
-        animateValue(rotation[1], rotation[0] + 2.5, 0.05, tickMs),
+        rotation[0] + 2.5,
+        animateValue(rotation[1], rotation[0], 0.05, tickMs),
       ];
       requestId = requestAnimationFrame(tick);
     };
