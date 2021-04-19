@@ -17,6 +17,7 @@
   export let gradientstop2 = "#4fa1f9";
   export let hide = undefined;
   export let placement = undefined;
+  export let voffset = "3rem";
 
   let client = null;
   let clientState: ClientState = undefined;
@@ -146,6 +147,10 @@
   {gradientstop1}
   {gradientstop2}
   {hide}
+  style="
+    --voffset: {voffset};
+    --size: {size};
+  "
 />
 
 <style>
@@ -154,7 +159,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 9.2rem;
+    height: calc(var(--size) + var(--voffset));
     max-height: 100vh;
     pointer-events: none;
 
