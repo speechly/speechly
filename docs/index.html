@@ -63,12 +63,18 @@
 </xmp>
     
     <h2>Element &lt;push-to-talk-button/&gt;</h2>
-	  Autonomous customElement for connecting to Speechly and controlling listening on/off.
+    <p>
+      Autonomous customElement for connecting to Speechly and controlling listening on/off.
+    </p>
+    <button onclick="hideButton()">Hide button</button><button onclick="showButton()">Show button</button>
+
     <h3>Attributes</h3>
     <ul>
       <li>appid - Speechly App id to connect to.
       <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
       <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
+      <li>hide - Optional "false" | "true". Default: "false"</li>
+      <li>placement - Optional "bottom"</li>
     </ul>
     <h3>Events emitted</h3>
     <ul>
@@ -234,6 +240,14 @@
       }
 
       window.postMessage({type: "speechsegment", segment: sampleSegment}, "*");
+    }
+
+    const hideButton = (e) => {
+      pushToTalkEl.setAttribute("hide", "true");
+    }
+
+    const showButton = (e) => {
+      pushToTalkEl.setAttribute("hide", "false");
     }
 
     webLog("End of index.html script");
