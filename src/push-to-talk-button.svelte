@@ -165,10 +165,11 @@
 
 <style>
   main {
-    width: 100vw;
-    height: 9.2rem;
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
+    height: 9.2rem;
     pointer-events: none;
 
     display: flex;
