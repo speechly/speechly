@@ -137,34 +137,19 @@
   };
 </script>
 
-{#if placement === "bottom"}
-  <main>
-    <holdable-button
-      on:holdstart={tangentStart}
-      on:holdend={tangentEnd}
-      {size}
-      {icon}
-      {capturekey}
-      {gradientstop1}
-      {gradientstop2}
-      {hide}
-    />
-  </main>
-{:else}
-  <holdable-button
-    on:holdstart={tangentStart}
-    on:holdend={tangentEnd}
-    {size}
-    {icon}
-    {capturekey}
-    {gradientstop1}
-    {gradientstop2}
-    {hide}
-  />
-{/if}
+<holdable-button class:placementBottom={placement === "bottom"}
+  on:holdstart={tangentStart}
+  on:holdend={tangentEnd}
+  {size}
+  {icon}
+  {capturekey}
+  {gradientstop1}
+  {gradientstop2}
+  {hide}
+/>
 
 <style>
-  main {
+  .placementBottom {
     position: fixed;
     bottom: 0;
     left: 0;

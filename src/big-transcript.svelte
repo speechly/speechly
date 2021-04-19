@@ -11,6 +11,8 @@
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
   export let placement = undefined;
+  export let voffset = "8rem";
+  export let hoffset = "2rem";
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -101,7 +103,10 @@
 
 <svelte:window on:message={(e) => {e.data.type === "speechsegment" && onSegmentUpdate(e.data.segment)}}/>
 
-<main class:placementTop={placement === "top"}>
+<main class:placementTop={placement === "top"} style="
+  --voffset: {voffset};
+  --hoffset: {hoffset};
+">
   <div class="BigTranscript">
     {#if visible}
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
@@ -161,8 +166,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 3rem 2rem 0 2rem;
-    z-index: 10;
+    margin: var(--voffset) var(--hoffset) 0 var(--hoffset);
+    z-index: 50;
     pointer-events: none;
   }
 </style>
