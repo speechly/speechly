@@ -18,7 +18,7 @@
 <body>
 
   <div class="BigTranscriptContainer">
-    <big-transcript></big-transcript>
+    <big-transcript placement="top"></big-transcript>
   </div>
 
   <div class="PushToTalkContainer">
@@ -74,7 +74,7 @@
       <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
       <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
       <li>hide - Optional "false" | "true". Default: "false"</li>
-      <li>placement - Optional "bottom"</li>
+      <li>placement - Optional "bottom" turns on internal placement without PushToTalkContainer css class</li>
     </ul>
     <h3>Events emitted</h3>
     <ul>
@@ -96,6 +96,12 @@
       It is intended to be placed as an overlay near top-left corner of the screen using <code>BigTranscriptContainer</code> CSS class. It is momentarily displayed and automatically hidden after the end of voice input.
     </p>
     <button onclick="showTranscriptSample()">Show sample transcript</button>
+
+    <h3>Attributes</h3>
+    <ul>
+      <li>placement - Optional "top" turns on internal placement without BigTranscriptContainer css class</li>
+    </ul>
+
     <h3>Properties</h3>
     <ul>
       <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>

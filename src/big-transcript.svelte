@@ -10,6 +10,8 @@
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
+  export let placement = undefined;
+
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
@@ -99,7 +101,7 @@
 
 <svelte:window on:message={(e) => {e.data.type === "speechsegment" && onSegmentUpdate(e.data.segment)}}/>
 
-<div class="BigTranscript">
+<div class="BigTranscript" class:placementTop={placement === "top"}>
   {#if visible}
     <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
       {#each words as word}
@@ -149,5 +151,16 @@
     padding: 0.4rem 0.6rem;
     background-color: #000;
     z-index: -1;
+  }
+
+  .placementTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 3rem 2rem 0 2rem;
+    z-index: 10;
+    pointer-events: none;
   }
 </style>
