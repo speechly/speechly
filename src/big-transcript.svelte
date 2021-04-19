@@ -101,20 +101,22 @@
 
 <svelte:window on:message={(e) => {e.data.type === "speechsegment" && onSegmentUpdate(e.data.segment)}}/>
 
-<div class="BigTranscript" class:placementTop={placement === "top"}>
-  {#if visible}
-    <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
-      {#each words as word}
-        <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
-          <div class="TransscriptItemBgDiv" in:slideTransition/>
-          <div class="TransscriptItemContent">
-            {word.word}{" "}
+<main class:placementTop={placement === "top"}>
+  <div class="BigTranscript">
+    {#if visible}
+      <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
+        {#each words as word}
+          <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
+            <div class="TransscriptItemBgDiv" in:slideTransition/>
+            <div class="TransscriptItemContent">
+              {word.word}{" "}
+            </div>
           </div>
-        </div>
-      {/each}
-    </div>
-  {/if}
-</div>
+        {/each}
+      </div>
+    {/if}
+  </div>
+</main>
 
 <svelte:head>
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
