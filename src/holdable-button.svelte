@@ -59,7 +59,7 @@
     const tick = () => {
       prevFrameMillis = frameMillis;
       frameMillis = new Date().getTime();
-      const tickMs = frameMillis - prevFrameMillis;
+      const tickMs = frameMillis - (prevFrameMillis || frameMillis);
 
       if (effectiveAppearance.effect === Effect.Connecting) {
         // Animate iconOpacity when starting
