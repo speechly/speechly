@@ -1,10 +1,14 @@
 <svelte:options tag="mic-icon" immutable={true} />
 
 <script>
-    export let icon = "mic";
+  import {
+    Icon
+  } from "../types";
+
+  export let icon = Icon.Mic;
 </script>
 
-{#if icon == "mic" || icon == "loading"}
+{#if icon === Icon.Mic}
 <svg
   class="buttonIconEl"
   viewBox="0 0 56 56"
@@ -19,7 +23,7 @@
 </svg>
 {/if}
 
-{#if icon == "failed" || icon == "nobrowsersupport"}
+{#if icon === Icon.Error}
 <svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
   <g fill="#000" fillRule="evenodd">
     <path
@@ -31,7 +35,7 @@
 </svg>
 {/if}
 
-{#if icon == "noaudioconsent"}
+{#if icon === Icon.Denied}
 <svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
   <g fill="#000" fillRule="nonzero">
     <path d="M36 14.828V30a8 8 0 01-15.961.79l15.96-15.962zM28 1a8 8 0 018 8v.172L20 25.173V9a8 8 0 018-8z" />
@@ -40,7 +44,7 @@
 </svg>
 {/if}
 
-{#if icon == "poweron" || icon == "connecting"}
+{#if icon === Icon.Poweron}
 <svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
   <g fill="#000" fillRule="evenodd">
     <path
