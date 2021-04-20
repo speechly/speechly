@@ -85,14 +85,10 @@
       // Connect on 1st press
       if (isConnectable(clientState)) {
         if (appid) initializeSpeechly();
-        console.log("/////////// 1");
       }
-
-      console.log("/////////// 1b");
 
       if (isStartable(clientState)) {
         client.startContext();
-        console.log("/////////// 2");
       }
     }
   };
