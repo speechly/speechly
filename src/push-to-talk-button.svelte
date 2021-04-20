@@ -11,13 +11,19 @@
 
   export let appid: string = undefined;
   export let size = "6rem";
-  export let icon: ClientState = ClientState.Disconnected;
   export let capturekey = " ";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
+  export let poweron = undefined;
   export let hide = undefined;
   export let placement = undefined;
   export let voffset = "3rem";
+
+  let icon: ClientState = ClientState.Disconnected;
+  let buttonHeld = false;
+
+  $: showPowerOn = poweron !== undefined && poweron !== "false";
+  $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
 
   let client = null;
   let clientState: ClientState = undefined;
@@ -74,19 +80,25 @@
   };
 
   const tangentStart = (event) => {
+    buttonHeld = true;
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
         if (appid) initializeSpeechly();
-      } else {
-        if (isStartable(clientState)) {
-          client.startContext();
-        }
+        console.log("/////////// 1");
+      }
+
+      console.log("/////////// 1b");
+
+      if (isStartable(clientState)) {
+        client.startContext();
+        console.log("/////////// 2");
       }
     }
   };
 
   const tangentEnd = () => {
+    buttonHeld = false;
     if (client) {
       if (isStoppable(clientState)) {
         client.stopContext();
@@ -135,6 +147,14 @@
   const onStateChange = (s: ClientState) => {
     clientState = s;
     updateSkin();
+    switch(s) {
+      case ClientState.Connected:
+        // Automatically start recording if button held
+        if (!showPowerOn && buttonHeld && isStartable(clientState)) {
+          client.startContext();
+        }
+        break;
+    }
   };
 </script>
 

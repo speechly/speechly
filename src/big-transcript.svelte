@@ -11,7 +11,7 @@
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
 
   export let placement = undefined;
-  export let voffset = "8rem";
+  export let voffset = "3rem";
   export let hoffset = "2rem";
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
