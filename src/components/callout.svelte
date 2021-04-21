@@ -30,24 +30,23 @@
 
 </script>
 
-<main>
+<main style="
+  --ax: {sourceAnchors.x};
+  --ay: {sourceAnchors.y};
+  --halign: {destAnchors.x};
+  --valign: {destAnchors.y};
+  --borderradius: {borderRadius};
+  --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
+  --backgroundcolor: {backgroundColor};
+  --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
+  --offsetx: {"0rem"};
+  --offsety: {`${arrowSize.value}${arrowSize.unit}`};
+">
   {#if showCallout}
     <div class="CalloutContainerDiv"
       on:click={onClick}
       in:circlewipe
       out:circlewipe
-      style="
-        --ax: {sourceAnchors.x};
-        --ay: {sourceAnchors.y};
-        --halign: {destAnchors.x};
-        --valign: {destAnchors.y};
-        --borderradius: {borderRadius};
-        --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
-        --backgroundcolor: {backgroundColor};
-        --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
-        --offsetx: {"0rem"};
-        --offsety: {`${arrowSize.value}${arrowSize.unit}`};
-      "
     >
       <div class="CalloutDiv" class:useShadow={useShadow}><slot></slot></div>
       <div class="ArrowDiv" style="
@@ -66,7 +65,11 @@
 </svelte:head>
 
 <style>
-  /*     const CalloutContainerDiv = styled(animated.div)<{ax: string, ay: string, halign: string, valign: string, arrowpad: string}>` */
+  main {
+    margin:0;
+    padding:0;
+  }
+
   .CalloutContainerDiv {
     position: absolute;
     left: var(--ax);
@@ -92,6 +95,7 @@
     color:#fff;
     font-family: 'Saira Condensed', sans-serif;
     font-size: 1.2rem;
+    line-height: 120%;
     text-transform: uppercase;
   }
 

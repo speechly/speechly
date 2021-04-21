@@ -178,7 +178,6 @@
   };
 </script>
 
-<main>
   <holdable-button class:placementBottom={placement === "bottom"}
     on:holdstart={tangentStart}
     on:holdend={tangentEnd}
@@ -191,10 +190,9 @@
     style="
       --voffset: {voffset};
       --size: {size};
-    "
-  />
-  <call-out show={tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
-</main>
+    ">
+    <call-out show={tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
+  </holdable-button>
 
 <style>
   .placementBottom {

@@ -243,6 +243,7 @@
     opacity: {iconOpacity[1]};
   "
   />
+  <slot></slot>
 </main>
 
 <style>
