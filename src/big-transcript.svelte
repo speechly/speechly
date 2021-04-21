@@ -64,12 +64,22 @@
 
     // Tag words with entities
     segment.entities.forEach(e => {
+      for (let index = e.startPosition+1; index < e.endPosition; index++) {
+        delete(words[index]);
+      };
+      words[e.startPosition].word = e.value;
+      words[e.startPosition].entityType = e.type;
+      words[e.startPosition].isFinal = e.isFinal;
+    });
+/*
+    // Tag words with entities
+    segment.entities.forEach(e => {
       words.slice(e.startPosition, e.endPosition).forEach(w => {
         w.entityType = e.type
         w.isFinal = e.isFinal
       })
     })
-
+*/
     // Remove holes from word array
     words = words.flat()
   };
@@ -132,6 +142,7 @@
     position: relative;
     user-select: none;
     font-family: 'Saira Condensed', sans-serif;
+    text-transform: uppercase;
     color: #fff;
     font-size: 1.5rem;
 }
