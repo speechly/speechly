@@ -10,7 +10,6 @@
 
   const SHORT_PRESS_TRESHOLD_MS = 600
   const INSTRUCTION_PREROLL_MS = 500
-  const INSTRUCTION_SHOW_TIME_MS = 3000
 
   export let appid: string = undefined;
   export let size = "6rem";
@@ -23,6 +22,8 @@
   export let voffset = "3rem";
   export let intro = "Hold to talk";
   export let hint = "Hold to talk";
+  export let fontsize = "1.2rem";
+  export let showtime = "5000";
 
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
@@ -69,15 +70,28 @@
       );
     }
 
-            // Auto-release hold after some time
+    scheduleCallout();
+  });
+
+  const scheduleCallout = () => {
+    if (timeout !== null) {
+      window.clearTimeout(timeout);
+      timeout = null;
+    }
+
     if (timeout === null) {
       timeout = window.setTimeout(() => {
         tipCalloutVisible = true;
         timeout = null;
-      }, 500);
+        if ((showtime as unknown as number) > 0) {
+          timeout = window.setTimeout(() => {
+            tipCalloutVisible = false;
+            timeout = null;
+          }, (showtime as unknown as number));
+        }
+      }, INSTRUCTION_PREROLL_MS);
     }
-
-  });
+  }
 
   const initializeSpeechly = async () => {
     // Create a new Client. appid and language are configured in the dashboard.
@@ -113,7 +127,7 @@
     const holdEventData: IHoldEvent = event.detail;
     if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
       tipCallOutText = hint;
-      tipCalloutVisible = true;
+      scheduleCallout();
     }
 
     buttonHeld = false;
@@ -189,7 +203,7 @@
       --voffset: {voffset};
       --size: {size};
     ">
-    <call-out show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
+    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
   </holdable-button>
 
 <style>

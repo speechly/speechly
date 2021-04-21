@@ -4,8 +4,9 @@
   import fix from '../transFix'
 
   export let show = undefined;
+  export let fontsize = "1.2rem";
 
-  let sourceAnchors = { x: '50%', y: '5%' };
+  let sourceAnchors = { x: '50%', y: '10%' };
   let destAnchors = { x: '50%', y: '100%' };
   let arrowSize = { value: 0.55, unit: 'rem' };
   let useShadow = false;
@@ -42,6 +43,7 @@
   --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
   --backgroundcolor: {backgroundColor};
   --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
+  --fontsize: {fontsize};
   --offsetx: {"0rem"};
   --offsety: {`${arrowSize.value}${arrowSize.unit}`};
 ">
@@ -99,7 +101,7 @@
 
     color:#fff;
     font-family: 'Saira Condensed', sans-serif;
-    font-size: 1.2rem;
+    font-size: var(--fontsize);
     line-height: 120%;
     text-transform: uppercase;
   }

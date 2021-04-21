@@ -13,6 +13,7 @@
   export let placement = undefined;
   export let voffset = "3rem";
   export let hoffset = "2rem";
+  export let fontsize = "1.5rem";
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
@@ -116,6 +117,7 @@
 <main class:placementTop={placement === "top"} style="
   --voffset: {voffset};
   --hoffset: {hoffset};
+  --fontsize: {fontsize};
 ">
   <div class="BigTranscript">
     {#if visible}
@@ -144,12 +146,13 @@
     font-family: 'Saira Condensed', sans-serif;
     text-transform: uppercase;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: var(--fontsize);
+    line-height: 120%;
 }
   .TranscriptItem {
     position: relative;
     display: inline-block;
-    margin-left: 0.25rem;
+    margin-left: 0.25em;
   }
 
   .Entity {
