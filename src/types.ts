@@ -13,6 +13,10 @@ export type IAppearance = {
   effect: Effect,
 }
 
+export type IHoldEvent = {
+  timeMs: number;
+}
+
 export enum SpeechState {
   /**
    * The context is in a state of unrecoverable error.

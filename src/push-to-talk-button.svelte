@@ -5,9 +5,12 @@
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
   import "./holdable-button.svelte";
-  import "./components/mic-frame.svelte";
-  import "./components/mic-icon.svelte";
-  import "./components/mic-fx.svelte";
+  import "./components/callout.svelte";
+  import type { IHoldEvent } from "./types";
+
+  const SHORT_PRESS_TRESHOLD_MS = 600
+  const INSTRUCTION_PREROLL_MS = 500
+  const INSTRUCTION_SHOW_TIME_MS = 3000
 
   export let appid: string = undefined;
   export let size = "6rem";
@@ -18,9 +21,14 @@
   export let hide = undefined;
   export let placement = undefined;
   export let voffset = "3rem";
+  export let intro = "Hold for voice search";
+  export let usage = "Hold to talk";
 
+  let tipCallOutText = intro;
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
+  let timeout = null;
+  let tipCalloutVisible = false;
 
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
@@ -60,6 +68,15 @@
         "No appid attribute specified. Speechly voice services are unavailable."
       );
     }
+
+            // Auto-release hold after some time
+    if (timeout === null) {
+      timeout = window.setTimeout(() => {
+        tipCalloutVisible = true;
+        timeout = null;
+      }, 500);
+    }
+
   });
 
   const initializeSpeechly = async () => {
@@ -81,6 +98,7 @@
 
   const tangentStart = (event) => {
     buttonHeld = true;
+    tipCalloutVisible = false;
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
@@ -93,7 +111,13 @@
     }
   };
 
-  const tangentEnd = () => {
+  const tangentEnd = (event) => {
+    const holdEventData: IHoldEvent = event.detail;
+    if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+      tipCallOutText = usage;
+      tipCalloutVisible = true;
+    }
+
     buttonHeld = false;
     if (client) {
       if (isStoppable(clientState)) {
@@ -154,20 +178,23 @@
   };
 </script>
 
-<holdable-button class:placementBottom={placement === "bottom"}
-  on:holdstart={tangentStart}
-  on:holdend={tangentEnd}
-  {size}
-  {icon}
-  {capturekey}
-  {gradientstop1}
-  {gradientstop2}
-  {hide}
-  style="
-    --voffset: {voffset};
-    --size: {size};
-  "
-/>
+<main>
+  <holdable-button class:placementBottom={placement === "bottom"}
+    on:holdstart={tangentStart}
+    on:holdend={tangentEnd}
+    {size}
+    {icon}
+    {capturekey}
+    {gradientstop1}
+    {gradientstop2}
+    {hide}
+    style="
+      --voffset: {voffset};
+      --size: {size};
+    "
+  />
+  <call-out show={tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
+</main>
 
 <style>
   .placementBottom {

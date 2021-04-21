@@ -6,7 +6,7 @@
   import "./components/mic-frame.svelte";
   import "./components/mic-icon.svelte";
   import "./components/mic-fx.svelte";
-  import type { IAppearance } from "./types";
+  import type { IAppearance, IHoldEvent } from "./types";
   import {
     Icon,
     Effect,
@@ -134,7 +134,7 @@
       scale[0] = 1.0;
       fxOpacity[0] = 0.0;
       tangentHeld = false;
-      const eventPayload = {
+      const eventPayload: IHoldEvent = {
         timeMs: Date.now() - holdStartTimestamp,
       };
       vibrate();
