@@ -21,15 +21,15 @@
   export let hide = undefined;
   export let placement = undefined;
   export let voffset = "3rem";
-  export let intro = "Hold for voice search";
-  export let usage = "Hold to talk";
+  export let intro = "Hold to talk";
+  export let hint = "Hold to talk";
 
-  let tipCallOutText = intro;
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
   let timeout = null;
   let tipCalloutVisible = false;
 
+  $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
 
@@ -103,9 +103,7 @@
       // Connect on 1st press
       if (isConnectable(clientState)) {
         if (appid) initializeSpeechly();
-      }
-
-      if (isStartable(clientState)) {
+      } else if (isStartable(clientState)) {
         client.startContext();
       }
     }
@@ -114,7 +112,7 @@
   const tangentEnd = (event) => {
     const holdEventData: IHoldEvent = event.detail;
     if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
-      tipCallOutText = usage;
+      tipCallOutText = hint;
       tipCalloutVisible = true;
     }
 
@@ -191,7 +189,7 @@
       --voffset: {voffset};
       --size: {size};
     ">
-    <call-out show={tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
+    <call-out show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"}>{tipCallOutText}</call-out>
   </holdable-button>
 
 <style>

@@ -3,13 +3,14 @@
 <script lang="ts">
   import fix from '../transFix'
 
-  export let sourceAnchors = { x: '50%', y: '5%' };
-  export let destAnchors = { x: '50%', y: '100%' };
   export let show = undefined;
-  export let arrowSize = { value: 0.55, unit: 'rem' };
-  export let useShadow = false;
-  export let backgroundColor = '#000';
-  export let borderRadius = "0";
+
+  let sourceAnchors = { x: '50%', y: '5%' };
+  let destAnchors = { x: '50%', y: '100%' };
+  let arrowSize = { value: 0.55, unit: 'rem' };
+  let useShadow = false;
+  let backgroundColor = '#000';
+  let borderRadius = "0rem";
 
   $: showCallout = show !== undefined && show !== "false";
 
@@ -24,7 +25,9 @@
     }
   });
 
-  const onClick = (e) => {
+  const onMouseDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     showCallout = false;
   }
 
@@ -44,7 +47,9 @@
 ">
   {#if showCallout}
     <div class="CalloutContainerDiv"
-      on:click={onClick}
+      on:mousedown={onMouseDown}
+      on:touchstart={onMouseDown}
+      on:dragstart={onMouseDown}
       in:circlewipe
       out:circlewipe
     >
