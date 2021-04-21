@@ -224,25 +224,29 @@
   style="
     width:{size};
     height:{size};
-    transform: scale({scale[1]});
+    
     --gradient-stop1: {gradientstop1};
     --gradient-stop2: {gradientstop2};
     --fx-rotation: {rotation[1]}deg;
   "
 >
-  <mic-fx
-    style="
-    opacity: {fxOpacity[1]};
-    transform: rotate({rotation[1]}deg);
-  "
-  />
-  <mic-frame />
-  <mic-icon
-    icon={effectiveAppearance.icon}
-    style="
-    opacity: {iconOpacity[1]};
-  "
-  />
+  <div class="ButtonComponents" style="
+    transform: scale({scale[1]});
+  ">
+    <mic-fx
+      style="
+      opacity: {fxOpacity[1]};
+      transform: rotate({rotation[1]}deg);
+    "
+    />
+    <mic-frame />
+    <mic-icon
+      icon={effectiveAppearance.icon}
+      style="
+      opacity: {iconOpacity[1]};
+    "
+    />
+  </div>
   <slot></slot>
 </main>
 
@@ -250,5 +254,10 @@
   main {
     position: relative;
     user-select: none;
+  }
+
+  .ButtonComponents {
+    width: 100%;
+    height: 100%;
   }
 </style>
