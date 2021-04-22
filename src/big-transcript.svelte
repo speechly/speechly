@@ -15,6 +15,9 @@
   export let hoffset = "2rem";
   export let fontsize = "1.5rem";
 
+  let words: ITaggedWord[] = [];
+  let visible = false;
+
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
   const thisComponent = get_current_component();
   const dispatchUnbounded = (name: string, detail?: {}) => {
@@ -49,9 +52,6 @@
     };
   });
 
-  let words: ITaggedWord[] = [];
-  let visible = false;
-
   const onSegmentUpdate = (segment: Segment) => {
     if (segment === undefined) return;
 
@@ -63,14 +63,14 @@
       words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
     })
 
-    // Tag words with entities
+    // Replace words with entity values
     segment.entities.forEach(e => {
-      for (let index = e.startPosition+1; index < e.endPosition; index++) {
-        delete(words[index]);
-      };
       words[e.startPosition].word = e.value;
       words[e.startPosition].entityType = e.type;
       words[e.startPosition].isFinal = e.isFinal;
+      for (let index = e.startPosition+1; index < e.endPosition; index++) {
+        delete(words[index]);
+      };
     });
 /*
     // Tag words with entities
@@ -123,12 +123,14 @@
     {#if visible}
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
         {#each words as word}
-          <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
-            <div class="TransscriptItemBgDiv" in:slideTransition/>
-            <div class="TransscriptItemContent">
-              {word.word}{" "}
+          {#if word}
+            <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
+              <div class="TransscriptItemBgDiv" in:slideTransition/>
+              <div class="TransscriptItemContent">
+                {word.word}{" "}
+              </div>
             </div>
-          </div>
+          {/if}
         {/each}
       </div>
     {/if}
