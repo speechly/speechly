@@ -87,7 +87,8 @@
       <li>holdstart - CustomEvent triggered upon hold start</li>
       <li>holdend - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
 	    <li>speechsegment - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
-      <li>error - Details: Failed | NoBrowserSupport | NoAudioConsent</li>
+      <li>starting - CustomEvent triggered on initialization start</li>
+      <li>initialized - CustomEvent triggered on initialization end. details: {success: true | false, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
     </ul>
     <h3>Window messages emitted</h3>
     <ul>
@@ -195,9 +196,13 @@
       // window.postMessage({type: "speechsegment", segment: e.detail}, "*");
     });
 
-		pushToTalkEl.addEventListener("error", (e) => {
-      webLog(`error message received: ${e.detail}`)
-      console.log(`error message received: ${e.detail}`)
+		pushToTalkEl.addEventListener("starting", (e) => {
+      webLog(`starting message received: ${e.detail}`)
+      console.log(`starting message received: `, e.detail)
+    });
+		pushToTalkEl.addEventListener("initialized", (e) => {
+      webLog(`initialized message received: ${e.detail}`)
+      console.log(`initialized message received: `,e.detail)
     });
 		transcriptEl.addEventListener("debug", (e) => {
       webLog(`${e.detail}`)

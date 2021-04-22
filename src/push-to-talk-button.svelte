@@ -27,6 +27,7 @@
 
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
+  let success = undefined;
   let timeout = null;
   let tipCalloutVisible = false;
 
@@ -101,6 +102,7 @@
     (async () => {
       try {
         console.log("Initializing...", client);
+        dispatchUnbounded("starting");
         await client.initialize();
         console.log("Initialized");
       } catch (e) {
@@ -125,7 +127,7 @@
 
   const tangentEnd = (event) => {
     const holdEventData: IHoldEvent = event.detail;
-    if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+    if (success && holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
       tipCallOutText = hint;
       scheduleCallout();
     }
@@ -141,19 +143,6 @@
   };
 
   const updateSkin = () => {
-    switch (clientState) {
-      case ClientState.Failed:
-        dispatchUnbounded("error", { status: "Failed" });
-        break;
-      case ClientState.NoBrowserSupport:
-        dispatchUnbounded("error", { status: "NoBrowserSupport" });
-        break;
-      case ClientState.NoAudioConsent:
-        dispatchUnbounded("error", { status: "NoAudioConsent" });
-        break;
-      default:
-        break;
-    }
     icon = clientState;
   };
 
@@ -180,7 +169,17 @@
     clientState = s;
     updateSkin();
     switch(s) {
+      case ClientState.Failed:
+        setInitialized(false, "Failed");
+        break;
+      case ClientState.NoBrowserSupport:
+        setInitialized(false, "NoBrowserSupport");
+        break;
+      case ClientState.NoAudioConsent:
+        setInitialized(false, "NoAudioConsent");
+        break;
       case ClientState.Connected:
+        setInitialized(true, "Ready");
         // Automatically start recording if button held
         if (!showPowerOn && buttonHeld && isStartable(clientState)) {
           client.startContext();
@@ -188,6 +187,13 @@
         break;
     }
   };
+
+  const setInitialized = (newSuccess: boolean, status: string) => {
+    if (success === undefined) {
+      success = newSuccess;
+      dispatchUnbounded("initialized", { success, status });
+    }
+  }
 </script>
 
   <holdable-button class:placementBottom={placement === "bottom"}
