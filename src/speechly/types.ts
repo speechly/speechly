@@ -43,6 +43,11 @@ export interface ClientOptions {
   debug?: boolean
 
   /**
+   * Whether to output updated segments to the console.
+   */
+  logSegments?: boolean
+
+  /**
    * Custom microphone implementation.
    * If not provided, an implementation based on getUserMedia and Web Audio API is used.
    */

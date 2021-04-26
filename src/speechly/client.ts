@@ -59,6 +59,7 @@ declare global {
  */
 export class Client {
   private readonly debug: boolean
+  private readonly logSegments: boolean
   private readonly projectId?: string
   private readonly appId?: string
   private readonly storage: Storage
@@ -106,6 +107,7 @@ export class Client {
     }
 
     this.debug = options.debug ?? false
+    this.logSegments = options.logSegments ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
@@ -492,6 +494,11 @@ export class Client {
 
     // Update current contexts.
     this.activeContexts.set(audio_context, context)
+
+    // Log segment to console
+    if (this.logSegments) {
+      console.info(segmentState.toString())
+    }
 
     // Fire segment change event.
     this.segmentChangeCb(segmentState.toSegment())

@@ -62,7 +62,7 @@ export function validateToken(token: string, projectId: string | undefined, appI
     return false
   }
 
-  if (decoded.appId !== appId && decoded.projectId !== projectId) {
+  if (decoded.appId !== appId || decoded.projectId !== projectId) {
     return false
   }
 
