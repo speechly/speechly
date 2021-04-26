@@ -48,7 +48,9 @@ const defaultLoginUrl = 'https://api.speechly.com/login'
 const defaultLanguage = 'en-US'
 
 declare global {
-  interface Window { SpeechlyClient: Client }
+  interface Window {
+    SpeechlyClient: Client
+  }
 }
 
 /**
@@ -120,12 +122,16 @@ export class Client {
 
     // 2. Fetch auth token. It doesn't matter if it's not present.
     if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
-      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId).then((token) => {
-        this.authToken = token
-        // Cache the auth token in local storage for future use.
-        this.storage.set(authTokenKey, this.authToken)
-        this.connect(apiUrl)
-      }).catch(err => { throw err })
+      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+        .then(token => {
+          this.authToken = token
+          // Cache the auth token in local storage for future use.
+          this.storage.set(authTokenKey, this.authToken)
+          this.connect(apiUrl)
+        })
+        .catch(err => {
+          throw err
+        })
     } else {
       this.authToken = storedToken
       this.connect(apiUrl)
@@ -148,7 +154,7 @@ export class Client {
 
   /**
    * Esteblish websocket connection
-  */
+   */
   private connect(apiUrl: string): void {
     this.apiClient.postMessage({
       type: 'INIT',
@@ -331,17 +337,25 @@ export class Client {
 
     this.setState(ClientState.Stopping)
 
-    this.stoppedContextIdPromise = new Promise((resolve) => {
+    this.stoppedContextIdPromise = new Promise(resolve => {
       Promise.race([
-        new Promise((resolve) => setTimeout(resolve, this.contextStopDelay)), // timeout
-        new Promise((resolve) => { this.resolveStopContext = resolve }),
+        new Promise(resolve => setTimeout(resolve, this.contextStopDelay)), // timeout
+        new Promise(resolve => {
+          this.resolveStopContext = resolve
+        }),
       ])
         .then(() => {
           this._stopContext()
-            .then(id => { resolve(id) })
-            .catch(err => { throw err })
+            .then(id => {
+              resolve(id)
+            })
+            .catch(err => {
+              throw err
+            })
         })
-        .catch(err => { throw err })
+        .catch(err => {
+          throw err
+        })
     })
 
     const contextId: string = await this.stoppedContextIdPromise

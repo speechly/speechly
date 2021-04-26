@@ -21,7 +21,7 @@ Tentative transcript response payload.
 
 • **transcript**: *string*
 
-Defined in index.d.ts:537
+Defined in index.d.ts:551
 
 Transcript text, i.e. the full transcript of the audio to-date.
 
@@ -31,6 +31,6 @@ ___
 
 • **words**: *[TranscriptResponse](_index_d_.transcriptresponse.md)[]*
 
-Defined in index.d.ts:541
+Defined in index.d.ts:555
 
 Individual transcript words.

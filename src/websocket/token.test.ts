@@ -54,19 +54,51 @@ describe('token', () => {
 
   describe('.validateToken', () => {
     test('returns true for correct token', () => {
-      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, testToken.deviceId, beforeExpiry(testToken))).toBeTruthy()
+      expect(
+        validateToken(
+          testTokenString,
+          testToken.projectId,
+          testToken.appId,
+          testToken.deviceId,
+          beforeExpiry(testToken),
+        ),
+      ).toBeTruthy()
     })
 
     test('returns false when projectId and appId does not match', () => {
-      expect(validateToken(testTokenString, 'other-app-id', testToken.projectId, testToken.deviceId, beforeExpiry(testToken))).toBeFalsy()
+      expect(
+        validateToken(
+          testTokenString,
+          'other-app-id',
+          testToken.projectId,
+          testToken.deviceId,
+          beforeExpiry(testToken),
+        ),
+      ).toBeFalsy()
     })
 
     test('returns false when deviceId does not match', () => {
-      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, 'other-device-id', beforeExpiry(testToken))).toBeFalsy()
+      expect(
+        validateToken(
+          testTokenString,
+          testToken.projectId,
+          testToken.appId,
+          'other-device-id',
+          beforeExpiry(testToken),
+        ),
+      ).toBeFalsy()
     })
 
     test('returns false when token is expired', () => {
-      expect(validateToken(testTokenString, testToken.projectId, testToken.appId, testToken.deviceId, afterExpiry(testToken))).toBeFalsy()
+      expect(
+        validateToken(
+          testTokenString,
+          testToken.projectId,
+          testToken.appId,
+          testToken.deviceId,
+          afterExpiry(testToken),
+        ),
+      ).toBeFalsy()
     })
   })
 

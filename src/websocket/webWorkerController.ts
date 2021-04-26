@@ -33,7 +33,7 @@ export class WebWorkerController implements APIClient {
       sourceSampleRate,
     })
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.resolveInitialization = resolve
     })
   }

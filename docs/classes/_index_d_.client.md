@@ -30,6 +30,7 @@ and dispatching them, as well as providing a high-level API for interacting with
 * [onTranscript](_index_d_.client.md#ontranscript)
 * [startContext](_index_d_.client.md#startcontext)
 * [stopContext](_index_d_.client.md#stopcontext)
+* [switchContext](_index_d_.client.md#switchcontext)
 
 ## Constructors
 
@@ -37,7 +38,7 @@ and dispatching them, as well as providing a high-level API for interacting with
 
 \+ **new Client**(`options`: [ClientOptions](../interfaces/_index_d_.clientoptions.md)): *[Client](_index_d_.client.md)*
 
-Defined in index.d.ts:91
+Defined in index.d.ts:107
 
 **Parameters:**
 
@@ -53,7 +54,7 @@ Name | Type |
 
 ▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:106
+Defined in index.d.ts:126
 
 Closes the client by closing the API connection and disabling the microphone.
 
@@ -65,7 +66,7 @@ ___
 
 ▸ **initialize**(): *Promise‹void›*
 
-Defined in index.d.ts:102
+Defined in index.d.ts:122
 
 Initializes the client, by initializing the microphone and establishing connection to the API.
 
@@ -83,7 +84,7 @@ ___
 
 ▸ **onEntity**(`cb`: [EntityCallback](../modules/_index_d_.md#entitycallback)): *void*
 
-Defined in index.d.ts:145
+Defined in index.d.ts:174
 
 Adds a listener for entity responses from the API.
 
@@ -101,7 +102,7 @@ ___
 
 ▸ **onIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:155
+Defined in index.d.ts:184
 
 Adds a listener for intent responses from the API.
 
@@ -119,7 +120,7 @@ ___
 
 ▸ **onSegmentChange**(`cb`: [SegmentChangeCallback](../modules/_index_d_.md#segmentchangecallback)): *void*
 
-Defined in index.d.ts:125
+Defined in index.d.ts:154
 
 Adds a listener for current segment change events.
 
@@ -137,7 +138,7 @@ ___
 
 ▸ **onStateChange**(`cb`: [StateChangeCallback](../modules/_index_d_.md#statechangecallback)): *void*
 
-Defined in index.d.ts:120
+Defined in index.d.ts:149
 
 Adds a listener for client state change events.
 
@@ -155,7 +156,7 @@ ___
 
 ▸ **onTentativeEntities**(`cb`: [TentativeEntitiesCallback](../modules/_index_d_.md#tentativeentitiescallback)): *void*
 
-Defined in index.d.ts:140
+Defined in index.d.ts:169
 
 Adds a listener for tentative entities responses from the API.
 
@@ -173,7 +174,7 @@ ___
 
 ▸ **onTentativeIntent**(`cb`: [IntentCallback](../modules/_index_d_.md#intentcallback)): *void*
 
-Defined in index.d.ts:150
+Defined in index.d.ts:179
 
 Adds a listener for tentative intent responses from the API.
 
@@ -191,7 +192,7 @@ ___
 
 ▸ **onTentativeTranscript**(`cb`: [TentativeTranscriptCallback](../modules/_index_d_.md#tentativetranscriptcallback)): *void*
 
-Defined in index.d.ts:130
+Defined in index.d.ts:159
 
 Adds a listener for tentative transcript responses from the API.
 
@@ -209,7 +210,7 @@ ___
 
 ▸ **onTranscript**(`cb`: [TranscriptCallback](../modules/_index_d_.md#transcriptcallback)): *void*
 
-Defined in index.d.ts:135
+Defined in index.d.ts:164
 
 Adds a listener for transcript responses from the API.
 
@@ -225,11 +226,17 @@ ___
 
 ###  startContext
 
-▸ **startContext**(): *Promise‹string›*
+▸ **startContext**(`appId?`: undefined | string): *Promise‹string›*
 
-Defined in index.d.ts:111
+Defined in index.d.ts:137
 
 Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`appId?` | undefined &#124; string |
 
 **Returns:** *Promise‹string›*
 
@@ -239,8 +246,28 @@ ___
 
 ▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:115
+Defined in index.d.ts:143
 
-Stops current SLU context by sending a stop context event to the API and muting the microphone.
+Stops current SLU context by sending a stop context event to the API and muting the microphone
+delayed by contextStopDelay = 250 ms
 
 **Returns:** *Promise‹string›*
+
+___
+
+###  switchContext
+
+▸ **switchContext**(`appId`: string): *Promise‹void›*
+
+Defined in index.d.ts:132
+
+Stops current context and immediately starts a new SLU context
+by sending a start context event to the API and unmuting the microphone.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`appId` | string | unique identifier of an app in the dashboard.  |
+
+**Returns:** *Promise‹void›*

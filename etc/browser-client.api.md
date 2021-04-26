@@ -46,6 +46,7 @@ export interface ClientOptions {
     debug?: boolean;
     language?: string;
     loginUrl?: string;
+    logSegments?: boolean;
     microphone?: Microphone;
     projectId?: string;
     sampleRate?: number;

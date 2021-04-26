@@ -15,7 +15,6 @@ The interface for a microphone.
 * [close](_index_d_.microphone.md#close)
 * [initialize](_index_d_.microphone.md#initialize)
 * [mute](_index_d_.microphone.md#mute)
-* [onAudio](_index_d_.microphone.md#onaudio)
 * [unmute](_index_d_.microphone.md#unmute)
 
 ## Methods
@@ -24,7 +23,7 @@ The interface for a microphone.
 
 ▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:395
+Defined in index.d.ts:424
 
 Closes the microphone, tearing down all the infrastructure.
 
@@ -38,15 +37,22 @@ ___
 
 ###  initialize
 
-▸ **initialize**(): *Promise‹void›*
+▸ **initialize**(`audioContext`: AudioContext, `opts`: MediaStreamConstraints): *Promise‹void›*
 
-Defined in index.d.ts:387
+Defined in index.d.ts:416
 
 Initialises the microphone.
 
 This should prepare the microphone infrastructure for receiving audio chunks,
 but the microphone should remain muted after the call.
 This method will be called by the Client as part of client initialisation process.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`audioContext` | AudioContext |
+`opts` | MediaStreamConstraints |
 
 **Returns:** *Promise‹void›*
 
@@ -56,27 +62,9 @@ ___
 
 ▸ **mute**(): *void*
 
-Defined in index.d.ts:399
+Defined in index.d.ts:428
 
 Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
-
-**Returns:** *void*
-
-___
-
-###  onAudio
-
-▸ **onAudio**(`cb`: [AudioCallback](../modules/_index_d_.md#audiocallback)): *void*
-
-Defined in index.d.ts:379
-
-Registers the callback that is invoked whenever an audio chunk is emitted.
-
-**Parameters:**
-
-Name | Type | Description |
------- | ------ | ------ |
-`cb` | [AudioCallback](../modules/_index_d_.md#audiocallback) | the callback to invoke.  |
 
 **Returns:** *void*
 
@@ -86,7 +74,7 @@ ___
 
 ▸ **unmute**(): *void*
 
-Defined in index.d.ts:403
+Defined in index.d.ts:432
 
 Unmutes the microphone.
 
