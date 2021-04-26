@@ -201,6 +201,8 @@
 
       switch (newAppearance.icon) {
         case Icon.Mic:
+        case Icon.Denied:
+        case Icon.Error:
           iconOpacity[0] = 1.0;
           break;
       }

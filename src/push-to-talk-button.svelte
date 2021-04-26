@@ -30,10 +30,12 @@
   let success = undefined;
   let timeout = null;
   let tipCalloutVisible = false;
+  let mounted = false;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
+  $: connectSpeechly(appid);
 
   let client = null;
   let clientState: ClientState = undefined;
@@ -50,8 +52,13 @@
   };
 
   onMount(() => {
+    mounted = true;
     // Transition in button
-    if (appid) {
+    connectSpeechly(appid);
+  });
+
+  const connectSpeechly = (appid: string) => {
+    if (mounted && appid && !client) {
       console.log("Create client with appId", appid);
       client = new Client({
         appId: appid,
@@ -65,14 +72,14 @@
         // And as window.postMessages
         window.postMessage({ type: "speechsegment", segment: segment }, "*");
       });
+
+      scheduleCallout();
     } else {
       console.warn(
         "No appid attribute specified. Speechly voice services are unavailable."
       );
     }
-
-    scheduleCallout();
-  });
+  }
 
   const scheduleCallout = () => {
     if (timeout !== null) {
@@ -143,7 +150,7 @@
   };
 
   const updateSkin = () => {
-    icon = clientState;
+    if (clientState) icon = clientState;
   };
 
   const isConnectable = (clientState?: ClientState) => {
