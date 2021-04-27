@@ -9,6 +9,7 @@
   import { fade as fade_orig } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
+  import "./components/vu-meter.svelte";
 
   export let placement = undefined;
   export let voffset = "3rem";
@@ -108,6 +109,8 @@
 
 <svelte:window on:message={(e) => {e.data.type === "speechsegment" && onSegmentUpdate(e.data.segment)}}/>
 
+<vu-meter></vu-meter>
+
 <main class:placementTop={placement === "top"} style="
   --voffset: {voffset};
   --hoffset: {hoffset};
@@ -116,6 +119,12 @@
   <div class="BigTranscript">
     {#if visible}
       <div style="margin-bottom:1.5rem" in:revealTransition out:revealTransition="{{delay: 2000}}">
+        <div class="TranscriptItem">
+          <div class="TransscriptItemBgDiv" in:slideTransition/>
+          <div class="TransscriptItemContent">
+            <vu-meter></vu-meter>
+          </div>
+        </div>
         {#each words as word}
           {#if word}
             <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
