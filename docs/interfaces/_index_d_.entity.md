@@ -24,7 +24,7 @@ A single entity detected by the SLU API.
 
 • **endPosition**: *number*
 
-Defined in index.d.ts:263
+Defined in index.d.ts:298
 
 The index of the last word that contains this entity.
 
@@ -34,7 +34,7 @@ ___
 
 • **isFinal**: *boolean*
 
-Defined in index.d.ts:267
+Defined in index.d.ts:302
 
 Whether the entity was detected as final.
 
@@ -44,7 +44,7 @@ ___
 
 • **startPosition**: *number*
 
-Defined in index.d.ts:259
+Defined in index.d.ts:294
 
 The index of the first word that contains this entity.
 
@@ -54,7 +54,7 @@ ___
 
 • **type**: *string*
 
-Defined in index.d.ts:251
+Defined in index.d.ts:286
 
 The type specified by the developer in the NLU rules in the dashboard (e.g. restaurant_type).
 
@@ -64,6 +64,6 @@ ___
 
 • **value**: *string*
 
-Defined in index.d.ts:255
+Defined in index.d.ts:290
 
 The value of the entity (e.g. Papa Joe's).

@@ -31,6 +31,13 @@ export class SegmentState {
     }
   }
 
+  toString(): string {
+    const segment: Segment = this.toSegment()
+    const words = segment.words.filter((w: Word) => w.value).map((w: Word) => ({ value: w.value, index: w.index }))
+    const cleanSegment = { ...segment, ...{ words } }
+    return JSON.stringify(cleanSegment, null, 2)
+  }
+
   updateTranscript(words: Word[]): SegmentState {
     words.forEach(w => {
       // Only accept tentative words if the segment is tentative.

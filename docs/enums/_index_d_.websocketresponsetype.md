@@ -10,7 +10,9 @@ Known WebSocket response types.
 
 * [Entity](_index_d_.websocketresponsetype.md#entity)
 * [Intent](_index_d_.websocketresponsetype.md#intent)
+* [Opened](_index_d_.websocketresponsetype.md#opened)
 * [SegmentEnd](_index_d_.websocketresponsetype.md#segmentend)
+* [SourceSampleRateSetSuccess](_index_d_.websocketresponsetype.md#sourcesampleratesetsuccess)
 * [Started](_index_d_.websocketresponsetype.md#started)
 * [Stopped](_index_d_.websocketresponsetype.md#stopped)
 * [TentativeEntities](_index_d_.websocketresponsetype.md#tentativeentities)
@@ -24,7 +26,7 @@ Known WebSocket response types.
 
 • **Entity**: = "entity"
 
-Defined in index.d.ts:609
+Defined in index.d.ts:625
 
 ___
 
@@ -32,7 +34,15 @@ ___
 
 • **Intent**: = "intent"
 
-Defined in index.d.ts:610
+Defined in index.d.ts:626
+
+___
+
+###  Opened
+
+• **Opened**: = "WEBSOCKET_OPEN"
+
+Defined in index.d.ts:619
 
 ___
 
@@ -40,7 +50,15 @@ ___
 
 • **SegmentEnd**: = "segment_end"
 
-Defined in index.d.ts:607
+Defined in index.d.ts:623
+
+___
+
+###  SourceSampleRateSetSuccess
+
+• **SourceSampleRateSetSuccess**: = "SOURSE_SAMPLE_RATE_SET_SUCCESS"
+
+Defined in index.d.ts:620
 
 ___
 
@@ -48,7 +66,7 @@ ___
 
 • **Started**: = "started"
 
-Defined in index.d.ts:605
+Defined in index.d.ts:621
 
 ___
 
@@ -56,7 +74,7 @@ ___
 
 • **Stopped**: = "stopped"
 
-Defined in index.d.ts:606
+Defined in index.d.ts:622
 
 ___
 
@@ -64,7 +82,7 @@ ___
 
 • **TentativeEntities**: = "tentative_entities"
 
-Defined in index.d.ts:612
+Defined in index.d.ts:628
 
 ___
 
@@ -72,7 +90,7 @@ ___
 
 • **TentativeIntent**: = "tentative_intent"
 
-Defined in index.d.ts:613
+Defined in index.d.ts:629
 
 ___
 
@@ -80,7 +98,7 @@ ___
 
 • **TentativeTranscript**: = "tentative_transcript"
 
-Defined in index.d.ts:611
+Defined in index.d.ts:627
 
 ___
 
@@ -88,4 +106,4 @@ ___
 
 • **Transcript**: = "transcript"
 
-Defined in index.d.ts:608
+Defined in index.d.ts:624

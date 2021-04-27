@@ -56,13 +56,19 @@ export async function fetchToken(
   return json.access_token
 }
 
-export function validateToken(token: string, projectId: string | undefined, appId: string | undefined, deviceId: string, now: nowFn = Date.now): boolean {
+export function validateToken(
+  token: string,
+  projectId: string | undefined,
+  appId: string | undefined,
+  deviceId: string,
+  now: nowFn = Date.now,
+): boolean {
   const decoded = decodeToken(token)
   if (decoded.expiresAtMs - now() < minTokenValidTime) {
     return false
   }
 
-  if (decoded.appId !== appId && decoded.projectId !== projectId) {
+  if (decoded.appId !== appId || decoded.projectId !== projectId) {
     return false
   }
 

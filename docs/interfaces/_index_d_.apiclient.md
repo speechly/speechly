@@ -16,9 +16,11 @@ The interface for a client for Speechly SLU WebSocket API.
 * [initialize](_index_d_.apiclient.md#initialize)
 * [onClose](_index_d_.apiclient.md#onclose)
 * [onResponse](_index_d_.apiclient.md#onresponse)
+* [postMessage](_index_d_.apiclient.md#postmessage)
 * [sendAudio](_index_d_.apiclient.md#sendaudio)
 * [startContext](_index_d_.apiclient.md#startcontext)
 * [stopContext](_index_d_.apiclient.md#stopcontext)
+* [switchContext](_index_d_.apiclient.md#switchcontext)
 
 ## Methods
 
@@ -26,7 +28,7 @@ The interface for a client for Speechly SLU WebSocket API.
 
 ▸ **close**(): *Promise‹void›*
 
-Defined in index.d.ts:40
+Defined in index.d.ts:34
 
 Closes the client.
 
@@ -39,27 +41,22 @@ ___
 
 ###  initialize
 
-▸ **initialize**(`appId`: string, `deviceId`: string, `token?`: undefined | string): *Promise‹string›*
+▸ **initialize**(`sourceSampleRate`: number): *Promise‹void›*
 
-Defined in index.d.ts:33
+Defined in index.d.ts:27
 
 Initialises the client.
 
-This should prepare websocket to be used (i.e. establish connection to the API).
+This should prepare websocket to be used (set source sample rate).
 This method will be called by the Client as part of the initialisation process.
 
 **Parameters:**
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`appId` | string | app ID to use when connecting to the API. |
-`deviceId` | string | device ID to use when connecting to the API. |
-`token?` | undefined &#124; string | login token in JWT format, which was e.g. cached from previous session.                If the token is not provided or is invalid, a new token will be fetched instead.  |
+`sourceSampleRate` | number | sample rate of audio source.  |
 
-**Returns:** *Promise‹string›*
-
-- the token that was used to establish connection to the API, so that it can be cached for later.
-           If the provided token was used, it will be returned instead.
+**Returns:** *Promise‹void›*
 
 ___
 
@@ -99,11 +96,29 @@ Name | Type | Description |
 
 ___
 
+###  postMessage
+
+▸ **postMessage**(`message`: Object): *void*
+
+Defined in index.d.ts:62
+
+Sends message to the Worker.
+
+**Parameters:**
+
+Name | Type | Description |
+------ | ------ | ------ |
+`message` | Object | message to send.  |
+
+**Returns:** *void*
+
+___
+
 ###  sendAudio
 
-▸ **sendAudio**(`audioChunk`: Int16Array): *Error | void*
+▸ **sendAudio**(`audioChunk`: Float32Array): *void*
 
-Defined in index.d.ts:57
+Defined in index.d.ts:56
 
 Sends audio to the API.
 If there is no active context (no successful previous calls to `startContext`), this must fail.
@@ -112,20 +127,26 @@ If there is no active context (no successful previous calls to `startContext`), 
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`audioChunk` | Int16Array | audio chunk to send.  |
+`audioChunk` | Float32Array | audio chunk to send.  |
 
-**Returns:** *Error | void*
+**Returns:** *void*
 
 ___
 
 ###  startContext
 
-▸ **startContext**(): *Promise‹string›*
+▸ **startContext**(`appId?`: undefined | string): *Promise‹string›*
 
-Defined in index.d.ts:45
+Defined in index.d.ts:39
 
 Starts a new audio context by sending the start event to the API.
 The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`appId?` | undefined &#124; string |
 
 **Returns:** *Promise‹string›*
 
@@ -135,9 +156,28 @@ ___
 
 ▸ **stopContext**(): *Promise‹string›*
 
-Defined in index.d.ts:50
+Defined in index.d.ts:44
 
 Stops an audio context by sending the stop event to the API.
 The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
+
+**Returns:** *Promise‹string›*
+
+___
+
+###  switchContext
+
+▸ **switchContext**(`appId`: string): *Promise‹string›*
+
+Defined in index.d.ts:49
+
+Stops current context and immediately starts a new SLU context
+by sending a start context event to the API and unmuting the microphone.
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`appId` | string |
 
 **Returns:** *Promise‹string›*
