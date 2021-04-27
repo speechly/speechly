@@ -2,12 +2,15 @@
 
 <script lang="ts">
   import { onMount } from "svelte";
+  import { get_current_component } from "svelte/internal";
 
   let canvas: HTMLCanvasElement;
   let VUTarget = 0;
   let VUUpdateTimeStamp = 0;
   let VULevels: number[] = [0, 0];
 
+  const thisComponent = get_current_component();
+ 
   const getPixelRatio = (context: any) => {
     var backingStore: number =
       context.backingStorePixelRatio ||
@@ -52,16 +55,6 @@
     const AdoptRatio = 0.25
     const VUMinLevel = 0.25
 
-    if (!canvas) return
-    const context = canvas.getContext('2d')
-    if (!context) return
-
-    let ratio = getPixelRatio(context)
-    let width = Number.parseInt(getComputedStyle(canvas).getPropertyValue('width').slice(0, -2))
-    let height = Number.parseInt(getComputedStyle(canvas).getPropertyValue('height').slice(0, -2))
-    canvas.width = width * ratio
-    canvas.height = height * ratio
-
     const updateVU = (level: number, seekTimeMs: number) => {
       if (Date.now() > VUUpdateTimeStamp) {
         VUTarget = level
@@ -72,6 +65,17 @@
     };
 
     const render = () => {
+      requestId = requestAnimationFrame(render)
+      if (!canvas) return
+      const context = canvas.getContext('2d')
+      if (!context) return
+
+      let ratio = getPixelRatio(context)
+      let width = Number.parseInt(getComputedStyle(canvas).getPropertyValue('width').slice(0, -2))
+      let height = Number.parseInt(getComputedStyle(canvas).getPropertyValue('height').slice(0, -2))
+      canvas.width = width * ratio
+      canvas.height = height * ratio
+
       if (Date.now() < VUUpdateTimeStamp) {
         VULevels[0] = VUTarget * SeekRatio + VULevels[0] * (1.0 - SeekRatio)
       } else {
@@ -127,13 +131,18 @@
           context.fill()
         }
       }
-      requestId = requestAnimationFrame(render)
     };
 
     render();
 
+    updateVU(1.0, 1000);
+    const updateVUAdapter = (e) => updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
+
+    thisComponent.addEventListener("updateVU", updateVUAdapter);
+
     return () => {
       cancelAnimationFrame(requestId);
+      thisComponent.removeEventListener("updateVU", updateVUAdapter);
     };
   });
 /*
@@ -151,7 +160,7 @@
 */
 </script>
 
-<canvas bind:this={canvas} />
+<canvas bind:this={canvas} style="color: #60e0ff"/>
 
 <style>
   canvas {
@@ -160,6 +169,5 @@
     height: 1.5rem;
     margin: 0 0.5rem 0 0;
     padding: 0;
-    color: #60e0ff;
   }
 </style>

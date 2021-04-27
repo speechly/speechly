@@ -130,6 +130,9 @@
         client.startContext();
       }
     }
+    // Send as window.postMessages
+    window.postMessage({ type: "holdstart" }, "*");
+
   };
 
   const tangentEnd = (event) => {
@@ -147,6 +150,9 @@
     }
 
     updateSkin();
+
+    // Send as window.postMessages
+    window.postMessage({ type: "holdend" }, "*");
   };
 
   const updateSkin = () => {
