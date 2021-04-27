@@ -70,7 +70,8 @@
       words[e.startPosition].isFinal = e.isFinal;
       words[e.startPosition].hide = false;
       for (let index = e.startPosition+1; index < e.endPosition; index++) {
-        words[index].hide = true;
+        // words array may be "holey"
+        if (words[index]) words[index].hide = true;
       };
     });
 
