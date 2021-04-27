@@ -60,29 +60,22 @@
     // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
     words = []
     segment.words.forEach(w => {
-      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal }
+      words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal, hide: false }
     })
 
-    // Replace words with entity values
+    // Replace words with entity values. Note that there may be overlapping tentative entity ranges
     segment.entities.forEach(e => {
       words[e.startPosition].word = e.value;
       words[e.startPosition].entityType = e.type;
       words[e.startPosition].isFinal = e.isFinal;
+      words[e.startPosition].hide = false;
       for (let index = e.startPosition+1; index < e.endPosition; index++) {
-        delete(words[index]);
+        words[index].hide = true;
       };
     });
-/*
-    // Tag words with entities
-    segment.entities.forEach(e => {
-      words.slice(e.startPosition, e.endPosition).forEach(w => {
-        w.entityType = e.type
-        w.isFinal = e.isFinal
-      })
-    })
-*/
-    // Remove holes from word array
-    words = words.flat()
+
+    // Remove holes and hidden from word array
+    words = words.filter(w => !w.hide);
   };
 
   thisComponent.onSegmentUpdate = onSegmentUpdate;

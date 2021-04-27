@@ -1,10 +1,11 @@
-import { ClientState } from "@speechly/browser-client/speechly/types"; 
+import { ClientState } from "@speechly/browser-client/speechly/types.js"; 
 
 export type ITaggedWord = {
   word: string
   serialNumber: number
   entityType: string | null
   isFinal: boolean
+  hide: boolean
 }
 
 export type IAppearance = {
