@@ -135,7 +135,7 @@
 
     render();
 
-    updateVU(1.0, 1000);
+    updateVU(1.0, 350);
     const updateVUAdapter = (e) => updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
 
     thisComponent.addEventListener("updateVU", updateVUAdapter);
@@ -145,29 +145,18 @@
       thisComponent.removeEventListener("updateVU", updateVUAdapter);
     };
   });
-/*
-  useEffect(() => {
-    if (speechState === SpeechState.Recording) {
-      ref.current?.updateVU(1.0, 1000)
-    }
-  }, [speechState])
 
-  useEffect(() => {
-    if (segment) {
-      ref.current?.updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75)
-    }
-  }, [segment])
-*/
 </script>
 
 <canvas bind:this={canvas} style="color: #60e0ff"/>
 
 <style>
   canvas {
+    box-sizing: border-box;
     display: block;
-    width: 1.35rem;
+    width: 1.85rem;
     height: 1.5rem;
-    margin: 0 0.5rem 0 0;
-    padding: 0;
+    margin: 0;
+    padding: 0 0.5rem 0 0;
   }
 </style>

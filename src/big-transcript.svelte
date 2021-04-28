@@ -78,7 +78,7 @@
   const onSegmentUpdate = (segment: Segment) => {
     if (segment === undefined) return;
 
-    if (vumeter) vumeter.dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
+    if (vumeter && buttonheld) vumeter.dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
 
     visible = !segment.isFinal;
 
@@ -194,7 +194,7 @@
   }
 
   .Entity {
-    color: cyan;
+    color: #60e0ff;
   }
 
   .TransscriptItemContent {
@@ -229,7 +229,7 @@
 
   .listening {
     animation: flow 2s ease-in-out infinite;
-    background: linear-gradient(-60deg, #fffa, #fffa, #fff4, #fff4);
+    background: linear-gradient(-60deg, #fffc, #fffc, #fff8, #fff8);
     background-size: 300%;
 
     -webkit-background-clip: text;
