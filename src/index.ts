@@ -30,39 +30,19 @@ window.onload = () => {
     if (segment.isFinal) {
       updateReady(segment.contextId, true);
     }
+
+    const cleanedWords = segment.words.filter((w: Word) => w.value).map(
+      (w: Word) => ({value:w.value, index:w.index})
+    )
+
+    logResponse(
+      segment.contextId,
+      segment.id,
+      segment.isFinal,
+      cleanedWords,
+      segment.intent,
+      segment.entities)
   });
-
-  // This is low-level API, that you can use to react to tentative events.
-  client.onTentativeTranscript(
-    (contextId: string, segmentId: number, words: Word[], transcript: string) =>
-      logResponse("tentative_transcript", contextId, segmentId, {
-        words,
-        transcript,
-      })
-  );
-
-  client.onTentativeEntities(
-    (contextId: string, segmentId: number, entities: Entity[]) =>
-      logResponse("tentative_entities", contextId, segmentId, { entities })
-  );
-
-  client.onTentativeIntent(
-    (contextId: string, segmentId: number, intent: Intent) =>
-      logResponse("tentative_intent", contextId, segmentId, { intent })
-  );
-
-  // This is low-level API, that you can use to react to final events.
-  client.onTranscript((contextId: string, segmentId: number, word: Word) =>
-    logResponse("transcript", contextId, segmentId, { word })
-  );
-
-  client.onEntity((contextId: string, segmentId: number, entity: Entity) =>
-    logResponse("entity", contextId, segmentId, { entity })
-  );
-
-  client.onIntent((contextId: string, segmentId: number, intent: Intent) =>
-    logResponse("intent", contextId, segmentId, { intent })
-  );
 
   bindStartStop(client);
   bindInitialize(client);
@@ -83,6 +63,9 @@ function newClient(): Client {
     appId,
     language,
     debug: process.env.REACT_APP_DEBUG === "true",
+    // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
+    // Consider turning it off in the production as it has extra JSON.stringify operation.
+    logSegments: true
   };
 
   if (process.env.REACT_APP_LOGIN_URL !== undefined) {
@@ -148,10 +131,12 @@ function updateReady(contextId: string, isReady: boolean) {
 }
 
 function logResponse(
-  type: string,
   contextId: string,
   segmentId: number,
-  data: any
+  isFinal: boolean,
+  words: any,
+  intents: any,
+  entities: any,
 ) {
   const logDiv = document.getElementById("log-list") as HTMLElement;
 
@@ -159,8 +144,10 @@ function logResponse(
     `<tr>
           <td>${contextId}</td>
           <td>${segmentId}</td>
-          <td>${type}</td>
-          <td>${JSON.stringify(data)}</td>
+          <td>${isFinal}</td>
+          <td>${JSON.stringify(words)}</td>
+          <td>${JSON.stringify(intents)}</td>
+          <td>${JSON.stringify(entities)}</td>
         </tr>` + logDiv.innerHTML;
 }
 
@@ -202,7 +189,7 @@ function bindStartStop(client: Client) {
   recordDiv.addEventListener("touchend", stopRecording);
 
   const initDiv = document.getElementById("initialize") as HTMLElement;
-  client.onStateChange((state) => {
+  client.onStateChange((state: ClientState) => {
     clientState = state;
 
     if (state !== ClientState.Connected && state !== ClientState.Disconnected) {

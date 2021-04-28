@@ -1,12 +1,13 @@
 {
   "name": "@speechly/browser-client-example",
   "homepage": "https://speechly.github.io/browser-client-example",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@speechly/browser-client": "1.0.0",
-    "react-scripts": "3.4.0",
-    "typescript": "^3.8.3"
+    "@speechly/browser-client": "1.0.12",
+    "react": "^17.0.2",
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
