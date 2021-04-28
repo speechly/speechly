@@ -152,11 +152,10 @@
 
 <style>
   canvas {
-    box-sizing: border-box;
     display: block;
-    width: 1.85rem;
+    width: 1.35rem;
     height: 1.5rem;
     margin: 0;
-    padding: 0 0.5rem 0 0;
+    padding: 0 0.5rem 0 0.25rem;
   }
 </style>

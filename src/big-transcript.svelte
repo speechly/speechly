@@ -210,7 +210,9 @@
     box-sizing: content-box;
     width: 100%;
     height: 100%;
-    margin: -0.4rem -0.6rem;
+    top: -0.4rem;
+    left: -0.4rem;
+    margin: 0;
     padding: 0.4rem 0.6rem;
     background-color: #000;
     z-index: -1;
