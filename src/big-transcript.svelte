@@ -21,6 +21,8 @@
   let visible = false;
   let buttonheld = false;
 
+  $: showlistening = (words.length === 0 && buttonheld);
+
   const thisComponent = get_current_component();
  
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
@@ -63,6 +65,7 @@
         break;
       case "holdstart":
         buttonheld = true;
+        words = [];
         break;
       case "holdend":
         buttonheld = false;
@@ -137,14 +140,15 @@
   --hoffset: {hoffset};
   --fontsize: {fontsize};
 ">
-{#if buttonheld || visible}
-  <div class="BigTranscript" in:revealTransition out:revealTransition="{{delay: 2000}}">
-        <div class="TranscriptItem">
-          <div class="TransscriptItemBgDiv"/>
+
+  {#if buttonheld || visible}
+    <div class="BigTranscript" in:revealTransition out:revealTransition="{{delay: words.length > 0 ? 2000 : 0}}">
+      <div class="TranscriptItem">
+        <div class="TransscriptItemBgDiv"/>
           <div class="TransscriptItemContent">
-            <vu-meter bind:this={vumeter}></vu-meter>
-            {#if words.length === 0}
-              Listening...
+            <vu-meter bind:this={vumeter} out:slideTransition="{{duration: 200}}"></vu-meter>
+            {#if showlistening}
+              <div class="listening" in:slideTransition="{{duration: 400}}" out:slideTransition="{{duration: 200}}">Listening...</div>
             {/if}
           </div>
         </div>
@@ -198,6 +202,7 @@
     display:flex;
     flex-direction: row;
     align-items: center;
+    overflow: hidden;
   }
 
   .TransscriptItemBgDiv {
@@ -220,5 +225,22 @@
     margin: var(--voffset) var(--hoffset) 0 var(--hoffset);
     z-index: 50;
     pointer-events: none;
+  }
+
+  .listening {
+    animation: flow 2s ease-in-out infinite;
+    background: linear-gradient(-60deg, #fffa, #fffa, #fff4, #fff4);
+    background-size: 300%;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-box-decoration-break: clone;
+  }
+
+  @keyframes flow {
+    0% {background-position: 0 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0 50%;}
   }
 </style>
