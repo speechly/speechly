@@ -2,11 +2,12 @@
 
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
+  import { ClientState } from "@speechly/browser-client";
   import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
   import fix from './transFix'
   import { get_current_component } from "svelte/internal";
-  import { fade as fade_orig, draw as draw_orig } from 'svelte/transition';
+  import { draw as draw_orig } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
   import "./components/vu-meter.svelte";
@@ -24,10 +25,11 @@
   let visible = false;
   let buttonheld = false;
   let timeout = null;
+  let clientState = ClientState.Disconnected;
 
-  $: showlistening = (words.length === 0 && buttonheld);
+  $: showlistening = (words.length === 0 && buttonheld && clientState === ClientState.Recording);
   let acknowledged = false;
-  let finalsegment = false;
+  let finalsegment = true;
 
   const thisComponent = get_current_component();
  
@@ -39,7 +41,6 @@
     }));
   };
 
-  const fade = fix(fade_orig);
   const draw = fix(draw_orig);
 
   const revealTransition = fix((node, {delay = 0, duration = 400}) => {
@@ -71,11 +72,7 @@
         onSegmentUpdate(e.data.segment);
         break;
       case "holdstart":
-        cancelHide();
         buttonheld = true;
-        acknowledged = false;
-        finalsegment = false;
-        words = [];
         break;
       case "holdend":
         buttonheld = false;
@@ -83,6 +80,14 @@
       case "speechhandled":
         if (e.data.success) {
           acknowledged = true;
+        }
+        break;
+      case "speechstate":
+        clientState = e.data.state;
+        if (clientState === ClientState.Recording) {
+          acknowledged = false;
+          finalsegment = false;
+          words = [];
         }
         break;
       default:
@@ -100,7 +105,10 @@
       finalsegment = true;
       scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
     } else {
-      visible = true;
+      if (words.length > 0) {
+        visible = true;
+        scheduleHide(HIDE_TIMEOUT_MS);
+      }
     }
     
     // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
@@ -179,7 +187,7 @@
   --highlight-color: {color};
 ">
 
-  {#if buttonheld || visible}
+  {#if clientState === ClientState.Recording || visible}
     <div class="BigTranscript" in:revealTransition out:revealTransition>
       {#if !finalsegment}
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}" out:slideTransition="{{duration: 200, maxWidth: 3}}">

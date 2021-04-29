@@ -199,6 +199,8 @@
         }
         break;
     }
+    // Broadcast state changes
+    window.postMessage({ type: "speechstate", state: s }, "*");
   };
 
   const setInitialized = (newSuccess: boolean, status: string) => {

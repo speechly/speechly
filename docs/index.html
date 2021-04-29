@@ -92,7 +92,8 @@
     </ul>
     <h3>Window messages emitted (postMessage)</h3>
     <ul>
-      <li>{type: "speechsegment", segment: {} as Segment} - Broadcasts new segment when an update is available</li>
+      <li>{type: "speechsegment", segment: Segment} - Broadcasts new segment when an update is available</li>
+      <li>{type: "speechstate", state: ClientState} - Broadcasts state changes. Refer to browser-client documentation for values.</li>
       <li>{type: "holdstart"} - Broadcasted upon hold start</li>
       <li>{type: "holdend"} - Broadcasted upon hold end</li>
     </ul>
