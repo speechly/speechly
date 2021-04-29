@@ -255,7 +255,12 @@
 <style>
   main {
     position: relative;
-    user-select: none;
+    pointer-events: auto;
+    cursor: pointer;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
   }
 
   .ButtonComponents {

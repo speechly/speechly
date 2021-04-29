@@ -28,13 +28,9 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    pointer-events: auto;
+    pointer-events: none;
     user-select: none;
-    cursor: pointer;
     transform: rotate(var(--fx-rotation));
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
   }
 </style>
 
