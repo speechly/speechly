@@ -27,6 +27,7 @@
 
   $: showlistening = (words.length === 0 && buttonheld);
   let acknowledged = false;
+  let finalsegment = false;
 
   const thisComponent = get_current_component();
  
@@ -73,10 +74,16 @@
         cancelHide();
         buttonheld = true;
         acknowledged = false;
+        finalsegment = false;
         words = [];
         break;
       case "holdend":
         buttonheld = false;
+        break;
+      case "speechhandled":
+        if (e.data.success) {
+          acknowledged = true;
+        }
         break;
       default:
         break;
@@ -86,10 +93,11 @@
   const onSegmentUpdate = (segment: Segment) => {
     if (segment === undefined) return;
 
+    // Animate VU meter
     if (vumeter && buttonheld) vumeter.dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
 
     if (segment.isFinal) {
-      acknowledged = true;
+      finalsegment = true;
       scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
     } else {
       visible = true;
@@ -173,7 +181,7 @@
 
   {#if buttonheld || visible}
     <div class="BigTranscript" in:revealTransition out:revealTransition>
-      {#if !acknowledged}
+      {#if !finalsegment}
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}" out:slideTransition="{{duration: 200, maxWidth: 3}}">
         <div class="TransscriptItemBgDiv"/>
         <div class="TransscriptItemContent">

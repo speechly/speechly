@@ -126,6 +126,7 @@
     <h3>Window messages listened</h3>
     <ul>
       <li>{type: "speechsegment", segment: {} as Segment} - Expects an update whenever a new segment update is available</li>
+      <li>{type: "speechhandled", success: boolean} - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
       <li>{type: "holdstart"} - Triggers listening prompt</li>
       <li>{type: "holdend"} - Initiates hide transition</li>
     </ul>
@@ -196,6 +197,10 @@
         webLog(segment.words.map(w => w.value).join(" "));
         // transcriptEl.dispatchEvent(new CustomEvent("speechsegment", {detail: e.detail}));
         // window.postMessage({type: "speechsegment", segment: e.detail}, "*");
+        if (segment.isFinal) {
+          // Acknowledge we understood what was being said
+          window.postMessage({type: "speechhandled", success: true}, "*");
+        }
       }
     });
 
