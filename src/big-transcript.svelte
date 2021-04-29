@@ -18,7 +18,8 @@
   export let voffset = "3rem";
   export let hoffset = "2rem";
   export let fontsize = "1.5rem";
-  export let color = "#15e8b5";
+  export let highlightcolor = "#15e8b5";
+  export let textbgcolor = "#202020";
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
@@ -184,7 +185,8 @@
   --voffset: {voffset};
   --hoffset: {hoffset};
   --fontsize: {fontsize};
-  --highlight-color: {color};
+  --highlight-color: {highlightcolor};
+  --text-bg-color: {textbgcolor};
 ">
 
   {#if clientState === ClientState.Recording || visible}
@@ -193,7 +195,7 @@
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}" out:slideTransition="{{duration: 200, maxWidth: 3}}">
         <div class="TransscriptItemBgDiv"/>
         <div class="TransscriptItemContent">
-          <vu-meter bind:this={vumeter} color={color}></vu-meter>
+          <vu-meter bind:this={vumeter} color={highlightcolor}></vu-meter>
           {#if showlistening}
             <div class="listening" in:slideTransition="{{duration: 400}}" out:slideTransition="{{duration: 200}}">Listening...</div>
           {/if}
@@ -213,7 +215,7 @@
       {/each}
       {#if acknowledged}
         <div class="TranscriptItem" in:slideTransition="{{duration: 200, maxWidth: 3}}">
-          <div class="TransscriptItemBgDiv" style="background-color: {color};"/>
+          <div class="TransscriptItemBgDiv" style="background-color: {highlightcolor};"/>
           <div style="width:1.0rem; height: 1rem; position: relative;">
             <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.5rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
           </div>
@@ -273,7 +275,7 @@
     left: -0.8rem;
     margin: 0;
     padding: 0.2rem 0.8rem;
-    background-color: #000;
+    background-color: var(--text-bg-color);
     z-index: -1;
   }
 
