@@ -4,6 +4,8 @@
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
 
+  export let color = "#60e0ff";
+
   let canvas: HTMLCanvasElement;
   let VUTarget = 0;
   let VUUpdateTimeStamp = 0;
@@ -148,7 +150,7 @@
 
 </script>
 
-<canvas bind:this={canvas} style="color: #60e0ff"/>
+<canvas bind:this={canvas} style="color: {color}"/>
 
 <style>
   canvas {
@@ -156,6 +158,6 @@
     width: 1.35rem;
     height: 1.5rem;
     margin: 0;
-    padding: 0 0.5rem 0 0.25rem;
+    padding: 0 0.8rem 0 0rem;
   }
 </style>
