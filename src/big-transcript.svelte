@@ -17,6 +17,7 @@
   export let voffset = "3rem";
   export let hoffset = "2rem";
   export let fontsize = "1.5rem";
+  export let color = "#15e8b5";
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
@@ -167,6 +168,7 @@
   --voffset: {voffset};
   --hoffset: {hoffset};
   --fontsize: {fontsize};
+  --highlight-color: {color};
 ">
 
   {#if buttonheld || visible}
@@ -175,7 +177,7 @@
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}" out:slideTransition="{{duration: 200, maxWidth: 3}}">
         <div class="TransscriptItemBgDiv"/>
         <div class="TransscriptItemContent">
-          <vu-meter bind:this={vumeter} color="#15e8b5"></vu-meter>
+          <vu-meter bind:this={vumeter} color={color}></vu-meter>
           {#if showlistening}
             <div class="listening" in:slideTransition="{{duration: 400}}" out:slideTransition="{{duration: 200}}">Listening...</div>
           {/if}
@@ -195,9 +197,9 @@
       {/each}
       {#if acknowledged}
         <div class="TranscriptItem" in:slideTransition="{{duration: 200, maxWidth: 3}}">
-          <div class="TransscriptItemBgDiv" style="background-color: #15e8b5;"/>
-          <div style="width:1.5rem; height: 1rem; position: relative;">
-            <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.25rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
+          <div class="TransscriptItemBgDiv" style="background-color: {color};"/>
+          <div style="width:1.0rem; height: 1rem; position: relative;">
+            <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.5rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
           </div>
         </div>
       {/if}
@@ -217,7 +219,7 @@
     text-transform: uppercase;
     color: #fff;
     font-size: var(--fontsize);
-    line-height: 120%;
+    line-height: 135%;
     margin-bottom:1.5rem;
 
     display:flex;
@@ -234,7 +236,7 @@
   }
 
   .Entity {
-    color: #60e0ff;
+    color: var(--highlight-color);
   }
 
   .TransscriptItemContent {
@@ -251,10 +253,10 @@
     box-sizing: content-box;
     width: 100%;
     height: 100%;
-    top: -0.4rem;
+    top: -0.2rem;
     left: -0.8rem;
     margin: 0;
-    padding: 0.4rem 0.8rem;
+    padding: 0.2rem 0.8rem;
     background-color: #000;
     z-index: -1;
   }
