@@ -107,5 +107,13 @@ export default [
       file: 'docs/dev/push-to-talk-button.js'
     },
   },
+
+  {...webComponentDefaults, 
+    input: 'src/transcript-drawer.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/transcript-drawer.js'
+    },
+  },
   
 ]
