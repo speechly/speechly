@@ -5,6 +5,8 @@ const CONTROL = {
   FRAMES_AVAILABLE: 1,
 }
 let ws
+let url
+let token
 const state = {
   isContextStarted: false,
   isStartContextConfirmed: false,
@@ -19,8 +21,8 @@ const state = {
   dataSAB: undefined,
 }
 
-async function initializeWebsocket(url, protocol) {
-  ws = new WebSocket(url, protocol)
+async function initializeWebsocket() {
+  ws = new WebSocket(url, token)
 
   return new Promise((resolve, reject) => {
     const errhandler = () => {
@@ -45,6 +47,23 @@ async function initializeWebsocket(url, protocol) {
   })
 }
 
+function connect(timeout = 1000) {
+  setTimeout(function() {
+    initializeWebsocket().then(function() {
+      console.log('connect')
+      self.postMessage({
+        type: 'WEBSOCKET_OPEN',
+      })
+      ws.addEventListener('message', onWebsocketMessage)
+      ws.addEventListener('error', onWebsocketError)
+      ws.addEventListener('close', onWebsocketClose)
+    }).catch((error) => {
+      console.log(error)
+      connect(1000)
+    })
+  }, timeout)
+}
+
 function closeWebsocket(code, message) {
   if (ws === undefined) {
     throw Error('Websocket is not open')
@@ -58,7 +77,7 @@ function closeWebsocket(code, message) {
 }
 
 function onWebsocketClose(event) {
-  ws = undefined
+  connect(0)
 }
 
 function onWebsocketError(_event) {
@@ -104,15 +123,9 @@ self.onmessage = function(e) {
   switch (e.data.type) {
     case 'INIT':
       if (ws === undefined) {
-        initializeWebsocket(e.data.apiUrl, e.data.authToken).then(function() {
-          self.postMessage({
-            type: 'WEBSOCKET_OPEN',
-          })
-          ws.addEventListener('message', onWebsocketMessage)
-          ws.addEventListener('error', onWebsocketError)
-          ws.addEventListener('close', onWebsocketClose)
-        })
-
+        url = e.data.apiUrl
+        token = e.data.authToken
+        connect(0)
         state.targetSampleRate = e.data.targetSampleRate
       }
       break
