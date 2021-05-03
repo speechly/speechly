@@ -263,12 +263,24 @@ function SpeechlyApp() {
         case "turn_on":
         case "turn_off":
           // Set desired device powerOn based on the intent
-          effectiveIntent = intent.intent;
-          const isPowerOn = intent.intent === "turn_on";
-          workingState = rooms.reduce(
-            (prev: AppState, room: Entity) => {
-              return devices.reduce((prev: AppState, device: Entity) => {
-                if ((room.isFinal && device.isFinal) || segment.isFinal) {
+          let numNewTargets = 0;
+          let numRememberedTargets = 0;
+          if (newDevices.length > 0) numNewTargets++;
+          if (newRooms.length > 0) numNewTargets++;
+          if (selectedDevices.length > 0) numRememberedTargets++;
+          if (selectedRooms.length > 0) numRememberedTargets++;
+
+          let applyChanges: boolean = false;
+          if (segment.isFinal) applyChanges = true;
+          if (numNewTargets >= 2) applyChanges = true;
+          if (numNewTargets >= 1 && numRememberedTargets > 1) applyChanges = true;
+
+          if (applyChanges) {
+            effectiveIntent = intent.intent;
+            const isPowerOn = intent.intent === "turn_on";
+            workingState = rooms.reduce(
+              (prev: AppState, room: Entity) => {
+                return devices.reduce((prev: AppState, device: Entity) => {
                   const roomKey = room.value.toLowerCase();
                   const deviceKey = device.value.toLowerCase();
                   if (
@@ -295,24 +307,24 @@ function SpeechlyApp() {
                       };
                     }
                   }
-                }
-                return prev;
-              }, prev);
-            },
-            { ...workingState }
-          );
+                  return prev;
+                }, prev);
+              },
+              { ...workingState }
+            );
+          }
           break;
       }
 
       if (segment.isFinal) {
         // Set entities as tentative for the next segment
-        rooms.forEach((x) => (x.isFinal = false));
-        devices.forEach((x) => (x.isFinal = false));
+        newRooms.forEach((x) => (x.isFinal = false));
+        newDevices.forEach((x) => (x.isFinal = false));
         intent.isFinal = false;
       }
 
-      setSelectedRooms(rooms);
-      setSelectedDevices(devices);
+      if (newRooms.length > 0) setSelectedRooms(newRooms);
+      if (newDevices.length > 0) setSelectedDevices(newDevices);
 
       return {
         alteredState: workingState,
@@ -337,26 +349,26 @@ function SpeechlyApp() {
         alt=""
         style={{ height: "100%", position: "absolute" }}
       />
-      {Object.keys(appState.rooms).map((room) => {
-        return Object.keys(appState.rooms[room].devices).map((device) => (
+      {Object.keys(tentativeAppState.rooms).map((room) => {
+        return Object.keys(tentativeAppState.rooms[room].devices).map((device) => (
           <DeviceImage
             key={device}
-            url={appState.rooms[room].devices[device].img}
+            url={tentativeAppState.rooms[room].devices[device].img}
             device={device}
-            state={appState.rooms[room].devices[device].powerOn}
+            state={tentativeAppState.rooms[room].devices[device].powerOn}
             tentativeState={
               tentativeAppState.rooms[room].devices[device].powerOn
             }
           />
         ));
       })}
-      {Object.keys(appState.rooms).map((room) => (
+      {Object.keys(tentativeAppState.rooms).map((room) => (
         <div
           key={room}
           style={{
             position: "absolute",
-            left: appState.rooms[room].statusLeft,
-            top: appState.rooms[room].statusTop,
+            left: tentativeAppState.rooms[room].statusLeft,
+            top: tentativeAppState.rooms[room].statusTop,
             width: "12rem",
             height: "12rem",
             padding: "0rem",
@@ -386,11 +398,11 @@ function SpeechlyApp() {
               position: "relative",
             }}
           >
-            {Object.keys(appState.rooms[room].devices).map((device) => (
+            {Object.keys(tentativeAppState.rooms[room].devices).map((device) => (
               <Device
                 key={device}
                 device={device}
-                state={appState.rooms[room].devices[device].powerOn}
+                state={tentativeAppState.rooms[room].devices[device].powerOn}
                 tentativeState={
                   tentativeAppState.rooms[room].devices[device].powerOn
                 }
