@@ -2,23 +2,25 @@
 
 <script lang="ts">
   import { onMount } from "svelte";
-  import fix from './transFix'
-  import { get_current_component } from "svelte/internal";
-  import { fly as fly_orig } from 'svelte/transition';
-  import { quintIn, quintOut } from 'svelte/easing';
+  import { cubicOut } from 'svelte/easing';
   import "./big-transcript.svelte";
-
-  const fly = fix(fly_orig);
+  import { tweened } from 'svelte/motion';
 
   let buttonheld = false;
+  let transition = tweened({ y: -1, opacity: 0 }, {
+    duration: 200,
+    easing: cubicOut,
+  });
 
   const handleMessage = (e) => {
     switch (e.data.type) {
       case "holdstart":
         buttonheld = true;
+        transition.set({y: 0, opacity: 1});
         break;
       case "holdend":
         buttonheld = false;
+        transition.set({y: -1, opacity: 0});
         break;
       default:
         break;
@@ -32,13 +34,14 @@
 />
 
 <main class="placementTop">
-  {#if buttonheld}
-  <div class="drawer" in:fly="{{duration: 300, y: -50, opacity: 0, easing: quintOut}}" out:fly="{{duration: 300, y: -50, opacity: 0, easing: quintOut}}">
+  <div class="drawer" style="opacity: {$transition.opacity}; transform: translate(0px, {$transition.y}rem);">
     <div class="pad">
       <big-transcript></big-transcript>
+      <div class="hint">
+        Try "Show me blue jeans"
+      </div>
     </div>
   </div>
-  {/if}
 </main>
 
 <style>
@@ -57,12 +60,22 @@
     min-height: 12rem;
 
     background-color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   .pad {
-    width: 100%;
     position: relative;
-    padding: 7rem 2rem 1rem 2rem;
+    padding: 2rem 2rem 1rem 1.5rem;
+  }
+
+  .hint {
+    font-family: 'Saira Condensed', sans-serif;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 135%;
   }
 
 </style>
