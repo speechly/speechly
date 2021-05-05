@@ -26,11 +26,11 @@
   let visible = false;
   let buttonheld = false;
   let timeout = null;
+  let lastSegmentId = null;
   let clientState = ClientState.Disconnected;
 
-  $: showlistening = (words.length === 0 && buttonheld && clientState === ClientState.Recording);
+  $: showlistening = (words.length === 0);
   let acknowledged = false;
-  let finalsegment = true;
 
   const thisComponent = get_current_component();
  
@@ -87,8 +87,8 @@
         clientState = e.data.state;
         if (clientState === ClientState.Recording) {
           acknowledged = false;
-          finalsegment = false;
           words = [];
+          lastSegmentId = null;
         }
         break;
       default:
@@ -103,13 +103,24 @@
     if (vumeter && buttonheld) vumeter.dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
 
     if (segment.isFinal) {
-      finalsegment = true;
       scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
     } else {
       if (words.length > 0) {
         visible = true;
         scheduleHide(HIDE_TIMEOUT_MS);
       }
+    }
+
+    // Detect segment change
+    const segmentId = `${segment.contextId}/${segment.id}`;
+    if (lastSegmentId !== null) {
+      if (lastSegmentId !== segmentId) {
+        // New segment within the same utterance
+        acknowledged = false;
+        lastSegmentId = segmentId;
+      }
+    } else {
+      lastSegmentId = segmentId;
     }
     
     // Assign words to a new list with original index (segments.words array indices may not correlate with entity.startIndex)
@@ -191,17 +202,15 @@
 
   {#if clientState === ClientState.Recording || visible}
     <div class="BigTranscript" in:revealTransition out:revealTransition>
-      {#if !finalsegment}
-      <div class="TranscriptItem" in:slideTransition="{{duration: 200}}" out:slideTransition="{{duration: 200, maxWidth: 3}}">
+      <div class="TranscriptItem" in:slideTransition="{{duration: 200}}">
         <div class="TransscriptItemBgDiv"/>
         <div class="TransscriptItemContent">
           <vu-meter bind:this={vumeter} color={highlightcolor}></vu-meter>
           {#if showlistening}
-            <div class="listening" in:slideTransition="{{duration: 400}}" out:slideTransition="{{duration: 200}}">Listening...</div>
+            <div class="listening" in:slideTransition="{{duration: 400}}">Listening...</div>
           {/if}
         </div>
       </div>
-      {/if}
       {#each words as word, index}
         <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
           <div class="TransscriptItemBgDiv" in:slideTransition/>
@@ -302,7 +311,7 @@
   }
 
   @keyframes flow {
-    0% {background-position: 0 50%;}
-    100% {background-position: 100% 50%;}
+    0% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
   }
 </style>
