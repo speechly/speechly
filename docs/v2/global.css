@@ -14,7 +14,7 @@ body {
 
 main {
 	padding: 8rem 10vw;
-	line-height: 160%;
+	line-height: 145%;
 }
 
 a {
@@ -32,6 +32,10 @@ a:visited {
 
 label {
 	display: block;
+}
+
+li{
+	margin: 0.5rem 0;
 }
 
 input, button, select, textarea {
@@ -70,11 +74,12 @@ button:focus {
 xmp {
 	padding: 0.7rem;
 	border-radius: 0.25rem;
-	background-color: #ddd;
+	background-color: #eee;
 	color: #666;
-	font-size: 1.15rem;
 	font-weight: bold;
 	overflow: auto;
+	font-size: 0.95rem;
+	line-height: 135%;
 }
 
 code {
@@ -82,15 +87,27 @@ code {
 	margin: 0 0.2rem;
 	border-radius: 0.2rem;
 	background-color: #eee;
+	font-size: 0.95rem;
 	color: #666;
-	font-size: 1.15rem;
 	font-weight: bold;
 }
 
 h1 {
 	margin-bottom: 4rem;
+	line-height: 125%;
 }
 
 h2 {
-	margin-top: 3rem;
+	margin-top: 4rem;
+	font-size: 1.1rem;
+	line-height: 125%;
+}
+
+h3 {
+	margin-top: 4rem;
+	font-size: 0.85rem;
+	line-height: 120%;
+	color: #666;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
 }
