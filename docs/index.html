@@ -40,14 +40,16 @@
       <p>
         Include the following lines in your <code>&lt;body&gt;</code>:
       </p>
-<xmp><div class="BigTranscriptContainer">
-  <big-transcript></big-transcript>
-</div> 
-</xmp>
+<xmp><body>
+  <div class="BigTranscriptContainer">
+    <big-transcript></big-transcript>
+  </div> 
+  </xmp>
 
-<xmp><div class="PushToTalkContainer">
-  <push-to-talk-button appid="ead4b9e7-e5c4-48ed-9dae-3c530916ed76"></push-to-talk-button>
-</div>
+  <xmp><div class="PushToTalkContainer">
+    <push-to-talk-button appid="ead4b9e7-e5c4-48ed-9dae-3c530916ed76"></push-to-talk-button>
+  </div>
+</body>
 </xmp>
 
     <h2>Handling Speech Input</h2>
@@ -56,7 +58,15 @@
   window.addEventListener("message", (e) => {
     if (e.data.type === "speechsegment") {
       const segment = e.data.segment;
+
+      // Handle speech segment and make tentative changes to app state
       console.log("speechsegment message:", segment);
+
+      if (segment.isFinal) {
+        // Handle speech segment and make permanent changes to app state
+        // Optionally show confirmation
+        window.postMessage({ type: "speechhandled", success: true }, "*");
+      }
     }
   });
 </script>
