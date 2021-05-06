@@ -33,16 +33,18 @@ Contains the definition of `talk-button` component and logic
 - 2021/03: Svelte can't use nested components from customElements. Nested components need to be also customComponents, and thus create their own shadow doms and styles. Seems unnecessarily heavy e.g. with every child node having own <style>, but not sure. Parent's style won't affect the child. Using flat hierarchly in big-transcript for now. As workaround, build script can be tweaked to compile customElements based on file name, but styling issues remained.
 - 2021/03: Transitions on WebComponents not working https://github.com/sveltejs/svelte/issues/4735 > Using transFix.js to wrap transitions
 
-- V5 handles connection to @speechly/browser-client, send update-segment CustomEvent
-- V4 Deprecated `onholdstart` and `onholdend` attributes in favour of CustomEvents of similar names.
-- V4 Tried using `<template>` for icon art, but removed it due to it making things difficult for Wix
+- V2.0 holdable-button component with no bundled browser-client; app id fix; reconnection fix; hold-to-talk prompt (using callout) and listening prompt, audio received and acknowledged indicators.
+- V1.0 push-to-talk-button, big-transcript components
+- V0.5 handles connection to @speechly/browser-client, send update-segment CustomEvent
+- V0.4 Deprecated `onholdstart` and `onholdend` attributes in favour of CustomEvents of similar names.
+- V0.4 Tried using `<template>` for icon art, but removed it due to it making things difficult for Wix
 - Moved "custom" customElement method definitions like render() to constructor because Safari/iOS 12.5 did not work properly when they were defined as class methods
 - Used autonomous variant of customElement for Safari support. This way, our supported browser platforms should not change (not verified, though)
 
 ## TODO
 
-- Icons for remaining app states
-- Communication with @speechly/browser-client
+- OK: Icons for remaining app states
+- OK: Communication with @speechly/browser-client
 
 - Prevent double-registering components, e.g. if React app provides one and JS does one.
 if (!window.customElements.get('my-web-component')) {

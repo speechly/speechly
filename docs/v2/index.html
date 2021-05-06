@@ -10,7 +10,6 @@
 	<link rel='stylesheet' href='global.css'>
   <link rel="stylesheet" href="speechly-ui.css">
  
-  <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
 	<script src='push-to-talk-button.js'></script>
 	<script src='big-transcript.js'></script>
 </head>
@@ -32,7 +31,7 @@
 <xmp><head>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/v2/push-to-talk-button.js"></script>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/v2/big-transcript.js"></script>
-  <link rel="stylesheet" href="https://speechly.github.io/browser-ui/speechly-ui.css">
+  <link rel="stylesheet" href="https://speechly.github.io/browser-ui/v2/speechly-ui.css">
 </head>
 </xmp>
 
@@ -70,29 +69,35 @@
 
     <h3>Attributes</h3>
     <ul>
-      <li>appid - Speechly App id to connect to.
-      <li>poweron - Optional string "true" | "false". Shows poweron state. If false, recording can immediately start but will fail on first press due to system permission prompt. Default: "false" </li>
-      <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-      <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-      <li>hide - Optional "false" | "true". Default: "false"</li>
-      <li>placement - Optional "bottom" turns on internal placement without PushToTalkContainer css class</li>
-      <li>voffset - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
-      <li>intro - Optional string containing a short usage introduction. Displayed when the component is first displayed. Default: "Push to talk". Set to "" to disable.</li>
-      <li>hint - Optional string containing a short usage hint. Displayed on a short tap. Default: "Push to talk". Set to "" to disable.</li>
-      <li>fontsize - Optional CSS string for hint text. Default: "1.2rem"</li>
-      <li>showtime - Optional number in ms. Visibility duration for intro and hint callouts. Default: "5000" (ms)</li>
+      <li><code>appid</code> - Speechly App id to connect to.
+      <li><code>poweron</code> - Optional string "true" | "false". Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: "false" </li>
+      <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
+      <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
+      <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
+      <li><code>placement</code> - Optional "bottom" turns on internal placement without PushToTalkContainer css class</li>
+      <li><code>voffset</code> - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
+      <li><code>intro</code> - Optional string containing a short usage introduction. Displayed when the component is first displayed. Default: "Push to talk". Set to "" to disable.</li>
+      <li><code>hint</code> - Optional string containing a short usage hint. Displayed on a short tap. Default: "Push to talk". Set to "" to disable.</li>
+      <li><code>fontsize</code> - Optional CSS string for hint text. Default: "1.2rem"</li>
+      <li><code>showtime</code> - Optional number in ms. Visibility duration for intro and hint callouts. Default: "5000" (ms)</li>
+      <li><code>textbgcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
+      <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
+      <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
     </ul>
     <h3>Events emitted</h3>
     <ul>
-      <li>holdstart - CustomEvent triggered upon hold start</li>
-      <li>holdend - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
-	    <li>speechsegment - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
-      <li>starting - CustomEvent triggered on initialization start</li>
-      <li>initialized - CustomEvent triggered on initialization end. details: {success: true | false, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
+      <li><code>holdstart</code> - CustomEvent triggered upon hold start</li>
+      <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
+	    <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
+      <li><code>starting</code> - CustomEvent triggered on initialization start</li>
+      <li><code>initialized</code> - CustomEvent triggered on initialization end. details: {success: true | false, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
     </ul>
-    <h3>Window messages emitted</h3>
+    <h3>Window messages emitted (postMessage)</h3>
     <ul>
-      <li>{type: "speechsegment", segment: {} as Segment} - Uses postMessage to broadcast new segment when an update is available</li>
+      <li><code>{type: "speechsegment", segment: Segment}</code> - Broadcasts new segment when an update is available</li>
+      <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
+      <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
+      <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
     </ul>
 
     <h2>Element &lt;big-transcript/&gt;</h2>
@@ -106,23 +111,28 @@
 
     <h3>Attributes</h3>
     <ul>
-      <li>placement - Optional "top" turns on internal placement without BigTranscriptContainer css class</li>
-      <li>hoffset - Optional CSS string. Horizontal distance from viewport edge. Only effective when using placement.</li>
-      <li>voffset - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
-      <li>fontsize - Optional CSS string for text size. Default: "1.5rem"</li>
+      <li><code>placement</code> - Optional "top" turns on internal placement without BigTranscriptContainer css class</li>
+      <li><code>hoffset</code> - Optional CSS string. Horizontal distance from viewport edge. Only effective when using placement.</li>
+      <li><code>voffset</code> - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
+      <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
+      <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
+      <li><code>textbgcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
     </ul>
 
     <h3>Properties</h3>
     <ul>
-      <li>onsegmentupdate(segment) - Call whenever a new segment update is available</li>
+      <li><code>onsegmentupdate</code>(segment) - Call whenever a new segment update is available</li>
     </ul>
     <h3>Events listened</h3>
     <ul>
-      <li>"speechsegment", {detail: {} as Segment} - Expect an update whenever a new segment update is available</li>
+      <li><code>"speechsegment", {detail: Segment}</code> - Expect an update whenever a new segment update is available</li>
     </ul>
     <h3>Window messages listened</h3>
     <ul>
-      <li>{type: "speechsegment", segment: {} as Segment} - Expects an update whenever a new segment update is available</li>
+      <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
+      <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
+      <li><code>{type: "holdstart"}</code> - Triggers listening prompt</li>
+      <li><code>{type: "holdend"}</code> - Initiates hide transition</li>
     </ul>
 
     <h2>Element &lt;holdable-button/&gt;</h2>
@@ -135,21 +145,21 @@
     
     <h3>Attributes</h3>
     <ul>
-      <li>icon - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client) or SpeechState (from react-client). SpeechState strings are: "Idle" | "Connecting" | "Ready" | "Recording" | "Loading" | "Failed" | "NoBrowserSupport" | "NoAudioConsent".</li>
-      <li>capturekey - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-      <li>size - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-      <li>gradientstop1 - Optional string (CSS color). Default: "#15e8b5"
-      <li>gradientstop2 - Optional string (CSS color). Default: "#4fa1f9"
+      <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client) or SpeechState (from react-client). SpeechState strings are: "Idle" | "Connecting" | "Ready" | "Recording" | "Loading" | "Failed" | "NoBrowserSupport" | "NoAudioConsent".</li>
+      <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
+      <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
+      <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
+      <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
     </ul>
     <h3>Callbacks</h3>
     <ul>
-      <li>onholdstart - Called upon hold start.</li>
-      <li>onholdend - Called hold end. Params: timeMs (number) contains hold time in ms.</li>
+      <li><code>onholdstart</code> - Called upon hold start.</li>
+      <li><code>onholdend</code> - Called hold end. Params: timeMs (number) contains hold time in ms.</li>
     </ul>
     <h3>Events emitted</h3>
     <ul>
-      <li>holdstart - CustomEvent triggered upon hold start</li>
-      <li>holdend - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
+      <li><code>holdstart</code> - CustomEvent triggered upon hold start</li>
+      <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
     </ul>
 
     <h2>Browser-UI Playground Log</h2>
@@ -191,6 +201,10 @@
         webLog(segment.words.map(w => w.value).join(" "));
         // transcriptEl.dispatchEvent(new CustomEvent("speechsegment", {detail: e.detail}));
         // window.postMessage({type: "speechsegment", segment: e.detail}, "*");
+        if (segment.isFinal) {
+          // Acknowledge we understood what was being said
+          window.postMessage({type: "speechhandled", success: true}, "*");
+        }
       }
     });
 
@@ -248,12 +262,47 @@
                 "startTimestamp": 2940,
                 "endTimestamp": 3420,
                 "isFinal": true
+            },
+            {
+                "value": "YADDA",
+                "index": 6,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
+            },
+            {
+                "value": "YADDA",
+                "index": 7,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
+            },
+            {
+                "value": "YADDA",
+                "index": 8,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
+            },
+            {
+                "value": "YADDA",
+                "index": 9,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
+            },
+            {
+                "value": "YADDA",
+                "index": 10,
+                "startTimestamp": 2940,
+                "endTimestamp": 3420,
+                "isFinal": true
             }
         ],
         "entities": [
             {
                 "type": "email",
-                "value": "thelights",
+                "value": "the lights",
                 "startPosition": 4,
                 "endPosition": 6,
                 "isFinal": true
