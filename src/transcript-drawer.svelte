@@ -7,6 +7,7 @@
 
   export let height = "8rem";
   export let hint = `Try: "Show me blue jeans"`;
+  export let textbgcolor = "#202020";
 
   let positionTransition = tweened({ y: -1.0 }, {
     duration: 200,
@@ -55,9 +56,13 @@
 <main class="placementTop" style="
   --height: {height};
 ">
-  <div class="drawer" style="opacity: {$opacityTransition.opacity}; transform: translate(0px, {$positionTransition.y}rem);">
+  <div class="drawer" style="
+    background-color: {textbgcolor};
+    opacity: {$opacityTransition.opacity};
+    transform: translate(0px, {$positionTransition.y}rem);
+  ">
     <div class="pad">
-      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged}></big-transcript>
+      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} textbgcolor={textbgcolor}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {hint}
       </div>
@@ -80,7 +85,6 @@
     width: 100%;
     min-height: var(--height);
 
-    background-color: #222;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

@@ -17,19 +17,19 @@
 
 <body>
 
-  <transcript-drawer hint='Try: "Whatever"'></transcript-drawer>
+  <transcript-drawer></transcript-drawer>
 
   <div class="PushToTalkContainer">
     <push-to-talk-button></push-to-talk-button>
   </div>
 
   <main>
-    <h1>Speechly Web Toolkit and Browser-UI</h1>
+    <h1>Transcript Drawer for Web Toolkit</h1>
     <h2>Quick installation from CDN</h2>
       Include the resources in your <code>&lt;head&gt;</code> block:
 <xmp><head>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/push-to-talk-button.js"></script>
-  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/big-transcript.js"></script>
+  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/transcript-drawer.js"></script>
   <link rel="stylesheet" href="https://speechly.github.io/browser-ui/speechly-ui.css">
 </head>
 </xmp>
@@ -38,9 +38,7 @@
       <p>
         Include the following lines in your <code>&lt;body&gt;</code>:
       </p>
-<xmp><div class="BigTranscriptContainer">
-  <big-transcript></big-transcript>
-</div> 
+<xmp><transcript-drawer></transcript-drawer> 
 </xmp>
 
 <xmp><div class="PushToTalkContainer">
@@ -60,72 +58,22 @@
 </script>
 </xmp>
     
-    <h2>Element &lt;push-to-talk-button/&gt;</h2>
+    <h2>Element &lt;transcript-drawer/&gt;</h2>
     <p>
-      Autonomous customElement for connecting to Speechly and controlling listening on/off.
-    </p>
-    <button onclick="hideButton()">Hide button</button> <button onclick="showButton()">Show button</button>
-
-    <h3>Attributes</h3>
-    <ul>
-      <li><code>appid</code> - Speechly App id to connect to.
-      <li><code>poweron</code> - Optional string "true" | "false". Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: "false" </li>
-      <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-      <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-      <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
-      <li><code>placement</code> - Optional "bottom" turns on internal placement without PushToTalkContainer css class</li>
-      <li><code>voffset</code> - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
-      <li><code>intro</code> - Optional string containing a short usage introduction. Displayed when the component is first displayed. Default: "Push to talk". Set to "" to disable.</li>
-      <li><code>hint</code> - Optional string containing a short usage hint. Displayed on a short tap. Default: "Push to talk". Set to "" to disable.</li>
-      <li><code>fontsize</code> - Optional CSS string for hint text. Default: "1.2rem"</li>
-      <li><code>showtime</code> - Optional number in ms. Visibility duration for intro and hint callouts. Default: "5000" (ms)</li>
-      <li><code>textbgcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
-      <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
-      <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
-    </ul>
-    <h3>Events emitted</h3>
-    <ul>
-      <li><code>holdstart</code> - CustomEvent triggered upon hold start</li>
-      <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
-	    <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
-      <li><code>starting</code> - CustomEvent triggered on initialization start</li>
-      <li><code>initialized</code> - CustomEvent triggered on initialization end. details: {success: true | false, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
-    </ul>
-    <h3>Window messages emitted (postMessage)</h3>
-    <ul>
-      <li><code>{type: "speechsegment", segment: Segment}</code> - Broadcasts new segment when an update is available</li>
-      <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
-      <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
-      <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
-    </ul>
-
-    <h2>Element &lt;big-transcript/&gt;</h2>
-    <p>
-      <code>&lt;big-transcript/&gt;</code> is an overlay-style component for displaying real-time speech-to-text transcript.
+      <code>&lt;transcript-drawer/&gt;</code> is an drawer-style component for displaying real-time speech-to-text transcript and hint texts.
     </p>
     <p>
-      It is intended to be placed as an overlay near top-left corner of the screen using <code>BigTranscriptContainer</code> CSS class. It is momentarily displayed and automatically hidden after the end of voice input.
+      It's an alternative to big-transcript (actually a wrapper). It is displayed at the top of the screen. It is momentarily displayed and automatically hidden after the end of voice input.
     </p>
     <button onclick="showTranscriptSample()">Show sample transcript</button>
 
     <h3>Attributes</h3>
     <ul>
-      <li><code>placement</code> - Optional "top" turns on internal placement without BigTranscriptContainer css class</li>
-      <li><code>hoffset</code> - Optional CSS string. Horizontal distance from viewport edge. Only effective when using placement.</li>
-      <li><code>voffset</code> - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
-      <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
-      <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
+      <li><code>hint</code> - Hint text
+      <li><code>height</code> - Optional minimum height as CSS string. Default: "8rem"</li>
       <li><code>textbgcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
     </ul>
 
-    <h3>Properties</h3>
-    <ul>
-      <li><code>onsegmentupdate</code>(segment) - Call whenever a new segment update is available</li>
-    </ul>
-    <h3>Events listened</h3>
-    <ul>
-      <li><code>"speechsegment", {detail: Segment}</code> - Expect an update whenever a new segment update is available</li>
-    </ul>
     <h3>Window messages listened</h3>
     <ul>
       <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
@@ -134,32 +82,6 @@
       <li><code>{type: "holdend"}</code> - Initiates hide transition</li>
     </ul>
 
-    <h2>Element &lt;holdable-button/&gt;</h2>
-	  Autonomous customElement that displays a stateless, holdable button with an icon and emits events on press.
-    <h3>Installation</h3>
-<xmp><head>
-  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/holdable-button.js"></script>
-</head>
-</xmp>
-    
-    <h3>Attributes</h3>
-    <ul>
-      <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client) or SpeechState (from react-client). SpeechState strings are: "Idle" | "Connecting" | "Ready" | "Recording" | "Loading" | "Failed" | "NoBrowserSupport" | "NoAudioConsent".</li>
-      <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-      <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-      <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
-      <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
-    </ul>
-    <h3>Callbacks</h3>
-    <ul>
-      <li><code>onholdstart</code> - Called upon hold start.</li>
-      <li><code>onholdend</code> - Called hold end. Params: timeMs (number) contains hold time in ms.</li>
-    </ul>
-    <h3>Events emitted</h3>
-    <ul>
-      <li><code>holdstart</code> - CustomEvent triggered upon hold start</li>
-      <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
-    </ul>
 
     <h2>Browser-UI Playground Log</h2>
     <p>
