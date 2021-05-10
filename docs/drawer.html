@@ -17,7 +17,7 @@
 
 <body>
 
-  <transcript-drawer></transcript-drawer>
+  <transcript-drawer hint='Try: "Whatever"'></transcript-drawer>
 
   <div class="PushToTalkContainer">
     <push-to-talk-button></push-to-talk-button>
@@ -182,6 +182,8 @@
     webLog("Start of index.html script V11...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
     webLog("push-to-talk-button: "+pushToTalkEl);
+		const transcriptDrawer = document.getElementsByTagName("transcript-drawer")[0];
+    webLog("transcript-drawer: "+transcriptDrawer);
 
     // Use query param to override appid
     const queryString = window.location.search;
@@ -189,9 +191,18 @@
     const appid = urlParams.get('appid') || urlParams.get('appId') || "ead4b9e7-e5c4-48ed-9dae-3c530916ed76";
     pushToTalkEl.setAttribute("appid", appid);
 
-		pushToTalkEl.addEventListener("holdstart", (e) => {console.log("holdstart event received")});
+		pushToTalkEl.addEventListener("holdstart", (e) => {
+      hints = [
+        'Try: "Show me blue jeans"',
+        'Try: "Yellow"',
+        'Try: "What brands do you have?',
+      ]
+      console.log("holdstart event received");
+      transcriptDrawer.setAttribute("hint", hints[Math.floor(Math.random() * hints.length)]);
+    });
 		pushToTalkEl.addEventListener("holdend", (e) => {console.log("holdend event received", e.detail.timeMs)});
-		window.addEventListener("message", (e) => {
+
+    window.addEventListener("message", (e) => {
       if (e.data.type === "speechsegment") {
         const segment = e.data.segment;
         console.log("speechsegment message:", segment);
