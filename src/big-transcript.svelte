@@ -23,13 +23,21 @@
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
-  let visible = false;
   let buttonheld = false;
   let timeout = null;
   let lastSegmentId = null;
   let clientState = ClientState.Disconnected;
 
+  let showingTranscript = false;
+  let visibility = false;
   $: showlistening = (words.length === 0);
+  $: {
+    const newVisibility = clientState === ClientState.Recording || showingTranscript;
+    if (newVisibility !== visibility) {
+      dispatchUnbounded("visibilitychanged", newVisibility);
+    }
+    visibility = newVisibility;
+  }
   let acknowledged = false;
 
   const thisComponent = get_current_component();
@@ -52,8 +60,8 @@
       css: (t: number) => `
         opacity: ${interpolateLinearf(fadeIn, t, 0.0, 1.0)};
         max-height: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 10}rem;
-        margin-bottom: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 1.5}rem;
       `
+      // margin-bottom: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 1.5}rem;
     };
   });
 
@@ -106,7 +114,9 @@
       scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
     } else {
       if (words.length > 0) {
-        visible = true;
+        if (!showingTranscript) {
+          showingTranscript = true;
+        }
         scheduleHide(HIDE_TIMEOUT_MS);
       }
     }
@@ -159,8 +169,10 @@
     cancelHide();
 
     timeout = window.setTimeout(() => {
-      visible = false;
       timeout = null;
+      if (showingTranscript) {
+        showingTranscript = false;
+      }
     }, prerollMs);
   }
 
@@ -200,7 +212,7 @@
   --text-bg-color: {textbgcolor};
 ">
 
-  {#if clientState === ClientState.Recording || visible}
+  {#if visibility}
     <div class="BigTranscript" in:revealTransition out:revealTransition>
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}">
         <div class="TransscriptItemBgDiv"/>
@@ -247,7 +259,6 @@
     color: #fff;
     font-size: var(--fontsize);
     line-height: 135%;
-    margin-bottom:1.5rem;
 
     display:flex;
     flex-direction: row;
