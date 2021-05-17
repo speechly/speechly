@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
-  import { ClientState } from "@speechly/browser-client";
+  import { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
   import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
   import fix from './transFix'

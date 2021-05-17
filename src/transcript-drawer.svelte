@@ -2,8 +2,8 @@
 
 <script lang="ts">
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
-  import "./big-transcript.svelte";
   import { tweened } from 'svelte/motion';
+  import "./big-transcript.svelte";
 
   export let height = "8rem";
   export let hint = `Try: "Show me blue jeans"`;

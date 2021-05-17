@@ -1,5 +1,9 @@
 import { ClientState } from "@speechly/browser-client/speechly/types.js"; 
 
+// Re-exporting ClientState. If used directly from browser-client, rollup includes the whole of
+// browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
+export { ClientState } from "@speechly/browser-client/speechly/types.js"; 
+
 export type ITaggedWord = {
   word: string
   serialNumber: number
