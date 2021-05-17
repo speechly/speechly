@@ -31,6 +31,17 @@ https://speechly.github.io/v1/browser-ui (Usage)
 https://speechly.github.io/v1/browser-ui/v1/push-to-talk-button.js
 https://speechly.github.io/v1/browser-ui/v1/big-transcript.js
 
+
+## Publishing
+
+```
+cd docs/v1
+code package.json
+# Update version number
+npm publish
+# Check Google Authenticator app for one-time password
+```
+
 ## Testing browser-ui locally in a test project
 
 
