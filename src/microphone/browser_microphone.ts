@@ -6,6 +6,7 @@ const audioProcessEvent = 'audioprocess'
 const baseBufferSize = 4096
 
 export class BrowserMicrophone implements Microphone {
+  private readonly debug: boolean
   private readonly isWebkit: boolean
   private readonly apiClient: APIClient
   private readonly sampleRate: number
@@ -25,10 +26,11 @@ export class BrowserMicrophone implements Microphone {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
-  constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient) {
+  constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient, debug: boolean) {
     this.isWebkit = isWebkit
     this.apiClient = apiClient
     this.sampleRate = sampleRate
+    this.debug = debug
   }
 
   async initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void> {
@@ -59,6 +61,9 @@ export class BrowserMicrophone implements Microphone {
     }
 
     if (window.AudioWorkletNode !== undefined) {
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'using AudioWorkletNode')
+      }
       const blob = new Blob([audioworklet], { type: 'text/javascript' })
       const blobURL = window.URL.createObjectURL(blob)
       await this.audioContext.audioWorklet.addModule(blobURL)
@@ -67,6 +72,9 @@ export class BrowserMicrophone implements Microphone {
       speechlyNode.connect(this.audioContext.destination)
       // @ts-ignore
       if (window.SharedArrayBuffer !== undefined && window.crossOriginIsolated === true) {
+        if (this.debug) {
+          console.log('[SpeechlyClient]', 'using SharedArrayBuffer')
+        }
         // Chrome, Edge, Firefox, Firefox Android
         const controlSAB = new window.SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT)
         const dataSAB = new window.SharedArrayBuffer(2 * 4096 * Float32Array.BYTES_PER_ELEMENT)
@@ -81,6 +89,9 @@ export class BrowserMicrophone implements Microphone {
           dataSAB,
         })
       } else {
+        if (this.debug) {
+          console.log('[SpeechlyClient]', 'cannot use SharedArrayBuffer')
+        }
         // Opera, Chrome Android, Webview Anroid
         speechlyNode.port.onmessage = (event: MessageEvent) => {
           this.handleAudio(event.data)
