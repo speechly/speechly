@@ -66,7 +66,7 @@ export class BrowserMicrophone implements Microphone {
       this.audioContext.createMediaStreamSource(this.mediaStream).connect(speechlyNode)
       speechlyNode.connect(this.audioContext.destination)
       // @ts-ignore
-      if (window.SharedArrayBuffer !== undefined && window.crossOriginIsolated) {
+      if (window.SharedArrayBuffer !== undefined && window.crossOriginIsolated === true) {
         // Chrome, Edge, Firefox, Firefox Android
         const controlSAB = new window.SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT)
         const dataSAB = new window.SharedArrayBuffer(2 * 4096 * Float32Array.BYTES_PER_ELEMENT)
