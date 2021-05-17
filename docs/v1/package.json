@@ -1,7 +1,10 @@
 {
-  "name": "browser-ui",
-  "version": "1.0.0",
+  "name": "@speechly/browser-ui",
+  "version": "1.1.0",
   "files": [
     "**/*"
-  ]  
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
