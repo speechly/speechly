@@ -1,12 +1,12 @@
-<svelte:options tag="transcript-drawer" immutable={true} />
+<svelte:options immutable={true} tag={null}/>
 
 <script lang="ts">
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
-  import "./big-transcript.svelte";
+  import "./big-transcript.ts";
 
   export let height = "8rem";
-  export let hint = `Try: "Show me blue jeans"`;
+  export let hint = ""; // `Try: "Show me blue jeans"`;
   export let textbgcolor = "#202020";
 
   let positionTransition = tweened({ y: -1.0 }, {

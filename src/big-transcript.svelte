@@ -1,4 +1,4 @@
-<svelte:options tag="big-transcript" immutable={true} />
+<svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
