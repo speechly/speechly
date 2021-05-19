@@ -54,8 +54,7 @@
 
   onMount(() => {
     mounted = true;
-    // Transition in button
-    // connectSpeechly(appid);
+    connectSpeechly(appid);
   });
 
   const connectSpeechly = (appid: string) => {
