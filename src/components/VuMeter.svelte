@@ -1,18 +1,21 @@
-<svelte:options tag="vu-meter" immutable={true} />
-
 <script lang="ts">
   import { onMount } from "svelte";
-  import { get_current_component } from "svelte/internal";
 
   export let color = "#60e0ff";
+  export const updateVU = (level: number, seekTimeMs: number) => {
+    if (Date.now() > VUUpdateTimeStamp) {
+      VUTarget = level
+    } else {
+      VUTarget = Math.max(VUTarget, level)
+    }
+    VUUpdateTimeStamp = Date.now() + seekTimeMs
+  };
 
   let canvas: HTMLCanvasElement;
   let VUTarget = 0;
   let VUUpdateTimeStamp = 0;
   let VULevels: number[] = [0, 0];
 
-  const thisComponent = get_current_component();
- 
   const getPixelRatio = (context: any) => {
     var backingStore: number =
       context.backingStorePixelRatio ||
@@ -57,15 +60,6 @@
     const AdoptRatio = 0.25
     const VUMinLevel = 0.25
 
-    const updateVU = (level: number, seekTimeMs: number) => {
-      if (Date.now() > VUUpdateTimeStamp) {
-        VUTarget = level
-      } else {
-        VUTarget = Math.max(VUTarget, level)
-      }
-      VUUpdateTimeStamp = Date.now() + seekTimeMs
-    };
-
     const render = () => {
       requestId = requestAnimationFrame(render)
       if (!canvas) return
@@ -91,8 +85,8 @@
       }
 
       context.clearRect(0, 0, canvas.width, canvas.height)
-      //                canvas.style.width = `${width}px`;
-      //                canvas.style.height = `${height}px`;
+      // canvas.style.width = `${width}px`;
+      // canvas.style.height = `${height}px`;
 
       const rad = vuWidthWeight / totalWeight * canvas.width * 0.5;
       const spacing = (vuGapWeight + vuWidthWeight) / totalWeight * canvas.width;
@@ -137,20 +131,26 @@
 
     render();
 
-    updateVU(1.0, 350);
-    const updateVUAdapter = (e) => updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
-
-    thisComponent.addEventListener("updateVU", updateVUAdapter);
+    updateVU(1.0, 500);
 
     return () => {
       cancelAnimationFrame(requestId);
-      thisComponent.removeEventListener("updateVU", updateVUAdapter);
     };
   });
 
 </script>
 
-<canvas bind:this={canvas} style="color: {color}"/>
+<canvas bind:this={canvas} style="
+  color: {color};
+  display: block;
+  width: 1.35rem;
+  height: 1.5rem;
+  margin: 0;
+  padding: 0 0.8rem 0 0rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 1.35rem;
+"/>
 
 <style>
   canvas {
@@ -159,5 +159,8 @@
     height: 1.5rem;
     margin: 0;
     padding: 0 0.8rem 0 0rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 1.35rem;
   }
 </style>

@@ -1,4 +1,4 @@
-<svelte:options immutable={true} tag={null}/>
+<svelte:options tag={null} immutable={true}/>
 
 <script lang="ts">
   import { cubicIn, cubicOut, linear } from 'svelte/easing';

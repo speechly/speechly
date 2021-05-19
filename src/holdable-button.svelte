@@ -1,11 +1,11 @@
-<svelte:options tag="holdable-button" immutable={true} />
+<svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
-  import "./components/mic-frame.svelte";
-  import "./components/mic-icon.svelte";
-  import "./components/mic-fx.svelte";
+  import MicFrame from "./components/MicFrame.svelte";
+  import MicIcon from "./components/MicIcon.svelte";
+  import MicFx from "./components/MicFx.svelte";
   import type { IAppearance, IHoldEvent } from "./types";
   import {
     Icon,
@@ -226,27 +226,20 @@
   style="
     width:{size};
     height:{size};
-    
     --gradient-stop1: {gradientstop1};
     --gradient-stop2: {gradientstop2};
     --fx-rotation: {rotation[1]}deg;
+    --fx-opacity: {fxOpacity[1]};
+    --icon-opacity: {iconOpacity[1]};
   "
 >
   <div class="ButtonComponents" style="
     transform: scale({scale[1]});
   ">
-    <mic-fx
-      style="
-      opacity: {fxOpacity[1]};
-      transform: rotate({rotation[1]}deg);
-    "
-    />
-    <mic-frame />
-    <mic-icon
+    <MicFx/>
+    <MicFrame/>
+    <MicIcon
       icon={effectiveAppearance.icon}
-      style="
-      opacity: {iconOpacity[1]};
-    "
     />
   </div>
   <slot></slot>

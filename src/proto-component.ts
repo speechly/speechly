@@ -1,1 +1,0 @@
-import './proto-component.svelte';

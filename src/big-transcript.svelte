@@ -10,7 +10,7 @@
   import { draw as draw_orig } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
-  import "./components/vu-meter.svelte";
+  import VuMeter from "./components/VuMeter.svelte";
 
   const HIDE_TIMEOUT_MS = 2000;
 
@@ -108,7 +108,10 @@
     if (segment === undefined) return;
 
     // Animate VU meter
-    if (vumeter && buttonheld) vumeter.dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
+    if (vumeter && buttonheld) {
+      vumeter.updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
+      // dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
+    }
 
     if (segment.isFinal) {
       scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
@@ -217,7 +220,7 @@
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}">
         <div class="TransscriptItemBgDiv"/>
         <div class="TransscriptItemContent">
-          <vu-meter bind:this={vumeter} color={highlightcolor}></vu-meter>
+          <VuMeter bind:this={vumeter} color={highlightcolor}></VuMeter>
           {#if showlistening}
             <div class="listening" in:slideTransition="{{duration: 400}}">Listening...</div>
           {/if}

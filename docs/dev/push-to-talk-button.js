@@ -1,3 +1,8277 @@
-!function(){"use strict";function e(){}const t=e=>e;function n(e){return e()}function a(){return Object.create(null)}function i(e){e.forEach(n)}function o(e){return"function"==typeof e}function r(e,t){return e!=e?t==t:e!==t}const s="undefined"!=typeof window;let c=s?()=>window.performance.now():()=>Date.now(),u=s?e=>requestAnimationFrame(e):e;const l=new Set;function d(e){l.forEach((t=>{t.c(e)||(l.delete(t),t.f())})),0!==l.size&&u(d)}function h(e){let t;return 0===l.size&&u(d),{promise:new Promise((n=>{l.add(t={c:e,f:n})})),abort(){l.delete(t)}}}let m=!1;const p=new Set;function f(e,t){m&&p.delete(t),t.parentNode!==e&&e.appendChild(t)}function v(e,t,n){m&&p.delete(t),(t.parentNode!==e||n&&t.nextSibling!==n)&&e.insertBefore(t,n||null)}function g(e){m?p.add(e):e.parentNode&&e.parentNode.removeChild(e)}function y(e){return document.createElement(e)}function w(e){return document.createElementNS("http://www.w3.org/2000/svg",e)}function S(e){return document.createTextNode(e)}function C(){return S(" ")}function b(e,t,n,a){return e.addEventListener(t,n,a),()=>e.removeEventListener(t,n,a)}function N(e,t,n){null==n?e.removeAttribute(t):e.getAttribute(t)!==n&&e.setAttribute(t,n)}function k(e,t,n){t in e?e[t]="boolean"==typeof e[t]&&""===n||n:N(e,t,n)}function E(e,t,n,a){e.style.setProperty(t,n,a?"important":"")}function T(e,t,n){e.classList[n?"add":"remove"](t)}function x(e){const t={};for(const n of e)t[n.name]=n.value;return t}const A=new Set;let _,M=0;function I(e,t,n,a,i,o,r,s=0){const c=16.666/a;let u="{\n";for(let e=0;e<=1;e+=c){const a=t+(n-t)*o(e);u+=100*e+`%{${r(a,1-a)}}\n`}const l=u+`100% {${r(n,1-n)}}\n}`,d=`__svelte_${function(e){let t=5381,n=e.length;for(;n--;)t=(t<<5)-t^e.charCodeAt(n);return t>>>0}(l)}_${s}`,h=e.ownerDocument;A.add(h);const m=h.__svelte_stylesheet||(h.__svelte_stylesheet=h.head.appendChild(y("style")).sheet),p=h.__svelte_rules||(h.__svelte_rules={});p[d]||(p[d]=!0,m.insertRule(`@keyframes ${d} ${l}`,m.cssRules.length));const f=e.style.animation||"";return e.style.animation=`${f?`${f}, `:""}${d} ${a}ms linear ${i}ms 1 both`,M+=1,d}function R(e,t){const n=(e.style.animation||"").split(", "),a=n.filter(t?e=>e.indexOf(t)<0:e=>-1===e.indexOf("__svelte")),i=n.length-a.length;i&&(e.style.animation=a.join(", "),M-=i,M||u((()=>{M||(A.forEach((e=>{const t=e.__svelte_stylesheet;let n=t.cssRules.length;for(;n--;)t.deleteRule(n);e.__svelte_rules={}})),A.clear())})))}function $(e){_=e}function O(){if(!_)throw new Error("Function called outside component initialization");return _}function z(e){O().$$.on_mount.push(e)}const B=[],L=[],P=[],D=[],F=Promise.resolve();let j=!1;function W(e){P.push(e)}let U=!1;const G=new Set;function K(){if(!U){U=!0;do{for(let e=0;e<B.length;e+=1){const t=B[e];$(t),H(t.$$)}for($(null),B.length=0;L.length;)L.pop()();for(let e=0;e<P.length;e+=1){const t=P[e];G.has(t)||(G.add(t),t())}P.length=0}while(B.length);for(;D.length;)D.pop()();j=!1,U=!1,G.clear()}}function H(e){if(null!==e.fragment){e.update(),i(e.before_update);const t=e.dirty;e.dirty=[-1],e.fragment&&e.fragment.p(e.ctx,t),e.after_update.forEach(W)}}let V;function J(){return V||(V=Promise.resolve(),V.then((()=>{V=null}))),V}function Z(e,t,n){e.dispatchEvent(function(e,t){const n=document.createEvent("CustomEvent");return n.initCustomEvent(e,!1,!1,t),n}(`${t?"intro":"outro"}${n}`))}const X=new Set;let q;function Y(e,t){e&&e.i&&(X.delete(e),e.i(t))}function Q(e,t,n,a){if(e&&e.o){if(X.has(e))return;X.add(e),q.c.push((()=>{X.delete(e),a&&(n&&e.d(1),a())})),e.o(t)}}const ee={duration:0};const te="undefined"!=typeof window?window:"undefined"!=typeof globalThis?globalThis:global;function ne(e,t){-1===e.$$.dirty[0]&&(B.push(e),j||(j=!0,F.then(K)),e.$$.dirty.fill(0)),e.$$.dirty[t/31|0]|=1<<t%31}function ae(t,r,s,c,u,l,d=[-1]){const h=_;$(t);const f=t.$$={fragment:null,ctx:null,props:l,update:e,not_equal:u,bound:a(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(h?h.$$.context:r.context||[]),callbacks:a(),dirty:d,skip_bound:!1};let v=!1;if(f.ctx=s?s(t,r.props||{},((e,n,...a)=>{const i=a.length?a[0]:n;return f.ctx&&u(f.ctx[e],f.ctx[e]=i)&&(!f.skip_bound&&f.bound[e]&&f.bound[e](i),v&&ne(t,e)),n})):[],f.update(),v=!0,i(f.before_update),f.fragment=!!c&&c(f.ctx),r.target){if(r.hydrate){m=!0;const e=function(e){return Array.from(e.childNodes)}(r.target);f.fragment&&f.fragment.l(e),e.forEach(g)}else f.fragment&&f.fragment.c();r.intro&&Y(t.$$.fragment),function(e,t,a,r){const{fragment:s,on_mount:c,on_destroy:u,after_update:l}=e.$$;s&&s.m(t,a),r||W((()=>{const t=c.map(n).filter(o);u?u.push(...t):i(t),e.$$.on_mount=[]})),l.forEach(W)}(t,r.target,r.anchor,r.customElement),function(){m=!1;for(const e of p)e.parentNode.removeChild(e);p.clear()}(),K()}$(h)}let ie;"function"==typeof HTMLElement&&(ie=class extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"})}connectedCallback(){const{on_mount:e}=this.$$;this.$$.on_disconnect=e.map(n).filter(o);for(const e in this.$$.slotted)this.appendChild(this.$$.slotted[e])}attributeChangedCallback(e,t,n){this[e]=n}disconnectedCallback(){i(this.$$.on_disconnect)}$destroy(){!function(e,t){const n=e.$$;null!==n.fragment&&(i(n.on_destroy),n.fragment&&n.fragment.d(t),n.on_destroy=n.fragment=null,n.ctx=[])}(this,1),this.$destroy=e}$on(e,t){const n=this.$$.callbacks[e]||(this.$$.callbacks[e]=[]);return n.push(t),()=>{const e=n.indexOf(t);-1!==e&&n.splice(e,1)}}$set(e){var t;this.$$set&&(t=e,0!==Object.keys(t).length)&&(this.$$.skip_bound=!0,this.$$set(e),this.$$.skip_bound=!1)}});var oe="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function re(e){if(e.__esModule)return e;var t=Object.defineProperty({},"__esModule",{value:!0});return Object.keys(e).forEach((function(n){var a=Object.getOwnPropertyDescriptor(e,n);Object.defineProperty(t,n,a.get?a:{enumerable:!0,get:function(){return e[n]}})})),t}function se(e){var t={exports:{}};return e(t,t.exports),t.exports}var ce=se((function(e,t){var n;Object.defineProperty(t,"__esModule",{value:!0}),(n=t.ClientState||(t.ClientState={}))[n.Failed=0]="Failed",n[n.NoBrowserSupport=1]="NoBrowserSupport",n[n.NoAudioConsent=2]="NoAudioConsent",n[n.Disconnected=3]="Disconnected",n[n.Disconnecting=4]="Disconnecting",n[n.Connecting=5]="Connecting",n[n.Connected=6]="Connected",n[n.Starting=7]="Starting",n[n.Stopping=8]="Stopping",n[n.Recording=9]="Recording"}));var ue=function(e){var t;return null!==(t=de.get(e))&&void 0!==t?t:le};const le="Unknown",de=new Map([[ce.ClientState.Failed,"Failed"],[ce.ClientState.NoBrowserSupport,"NoBrowserSupport"],[ce.ClientState.NoAudioConsent,"NoAudioConsent"],[ce.ClientState.Disconnecting,"Disconnecting"],[ce.ClientState.Disconnected,"Disconnected"],[ce.ClientState.Connecting,"Connecting"],[ce.ClientState.Connected,"Connected"],[ce.ClientState.Starting,"Starting"],[ce.ClientState.Stopping,"Stopping"],[ce.ClientState.Recording,"Recording"]]);var he=Object.defineProperty({stateToString:ue},"__esModule",{value:!0});const me={aa:{name:"Afar",nativeName:"Afaraf"},ab:{name:"Abkhaz",nativeName:"аҧсуа бызшәа"},ae:{name:"Avestan",nativeName:"avesta"},af:{name:"Afrikaans",nativeName:"Afrikaans"},ak:{name:"Akan",nativeName:"Akan"},am:{name:"Amharic",nativeName:"አማርኛ"},an:{name:"Aragonese",nativeName:"aragonés"},ar:{name:"Arabic",nativeName:"اللغة العربية"},as:{name:"Assamese",nativeName:"অসমীয়া"},av:{name:"Avaric",nativeName:"авар мацӀ"},ay:{name:"Aymara",nativeName:"aymar aru"},az:{name:"Azerbaijani",nativeName:"azərbaycan dili"},ba:{name:"Bashkir",nativeName:"башҡорт теле"},be:{name:"Belarusian",nativeName:"беларуская мова"},bg:{name:"Bulgarian",nativeName:"български език"},bh:{name:"Bihari",nativeName:"भोजपुरी"},bi:{name:"Bislama",nativeName:"Bislama"},bm:{name:"Bambara",nativeName:"bamanankan"},bn:{name:"Bengali",nativeName:"বাংলা"},bo:{name:"Tibetan",nativeName:"བོད་ཡིག"},br:{name:"Breton",nativeName:"brezhoneg"},bs:{name:"Bosnian",nativeName:"bosanski jezik"},ca:{name:"Catalan",nativeName:"Català"},ce:{name:"Chechen",nativeName:"нохчийн мотт"},ch:{name:"Chamorro",nativeName:"Chamoru"},co:{name:"Corsican",nativeName:"corsu"},cr:{name:"Cree",nativeName:"ᓀᐦᐃᔭᐍᐏᐣ"},cs:{name:"Czech",nativeName:"čeština"},cu:{name:"Old Church Slavonic",nativeName:"ѩзыкъ словѣньскъ"},cv:{name:"Chuvash",nativeName:"чӑваш чӗлхи"},cy:{name:"Welsh",nativeName:"Cymraeg"},da:{name:"Danish",nativeName:"dansk"},de:{name:"German",nativeName:"Deutsch"},dv:{name:"Divehi",nativeName:"Dhivehi"},dz:{name:"Dzongkha",nativeName:"རྫོང་ཁ"},ee:{name:"Ewe",nativeName:"Eʋegbe"},el:{name:"Greek",nativeName:"Ελληνικά"},en:{name:"English",nativeName:"English"},eo:{name:"Esperanto",nativeName:"Esperanto"},es:{name:"Spanish",nativeName:"Español"},et:{name:"Estonian",nativeName:"eesti"},eu:{name:"Basque",nativeName:"euskara"},fa:{name:"Persian",nativeName:"فارسی"},ff:{name:"Fula",nativeName:"Fulfulde"},fi:{name:"Finnish",nativeName:"suomi"},fj:{name:"Fijian",nativeName:"Vakaviti"},fo:{name:"Faroese",nativeName:"føroyskt"},fr:{name:"French",nativeName:"Français"},fy:{name:"Western Frisian",nativeName:"Frysk"},ga:{name:"Irish",nativeName:"Gaeilge"},gd:{name:"Scottish Gaelic",nativeName:"Gàidhlig"},gl:{name:"Galician",nativeName:"galego"},gn:{name:"Guaraní",nativeName:"Avañe'ẽ"},gu:{name:"Gujarati",nativeName:"ગુજરાતી"},gv:{name:"Manx",nativeName:"Gaelg"},ha:{name:"Hausa",nativeName:"هَوُسَ"},he:{name:"Hebrew",nativeName:"עברית"},hi:{name:"Hindi",nativeName:"हिन्दी"},ho:{name:"Hiri Motu",nativeName:"Hiri Motu"},hr:{name:"Croatian",nativeName:"Hrvatski"},ht:{name:"Haitian",nativeName:"Kreyòl ayisyen"},hu:{name:"Hungarian",nativeName:"magyar"},hy:{name:"Armenian",nativeName:"Հայերեն"},hz:{name:"Herero",nativeName:"Otjiherero"},ia:{name:"Interlingua",nativeName:"Interlingua"},id:{name:"Indonesian",nativeName:"Bahasa Indonesia"},ie:{name:"Interlingue",nativeName:"Interlingue"},ig:{name:"Igbo",nativeName:"Asụsụ Igbo"},ii:{name:"Nuosu",nativeName:"ꆈꌠ꒿ Nuosuhxop"},ik:{name:"Inupiaq",nativeName:"Iñupiaq"},io:{name:"Ido",nativeName:"Ido"},is:{name:"Icelandic",nativeName:"Íslenska"},it:{name:"Italian",nativeName:"Italiano"},iu:{name:"Inuktitut",nativeName:"ᐃᓄᒃᑎᑐᑦ"},ja:{name:"Japanese",nativeName:"日本語"},jv:{name:"Javanese",nativeName:"basa Jawa"},ka:{name:"Georgian",nativeName:"ქართული"},kg:{name:"Kongo",nativeName:"Kikongo"},ki:{name:"Kikuyu",nativeName:"Gĩkũyũ"},kj:{name:"Kwanyama",nativeName:"Kuanyama"},kk:{name:"Kazakh",nativeName:"қазақ тілі"},kl:{name:"Kalaallisut",nativeName:"kalaallisut"},km:{name:"Khmer",nativeName:"ខេមរភាសា"},kn:{name:"Kannada",nativeName:"ಕನ್ನಡ"},ko:{name:"Korean",nativeName:"한국어"},kr:{name:"Kanuri",nativeName:"Kanuri"},ks:{name:"Kashmiri",nativeName:"कश्मीरी"},ku:{name:"Kurdish",nativeName:"Kurdî"},kv:{name:"Komi",nativeName:"коми кыв"},kw:{name:"Cornish",nativeName:"Kernewek"},ky:{name:"Kyrgyz",nativeName:"Кыргызча"},la:{name:"Latin",nativeName:"latine"},lb:{name:"Luxembourgish",nativeName:"Lëtzebuergesch"},lg:{name:"Ganda",nativeName:"Luganda"},li:{name:"Limburgish",nativeName:"Limburgs"},ln:{name:"Lingala",nativeName:"Lingála"},lo:{name:"Lao",nativeName:"ພາສາ"},lt:{name:"Lithuanian",nativeName:"lietuvių kalba"},lu:{name:"Luba-Katanga",nativeName:"Tshiluba"},lv:{name:"Latvian",nativeName:"latviešu valoda"},mg:{name:"Malagasy",nativeName:"fiteny malagasy"},mh:{name:"Marshallese",nativeName:"Kajin M̧ajeļ"},mi:{name:"Māori",nativeName:"te reo Māori"},mk:{name:"Macedonian",nativeName:"македонски јазик"},ml:{name:"Malayalam",nativeName:"മലയാളം"},mn:{name:"Mongolian",nativeName:"Монгол хэл"},mr:{name:"Marathi",nativeName:"मराठी"},ms:{name:"Malay",nativeName:"Bahasa Malaysia"},mt:{name:"Maltese",nativeName:"Malti"},my:{name:"Burmese",nativeName:"ဗမာစာ"},na:{name:"Nauru",nativeName:"Ekakairũ Naoero"},nb:{name:"Norwegian Bokmål",nativeName:"Norsk bokmål"},nd:{name:"Northern Ndebele",nativeName:"isiNdebele"},ne:{name:"Nepali",nativeName:"नेपाली"},ng:{name:"Ndonga",nativeName:"Owambo"},nl:{name:"Dutch",nativeName:"Nederlands"},nn:{name:"Norwegian Nynorsk",nativeName:"Norsk nynorsk"},no:{name:"Norwegian",nativeName:"Norsk"},nr:{name:"Southern Ndebele",nativeName:"isiNdebele"},nv:{name:"Navajo",nativeName:"Diné bizaad"},ny:{name:"Chichewa",nativeName:"chiCheŵa"},oc:{name:"Occitan",nativeName:"occitan"},oj:{name:"Ojibwe",nativeName:"ᐊᓂᔑᓈᐯᒧᐎᓐ"},om:{name:"Oromo",nativeName:"Afaan Oromoo"},or:{name:"Oriya",nativeName:"ଓଡ଼ିଆ"},os:{name:"Ossetian",nativeName:"ирон æвзаг"},pa:{name:"Panjabi",nativeName:"ਪੰਜਾਬੀ"},pi:{name:"Pāli",nativeName:"पाऴि"},pl:{name:"Polish",nativeName:"język polski"},ps:{name:"Pashto",nativeName:"پښتو"},pt:{name:"Portuguese",nativeName:"Português"},qu:{name:"Quechua",nativeName:"Runa Simi"},rm:{name:"Romansh",nativeName:"rumantsch grischun"},rn:{name:"Kirundi",nativeName:"Ikirundi"},ro:{name:"Romanian",nativeName:"Română"},ru:{name:"Russian",nativeName:"Русский"},rw:{name:"Kinyarwanda",nativeName:"Ikinyarwanda"},sa:{name:"Sanskrit",nativeName:"संस्कृतम्"},sc:{name:"Sardinian",nativeName:"sardu"},sd:{name:"Sindhi",nativeName:"सिन्धी"},se:{name:"Northern Sami",nativeName:"Davvisámegiella"},sg:{name:"Sango",nativeName:"yângâ tî sängö"},si:{name:"Sinhala",nativeName:"සිංහල"},sk:{name:"Slovak",nativeName:"slovenčina"},sl:{name:"Slovenian",nativeName:"slovenski jezik"},sm:{name:"Samoan",nativeName:"gagana fa'a Samoa"},sn:{name:"Shona",nativeName:"chiShona"},so:{name:"Somali",nativeName:"Soomaaliga"},sq:{name:"Albanian",nativeName:"Shqip"},sr:{name:"Serbian",nativeName:"српски језик"},ss:{name:"Swati",nativeName:"SiSwati"},st:{name:"Southern Sotho",nativeName:"Sesotho"},su:{name:"Sundanese",nativeName:"Basa Sunda"},sv:{name:"Swedish",nativeName:"Svenska"},sw:{name:"Swahili",nativeName:"Kiswahili"},ta:{name:"Tamil",nativeName:"தமிழ்"},te:{name:"Telugu",nativeName:"తెలుగు"},tg:{name:"Tajik",nativeName:"тоҷикӣ"},th:{name:"Thai",nativeName:"ไทย"},ti:{name:"Tigrinya",nativeName:"ትግርኛ"},tk:{name:"Turkmen",nativeName:"Türkmen"},tl:{name:"Tagalog",nativeName:"Wikang Tagalog"},tn:{name:"Tswana",nativeName:"Setswana"},to:{name:"Tonga",nativeName:"faka Tonga"},tr:{name:"Turkish",nativeName:"Türkçe"},ts:{name:"Tsonga",nativeName:"Xitsonga"},tt:{name:"Tatar",nativeName:"татар теле"},tw:{name:"Twi",nativeName:"Twi"},ty:{name:"Tahitian",nativeName:"Reo Tahiti"},ug:{name:"Uyghur",nativeName:"ئۇيغۇرچە‎"},uk:{name:"Ukrainian",nativeName:"Українська"},ur:{name:"Urdu",nativeName:"اردو"},uz:{name:"Uzbek",nativeName:"Ўзбек"},ve:{name:"Venda",nativeName:"Tshivenḓa"},vi:{name:"Vietnamese",nativeName:"Tiếng Việt"},vo:{name:"Volapük",nativeName:"Volapük"},wa:{name:"Walloon",nativeName:"walon"},wo:{name:"Wolof",nativeName:"Wollof"},xh:{name:"Xhosa",nativeName:"isiXhosa"},yi:{name:"Yiddish",nativeName:"ייִדיש"},yo:{name:"Yoruba",nativeName:"Yorùbá"},za:{name:"Zhuang",nativeName:"Saɯ cueŋƅ"},zh:{name:"Chinese",nativeName:"中文"},zu:{name:"Zulu",nativeName:"isiZulu"}};class pe{static getLanguages(e=[]){return e.map((e=>({code:e,name:pe.getName(e),nativeName:pe.getNativeName(e)})))}static getName(e){return pe.validate(e)?me[e].name:""}static getAllNames(){return Object.values(me).map((e=>e.name))}static getNativeName(e){return pe.validate(e)?me[e].nativeName:""}static getAllNativeNames(){return Object.values(me).map((e=>e.nativeName))}static getCode(e){return Object.keys(me).find((t=>{const n=me[t];return n.name.toLowerCase()===e.toLowerCase()||n.nativeName.toLowerCase()===e.toLowerCase()}))||""}static getAllCodes(){return Object.keys(me)}static validate(e){return me.hasOwnProperty(e)}}const fe={aa:"阿法尔语",ab:"阿布哈兹语",ae:"阿维斯陀语",af:"南非荷兰语",ak:"阿坎语",am:"阿姆哈拉语",an:"阿拉贡语",ar:"阿拉伯语",as:"阿萨姆语",av:"阿瓦尔语",ay:"艾马拉语",az:"阿塞拜疆语",ba:"巴什基尔语",be:"白俄罗斯语",bg:"保加利亚语",bh:"比哈尔语",bi:"比斯拉马语",bm:"班巴拉语",bn:"孟加拉语",bo:"藏语",br:"布列塔尼语",bs:"波斯尼亚语",ca:"加泰罗尼亚语",ce:"车臣语",ch:"查莫洛语",co:"科西嘉语",cr:"克里语",cs:"捷克语",cu:"古教会斯拉夫语",cv:"楚瓦什语",cy:"威尔士语",da:"丹麦语",de:"德语",dv:"迪维希语",dz:"不丹语",ee:"埃维语",el:"希腊语",en:"英语",eo:"世界语",es:"西班牙语",et:"爱沙尼亚语",eu:"巴斯克语",fa:"波斯语",ff:"富拉语",fi:"芬兰语",fj:"斐济语",fo:"法罗语",fr:"法语",fy:"西弗里西亚语",ga:"爱尔兰语",gd:"苏格兰盖尔语",gl:"加利西亚语",gn:"瓜拉尼语",gu:"古吉拉特语",gv:"马恩岛语",ha:"豪萨语",he:"希伯来语",hi:"印地语",ho:"莫图语",hr:"克罗地亚语",ht:"海地文",hu:"匈牙利语",hy:"亚美尼亚语",hz:"赫勒娄语",ia:"国际语",id:"印尼语",ie:"国际语",ig:"伊博语",ii:"诺苏语",ik:"依奴皮维克文",io:"伊多文",is:"冰岛语",it:"意大利语",iu:"因纽特语",ja:"日语",jv:"爪哇语",ka:"格鲁吉亚语",kg:"刚果语",ki:"基库尤语",kj:"宽亚马语",kk:"哈萨克语",kl:"格陵兰语",km:"高棉语",kn:"卡纳达语",ko:"韩语",kr:"卡努里语",ks:"克什米尔语",ku:"库尔德语",kv:"科米语",kw:"科尼什语",ky:"吉尔吉斯语",la:"拉丁语",lb:"卢森堡语",lg:"甘达语",li:"林堡语",ln:"林加拉语",lo:"老挝语",lt:"立陶宛语",lu:"卢巴加丹加语",lv:"拉脱维亚语",mg:"马尔加什语",mh:"马绍尔语",mi:"毛利语",mk:"马其顿语",ml:"马拉雅拉姆语",mn:"蒙古文",mr:"马拉地语",ms:"马来语",mt:"马耳他语",my:"缅甸语",na:"瑙鲁语",nb:"挪威博克马尔语",nd:"北恩德贝勒语",ne:"尼泊尔语",ng:"尼日尔刚果语",nl:"荷兰语",nn:"挪威尼诺斯克语",no:"挪威语",nr:"南恩德贝勒语",nv:"纳瓦霍语",ny:"齐切瓦语",oc:"奥克西唐语",oj:"欧及布威语",om:"奥罗莫语",or:"奥里亚语",os:"奥塞梯语",pa:"旁遮普语",pi:"巴利语",pl:"波兰语",ps:"普什图语",pt:"葡萄牙语",qu:"克丘亚语",rm:"罗曼斯语",rn:"基隆迪语",ro:"罗马尼亚语",ru:"俄语",rw:"卢旺达语",sa:"梵文",sc:"撒丁岛语",sd:"信德语",se:"北萨米文",sg:"桑戈语",si:"僧伽罗语",sk:"斯洛伐克语",sl:"斯洛文尼亚语",sm:"萨摩亚语",sn:"绍纳语",so:"索马里语",sq:"阿尔巴尼亚语",sr:"塞尔维亚语",ss:"斯瓦蒂语",st:"南索托语",su:"巽他语",sv:"瑞典语",sw:"斯瓦希里语",ta:"泰米尔语",te:"泰卢固语",tg:"塔吉克语",th:"泰语",ti:"提格雷语",tk:"土库曼语",tl:"菲律宾语",tn:"茨瓦纳语",to:"汤加语",tr:"土耳其语",ts:"特松加语",tt:"塔塔尔语",tw:"契维语",ty:"塔希提语",ug:"维吾尔语",uk:"乌克兰语",ur:"乌尔都语",uz:"乌兹别克语",ve:"文达语",vi:"越南语",vo:"沃拉普克语",wa:"华隆语",wo:"沃洛夫语",xh:"科萨语",yi:"意第绪语",yo:"约鲁巴语",za:"壮语",zh:"中文",zu:"祖鲁语"};class ve extends pe{static getLanguages(e){return super.getLanguages(e).map((e=>(Object.assign(e,{zhName:ve.getZhName(e.code)}),e)))}static getZhName(e){return super.validate(e)?fe[e]:""}static getAllZhNames(){return Object.values(fe)}}var ge,ye,we=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)};function Se(e,t,n,a){return e.call(a,t[n],n,t)}var Ce=function(e,t,n){var a,i=0;for(a in null==ge&&function(){for(var e in ye=["toString","toLocaleString","valueOf","hasOwnProperty","isPrototypeOf","propertyIsEnumerable","constructor"],ge=!0,{toString:null})ge=!1}(),e)if(!1===Se(t,e,a,n))break;if(ge)for(var o=e.constructor,r=!!o&&e===o.prototype;(a=ye[i++])&&("constructor"===a&&(r||!we(e,a))||e[a]===Object.prototype[a]||!1!==Se(t,e,a,n)););};var be=function(e){var t=[];return Ce(e,(function(e,n){"function"==typeof e&&t.push(n)})),t.sort()};var Ne=function(e,t,n){var a=e.length;t=null==t?0:t<0?Math.max(a+t,0):Math.min(t,a),n=null==n?a:n<0?Math.max(a+n,0):Math.min(n,a);for(var i=[];t<n;)i.push(e[t++]);return i};var ke=function(e,t,n){var a=Ne(arguments,2);return function(){return e.apply(t,a.concat(Ne(arguments)))}};var Ee=function(e,t,n){if(null!=e)for(var a=-1,i=e.length;++a<i&&!1!==t.call(n,e[a],a,e););};var Te=function(e,t){var n=arguments.length>1?Ne(arguments,1):be(e);Ee(n,(function(t){e[t]=ke(e[t],e)}))};var xe=function(e,t,n){Ce(e,(function(a,i){if(we(e,i))return t.call(n,e[i],i,e)}))};var Ae=function(e){return e};var _e=function(e){return function(t){return t[e]}},Me=/^\[object (.*)\]$/,Ie=Object.prototype.toString;var Re=function(e){return null===e?"Null":undefined===e?"Undefined":Me.exec(Ie.call(e))[1]};var $e=function(e,t){return Re(e)===t},Oe=Array.isArray||function(e){return $e(e,"Array")};function ze(e,t){for(var n=-1,a=e.length;++n<a;)if(Be(e[n],t))return!0;return!1}function Be(e,t){return e&&"object"==typeof e?Oe(e)&&Oe(t)?function(e,t){for(var n=-1,a=t.length;++n<a;)if(!ze(e,t[n]))return!1;return!0}(e,t):function(e,t){var n=!0;return xe(t,(function(t,a){if(!Be(e[a],t))return n=!1})),n}(e,t):e===t}var Le=Be;var Pe=function(e,t){if(null==e)return Ae;switch(typeof e){case"function":return void 0!==t?function(n,a,i){return e.call(t,n,a,i)}:e;case"object":return function(t){return Le(t,e)};case"string":case"number":return _e(e)}};var De=function(e,t,n){t=Pe(t,n);var a=!1;return xe(e,(function(n,i){if(t(n,i,e))return a=!0,!1})),a};var Fe=function(e,t){return De(e,(function(e){return e===t}))};var je=function(e){return!!e&&"object"==typeof e&&e.constructor===Object};var We=function e(t,n){for(var a,i=0,o=arguments.length;++i<o;)(a=arguments[i])&&xe(a,(function(n,a){var i=t[a];null==i?t[a]=n:je(i)&&je(n)&&e(i,n)}));return t};function Ue(e,t){for(var n,a=0,i=arguments.length;++a<i;)(n=arguments[a])&&xe(n,Ge,e);return e}function Ge(e,t){var n=this[t];je(e)&&je(n)?Ue(n,e):this[t]=e}var Ke=Ue;var He=function(e,t,n){t=Pe(t,n);var a=!0;return xe(e,(function(n,i){if(!t(n,i,e))return a=!1,!1})),a};var Ve=function(e){return $e(e,"Object")};var Je=function(e,t){return e===t?0!==e||1/e==1/t:e!=e&&t!=t};function Ze(e,t){return we(this,t)}var Xe=function(e,t,n){return n=n||Je,Ve(e)&&Ve(t)?He(e,function(e){return function(t,n){return we(this,n)&&e(t,this[n])}}(n),t)&&He(t,Ze,e):n(e,t)};var qe=function(e,t){return Ee(Ne(arguments,1),(function(t){xe(t,(function(t,n){null==e[n]&&(e[n]=t)}))})),e};var Ye=function(e,t,n){t=Pe(t,n);var a={};return xe(e,(function(e,n,i){t(e,n,i)&&(a[n]=e)})),a};var Qe=function(e,t,n){var a;return t=Pe(t,n),De(e,(function(e,n,i){if(t(e,n,i))return a=e,!0})),a};function et(e,t,n,a){return xe(e,(function(e,i){var o=n?n+"."+i:i;0!==a&&je(e)?et(e,t,o,a-1):t[o]=e})),t}var tt=function(e,t){return null==e?{}:et(e,{},"",t=null==t?-1:t)};var nt=function(e,t){for(var n=t.split("."),a=n.pop();t=n.shift();)if(null==(e=e[t]))return;return e[a]};var at=function(e,t){return undefined!==nt(e,t)},it=Object.keys||function(e){var t=[];return xe(e,(function(e,n){t.push(n)})),t};var ot=function(e,t,n){t=Pe(t,n);var a={};return xe(e,(function(e,n,i){a[n]=t(e,n,i)})),a};var rt=function(e,t){var n=!0;return xe(t,(function(t,a){if(e[a]!==t)return n=!1})),n};var st=function(e,t,n){if(null!=e&&e.length){if(e.length&&!t)return Math.max.apply(Math,e);t=Pe(t,n);for(var a,i,o,r=-1/0,s=-1,c=e.length;++s<c;)(o=t(i=e[s],s,e))>r&&(r=o,a=i);return a}return 1/0};var ct=function(e){var t=[];return xe(e,(function(e,n){t.push(e)})),t};function ut(e,t){this[t]=e}var lt=function(e,t){for(var n,a=0,i=arguments.length;++a<i;)null!=(n=arguments[a])&&xe(n,ut,e);return e};var dt=function(e){switch(Re(e)){case"Object":return je(a=e)?lt({},a):a;case"Array":return e.slice();case"RegExp":return n="",n+=(t=e).multiline?"m":"",n+=t.global?"g":"",n+=t.ignoreCase?"i":"",new RegExp(t.source,n);case"Date":return new Date(+e);default:return e}var t,n,a};function ht(e,t){switch(Re(e)){case"Object":return function(e,t){if(je(e)){var n={};return xe(e,(function(e,n){this[n]=ht(e,t)}),n),n}return t?t(e):e}(e,t);case"Array":return function(e,t){var n=[],a=-1,i=e.length;for(;++a<i;)n[a]=ht(e[a],t);return n}(e,t);default:return dt(e)}}var mt=ht;var pt=function e(){var t,n,a,i,o=1;for(i=mt(arguments[0]);a=arguments[o++];)for(t in a)we(a,t)&&(n=a[t],Ve(n)&&Ve(i[t])?i[t]=e(i[t],n):i[t]=mt(n));return i};var ft=function(e,t,n){if(null!=e&&e.length){if(e.length&&!t)return Math.min.apply(Math,e);t=Pe(t,n);for(var a,i,o,r=1/0,s=-1,c=e.length;++s<c;)(o=t(i=e[s],s,e))<r&&(r=o,a=i);return a}return-1/0};var vt=function(e,t){return t?(Ee(t.split("."),(function(t){e[t]||(e[t]={}),e=e[t]})),e):e};var gt=function(e,t,n){if(n=n||0,null==e)return-1;for(var a=e.length,i=n<0?a+n:n;i<a;){if(e[i]===t)return i;i++}return-1};var yt=function(e,t){return-1!==gt(e,t)};var wt=function(e,t){return ot(e,_e(t))};var St=function(e){var t=0;return xe(e,(function(){t++})),t};var Ct=function(e,t,n,a){var i=arguments.length>2;if(!St(e)&&!i)throw new Error("reduce of empty object with no initial value");return xe(e,(function(e,o,r){i?n=t.call(a,n,e,o,r):(n=e,i=!0)})),n};var bt=function(e,t,n){return t=Pe(t,n),Ye(e,(function(e,n,a){return!t(e,n,a)}),n)};var Nt=function(e){return $e(e,"Function")};var kt=function(e,t,n){var a=/^(.+)\.(.+)$/.exec(t);a?vt(e,a[1])[a[2]]=n:e[t]=n};var Et=function(e,t){if(at(e,t)){for(var n=t.split("."),a=n.pop();t=n.shift();)e=e[t];return delete e[a]}return!0},Tt={bindAll:Te,contains:Fe,deepFillIn:We,deepMatches:Le,deepMixIn:Ke,equals:Xe,every:He,fillIn:qe,filter:Ye,find:Qe,flatten:tt,forIn:Ce,forOwn:xe,functions:be,get:nt,has:at,hasOwn:we,keys:it,map:ot,matches:rt,max:function(e,t){return st(ct(e),t)},merge:pt,min:function(e,t){return ft(ct(e),t)},mixIn:lt,namespace:vt,omit:function(e,t){var n="string"!=typeof arguments[1]?arguments[1]:Ne(arguments,1),a={};for(var i in e)e.hasOwnProperty(i)&&!yt(n,i)&&(a[i]=e[i]);return a},pick:function(e,t){for(var n,a="string"!=typeof arguments[1]?arguments[1]:Ne(arguments,1),i={},o=0;n=a[o++];)i[n]=e[n];return i},pluck:wt,reduce:Ct,reject:bt,result:function(e,t){var n=e[t];if(void 0!==n)return Nt(n)?n.call(e):n},set:kt,size:St,some:De,unset:Et,values:ct},xt=se((function(e){(function(){var t,n,a;n=Tt,t=function(){function e(){}return e.prototype.getCountry=function(t){return e.prototype.countries[t]},e.prototype.getCode=function(t){var a,i;return i=null,null!=t&&-1!==(a=n.values(e.prototype.countries).indexOf(t))&&(i=Object.keys(e.prototype.countries)[a]),i},e.prototype.getCountries=function(){return n.values(e.prototype.countries)},e.prototype.getCodes=function(){return Object.keys(e.prototype.countries)},e.prototype.getData=function(){return e.prototype.countries},e.prototype.countries={AF:"Afghanistan",AX:"Åland Islands",AL:"Albania",DZ:"Algeria",AS:"American Samoa",AD:"Andorra",AO:"Angola",AI:"Anguilla",AQ:"Antarctica",AG:"Antigua and Barbuda",AR:"Argentina",AM:"Armenia",AW:"Aruba",AU:"Australia",AT:"Austria",AZ:"Azerbaijan",BS:"Bahamas",BH:"Bahrain",BD:"Bangladesh",BB:"Barbados",BY:"Belarus",BE:"Belgium",BZ:"Belize",BJ:"Benin",BM:"Bermuda",BT:"Bhutan",BO:"Bolivia, Plurinational State of",BQ:"Bonaire, Sint Eustatius and Saba",BA:"Bosnia and Herzegovina",BW:"Botswana",BV:"Bouvet Island",BR:"Brazil",IO:"British Indian Ocean Territory",BN:"Brunei Darussalam",BG:"Bulgaria",BF:"Burkina Faso",BI:"Burundi",KH:"Cambodia",CM:"Cameroon",CA:"Canada",CV:"Cape Verde",KY:"Cayman Islands",CF:"Central African Republic",TD:"Chad",CL:"Chile",CN:"China",CX:"Christmas Island",CC:"Cocos (Keeling) Islands",CO:"Colombia",KM:"Comoros",CG:"Congo",CD:"Congo, the Democratic Republic of the",CK:"Cook Islands",CR:"Costa Rica",CI:"Côte d'Ivoire",HR:"Croatia",CU:"Cuba",CW:"Curaçao",CY:"Cyprus",CZ:"Czech Republic",DK:"Denmark",DJ:"Djibouti",DM:"Dominica",DO:"Dominican Republic",EC:"Ecuador",EG:"Egypt",SV:"El Salvador",GQ:"Equatorial Guinea",ER:"Eritrea",EE:"Estonia",ET:"Ethiopia",FK:"Falkland Islands (Malvinas)",FO:"Faroe Islands",FJ:"Fiji",FI:"Finland",FR:"France",GF:"French Guiana",PF:"French Polynesia",TF:"French Southern Territories",GA:"Gabon",GM:"Gambia",GE:"Georgia",DE:"Germany",GH:"Ghana",GI:"Gibraltar",GR:"Greece",GL:"Greenland",GD:"Grenada",GP:"Guadeloupe",GU:"Guam",GT:"Guatemala",GG:"Guernsey",GN:"Guinea",GW:"Guinea-Bissau",GY:"Guyana",HT:"Haiti",HM:"Heard Island and McDonald Mcdonald Islands",VA:"Holy See (Vatican City State)",HN:"Honduras",HK:"Hong Kong",HU:"Hungary",IS:"Iceland",IN:"India",ID:"Indonesia",IR:"Iran, Islamic Republic of",IQ:"Iraq",IE:"Ireland",IM:"Isle of Man",IL:"Israel",IT:"Italy",JM:"Jamaica",JP:"Japan",JE:"Jersey",JO:"Jordan",KZ:"Kazakhstan",KE:"Kenya",KI:"Kiribati",KP:"Korea, Democratic People's Republic of",KR:"Korea, Republic of",KW:"Kuwait",KG:"Kyrgyzstan",LA:"Lao People's Democratic Republic",LV:"Latvia",LB:"Lebanon",LS:"Lesotho",LR:"Liberia",LY:"Libya",LI:"Liechtenstein",LT:"Lithuania",LU:"Luxembourg",MO:"Macao",MK:"Macedonia, the Former Yugoslav Republic of",MG:"Madagascar",MW:"Malawi",MY:"Malaysia",MV:"Maldives",ML:"Mali",MT:"Malta",MH:"Marshall Islands",MQ:"Martinique",MR:"Mauritania",MU:"Mauritius",YT:"Mayotte",MX:"Mexico",FM:"Micronesia, Federated States of",MD:"Moldova, Republic of",MC:"Monaco",MN:"Mongolia",ME:"Montenegro",MS:"Montserrat",MA:"Morocco",MZ:"Mozambique",MM:"Myanmar",NA:"Namibia",NR:"Nauru",NP:"Nepal",NL:"Netherlands",NC:"New Caledonia",NZ:"New Zealand",NI:"Nicaragua",NE:"Niger",NG:"Nigeria",NU:"Niue",NF:"Norfolk Island",MP:"Northern Mariana Islands",NO:"Norway",OM:"Oman",PK:"Pakistan",PW:"Palau",PS:"Palestine, State of",PA:"Panama",PG:"Papua New Guinea",PY:"Paraguay",PE:"Peru",PH:"Philippines",PN:"Pitcairn",PL:"Poland",PT:"Portugal",PR:"Puerto Rico",QA:"Qatar",RE:"Réunion",RO:"Romania",RU:"Russian Federation",RW:"Rwanda",BL:"Saint Barthélemy",SH:"Saint Helena, Ascension and Tristan da Cunha",KN:"Saint Kitts and Nevis",LC:"Saint Lucia",MF:"Saint Martin (French part)",PM:"Saint Pierre and Miquelon",VC:"Saint Vincent and the Grenadines",WS:"Samoa",SM:"San Marino",ST:"Sao Tome and Principe",SA:"Saudi Arabia",SN:"Senegal",RS:"Serbia",SC:"Seychelles",SL:"Sierra Leone",SG:"Singapore",SX:"Sint Maarten (Dutch part)",SK:"Slovakia",SI:"Slovenia",SB:"Solomon Islands",SO:"Somalia",ZA:"South Africa",GS:"South Georgia and the South Sandwich Islands",SS:"South Sudan",ES:"Spain",LK:"Sri Lanka",SD:"Sudan",SR:"Suriname",SJ:"Svalbard and Jan Mayen",SZ:"Swaziland",SE:"Sweden",CH:"Switzerland",SY:"Syrian Arab Republic",TW:"Taiwan, Province of China",TJ:"Tajikistan",TZ:"Tanzania, United Republic of",TH:"Thailand",TL:"Timor-Leste",TG:"Togo",TK:"Tokelau",TO:"Tonga",TT:"Trinidad and Tobago",TN:"Tunisia",TR:"Turkey",TM:"Turkmenistan",TC:"Turks and Caicos Islands",TV:"Tuvalu",UG:"Uganda",UA:"Ukraine",AE:"United Arab Emirates",GB:"United Kingdom",US:"United States",UM:"United States Minor Outlying Islands",UY:"Uruguay",UZ:"Uzbekistan",VU:"Vanuatu",VE:"Venezuela, Bolivarian Republic of",VN:"Viet Nam",VG:"Virgin Islands, British",VI:"Virgin Islands, U.S.",WF:"Wallis and Futuna",EH:"Western Sahara",YE:"Yemen",ZM:"Zambia",ZW:"Zimbabwe"},e}(),a=null,e.exports=null!=a?a:a=new t}).call(oe)}));const At=/^([a-z]{2})-([A-Z]{2})$/;class _t{static getLanguageCode(e){var t=e.match(At);return!t||t.length<1?"":t[1]}static getLanguageName(e){var t=_t.getLanguageCode(e);return ve.getName(t)}static getLanguageNativeName(e){var t=_t.getLanguageCode(e);return ve.getNativeName(t)}static getLanguageZhName(e){var t=_t.getLanguageCode(e);return ve.getZhName(t)}static validateLanguageCode(e){var t=_t.getLanguageCode(e);return ve.validate(t)}static getLanguages(e){for(var t=[],n=0;n<e.length;n++)t.push({code:e[n],name:_t.getLanguageName(e[n]),nativeName:_t.getLanguageNativeName(e[n]),zhName:_t.getLanguageZhName(e[n])});return t}static getCountryCode(e){var t=e.match(At);return!t||t.length<2?"":t[2]}static getCountryName(e){var t=_t.getCountryCode(e);return xt.getCountry(t)}static validateCountryCode(e){return e=_t.getCountryCode(e),-1!==xt.getCodes().indexOf(e)}static validate(e){var t=e.match(At);return!!(t&&3===t.length&&_t.validateLanguageCode(e)&&_t.validateCountryCode(e))}}var Mt,It=Object.freeze({__proto__:null,default:_t}),Rt=new Uint8Array(16);function $t(){if(!Mt&&!(Mt="undefined"!=typeof crypto&&crypto.getRandomValues&&crypto.getRandomValues.bind(crypto)||"undefined"!=typeof msCrypto&&"function"==typeof msCrypto.getRandomValues&&msCrypto.getRandomValues.bind(msCrypto)))throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");return Mt(Rt)}var Ot=/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;function zt(e){return"string"==typeof e&&Ot.test(e)}for(var Bt,Lt,Pt=[],Dt=0;Dt<256;++Dt)Pt.push((Dt+256).toString(16).substr(1));function Ft(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,n=(Pt[e[t+0]]+Pt[e[t+1]]+Pt[e[t+2]]+Pt[e[t+3]]+"-"+Pt[e[t+4]]+Pt[e[t+5]]+"-"+Pt[e[t+6]]+Pt[e[t+7]]+"-"+Pt[e[t+8]]+Pt[e[t+9]]+"-"+Pt[e[t+10]]+Pt[e[t+11]]+Pt[e[t+12]]+Pt[e[t+13]]+Pt[e[t+14]]+Pt[e[t+15]]).toLowerCase();if(!zt(n))throw TypeError("Stringified UUID is invalid");return n}var jt=0,Wt=0;function Ut(e){if(!zt(e))throw TypeError("Invalid UUID");var t,n=new Uint8Array(16);return n[0]=(t=parseInt(e.slice(0,8),16))>>>24,n[1]=t>>>16&255,n[2]=t>>>8&255,n[3]=255&t,n[4]=(t=parseInt(e.slice(9,13),16))>>>8,n[5]=255&t,n[6]=(t=parseInt(e.slice(14,18),16))>>>8,n[7]=255&t,n[8]=(t=parseInt(e.slice(19,23),16))>>>8,n[9]=255&t,n[10]=(t=parseInt(e.slice(24,36),16))/1099511627776&255,n[11]=t/4294967296&255,n[12]=t>>>24&255,n[13]=t>>>16&255,n[14]=t>>>8&255,n[15]=255&t,n}function Gt(e,t,n){function a(e,a,i,o){if("string"==typeof e&&(e=function(e){e=unescape(encodeURIComponent(e));for(var t=[],n=0;n<e.length;++n)t.push(e.charCodeAt(n));return t}(e)),"string"==typeof a&&(a=Ut(a)),16!==a.length)throw TypeError("Namespace must be array-like (16 iterable integer values, 0-255)");var r=new Uint8Array(16+e.length);if(r.set(a),r.set(e,a.length),(r=n(r))[6]=15&r[6]|t,r[8]=63&r[8]|128,i){o=o||0;for(var s=0;s<16;++s)i[o+s]=r[s];return i}return Ft(r)}try{a.name=e}catch(e){}return a.DNS="6ba7b810-9dad-11d1-80b4-00c04fd430c8",a.URL="6ba7b811-9dad-11d1-80b4-00c04fd430c8",a}function Kt(e){return 14+(e+64>>>9<<4)+1}function Ht(e,t){var n=(65535&e)+(65535&t);return(e>>16)+(t>>16)+(n>>16)<<16|65535&n}function Vt(e,t,n,a,i,o){return Ht((r=Ht(Ht(t,e),Ht(a,o)))<<(s=i)|r>>>32-s,n);var r,s}function Jt(e,t,n,a,i,o,r){return Vt(t&n|~t&a,e,t,i,o,r)}function Zt(e,t,n,a,i,o,r){return Vt(t&a|n&~a,e,t,i,o,r)}function Xt(e,t,n,a,i,o,r){return Vt(t^n^a,e,t,i,o,r)}function qt(e,t,n,a,i,o,r){return Vt(n^(t|~a),e,t,i,o,r)}var Yt=Gt("v3",48,(function(e){if("string"==typeof e){var t=unescape(encodeURIComponent(e));e=new Uint8Array(t.length);for(var n=0;n<t.length;++n)e[n]=t.charCodeAt(n)}return function(e){for(var t=[],n=32*e.length,a="0123456789abcdef",i=0;i<n;i+=8){var o=e[i>>5]>>>i%32&255,r=parseInt(a.charAt(o>>>4&15)+a.charAt(15&o),16);t.push(r)}return t}(function(e,t){e[t>>5]|=128<<t%32,e[Kt(t)-1]=t;for(var n=1732584193,a=-271733879,i=-1732584194,o=271733878,r=0;r<e.length;r+=16){var s=n,c=a,u=i,l=o;n=Jt(n,a,i,o,e[r],7,-680876936),o=Jt(o,n,a,i,e[r+1],12,-389564586),i=Jt(i,o,n,a,e[r+2],17,606105819),a=Jt(a,i,o,n,e[r+3],22,-1044525330),n=Jt(n,a,i,o,e[r+4],7,-176418897),o=Jt(o,n,a,i,e[r+5],12,1200080426),i=Jt(i,o,n,a,e[r+6],17,-1473231341),a=Jt(a,i,o,n,e[r+7],22,-45705983),n=Jt(n,a,i,o,e[r+8],7,1770035416),o=Jt(o,n,a,i,e[r+9],12,-1958414417),i=Jt(i,o,n,a,e[r+10],17,-42063),a=Jt(a,i,o,n,e[r+11],22,-1990404162),n=Jt(n,a,i,o,e[r+12],7,1804603682),o=Jt(o,n,a,i,e[r+13],12,-40341101),i=Jt(i,o,n,a,e[r+14],17,-1502002290),n=Zt(n,a=Jt(a,i,o,n,e[r+15],22,1236535329),i,o,e[r+1],5,-165796510),o=Zt(o,n,a,i,e[r+6],9,-1069501632),i=Zt(i,o,n,a,e[r+11],14,643717713),a=Zt(a,i,o,n,e[r],20,-373897302),n=Zt(n,a,i,o,e[r+5],5,-701558691),o=Zt(o,n,a,i,e[r+10],9,38016083),i=Zt(i,o,n,a,e[r+15],14,-660478335),a=Zt(a,i,o,n,e[r+4],20,-405537848),n=Zt(n,a,i,o,e[r+9],5,568446438),o=Zt(o,n,a,i,e[r+14],9,-1019803690),i=Zt(i,o,n,a,e[r+3],14,-187363961),a=Zt(a,i,o,n,e[r+8],20,1163531501),n=Zt(n,a,i,o,e[r+13],5,-1444681467),o=Zt(o,n,a,i,e[r+2],9,-51403784),i=Zt(i,o,n,a,e[r+7],14,1735328473),n=Xt(n,a=Zt(a,i,o,n,e[r+12],20,-1926607734),i,o,e[r+5],4,-378558),o=Xt(o,n,a,i,e[r+8],11,-2022574463),i=Xt(i,o,n,a,e[r+11],16,1839030562),a=Xt(a,i,o,n,e[r+14],23,-35309556),n=Xt(n,a,i,o,e[r+1],4,-1530992060),o=Xt(o,n,a,i,e[r+4],11,1272893353),i=Xt(i,o,n,a,e[r+7],16,-155497632),a=Xt(a,i,o,n,e[r+10],23,-1094730640),n=Xt(n,a,i,o,e[r+13],4,681279174),o=Xt(o,n,a,i,e[r],11,-358537222),i=Xt(i,o,n,a,e[r+3],16,-722521979),a=Xt(a,i,o,n,e[r+6],23,76029189),n=Xt(n,a,i,o,e[r+9],4,-640364487),o=Xt(o,n,a,i,e[r+12],11,-421815835),i=Xt(i,o,n,a,e[r+15],16,530742520),n=qt(n,a=Xt(a,i,o,n,e[r+2],23,-995338651),i,o,e[r],6,-198630844),o=qt(o,n,a,i,e[r+7],10,1126891415),i=qt(i,o,n,a,e[r+14],15,-1416354905),a=qt(a,i,o,n,e[r+5],21,-57434055),n=qt(n,a,i,o,e[r+12],6,1700485571),o=qt(o,n,a,i,e[r+3],10,-1894986606),i=qt(i,o,n,a,e[r+10],15,-1051523),a=qt(a,i,o,n,e[r+1],21,-2054922799),n=qt(n,a,i,o,e[r+8],6,1873313359),o=qt(o,n,a,i,e[r+15],10,-30611744),i=qt(i,o,n,a,e[r+6],15,-1560198380),a=qt(a,i,o,n,e[r+13],21,1309151649),n=qt(n,a,i,o,e[r+4],6,-145523070),o=qt(o,n,a,i,e[r+11],10,-1120210379),i=qt(i,o,n,a,e[r+2],15,718787259),a=qt(a,i,o,n,e[r+9],21,-343485551),n=Ht(n,s),a=Ht(a,c),i=Ht(i,u),o=Ht(o,l)}return[n,a,i,o]}(function(e){if(0===e.length)return[];for(var t=8*e.length,n=new Uint32Array(Kt(t)),a=0;a<t;a+=8)n[a>>5]|=(255&e[a/8])<<a%32;return n}(e),8*e.length))}));function Qt(e,t,n,a){switch(e){case 0:return t&n^~t&a;case 1:return t^n^a;case 2:return t&n^t&a^n&a;case 3:return t^n^a}}function en(e,t){return e<<t|e>>>32-t}var tn=Gt("v5",80,(function(e){var t=[1518500249,1859775393,2400959708,3395469782],n=[1732584193,4023233417,2562383102,271733878,3285377520];if("string"==typeof e){var a=unescape(encodeURIComponent(e));e=[];for(var i=0;i<a.length;++i)e.push(a.charCodeAt(i))}else Array.isArray(e)||(e=Array.prototype.slice.call(e));e.push(128);for(var o=e.length/4+2,r=Math.ceil(o/16),s=new Array(r),c=0;c<r;++c){for(var u=new Uint32Array(16),l=0;l<16;++l)u[l]=e[64*c+4*l]<<24|e[64*c+4*l+1]<<16|e[64*c+4*l+2]<<8|e[64*c+4*l+3];s[c]=u}s[r-1][14]=8*(e.length-1)/Math.pow(2,32),s[r-1][14]=Math.floor(s[r-1][14]),s[r-1][15]=8*(e.length-1)&4294967295;for(var d=0;d<r;++d){for(var h=new Uint32Array(80),m=0;m<16;++m)h[m]=s[d][m];for(var p=16;p<80;++p)h[p]=en(h[p-3]^h[p-8]^h[p-14]^h[p-16],1);for(var f=n[0],v=n[1],g=n[2],y=n[3],w=n[4],S=0;S<80;++S){var C=Math.floor(S/20),b=en(f,5)+Qt(C,v,g,y)+w+t[C]+h[S]>>>0;w=y,y=g,g=en(v,30)>>>0,v=f,f=b}n[0]=n[0]+f>>>0,n[1]=n[1]+v>>>0,n[2]=n[2]+g>>>0,n[3]=n[3]+y>>>0,n[4]=n[4]+w>>>0}return[n[0]>>24&255,n[0]>>16&255,n[0]>>8&255,255&n[0],n[1]>>24&255,n[1]>>16&255,n[1]>>8&255,255&n[1],n[2]>>24&255,n[2]>>16&255,n[2]>>8&255,255&n[2],n[3]>>24&255,n[3]>>16&255,n[3]>>8&255,255&n[3],n[4]>>24&255,n[4]>>16&255,n[4]>>8&255,255&n[4]]}));var nn=Object.freeze({__proto__:null,v1:function(e,t,n){var a=t&&n||0,i=t||new Array(16),o=(e=e||{}).node||Bt,r=void 0!==e.clockseq?e.clockseq:Lt;if(null==o||null==r){var s=e.random||(e.rng||$t)();null==o&&(o=Bt=[1|s[0],s[1],s[2],s[3],s[4],s[5]]),null==r&&(r=Lt=16383&(s[6]<<8|s[7]))}var c=void 0!==e.msecs?e.msecs:Date.now(),u=void 0!==e.nsecs?e.nsecs:Wt+1,l=c-jt+(u-Wt)/1e4;if(l<0&&void 0===e.clockseq&&(r=r+1&16383),(l<0||c>jt)&&void 0===e.nsecs&&(u=0),u>=1e4)throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");jt=c,Wt=u,Lt=r;var d=(1e4*(268435455&(c+=122192928e5))+u)%4294967296;i[a++]=d>>>24&255,i[a++]=d>>>16&255,i[a++]=d>>>8&255,i[a++]=255&d;var h=c/4294967296*1e4&268435455;i[a++]=h>>>8&255,i[a++]=255&h,i[a++]=h>>>24&15|16,i[a++]=h>>>16&255,i[a++]=r>>>8|128,i[a++]=255&r;for(var m=0;m<6;++m)i[a+m]=o[m];return t||Ft(i)},v3:Yt,v4:function(e,t,n){var a=(e=e||{}).random||(e.rng||$t)();if(a[6]=15&a[6]|64,a[8]=63&a[8]|128,t){n=n||0;for(var i=0;i<16;++i)t[n+i]=a[i];return t}return Ft(a)},v5:tn,NIL:"00000000-0000-0000-0000-000000000000",version:function(e){if(!zt(e))throw TypeError("Invalid UUID");return parseInt(e.substr(14,1),16)},validate:zt,stringify:Ft,parse:Ut}),an=se((function(e,t){!function(n){var a=t,i=e&&e.exports==a&&e,o="object"==typeof oe&&oe;o.global!==o&&o.window!==o||(n=o);var r=function(e){this.message=e};(r.prototype=new Error).name="InvalidCharacterError";var s=function(e){throw new r(e)},c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",u=/[\t\n\f\r ]/g,l={encode:function(e){e=String(e),/[^\0-\xFF]/.test(e)&&s("The string to be encoded contains characters outside of the Latin1 range.");for(var t,n,a,i,o=e.length%3,r="",u=-1,l=e.length-o;++u<l;)t=e.charCodeAt(u)<<16,n=e.charCodeAt(++u)<<8,a=e.charCodeAt(++u),r+=c.charAt((i=t+n+a)>>18&63)+c.charAt(i>>12&63)+c.charAt(i>>6&63)+c.charAt(63&i);return 2==o?(t=e.charCodeAt(u)<<8,n=e.charCodeAt(++u),r+=c.charAt((i=t+n)>>10)+c.charAt(i>>4&63)+c.charAt(i<<2&63)+"="):1==o&&(i=e.charCodeAt(u),r+=c.charAt(i>>2)+c.charAt(i<<4&63)+"=="),r},decode:function(e){var t=(e=String(e).replace(u,"")).length;t%4==0&&(t=(e=e.replace(/==?$/,"")).length),(t%4==1||/[^+a-zA-Z0-9/]/.test(e))&&s("Invalid character: the string to be decoded is not correctly encoded.");for(var n,a,i=0,o="",r=-1;++r<t;)a=c.indexOf(e.charAt(r)),n=i%4?64*n+a:a,i++%4&&(o+=String.fromCharCode(255&n>>(-2*i&6)));return o},version:"0.1.0"};if(a&&!a.nodeType)if(i)i.exports=l;else for(var d in l)l.hasOwnProperty(d)&&(a[d]=l[d]);else n.base64=l}(oe)})),on=se((function(e,t){var n=oe&&oe.__awaiter||function(e,t,n,a){return new(n||(n=Promise))((function(i,o){function r(e){try{c(a.next(e))}catch(e){o(e)}}function s(e){try{c(a.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?i(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(r,s)}c((a=a.apply(e,t||[])).next())}))};function a(e,n,a,o,r=Date.now){const s=i(e);return!(s.expiresAtMs-r()<t.minTokenValidTime)&&(s.appId===a&&s.projectId===n&&s.deviceId===o)}function i(e){const t=e.split(".")[1];let n;try{n=JSON.parse(an.decode(t))}catch(e){throw new Error("Error decoding Speechly token!")}return{appId:n.appId,projectId:n.projectId,deviceId:n.deviceId,configId:n.configId,scopes:n.scope.split(" "),issuer:n.iss,audience:n.aud,expiresAtMs:1e3*n.exp}}Object.defineProperty(t,"__esModule",{value:!0}),t.minTokenValidTime=36e5,t.fetchToken=function(e,t,i,o,r=fetch,s=Date.now){var c;return n(this,void 0,void 0,(function*(){let n;n=void 0!==t?{projectId:t,deviceId:o}:{appId:i,deviceId:o};const u=yield r(e,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(n)}),l=yield u.json();if(200!==u.status)throw Error(null!==(c=l.error)&&void 0!==c?c:`Speechly API login request failed with ${u.status}`);if(void 0===l.access_token)throw Error("Invalid login response from Speechly API");if(!a(l.access_token,t,i,o,s))throw Error("Invalid token received from Speechly API");return l.access_token}))},t.validateToken=a,t.decodeToken=i})),rn=new Error("Microphone is not initialized"),sn=new Error("Microphone is already initialized"),cn=new Error("Current device does not support microphone API"),un=new Error("Microphone consent is no given"),ln=Object.defineProperty({DefaultSampleRate:16e3,ErrNotInitialized:rn,ErrAlreadyInitialized:sn,ErrDeviceNotSupported:cn,ErrNoAudioConsent:un},"__esModule",{value:!0}),dn=Object.defineProperty({default:"\n// Indices for the Control SAB.\nconst CONTROL = {\n  'WRITE_INDEX': 0,\n  'FRAMES_AVAILABLE': 1,\n};\n\nclass SpeechlyProcessor extends AudioWorkletProcessor {\n  constructor() {\n    super();\n\n    this._initialized = false;\n    this.port.onmessage = this._initialize.bind(this);\n  }\n\n  _initialize(event) {\n    this.controlSAB = new Int32Array(event.data.controlSAB);\n    this.dataSAB = new Float32Array(event.data.dataSAB);\n    this._initialized = true;\n  }\n\n  _pushData(data) {\n    let inputWriteIndex = this.controlSAB[CONTROL.WRITE_INDEX];\n\n    if (inputWriteIndex + data.length < this.dataSAB.length) {\n      // Buffer has enough space to push the input.\n      this.dataSAB.set(data, inputWriteIndex);\n      this.controlSAB[CONTROL.WRITE_INDEX] += data.length;\n    } else {\n      // Buffer overflow\n      this.dataSAB.set(data, 0);\n      this.controlSAB[CONTROL.WRITE_INDEX] = 0;\n    }\n\n    // Update the number of available frames in the input buffer.\n    this.controlSAB[CONTROL.FRAMES_AVAILABLE] += data.length;\n  }\n\n  process(inputs, outputs, parameters) {\n    const inputChannelData = inputs[0][0];\n      if (inputChannelData !== undefined) {\n        if (this.controlSAB && this.dataSAB) {\n          this._pushData(inputChannelData);\n        } else {\n          this.port.postMessage(inputChannelData);\n        }\n      }\n      \n      return true;\n  }\n}\n\nregisterProcessor('speechly-worklet', SpeechlyProcessor);\n"},"__esModule",{value:!0}),hn=oe&&oe.__awaiter||function(e,t,n,a){return new(n||(n=Promise))((function(i,o){function r(e){try{c(a.next(e))}catch(e){o(e)}}function s(e){try{c(a.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?i(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(r,s)}c((a=a.apply(e,t||[])).next())}))};
-/*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */const mn=(oe&&oe.__importDefault||function(e){return e&&e.__esModule?e:{default:e}})(dn);var pn=class{constructor(e,t,n){this.initialized=!1,this.muted=!1,this.handleAudio=e=>{this.muted||e.length>0&&this.apiClient.sendAudio(e)},this.isWebkit=e,this.apiClient=n,this.sampleRate=t}initialize(e,t){var n;return hn(this,void 0,void 0,(function*(){if(void 0===(null===(n=window.navigator)||void 0===n?void 0:n.mediaDevices))throw ln.ErrDeviceNotSupported;this.audioContext=e,this.resampleRatio=this.audioContext.sampleRate/this.sampleRate;try{this.mediaStream=yield window.navigator.mediaDevices.getUserMedia(t)}catch(e){throw ln.ErrNoAudioConsent}if(this.audioTrack=this.mediaStream.getAudioTracks()[0],this.isWebkit||(yield this.audioContext.resume()),void 0!==window.AudioWorkletNode){const e=new Blob([mn.default],{type:"text/javascript"}),t=window.URL.createObjectURL(e);yield this.audioContext.audioWorklet.addModule(t);const n=new AudioWorkletNode(this.audioContext,"speechly-worklet");if(this.audioContext.createMediaStreamSource(this.mediaStream).connect(n),n.connect(this.audioContext.destination),void 0!==window.SharedArrayBuffer){const e=new window.SharedArrayBuffer(2*Int32Array.BYTES_PER_ELEMENT),t=new window.SharedArrayBuffer(8192*Float32Array.BYTES_PER_ELEMENT);this.apiClient.postMessage({type:"SET_SHARED_ARRAY_BUFFERS",controlSAB:e,dataSAB:t}),n.port.postMessage({type:"SET_SHARED_ARRAY_BUFFERS",controlSAB:e,dataSAB:t})}else n.port.onmessage=e=>{this.handleAudio(e.data)}}else{if(this.isWebkit){const e=4096*Math.pow(2,Math.ceil(Math.log(this.resampleRatio)/Math.log(2)));this.audioProcessor=this.audioContext.createScriptProcessor(e,1,1)}else this.audioProcessor=this.audioContext.createScriptProcessor(void 0,1,1);this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor),this.audioProcessor.connect(this.audioContext.destination),this.audioProcessor.addEventListener("audioprocess",(e=>{this.handleAudio(e.inputBuffer.getChannelData(0))}))}this.initialized=!0,this.mute()}))}close(){return hn(this,void 0,void 0,(function*(){if(this.mute(),!this.initialized)throw ln.ErrNotInitialized;this.audioTrack.enabled=!1;if(this.mediaStream.getTracks().forEach((e=>e.stop())),null!=this.audioProcessor){this.audioProcessor.disconnect()}this.mediaStream=void 0,this.audioTrack=void 0,this.audioProcessor=void 0,this.initialized=!1}))}mute(){this.muted=!0}unmute(){this.muted=!1}},fn=Object.defineProperty({BrowserMicrophone:pn},"__esModule",{value:!0}),vn=se((function(e,t){function n(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),n(fn),n(ln)})),gn=se((function(e,t){var n;Object.defineProperty(t,"__esModule",{value:!0}),(n=t.WebsocketResponseType||(t.WebsocketResponseType={})).Opened="WEBSOCKET_OPEN",n.SourceSampleRateSetSuccess="SOURSE_SAMPLE_RATE_SET_SUCCESS",n.Started="started",n.Stopped="stopped",n.SegmentEnd="segment_end",n.Transcript="transcript",n.Entity="entity",n.Intent="intent",n.TentativeTranscript="tentative_transcript",n.TentativeEntities="tentative_entities",n.TentativeIntent="tentative_intent"})),yn=Object.defineProperty({default:"\n// Indices for the Control SAB.\nconst CONTROL = {\n  WRITE_INDEX: 0,\n  FRAMES_AVAILABLE: 1,\n}\nlet ws\nlet url\nlet token\nconst state = {\n  isContextStarted: false,\n  isStartContextConfirmed: false,\n  shouldResendLastFramesSent: false,\n  sourceSampleRate: undefined,\n  targetSampleRate: undefined,\n  resampleRatio: 1,\n  buffer: new Float32Array(0),\n  lastFramesSent: new Int16Array(0), // to re-send after switch context\n  filter: undefined,\n  controlSAB: undefined,\n  dataSAB: undefined,\n}\n\nasync function initializeWebsocket() {\n  ws = new WebSocket(url, token)\n\n  return new Promise((resolve, reject) => {\n    const errhandler = () => {\n      ws.removeEventListener('close', errhandler)\n      ws.removeEventListener('error', errhandler)\n      ws.removeEventListener('open', openhandler)\n\n      reject(Error('Connection failed'))\n    }\n\n    const openhandler = () => {\n      ws.removeEventListener('close', errhandler)\n      ws.removeEventListener('error', errhandler)\n      ws.removeEventListener('open', openhandler)\n\n      resolve(ws)\n    }\n\n    ws.addEventListener('close', errhandler)\n    ws.addEventListener('error', errhandler)\n    ws.addEventListener('open', openhandler)\n  })\n}\n\nfunction connect(timeout = 1000) {\n  setTimeout(function() {\n    initializeWebsocket().then(function() {\n      console.log('connect')\n      self.postMessage({\n        type: 'WEBSOCKET_OPEN',\n      })\n      ws.addEventListener('message', onWebsocketMessage)\n      ws.addEventListener('error', onWebsocketError)\n      ws.addEventListener('close', onWebsocketClose)\n    }).catch((error) => {\n      console.log(error)\n      connect(1000)\n    })\n  }, timeout)\n}\n\nfunction closeWebsocket(code, message) {\n  if (ws === undefined) {\n    throw Error('Websocket is not open')\n  }\n\n  ws.removeEventListener('message', onWebsocketMessage)\n  ws.removeEventListener('error', onWebsocketError)\n  ws.removeEventListener('close', onWebsocketClose)\n\n  ws.close(code, message)\n}\n\nfunction onWebsocketClose(event) {\n  connect(0)\n}\n\nfunction onWebsocketError(_event) {\n  onWebsocketClose(1000, 'Client disconnecting due to an error')\n}\n\nfunction onWebsocketMessage(event) {\n  let response\n  try {\n    response = JSON.parse(event.data)\n  } catch (e) {\n    console.error('[SpeechlyClient] Error parsing response from the server:', e)\n    return\n  }\n\n  if (response.type === 'started') {\n    state.isStartContextConfirmed = true\n    if (state.shouldResendLastFramesSent) {\n      if (state.lastFramesSent.length > 0) {\n        if (ws !== undefined) {\n          ws.send(state.lastFramesSent)\n        }\n        state.lastFramesSent = new Int16Array(0)\n      }\n      state.shouldResendLastFramesSent = false\n    }\n  }\n\n  self.postMessage(response)\n}\n\nfunction float32ToInt16(buffer) {\n  const buf = new Int16Array(buffer.length)\n\n  for (let l = 0; l < buffer.length; l++) {\n    buf[l] = buffer[l] * (buffer[l] < 0 ? 0x8000 : 0x7fff)\n  }\n\n  return buf\n}\n\nself.onmessage = function(e) {\n  switch (e.data.type) {\n    case 'INIT':\n      if (ws === undefined) {\n        url = e.data.apiUrl\n        token = e.data.authToken\n        connect(0)\n        state.targetSampleRate = e.data.targetSampleRate\n      }\n      break\n    case 'SET_SOURSE_SAMPLE_RATE':\n      state.sourceSampleRate = e.data.sourceSampleRate\n      state.resampleRatio = e.data.sourceSampleRate / state.targetSampleRate\n      if (state.resampleRatio > 1) {\n        state.filter = generateFilter(e.data.sourceSampleRate, state.targetSampleRate, 127)\n      }\n      self.postMessage({\n        type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS',\n      })\n\n      if (isNaN(state.resampleRatio)) {\n        throw Error('resampleRatio is NaN')\n      }\n      break\n    case 'SET_SHARED_ARRAY_BUFFERS':\n      state.controlSAB = new Int32Array(e.data.controlSAB)\n      state.dataSAB = new Float32Array(e.data.dataSAB)\n      setInterval(sendAudioFromSAB, 4)\n      break\n    case 'CLOSE':\n      if (ws !== undefined) {\n        closeWebsocket(e.data.code, e.data.message)\n      }\n      break\n    case 'START_CONTEXT':\n      if (ws === undefined) {\n        throw Error('Cant start context: websocket is undefined')\n      }\n      if (state.isContextStarted) {\n        console.log('Cant start context: it has been already started')\n        break\n      }\n\n      state.isContextStarted = true\n      state.isStartContextConfirmed = false\n\n      const appId = e.data.appId\n      if (appId !== undefined) {\n        ws.send(JSON.stringify({ event: 'start', appId }))\n      } else {\n        ws.send(JSON.stringify({ event: 'start' }))\n      }\n      break\n    case 'SWITCH_CONTEXT':\n      const newAppId = e.data.appId\n      if (ws !== undefined && state.isContextStarted && newAppId !== undefined) {\n        state.isStartContextConfirmed = false\n        const StopEventJSON = JSON.stringify({ event: 'stop' })\n        ws.send(StopEventJSON)\n        state.shouldResendLastFramesSent = true\n        ws.send(JSON.stringify({ event: 'start', appId: newAppId }))\n      }\n      break\n    case 'STOP_CONTEXT':\n      if (ws !== undefined && state.isContextStarted) {\n        state.isContextStarted = false\n        state.isStartContextConfirmed = false\n        const StopEventJSON = JSON.stringify({ event: 'stop' })\n        ws.send(StopEventJSON)\n      }\n      break\n    case 'AUDIO':\n      if (ws !== undefined && state.isContextStarted) {\n        if (e.data.payload.length > 0) {\n          if (state.resampleRatio > 1) {\n            // Downsampling\n            ws.send(downsample(e.data.payload))\n          } else {\n            ws.send(float32ToInt16(e.data.payload))\n          }\n        }\n      }\n      break\n    default:\n      console.log('WORKER', e)\n  }\n}\n\nlet lastTime = Date.now()\n\nfunction sendAudioFromSAB() {\n  if (state.isStartContextConfirmed && CONTROL.FRAMES_AVAILABLE > 0) {\n    const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE])\n    state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0\n    state.controlSAB[CONTROL.WRITE_INDEX] = 0\n    if (data.length > 0) {\n      let frames\n      if (state.resampleRatio > 1) {\n        frames = downsample(data)\n      } else {\n        frames = float32ToInt16(data)\n      }\n      ws.send(frames)\n\n      // 16000 per second, 1000 in 100 ms\n      // save last 250 ms\n      if (state.lastFramesSent.length > 1024 * 4) {\n        state.lastFramesSent = frames\n      } else {\n        let concat = new Int16Array(state.lastFramesSent.length + frames.length)\n        concat.set(state.lastFramesSent)\n        concat.set(frames, state.lastFramesSent.length)\n        state.lastFramesSent = concat\n      }\n    }\n  } else {\n    if (!state.isContextStarted) {\n      state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0\n      state.controlSAB[CONTROL.WRITE_INDEX] = 0\n    }\n  }\n}\n\nfunction downsample(input) {\n  const inputBuffer = new Float32Array(state.buffer.length + input.length)\n  inputBuffer.set(state.buffer, 0)\n  inputBuffer.set(input, state.buffer.length)\n\n  const outputLength = Math.ceil((inputBuffer.length - state.filter.length) / state.resampleRatio)\n  const outputBuffer = new Int16Array(outputLength)\n\n  for (let i = 0; i < outputLength; i++) {\n    const offset = Math.round(state.resampleRatio * i)\n    let val = 0.0\n\n    for (let j = 0; j < state.filter.length; j++) {\n      val += inputBuffer[offset + j] * state.filter[j]\n    }\n\n    outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)\n  }\n\n  const remainingOffset = Math.round(state.resampleRatio * outputLength)\n  if (remainingOffset < inputBuffer.length) {\n    state.buffer = inputBuffer.subarray(remainingOffset)\n  } else {\n    state.buffer = emptyBuffer\n  }\n\n  return outputBuffer\n}\n\nfunction generateFilter(sourceSampleRate, targetSampleRate, length) {\n  if (length % 2 === 0) {\n    throw Error('Filter length must be odd')\n  }\n\n  const cutoff = targetSampleRate / 2\n  const filter = new Float32Array(length)\n  let sum = 0\n\n  for (let i = 0; i < length; i++) {\n    const x = sinc(((2 * cutoff) / sourceSampleRate) * (i - (length - 1) / 2))\n\n    sum += x\n    filter[i] = x\n  }\n\n  for (let i = 0; i < length; i++) {\n    filter[i] = filter[i] / sum\n  }\n\n  return filter\n}\n\nfunction sinc(x) {\n  if (x === 0.0) {\n    return 1.0\n  }\n\n  const piX = Math.PI * x\n  return Math.sin(piX) / piX\n}\n\n"},"__esModule",{value:!0}),wn=oe&&oe.__awaiter||function(e,t,n,a){return new(n||(n=Promise))((function(i,o){function r(e){try{c(a.next(e))}catch(e){o(e)}}function s(e){try{c(a.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?i(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(r,s)}c((a=a.apply(e,t||[])).next())}))};const Sn=(oe&&oe.__importDefault||function(e){return e&&e.__esModule?e:{default:e}})(yn);var Cn=class{constructor(){this.startCbs=[],this.stopCbs=[],this.onResponseCb=()=>{},this.onCloseCb=()=>{},this.onWebsocketMessage=e=>{const t=e.data;switch(t.type){case gn.WebsocketResponseType.Opened:break;case gn.WebsocketResponseType.SourceSampleRateSetSuccess:null!=this.resolveInitialization&&this.resolveInitialization();break;case gn.WebsocketResponseType.Started:this.startCbs.forEach((e=>{try{e(void 0,t.audio_context)}catch(e){console.error('[SpeechlyClient] Error while invoking "onStart" callback:',e)}})),this.startCbs.length=0;break;case gn.WebsocketResponseType.Stopped:this.stopCbs.forEach((e=>{try{e(void 0,t.audio_context)}catch(e){console.error('[SpeechlyClient] Error while invoking "onStop" callback:',e)}})),this.stopCbs.length=0;break;default:this.onResponseCb(t)}};const e=new Blob([Sn.default],{type:"text/javascript"}),t=window.URL.createObjectURL(e);this.worker=new Worker(t),this.worker.addEventListener("message",this.onWebsocketMessage)}onResponse(e){this.onResponseCb=e}onClose(e){this.onCloseCb=e}initialize(e){return wn(this,void 0,void 0,(function*(){return this.worker.postMessage({type:"SET_SOURSE_SAMPLE_RATE",sourceSampleRate:e}),new Promise((e=>{this.resolveInitialization=e}))}))}close(){return wn(this,void 0,void 0,(function*(){return new Promise(((e,t)=>{this.worker.postMessage({type:"CLOSE",code:1e3,message:"Client has ended the session"}),e()}))}))}startContext(e){return wn(this,void 0,void 0,(function*(){return new Promise(((t,n)=>{this.startCbs.push(((e,a)=>{void 0!==e?n(e):t(a)})),null!=e?this.worker.postMessage({type:"START_CONTEXT",appId:e}):this.worker.postMessage({type:"START_CONTEXT"})}))}))}stopContext(){return wn(this,void 0,void 0,(function*(){return new Promise(((e,t)=>{this.stopCbs.push(((n,a)=>{void 0!==n?t(n):e(a)})),this.worker.postMessage({type:"STOP_CONTEXT"})}))}))}switchContext(e){return wn(this,void 0,void 0,(function*(){return new Promise(((t,n)=>{this.startCbs.push(((e,a)=>{void 0!==e?n(e):t(a)})),this.worker.postMessage({type:"SWITCH_CONTEXT",appId:e})}))}))}postMessage(e){this.worker.postMessage(e)}sendAudio(e){this.worker.postMessage({type:"AUDIO",payload:e})}},bn=Object.defineProperty({WebWorkerController:Cn},"__esModule",{value:!0}),Nn=se((function(e,t){function n(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),n(bn),n(gn)}));var kn=class{constructor(){this.storage=window.localStorage}get(e){return this.storage.getItem(e)}set(e,t){this.storage.setItem(e,t)}getOrSet(e,t){let n=this.storage.getItem(e);return null===n&&(n=t(),this.storage.setItem(e,n)),n}},En=Object.defineProperty({LocalStorage:kn},"__esModule",{value:!0}),Tn=new Error("Current device does not support storage API"),xn=new Error("Requested key was not present in storage"),An=Object.defineProperty({ErrNoStorageSupport:Tn,ErrKeyNotFound:xn},"__esModule",{value:!0}),_n=se((function(e,t){function n(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),n(En),n(An)}));var Mn=class{constructor(e,t){this.isFinalized=!1,this.words=[],this.entities=new Map,this.intent={intent:"",isFinal:!1},this.contextId=e,this.id=t}toSegment(){let e=0;const t=new Array(this.entities.size);return this.entities.forEach((n=>{t[e]=n,e++})),{id:this.id,contextId:this.contextId,isFinal:this.isFinalized,words:this.words,entities:t,intent:this.intent}}toString(){const e=this.toSegment(),t=e.words.filter((e=>e.value)).map((e=>({value:e.value,index:e.index}))),n=Object.assign(Object.assign({},e),{words:t});return JSON.stringify(n,null,2)}updateTranscript(e){return e.forEach((e=>{this.isFinalized&&!e.isFinal||(this.words[e.index]=e)})),this}updateEntities(e){return e.forEach((e=>{this.isFinalized&&!e.isFinal||this.entities.set(function(e){return`${e.startPosition.toString()}:${e.endPosition.toString()}`}(e),e)})),this}updateIntent(e){return this.isFinalized&&!e.isFinal||(this.intent=e),this}finalize(){return this.entities.forEach(((e,t)=>{e.isFinal||this.entities.delete(t)})),this.words=this.words.filter((e=>e.isFinal)),this.intent.isFinal||(this.intent.intent="",this.intent.isFinal=!0),this.isFinalized=!0,this}};var In=Object.defineProperty({SegmentState:Mn},"__esModule",{value:!0});var Rn=function(e){return e.words.map((({word:e,index:t,start_timestamp:n,end_timestamp:a})=>({value:e,index:t,startTimestamp:n,endTimestamp:a,isFinal:!1})))};var $n=function(e){return{value:e.word,index:e.index,startTimestamp:e.start_timestamp,endTimestamp:e.end_timestamp,isFinal:!0}};var On=function(e){return e.entities.map((({entity:e,value:t,start_position:n,end_position:a})=>({type:e,value:t,startPosition:n,endPosition:a,isFinal:!1})))};var zn=function(e){return{type:e.entity,value:e.value,startPosition:e.start_position,endPosition:e.end_position,isFinal:!0}};var Bn=function(e,t){return{intent:e.intent,isFinal:t}},Ln=Object.defineProperty({parseTentativeTranscript:Rn,parseTranscript:$n,parseTentativeEntities:On,parseEntity:zn,parseIntent:Bn},"__esModule",{value:!0});function Pn(e,t){"boolean"==typeof t&&(t={forever:t}),this._originalTimeouts=JSON.parse(JSON.stringify(e)),this._timeouts=e,this._options=t||{},this._maxRetryTime=t&&t.maxRetryTime||1/0,this._fn=null,this._errors=[],this._attempts=1,this._operationTimeout=null,this._operationTimeoutCb=null,this._timeout=null,this._operationStart=null,this._options.forever&&(this._cachedTimeouts=this._timeouts.slice(0))}var Dn=Pn;Pn.prototype.reset=function(){this._attempts=1,this._timeouts=this._originalTimeouts},Pn.prototype.stop=function(){this._timeout&&clearTimeout(this._timeout),this._timeouts=[],this._cachedTimeouts=null},Pn.prototype.retry=function(e){if(this._timeout&&clearTimeout(this._timeout),!e)return!1;var t=(new Date).getTime();if(e&&t-this._operationStart>=this._maxRetryTime)return this._errors.unshift(new Error("RetryOperation timeout occurred")),!1;this._errors.push(e);var n=this._timeouts.shift();if(void 0===n){if(!this._cachedTimeouts)return!1;this._errors.splice(this._errors.length-1,this._errors.length),this._timeouts=this._cachedTimeouts.slice(0),n=this._timeouts.shift()}var a=this,i=setTimeout((function(){a._attempts++,a._operationTimeoutCb&&(a._timeout=setTimeout((function(){a._operationTimeoutCb(a._attempts)}),a._operationTimeout),a._options.unref&&a._timeout.unref()),a._fn(a._attempts)}),n);return this._options.unref&&i.unref(),!0},Pn.prototype.attempt=function(e,t){this._fn=e,t&&(t.timeout&&(this._operationTimeout=t.timeout),t.cb&&(this._operationTimeoutCb=t.cb));var n=this;this._operationTimeoutCb&&(this._timeout=setTimeout((function(){n._operationTimeoutCb()}),n._operationTimeout)),this._operationStart=(new Date).getTime(),this._fn(this._attempts)},Pn.prototype.try=function(e){console.log("Using RetryOperation.try() is deprecated"),this.attempt(e)},Pn.prototype.start=function(e){console.log("Using RetryOperation.start() is deprecated"),this.attempt(e)},Pn.prototype.start=Pn.prototype.try,Pn.prototype.errors=function(){return this._errors},Pn.prototype.attempts=function(){return this._attempts},Pn.prototype.mainError=function(){if(0===this._errors.length)return null;for(var e={},t=null,n=0,a=0;a<this._errors.length;a++){var i=this._errors[a],o=i.message,r=(e[o]||0)+1;e[o]=r,r>=n&&(t=i,n=r)}return t};var Fn=se((function(e,t){t.operation=function(e){var n=t.timeouts(e);return new Dn(n,{forever:e&&e.forever,unref:e&&e.unref,maxRetryTime:e&&e.maxRetryTime})},t.timeouts=function(e){if(e instanceof Array)return[].concat(e);var t={retries:10,factor:2,minTimeout:1e3,maxTimeout:1/0,randomize:!1};for(var n in e)t[n]=e[n];if(t.minTimeout>t.maxTimeout)throw new Error("minTimeout is greater than maxTimeout");for(var a=[],i=0;i<t.retries;i++)a.push(this.createTimeout(i,t));return e&&e.forever&&!a.length&&a.push(this.createTimeout(i,t)),a.sort((function(e,t){return e-t})),a},t.createTimeout=function(e,t){var n=t.randomize?Math.random()+1:1,a=Math.round(n*t.minTimeout*Math.pow(t.factor,e));return a=Math.min(a,t.maxTimeout)},t.wrap=function(e,n,a){if(n instanceof Array&&(a=n,n=null),!a)for(var i in a=[],e)"function"==typeof e[i]&&a.push(i);for(var o=0;o<a.length;o++){var r=a[o],s=e[r];e[r]=function(a){var i=t.operation(n),o=Array.prototype.slice.call(arguments,1),r=o.pop();o.push((function(e){i.retry(e)||(e&&(arguments[0]=i.mainError()),r.apply(this,arguments))})),i.attempt((function(){a.apply(e,o)}))}.bind(e,s),e[r].options=n}}}));var jn=function(e,t){return new Promise((function(n,a){var i=t||{};"randomize"in i||(i.randomize=!0);var o=Fn.operation(i);function r(e){a(e||new Error("Aborted"))}function s(e,t){e.bail?r(e):o.retry(e)?i.onRetry&&i.onRetry(e,t):a(o.mainError())}o.attempt((function(t){var a;try{a=e(r,t)}catch(e){return void s(e,t)}Promise.resolve(a).then(n).catch((function(e){s(e,t)}))}))}))},Wn=re(It),Un=re(nn),Gn=oe&&oe.__awaiter||function(e,t,n,a){return new(n||(n=Promise))((function(i,o){function r(e){try{c(a.next(e))}catch(e){o(e)}}function s(e){try{c(a.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?i(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(r,s)}c((a=a.apply(e,t||[])).next())}))},Kn=oe&&oe.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};const Hn=Kn(Wn),Vn=Kn(jn),Jn="speechly-auth-token";var Zn=class{constructor(e){var t,n,a,i,o,r,s,c,u,l,d,h;this.activeContexts=new Map,this.reconnectAttemptCount=5,this.reconnectMinDelay=1e3,this.contextStopDelay=250,this.state=ce.ClientState.Disconnected,this.stateChangeCb=()=>{},this.segmentChangeCb=()=>{},this.tentativeTranscriptCb=()=>{},this.tentativeEntitiesCb=()=>{},this.tentativeIntentCb=()=>{},this.transcriptCb=()=>{},this.entityCb=()=>{},this.intentCb=()=>{},this.handleWebsocketResponse=e=>{var t;this.debug&&console.log("[SpeechlyClient]","Received response",e);const{audio_context:n,segment_id:a,type:i}=e;let{data:o}=e;const r=this.activeContexts.get(n);if(void 0===r)return void console.warn("[SpeechlyClient]","Received response for non-existent context",n);let s=null!==(t=r.get(a))&&void 0!==t?t:new In.SegmentState(n,a);switch(i){case Nn.WebsocketResponseType.TentativeTranscript:o=o;const e=Ln.parseTentativeTranscript(o);this.tentativeTranscriptCb(n,a,e,o.transcript),s=s.updateTranscript(e);break;case Nn.WebsocketResponseType.Transcript:o=o;const t=Ln.parseTranscript(o);this.transcriptCb(n,a,t),s=s.updateTranscript([t]);break;case Nn.WebsocketResponseType.TentativeEntities:o=o;const i=Ln.parseTentativeEntities(o);this.tentativeEntitiesCb(n,a,i),s=s.updateEntities(i);break;case Nn.WebsocketResponseType.Entity:o=o;const r=Ln.parseEntity(o);this.entityCb(n,a,r),s=s.updateEntities([r]);break;case Nn.WebsocketResponseType.TentativeIntent:o=o;const c=Ln.parseIntent(o,!1);this.tentativeIntentCb(n,a,c),s=s.updateIntent(c);break;case Nn.WebsocketResponseType.Intent:o=o;const u=Ln.parseIntent(o,!0);this.intentCb(n,a,u),s=s.updateIntent(u);break;case Nn.WebsocketResponseType.SegmentEnd:s=s.finalize()}r.set(a,s),this.activeContexts.set(n,r),this.logSegments&&console.info(s.toString()),this.segmentChangeCb(s.toSegment())},this.handleWebsocketClosure=e=>{this.debug&&console.error("[SpeechlyClient]","Server connection closed",e),void 0!==this.deviceId?this.state!==ce.ClientState.Connecting&&this.state!==ce.ClientState.Failed&&(this.setState(ce.ClientState.Connecting),this.reconnectWebsocket(this.deviceId).then((()=>this.setState(ce.ClientState.Connected))).catch((()=>this.setState(ce.ClientState.Failed)))):this.setState(ce.ClientState.Failed)},this.sampleRate=null!==(t=e.sampleRate)&&void 0!==t?t:vn.DefaultSampleRate;try{const e=window.navigator.mediaDevices.getSupportedConstraints();this.nativeResamplingSupported=!0===e.sampleRate}catch(e){this.nativeResamplingSupported=!1}const m=null!==(n=e.language)&&void 0!==n?n:"en-US";if(!Hn.default.validate(m))throw Error(`[SpeechlyClient] Invalid language "${m}"`);this.debug=null!==(a=e.debug)&&void 0!==a&&a,this.logSegments=null!==(i=e.logSegments)&&void 0!==i&&i,this.loginUrl=null!==(o=e.loginUrl)&&void 0!==o?o:"https://api.speechly.com/login",this.appId=null!==(r=e.appId)&&void 0!==r?r:void 0,this.projectId=null!==(s=e.projectId)&&void 0!==s?s:void 0;const p=function(e,t,n){const a=new URLSearchParams;return a.append("languageCode",t),a.append("sampleRate",n.toString()),`${e}?${a.toString()}`}(null!==(c=e.apiUrl)&&void 0!==c?c:"wss://api.speechly.com/ws/v1",m,null!==(u=e.sampleRate)&&void 0!==u?u:vn.DefaultSampleRate);this.apiClient=null!==(l=e.apiClient)&&void 0!==l?l:new Nn.WebWorkerController,this.storage=null!==(d=e.storage)&&void 0!==d?d:new _n.LocalStorage,this.deviceId=this.storage.getOrSet("speechly-device-id",Un.v4);const f=this.storage.get(Jn);if(null!=f&&on.validateToken(f,this.projectId,this.appId,this.deviceId)?(this.authToken=f,this.connect(p)):on.fetchToken(this.loginUrl,this.projectId,this.appId,this.deviceId).then((e=>{this.authToken=e,this.storage.set(Jn,this.authToken),this.connect(p)})).catch((e=>{throw e})),void 0!==window.AudioContext)this.isWebkit=!1;else{if(void 0===window.webkitAudioContext)throw vn.ErrDeviceNotSupported;this.isWebkit=!0}this.microphone=null!==(h=e.microphone)&&void 0!==h?h:new vn.BrowserMicrophone(this.isWebkit,this.sampleRate,this.apiClient),this.apiClient.onResponse(this.handleWebsocketResponse),this.apiClient.onClose(this.handleWebsocketClosure),window.SpeechlyClient=this}connect(e){this.apiClient.postMessage({type:"INIT",apiUrl:e,authToken:this.authToken,targetSampleRate:this.sampleRate})}initialize(){return Gn(this,void 0,void 0,(function*(){if(this.state!==ce.ClientState.Disconnected)throw Error("Cannot initialize client - client is not in Disconnected state");this.setState(ce.ClientState.Connecting);try{if(this.isWebkit)void 0!==window.webkitAudioContext&&(this.audioContext=new window.webkitAudioContext);else{const e={};this.nativeResamplingSupported&&(e.sampleRate=this.sampleRate),this.audioContext=new window.AudioContext(e)}const e={video:!1};if(this.nativeResamplingSupported?e.audio={sampleRate:this.sampleRate}:e.audio=!0,null==this.audioContext)throw vn.ErrDeviceNotSupported;this.isWebkit&&(yield this.audioContext.resume()),yield this.apiClient.initialize(this.audioContext.sampleRate),this.initializeMicrophonePromise=this.microphone.initialize(this.audioContext,e),yield this.initializeMicrophonePromise}catch(e){switch(e){case vn.ErrDeviceNotSupported:this.setState(ce.ClientState.NoBrowserSupport);break;case vn.ErrNoAudioConsent:this.setState(ce.ClientState.NoAudioConsent);break;default:this.setState(ce.ClientState.Failed)}throw e}this.setState(ce.ClientState.Connected)}))}close(){return Gn(this,void 0,void 0,(function*(){const e=[];try{yield this.microphone.close()}catch(t){e.push(t.message)}try{yield this.apiClient.close()}catch(t){e.push(t.message)}if(this.activeContexts.clear(),this.setState(ce.ClientState.Disconnected),e.length>0)throw Error(e.join(","))}))}switchContext(e){return Gn(this,void 0,void 0,(function*(){if(this.state===ce.ClientState.Recording){this.resolveStopContext=void 0;const t=yield this.apiClient.switchContext(e);this.activeContexts.set(t,new Map)}}))}startContext(e){return Gn(this,void 0,void 0,(function*(){if(null!=this.resolveStopContext&&(this.resolveStopContext(),yield this.stoppedContextIdPromise),this.state===ce.ClientState.Disconnected||this.state===ce.ClientState.Connecting)throw Error("Cannot start context - client is not connected");this.setState(ce.ClientState.Starting);return yield this._startContext(e)}))}_startContext(e){return Gn(this,void 0,void 0,(function*(){let t;try{t=null!=this.projectId?yield this.apiClient.startContext(e):yield this.apiClient.startContext()}catch(e){throw this.setState(ce.ClientState.Connected),e}return this.setState(ce.ClientState.Recording),this.microphone.unmute(),this.activeContexts.set(t,new Map),t}))}stopContext(){return Gn(this,void 0,void 0,(function*(){if(this.state!==ce.ClientState.Recording&&this.state!==ce.ClientState.Starting)throw Error("Cannot stop context - client is not recording");this.setState(ce.ClientState.Stopping),this.stoppedContextIdPromise=new Promise((e=>{Promise.race([new Promise((e=>setTimeout(e,this.contextStopDelay))),new Promise((e=>{this.resolveStopContext=e}))]).then((()=>{this._stopContext().then((t=>{e(t)})).catch((e=>{throw e}))})).catch((e=>{throw e}))}));const e=yield this.stoppedContextIdPromise;return this.setState(ce.ClientState.Connected),this.activeContexts.delete(e),e}))}_stopContext(){return Gn(this,void 0,void 0,(function*(){let e;this.microphone.mute();try{e=yield this.apiClient.stopContext()}catch(e){throw this.setState(ce.ClientState.Failed),e}return e}))}onStateChange(e){this.stateChangeCb=e}onSegmentChange(e){this.segmentChangeCb=e}onTentativeTranscript(e){this.tentativeTranscriptCb=e}onTranscript(e){this.transcriptCb=e}onTentativeEntities(e){this.tentativeEntitiesCb=e}onEntity(e){this.entityCb=e}onTentativeIntent(e){this.tentativeIntentCb=e}onIntent(e){this.intentCb=e}reconnectWebsocket(e){return Gn(this,void 0,void 0,(function*(){return Vn.default(((e,t)=>Gn(this,void 0,void 0,(function*(){this.debug&&console.log("[SpeechlyClient]","WebSocket reconnection attempt number:",t)}))),{retries:this.reconnectAttemptCount,minTimeout:this.reconnectMinDelay})}))}setState(e){this.state!==e&&(this.debug&&console.log("[SpeechlyClient]","State transition",he.stateToString(this.state),he.stateToString(e)),this.state=e,this.stateChangeCb(e))}};var Xn,qn,Yn,Qn,ea=Object.defineProperty({Client:Zn},"__esModule",{value:!0}),ta=se((function(e,t){Object.defineProperty(t,"__esModule",{value:!0}),function(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}(ce),t.stateToString=he.stateToString,t.Client=ea.Client})),na=se((function(e,t){function n(e){for(var n in e)t.hasOwnProperty(n)||(t[n]=e[n])}Object.defineProperty(t,"__esModule",{value:!0}),n(ta),n(ln),n(gn),n(An)}));function aa(t){let n,a,i,o,r,s,c,u;return{c(){n=w("svg"),a=w("defs"),i=w("linearGradient"),o=w("stop"),r=w("stop"),s=w("g"),c=w("path"),u=w("path"),this.c=e,N(o,"stop-color","var(--gradient-stop1)"),N(o,"offset","0%"),N(r,"stop-color","var(--gradient-stop2)"),N(r,"offset","100%"),N(i,"x1","50%"),N(i,"y1","0%"),N(i,"x2","50%"),N(i,"y2","100%"),N(i,"id","a"),N(c,"d","M46 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z"),N(c,"fill","#FFF"),N(u,"d","M46 0C20.595 0 0 20.595 0 46s20.595 46 46 46 46-20.595 46-46S71.405 0 46 0zm0 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z"),N(u,"fill","url(#a)"),N(s,"fill","none"),N(s,"fillrule","nonzero"),N(n,"class","buttonFrameEl"),N(n,"viewBox","0 0 92 92"),N(n,"xmlns","http://www.w3.org/2000/svg")},m(e,t){v(e,n,t),f(n,a),f(a,i),f(i,o),f(i,r),f(n,s),f(s,c),f(s,u)},p:e,i:e,o:e,d(e){e&&g(n)}}}customElements.define("mic-frame",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>svg{position:absolute;width:100%;height:100%;pointer-events:none;user-select:none;transform:rotate(var(--fx-rotation))}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},null,aa,r,{}),e&&e.target&&v(e.target,this,e.anchor)}}),function(e){e.Failed="Failed",e.NoBrowserSupport="NoBrowserSupport",e.NoAudioConsent="NoAudioConsent",e.Idle="Idle",e.Connecting="Connecting",e.Ready="Ready",e.Recording="Recording",e.Loading="Loading"}(Xn||(Xn={})),function(e){e.Poweron="poweron",e.Mic="mic",e.Error="error",e.Denied="denied"}(qn||(qn={})),function(e){e.Hold="hold",e.Click="click",e.Noninteractive="noninteractive"}(Yn||(Yn={})),function(e){e.None="none",e.Connecting="connecting",e.Busy="busy"}(Qn||(Qn={}));const ia={[ce.ClientState.Disconnected]:{icon:qn.Poweron,behaviour:Yn.Click,effect:Qn.None},[ce.ClientState.Disconnecting]:{icon:qn.Poweron,behaviour:Yn.Noninteractive,effect:Qn.Connecting},[ce.ClientState.Connecting]:{icon:qn.Poweron,behaviour:Yn.Noninteractive,effect:Qn.Connecting},[ce.ClientState.Connected]:{icon:qn.Mic,behaviour:Yn.Hold,effect:Qn.None},[ce.ClientState.Starting]:{icon:qn.Mic,behaviour:Yn.Hold,effect:Qn.Connecting},[ce.ClientState.Recording]:{icon:qn.Mic,behaviour:Yn.Hold,effect:Qn.None},[ce.ClientState.Stopping]:{icon:qn.Mic,behaviour:Yn.Noninteractive,effect:Qn.Busy},[ce.ClientState.Failed]:{icon:qn.Error,behaviour:Yn.Click,effect:Qn.None},[ce.ClientState.NoBrowserSupport]:{icon:qn.Error,behaviour:Yn.Click,effect:Qn.None},[ce.ClientState.NoAudioConsent]:{icon:qn.Denied,behaviour:Yn.Click,effect:Qn.None},[Xn.Idle]:{icon:qn.Poweron,behaviour:Yn.Click,effect:Qn.None},[Xn.Connecting]:{icon:qn.Poweron,behaviour:Yn.Noninteractive,effect:Qn.Connecting},[Xn.Ready]:{icon:qn.Mic,behaviour:Yn.Hold,effect:Qn.None},[Xn.Recording]:{icon:qn.Mic,behaviour:Yn.Hold,effect:Qn.None},[Xn.Loading]:{icon:qn.Mic,behaviour:Yn.Noninteractive,effect:Qn.Busy},[Xn.Failed]:{icon:qn.Error,behaviour:Yn.Click,effect:Qn.None},[Xn.NoBrowserSupport]:{icon:qn.Error,behaviour:Yn.Click,effect:Qn.None},[Xn.NoAudioConsent]:{icon:qn.Denied,behaviour:Yn.Click,effect:Qn.None}};function oa(e){let t,n,a,i;return{c(){t=w("svg"),n=w("g"),a=w("path"),i=w("rect"),N(a,"d","M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"),N(i,"x","20"),N(i,"y","1"),N(i,"width","16"),N(i,"height","37"),N(i,"rx","8"),N(n,"fill","#000"),N(n,"fillrule","evenodd"),N(t,"class","buttonIconEl"),N(t,"viewBox","0 0 56 56"),N(t,"xmlns","http://www.w3.org/2000/svg")},m(e,o){v(e,t,o),f(t,n),f(n,a),f(n,i)},d(e){e&&g(t)}}}function ra(e){let t,n,a,i;return{c(){t=w("svg"),n=w("g"),a=w("path"),i=w("path"),N(a,"d","M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"),N(a,"fillrule","nonzero"),N(i,"d","M37 13.081V31a8 8 0 11-16 0v-1.919l16-16zM26 1a8 8 0 018 8v1.319L18 26.318V9a8 8 0 018-8zM37.969 7.932l3.74-7.35 3.018 2.625zM39.654 10.608l7.531-3.359.695 3.94z"),N(n,"fill","#000"),N(n,"fillrule","evenodd"),N(t,"class","buttonIconEl"),N(t,"viewBox","0 0 56 56"),N(t,"xmlns","http://www.w3.org/2000/svg")},m(e,o){v(e,t,o),f(t,n),f(n,a),f(n,i)},d(e){e&&g(t)}}}function sa(e){let t,n,a,i;return{c(){t=w("svg"),n=w("g"),a=w("path"),i=w("path"),N(a,"d","M36 14.828V30a8 8 0 01-15.961.79l15.96-15.962zM28 1a8 8 0 018 8v.172L20 25.173V9a8 8 0 018-8z"),N(i,"d","M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"),N(n,"fill","#000"),N(n,"fillrule","nonzero"),N(t,"class","buttonIconEl"),N(t,"viewBox","0 0 56 56"),N(t,"xmlns","http://www.w3.org/2000/svg")},m(e,o){v(e,t,o),f(t,n),f(n,a),f(n,i)},d(e){e&&g(t)}}}function ca(e){let t,n,a,i;return{c(){t=w("svg"),n=w("g"),a=w("path"),i=w("rect"),N(a,"d","M52 28c0 13.255-10.745 24-24 24S4 41.255 4 28c0-8.921 4.867-16.705 12.091-20.842l1.984 3.474C12.055 14.08 8 20.566 8 28c0 11.046 8.954 20 20 20s20-8.954 20-20c0-7.434-4.056-13.92-10.075-17.368L39.91 7.16C47.133 11.296 52 19.079 52 28z"),N(a,"fillrule","nonzero"),N(i,"x","24"),N(i,"y","1"),N(i,"width","8"),N(i,"height","23"),N(i,"rx","4"),N(n,"fill","#000"),N(n,"fillrule","evenodd"),N(t,"class","buttonIconEl"),N(t,"viewBox","0 0 56 56"),N(t,"xmlns","http://www.w3.org/2000/svg")},m(e,o){v(e,t,o),f(t,n),f(n,a),f(n,i)},d(e){e&&g(t)}}}function ua(t){let n,a,i,o,r=t[0]===qn.Mic&&oa(),s=t[0]===qn.Error&&ra(),c=t[0]===qn.Denied&&sa(),u=t[0]===qn.Poweron&&ca();return{c(){r&&r.c(),n=C(),s&&s.c(),a=C(),c&&c.c(),i=C(),u&&u.c(),o=S(""),this.c=e},m(e,t){r&&r.m(e,t),v(e,n,t),s&&s.m(e,t),v(e,a,t),c&&c.m(e,t),v(e,i,t),u&&u.m(e,t),v(e,o,t)},p(e,[t]){e[0]===qn.Mic?r||(r=oa(),r.c(),r.m(n.parentNode,n)):r&&(r.d(1),r=null),e[0]===qn.Error?s||(s=ra(),s.c(),s.m(a.parentNode,a)):s&&(s.d(1),s=null),e[0]===qn.Denied?c||(c=sa(),c.c(),c.m(i.parentNode,i)):c&&(c.d(1),c=null),e[0]===qn.Poweron?u||(u=ca(),u.c(),u.m(o.parentNode,o)):u&&(u.d(1),u=null)},i:e,o:e,d(e){r&&r.d(e),e&&g(n),s&&s.d(e),e&&g(a),c&&c.d(e),e&&g(i),u&&u.d(e),e&&g(o)}}}function la(e,t,n){let{icon:a=qn.Mic}=t;return e.$$set=e=>{"icon"in e&&n(0,a=e.icon)},[a]}function da(t){let n,a,i,o,r,s,c,u;return{c(){n=w("svg"),a=w("defs"),i=w("linearGradient"),o=w("stop"),r=w("stop"),s=w("filter"),c=w("feGaussianBlur"),u=w("circle"),this.c=e,N(o,"stop-color","var(--gradient-stop1)"),N(o,"offset","0%"),N(r,"stop-color","var(--gradient-stop2)"),N(r,"offset","100%"),N(i,"x1","50%"),N(i,"y1","10%"),N(i,"x2","50%"),N(i,"y2","100%"),N(i,"id","a"),N(c,"stdDeviation","18"),N(c,"in","SourceGraphic"),N(s,"x","-35%"),N(s,"y","-35%"),N(s,"width","170%"),N(s,"height","170%"),N(s,"filterUnits","objectBoundingBox"),N(s,"id","b"),N(u,"filter","url(#b)"),N(u,"cx","124"),N(u,"cy","124"),N(u,"r","79"),N(u,"fill","url(#a)"),N(u,"fillrule","evenodd"),N(n,"viewBox","0 0 246 246"),N(n,"xmlns","http://www.w3.org/2000/svg")},m(e,t){v(e,n,t),f(n,a),f(a,i),f(i,o),f(i,r),f(a,s),f(s,c),f(n,u)},p:e,i:e,o:e,d(e){e&&g(n)}}}customElements.define("mic-icon",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>svg{position:absolute;width:60%;height:60%;top:50%;left:50%;transform:translate(-50%, -50%);pointer-events:none;transition:0.25s}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},la,ua,r,{icon:0}),e&&(e.target&&v(e.target,this,e.anchor),e.props&&(this.$set(e.props),K()))}static get observedAttributes(){return["icon"]}get icon(){return this.$$.ctx[0]}set icon(e){this.$set({icon:e}),K()}});customElements.define("mic-fx",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>svg{top:-75%;left:-75%;height:250%;width:250%;position:absolute;pointer-events:none;transform:rotate(var(--fx-rotation))}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},null,da,r,{}),e&&e.target&&v(e.target,this,e.anchor)}});const{window:ha}=te;function ma(t){let n,a,o,r,s,c,u,l,d,h,m,p;return{c(){n=y("main"),a=y("div"),o=y("mic-fx"),r=C(),s=y("mic-frame"),c=C(),u=y("mic-icon"),d=C(),h=y("slot"),this.c=e,E(o,"opacity",t[6][1]),E(o,"transform","rotate("+t[3][1]+"deg)"),k(u,"icon",l=t[7].icon),E(u,"opacity",t[5][1]),N(a,"class","ButtonComponents"),E(a,"transform","scale("+t[4][1]+")"),E(n,"width",t[0]),E(n,"height",t[0]),E(n,"--gradient-stop1",t[1]),E(n,"--gradient-stop2",t[2]),E(n,"--fx-rotation",t[3][1]+"deg")},m(e,i){v(e,n,i),f(n,a),f(a,o),f(a,r),f(a,s),f(a,c),f(a,u),f(n,d),f(n,h),m||(p=[b(ha,"mouseup",t[9]),b(ha,"keydown",t[10]),b(ha,"keyup",t[11]),b(n,"mousedown",t[8]),b(n,"touchstart",t[8]),b(n,"dragstart",t[8]),b(n,"mouseup",t[9]),b(n,"touchend",t[9],{passive:!0}),b(n,"dragend",t[9])],m=!0)},p(e,[t]){64&t&&E(o,"opacity",e[6][1]),8&t&&E(o,"transform","rotate("+e[3][1]+"deg)"),128&t&&l!==(l=e[7].icon)&&k(u,"icon",l),32&t&&E(u,"opacity",e[5][1]),16&t&&E(a,"transform","scale("+e[4][1]+")"),1&t&&E(n,"width",e[0]),1&t&&E(n,"height",e[0]),2&t&&E(n,"--gradient-stop1",e[1]),4&t&&E(n,"--gradient-stop2",e[2]),8&t&&E(n,"--fx-rotation",e[3][1]+"deg")},i:e,o:e,d(e){e&&g(n),m=!1,i(p)}}}function pa(e,t,n){let a,{icon:i=Xn.Idle}=t,{capturekey:o=" "}=t,{size:r="6rem"}=t,{gradientstop1:s="#15e8b5"}=t,{gradientstop2:c="#4fa1f9"}=t,{hide:u}=t,l=!1,d=0,h=[0,0],m=[0,0],p=[1,1],f=[0,0],v=ia[i],g=null,y=0,w=0;const S=O(),C=(e,t)=>{S.dispatchEvent(new CustomEvent(e,{detail:t,composed:!0}))};z((()=>{n(4,m=[1,0]);let e=null;const t=()=>{y=w,w=(new Date).getTime();const i=w-(y||w);v.effect===Qn.Connecting&&n(5,p[0]=.25*Math.cos(w/2500*Math.PI*2)+.25,p),v.effect===Qn.Busy&&n(5,p[0]=.25*Math.cos(w/1e3*Math.PI*2)+.25,p),n(4,m=[m[0],k(m[1],a?m[0]:0,.2,i)]),n(5,p=[p[0],k(p[1],p[0],.08,i)]),n(6,f=[f[0],k(f[1],f[0],.08,i)]),n(3,h=[h[0]+2.5,k(h[1],h[0],.05,i)]),e=requestAnimationFrame(t)};return t(),()=>cancelAnimationFrame(e)}));const b=e=>{e.preventDefault(),e.stopPropagation(),a&&!l&&(n(15,l=!0),d=Date.now(),n(4,m[0]=1.35,m),n(6,f[0]=1,f),E(),v.behaviour===Yn.Click&&(n(3,h[0]+=720,h),null===g&&(g=window.setTimeout((()=>{n(6,f[0]=0,f),g=null}),500))),S.onholdstart&&S.onholdstart(),C("holdstart"))},N=()=>{if(l){n(4,m[0]=1,m),n(6,f[0]=0,f),n(15,l=!1);const e={timeMs:Date.now()-d};E(),null!==g&&window.clearTimeout(g),S.onholdend&&S.onholdend(e),C("holdend",e)}},k=(e,t,n,a)=>e*(1-(n=Math.pow(n,1e3/60/a)))+t*n,E=(e=5)=>{void 0!==navigator.vibrate&&navigator.vibrate(e)};return e.$$set=e=>{"icon"in e&&n(12,i=e.icon),"capturekey"in e&&n(13,o=e.capturekey),"size"in e&&n(0,r=e.size),"gradientstop1"in e&&n(1,s=e.gradientstop1),"gradientstop2"in e&&n(2,c=e.gradientstop2),"hide"in e&&n(14,u=e.hide)},e.$$.update=()=>{16384&e.$$.dirty&&(a=void 0===u||"false"===u),36864&e.$$.dirty&&(l||(e=>{if(v!==e)switch(n(7,v=e),e.icon){case qn.Mic:case qn.Denied:case qn.Error:n(5,p[0]=1,p)}})(ia[i]))},[r,s,c,h,m,p,f,v,b,N,e=>{o&&(e.key===o&&(document.hasFocus()&&document.activeElement!==document.body&&document.activeElement!==document.documentElement&&document.activeElement||null||(e.repeat?(e.preventDefault(),e.stopPropagation()):b(e))))},e=>{e.key===o&&N()},i,o,u,l]}function fa(n){let a,r,s,u,l,d,m,p,w,S;return{c(){a=y("div"),r=y("div"),r.innerHTML="<slot></slot>",s=C(),u=y("div"),l=C(),N(r,"class","CalloutDiv"),T(r,"useShadow",ga),N(u,"class","ArrowDiv"),E(u,"--ax","50%"),E(u,"--ay","100%"),N(a,"class","CalloutContainerDiv")},m(e,t){v(e,a,t),f(a,r),f(a,s),f(a,u),f(a,l),p=!0,w||(S=[b(a,"mousedown",n[7]),b(a,"touchstart",n[7]),b(a,"dragstart",n[7])],w=!0)},p:e,i(i){p||(W((()=>{m&&m.end(1),d||(d=function(n,a,i){let r,s,u=a(n,i),l=!1,d=0;function m(){r&&R(n,r)}function p(){const{delay:a=0,duration:i=300,easing:o=t,tick:p=e,css:f}=u||ee;f&&(r=I(n,0,1,i,a,o,f,d++)),p(0,1);const v=c()+a,g=v+i;s&&s.abort(),l=!0,W((()=>Z(n,!0,"start"))),s=h((e=>{if(l){if(e>=g)return p(1,0),Z(n,!0,"end"),m(),l=!1;if(e>=v){const t=o((e-v)/i);p(t,1-t)}}return l}))}let f=!1;return{start(){f||(R(n),o(u)?(u=u(),J().then(p)):p())},invalidate(){f=!1},end(){l&&(m(),l=!1)}}}(a,n[6],{})),d.start()})),p=!0)},o(r){d&&d.invalidate(),m=function(n,a,r){let s,u=a(n,r),l=!0;const d=q;function m(){const{delay:a=0,duration:o=300,easing:r=t,tick:m=e,css:p}=u||ee;p&&(s=I(n,1,0,o,a,r,p));const f=c()+a,v=f+o;W((()=>Z(n,!1,"start"))),h((e=>{if(l){if(e>=v)return m(0,1),Z(n,!1,"end"),--d.r||i(d.c),!1;if(e>=f){const t=r((e-f)/o);m(1-t,t)}}return l}))}return d.r+=1,o(u)?J().then((()=>{u=u(),m()})):m(),{end(e){e&&u.tick&&u.tick(1,0),l&&(s&&R(n,s),l=!1)}}}(a,n[6],{}),p=!1},d(e){e&&g(a),e&&m&&m.end(),w=!1,i(S)}}}function va(t){let n,a,o,r,s=t[2]&&fa(t);return{c(){n=y("main"),s&&s.c(),a=C(),o=y("link"),this.c=e,E(n,"--ax",t[3].x),E(n,"--ay",t[3].y),E(n,"--halign",t[4].x),E(n,"--valign",t[4].y),E(n,"--borderradius",ya),E(n,"--arrowpad",`${t[5].value}${t[5].unit}`),E(n,"--backgroundcolor",t[1]),E(n,"--size",`${t[5].value*Math.sqrt(2)}${t[5].unit}`),E(n,"--fontsize",t[0]),E(n,"--offsetx","0rem"),E(n,"--offsety",`${t[5].value}${t[5].unit}`),N(o,"href","https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap"),N(o,"rel","stylesheet")},m(e,t){v(e,n,t),s&&s.m(n,null),v(e,a,t),f(document.head,o),r=!0},p(e,[t]){e[2]?s?(s.p(e,t),4&t&&Y(s,1)):(s=fa(e),s.c(),Y(s,1),s.m(n,null)):s&&(q={r:0,c:[],p:q},Q(s,1,1,(()=>{s=null})),q.r||i(q.c),q=q.p),(!r||2&t)&&E(n,"--backgroundcolor",e[1]),(!r||1&t)&&E(n,"--fontsize",e[0])},i(e){r||(Y(s),r=!0)},o(e){Q(s),r=!1},d(e){e&&g(n),s&&s.d(),e&&g(a),g(o)}}}customElements.define("holdable-button",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>main{position:relative;pointer-events:auto;cursor:pointer;border-radius:50%;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none !important;-webkit-user-select:none !important}.ButtonComponents{width:100%;height:100%}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},pa,ma,r,{icon:12,capturekey:13,size:0,gradientstop1:1,gradientstop2:2,hide:14}),e&&(e.target&&v(e.target,this,e.anchor),e.props&&(this.$set(e.props),K()))}static get observedAttributes(){return["icon","capturekey","size","gradientstop1","gradientstop2","hide"]}get icon(){return this.$$.ctx[12]}set icon(e){this.$set({icon:e}),K()}get capturekey(){return this.$$.ctx[13]}set capturekey(e){this.$set({capturekey:e}),K()}get size(){return this.$$.ctx[0]}set size(e){this.$set({size:e}),K()}get gradientstop1(){return this.$$.ctx[1]}set gradientstop1(e){this.$set({gradientstop1:e}),K()}get gradientstop2(){return this.$$.ctx[2]}set gradientstop2(e){this.$set({gradientstop2:e}),K()}get hide(){return this.$$.ctx[14]}set hide(e){this.$set({hide:e}),K()}});let ga=!1,ya="0rem";function wa(e,t,n){let a,{show:i}=t,{fontsize:o="1.2rem"}=t,{textbgcolor:r="#202020"}=t;const s=(c=(e,{duration:t=250})=>({duration:t,css:e=>`\n          clip-path: circle(${100*e}% at center);\n        `}),function(e,t){if(!e.hasOwnProperty("ownerDocument")){Object.defineProperty(e,"ownerDocument",{get:function(){return e.parentElement}});let t=e;for(;t.parentElement;)t=t.parentElement;e.parentElement.head=t}return c(e,t)});var c;return e.$$set=e=>{"show"in e&&n(8,i=e.show),"fontsize"in e&&n(0,o=e.fontsize),"textbgcolor"in e&&n(1,r=e.textbgcolor)},e.$$.update=()=>{256&e.$$.dirty&&n(2,a=void 0!==i&&"false"!==i)},[o,r,a,{x:"50%",y:"10%"},{x:"50%",y:"100%"},{value:.55,unit:"rem"},s,e=>{e.preventDefault(),e.stopPropagation(),n(2,a=!1)},i]}function Sa(t){let n,a,o,r,s,c;return{c(){n=y("holdable-button"),a=y("call-out"),o=S(t[11]),this.c=e,k(a,"fontsize",t[7]),k(a,"show",r=""!==t[11]&&t[10]&&!t[4]?"true":"false"),k(a,"textbgcolor",t[8]),k(n,"size",t[0]),k(n,"icon",t[9]),k(n,"capturekey",t[1]),k(n,"gradientstop1",t[2]),k(n,"gradientstop2",t[3]),k(n,"hide",t[4]),E(n,"--voffset",t[6]),E(n,"--size",t[0]),T(n,"placementBottom","bottom"===t[5])},m(e,i){v(e,n,i),f(n,a),f(a,o),s||(c=[b(n,"holdstart",t[12]),b(n,"holdend",t[13])],s=!0)},p(e,t){2048&t[0]&&function(e,t){t=""+t,e.wholeText!==t&&(e.data=t)}(o,e[11]),128&t[0]&&k(a,"fontsize",e[7]),3088&t[0]&&r!==(r=""!==e[11]&&e[10]&&!e[4]?"true":"false")&&k(a,"show",r),256&t[0]&&k(a,"textbgcolor",e[8]),1&t[0]&&k(n,"size",e[0]),512&t[0]&&k(n,"icon",e[9]),2&t[0]&&k(n,"capturekey",e[1]),4&t[0]&&k(n,"gradientstop1",e[2]),8&t[0]&&k(n,"gradientstop2",e[3]),16&t[0]&&k(n,"hide",e[4]),64&t[0]&&E(n,"--voffset",e[6]),1&t[0]&&E(n,"--size",e[0]),32&t[0]&&T(n,"placementBottom","bottom"===e[5])},i:e,o:e,d(e){e&&g(n),s=!1,i(c)}}}customElements.define("call-out",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>main{margin:0;padding:0}.CalloutContainerDiv{position:absolute;left:var(--ax);top:var(--ay);transform:translate(calc(-1 * var(--halign)), calc(-1 * var(--valign)));padding:var(--arrowpad);z-index:10;pointer-events:auto}.CalloutDiv{position:relative;box-sizing:border-box;min-width:8rem;border-radius:var(--borderradius);padding:0.50rem 1rem;background-color:var(--backgroundcolor);text-align:center;user-select:none;z-index:10;color:#fff;font-family:'Saira Condensed', sans-serif;font-size:var(--fontsize);line-height:120%;text-transform:uppercase}.useShadow{box-shadow:0 0.2rem 0.5rem #00000040}.ArrowDiv{position:absolute;left:calc(var(--ax) - var(--offsetx));top:calc(var(--ay) - var(--offsety));transform:translate(-50%, -50%) rotate(45deg);width:var(--size);height:var(--size);background-color:var(--backgroundcolor);z-index:10}.ArrowShadowDiv{position:absolute;left:calc(var(--ax) - var(--offsetx));top:calc(var(--ay) - var(--offsety));transform:translate(-50%, -50%) rotate(45deg);width:var(--size);height:var(--size);background-color:var(--backgroundcolor);background-color:#00000000;box-shadow:0 0.2rem 0.5rem #00000040;z-index:9}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},wa,va,r,{show:8,fontsize:0,textbgcolor:1}),e&&(e.target&&v(e.target,this,e.anchor),e.props&&(this.$set(e.props),K()))}static get observedAttributes(){return["show","fontsize","textbgcolor"]}get show(){return this.$$.ctx[8]}set show(e){this.$set({show:e}),K()}get fontsize(){return this.$$.ctx[0]}set fontsize(e){this.$set({fontsize:e}),K()}get textbgcolor(){return this.$$.ctx[1]}set textbgcolor(e){this.$set({textbgcolor:e}),K()}});function Ca(e,t,n){let a,i;var o=this&&this.__awaiter||function(e,t,n,a){return new(n||(n=Promise))((function(i,o){function r(e){try{c(a.next(e))}catch(e){o(e)}}function s(e){try{c(a.throw(e))}catch(e){o(e)}}function c(e){var t;e.done?i(e.value):(t=e.value,t instanceof n?t:new n((function(e){e(t)}))).then(r,s)}c((a=a.apply(e,t||[])).next())}))};let r,s,{appid:c}=t,{size:u="6rem"}=t,{capturekey:l=" "}=t,{gradientstop1:d="#15e8b5"}=t,{gradientstop2:h="#4fa1f9"}=t,{poweron:m}=t,{hide:p}=t,{placement:f}=t,{voffset:v="3rem"}=t,{intro:g="Hold to talk"}=t,{hint:y="Hold to talk"}=t,{fontsize:w="1.2rem"}=t,{showtime:S="5000"}=t,{textbgcolor:C="#202020"}=t,b=na.ClientState.Disconnected,N=!1,k=null,E=!1,T=!1,x=null;const A=O(),_=(e,t)=>{A.dispatchEvent(new CustomEvent(e,{detail:t,composed:!0}))};z((()=>{T=!0,M(c)}));const M=e=>{T&&e&&!x?(console.log("Create client with appId",e),x=new na.Client({appId:e}),x.onStateChange(P),x.onSegmentChange((e=>{_("speechsegment",e),window.postMessage({type:"speechsegment",segment:e},"*")})),I()):console.warn("No appid attribute specified. Speechly voice services are unavailable.")},I=()=>{null!==k&&(window.clearTimeout(k),k=null),null===k&&(k=window.setTimeout((()=>{n(10,E=!0),k=null,S>0&&(k=window.setTimeout((()=>{n(10,E=!1),k=null}),S))}),500))},R=()=>{s&&n(9,b=s)},$=e=>!e||e===na.ClientState.Disconnected,B=e=>e===na.ClientState.Connected,L=e=>{switch(e){case na.ClientState.Starting:case na.ClientState.Recording:case na.ClientState.Stopping:return!0;default:return!1}},P=e=>{switch(s=e,R(),e){case na.ClientState.Failed:D(!1,"Failed");break;case na.ClientState.NoBrowserSupport:D(!1,"NoBrowserSupport");break;case na.ClientState.NoAudioConsent:D(!1,"NoAudioConsent");break;case na.ClientState.Connected:D(!0,"Ready"),!i&&N&&B(s)&&x.startContext()}window.postMessage({type:"speechstate",state:e},"*")},D=(e,t)=>{void 0===r&&(r=e,_("initialized",{success:r,status:t}))};return e.$$set=e=>{"appid"in e&&n(14,c=e.appid),"size"in e&&n(0,u=e.size),"capturekey"in e&&n(1,l=e.capturekey),"gradientstop1"in e&&n(2,d=e.gradientstop1),"gradientstop2"in e&&n(3,h=e.gradientstop2),"poweron"in e&&n(15,m=e.poweron),"hide"in e&&n(4,p=e.hide),"placement"in e&&n(5,f=e.placement),"voffset"in e&&n(6,v=e.voffset),"intro"in e&&n(16,g=e.intro),"hint"in e&&n(17,y=e.hint),"fontsize"in e&&n(7,w=e.fontsize),"showtime"in e&&n(18,S=e.showtime),"textbgcolor"in e&&n(8,C=e.textbgcolor)},e.$$.update=()=>{65536&e.$$.dirty[0]&&n(11,a=g),32768&e.$$.dirty[0]&&n(19,i=void 0!==m&&"false"!==m),524288&e.$$.dirty[0]&&n(9,b=i?na.ClientState.Disconnected:na.ClientState.Connected),16384&e.$$.dirty[0]&&M(c)},[u,l,d,h,p,f,v,w,C,b,E,a,e=>{N=!0,n(10,E=!1),x&&($(s)?c&&o(void 0,void 0,void 0,(function*(){o(void 0,void 0,void 0,(function*(){try{console.log("Initializing...",x),_("starting"),yield x.initialize(),console.log("Initialized")}catch(e){console.log("Initialization failed",e),x=null}}))})):B(s)&&x.startContext()),window.postMessage({type:"holdstart"},"*")},e=>{const t=e.detail;r&&t.timeMs<600&&(n(11,a=y),I()),N=!1,x&&L(s)&&x.stopContext(),R(),window.postMessage({type:"holdend"},"*")},c,m,g,y,S,i]}customElements.define("push-to-talk-button",class extends ie{constructor(e){super(),this.shadowRoot.innerHTML="<style>.placementBottom{position:fixed;bottom:0;left:0;right:0;height:calc(var(--size) + var(--voffset));max-height:100vh;pointer-events:none;display:flex;flex-direction:row;justify-content:center;z-index:50}</style>",ae(this,{target:this.shadowRoot,props:x(this.attributes),customElement:!0},Ca,Sa,r,{appid:14,size:0,capturekey:1,gradientstop1:2,gradientstop2:3,poweron:15,hide:4,placement:5,voffset:6,intro:16,hint:17,fontsize:7,showtime:18,textbgcolor:8},[-1,-1]),e&&(e.target&&v(e.target,this,e.anchor),e.props&&(this.$set(e.props),K()))}static get observedAttributes(){return["appid","size","capturekey","gradientstop1","gradientstop2","poweron","hide","placement","voffset","intro","hint","fontsize","showtime","textbgcolor"]}get appid(){return this.$$.ctx[14]}set appid(e){this.$set({appid:e}),K()}get size(){return this.$$.ctx[0]}set size(e){this.$set({size:e}),K()}get capturekey(){return this.$$.ctx[1]}set capturekey(e){this.$set({capturekey:e}),K()}get gradientstop1(){return this.$$.ctx[2]}set gradientstop1(e){this.$set({gradientstop1:e}),K()}get gradientstop2(){return this.$$.ctx[3]}set gradientstop2(e){this.$set({gradientstop2:e}),K()}get poweron(){return this.$$.ctx[15]}set poweron(e){this.$set({poweron:e}),K()}get hide(){return this.$$.ctx[4]}set hide(e){this.$set({hide:e}),K()}get placement(){return this.$$.ctx[5]}set placement(e){this.$set({placement:e}),K()}get voffset(){return this.$$.ctx[6]}set voffset(e){this.$set({voffset:e}),K()}get intro(){return this.$$.ctx[16]}set intro(e){this.$set({intro:e}),K()}get hint(){return this.$$.ctx[17]}set hint(e){this.$set({hint:e}),K()}get fontsize(){return this.$$.ctx[7]}set fontsize(e){this.$set({fontsize:e}),K()}get showtime(){return this.$$.ctx[18]}set showtime(e){this.$set({showtime:e}),K()}get textbgcolor(){return this.$$.ctx[8]}set textbgcolor(e){this.$set({textbgcolor:e}),K()}})}();
+
+(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(window.document);
+(function () {
+    'use strict';
+
+    function noop() { }
+    const identity$1 = x => x;
+    function add_location(element, file, line, column, char) {
+        element.__svelte_meta = {
+            loc: { file, line, column, char }
+        };
+    }
+    function run(fn) {
+        return fn();
+    }
+    function blank_object() {
+        return Object.create(null);
+    }
+    function run_all(fns) {
+        fns.forEach(run);
+    }
+    function is_function(thing) {
+        return typeof thing === 'function';
+    }
+    function safe_not_equal(a, b) {
+        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+    }
+    function not_equal(a, b) {
+        return a != a ? b == b : a !== b;
+    }
+    function is_empty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+
+    const is_client = typeof window !== 'undefined';
+    let now = is_client
+        ? () => window.performance.now()
+        : () => Date.now();
+    let raf = is_client ? cb => requestAnimationFrame(cb) : noop;
+
+    const tasks = new Set();
+    function run_tasks(now) {
+        tasks.forEach(task => {
+            if (!task.c(now)) {
+                tasks.delete(task);
+                task.f();
+            }
+        });
+        if (tasks.size !== 0)
+            raf(run_tasks);
+    }
+    /**
+     * Creates a new task that runs on each raf frame
+     * until it returns a falsy value or is aborted
+     */
+    function loop(callback) {
+        let task;
+        if (tasks.size === 0)
+            raf(run_tasks);
+        return {
+            promise: new Promise(fulfill => {
+                tasks.add(task = { c: callback, f: fulfill });
+            }),
+            abort() {
+                tasks.delete(task);
+            }
+        };
+    }
+
+    // Track which nodes are claimed during hydration. Unclaimed nodes can then be removed from the DOM
+    // at the end of hydration without touching the remaining nodes.
+    let is_hydrating = false;
+    const nodes_to_detach = new Set();
+    function start_hydrating() {
+        is_hydrating = true;
+    }
+    function end_hydrating() {
+        is_hydrating = false;
+        for (const node of nodes_to_detach) {
+            node.parentNode.removeChild(node);
+        }
+        nodes_to_detach.clear();
+    }
+    function append(target, node) {
+        if (is_hydrating) {
+            nodes_to_detach.delete(node);
+        }
+        if (node.parentNode !== target) {
+            target.appendChild(node);
+        }
+    }
+    function insert(target, node, anchor) {
+        if (is_hydrating) {
+            nodes_to_detach.delete(node);
+        }
+        if (node.parentNode !== target || (anchor && node.nextSibling !== anchor)) {
+            target.insertBefore(node, anchor || null);
+        }
+    }
+    function detach(node) {
+        if (is_hydrating) {
+            nodes_to_detach.add(node);
+        }
+        else if (node.parentNode) {
+            node.parentNode.removeChild(node);
+        }
+    }
+    function element(name) {
+        return document.createElement(name);
+    }
+    function svg_element(name) {
+        return document.createElementNS('http://www.w3.org/2000/svg', name);
+    }
+    function text(data) {
+        return document.createTextNode(data);
+    }
+    function space() {
+        return text(' ');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
+    function set_custom_element_data(node, prop, value) {
+        if (prop in node) {
+            node[prop] = typeof node[prop] === 'boolean' && value === '' ? true : value;
+        }
+        else {
+            attr(node, prop, value);
+        }
+    }
+    function children(element) {
+        return Array.from(element.childNodes);
+    }
+    function set_style(node, key, value, important) {
+        node.style.setProperty(key, value, important ? 'important' : '');
+    }
+    function toggle_class(element, name, toggle) {
+        element.classList[toggle ? 'add' : 'remove'](name);
+    }
+    function custom_event(type, detail) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, false, false, detail);
+        return e;
+    }
+    function attribute_to_object(attributes) {
+        const result = {};
+        for (const attribute of attributes) {
+            result[attribute.name] = attribute.value;
+        }
+        return result;
+    }
+
+    const active_docs = new Set();
+    let active = 0;
+    // https://github.com/darkskyapp/string-hash/blob/master/index.js
+    function hash(str) {
+        let hash = 5381;
+        let i = str.length;
+        while (i--)
+            hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
+        return hash >>> 0;
+    }
+    function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
+        const step = 16.666 / duration;
+        let keyframes = '{\n';
+        for (let p = 0; p <= 1; p += step) {
+            const t = a + (b - a) * ease(p);
+            keyframes += p * 100 + `%{${fn(t, 1 - t)}}\n`;
+        }
+        const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
+        const name = `__svelte_${hash(rule)}_${uid}`;
+        const doc = node.ownerDocument;
+        active_docs.add(doc);
+        const stylesheet = doc.__svelte_stylesheet || (doc.__svelte_stylesheet = doc.head.appendChild(element('style')).sheet);
+        const current_rules = doc.__svelte_rules || (doc.__svelte_rules = {});
+        if (!current_rules[name]) {
+            current_rules[name] = true;
+            stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
+        }
+        const animation = node.style.animation || '';
+        node.style.animation = `${animation ? `${animation}, ` : ''}${name} ${duration}ms linear ${delay}ms 1 both`;
+        active += 1;
+        return name;
+    }
+    function delete_rule(node, name) {
+        const previous = (node.style.animation || '').split(', ');
+        const next = previous.filter(name
+            ? anim => anim.indexOf(name) < 0 // remove specific animation
+            : anim => anim.indexOf('__svelte') === -1 // remove all Svelte animations
+        );
+        const deleted = previous.length - next.length;
+        if (deleted) {
+            node.style.animation = next.join(', ');
+            active -= deleted;
+            if (!active)
+                clear_rules();
+        }
+    }
+    function clear_rules() {
+        raf(() => {
+            if (active)
+                return;
+            active_docs.forEach(doc => {
+                const stylesheet = doc.__svelte_stylesheet;
+                let i = stylesheet.cssRules.length;
+                while (i--)
+                    stylesheet.deleteRule(i);
+                doc.__svelte_rules = {};
+            });
+            active_docs.clear();
+        });
+    }
+
+    let current_component;
+    function set_current_component(component) {
+        current_component = component;
+    }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error('Function called outside component initialization');
+        return current_component;
+    }
+    function onMount(fn) {
+        get_current_component().$$.on_mount.push(fn);
+    }
+
+    const dirty_components = [];
+    const binding_callbacks = [];
+    const render_callbacks = [];
+    const flush_callbacks = [];
+    const resolved_promise = Promise.resolve();
+    let update_scheduled = false;
+    function schedule_update() {
+        if (!update_scheduled) {
+            update_scheduled = true;
+            resolved_promise.then(flush);
+        }
+    }
+    function add_render_callback(fn) {
+        render_callbacks.push(fn);
+    }
+    let flushing = false;
+    const seen_callbacks = new Set();
+    function flush() {
+        if (flushing)
+            return;
+        flushing = true;
+        do {
+            // first, call beforeUpdate functions
+            // and update components
+            for (let i = 0; i < dirty_components.length; i += 1) {
+                const component = dirty_components[i];
+                set_current_component(component);
+                update(component.$$);
+            }
+            set_current_component(null);
+            dirty_components.length = 0;
+            while (binding_callbacks.length)
+                binding_callbacks.pop()();
+            // then, once components are updated, call
+            // afterUpdate functions. This may cause
+            // subsequent updates...
+            for (let i = 0; i < render_callbacks.length; i += 1) {
+                const callback = render_callbacks[i];
+                if (!seen_callbacks.has(callback)) {
+                    // ...so guard against infinite loops
+                    seen_callbacks.add(callback);
+                    callback();
+                }
+            }
+            render_callbacks.length = 0;
+        } while (dirty_components.length);
+        while (flush_callbacks.length) {
+            flush_callbacks.pop()();
+        }
+        update_scheduled = false;
+        flushing = false;
+        seen_callbacks.clear();
+    }
+    function update($$) {
+        if ($$.fragment !== null) {
+            $$.update();
+            run_all($$.before_update);
+            const dirty = $$.dirty;
+            $$.dirty = [-1];
+            $$.fragment && $$.fragment.p($$.ctx, dirty);
+            $$.after_update.forEach(add_render_callback);
+        }
+    }
+
+    let promise;
+    function wait() {
+        if (!promise) {
+            promise = Promise.resolve();
+            promise.then(() => {
+                promise = null;
+            });
+        }
+        return promise;
+    }
+    function dispatch(node, direction, kind) {
+        node.dispatchEvent(custom_event(`${direction ? 'intro' : 'outro'}${kind}`));
+    }
+    const outroing = new Set();
+    let outros;
+    function group_outros() {
+        outros = {
+            r: 0,
+            c: [],
+            p: outros // parent group
+        };
+    }
+    function check_outros() {
+        if (!outros.r) {
+            run_all(outros.c);
+        }
+        outros = outros.p;
+    }
+    function transition_in(block, local) {
+        if (block && block.i) {
+            outroing.delete(block);
+            block.i(local);
+        }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
+        }
+    }
+    const null_transition = { duration: 0 };
+    function create_in_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = false;
+        let animation_name;
+        let task;
+        let uid = 0;
+        function cleanup() {
+            if (animation_name)
+                delete_rule(node, animation_name);
+        }
+        function go() {
+            const { delay = 0, duration = 300, easing = identity$1, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 0, 1, duration, delay, easing, css, uid++);
+            tick(0, 1);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            if (task)
+                task.abort();
+            running = true;
+            add_render_callback(() => dispatch(node, true, 'start'));
+            task = loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(1, 0);
+                        dispatch(node, true, 'end');
+                        cleanup();
+                        return running = false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(t, 1 - t);
+                    }
+                }
+                return running;
+            });
+        }
+        let started = false;
+        return {
+            start() {
+                if (started)
+                    return;
+                delete_rule(node);
+                if (is_function(config)) {
+                    config = config();
+                    wait().then(go);
+                }
+                else {
+                    go();
+                }
+            },
+            invalidate() {
+                started = false;
+            },
+            end() {
+                if (running) {
+                    cleanup();
+                    running = false;
+                }
+            }
+        };
+    }
+    function create_out_transition(node, fn, params) {
+        let config = fn(node, params);
+        let running = true;
+        let animation_name;
+        const group = outros;
+        group.r += 1;
+        function go() {
+            const { delay = 0, duration = 300, easing = identity$1, tick = noop, css } = config || null_transition;
+            if (css)
+                animation_name = create_rule(node, 1, 0, duration, delay, easing, css);
+            const start_time = now() + delay;
+            const end_time = start_time + duration;
+            add_render_callback(() => dispatch(node, false, 'start'));
+            loop(now => {
+                if (running) {
+                    if (now >= end_time) {
+                        tick(0, 1);
+                        dispatch(node, false, 'end');
+                        if (!--group.r) {
+                            // this will result in `end()` being called,
+                            // so we don't need to clean up here
+                            run_all(group.c);
+                        }
+                        return false;
+                    }
+                    if (now >= start_time) {
+                        const t = easing((now - start_time) / duration);
+                        tick(1 - t, t);
+                    }
+                }
+                return running;
+            });
+        }
+        if (is_function(config)) {
+            wait().then(() => {
+                // @ts-ignore
+                config = config();
+                go();
+            });
+        }
+        else {
+            go();
+        }
+        return {
+            end(reset) {
+                if (reset && config.tick) {
+                    config.tick(1, 0);
+                }
+                if (running) {
+                    if (animation_name)
+                        delete_rule(node, animation_name);
+                    running = false;
+                }
+            }
+        };
+    }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
+    function create_component(block) {
+        block && block.c();
+    }
+    function mount_component(component, target, anchor, customElement) {
+        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        fragment && fragment.m(target, anchor);
+        if (!customElement) {
+            // onMount happens before the initial afterUpdate
+            add_render_callback(() => {
+                const new_on_destroy = on_mount.map(run).filter(is_function);
+                if (on_destroy) {
+                    on_destroy.push(...new_on_destroy);
+                }
+                else {
+                    // Edge case - component was destroyed immediately,
+                    // most likely as a result of a binding initialising
+                    run_all(new_on_destroy);
+                }
+                component.$$.on_mount = [];
+            });
+        }
+        after_update.forEach(add_render_callback);
+    }
+    function destroy_component(component, detaching) {
+        const $$ = component.$$;
+        if ($$.fragment !== null) {
+            run_all($$.on_destroy);
+            $$.fragment && $$.fragment.d(detaching);
+            // TODO null out other refs, including component.$$ (but need to
+            // preserve final state?)
+            $$.on_destroy = $$.fragment = null;
+            $$.ctx = [];
+        }
+    }
+    function make_dirty(component, i) {
+        if (component.$$.dirty[0] === -1) {
+            dirty_components.push(component);
+            schedule_update();
+            component.$$.dirty.fill(0);
+        }
+        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
+    }
+    function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+        const parent_component = current_component;
+        set_current_component(component);
+        const $$ = component.$$ = {
+            fragment: null,
+            ctx: null,
+            // state
+            props,
+            update: noop,
+            not_equal,
+            bound: blank_object(),
+            // lifecycle
+            on_mount: [],
+            on_destroy: [],
+            on_disconnect: [],
+            before_update: [],
+            after_update: [],
+            context: new Map(parent_component ? parent_component.$$.context : options.context || []),
+            // everything else
+            callbacks: blank_object(),
+            dirty,
+            skip_bound: false
+        };
+        let ready = false;
+        $$.ctx = instance
+            ? instance(component, options.props || {}, (i, ret, ...rest) => {
+                const value = rest.length ? rest[0] : ret;
+                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+                    if (!$$.skip_bound && $$.bound[i])
+                        $$.bound[i](value);
+                    if (ready)
+                        make_dirty(component, i);
+                }
+                return ret;
+            })
+            : [];
+        $$.update();
+        ready = true;
+        run_all($$.before_update);
+        // `false` as a special case of no DOM component
+        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
+        if (options.target) {
+            if (options.hydrate) {
+                start_hydrating();
+                const nodes = children(options.target);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.l(nodes);
+                nodes.forEach(detach);
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.c();
+            }
+            if (options.intro)
+                transition_in(component.$$.fragment);
+            mount_component(component, options.target, options.anchor, options.customElement);
+            end_hydrating();
+            flush();
+        }
+        set_current_component(parent_component);
+    }
+    let SvelteElement;
+    if (typeof HTMLElement === 'function') {
+        SvelteElement = class extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+            connectedCallback() {
+                const { on_mount } = this.$$;
+                this.$$.on_disconnect = on_mount.map(run).filter(is_function);
+                // @ts-ignore todo: improve typings
+                for (const key in this.$$.slotted) {
+                    // @ts-ignore todo: improve typings
+                    this.appendChild(this.$$.slotted[key]);
+                }
+            }
+            attributeChangedCallback(attr, _oldValue, newValue) {
+                this[attr] = newValue;
+            }
+            disconnectedCallback() {
+                run_all(this.$$.on_disconnect);
+            }
+            $destroy() {
+                destroy_component(this, 1);
+                this.$destroy = noop;
+            }
+            $on(type, callback) {
+                // TODO should this delegate to addEventListener?
+                const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+                callbacks.push(callback);
+                return () => {
+                    const index = callbacks.indexOf(callback);
+                    if (index !== -1)
+                        callbacks.splice(index, 1);
+                };
+            }
+            $set($$props) {
+                if (this.$$set && !is_empty($$props)) {
+                    this.$$.skip_bound = true;
+                    this.$$set($$props);
+                    this.$$.skip_bound = false;
+                }
+            }
+        };
+    }
+    /**
+     * Base class for Svelte components. Used when dev=false.
+     */
+    class SvelteComponent {
+        $destroy() {
+            destroy_component(this, 1);
+            this.$destroy = noop;
+        }
+        $on(type, callback) {
+            const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+            callbacks.push(callback);
+            return () => {
+                const index = callbacks.indexOf(callback);
+                if (index !== -1)
+                    callbacks.splice(index, 1);
+            };
+        }
+        $set($$props) {
+            if (this.$$set && !is_empty($$props)) {
+                this.$$.skip_bound = true;
+                this.$$set($$props);
+                this.$$.skip_bound = false;
+            }
+        }
+    }
+
+    function dispatch_dev(type, detail) {
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.38.0' }, detail)));
+    }
+    function append_dev(target, node) {
+        dispatch_dev('SvelteDOMInsert', { target, node });
+        append(target, node);
+    }
+    function insert_dev(target, node, anchor) {
+        dispatch_dev('SvelteDOMInsert', { target, node, anchor });
+        insert(target, node, anchor);
+    }
+    function detach_dev(node) {
+        dispatch_dev('SvelteDOMRemove', { node });
+        detach(node);
+    }
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+        const modifiers = options === true ? ['capture'] : options ? Array.from(Object.keys(options)) : [];
+        if (has_prevent_default)
+            modifiers.push('preventDefault');
+        if (has_stop_propagation)
+            modifiers.push('stopPropagation');
+        dispatch_dev('SvelteDOMAddEventListener', { node, event, handler, modifiers });
+        const dispose = listen(node, event, handler, options);
+        return () => {
+            dispatch_dev('SvelteDOMRemoveEventListener', { node, event, handler, modifiers });
+            dispose();
+        };
+    }
+    function attr_dev(node, attribute, value) {
+        attr(node, attribute, value);
+        if (value == null)
+            dispatch_dev('SvelteDOMRemoveAttribute', { node, attribute });
+        else
+            dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
+    }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev('SvelteDOMSetData', { node: text, data });
+        text.data = data;
+    }
+    function validate_slots(name, slot, keys) {
+        for (const slot_key of Object.keys(slot)) {
+            if (!~keys.indexOf(slot_key)) {
+                console.warn(`<${name}> received an unexpected slot "${slot_key}".`);
+            }
+        }
+    }
+    /**
+     * Base class for Svelte components with some minor dev-enhancements. Used when dev=true.
+     */
+    class SvelteComponentDev extends SvelteComponent {
+        constructor(options) {
+            if (!options || (!options.target && !options.$$inline)) {
+                throw new Error("'target' is a required option");
+            }
+            super();
+        }
+        $destroy() {
+            super.$destroy();
+            this.$destroy = () => {
+                console.warn('Component was already destroyed'); // eslint-disable-line no-console
+            };
+        }
+        $capture_state() { }
+        $inject_state() { }
+    }
+
+    var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+    function getAugmentedNamespace(n) {
+    	if (n.__esModule) return n;
+    	var a = Object.defineProperty({}, '__esModule', {value: true});
+    	Object.keys(n).forEach(function (k) {
+    		var d = Object.getOwnPropertyDescriptor(n, k);
+    		Object.defineProperty(a, k, d.get ? d : {
+    			enumerable: true,
+    			get: function () {
+    				return n[k];
+    			}
+    		});
+    	});
+    	return a;
+    }
+
+    function createCommonjsModule(fn) {
+      var module = { exports: {} };
+    	return fn(module, module.exports), module.exports;
+    }
+
+    var types$3 = createCommonjsModule(function (module, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    (function (ClientState) {
+        ClientState[ClientState["Failed"] = 0] = "Failed";
+        ClientState[ClientState["NoBrowserSupport"] = 1] = "NoBrowserSupport";
+        ClientState[ClientState["NoAudioConsent"] = 2] = "NoAudioConsent";
+        ClientState[ClientState["Disconnected"] = 3] = "Disconnected";
+        ClientState[ClientState["Disconnecting"] = 4] = "Disconnecting";
+        ClientState[ClientState["Connecting"] = 5] = "Connecting";
+        ClientState[ClientState["Connected"] = 6] = "Connected";
+        ClientState[ClientState["Starting"] = 7] = "Starting";
+        ClientState[ClientState["Stopping"] = 8] = "Stopping";
+        ClientState[ClientState["Recording"] = 9] = "Recording";
+    })(exports.ClientState || (exports.ClientState = {}));
+    //# sourceMappingURL=types.js.map
+    });
+
+    /**
+     * Converts client state value to a string, which could be useful for debugging or metrics.
+     * @param state - the state of the client
+     * @public
+     */
+    function stateToString(state) {
+        var _a;
+        return (_a = states.get(state)) !== null && _a !== void 0 ? _a : unknown;
+    }
+    var stateToString_1 = stateToString;
+    // TODO: generate this from the enum.
+    const unknown = 'Unknown';
+    const states = new Map([
+        [types$3.ClientState.Failed, 'Failed'],
+        [types$3.ClientState.NoBrowserSupport, 'NoBrowserSupport'],
+        [types$3.ClientState.NoAudioConsent, 'NoAudioConsent'],
+        [types$3.ClientState.Disconnecting, 'Disconnecting'],
+        [types$3.ClientState.Disconnected, 'Disconnected'],
+        [types$3.ClientState.Connecting, 'Connecting'],
+        [types$3.ClientState.Connected, 'Connected'],
+        [types$3.ClientState.Starting, 'Starting'],
+        [types$3.ClientState.Stopping, 'Stopping'],
+        [types$3.ClientState.Recording, 'Recording'],
+    ]);
+
+
+    var state = /*#__PURE__*/Object.defineProperty({
+    	stateToString: stateToString_1
+    }, '__esModule', {value: true});
+
+    const LANGUAGES_LIST = {
+      aa: {
+        name: 'Afar',
+        nativeName: 'Afaraf',
+      },
+      ab: {
+        name: 'Abkhaz',
+        nativeName: 'аҧсуа бызшәа',
+      },
+      ae: {
+        name: 'Avestan',
+        nativeName: 'avesta',
+      },
+      af: {
+        name: 'Afrikaans',
+        nativeName: 'Afrikaans',
+      },
+      ak: {
+        name: 'Akan',
+        nativeName: 'Akan',
+      },
+      am: {
+        name: 'Amharic',
+        nativeName: 'አማርኛ',
+      },
+      an: {
+        name: 'Aragonese',
+        nativeName: 'aragonés',
+      },
+      ar: {
+        name: 'Arabic',
+        nativeName: 'اللغة العربية',
+      },
+      as: {
+        name: 'Assamese',
+        nativeName: 'অসমীয়া',
+      },
+      av: {
+        name: 'Avaric',
+        nativeName: 'авар мацӀ',
+      },
+      ay: {
+        name: 'Aymara',
+        nativeName: 'aymar aru',
+      },
+      az: {
+        name: 'Azerbaijani',
+        nativeName: 'azərbaycan dili',
+      },
+      ba: {
+        name: 'Bashkir',
+        nativeName: 'башҡорт теле',
+      },
+      be: {
+        name: 'Belarusian',
+        nativeName: 'беларуская мова',
+      },
+      bg: {
+        name: 'Bulgarian',
+        nativeName: 'български език',
+      },
+      bh: {
+        name: 'Bihari',
+        nativeName: 'भोजपुरी',
+      },
+      bi: {
+        name: 'Bislama',
+        nativeName: 'Bislama',
+      },
+      bm: {
+        name: 'Bambara',
+        nativeName: 'bamanankan',
+      },
+      bn: {
+        name: 'Bengali',
+        nativeName: 'বাংলা',
+      },
+      bo: {
+        name: 'Tibetan',
+        nativeName: 'བོད་ཡིག',
+      },
+      br: {
+        name: 'Breton',
+        nativeName: 'brezhoneg',
+      },
+      bs: {
+        name: 'Bosnian',
+        nativeName: 'bosanski jezik',
+      },
+      ca: {
+        name: 'Catalan',
+        nativeName: 'Català',
+      },
+      ce: {
+        name: 'Chechen',
+        nativeName: 'нохчийн мотт',
+      },
+      ch: {
+        name: 'Chamorro',
+        nativeName: 'Chamoru',
+      },
+      co: {
+        name: 'Corsican',
+        nativeName: 'corsu',
+      },
+      cr: {
+        name: 'Cree',
+        nativeName: 'ᓀᐦᐃᔭᐍᐏᐣ',
+      },
+      cs: {
+        name: 'Czech',
+        nativeName: 'čeština',
+      },
+      cu: {
+        name: 'Old Church Slavonic',
+        nativeName: 'ѩзыкъ словѣньскъ',
+      },
+      cv: {
+        name: 'Chuvash',
+        nativeName: 'чӑваш чӗлхи',
+      },
+      cy: {
+        name: 'Welsh',
+        nativeName: 'Cymraeg',
+      },
+      da: {
+        name: 'Danish',
+        nativeName: 'dansk',
+      },
+      de: {
+        name: 'German',
+        nativeName: 'Deutsch',
+      },
+      dv: {
+        name: 'Divehi',
+        nativeName: 'Dhivehi',
+      },
+      dz: {
+        name: 'Dzongkha',
+        nativeName: 'རྫོང་ཁ',
+      },
+      ee: {
+        name: 'Ewe',
+        nativeName: 'Eʋegbe',
+      },
+      el: {
+        name: 'Greek',
+        nativeName: 'Ελληνικά',
+      },
+      en: {
+        name: 'English',
+        nativeName: 'English',
+      },
+      eo: {
+        name: 'Esperanto',
+        nativeName: 'Esperanto',
+      },
+      es: {
+        name: 'Spanish',
+        nativeName: 'Español',
+      },
+      et: {
+        name: 'Estonian',
+        nativeName: 'eesti',
+      },
+      eu: {
+        name: 'Basque',
+        nativeName: 'euskara',
+      },
+      fa: {
+        name: 'Persian',
+        nativeName: 'فارسی',
+      },
+      ff: {
+        name: 'Fula',
+        nativeName: 'Fulfulde',
+      },
+      fi: {
+        name: 'Finnish',
+        nativeName: 'suomi',
+      },
+      fj: {
+        name: 'Fijian',
+        nativeName: 'Vakaviti',
+      },
+      fo: {
+        name: 'Faroese',
+        nativeName: 'føroyskt',
+      },
+      fr: {
+        name: 'French',
+        nativeName: 'Français',
+      },
+      fy: {
+        name: 'Western Frisian',
+        nativeName: 'Frysk',
+      },
+      ga: {
+        name: 'Irish',
+        nativeName: 'Gaeilge',
+      },
+      gd: {
+        name: 'Scottish Gaelic',
+        nativeName: 'Gàidhlig',
+      },
+      gl: {
+        name: 'Galician',
+        nativeName: 'galego',
+      },
+      gn: {
+        name: 'Guaraní',
+        nativeName: "Avañe'ẽ",
+      },
+      gu: {
+        name: 'Gujarati',
+        nativeName: 'ગુજરાતી',
+      },
+      gv: {
+        name: 'Manx',
+        nativeName: 'Gaelg',
+      },
+      ha: {
+        name: 'Hausa',
+        nativeName: 'هَوُسَ',
+      },
+      he: {
+        name: 'Hebrew',
+        nativeName: 'עברית',
+      },
+      hi: {
+        name: 'Hindi',
+        nativeName: 'हिन्दी',
+      },
+      ho: {
+        name: 'Hiri Motu',
+        nativeName: 'Hiri Motu',
+      },
+      hr: {
+        name: 'Croatian',
+        nativeName: 'Hrvatski',
+      },
+      ht: {
+        name: 'Haitian',
+        nativeName: 'Kreyòl ayisyen',
+      },
+      hu: {
+        name: 'Hungarian',
+        nativeName: 'magyar',
+      },
+      hy: {
+        name: 'Armenian',
+        nativeName: 'Հայերեն',
+      },
+      hz: {
+        name: 'Herero',
+        nativeName: 'Otjiherero',
+      },
+      ia: {
+        name: 'Interlingua',
+        nativeName: 'Interlingua',
+      },
+      id: {
+        name: 'Indonesian',
+        nativeName: 'Bahasa Indonesia',
+      },
+      ie: {
+        name: 'Interlingue',
+        nativeName: 'Interlingue',
+      },
+      ig: {
+        name: 'Igbo',
+        nativeName: 'Asụsụ Igbo',
+      },
+      ii: {
+        name: 'Nuosu',
+        nativeName: 'ꆈꌠ꒿ Nuosuhxop',
+      },
+      ik: {
+        name: 'Inupiaq',
+        nativeName: 'Iñupiaq',
+      },
+      io: {
+        name: 'Ido',
+        nativeName: 'Ido',
+      },
+      is: {
+        name: 'Icelandic',
+        nativeName: 'Íslenska',
+      },
+      it: {
+        name: 'Italian',
+        nativeName: 'Italiano',
+      },
+      iu: {
+        name: 'Inuktitut',
+        nativeName: 'ᐃᓄᒃᑎᑐᑦ',
+      },
+      ja: {
+        name: 'Japanese',
+        nativeName: '日本語',
+      },
+      jv: {
+        name: 'Javanese',
+        nativeName: 'basa Jawa',
+      },
+      ka: {
+        name: 'Georgian',
+        nativeName: 'ქართული',
+      },
+      kg: {
+        name: 'Kongo',
+        nativeName: 'Kikongo',
+      },
+      ki: {
+        name: 'Kikuyu',
+        nativeName: 'Gĩkũyũ',
+      },
+      kj: {
+        name: 'Kwanyama',
+        nativeName: 'Kuanyama',
+      },
+      kk: {
+        name: 'Kazakh',
+        nativeName: 'қазақ тілі',
+      },
+      kl: {
+        name: 'Kalaallisut',
+        nativeName: 'kalaallisut',
+      },
+      km: {
+        name: 'Khmer',
+        nativeName: 'ខេមរភាសា',
+      },
+      kn: {
+        name: 'Kannada',
+        nativeName: 'ಕನ್ನಡ',
+      },
+      ko: {
+        name: 'Korean',
+        nativeName: '한국어',
+      },
+      kr: {
+        name: 'Kanuri',
+        nativeName: 'Kanuri',
+      },
+      ks: {
+        name: 'Kashmiri',
+        nativeName: 'कश्मीरी',
+      },
+      ku: {
+        name: 'Kurdish',
+        nativeName: 'Kurdî',
+      },
+      kv: {
+        name: 'Komi',
+        nativeName: 'коми кыв',
+      },
+      kw: {
+        name: 'Cornish',
+        nativeName: 'Kernewek',
+      },
+      ky: {
+        name: 'Kyrgyz',
+        nativeName: 'Кыргызча',
+      },
+      la: {
+        name: 'Latin',
+        nativeName: 'latine',
+      },
+      lb: {
+        name: 'Luxembourgish',
+        nativeName: 'Lëtzebuergesch',
+      },
+      lg: {
+        name: 'Ganda',
+        nativeName: 'Luganda',
+      },
+      li: {
+        name: 'Limburgish',
+        nativeName: 'Limburgs',
+      },
+      ln: {
+        name: 'Lingala',
+        nativeName: 'Lingála',
+      },
+      lo: {
+        name: 'Lao',
+        nativeName: 'ພາສາ',
+      },
+      lt: {
+        name: 'Lithuanian',
+        nativeName: 'lietuvių kalba',
+      },
+      lu: {
+        name: 'Luba-Katanga',
+        nativeName: 'Tshiluba',
+      },
+      lv: {
+        name: 'Latvian',
+        nativeName: 'latviešu valoda',
+      },
+      mg: {
+        name: 'Malagasy',
+        nativeName: 'fiteny malagasy',
+      },
+      mh: {
+        name: 'Marshallese',
+        nativeName: 'Kajin M̧ajeļ',
+      },
+      mi: {
+        name: 'Māori',
+        nativeName: 'te reo Māori',
+      },
+      mk: {
+        name: 'Macedonian',
+        nativeName: 'македонски јазик',
+      },
+      ml: {
+        name: 'Malayalam',
+        nativeName: 'മലയാളം',
+      },
+      mn: {
+        name: 'Mongolian',
+        nativeName: 'Монгол хэл',
+      },
+      mr: {
+        name: 'Marathi',
+        nativeName: 'मराठी',
+      },
+      ms: {
+        name: 'Malay',
+        nativeName: 'Bahasa Malaysia',
+      },
+      mt: {
+        name: 'Maltese',
+        nativeName: 'Malti',
+      },
+      my: {
+        name: 'Burmese',
+        nativeName: 'ဗမာစာ',
+      },
+      na: {
+        name: 'Nauru',
+        nativeName: 'Ekakairũ Naoero',
+      },
+      nb: {
+        name: 'Norwegian Bokmål',
+        nativeName: 'Norsk bokmål',
+      },
+      nd: {
+        name: 'Northern Ndebele',
+        nativeName: 'isiNdebele',
+      },
+      ne: {
+        name: 'Nepali',
+        nativeName: 'नेपाली',
+      },
+      ng: {
+        name: 'Ndonga',
+        nativeName: 'Owambo',
+      },
+      nl: {
+        name: 'Dutch',
+        nativeName: 'Nederlands',
+      },
+      nn: {
+        name: 'Norwegian Nynorsk',
+        nativeName: 'Norsk nynorsk',
+      },
+      no: {
+        name: 'Norwegian',
+        nativeName: 'Norsk',
+      },
+      nr: {
+        name: 'Southern Ndebele',
+        nativeName: 'isiNdebele',
+      },
+      nv: {
+        name: 'Navajo',
+        nativeName: 'Diné bizaad',
+      },
+      ny: {
+        name: 'Chichewa',
+        nativeName: 'chiCheŵa',
+      },
+      oc: {
+        name: 'Occitan',
+        nativeName: 'occitan',
+      },
+      oj: {
+        name: 'Ojibwe',
+        nativeName: 'ᐊᓂᔑᓈᐯᒧᐎᓐ',
+      },
+      om: {
+        name: 'Oromo',
+        nativeName: 'Afaan Oromoo',
+      },
+      or: {
+        name: 'Oriya',
+        nativeName: 'ଓଡ଼ିଆ',
+      },
+      os: {
+        name: 'Ossetian',
+        nativeName: 'ирон æвзаг',
+      },
+      pa: {
+        name: 'Panjabi',
+        nativeName: 'ਪੰਜਾਬੀ',
+      },
+      pi: {
+        name: 'Pāli',
+        nativeName: 'पाऴि',
+      },
+      pl: {
+        name: 'Polish',
+        nativeName: 'język polski',
+      },
+      ps: {
+        name: 'Pashto',
+        nativeName: 'پښتو',
+      },
+      pt: {
+        name: 'Portuguese',
+        nativeName: 'Português',
+      },
+      qu: {
+        name: 'Quechua',
+        nativeName: 'Runa Simi',
+      },
+      rm: {
+        name: 'Romansh',
+        nativeName: 'rumantsch grischun',
+      },
+      rn: {
+        name: 'Kirundi',
+        nativeName: 'Ikirundi',
+      },
+      ro: {
+        name: 'Romanian',
+        nativeName: 'Română',
+      },
+      ru: {
+        name: 'Russian',
+        nativeName: 'Русский',
+      },
+      rw: {
+        name: 'Kinyarwanda',
+        nativeName: 'Ikinyarwanda',
+      },
+      sa: {
+        name: 'Sanskrit',
+        nativeName: 'संस्कृतम्',
+      },
+      sc: {
+        name: 'Sardinian',
+        nativeName: 'sardu',
+      },
+      sd: {
+        name: 'Sindhi',
+        nativeName: 'सिन्धी',
+      },
+      se: {
+        name: 'Northern Sami',
+        nativeName: 'Davvisámegiella',
+      },
+      sg: {
+        name: 'Sango',
+        nativeName: 'yângâ tî sängö',
+      },
+      si: {
+        name: 'Sinhala',
+        nativeName: 'සිංහල',
+      },
+      sk: {
+        name: 'Slovak',
+        nativeName: 'slovenčina',
+      },
+      sl: {
+        name: 'Slovenian',
+        nativeName: 'slovenski jezik',
+      },
+      sm: {
+        name: 'Samoan',
+        nativeName: "gagana fa'a Samoa",
+      },
+      sn: {
+        name: 'Shona',
+        nativeName: 'chiShona',
+      },
+      so: {
+        name: 'Somali',
+        nativeName: 'Soomaaliga',
+      },
+      sq: {
+        name: 'Albanian',
+        nativeName: 'Shqip',
+      },
+      sr: {
+        name: 'Serbian',
+        nativeName: 'српски језик',
+      },
+      ss: {
+        name: 'Swati',
+        nativeName: 'SiSwati',
+      },
+      st: {
+        name: 'Southern Sotho',
+        nativeName: 'Sesotho',
+      },
+      su: {
+        name: 'Sundanese',
+        nativeName: 'Basa Sunda',
+      },
+      sv: {
+        name: 'Swedish',
+        nativeName: 'Svenska',
+      },
+      sw: {
+        name: 'Swahili',
+        nativeName: 'Kiswahili',
+      },
+      ta: {
+        name: 'Tamil',
+        nativeName: 'தமிழ்',
+      },
+      te: {
+        name: 'Telugu',
+        nativeName: 'తెలుగు',
+      },
+      tg: {
+        name: 'Tajik',
+        nativeName: 'тоҷикӣ',
+      },
+      th: {
+        name: 'Thai',
+        nativeName: 'ไทย',
+      },
+      ti: {
+        name: 'Tigrinya',
+        nativeName: 'ትግርኛ',
+      },
+      tk: {
+        name: 'Turkmen',
+        nativeName: 'Türkmen',
+      },
+      tl: {
+        name: 'Tagalog',
+        nativeName: 'Wikang Tagalog',
+      },
+      tn: {
+        name: 'Tswana',
+        nativeName: 'Setswana',
+      },
+      to: {
+        name: 'Tonga',
+        nativeName: 'faka Tonga',
+      },
+      tr: {
+        name: 'Turkish',
+        nativeName: 'Türkçe',
+      },
+      ts: {
+        name: 'Tsonga',
+        nativeName: 'Xitsonga',
+      },
+      tt: {
+        name: 'Tatar',
+        nativeName: 'татар теле',
+      },
+      tw: {
+        name: 'Twi',
+        nativeName: 'Twi',
+      },
+      ty: {
+        name: 'Tahitian',
+        nativeName: 'Reo Tahiti',
+      },
+      ug: {
+        name: 'Uyghur',
+        nativeName: 'ئۇيغۇرچە‎',
+      },
+      uk: {
+        name: 'Ukrainian',
+        nativeName: 'Українська',
+      },
+      ur: {
+        name: 'Urdu',
+        nativeName: 'اردو',
+      },
+      uz: {
+        name: 'Uzbek',
+        nativeName: 'Ўзбек',
+      },
+      ve: {
+        name: 'Venda',
+        nativeName: 'Tshivenḓa',
+      },
+      vi: {
+        name: 'Vietnamese',
+        nativeName: 'Tiếng Việt',
+      },
+      vo: {
+        name: 'Volapük',
+        nativeName: 'Volapük',
+      },
+      wa: {
+        name: 'Walloon',
+        nativeName: 'walon',
+      },
+      wo: {
+        name: 'Wolof',
+        nativeName: 'Wollof',
+      },
+      xh: {
+        name: 'Xhosa',
+        nativeName: 'isiXhosa',
+      },
+      yi: {
+        name: 'Yiddish',
+        nativeName: 'ייִדיש',
+      },
+      yo: {
+        name: 'Yoruba',
+        nativeName: 'Yorùbá',
+      },
+      za: {
+        name: 'Zhuang',
+        nativeName: 'Saɯ cueŋƅ',
+      },
+      zh: {
+        name: 'Chinese',
+        nativeName: '中文',
+      },
+      zu: {
+        name: 'Zulu',
+        nativeName: 'isiZulu',
+      },
+    };
+
+    class ISO6391 {
+      static getLanguages(codes = []) {
+        return codes.map(code => ({
+          code,
+          name: ISO6391.getName(code),
+          nativeName: ISO6391.getNativeName(code),
+        }));
+      }
+
+      static getName(code) {
+        return ISO6391.validate(code) ? LANGUAGES_LIST[code].name : '';
+      }
+
+      static getAllNames() {
+        return Object.values(LANGUAGES_LIST).map(l => l.name);
+      }
+
+      static getNativeName(code) {
+        return ISO6391.validate(code) ? LANGUAGES_LIST[code].nativeName : '';
+      }
+
+      static getAllNativeNames() {
+        return Object.values(LANGUAGES_LIST).map(l => l.nativeName);
+      }
+
+      static getCode(name) {
+        const code = Object.keys(LANGUAGES_LIST).find(code => {
+          const language = LANGUAGES_LIST[code];
+
+          return (
+            language.name.toLowerCase() === name.toLowerCase() ||
+            language.nativeName.toLowerCase() === name.toLowerCase()
+          );
+        });
+        return code || '';
+      }
+
+      static getAllCodes() {
+        return Object.keys(LANGUAGES_LIST);
+      }
+
+      static validate(code) {
+        return LANGUAGES_LIST.hasOwnProperty(code);
+      }
+    }
+
+    const LANGUAGES_ZH_NAMES = {
+      aa: '阿法尔语',
+      ab: '阿布哈兹语',
+      ae: '阿维斯陀语',
+      af: '南非荷兰语',
+      ak: '阿坎语',
+      am: '阿姆哈拉语',
+      an: '阿拉贡语',
+      ar: '阿拉伯语',
+      as: '阿萨姆语',
+      av: '阿瓦尔语',
+      ay: '艾马拉语',
+      az: '阿塞拜疆语',
+      ba: '巴什基尔语',
+      be: '白俄罗斯语',
+      bg: '保加利亚语',
+      bh: '比哈尔语',
+      bi: '比斯拉马语',
+      bm: '班巴拉语',
+      bn: '孟加拉语',
+      bo: '藏语',
+      br: '布列塔尼语',
+      bs: '波斯尼亚语',
+      ca: '加泰罗尼亚语',
+      ce: '车臣语',
+      ch: '查莫洛语',
+      co: '科西嘉语',
+      cr: '克里语',
+      cs: '捷克语',
+      cu: '古教会斯拉夫语',
+      cv: '楚瓦什语',
+      cy: '威尔士语',
+      da: '丹麦语',
+      de: '德语',
+      dv: '迪维希语',
+      dz: '不丹语',
+      ee: '埃维语',
+      el: '希腊语',
+      en: '英语',
+      eo: '世界语',
+      es: '西班牙语',
+      et: '爱沙尼亚语',
+      eu: '巴斯克语',
+      fa: '波斯语',
+      ff: '富拉语',
+      fi: '芬兰语',
+      fj: '斐济语',
+      fo: '法罗语',
+      fr: '法语',
+      fy: '西弗里西亚语',
+      ga: '爱尔兰语',
+      gd: '苏格兰盖尔语',
+      gl: '加利西亚语',
+      gn: '瓜拉尼语',
+      gu: '古吉拉特语',
+      gv: '马恩岛语',
+      ha: '豪萨语',
+      he: '希伯来语',
+      hi: '印地语',
+      ho: '莫图语',
+      hr: '克罗地亚语',
+      ht: '海地文',
+      hu: '匈牙利语',
+      hy: '亚美尼亚语',
+      hz: '赫勒娄语',
+      ia: '国际语',
+      id: '印尼语',
+      ie: '国际语',
+      ig: '伊博语',
+      ii: '诺苏语',
+      ik: '依奴皮维克文',
+      io: '伊多文',
+      is: '冰岛语',
+      it: '意大利语',
+      iu: '因纽特语',
+      ja: '日语',
+      jv: '爪哇语',
+      ka: '格鲁吉亚语',
+      kg: '刚果语',
+      ki: '基库尤语',
+      kj: '宽亚马语',
+      kk: '哈萨克语',
+      kl: '格陵兰语',
+      km: '高棉语',
+      kn: '卡纳达语',
+      ko: '韩语',
+      kr: '卡努里语',
+      ks: '克什米尔语',
+      ku: '库尔德语',
+      kv: '科米语',
+      kw: '科尼什语',
+      ky: '吉尔吉斯语',
+      la: '拉丁语',
+      lb: '卢森堡语',
+      lg: '甘达语',
+      li: '林堡语',
+      ln: '林加拉语',
+      lo: '老挝语',
+      lt: '立陶宛语',
+      lu: '卢巴加丹加语',
+      lv: '拉脱维亚语',
+      mg: '马尔加什语',
+      mh: '马绍尔语',
+      mi: '毛利语',
+      mk: '马其顿语',
+      ml: '马拉雅拉姆语',
+      mn: '蒙古文',
+      mr: '马拉地语',
+      ms: '马来语',
+      mt: '马耳他语',
+      my: '缅甸语',
+      na: '瑙鲁语',
+      nb: '挪威博克马尔语',
+      nd: '北恩德贝勒语',
+      ne: '尼泊尔语',
+      ng: '尼日尔刚果语',
+      nl: '荷兰语',
+      nn: '挪威尼诺斯克语',
+      no: '挪威语',
+      nr: '南恩德贝勒语',
+      nv: '纳瓦霍语',
+      ny: '齐切瓦语',
+      oc: '奥克西唐语',
+      oj: '欧及布威语',
+      om: '奥罗莫语',
+      or: '奥里亚语',
+      os: '奥塞梯语',
+      pa: '旁遮普语',
+      pi: '巴利语',
+      pl: '波兰语',
+      ps: '普什图语',
+      pt: '葡萄牙语',
+      qu: '克丘亚语',
+      rm: '罗曼斯语',
+      rn: '基隆迪语',
+      ro: '罗马尼亚语',
+      ru: '俄语',
+      rw: '卢旺达语',
+      sa: '梵文',
+      sc: '撒丁岛语',
+      sd: '信德语',
+      se: '北萨米文',
+      sg: '桑戈语',
+      si: '僧伽罗语',
+      sk: '斯洛伐克语',
+      sl: '斯洛文尼亚语',
+      sm: '萨摩亚语',
+      sn: '绍纳语',
+      so: '索马里语',
+      sq: '阿尔巴尼亚语',
+      sr: '塞尔维亚语',
+      ss: '斯瓦蒂语',
+      st: '南索托语',
+      su: '巽他语',
+      sv: '瑞典语',
+      sw: '斯瓦希里语',
+      ta: '泰米尔语',
+      te: '泰卢固语',
+      tg: '塔吉克语',
+      th: '泰语',
+      ti: '提格雷语',
+      tk: '土库曼语',
+      tl: '菲律宾语',
+      tn: '茨瓦纳语',
+      to: '汤加语',
+      tr: '土耳其语',
+      ts: '特松加语',
+      tt: '塔塔尔语',
+      tw: '契维语',
+      ty: '塔希提语',
+      ug: '维吾尔语',
+      uk: '乌克兰语',
+      ur: '乌尔都语',
+      uz: '乌兹别克语',
+      ve: '文达语',
+      vi: '越南语',
+      vo: '沃拉普克语',
+      wa: '华隆语',
+      wo: '沃洛夫语',
+      xh: '科萨语',
+      yi: '意第绪语',
+      yo: '约鲁巴语',
+      za: '壮语',
+      zh: '中文',
+      zu: '祖鲁语',
+    };
+
+    class ISO6391ZH extends ISO6391 {
+      static getLanguages(codes) {
+        return super.getLanguages(codes).map(language => {
+          Object.assign(language, {
+            zhName: ISO6391ZH.getZhName(language.code),
+          });
+          return language;
+        });
+      }
+
+      static getZhName(code) {
+        return super.validate(code) ? LANGUAGES_ZH_NAMES[code] : '';
+      }
+
+      static getAllZhNames() {
+        return Object.values(LANGUAGES_ZH_NAMES);
+      }
+    }
+
+    /**
+         * Safer Object.hasOwnProperty
+         */
+         function hasOwn(obj, prop){
+             return Object.prototype.hasOwnProperty.call(obj, prop);
+         }
+
+         var hasOwn_1 = hasOwn;
+
+    var _hasDontEnumBug,
+            _dontEnums;
+
+        function checkDontEnum(){
+            _dontEnums = [
+                    'toString',
+                    'toLocaleString',
+                    'valueOf',
+                    'hasOwnProperty',
+                    'isPrototypeOf',
+                    'propertyIsEnumerable',
+                    'constructor'
+                ];
+
+            _hasDontEnumBug = true;
+
+            for (var key in {'toString': null}) {
+                _hasDontEnumBug = false;
+            }
+        }
+
+        /**
+         * Similar to Array/forEach but works over object properties and fixes Don't
+         * Enum bug on IE.
+         * based on: http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
+         */
+        function forIn(obj, fn, thisObj){
+            var key, i = 0;
+            // no need to check if argument is a real object that way we can use
+            // it for arrays, functions, date, etc.
+
+            //post-pone check till needed
+            if (_hasDontEnumBug == null) checkDontEnum();
+
+            for (key in obj) {
+                if (exec(fn, obj, key, thisObj) === false) {
+                    break;
+                }
+            }
+
+
+            if (_hasDontEnumBug) {
+                var ctor = obj.constructor,
+                    isProto = !!ctor && obj === ctor.prototype;
+
+                while (key = _dontEnums[i++]) {
+                    // For constructor, if it is a prototype object the constructor
+                    // is always non-enumerable unless defined otherwise (and
+                    // enumerated above).  For non-prototype objects, it will have
+                    // to be defined on this object, since it cannot be defined on
+                    // any prototype objects.
+                    //
+                    // For other [[DontEnum]] properties, check if the value is
+                    // different than Object prototype value.
+                    if (
+                        (key !== 'constructor' ||
+                            (!isProto && hasOwn_1(obj, key))) &&
+                        obj[key] !== Object.prototype[key]
+                    ) {
+                        if (exec(fn, obj, key, thisObj) === false) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        function exec(fn, obj, key, thisObj){
+            return fn.call(thisObj, obj[key], key, obj);
+        }
+
+        var forIn_1 = forIn;
+
+    /**
+         * return a list of all enumerable properties that have function values
+         */
+        function functions(obj){
+            var keys = [];
+            forIn_1(obj, function(val, key){
+                if (typeof val === 'function'){
+                    keys.push(key);
+                }
+            });
+            return keys.sort();
+        }
+
+        var functions_1 = functions;
+
+    /**
+         * Create slice of source array or array-like object
+         */
+        function slice(arr, start, end){
+            var len = arr.length;
+
+            if (start == null) {
+                start = 0;
+            } else if (start < 0) {
+                start = Math.max(len + start, 0);
+            } else {
+                start = Math.min(start, len);
+            }
+
+            if (end == null) {
+                end = len;
+            } else if (end < 0) {
+                end = Math.max(len + end, 0);
+            } else {
+                end = Math.min(end, len);
+            }
+
+            var result = [];
+            while (start < end) {
+                result.push(arr[start++]);
+            }
+
+            return result;
+        }
+
+        var slice_1 = slice;
+
+    /**
+         * Return a function that will execute in the given context, optionally adding any additional supplied parameters to the beginning of the arguments collection.
+         * @param {Function} fn  Function.
+         * @param {object} context   Execution context.
+         * @param {rest} args    Arguments (0...n arguments).
+         * @return {Function} Wrapped Function.
+         */
+        function bind(fn, context, args){
+            var argsArr = slice_1(arguments, 2); //curried args
+            return function(){
+                return fn.apply(context, argsArr.concat(slice_1(arguments)));
+            };
+        }
+
+        var bind_1 = bind;
+
+    /**
+         * Array forEach
+         */
+        function forEach(arr, callback, thisObj) {
+            if (arr == null) {
+                return;
+            }
+            var i = -1,
+                len = arr.length;
+            while (++i < len) {
+                // we iterate over sparse items since there is no way to make it
+                // work properly on IE 7-8. see #64
+                if ( callback.call(thisObj, arr[i], i, arr) === false ) {
+                    break;
+                }
+            }
+        }
+
+        var forEach_1 = forEach;
+
+    /**
+         * Binds methods of the object to be run in it's own context.
+         */
+        function bindAll(obj, rest_methodNames){
+            var keys = arguments.length > 1?
+                        slice_1(arguments, 1) : functions_1(obj);
+            forEach_1(keys, function(key){
+                obj[key] = bind_1(obj[key], obj);
+            });
+        }
+
+        var bindAll_1 = bindAll;
+
+    /**
+         * Similar to Array/forEach but works over object properties and fixes Don't
+         * Enum bug on IE.
+         * based on: http://whattheheadsaid.com/2010/10/a-safer-object-keys-compatibility-implementation
+         */
+        function forOwn(obj, fn, thisObj){
+            forIn_1(obj, function(val, key){
+                if (hasOwn_1(obj, key)) {
+                    return fn.call(thisObj, obj[key], key, obj);
+                }
+            });
+        }
+
+        var forOwn_1 = forOwn;
+
+    /**
+         * Returns the first argument provided to it.
+         */
+        function identity(val){
+            return val;
+        }
+
+        var identity_1 = identity;
+
+    /**
+         * Returns a function that gets a property of the passed object
+         */
+        function prop(name){
+            return function(obj){
+                return obj[name];
+            };
+        }
+
+        var prop_1 = prop;
+
+    var _rKind = /^\[object (.*)\]$/,
+            _toString = Object.prototype.toString,
+            UNDEF$1;
+
+        /**
+         * Gets the "kind" of value. (e.g. "String", "Number", etc)
+         */
+        function kindOf(val) {
+            if (val === null) {
+                return 'Null';
+            } else if (val === UNDEF$1) {
+                return 'Undefined';
+            } else {
+                return _rKind.exec( _toString.call(val) )[1];
+            }
+        }
+        var kindOf_1 = kindOf;
+
+    /**
+         * Check if value is from a specific "kind".
+         */
+        function isKind(val, kind){
+            return kindOf_1(val) === kind;
+        }
+        var isKind_1 = isKind;
+
+    /**
+         */
+        var isArray = Array.isArray || function (val) {
+            return isKind_1(val, 'Array');
+        };
+        var isArray_1 = isArray;
+
+    function containsMatch(array, pattern) {
+            var i = -1, length = array.length;
+            while (++i < length) {
+                if (deepMatches(array[i], pattern)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        function matchArray(target, pattern) {
+            var i = -1, patternLength = pattern.length;
+            while (++i < patternLength) {
+                if (!containsMatch(target, pattern[i])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function matchObject(target, pattern) {
+            var result = true;
+            forOwn_1(pattern, function(val, key) {
+                if (!deepMatches(target[key], val)) {
+                    // Return false to break out of forOwn early
+                    return (result = false);
+                }
+            });
+
+            return result;
+        }
+
+        /**
+         * Recursively check if the objects match.
+         */
+        function deepMatches(target, pattern){
+            if (target && typeof target === 'object') {
+                if (isArray_1(target) && isArray_1(pattern)) {
+                    return matchArray(target, pattern);
+                } else {
+                    return matchObject(target, pattern);
+                }
+            } else {
+                return target === pattern;
+            }
+        }
+
+        var deepMatches_1 = deepMatches;
+
+    /**
+         * Converts argument into a valid iterator.
+         * Used internally on most array/object/collection methods that receives a
+         * callback/iterator providing a shortcut syntax.
+         */
+        function makeIterator(src, thisObj){
+            if (src == null) {
+                return identity_1;
+            }
+            switch(typeof src) {
+                case 'function':
+                    // function is the first to improve perf (most common case)
+                    // also avoid using `Function#call` if not needed, which boosts
+                    // perf a lot in some cases
+                    return (typeof thisObj !== 'undefined')? function(val, i, arr){
+                        return src.call(thisObj, val, i, arr);
+                    } : src;
+                case 'object':
+                    return function(val){
+                        return deepMatches_1(val, src);
+                    };
+                case 'string':
+                case 'number':
+                    return prop_1(src);
+            }
+        }
+
+        var makeIterator_ = makeIterator;
+
+    /**
+         * Object some
+         */
+        function some(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            var result = false;
+            forOwn_1(obj, function(val, key) {
+                if (callback(val, key, obj)) {
+                    result = true;
+                    return false; // break
+                }
+            });
+            return result;
+        }
+
+        var some_1 = some;
+
+    /**
+         * Check if object contains value
+         */
+        function contains$1(obj, needle) {
+            return some_1(obj, function(val) {
+                return (val === needle);
+            });
+        }
+        var contains_1$1 = contains$1;
+
+    /**
+         * Checks if the value is created by the `Object` constructor.
+         */
+        function isPlainObject(value) {
+            return (!!value && typeof value === 'object' &&
+                value.constructor === Object);
+        }
+
+        var isPlainObject_1 = isPlainObject;
+
+    /**
+         * Deeply copy missing properties in the target from the defaults.
+         */
+        function deepFillIn(target, defaults){
+            var i = 0,
+                n = arguments.length,
+                obj;
+
+            while(++i < n) {
+                obj = arguments[i];
+                if (obj) {
+                    // jshint loopfunc: true
+                    forOwn_1(obj, function(newValue, key) {
+                        var curValue = target[key];
+                        if (curValue == null) {
+                            target[key] = newValue;
+                        } else if (isPlainObject_1(curValue) &&
+                                   isPlainObject_1(newValue)) {
+                            deepFillIn(curValue, newValue);
+                        }
+                    });
+                }
+            }
+
+            return target;
+        }
+
+        var deepFillIn_1 = deepFillIn;
+
+    /**
+         * Mixes objects into the target object, recursively mixing existing child
+         * objects.
+         */
+        function deepMixIn(target, objects) {
+            var i = 0,
+                n = arguments.length,
+                obj;
+
+            while(++i < n){
+                obj = arguments[i];
+                if (obj) {
+                    forOwn_1(obj, copyProp$1, target);
+                }
+            }
+
+            return target;
+        }
+
+        function copyProp$1(val, key) {
+            var existing = this[key];
+            if (isPlainObject_1(val) && isPlainObject_1(existing)) {
+                deepMixIn(existing, val);
+            } else {
+                this[key] = val;
+            }
+        }
+
+        var deepMixIn_1 = deepMixIn;
+
+    /**
+         * Object every
+         */
+        function every(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            var result = true;
+            forOwn_1(obj, function(val, key) {
+                // we consider any falsy values as "false" on purpose so shorthand
+                // syntax can be used to check property existence
+                if (!callback(val, key, obj)) {
+                    result = false;
+                    return false; // break
+                }
+            });
+            return result;
+        }
+
+        var every_1 = every;
+
+    /**
+         */
+        function isObject(val) {
+            return isKind_1(val, 'Object');
+        }
+        var isObject_1 = isObject;
+
+    /**
+         * Check if both arguments are egal.
+         */
+        function is(x, y){
+            // implementation borrowed from harmony:egal spec
+            if (x === y) {
+              // 0 === -0, but they are not identical
+              return x !== 0 || 1 / x === 1 / y;
+            }
+
+            // NaN !== NaN, but they are identical.
+            // NaNs are the only non-reflexive value, i.e., if x !== x,
+            // then x is a NaN.
+            // isNaN is broken: it converts its argument to number, so
+            // isNaN("foo") => true
+            return x !== x && y !== y;
+        }
+
+        var is_1 = is;
+
+    // Makes a function to compare the object values from the specified compare
+        // operation callback.
+        function makeCompare(callback) {
+            return function(value, key) {
+                return hasOwn_1(this, key) && callback(value, this[key]);
+            };
+        }
+
+        function checkProperties(value, key) {
+            return hasOwn_1(this, key);
+        }
+
+        /**
+         * Checks if two objects have the same keys and values.
+         */
+        function equals(a, b, callback) {
+            callback = callback || is_1;
+
+            if (!isObject_1(a) || !isObject_1(b)) {
+                return callback(a, b);
+            }
+
+            return (every_1(a, makeCompare(callback), b) &&
+                    every_1(b, checkProperties, a));
+        }
+
+        var equals_1 = equals;
+
+    /**
+         * Copy missing properties in the obj from the defaults.
+         */
+        function fillIn(obj, var_defaults){
+            forEach_1(slice_1(arguments, 1), function(base){
+                forOwn_1(base, function(val, key){
+                    if (obj[key] == null) {
+                        obj[key] = val;
+                    }
+                });
+            });
+            return obj;
+        }
+
+        var fillIn_1 = fillIn;
+
+    /**
+         * Creates a new object with all the properties where the callback returns
+         * true.
+         */
+        function filterValues(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            var output = {};
+            forOwn_1(obj, function(value, key, obj) {
+                if (callback(value, key, obj)) {
+                    output[key] = value;
+                }
+            });
+
+            return output;
+        }
+        var filter = filterValues;
+
+    /**
+         * Returns first item that matches criteria
+         */
+        function find(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            var result;
+            some_1(obj, function(value, key, obj) {
+                if (callback(value, key, obj)) {
+                    result = value;
+                    return true; //break
+                }
+            });
+            return result;
+        }
+
+        var find_1 = find;
+
+    /*
+         * Helper function to flatten to a destination object.
+         * Used to remove the need to create intermediate objects while flattening.
+         */
+        function flattenTo(obj, result, prefix, level) {
+            forOwn_1(obj, function (value, key) {
+                var nestedPrefix = prefix ? prefix + '.' + key : key;
+
+                if (level !== 0 && isPlainObject_1(value)) {
+                    flattenTo(value, result, nestedPrefix, level - 1);
+                } else {
+                    result[nestedPrefix] = value;
+                }
+            });
+
+            return result;
+        }
+
+        /**
+         * Recursively flattens an object.
+         * A new object containing all the elements is returned.
+         * If level is specified, it will only flatten up to that level.
+         */
+        function flatten(obj, level) {
+            if (obj == null) {
+                return {};
+            }
+
+            level = level == null ? -1 : level;
+            return flattenTo(obj, {}, '', level);
+        }
+
+        var flatten_1 = flatten;
+
+    /**
+         * get "nested" object property
+         */
+        function get(obj, prop){
+            var parts = prop.split('.'),
+                last = parts.pop();
+
+            while (prop = parts.shift()) {
+                obj = obj[prop];
+                if (obj == null) return;
+            }
+
+            return obj[last];
+        }
+
+        var get_1 = get;
+
+    var UNDEF;
+
+        /**
+         * Check if object has nested property.
+         */
+        function has(obj, prop){
+            return get_1(obj, prop) !== UNDEF;
+        }
+
+        var has_1 = has;
+
+    /**
+         * Get object keys
+         */
+         var keys = Object.keys || function (obj) {
+                var keys = [];
+                forOwn_1(obj, function(val, key){
+                    keys.push(key);
+                });
+                return keys;
+            };
+
+        var keys_1 = keys;
+
+    /**
+         * Creates a new object where all the values are the result of calling
+         * `callback`.
+         */
+        function mapValues(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            var output = {};
+            forOwn_1(obj, function(val, key, obj) {
+                output[key] = callback(val, key, obj);
+            });
+
+            return output;
+        }
+        var map = mapValues;
+
+    /**
+         * checks if a object contains all given properties/values
+         */
+        function matches(target, props){
+            // can't use "object/every" because of circular dependency
+            var result = true;
+            forOwn_1(props, function(val, key){
+                if (target[key] !== val) {
+                    // break loop at first difference
+                    return (result = false);
+                }
+            });
+            return result;
+        }
+
+        var matches_1 = matches;
+
+    /**
+         * Return maximum value inside array
+         */
+        function max$1(arr, iterator, thisObj){
+            if (arr == null || !arr.length) {
+                return Infinity;
+            } else if (arr.length && !iterator) {
+                return Math.max.apply(Math, arr);
+            } else {
+                iterator = makeIterator_(iterator, thisObj);
+                var result,
+                    compare = -Infinity,
+                    value,
+                    temp;
+
+                var i = -1, len = arr.length;
+                while (++i < len) {
+                    value = arr[i];
+                    temp = iterator(value, i, arr);
+                    if (temp > compare) {
+                        compare = temp;
+                        result = value;
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        var max_1$1 = max$1;
+
+    /**
+         * Get object values
+         */
+        function values(obj) {
+            var vals = [];
+            forOwn_1(obj, function(val, key){
+                vals.push(val);
+            });
+            return vals;
+        }
+
+        var values_1 = values;
+
+    /**
+         * Returns maximum value inside object.
+         */
+        function max(obj, compareFn) {
+            return max_1$1(values_1(obj), compareFn);
+        }
+
+        var max_1 = max;
+
+    /**
+        * Combine properties from all the objects into first one.
+        * - This method affects target object in place, if you want to create a new Object pass an empty object as first param.
+        * @param {object} target    Target Object
+        * @param {...object} objects    Objects to be combined (0...n objects).
+        * @return {object} Target Object.
+        */
+        function mixIn(target, objects){
+            var i = 0,
+                n = arguments.length,
+                obj;
+            while(++i < n){
+                obj = arguments[i];
+                if (obj != null) {
+                    forOwn_1(obj, copyProp, target);
+                }
+            }
+            return target;
+        }
+
+        function copyProp(val, key){
+            this[key] = val;
+        }
+
+        var mixIn_1 = mixIn;
+
+    /**
+         * Clone native types.
+         */
+        function clone(val){
+            switch (kindOf_1(val)) {
+                case 'Object':
+                    return cloneObject$1(val);
+                case 'Array':
+                    return cloneArray$1(val);
+                case 'RegExp':
+                    return cloneRegExp(val);
+                case 'Date':
+                    return cloneDate(val);
+                default:
+                    return val;
+            }
+        }
+
+        function cloneObject$1(source) {
+            if (isPlainObject_1(source)) {
+                return mixIn_1({}, source);
+            } else {
+                return source;
+            }
+        }
+
+        function cloneRegExp(r) {
+            var flags = '';
+            flags += r.multiline ? 'm' : '';
+            flags += r.global ? 'g' : '';
+            flags += r.ignoreCase ? 'i' : '';
+            return new RegExp(r.source, flags);
+        }
+
+        function cloneDate(date) {
+            return new Date(+date);
+        }
+
+        function cloneArray$1(arr) {
+            return arr.slice();
+        }
+
+        var clone_1 = clone;
+
+    /**
+         * Recursively clone native types.
+         */
+        function deepClone(val, instanceClone) {
+            switch ( kindOf_1(val) ) {
+                case 'Object':
+                    return cloneObject(val, instanceClone);
+                case 'Array':
+                    return cloneArray(val, instanceClone);
+                default:
+                    return clone_1(val);
+            }
+        }
+
+        function cloneObject(source, instanceClone) {
+            if (isPlainObject_1(source)) {
+                var out = {};
+                forOwn_1(source, function(val, key) {
+                    this[key] = deepClone(val, instanceClone);
+                }, out);
+                return out;
+            } else if (instanceClone) {
+                return instanceClone(source);
+            } else {
+                return source;
+            }
+        }
+
+        function cloneArray(arr, instanceClone) {
+            var out = [],
+                i = -1,
+                n = arr.length;
+            while (++i < n) {
+                out[i] = deepClone(arr[i], instanceClone);
+            }
+            return out;
+        }
+
+        var deepClone_1 = deepClone;
+
+    /**
+         * Deep merge objects.
+         */
+        function merge() {
+            var i = 1,
+                key, val, obj, target;
+
+            // make sure we don't modify source element and it's properties
+            // objects are passed by reference
+            target = deepClone_1( arguments[0] );
+
+            while (obj = arguments[i++]) {
+                for (key in obj) {
+                    if ( ! hasOwn_1(obj, key) ) {
+                        continue;
+                    }
+
+                    val = obj[key];
+
+                    if ( isObject_1(val) && isObject_1(target[key]) ){
+                        // inception, deep merge objects
+                        target[key] = merge(target[key], val);
+                    } else {
+                        // make sure arrays, regexp, date, objects are cloned
+                        target[key] = deepClone_1(val);
+                    }
+
+                }
+            }
+
+            return target;
+        }
+
+        var merge_1 = merge;
+
+    /**
+         * Return minimum value inside array
+         */
+        function min$1(arr, iterator, thisObj){
+            if (arr == null || !arr.length) {
+                return -Infinity;
+            } else if (arr.length && !iterator) {
+                return Math.min.apply(Math, arr);
+            } else {
+                iterator = makeIterator_(iterator, thisObj);
+                var result,
+                    compare = Infinity,
+                    value,
+                    temp;
+
+                var i = -1, len = arr.length;
+                while (++i < len) {
+                    value = arr[i];
+                    temp = iterator(value, i, arr);
+                    if (temp < compare) {
+                        compare = temp;
+                        result = value;
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        var min_1$1 = min$1;
+
+    /**
+         * Returns minimum value inside object.
+         */
+        function min(obj, iterator) {
+            return min_1$1(values_1(obj), iterator);
+        }
+
+        var min_1 = min;
+
+    /**
+         * Create nested object if non-existent
+         */
+        function namespace(obj, path){
+            if (!path) return obj;
+            forEach_1(path.split('.'), function(key){
+                if (!obj[key]) {
+                    obj[key] = {};
+                }
+                obj = obj[key];
+            });
+            return obj;
+        }
+
+        var namespace_1 = namespace;
+
+    /**
+         * Array.indexOf
+         */
+        function indexOf(arr, item, fromIndex) {
+            fromIndex = fromIndex || 0;
+            if (arr == null) {
+                return -1;
+            }
+
+            var len = arr.length,
+                i = fromIndex < 0 ? len + fromIndex : fromIndex;
+            while (i < len) {
+                // we iterate over sparse items since there is no way to make it
+                // work properly on IE 7-8. see #64
+                if (arr[i] === item) {
+                    return i;
+                }
+
+                i++;
+            }
+
+            return -1;
+        }
+
+        var indexOf_1 = indexOf;
+
+    /**
+         * If array contains values.
+         */
+        function contains(arr, val) {
+            return indexOf_1(arr, val) !== -1;
+        }
+        var contains_1 = contains;
+
+    /**
+         * Return a copy of the object, filtered to only contain properties except the blacklisted keys.
+         */
+        function omit(obj, var_keys){
+            var keys = typeof arguments[1] !== 'string'? arguments[1] : slice_1(arguments, 1),
+                out = {};
+
+            for (var property in obj) {
+                if (obj.hasOwnProperty(property) && !contains_1(keys, property)) {
+                    out[property] = obj[property];
+                }
+            }
+            return out;
+        }
+
+        var omit_1 = omit;
+
+    /**
+         * Return a copy of the object, filtered to only have values for the whitelisted keys.
+         */
+        function pick(obj, var_keys){
+            var keys = typeof arguments[1] !== 'string'? arguments[1] : slice_1(arguments, 1),
+                out = {},
+                i = 0, key;
+            while (key = keys[i++]) {
+                out[key] = obj[key];
+            }
+            return out;
+        }
+
+        var pick_1 = pick;
+
+    /**
+         * Extract a list of property values.
+         */
+        function pluck(obj, propName){
+            return map(obj, prop_1(propName));
+        }
+
+        var pluck_1 = pluck;
+
+    /**
+         * Get object size
+         */
+        function size(obj) {
+            var count = 0;
+            forOwn_1(obj, function(){
+                count++;
+            });
+            return count;
+        }
+
+        var size_1 = size;
+
+    /**
+         * Object reduce
+         */
+        function reduce(obj, callback, memo, thisObj) {
+            var initial = arguments.length > 2;
+
+            if (!size_1(obj) && !initial) {
+                throw new Error('reduce of empty object with no initial value');
+            }
+
+            forOwn_1(obj, function(value, key, list) {
+                if (!initial) {
+                    memo = value;
+                    initial = true;
+                }
+                else {
+                    memo = callback.call(thisObj, memo, value, key, list);
+                }
+            });
+
+            return memo;
+        }
+
+        var reduce_1 = reduce;
+
+    /**
+         * Object reject
+         */
+        function reject(obj, callback, thisObj) {
+            callback = makeIterator_(callback, thisObj);
+            return filter(obj, function(value, index, obj) {
+                return !callback(value, index, obj);
+            }, thisObj);
+        }
+
+        var reject_1 = reject;
+
+    /**
+         */
+        function isFunction(val) {
+            return isKind_1(val, 'Function');
+        }
+        var isFunction_1 = isFunction;
+
+    function result(obj, prop) {
+            var property = obj[prop];
+
+            if(property === undefined) {
+                return;
+            }
+
+            return isFunction_1(property) ? property.call(obj) : property;
+        }
+
+        var result_1 = result;
+
+    /**
+         * set "nested" object property
+         */
+        function set(obj, prop, val){
+            var parts = (/^(.+)\.(.+)$/).exec(prop);
+            if (parts){
+                namespace_1(obj, parts[1])[parts[2]] = val;
+            } else {
+                obj[prop] = val;
+            }
+        }
+
+        var set_1 = set;
+
+    /**
+         * Unset object property.
+         */
+        function unset(obj, prop){
+            if (has_1(obj, prop)) {
+                var parts = prop.split('.'),
+                    last = parts.pop();
+                while (prop = parts.shift()) {
+                    obj = obj[prop];
+                }
+                return (delete obj[last]);
+
+            } else {
+                // if property doesn't exist treat as deleted
+                return true;
+            }
+        }
+
+        var unset_1 = unset;
+
+    //automatically generated, do not edit!
+    //run `node build` instead
+    var object = {
+        'bindAll' : bindAll_1,
+        'contains' : contains_1$1,
+        'deepFillIn' : deepFillIn_1,
+        'deepMatches' : deepMatches_1,
+        'deepMixIn' : deepMixIn_1,
+        'equals' : equals_1,
+        'every' : every_1,
+        'fillIn' : fillIn_1,
+        'filter' : filter,
+        'find' : find_1,
+        'flatten' : flatten_1,
+        'forIn' : forIn_1,
+        'forOwn' : forOwn_1,
+        'functions' : functions_1,
+        'get' : get_1,
+        'has' : has_1,
+        'hasOwn' : hasOwn_1,
+        'keys' : keys_1,
+        'map' : map,
+        'matches' : matches_1,
+        'max' : max_1,
+        'merge' : merge_1,
+        'min' : min_1,
+        'mixIn' : mixIn_1,
+        'namespace' : namespace_1,
+        'omit' : omit_1,
+        'pick' : pick_1,
+        'pluck' : pluck_1,
+        'reduce' : reduce_1,
+        'reject' : reject_1,
+        'result' : result_1,
+        'set' : set_1,
+        'size' : size_1,
+        'some' : some_1,
+        'unset' : unset_1,
+        'values' : values_1
+    };
+
+    var iso31661Alpha2 = createCommonjsModule(function (module) {
+    (function() {
+        var Iso31661a2, mout, singleton;
+
+        mout = object;
+
+        Iso31661a2 = (function() {
+            function Iso31661a2() {}
+
+            Iso31661a2.prototype.getCountry = function(code) {
+                return Iso31661a2.prototype.countries[code];
+            };
+
+            Iso31661a2.prototype.getCode = function(country) {
+                var idx, ret;
+                ret = null;
+                if (country != null) {
+                    idx = mout.values(Iso31661a2.prototype.countries).indexOf(country);
+                    if (idx !== -1) {
+                        ret = Object.keys(Iso31661a2.prototype.countries)[idx];
+                    }
+                }
+                return ret;
+            };
+
+            Iso31661a2.prototype.getCountries = function() {
+                return mout.values(Iso31661a2.prototype.countries);
+            };
+
+            Iso31661a2.prototype.getCodes = function() {
+                return Object.keys(Iso31661a2.prototype.countries);
+            };
+
+            Iso31661a2.prototype.getData = function() {
+                return Iso31661a2.prototype.countries;
+            };
+
+            Iso31661a2.prototype.countries = {
+                AF: "Afghanistan",
+                AX: "Åland Islands",
+                AL: "Albania",
+                DZ: "Algeria",
+                AS: "American Samoa",
+                AD: "Andorra",
+                AO: "Angola",
+                AI: "Anguilla",
+                AQ: "Antarctica",
+                AG: "Antigua and Barbuda",
+                AR: "Argentina",
+                AM: "Armenia",
+                AW: "Aruba",
+                AU: "Australia",
+                AT: "Austria",
+                AZ: "Azerbaijan",
+                BS: "Bahamas",
+                BH: "Bahrain",
+                BD: "Bangladesh",
+                BB: "Barbados",
+                BY: "Belarus",
+                BE: "Belgium",
+                BZ: "Belize",
+                BJ: "Benin",
+                BM: "Bermuda",
+                BT: "Bhutan",
+                BO: "Bolivia, Plurinational State of",
+                BQ: "Bonaire, Sint Eustatius and Saba",
+                BA: "Bosnia and Herzegovina",
+                BW: "Botswana",
+                BV: "Bouvet Island",
+                BR: "Brazil",
+                IO: "British Indian Ocean Territory",
+                BN: "Brunei Darussalam",
+                BG: "Bulgaria",
+                BF: "Burkina Faso",
+                BI: "Burundi",
+                KH: "Cambodia",
+                CM: "Cameroon",
+                CA: "Canada",
+                CV: "Cape Verde",
+                KY: "Cayman Islands",
+                CF: "Central African Republic",
+                TD: "Chad",
+                CL: "Chile",
+                CN: "China",
+                CX: "Christmas Island",
+                CC: "Cocos (Keeling) Islands",
+                CO: "Colombia",
+                KM: "Comoros",
+                CG: "Congo",
+                CD: "Congo, the Democratic Republic of the",
+                CK: "Cook Islands",
+                CR: "Costa Rica",
+                CI: "Côte d'Ivoire",
+                HR: "Croatia",
+                CU: "Cuba",
+                CW: "Curaçao",
+                CY: "Cyprus",
+                CZ: "Czech Republic",
+                DK: "Denmark",
+                DJ: "Djibouti",
+                DM: "Dominica",
+                DO: "Dominican Republic",
+                EC: "Ecuador",
+                EG: "Egypt",
+                SV: "El Salvador",
+                GQ: "Equatorial Guinea",
+                ER: "Eritrea",
+                EE: "Estonia",
+                ET: "Ethiopia",
+                FK: "Falkland Islands (Malvinas)",
+                FO: "Faroe Islands",
+                FJ: "Fiji",
+                FI: "Finland",
+                FR: "France",
+                GF: "French Guiana",
+                PF: "French Polynesia",
+                TF: "French Southern Territories",
+                GA: "Gabon",
+                GM: "Gambia",
+                GE: "Georgia",
+                DE: "Germany",
+                GH: "Ghana",
+                GI: "Gibraltar",
+                GR: "Greece",
+                GL: "Greenland",
+                GD: "Grenada",
+                GP: "Guadeloupe",
+                GU: "Guam",
+                GT: "Guatemala",
+                GG: "Guernsey",
+                GN: "Guinea",
+                GW: "Guinea-Bissau",
+                GY: "Guyana",
+                HT: "Haiti",
+                HM: "Heard Island and McDonald Mcdonald Islands",
+                VA: "Holy See (Vatican City State)",
+                HN: "Honduras",
+                HK: "Hong Kong",
+                HU: "Hungary",
+                IS: "Iceland",
+                IN: "India",
+                ID: "Indonesia",
+                IR: "Iran, Islamic Republic of",
+                IQ: "Iraq",
+                IE: "Ireland",
+                IM: "Isle of Man",
+                IL: "Israel",
+                IT: "Italy",
+                JM: "Jamaica",
+                JP: "Japan",
+                JE: "Jersey",
+                JO: "Jordan",
+                KZ: "Kazakhstan",
+                KE: "Kenya",
+                KI: "Kiribati",
+                KP: "Korea, Democratic People's Republic of",
+                KR: "Korea, Republic of",
+                KW: "Kuwait",
+                KG: "Kyrgyzstan",
+                LA: "Lao People's Democratic Republic",
+                LV: "Latvia",
+                LB: "Lebanon",
+                LS: "Lesotho",
+                LR: "Liberia",
+                LY: "Libya",
+                LI: "Liechtenstein",
+                LT: "Lithuania",
+                LU: "Luxembourg",
+                MO: "Macao",
+                MK: "Macedonia, the Former Yugoslav Republic of",
+                MG: "Madagascar",
+                MW: "Malawi",
+                MY: "Malaysia",
+                MV: "Maldives",
+                ML: "Mali",
+                MT: "Malta",
+                MH: "Marshall Islands",
+                MQ: "Martinique",
+                MR: "Mauritania",
+                MU: "Mauritius",
+                YT: "Mayotte",
+                MX: "Mexico",
+                FM: "Micronesia, Federated States of",
+                MD: "Moldova, Republic of",
+                MC: "Monaco",
+                MN: "Mongolia",
+                ME: "Montenegro",
+                MS: "Montserrat",
+                MA: "Morocco",
+                MZ: "Mozambique",
+                MM: "Myanmar",
+                NA: "Namibia",
+                NR: "Nauru",
+                NP: "Nepal",
+                NL: "Netherlands",
+                NC: "New Caledonia",
+                NZ: "New Zealand",
+                NI: "Nicaragua",
+                NE: "Niger",
+                NG: "Nigeria",
+                NU: "Niue",
+                NF: "Norfolk Island",
+                MP: "Northern Mariana Islands",
+                NO: "Norway",
+                OM: "Oman",
+                PK: "Pakistan",
+                PW: "Palau",
+                PS: "Palestine, State of",
+                PA: "Panama",
+                PG: "Papua New Guinea",
+                PY: "Paraguay",
+                PE: "Peru",
+                PH: "Philippines",
+                PN: "Pitcairn",
+                PL: "Poland",
+                PT: "Portugal",
+                PR: "Puerto Rico",
+                QA: "Qatar",
+                RE: "Réunion",
+                RO: "Romania",
+                RU: "Russian Federation",
+                RW: "Rwanda",
+                BL: "Saint Barthélemy",
+                SH: "Saint Helena, Ascension and Tristan da Cunha",
+                KN: "Saint Kitts and Nevis",
+                LC: "Saint Lucia",
+                MF: "Saint Martin (French part)",
+                PM: "Saint Pierre and Miquelon",
+                VC: "Saint Vincent and the Grenadines",
+                WS: "Samoa",
+                SM: "San Marino",
+                ST: "Sao Tome and Principe",
+                SA: "Saudi Arabia",
+                SN: "Senegal",
+                RS: "Serbia",
+                SC: "Seychelles",
+                SL: "Sierra Leone",
+                SG: "Singapore",
+                SX: "Sint Maarten (Dutch part)",
+                SK: "Slovakia",
+                SI: "Slovenia",
+                SB: "Solomon Islands",
+                SO: "Somalia",
+                ZA: "South Africa",
+                GS: "South Georgia and the South Sandwich Islands",
+                SS: "South Sudan",
+                ES: "Spain",
+                LK: "Sri Lanka",
+                SD: "Sudan",
+                SR: "Suriname",
+                SJ: "Svalbard and Jan Mayen",
+                SZ: "Swaziland",
+                SE: "Sweden",
+                CH: "Switzerland",
+                SY: "Syrian Arab Republic",
+                TW: "Taiwan, Province of China",
+                TJ: "Tajikistan",
+                TZ: "Tanzania, United Republic of",
+                TH: "Thailand",
+                TL: "Timor-Leste",
+                TG: "Togo",
+                TK: "Tokelau",
+                TO: "Tonga",
+                TT: "Trinidad and Tobago",
+                TN: "Tunisia",
+                TR: "Turkey",
+                TM: "Turkmenistan",
+                TC: "Turks and Caicos Islands",
+                TV: "Tuvalu",
+                UG: "Uganda",
+                UA: "Ukraine",
+                AE: "United Arab Emirates",
+                GB: "United Kingdom",
+                US: "United States",
+                UM: "United States Minor Outlying Islands",
+                UY: "Uruguay",
+                UZ: "Uzbekistan",
+                VU: "Vanuatu",
+                VE: "Venezuela, Bolivarian Republic of",
+                VN: "Viet Nam",
+                VG: "Virgin Islands, British",
+                VI: "Virgin Islands, U.S.",
+                WF: "Wallis and Futuna",
+                EH: "Western Sahara",
+                YE: "Yemen",
+                ZM: "Zambia",
+                ZW: "Zimbabwe"
+            };
+
+            return Iso31661a2;
+
+        })();
+
+        singleton = null;
+
+        module.exports = (function() {
+            return singleton != null ? singleton : singleton = new Iso31661a2();
+        })();
+
+    }).call(commonjsGlobal);
+    });
+
+    const REG = /^([a-z]{2})-([A-Z]{2})$/;
+
+    class LocaleCode {
+      /* language iso-639-1 */
+      static getLanguageCode(code) {
+        var match = code.match(REG);
+        if(!match || match.length < 1) return ''
+        return match[1]
+      }
+
+      static getLanguageName(code) {
+        var languageCode = LocaleCode.getLanguageCode(code);
+        return ISO6391ZH.getName(languageCode)
+      }
+
+      static getLanguageNativeName(code) {
+        var languageCode = LocaleCode.getLanguageCode(code);
+        return ISO6391ZH.getNativeName(languageCode)
+      }
+
+      static getLanguageZhName(code) {
+        var languageCode = LocaleCode.getLanguageCode(code);
+        return ISO6391ZH.getZhName(languageCode)
+      }
+
+      static validateLanguageCode(code) {
+        var languageCode = LocaleCode.getLanguageCode(code);
+        return ISO6391ZH.validate(languageCode)
+      }
+
+      static getLanguages(codes) {
+        var list = [];
+        for (var i = 0; i < codes.length; i++) {
+          list.push({
+            code:codes[i], 
+            name: LocaleCode.getLanguageName(codes[i]),
+            nativeName: LocaleCode.getLanguageNativeName(codes[i]),
+            zhName: LocaleCode.getLanguageZhName(codes[i])
+          });
+        }
+        return list
+      }
+
+      /* country iso-3166-1-alpha-2 */
+      static getCountryCode(code) {
+        var match = code.match(REG);
+        if(!match || match.length < 2) return ''
+        return match[2]
+      }
+      static getCountryName(code) {
+        var countryCode = LocaleCode.getCountryCode(code);
+        return iso31661Alpha2.getCountry(countryCode)
+      }
+      static validateCountryCode(code) {
+        code = LocaleCode.getCountryCode(code);
+        if(iso31661Alpha2.getCodes().indexOf(code) === -1) {
+          return false
+        } else {
+          return true
+        }
+      }
+
+      /* validate */
+      static validate(code) {
+        var match = code.match(REG);
+        if(match && match.length === 3 && 
+          LocaleCode.validateLanguageCode(code) &&
+          LocaleCode.validateCountryCode(code)) {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+
+    var src = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        'default': LocaleCode
+    });
+
+    // Unique ID creation requires a high quality random # generator. In the browser we therefore
+    // require the crypto API and do not support built-in fallback to lower quality random number
+    // generators (like Math.random()).
+    var getRandomValues;
+    var rnds8 = new Uint8Array(16);
+    function rng() {
+      // lazy load so that environments that need to polyfill have a chance to do so
+      if (!getRandomValues) {
+        // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+        // find the complete implementation of crypto (msCrypto) on IE11.
+        getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+
+        if (!getRandomValues) {
+          throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+        }
+      }
+
+      return getRandomValues(rnds8);
+    }
+
+    var REGEX = /^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i;
+
+    function validate(uuid) {
+      return typeof uuid === 'string' && REGEX.test(uuid);
+    }
+
+    /**
+     * Convert array of 16 byte values to UUID string format of the form:
+     * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+     */
+
+    var byteToHex = [];
+
+    for (var i = 0; i < 256; ++i) {
+      byteToHex.push((i + 0x100).toString(16).substr(1));
+    }
+
+    function stringify(arr) {
+      var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      // Note: Be careful editing this code!  It's been tuned for performance
+      // and works in ways you may not expect. See https://github.com/uuidjs/uuid/pull/434
+      var uuid = (byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + '-' + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + '-' + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + '-' + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + '-' + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]]).toLowerCase(); // Consistency check for valid UUID.  If this throws, it's likely due to one
+      // of the following:
+      // - One or more input array values don't map to a hex octet (leading to
+      // "undefined" in the uuid)
+      // - Invalid input values for the RFC `version` or `variant` fields
+
+      if (!validate(uuid)) {
+        throw TypeError('Stringified UUID is invalid');
+      }
+
+      return uuid;
+    }
+
+    //
+    // Inspired by https://github.com/LiosK/UUID.js
+    // and http://docs.python.org/library/uuid.html
+
+    var _nodeId;
+
+    var _clockseq; // Previous uuid creation time
+
+
+    var _lastMSecs = 0;
+    var _lastNSecs = 0; // See https://github.com/uuidjs/uuid for API details
+
+    function v1(options, buf, offset) {
+      var i = buf && offset || 0;
+      var b = buf || new Array(16);
+      options = options || {};
+      var node = options.node || _nodeId;
+      var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq; // node and clockseq need to be initialized to random values if they're not
+      // specified.  We do this lazily to minimize issues related to insufficient
+      // system entropy.  See #189
+
+      if (node == null || clockseq == null) {
+        var seedBytes = options.random || (options.rng || rng)();
+
+        if (node == null) {
+          // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+          node = _nodeId = [seedBytes[0] | 0x01, seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]];
+        }
+
+        if (clockseq == null) {
+          // Per 4.2.2, randomize (14 bit) clockseq
+          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+        }
+      } // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+      // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+      // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+      // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+
+
+      var msecs = options.msecs !== undefined ? options.msecs : Date.now(); // Per 4.2.1.2, use count of uuid's generated during the current clock
+      // cycle to simulate higher resolution clock
+
+      var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1; // Time since last uuid creation (in msecs)
+
+      var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 10000; // Per 4.2.1.2, Bump clockseq on clock regression
+
+      if (dt < 0 && options.clockseq === undefined) {
+        clockseq = clockseq + 1 & 0x3fff;
+      } // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+      // time interval
+
+
+      if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+        nsecs = 0;
+      } // Per 4.2.1.2 Throw error if too many uuids are requested
+
+
+      if (nsecs >= 10000) {
+        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+      }
+
+      _lastMSecs = msecs;
+      _lastNSecs = nsecs;
+      _clockseq = clockseq; // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+
+      msecs += 12219292800000; // `time_low`
+
+      var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+      b[i++] = tl >>> 24 & 0xff;
+      b[i++] = tl >>> 16 & 0xff;
+      b[i++] = tl >>> 8 & 0xff;
+      b[i++] = tl & 0xff; // `time_mid`
+
+      var tmh = msecs / 0x100000000 * 10000 & 0xfffffff;
+      b[i++] = tmh >>> 8 & 0xff;
+      b[i++] = tmh & 0xff; // `time_high_and_version`
+
+      b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+
+      b[i++] = tmh >>> 16 & 0xff; // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+
+      b[i++] = clockseq >>> 8 | 0x80; // `clock_seq_low`
+
+      b[i++] = clockseq & 0xff; // `node`
+
+      for (var n = 0; n < 6; ++n) {
+        b[i + n] = node[n];
+      }
+
+      return buf || stringify(b);
+    }
+
+    function parse(uuid) {
+      if (!validate(uuid)) {
+        throw TypeError('Invalid UUID');
+      }
+
+      var v;
+      var arr = new Uint8Array(16); // Parse ########-....-....-....-............
+
+      arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
+      arr[1] = v >>> 16 & 0xff;
+      arr[2] = v >>> 8 & 0xff;
+      arr[3] = v & 0xff; // Parse ........-####-....-....-............
+
+      arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
+      arr[5] = v & 0xff; // Parse ........-....-####-....-............
+
+      arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
+      arr[7] = v & 0xff; // Parse ........-....-....-####-............
+
+      arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
+      arr[9] = v & 0xff; // Parse ........-....-....-....-############
+      // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
+
+      arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000 & 0xff;
+      arr[11] = v / 0x100000000 & 0xff;
+      arr[12] = v >>> 24 & 0xff;
+      arr[13] = v >>> 16 & 0xff;
+      arr[14] = v >>> 8 & 0xff;
+      arr[15] = v & 0xff;
+      return arr;
+    }
+
+    function stringToBytes(str) {
+      str = unescape(encodeURIComponent(str)); // UTF8 escape
+
+      var bytes = [];
+
+      for (var i = 0; i < str.length; ++i) {
+        bytes.push(str.charCodeAt(i));
+      }
+
+      return bytes;
+    }
+
+    var DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
+    var URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
+    function v35 (name, version, hashfunc) {
+      function generateUUID(value, namespace, buf, offset) {
+        if (typeof value === 'string') {
+          value = stringToBytes(value);
+        }
+
+        if (typeof namespace === 'string') {
+          namespace = parse(namespace);
+        }
+
+        if (namespace.length !== 16) {
+          throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
+        } // Compute hash of namespace and value, Per 4.3
+        // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
+        // hashfunc([...namespace, ... value])`
+
+
+        var bytes = new Uint8Array(16 + value.length);
+        bytes.set(namespace);
+        bytes.set(value, namespace.length);
+        bytes = hashfunc(bytes);
+        bytes[6] = bytes[6] & 0x0f | version;
+        bytes[8] = bytes[8] & 0x3f | 0x80;
+
+        if (buf) {
+          offset = offset || 0;
+
+          for (var i = 0; i < 16; ++i) {
+            buf[offset + i] = bytes[i];
+          }
+
+          return buf;
+        }
+
+        return stringify(bytes);
+      } // Function#name is not settable on some platforms (#270)
+
+
+      try {
+        generateUUID.name = name; // eslint-disable-next-line no-empty
+      } catch (err) {} // For CommonJS default export support
+
+
+      generateUUID.DNS = DNS;
+      generateUUID.URL = URL;
+      return generateUUID;
+    }
+
+    /*
+     * Browser-compatible JavaScript MD5
+     *
+     * Modification of JavaScript MD5
+     * https://github.com/blueimp/JavaScript-MD5
+     *
+     * Copyright 2011, Sebastian Tschan
+     * https://blueimp.net
+     *
+     * Licensed under the MIT license:
+     * https://opensource.org/licenses/MIT
+     *
+     * Based on
+     * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
+     * Digest Algorithm, as defined in RFC 1321.
+     * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
+     * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+     * Distributed under the BSD License
+     * See http://pajhome.org.uk/crypt/md5 for more info.
+     */
+    function md5(bytes) {
+      if (typeof bytes === 'string') {
+        var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+        bytes = new Uint8Array(msg.length);
+
+        for (var i = 0; i < msg.length; ++i) {
+          bytes[i] = msg.charCodeAt(i);
+        }
+      }
+
+      return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
+    }
+    /*
+     * Convert an array of little-endian words to an array of bytes
+     */
+
+
+    function md5ToHexEncodedArray(input) {
+      var output = [];
+      var length32 = input.length * 32;
+      var hexTab = '0123456789abcdef';
+
+      for (var i = 0; i < length32; i += 8) {
+        var x = input[i >> 5] >>> i % 32 & 0xff;
+        var hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
+        output.push(hex);
+      }
+
+      return output;
+    }
+    /**
+     * Calculate output length with padding and bit length
+     */
+
+
+    function getOutputLength(inputLength8) {
+      return (inputLength8 + 64 >>> 9 << 4) + 14 + 1;
+    }
+    /*
+     * Calculate the MD5 of an array of little-endian words, and a bit length.
+     */
+
+
+    function wordsToMd5(x, len) {
+      /* append padding */
+      x[len >> 5] |= 0x80 << len % 32;
+      x[getOutputLength(len) - 1] = len;
+      var a = 1732584193;
+      var b = -271733879;
+      var c = -1732584194;
+      var d = 271733878;
+
+      for (var i = 0; i < x.length; i += 16) {
+        var olda = a;
+        var oldb = b;
+        var oldc = c;
+        var oldd = d;
+        a = md5ff(a, b, c, d, x[i], 7, -680876936);
+        d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
+        c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
+        b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
+        a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
+        d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
+        c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
+        b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
+        a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
+        d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
+        c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
+        b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
+        a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
+        d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
+        c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
+        b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
+        a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
+        d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
+        c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
+        b = md5gg(b, c, d, a, x[i], 20, -373897302);
+        a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
+        d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
+        c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
+        b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
+        a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
+        d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
+        c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
+        b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
+        a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
+        d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
+        c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
+        b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
+        a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
+        d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
+        c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
+        b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
+        a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
+        d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
+        c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
+        b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
+        a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
+        d = md5hh(d, a, b, c, x[i], 11, -358537222);
+        c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
+        b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
+        a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
+        d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
+        c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
+        b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
+        a = md5ii(a, b, c, d, x[i], 6, -198630844);
+        d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
+        c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
+        b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
+        a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
+        d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
+        c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
+        b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
+        a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
+        d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
+        c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
+        b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
+        a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
+        d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
+        c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
+        b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
+        a = safeAdd(a, olda);
+        b = safeAdd(b, oldb);
+        c = safeAdd(c, oldc);
+        d = safeAdd(d, oldd);
+      }
+
+      return [a, b, c, d];
+    }
+    /*
+     * Convert an array bytes to an array of little-endian words
+     * Characters >255 have their high-byte silently ignored.
+     */
+
+
+    function bytesToWords(input) {
+      if (input.length === 0) {
+        return [];
+      }
+
+      var length8 = input.length * 8;
+      var output = new Uint32Array(getOutputLength(length8));
+
+      for (var i = 0; i < length8; i += 8) {
+        output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
+      }
+
+      return output;
+    }
+    /*
+     * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+     * to work around bugs in some JS interpreters.
+     */
+
+
+    function safeAdd(x, y) {
+      var lsw = (x & 0xffff) + (y & 0xffff);
+      var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+      return msw << 16 | lsw & 0xffff;
+    }
+    /*
+     * Bitwise rotate a 32-bit number to the left.
+     */
+
+
+    function bitRotateLeft(num, cnt) {
+      return num << cnt | num >>> 32 - cnt;
+    }
+    /*
+     * These functions implement the four basic operations the algorithm uses.
+     */
+
+
+    function md5cmn(q, a, b, x, s, t) {
+      return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
+    }
+
+    function md5ff(a, b, c, d, x, s, t) {
+      return md5cmn(b & c | ~b & d, a, b, x, s, t);
+    }
+
+    function md5gg(a, b, c, d, x, s, t) {
+      return md5cmn(b & d | c & ~d, a, b, x, s, t);
+    }
+
+    function md5hh(a, b, c, d, x, s, t) {
+      return md5cmn(b ^ c ^ d, a, b, x, s, t);
+    }
+
+    function md5ii(a, b, c, d, x, s, t) {
+      return md5cmn(c ^ (b | ~d), a, b, x, s, t);
+    }
+
+    var v3 = v35('v3', 0x30, md5);
+
+    function v4(options, buf, offset) {
+      options = options || {};
+      var rnds = options.random || (options.rng || rng)(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
+
+      rnds[6] = rnds[6] & 0x0f | 0x40;
+      rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
+
+      if (buf) {
+        offset = offset || 0;
+
+        for (var i = 0; i < 16; ++i) {
+          buf[offset + i] = rnds[i];
+        }
+
+        return buf;
+      }
+
+      return stringify(rnds);
+    }
+
+    // Adapted from Chris Veness' SHA1 code at
+    // http://www.movable-type.co.uk/scripts/sha1.html
+    function f(s, x, y, z) {
+      switch (s) {
+        case 0:
+          return x & y ^ ~x & z;
+
+        case 1:
+          return x ^ y ^ z;
+
+        case 2:
+          return x & y ^ x & z ^ y & z;
+
+        case 3:
+          return x ^ y ^ z;
+      }
+    }
+
+    function ROTL(x, n) {
+      return x << n | x >>> 32 - n;
+    }
+
+    function sha1(bytes) {
+      var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+      var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
+
+      if (typeof bytes === 'string') {
+        var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
+
+        bytes = [];
+
+        for (var i = 0; i < msg.length; ++i) {
+          bytes.push(msg.charCodeAt(i));
+        }
+      } else if (!Array.isArray(bytes)) {
+        // Convert Array-like to Array
+        bytes = Array.prototype.slice.call(bytes);
+      }
+
+      bytes.push(0x80);
+      var l = bytes.length / 4 + 2;
+      var N = Math.ceil(l / 16);
+      var M = new Array(N);
+
+      for (var _i = 0; _i < N; ++_i) {
+        var arr = new Uint32Array(16);
+
+        for (var j = 0; j < 16; ++j) {
+          arr[j] = bytes[_i * 64 + j * 4] << 24 | bytes[_i * 64 + j * 4 + 1] << 16 | bytes[_i * 64 + j * 4 + 2] << 8 | bytes[_i * 64 + j * 4 + 3];
+        }
+
+        M[_i] = arr;
+      }
+
+      M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
+      M[N - 1][14] = Math.floor(M[N - 1][14]);
+      M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
+
+      for (var _i2 = 0; _i2 < N; ++_i2) {
+        var W = new Uint32Array(80);
+
+        for (var t = 0; t < 16; ++t) {
+          W[t] = M[_i2][t];
+        }
+
+        for (var _t = 16; _t < 80; ++_t) {
+          W[_t] = ROTL(W[_t - 3] ^ W[_t - 8] ^ W[_t - 14] ^ W[_t - 16], 1);
+        }
+
+        var a = H[0];
+        var b = H[1];
+        var c = H[2];
+        var d = H[3];
+        var e = H[4];
+
+        for (var _t2 = 0; _t2 < 80; ++_t2) {
+          var s = Math.floor(_t2 / 20);
+          var T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[_t2] >>> 0;
+          e = d;
+          d = c;
+          c = ROTL(b, 30) >>> 0;
+          b = a;
+          a = T;
+        }
+
+        H[0] = H[0] + a >>> 0;
+        H[1] = H[1] + b >>> 0;
+        H[2] = H[2] + c >>> 0;
+        H[3] = H[3] + d >>> 0;
+        H[4] = H[4] + e >>> 0;
+      }
+
+      return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
+    }
+
+    var v5 = v35('v5', 0x50, sha1);
+
+    var nil = '00000000-0000-0000-0000-000000000000';
+
+    function version(uuid) {
+      if (!validate(uuid)) {
+        throw TypeError('Invalid UUID');
+      }
+
+      return parseInt(uuid.substr(14, 1), 16);
+    }
+
+    var esmBrowser = /*#__PURE__*/Object.freeze({
+        __proto__: null,
+        v1: v1,
+        v3: v3,
+        v4: v4,
+        v5: v5,
+        NIL: nil,
+        version: version,
+        validate: validate,
+        stringify: stringify,
+        parse: parse
+    });
+
+    /*! http://mths.be/base64 v0.1.0 by @mathias | MIT license */
+
+    var base64 = createCommonjsModule(function (module, exports) {
+    (function(root) {
+
+    	// Detect free variables `exports`.
+    	var freeExports = exports;
+
+    	// Detect free variable `module`.
+    	var freeModule = module &&
+    		module.exports == freeExports && module;
+
+    	// Detect free variable `global`, from Node.js or Browserified code, and use
+    	// it as `root`.
+    	var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal;
+    	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
+    		root = freeGlobal;
+    	}
+
+    	/*--------------------------------------------------------------------------*/
+
+    	var InvalidCharacterError = function(message) {
+    		this.message = message;
+    	};
+    	InvalidCharacterError.prototype = new Error;
+    	InvalidCharacterError.prototype.name = 'InvalidCharacterError';
+
+    	var error = function(message) {
+    		// Note: the error messages used throughout this file match those used by
+    		// the native `atob`/`btoa` implementation in Chromium.
+    		throw new InvalidCharacterError(message);
+    	};
+
+    	var TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    	// http://whatwg.org/html/common-microsyntaxes.html#space-character
+    	var REGEX_SPACE_CHARACTERS = /[\t\n\f\r ]/g;
+
+    	// `decode` is designed to be fully compatible with `atob` as described in the
+    	// HTML Standard. http://whatwg.org/html/webappapis.html#dom-windowbase64-atob
+    	// The optimized base64-decoding algorithm used is based on @atk’s excellent
+    	// implementation. https://gist.github.com/atk/1020396
+    	var decode = function(input) {
+    		input = String(input)
+    			.replace(REGEX_SPACE_CHARACTERS, '');
+    		var length = input.length;
+    		if (length % 4 == 0) {
+    			input = input.replace(/==?$/, '');
+    			length = input.length;
+    		}
+    		if (
+    			length % 4 == 1 ||
+    			// http://whatwg.org/C#alphanumeric-ascii-characters
+    			/[^+a-zA-Z0-9/]/.test(input)
+    		) {
+    			error(
+    				'Invalid character: the string to be decoded is not correctly encoded.'
+    			);
+    		}
+    		var bitCounter = 0;
+    		var bitStorage;
+    		var buffer;
+    		var output = '';
+    		var position = -1;
+    		while (++position < length) {
+    			buffer = TABLE.indexOf(input.charAt(position));
+    			bitStorage = bitCounter % 4 ? bitStorage * 64 + buffer : buffer;
+    			// Unless this is the first of a group of 4 characters…
+    			if (bitCounter++ % 4) {
+    				// …convert the first 8 bits to a single ASCII character.
+    				output += String.fromCharCode(
+    					0xFF & bitStorage >> (-2 * bitCounter & 6)
+    				);
+    			}
+    		}
+    		return output;
+    	};
+
+    	// `encode` is designed to be fully compatible with `btoa` as described in the
+    	// HTML Standard: http://whatwg.org/html/webappapis.html#dom-windowbase64-btoa
+    	var encode = function(input) {
+    		input = String(input);
+    		if (/[^\0-\xFF]/.test(input)) {
+    			// Note: no need to special-case astral symbols here, as surrogates are
+    			// matched, and the input is supposed to only contain ASCII anyway.
+    			error(
+    				'The string to be encoded contains characters outside of the ' +
+    				'Latin1 range.'
+    			);
+    		}
+    		var padding = input.length % 3;
+    		var output = '';
+    		var position = -1;
+    		var a;
+    		var b;
+    		var c;
+    		var buffer;
+    		// Make sure any padding is handled outside of the loop.
+    		var length = input.length - padding;
+
+    		while (++position < length) {
+    			// Read three bytes, i.e. 24 bits.
+    			a = input.charCodeAt(position) << 16;
+    			b = input.charCodeAt(++position) << 8;
+    			c = input.charCodeAt(++position);
+    			buffer = a + b + c;
+    			// Turn the 24 bits into four chunks of 6 bits each, and append the
+    			// matching character for each of them to the output.
+    			output += (
+    				TABLE.charAt(buffer >> 18 & 0x3F) +
+    				TABLE.charAt(buffer >> 12 & 0x3F) +
+    				TABLE.charAt(buffer >> 6 & 0x3F) +
+    				TABLE.charAt(buffer & 0x3F)
+    			);
+    		}
+
+    		if (padding == 2) {
+    			a = input.charCodeAt(position) << 8;
+    			b = input.charCodeAt(++position);
+    			buffer = a + b;
+    			output += (
+    				TABLE.charAt(buffer >> 10) +
+    				TABLE.charAt((buffer >> 4) & 0x3F) +
+    				TABLE.charAt((buffer << 2) & 0x3F) +
+    				'='
+    			);
+    		} else if (padding == 1) {
+    			buffer = input.charCodeAt(position);
+    			output += (
+    				TABLE.charAt(buffer >> 2) +
+    				TABLE.charAt((buffer << 4) & 0x3F) +
+    				'=='
+    			);
+    		}
+
+    		return output;
+    	};
+
+    	var base64 = {
+    		'encode': encode,
+    		'decode': decode,
+    		'version': '0.1.0'
+    	};
+
+    	// Some AMD build optimizers, like r.js, check for specific condition patterns
+    	// like the following:
+    	if (freeExports && !freeExports.nodeType) {
+    		if (freeModule) { // in Node.js or RingoJS v0.8.0+
+    			freeModule.exports = base64;
+    		} else { // in Narwhal or RingoJS v0.7.0-
+    			for (var key in base64) {
+    				base64.hasOwnProperty(key) && (freeExports[key] = base64[key]);
+    			}
+    		}
+    	} else { // in Rhino or a web browser
+    		root.base64 = base64;
+    	}
+
+    }(commonjsGlobal));
+    });
+
+    var token = createCommonjsModule(function (module, exports) {
+    var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    Object.defineProperty(exports, "__esModule", { value: true });
+
+    exports.minTokenValidTime = 60 * 60 * 1000; // 1 hour
+    function fetchToken(baseUrl, projectId, appId, deviceId, fetcher = fetch, nowFn = Date.now) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            let body;
+            if (projectId !== undefined) {
+                body = { projectId, deviceId };
+            }
+            else {
+                body = { appId, deviceId };
+            }
+            const response = yield fetcher(baseUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+            const json = yield response.json();
+            if (response.status !== 200) {
+                throw Error((_a = json.error) !== null && _a !== void 0 ? _a : `Speechly API login request failed with ${response.status}`);
+            }
+            if (json.access_token === undefined) {
+                throw Error('Invalid login response from Speechly API');
+            }
+            if (!validateToken(json.access_token, projectId, appId, deviceId, nowFn)) {
+                throw Error('Invalid token received from Speechly API');
+            }
+            return json.access_token;
+        });
+    }
+    exports.fetchToken = fetchToken;
+    function validateToken(token, projectId, appId, deviceId, now = Date.now) {
+        const decoded = decodeToken(token);
+        if (decoded.expiresAtMs - now() < exports.minTokenValidTime) {
+            return false;
+        }
+        if (decoded.appId !== appId || decoded.projectId !== projectId) {
+            return false;
+        }
+        if (decoded.deviceId !== deviceId) {
+            return false;
+        }
+        return true;
+    }
+    exports.validateToken = validateToken;
+    function decodeToken(token) {
+        const b = token.split('.')[1];
+        let body;
+        try {
+            body = JSON.parse(base64.decode(b));
+        }
+        catch (e) {
+            throw new Error('Error decoding Speechly token!');
+        }
+        return {
+            appId: body.appId,
+            projectId: body.projectId,
+            deviceId: body.deviceId,
+            configId: body.configId,
+            scopes: body.scope.split(' '),
+            issuer: body.iss,
+            audience: body.aud,
+            expiresAtMs: body.exp * 1000,
+        };
+    }
+    exports.decodeToken = decodeToken;
+    //# sourceMappingURL=token.js.map
+    });
+
+    /**
+     * Default sample rate for microphone streams.
+     * @public
+     */
+    var DefaultSampleRate = 16000;
+    /**
+     * Error to be thrown when the microphone was accessed before it was initialized.
+     * @public
+     */
+    var ErrNotInitialized = new Error('Microphone is not initialized');
+    /**
+     * Error to be thrown when the initialize method of a Microphone instance is called more than once.
+     * @public
+     */
+    var ErrAlreadyInitialized = new Error('Microphone is already initialized');
+    /**
+     * Error to be thrown when the device does not support the Microphone instance's target audio APIs.
+     * @public
+     */
+    var ErrDeviceNotSupported = new Error('Current device does not support microphone API');
+    /**
+     * Error to be thrown when user did not give consent to the application to record audio.
+     * @public
+     */
+    var ErrNoAudioConsent = new Error('Microphone consent is no given');
+
+
+    var types$2 = /*#__PURE__*/Object.defineProperty({
+    	DefaultSampleRate: DefaultSampleRate,
+    	ErrNotInitialized: ErrNotInitialized,
+    	ErrAlreadyInitialized: ErrAlreadyInitialized,
+    	ErrDeviceNotSupported: ErrDeviceNotSupported,
+    	ErrNoAudioConsent: ErrNoAudioConsent
+    }, '__esModule', {value: true});
+
+    var _default$1 = `
+// Indices for the Control SAB.
+const CONTROL = {
+  'WRITE_INDEX': 0,
+  'FRAMES_AVAILABLE': 1,
+};
+
+class SpeechlyProcessor extends AudioWorkletProcessor {
+  constructor() {
+    super();
+
+    this._initialized = false;
+    this.port.onmessage = this._initialize.bind(this);
+  }
+
+  _initialize(event) {
+    this.controlSAB = new Int32Array(event.data.controlSAB);
+    this.dataSAB = new Float32Array(event.data.dataSAB);
+    this._initialized = true;
+  }
+
+  _pushData(data) {
+    let inputWriteIndex = this.controlSAB[CONTROL.WRITE_INDEX];
+
+    if (inputWriteIndex + data.length < this.dataSAB.length) {
+      // Buffer has enough space to push the input.
+      this.dataSAB.set(data, inputWriteIndex);
+      this.controlSAB[CONTROL.WRITE_INDEX] += data.length;
+    } else {
+      // Buffer overflow
+      this.dataSAB.set(data, 0);
+      this.controlSAB[CONTROL.WRITE_INDEX] = 0;
+    }
+
+    // Update the number of available frames in the input buffer.
+    this.controlSAB[CONTROL.FRAMES_AVAILABLE] += data.length;
+  }
+
+  process(inputs, outputs, parameters) {
+    const inputChannelData = inputs[0][0];
+      if (inputChannelData !== undefined) {
+        if (this.controlSAB && this.dataSAB) {
+          this._pushData(inputChannelData);
+        } else {
+          this.port.postMessage(inputChannelData);
+        }
+      }
+      
+      return true;
+  }
+}
+
+registerProcessor('speechly-worklet', SpeechlyProcessor);
+`;
+
+
+    var audioworklet = /*#__PURE__*/Object.defineProperty({
+    	default: _default$1
+    }, '__esModule', {value: true});
+
+    var __awaiter$2 = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var __importDefault$2 = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+        return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+
+
+    const audioworklet_1 = __importDefault$2(audioworklet);
+    const audioProcessEvent = 'audioprocess';
+    const baseBufferSize = 4096;
+    class BrowserMicrophone {
+        constructor(isWebkit, sampleRate, apiClient) {
+            this.initialized = false;
+            this.muted = false;
+            this.handleAudio = (array) => {
+                if (this.muted) {
+                    return;
+                }
+                if (array.length > 0) {
+                    this.apiClient.sendAudio(array);
+                }
+            };
+            this.isWebkit = isWebkit;
+            this.apiClient = apiClient;
+            this.sampleRate = sampleRate;
+        }
+        initialize(audioContext, opts) {
+            var _a;
+            return __awaiter$2(this, void 0, void 0, function* () {
+                if (((_a = window.navigator) === null || _a === void 0 ? void 0 : _a.mediaDevices) === undefined) {
+                    throw types$2.ErrDeviceNotSupported;
+                }
+                this.audioContext = audioContext;
+                this.resampleRatio = this.audioContext.sampleRate / this.sampleRate;
+                try {
+                    this.mediaStream = yield window.navigator.mediaDevices.getUserMedia(opts);
+                }
+                catch (_b) {
+                    throw types$2.ErrNoAudioConsent;
+                }
+                this.audioTrack = this.mediaStream.getAudioTracks()[0];
+                // Start audio context if we are dealing with a non-WebKit browser.
+                //
+                // Non-webkit browsers (currently only Chrome on Android)
+                // require that user media is obtained before resuming the audio context.
+                //
+                // If audio context is attempted to be resumed before `mediaDevices.getUserMedia`,
+                // `audioContext.resume()` will hang indefinitely, without being resolved or rejected.
+                if (!this.isWebkit) {
+                    yield this.audioContext.resume();
+                }
+                if (window.AudioWorkletNode !== undefined) {
+                    const blob = new Blob([audioworklet_1.default], { type: 'text/javascript' });
+                    const blobURL = window.URL.createObjectURL(blob);
+                    yield this.audioContext.audioWorklet.addModule(blobURL);
+                    const speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet');
+                    this.audioContext.createMediaStreamSource(this.mediaStream).connect(speechlyNode);
+                    speechlyNode.connect(this.audioContext.destination);
+                    if (window.SharedArrayBuffer !== undefined) {
+                        // Chrome, Edge, Firefox, Firefox Android
+                        const controlSAB = new window.SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT);
+                        const dataSAB = new window.SharedArrayBuffer(2 * 4096 * Float32Array.BYTES_PER_ELEMENT);
+                        this.apiClient.postMessage({
+                            type: 'SET_SHARED_ARRAY_BUFFERS',
+                            controlSAB,
+                            dataSAB,
+                        });
+                        speechlyNode.port.postMessage({
+                            type: 'SET_SHARED_ARRAY_BUFFERS',
+                            controlSAB,
+                            dataSAB,
+                        });
+                    }
+                    else {
+                        // Opera, Chrome Android, Webview Anroid
+                        speechlyNode.port.onmessage = (event) => {
+                            this.handleAudio(event.data);
+                        };
+                    }
+                }
+                else {
+                    // Safari, iOS Safari and Internet Explorer
+                    if (this.isWebkit) {
+                        // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
+                        // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
+                        const bufSize = baseBufferSize * Math.pow(2, Math.ceil(Math.log(this.resampleRatio) / Math.log(2)));
+                        this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1);
+                    }
+                    else {
+                        this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1);
+                    }
+                    this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor);
+                    this.audioProcessor.connect(this.audioContext.destination);
+                    this.audioProcessor.addEventListener(audioProcessEvent, (event) => {
+                        this.handleAudio(event.inputBuffer.getChannelData(0));
+                    });
+                }
+                this.initialized = true;
+                this.mute();
+            });
+        }
+        close() {
+            return __awaiter$2(this, void 0, void 0, function* () {
+                this.mute();
+                if (!this.initialized) {
+                    throw types$2.ErrNotInitialized;
+                }
+                const t = this.audioTrack;
+                t.enabled = false;
+                // Stop all media tracks
+                const stream = this.mediaStream;
+                stream.getTracks().forEach(t => t.stop());
+                // Disconnect and stop ScriptProcessorNode
+                if (this.audioProcessor != null) {
+                    const proc = this.audioProcessor;
+                    proc.disconnect();
+                }
+                // Unset all audio infrastructure
+                this.mediaStream = undefined;
+                this.audioTrack = undefined;
+                this.audioProcessor = undefined;
+                this.initialized = false;
+            });
+        }
+        mute() {
+            this.muted = true;
+        }
+        unmute() {
+            this.muted = false;
+        }
+    }
+    var BrowserMicrophone_1 = BrowserMicrophone;
+
+
+    var browser_microphone = /*#__PURE__*/Object.defineProperty({
+    	BrowserMicrophone: BrowserMicrophone_1
+    }, '__esModule', {value: true});
+
+    var microphone = createCommonjsModule(function (module, exports) {
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(browser_microphone);
+    __export(types$2);
+    //# sourceMappingURL=index.js.map
+    });
+
+    var types$1 = createCommonjsModule(function (module, exports) {
+    Object.defineProperty(exports, "__esModule", { value: true });
+    (function (WebsocketResponseType) {
+        WebsocketResponseType["Opened"] = "WEBSOCKET_OPEN";
+        WebsocketResponseType["SourceSampleRateSetSuccess"] = "SOURSE_SAMPLE_RATE_SET_SUCCESS";
+        WebsocketResponseType["Started"] = "started";
+        WebsocketResponseType["Stopped"] = "stopped";
+        WebsocketResponseType["SegmentEnd"] = "segment_end";
+        WebsocketResponseType["Transcript"] = "transcript";
+        WebsocketResponseType["Entity"] = "entity";
+        WebsocketResponseType["Intent"] = "intent";
+        WebsocketResponseType["TentativeTranscript"] = "tentative_transcript";
+        WebsocketResponseType["TentativeEntities"] = "tentative_entities";
+        WebsocketResponseType["TentativeIntent"] = "tentative_intent";
+    })(exports.WebsocketResponseType || (exports.WebsocketResponseType = {}));
+    //# sourceMappingURL=types.js.map
+    });
+
+    var _default = `
+// Indices for the Control SAB.
+const CONTROL = {
+  WRITE_INDEX: 0,
+  FRAMES_AVAILABLE: 1,
+}
+let ws
+let url
+let token
+const state = {
+  isContextStarted: false,
+  isStartContextConfirmed: false,
+  shouldResendLastFramesSent: false,
+  sourceSampleRate: undefined,
+  targetSampleRate: undefined,
+  resampleRatio: 1,
+  buffer: new Float32Array(0),
+  lastFramesSent: new Int16Array(0), // to re-send after switch context
+  filter: undefined,
+  controlSAB: undefined,
+  dataSAB: undefined,
+}
+
+async function initializeWebsocket() {
+  ws = new WebSocket(url, token)
+
+  return new Promise((resolve, reject) => {
+    const errhandler = () => {
+      ws.removeEventListener('close', errhandler)
+      ws.removeEventListener('error', errhandler)
+      ws.removeEventListener('open', openhandler)
+
+      reject(Error('Connection failed'))
+    }
+
+    const openhandler = () => {
+      ws.removeEventListener('close', errhandler)
+      ws.removeEventListener('error', errhandler)
+      ws.removeEventListener('open', openhandler)
+
+      resolve(ws)
+    }
+
+    ws.addEventListener('close', errhandler)
+    ws.addEventListener('error', errhandler)
+    ws.addEventListener('open', openhandler)
+  })
+}
+
+function connect(timeout = 1000) {
+  setTimeout(function() {
+    initializeWebsocket().then(function() {
+      console.log('connect')
+      self.postMessage({
+        type: 'WEBSOCKET_OPEN',
+      })
+      ws.addEventListener('message', onWebsocketMessage)
+      ws.addEventListener('error', onWebsocketError)
+      ws.addEventListener('close', onWebsocketClose)
+    }).catch((error) => {
+      console.log(error)
+      connect(1000)
+    })
+  }, timeout)
+}
+
+function closeWebsocket(code, message) {
+  if (ws === undefined) {
+    throw Error('Websocket is not open')
+  }
+
+  ws.removeEventListener('message', onWebsocketMessage)
+  ws.removeEventListener('error', onWebsocketError)
+  ws.removeEventListener('close', onWebsocketClose)
+
+  ws.close(code, message)
+}
+
+function onWebsocketClose(event) {
+  connect(0)
+}
+
+function onWebsocketError(_event) {
+  onWebsocketClose(1000, 'Client disconnecting due to an error')
+}
+
+function onWebsocketMessage(event) {
+  let response
+  try {
+    response = JSON.parse(event.data)
+  } catch (e) {
+    console.error('[SpeechlyClient] Error parsing response from the server:', e)
+    return
+  }
+
+  if (response.type === 'started') {
+    state.isStartContextConfirmed = true
+    if (state.shouldResendLastFramesSent) {
+      if (state.lastFramesSent.length > 0) {
+        if (ws !== undefined) {
+          ws.send(state.lastFramesSent)
+        }
+        state.lastFramesSent = new Int16Array(0)
+      }
+      state.shouldResendLastFramesSent = false
+    }
+  }
+
+  self.postMessage(response)
+}
+
+function float32ToInt16(buffer) {
+  const buf = new Int16Array(buffer.length)
+
+  for (let l = 0; l < buffer.length; l++) {
+    buf[l] = buffer[l] * (buffer[l] < 0 ? 0x8000 : 0x7fff)
+  }
+
+  return buf
+}
+
+self.onmessage = function(e) {
+  switch (e.data.type) {
+    case 'INIT':
+      if (ws === undefined) {
+        url = e.data.apiUrl
+        token = e.data.authToken
+        connect(0)
+        state.targetSampleRate = e.data.targetSampleRate
+      }
+      break
+    case 'SET_SOURSE_SAMPLE_RATE':
+      state.sourceSampleRate = e.data.sourceSampleRate
+      state.resampleRatio = e.data.sourceSampleRate / state.targetSampleRate
+      if (state.resampleRatio > 1) {
+        state.filter = generateFilter(e.data.sourceSampleRate, state.targetSampleRate, 127)
+      }
+      self.postMessage({
+        type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
+      })
+
+      if (isNaN(state.resampleRatio)) {
+        throw Error('resampleRatio is NaN')
+      }
+      break
+    case 'SET_SHARED_ARRAY_BUFFERS':
+      state.controlSAB = new Int32Array(e.data.controlSAB)
+      state.dataSAB = new Float32Array(e.data.dataSAB)
+      setInterval(sendAudioFromSAB, 4)
+      break
+    case 'CLOSE':
+      if (ws !== undefined) {
+        closeWebsocket(e.data.code, e.data.message)
+      }
+      break
+    case 'START_CONTEXT':
+      if (ws === undefined) {
+        throw Error('Cant start context: websocket is undefined')
+      }
+      if (state.isContextStarted) {
+        console.log('Cant start context: it has been already started')
+        break
+      }
+
+      state.isContextStarted = true
+      state.isStartContextConfirmed = false
+
+      const appId = e.data.appId
+      if (appId !== undefined) {
+        ws.send(JSON.stringify({ event: 'start', appId }))
+      } else {
+        ws.send(JSON.stringify({ event: 'start' }))
+      }
+      break
+    case 'SWITCH_CONTEXT':
+      const newAppId = e.data.appId
+      if (ws !== undefined && state.isContextStarted && newAppId !== undefined) {
+        state.isStartContextConfirmed = false
+        const StopEventJSON = JSON.stringify({ event: 'stop' })
+        ws.send(StopEventJSON)
+        state.shouldResendLastFramesSent = true
+        ws.send(JSON.stringify({ event: 'start', appId: newAppId }))
+      }
+      break
+    case 'STOP_CONTEXT':
+      if (ws !== undefined && state.isContextStarted) {
+        state.isContextStarted = false
+        state.isStartContextConfirmed = false
+        const StopEventJSON = JSON.stringify({ event: 'stop' })
+        ws.send(StopEventJSON)
+      }
+      break
+    case 'AUDIO':
+      if (ws !== undefined && state.isContextStarted) {
+        if (e.data.payload.length > 0) {
+          if (state.resampleRatio > 1) {
+            // Downsampling
+            ws.send(downsample(e.data.payload))
+          } else {
+            ws.send(float32ToInt16(e.data.payload))
+          }
+        }
+      }
+      break
+    default:
+      console.log('WORKER', e)
+  }
+}
+
+let lastTime = Date.now()
+
+function sendAudioFromSAB() {
+  if (state.isStartContextConfirmed && CONTROL.FRAMES_AVAILABLE > 0) {
+    const data = state.dataSAB.subarray(0, state.controlSAB[CONTROL.FRAMES_AVAILABLE])
+    state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+    state.controlSAB[CONTROL.WRITE_INDEX] = 0
+    if (data.length > 0) {
+      let frames
+      if (state.resampleRatio > 1) {
+        frames = downsample(data)
+      } else {
+        frames = float32ToInt16(data)
+      }
+      ws.send(frames)
+
+      // 16000 per second, 1000 in 100 ms
+      // save last 250 ms
+      if (state.lastFramesSent.length > 1024 * 4) {
+        state.lastFramesSent = frames
+      } else {
+        let concat = new Int16Array(state.lastFramesSent.length + frames.length)
+        concat.set(state.lastFramesSent)
+        concat.set(frames, state.lastFramesSent.length)
+        state.lastFramesSent = concat
+      }
+    }
+  } else {
+    if (!state.isContextStarted) {
+      state.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+      state.controlSAB[CONTROL.WRITE_INDEX] = 0
+    }
+  }
+}
+
+function downsample(input) {
+  const inputBuffer = new Float32Array(state.buffer.length + input.length)
+  inputBuffer.set(state.buffer, 0)
+  inputBuffer.set(input, state.buffer.length)
+
+  const outputLength = Math.ceil((inputBuffer.length - state.filter.length) / state.resampleRatio)
+  const outputBuffer = new Int16Array(outputLength)
+
+  for (let i = 0; i < outputLength; i++) {
+    const offset = Math.round(state.resampleRatio * i)
+    let val = 0.0
+
+    for (let j = 0; j < state.filter.length; j++) {
+      val += inputBuffer[offset + j] * state.filter[j]
+    }
+
+    outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)
+  }
+
+  const remainingOffset = Math.round(state.resampleRatio * outputLength)
+  if (remainingOffset < inputBuffer.length) {
+    state.buffer = inputBuffer.subarray(remainingOffset)
+  } else {
+    state.buffer = emptyBuffer
+  }
+
+  return outputBuffer
+}
+
+function generateFilter(sourceSampleRate, targetSampleRate, length) {
+  if (length % 2 === 0) {
+    throw Error('Filter length must be odd')
+  }
+
+  const cutoff = targetSampleRate / 2
+  const filter = new Float32Array(length)
+  let sum = 0
+
+  for (let i = 0; i < length; i++) {
+    const x = sinc(((2 * cutoff) / sourceSampleRate) * (i - (length - 1) / 2))
+
+    sum += x
+    filter[i] = x
+  }
+
+  for (let i = 0; i < length; i++) {
+    filter[i] = filter[i] / sum
+  }
+
+  return filter
+}
+
+function sinc(x) {
+  if (x === 0.0) {
+    return 1.0
+  }
+
+  const piX = Math.PI * x
+  return Math.sin(piX) / piX
+}
+
+`;
+
+
+    var worker = /*#__PURE__*/Object.defineProperty({
+    	default: _default
+    }, '__esModule', {value: true});
+
+    var __awaiter$1 = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var __importDefault$1 = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+        return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+
+
+    const worker_1 = __importDefault$1(worker);
+    class WebWorkerController {
+        constructor() {
+            this.startCbs = [];
+            this.stopCbs = [];
+            this.onResponseCb = () => { };
+            this.onCloseCb = () => { };
+            this.onWebsocketMessage = (event) => {
+                const response = event.data;
+                switch (response.type) {
+                    case types$1.WebsocketResponseType.Opened:
+                        break;
+                    case types$1.WebsocketResponseType.SourceSampleRateSetSuccess:
+                        if (this.resolveInitialization != null) {
+                            this.resolveInitialization();
+                        }
+                        break;
+                    case types$1.WebsocketResponseType.Started:
+                        this.startCbs.forEach(cb => {
+                            try {
+                                cb(undefined, response.audio_context);
+                            }
+                            catch (e) {
+                                console.error('[SpeechlyClient] Error while invoking "onStart" callback:', e);
+                            }
+                        });
+                        this.startCbs.length = 0;
+                        break;
+                    case types$1.WebsocketResponseType.Stopped:
+                        this.stopCbs.forEach(cb => {
+                            try {
+                                cb(undefined, response.audio_context);
+                            }
+                            catch (e) {
+                                console.error('[SpeechlyClient] Error while invoking "onStop" callback:', e);
+                            }
+                        });
+                        this.stopCbs.length = 0;
+                        break;
+                    default:
+                        this.onResponseCb(response);
+                }
+            };
+            const blob = new Blob([worker_1.default], { type: 'text/javascript' });
+            const blobURL = window.URL.createObjectURL(blob);
+            this.worker = new Worker(blobURL);
+            this.worker.addEventListener('message', this.onWebsocketMessage);
+        }
+        onResponse(cb) {
+            this.onResponseCb = cb;
+        }
+        onClose(cb) {
+            this.onCloseCb = cb;
+        }
+        initialize(sourceSampleRate) {
+            return __awaiter$1(this, void 0, void 0, function* () {
+                this.worker.postMessage({
+                    type: 'SET_SOURSE_SAMPLE_RATE',
+                    sourceSampleRate,
+                });
+                return new Promise(resolve => {
+                    this.resolveInitialization = resolve;
+                });
+            });
+        }
+        close() {
+            return __awaiter$1(this, void 0, void 0, function* () {
+                return new Promise((resolve, reject) => {
+                    this.worker.postMessage({
+                        type: 'CLOSE',
+                        code: 1000,
+                        message: 'Client has ended the session',
+                    });
+                    resolve();
+                });
+            });
+        }
+        startContext(appId) {
+            return __awaiter$1(this, void 0, void 0, function* () {
+                return new Promise((resolve, reject) => {
+                    this.startCbs.push((err, id) => {
+                        if (err !== undefined) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(id);
+                        }
+                    });
+                    if (appId != null) {
+                        this.worker.postMessage({ type: 'START_CONTEXT', appId });
+                    }
+                    else {
+                        this.worker.postMessage({ type: 'START_CONTEXT' });
+                    }
+                });
+            });
+        }
+        stopContext() {
+            return __awaiter$1(this, void 0, void 0, function* () {
+                return new Promise((resolve, reject) => {
+                    this.stopCbs.push((err, id) => {
+                        if (err !== undefined) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(id);
+                        }
+                    });
+                    this.worker.postMessage({ type: 'STOP_CONTEXT' });
+                });
+            });
+        }
+        switchContext(appId) {
+            return __awaiter$1(this, void 0, void 0, function* () {
+                return new Promise((resolve, reject) => {
+                    this.startCbs.push((err, id) => {
+                        if (err !== undefined) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(id);
+                        }
+                    });
+                    this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId });
+                });
+            });
+        }
+        postMessage(message) {
+            this.worker.postMessage(message);
+        }
+        sendAudio(audioChunk) {
+            this.worker.postMessage({ type: 'AUDIO', payload: audioChunk });
+        }
+    }
+    var WebWorkerController_1 = WebWorkerController;
+
+
+    var webWorkerController = /*#__PURE__*/Object.defineProperty({
+    	WebWorkerController: WebWorkerController_1
+    }, '__esModule', {value: true});
+
+    var websocket = createCommonjsModule(function (module, exports) {
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(webWorkerController);
+    __export(types$1);
+    //# sourceMappingURL=index.js.map
+    });
+
+    class LocalStorage {
+        constructor() {
+            this.storage = window.localStorage;
+        }
+        get(key) {
+            const val = this.storage.getItem(key);
+            return val;
+        }
+        set(key, val) {
+            this.storage.setItem(key, val);
+        }
+        getOrSet(key, genFn) {
+            let val = this.storage.getItem(key);
+            if (val === null) {
+                val = genFn();
+                this.storage.setItem(key, val);
+            }
+            return val;
+        }
+    }
+    var LocalStorage_1 = LocalStorage;
+
+
+    var storage$1 = /*#__PURE__*/Object.defineProperty({
+    	LocalStorage: LocalStorage_1
+    }, '__esModule', {value: true});
+
+    /**
+     * Error to be thrown if storage API is not supported by the device.
+     * @public
+     */
+    var ErrNoStorageSupport = new Error('Current device does not support storage API');
+    /**
+     * Error to be thrown if requested key was not found in the storage.
+     * @public
+     */
+    var ErrKeyNotFound = new Error('Requested key was not present in storage');
+
+
+    var types = /*#__PURE__*/Object.defineProperty({
+    	ErrNoStorageSupport: ErrNoStorageSupport,
+    	ErrKeyNotFound: ErrKeyNotFound
+    }, '__esModule', {value: true});
+
+    var storage = createCommonjsModule(function (module, exports) {
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(storage$1);
+    __export(types);
+    //# sourceMappingURL=index.js.map
+    });
+
+    class SegmentState {
+        constructor(ctxId, sId) {
+            this.isFinalized = false;
+            this.words = [];
+            this.entities = new Map();
+            this.intent = { intent: '', isFinal: false };
+            this.contextId = ctxId;
+            this.id = sId;
+        }
+        toSegment() {
+            let i = 0;
+            const entities = new Array(this.entities.size);
+            this.entities.forEach(v => {
+                entities[i] = v;
+                i++;
+            });
+            return {
+                id: this.id,
+                contextId: this.contextId,
+                isFinal: this.isFinalized,
+                words: this.words,
+                entities: entities,
+                intent: this.intent,
+            };
+        }
+        toString() {
+            const segment = this.toSegment();
+            const words = segment.words.filter((w) => w.value).map((w) => ({ value: w.value, index: w.index }));
+            const cleanSegment = Object.assign(Object.assign({}, segment), { words });
+            return JSON.stringify(cleanSegment, null, 2);
+        }
+        updateTranscript(words) {
+            words.forEach(w => {
+                // Only accept tentative words if the segment is tentative.
+                if (!this.isFinalized || w.isFinal) {
+                    this.words[w.index] = w;
+                }
+            });
+            return this;
+        }
+        updateEntities(entities) {
+            entities.forEach(e => {
+                // Only accept tentative entities if the segment is tentative.
+                if (!this.isFinalized || e.isFinal) {
+                    this.entities.set(entityMapKey(e), e);
+                }
+            });
+            return this;
+        }
+        updateIntent(intent) {
+            // Only accept tentative intent if the segment is tentative.
+            if (!this.isFinalized || intent.isFinal) {
+                this.intent = intent;
+            }
+            return this;
+        }
+        finalize() {
+            // Filter away any entities which were not finalized.
+            this.entities.forEach((val, key) => {
+                if (!val.isFinal) {
+                    this.entities.delete(key);
+                }
+            });
+            // Filter away any transcripts which were not finalized.
+            this.words = this.words.filter(w => w.isFinal);
+            if (!this.intent.isFinal) {
+                this.intent.intent = '';
+                this.intent.isFinal = true;
+            }
+            // Mark as final.
+            this.isFinalized = true;
+            return this;
+        }
+    }
+    var SegmentState_1 = SegmentState;
+    function entityMapKey(e) {
+        return `${e.startPosition.toString()}:${e.endPosition.toString()}`;
+    }
+
+
+    var segment = /*#__PURE__*/Object.defineProperty({
+    	SegmentState: SegmentState_1
+    }, '__esModule', {value: true});
+
+    function parseTentativeTranscript(data) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return data.words.map(({ word, index, start_timestamp, end_timestamp }) => {
+            return {
+                value: word,
+                index: index,
+                startTimestamp: start_timestamp,
+                endTimestamp: end_timestamp,
+                isFinal: false,
+            };
+        });
+    }
+    var parseTentativeTranscript_1 = parseTentativeTranscript;
+    function parseTranscript(data) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return {
+            value: data.word,
+            index: data.index,
+            startTimestamp: data.start_timestamp,
+            endTimestamp: data.end_timestamp,
+            isFinal: true,
+        };
+    }
+    var parseTranscript_1 = parseTranscript;
+    function parseTentativeEntities(data) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return data.entities.map(({ entity, value, start_position, end_position }) => {
+            return {
+                type: entity,
+                value: value,
+                startPosition: start_position,
+                endPosition: end_position,
+                isFinal: false,
+            };
+        });
+    }
+    var parseTentativeEntities_1 = parseTentativeEntities;
+    function parseEntity(data) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return {
+            type: data.entity,
+            value: data.value,
+            startPosition: data.start_position,
+            endPosition: data.end_position,
+            isFinal: true,
+        };
+    }
+    var parseEntity_1 = parseEntity;
+    function parseIntent(data, isFinal) {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return {
+            intent: data.intent,
+            isFinal: isFinal,
+        };
+    }
+    var parseIntent_1 = parseIntent;
+
+
+    var parsers = /*#__PURE__*/Object.defineProperty({
+    	parseTentativeTranscript: parseTentativeTranscript_1,
+    	parseTranscript: parseTranscript_1,
+    	parseTentativeEntities: parseTentativeEntities_1,
+    	parseEntity: parseEntity_1,
+    	parseIntent: parseIntent_1
+    }, '__esModule', {value: true});
+
+    function RetryOperation(timeouts, options) {
+      // Compatibility for the old (timeouts, retryForever) signature
+      if (typeof options === 'boolean') {
+        options = { forever: options };
+      }
+
+      this._originalTimeouts = JSON.parse(JSON.stringify(timeouts));
+      this._timeouts = timeouts;
+      this._options = options || {};
+      this._maxRetryTime = options && options.maxRetryTime || Infinity;
+      this._fn = null;
+      this._errors = [];
+      this._attempts = 1;
+      this._operationTimeout = null;
+      this._operationTimeoutCb = null;
+      this._timeout = null;
+      this._operationStart = null;
+
+      if (this._options.forever) {
+        this._cachedTimeouts = this._timeouts.slice(0);
+      }
+    }
+    var retry_operation = RetryOperation;
+
+    RetryOperation.prototype.reset = function() {
+      this._attempts = 1;
+      this._timeouts = this._originalTimeouts;
+    };
+
+    RetryOperation.prototype.stop = function() {
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+      }
+
+      this._timeouts       = [];
+      this._cachedTimeouts = null;
+    };
+
+    RetryOperation.prototype.retry = function(err) {
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+      }
+
+      if (!err) {
+        return false;
+      }
+      var currentTime = new Date().getTime();
+      if (err && currentTime - this._operationStart >= this._maxRetryTime) {
+        this._errors.unshift(new Error('RetryOperation timeout occurred'));
+        return false;
+      }
+
+      this._errors.push(err);
+
+      var timeout = this._timeouts.shift();
+      if (timeout === undefined) {
+        if (this._cachedTimeouts) {
+          // retry forever, only keep last error
+          this._errors.splice(this._errors.length - 1, this._errors.length);
+          this._timeouts = this._cachedTimeouts.slice(0);
+          timeout = this._timeouts.shift();
+        } else {
+          return false;
+        }
+      }
+
+      var self = this;
+      var timer = setTimeout(function() {
+        self._attempts++;
+
+        if (self._operationTimeoutCb) {
+          self._timeout = setTimeout(function() {
+            self._operationTimeoutCb(self._attempts);
+          }, self._operationTimeout);
+
+          if (self._options.unref) {
+              self._timeout.unref();
+          }
+        }
+
+        self._fn(self._attempts);
+      }, timeout);
+
+      if (this._options.unref) {
+          timer.unref();
+      }
+
+      return true;
+    };
+
+    RetryOperation.prototype.attempt = function(fn, timeoutOps) {
+      this._fn = fn;
+
+      if (timeoutOps) {
+        if (timeoutOps.timeout) {
+          this._operationTimeout = timeoutOps.timeout;
+        }
+        if (timeoutOps.cb) {
+          this._operationTimeoutCb = timeoutOps.cb;
+        }
+      }
+
+      var self = this;
+      if (this._operationTimeoutCb) {
+        this._timeout = setTimeout(function() {
+          self._operationTimeoutCb();
+        }, self._operationTimeout);
+      }
+
+      this._operationStart = new Date().getTime();
+
+      this._fn(this._attempts);
+    };
+
+    RetryOperation.prototype.try = function(fn) {
+      console.log('Using RetryOperation.try() is deprecated');
+      this.attempt(fn);
+    };
+
+    RetryOperation.prototype.start = function(fn) {
+      console.log('Using RetryOperation.start() is deprecated');
+      this.attempt(fn);
+    };
+
+    RetryOperation.prototype.start = RetryOperation.prototype.try;
+
+    RetryOperation.prototype.errors = function() {
+      return this._errors;
+    };
+
+    RetryOperation.prototype.attempts = function() {
+      return this._attempts;
+    };
+
+    RetryOperation.prototype.mainError = function() {
+      if (this._errors.length === 0) {
+        return null;
+      }
+
+      var counts = {};
+      var mainError = null;
+      var mainErrorCount = 0;
+
+      for (var i = 0; i < this._errors.length; i++) {
+        var error = this._errors[i];
+        var message = error.message;
+        var count = (counts[message] || 0) + 1;
+
+        counts[message] = count;
+
+        if (count >= mainErrorCount) {
+          mainError = error;
+          mainErrorCount = count;
+        }
+      }
+
+      return mainError;
+    };
+
+    var retry$2 = createCommonjsModule(function (module, exports) {
+    exports.operation = function(options) {
+      var timeouts = exports.timeouts(options);
+      return new retry_operation(timeouts, {
+          forever: options && options.forever,
+          unref: options && options.unref,
+          maxRetryTime: options && options.maxRetryTime
+      });
+    };
+
+    exports.timeouts = function(options) {
+      if (options instanceof Array) {
+        return [].concat(options);
+      }
+
+      var opts = {
+        retries: 10,
+        factor: 2,
+        minTimeout: 1 * 1000,
+        maxTimeout: Infinity,
+        randomize: false
+      };
+      for (var key in options) {
+        opts[key] = options[key];
+      }
+
+      if (opts.minTimeout > opts.maxTimeout) {
+        throw new Error('minTimeout is greater than maxTimeout');
+      }
+
+      var timeouts = [];
+      for (var i = 0; i < opts.retries; i++) {
+        timeouts.push(this.createTimeout(i, opts));
+      }
+
+      if (options && options.forever && !timeouts.length) {
+        timeouts.push(this.createTimeout(i, opts));
+      }
+
+      // sort the array numerically ascending
+      timeouts.sort(function(a,b) {
+        return a - b;
+      });
+
+      return timeouts;
+    };
+
+    exports.createTimeout = function(attempt, opts) {
+      var random = (opts.randomize)
+        ? (Math.random() + 1)
+        : 1;
+
+      var timeout = Math.round(random * opts.minTimeout * Math.pow(opts.factor, attempt));
+      timeout = Math.min(timeout, opts.maxTimeout);
+
+      return timeout;
+    };
+
+    exports.wrap = function(obj, options, methods) {
+      if (options instanceof Array) {
+        methods = options;
+        options = null;
+      }
+
+      if (!methods) {
+        methods = [];
+        for (var key in obj) {
+          if (typeof obj[key] === 'function') {
+            methods.push(key);
+          }
+        }
+      }
+
+      for (var i = 0; i < methods.length; i++) {
+        var method   = methods[i];
+        var original = obj[method];
+
+        obj[method] = function retryWrapper(original) {
+          var op       = exports.operation(options);
+          var args     = Array.prototype.slice.call(arguments, 1);
+          var callback = args.pop();
+
+          args.push(function(err) {
+            if (op.retry(err)) {
+              return;
+            }
+            if (err) {
+              arguments[0] = op.mainError();
+            }
+            callback.apply(this, arguments);
+          });
+
+          op.attempt(function() {
+            original.apply(obj, args);
+          });
+        }.bind(obj, original);
+        obj[method].options = options;
+      }
+    };
+    });
+
+    var retry$1 = retry$2;
+
+    // Packages
+
+
+    function retry(fn, opts) {
+      function run(resolve, reject) {
+        var options = opts || {};
+
+        // Default `randomize` to true
+        if (!('randomize' in options)) {
+          options.randomize = true;
+        }
+
+        var op = retry$1.operation(options);
+
+        // We allow the user to abort retrying
+        // this makes sense in the cases where
+        // knowledge is obtained that retrying
+        // would be futile (e.g.: auth errors)
+
+        function bail(err) {
+          reject(err || new Error('Aborted'));
+        }
+
+        function onError(err, num) {
+          if (err.bail) {
+            bail(err);
+            return;
+          }
+
+          if (!op.retry(err)) {
+            reject(op.mainError());
+          } else if (options.onRetry) {
+            options.onRetry(err, num);
+          }
+        }
+
+        function runAttempt(num) {
+          var val;
+
+          try {
+            val = fn(bail, num);
+          } catch (err) {
+            onError(err, num);
+            return;
+          }
+
+          Promise.resolve(val)
+            .then(resolve)
+            .catch(function catchIt(err) {
+              onError(err, num);
+            });
+        }
+
+        op.attempt(runAttempt);
+      }
+
+      return new Promise(run);
+    }
+
+    var lib = retry;
+
+    var require$$0 = /*@__PURE__*/getAugmentedNamespace(src);
+
+    var uuid_1 = /*@__PURE__*/getAugmentedNamespace(esmBrowser);
+
+    var __awaiter = (commonjsGlobal && commonjsGlobal.__awaiter) || function (thisArg, _arguments, P, generator) {
+        function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+        return new (P || (P = Promise))(function (resolve, reject) {
+            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+            function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+            step((generator = generator.apply(thisArg, _arguments || [])).next());
+        });
+    };
+    var __importDefault = (commonjsGlobal && commonjsGlobal.__importDefault) || function (mod) {
+        return (mod && mod.__esModule) ? mod : { "default": mod };
+    };
+
+    const locale_code_1 = __importDefault(require$$0);
+
+
+
+
+
+
+
+
+
+    const async_retry_1 = __importDefault(lib);
+    const deviceIdStorageKey = 'speechly-device-id';
+    const authTokenKey = 'speechly-auth-token';
+    const defaultApiUrl = 'wss://api.speechly.com/ws/v1';
+    const defaultLoginUrl = 'https://api.speechly.com/login';
+    const defaultLanguage = 'en-US';
+    /**
+     * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
+     * and websocket connection to Speechly API, passing control events and audio stream to the API, reading the responses
+     * and dispatching them, as well as providing a high-level API for interacting with so-called speech segments.
+     * @public
+     */
+    class Client {
+        constructor(options) {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+            this.activeContexts = new Map();
+            this.reconnectAttemptCount = 5;
+            this.reconnectMinDelay = 1000;
+            this.contextStopDelay = 250;
+            this.state = types$3.ClientState.Disconnected;
+            this.stateChangeCb = () => { };
+            this.segmentChangeCb = () => { };
+            this.tentativeTranscriptCb = () => { };
+            this.tentativeEntitiesCb = () => { };
+            this.tentativeIntentCb = () => { };
+            this.transcriptCb = () => { };
+            this.entityCb = () => { };
+            this.intentCb = () => { };
+            this.handleWebsocketResponse = (response) => {
+                var _a;
+                if (this.debug) {
+                    console.log('[SpeechlyClient]', 'Received response', response);
+                }
+                // eslint-disable-next-line @typescript-eslint/camelcase
+                const { audio_context, segment_id, type } = response;
+                let { data } = response;
+                const context = this.activeContexts.get(audio_context);
+                if (context === undefined) {
+                    console.warn('[SpeechlyClient]', 'Received response for non-existent context', audio_context);
+                    return;
+                }
+                let segmentState = (_a = context.get(segment_id)) !== null && _a !== void 0 ? _a : new segment.SegmentState(audio_context, segment_id);
+                switch (type) {
+                    case websocket.WebsocketResponseType.TentativeTranscript:
+                        data = data;
+                        const words = parsers.parseTentativeTranscript(data);
+                        this.tentativeTranscriptCb(audio_context, segment_id, words, data.transcript);
+                        segmentState = segmentState.updateTranscript(words);
+                        break;
+                    case websocket.WebsocketResponseType.Transcript:
+                        data = data;
+                        const word = parsers.parseTranscript(data);
+                        this.transcriptCb(audio_context, segment_id, word);
+                        segmentState = segmentState.updateTranscript([word]);
+                        break;
+                    case websocket.WebsocketResponseType.TentativeEntities:
+                        data = data;
+                        const entities = parsers.parseTentativeEntities(data);
+                        this.tentativeEntitiesCb(audio_context, segment_id, entities);
+                        segmentState = segmentState.updateEntities(entities);
+                        break;
+                    case websocket.WebsocketResponseType.Entity:
+                        data = data;
+                        const entity = parsers.parseEntity(data);
+                        this.entityCb(audio_context, segment_id, entity);
+                        segmentState = segmentState.updateEntities([entity]);
+                        break;
+                    case websocket.WebsocketResponseType.TentativeIntent:
+                        data = data;
+                        const tentativeIntent = parsers.parseIntent(data, false);
+                        this.tentativeIntentCb(audio_context, segment_id, tentativeIntent);
+                        segmentState = segmentState.updateIntent(tentativeIntent);
+                        break;
+                    case websocket.WebsocketResponseType.Intent:
+                        data = data;
+                        const intent = parsers.parseIntent(data, true);
+                        this.intentCb(audio_context, segment_id, intent);
+                        segmentState = segmentState.updateIntent(intent);
+                        break;
+                    case websocket.WebsocketResponseType.SegmentEnd:
+                        segmentState = segmentState.finalize();
+                        break;
+                    // TODO: handle unexpected response types.
+                }
+                // Update the segment in current context.
+                context.set(segment_id, segmentState);
+                // Update current contexts.
+                this.activeContexts.set(audio_context, context);
+                // Log segment to console
+                if (this.logSegments) {
+                    console.info(segmentState.toString());
+                }
+                // Fire segment change event.
+                this.segmentChangeCb(segmentState.toSegment());
+            };
+            this.handleWebsocketClosure = (err) => {
+                if (this.debug) {
+                    console.error('[SpeechlyClient]', 'Server connection closed', err);
+                }
+                // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
+                if (this.deviceId === undefined) {
+                    this.setState(types$3.ClientState.Failed);
+                    return;
+                }
+                // Make sure we don't have concurrent reconnection procedures or attempt to reconnect from a failed state.
+                if (this.state === types$3.ClientState.Connecting || this.state === types$3.ClientState.Failed) {
+                    return;
+                }
+                this.setState(types$3.ClientState.Connecting);
+                this.reconnectWebsocket(this.deviceId)
+                    .then(() => this.setState(types$3.ClientState.Connected))
+                    .catch(() => this.setState(types$3.ClientState.Failed));
+            };
+            this.sampleRate = (_a = options.sampleRate) !== null && _a !== void 0 ? _a : microphone.DefaultSampleRate;
+            try {
+                const constraints = window.navigator.mediaDevices.getSupportedConstraints();
+                this.nativeResamplingSupported = constraints.sampleRate === true;
+            }
+            catch (_o) {
+                this.nativeResamplingSupported = false;
+            }
+            const language = (_b = options.language) !== null && _b !== void 0 ? _b : defaultLanguage;
+            if (!locale_code_1.default.validate(language)) {
+                throw Error(`[SpeechlyClient] Invalid language "${language}"`);
+            }
+            this.debug = (_c = options.debug) !== null && _c !== void 0 ? _c : false;
+            this.logSegments = (_d = options.logSegments) !== null && _d !== void 0 ? _d : false;
+            this.loginUrl = (_e = options.loginUrl) !== null && _e !== void 0 ? _e : defaultLoginUrl;
+            this.appId = (_f = options.appId) !== null && _f !== void 0 ? _f : undefined;
+            this.projectId = (_g = options.projectId) !== null && _g !== void 0 ? _g : undefined;
+            const apiUrl = generateWsUrl((_h = options.apiUrl) !== null && _h !== void 0 ? _h : defaultApiUrl, language, (_j = options.sampleRate) !== null && _j !== void 0 ? _j : microphone.DefaultSampleRate);
+            this.apiClient = (_k = options.apiClient) !== null && _k !== void 0 ? _k : new websocket.WebWorkerController();
+            this.storage = (_l = options.storage) !== null && _l !== void 0 ? _l : new storage.LocalStorage();
+            this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuid_1.v4);
+            const storedToken = this.storage.get(authTokenKey);
+            // 2. Fetch auth token. It doesn't matter if it's not present.
+            if (storedToken == null || !token.validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+                token.fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+                    .then(token => {
+                    this.authToken = token;
+                    // Cache the auth token in local storage for future use.
+                    this.storage.set(authTokenKey, this.authToken);
+                    this.connect(apiUrl);
+                })
+                    .catch(err => {
+                    throw err;
+                });
+            }
+            else {
+                this.authToken = storedToken;
+                this.connect(apiUrl);
+            }
+            if (window.AudioContext !== undefined) {
+                this.isWebkit = false;
+            }
+            else if (window.webkitAudioContext !== undefined) {
+                this.isWebkit = true;
+            }
+            else {
+                throw microphone.ErrDeviceNotSupported;
+            }
+            this.microphone = (_m = options.microphone) !== null && _m !== void 0 ? _m : new microphone.BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient);
+            this.apiClient.onResponse(this.handleWebsocketResponse);
+            this.apiClient.onClose(this.handleWebsocketClosure);
+            window.SpeechlyClient = this;
+        }
+        /**
+         * Esteblish websocket connection
+         */
+        connect(apiUrl) {
+            this.apiClient.postMessage({
+                type: 'INIT',
+                apiUrl: apiUrl,
+                authToken: this.authToken,
+                targetSampleRate: this.sampleRate,
+            });
+        }
+        /**
+         * Initializes the client, by initializing the microphone and establishing connection to the API.
+         *
+         * This function HAS to be invoked by a user by e.g. binding it to a button press,
+         * or some other user-performed action.
+         *
+         * If this function is invoked without a user interaction,
+         * the microphone functionality will not work due to security restrictions by the browser.
+         */
+        initialize() {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (this.state !== types$3.ClientState.Disconnected) {
+                    throw Error('Cannot initialize client - client is not in Disconnected state');
+                }
+                this.setState(types$3.ClientState.Connecting);
+                try {
+                    // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
+                    // await this.storage.initialize()
+                    // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+                    // 2. Initialise the microphone stack.
+                    if (this.isWebkit) {
+                        if (window.webkitAudioContext !== undefined) {
+                            // eslint-disable-next-line new-cap
+                            this.audioContext = new window.webkitAudioContext();
+                        }
+                    }
+                    else {
+                        const opts = {};
+                        if (this.nativeResamplingSupported) {
+                            opts.sampleRate = this.sampleRate;
+                        }
+                        this.audioContext = new window.AudioContext(opts);
+                    }
+                    const opts = {
+                        video: false,
+                    };
+                    if (this.nativeResamplingSupported) {
+                        opts.audio = {
+                            sampleRate: this.sampleRate,
+                        };
+                    }
+                    else {
+                        opts.audio = true;
+                    }
+                    if (this.audioContext != null) {
+                        // Start audio context if we are dealing with a WebKit browser.
+                        //
+                        // WebKit browsers (e.g. Safari) require to resume the context first,
+                        // before obtaining user media by calling `mediaDevices.getUserMedia`.
+                        //
+                        // If done in a different order, the audio context will resume successfully,
+                        // but will emit empty audio buffers.
+                        if (this.isWebkit) {
+                            yield this.audioContext.resume();
+                        }
+                        // 3. Initialise websocket.
+                        yield this.apiClient.initialize(this.audioContext.sampleRate);
+                        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, opts);
+                        yield this.initializeMicrophonePromise;
+                    }
+                    else {
+                        throw microphone.ErrDeviceNotSupported;
+                    }
+                }
+                catch (err) {
+                    switch (err) {
+                        case microphone.ErrDeviceNotSupported:
+                            this.setState(types$3.ClientState.NoBrowserSupport);
+                            break;
+                        case microphone.ErrNoAudioConsent:
+                            this.setState(types$3.ClientState.NoAudioConsent);
+                            break;
+                        default:
+                            this.setState(types$3.ClientState.Failed);
+                    }
+                    throw err;
+                }
+                this.setState(types$3.ClientState.Connected);
+            });
+        }
+        /**
+         * Closes the client by closing the API connection and disabling the microphone.
+         */
+        close() {
+            return __awaiter(this, void 0, void 0, function* () {
+                const errs = [];
+                try {
+                    yield this.microphone.close();
+                }
+                catch (err) {
+                    errs.push(err.message);
+                }
+                try {
+                    yield this.apiClient.close();
+                }
+                catch (err) {
+                    errs.push(err.message);
+                }
+                this.activeContexts.clear();
+                this.setState(types$3.ClientState.Disconnected);
+                if (errs.length > 0) {
+                    throw Error(errs.join(','));
+                }
+            });
+        }
+        /**
+         * Stops current context and immediately starts a new SLU context
+         * by sending a start context event to the API and unmuting the microphone.
+         * @param appId - unique identifier of an app in the dashboard.
+         */
+        switchContext(appId) {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (this.state === types$3.ClientState.Recording) {
+                    this.resolveStopContext = undefined;
+                    const contextId = yield this.apiClient.switchContext(appId);
+                    this.activeContexts.set(contextId, new Map());
+                }
+            });
+        }
+        /**
+         * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
+         * @param cb - the callback which is invoked when the context start was acknowledged by the API.
+         */
+        startContext(appId) {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (this.resolveStopContext != null) {
+                    this.resolveStopContext();
+                    yield this.stoppedContextIdPromise;
+                }
+                if (this.state === types$3.ClientState.Disconnected || this.state === types$3.ClientState.Connecting) {
+                    throw Error('Cannot start context - client is not connected');
+                }
+                this.setState(types$3.ClientState.Starting);
+                const contextId = yield this._startContext(appId);
+                return contextId;
+            });
+        }
+        _startContext(appId) {
+            return __awaiter(this, void 0, void 0, function* () {
+                let contextId;
+                try {
+                    if (this.projectId != null) {
+                        contextId = yield this.apiClient.startContext(appId);
+                    }
+                    else {
+                        contextId = yield this.apiClient.startContext();
+                    }
+                }
+                catch (err) {
+                    this.setState(types$3.ClientState.Connected);
+                    throw err;
+                }
+                this.setState(types$3.ClientState.Recording);
+                this.microphone.unmute();
+                this.activeContexts.set(contextId, new Map());
+                return contextId;
+            });
+        }
+        /**
+         * Stops current SLU context by sending a stop context event to the API and muting the microphone
+         * delayed by contextStopDelay = 250 ms
+         */
+        stopContext() {
+            return __awaiter(this, void 0, void 0, function* () {
+                if (this.state !== types$3.ClientState.Recording && this.state !== types$3.ClientState.Starting) {
+                    throw Error('Cannot stop context - client is not recording');
+                }
+                this.setState(types$3.ClientState.Stopping);
+                this.stoppedContextIdPromise = new Promise(resolve => {
+                    Promise.race([
+                        new Promise(resolve => setTimeout(resolve, this.contextStopDelay)),
+                        new Promise(resolve => {
+                            this.resolveStopContext = resolve;
+                        }),
+                    ])
+                        .then(() => {
+                        this._stopContext()
+                            .then(id => {
+                            resolve(id);
+                        })
+                            .catch(err => {
+                            throw err;
+                        });
+                    })
+                        .catch(err => {
+                        throw err;
+                    });
+                });
+                const contextId = yield this.stoppedContextIdPromise;
+                this.setState(types$3.ClientState.Connected);
+                this.activeContexts.delete(contextId);
+                return contextId;
+            });
+        }
+        _stopContext() {
+            return __awaiter(this, void 0, void 0, function* () {
+                this.microphone.mute();
+                let contextId;
+                try {
+                    contextId = yield this.apiClient.stopContext();
+                }
+                catch (err) {
+                    this.setState(types$3.ClientState.Failed);
+                    throw err;
+                }
+                return contextId;
+            });
+        }
+        /**
+         * Adds a listener for client state change events.
+         * @param cb - the callback to invoke on state change events.
+         */
+        onStateChange(cb) {
+            this.stateChangeCb = cb;
+        }
+        /**
+         * Adds a listener for current segment change events.
+         * @param cb - the callback to invoke on segment change events.
+         */
+        onSegmentChange(cb) {
+            this.segmentChangeCb = cb;
+        }
+        /**
+         * Adds a listener for tentative transcript responses from the API.
+         * @param cb - the callback to invoke on a tentative transcript response.
+         */
+        onTentativeTranscript(cb) {
+            this.tentativeTranscriptCb = cb;
+        }
+        /**
+         * Adds a listener for transcript responses from the API.
+         * @param cb - the callback to invoke on a transcript response.
+         */
+        onTranscript(cb) {
+            this.transcriptCb = cb;
+        }
+        /**
+         * Adds a listener for tentative entities responses from the API.
+         * @param cb - the callback to invoke on a tentative entities response.
+         */
+        onTentativeEntities(cb) {
+            this.tentativeEntitiesCb = cb;
+        }
+        /**
+         * Adds a listener for entity responses from the API.
+         * @param cb - the callback to invoke on an entity response.
+         */
+        onEntity(cb) {
+            this.entityCb = cb;
+        }
+        /**
+         * Adds a listener for tentative intent responses from the API.
+         * @param cb - the callback to invoke on a tentative intent response.
+         */
+        onTentativeIntent(cb) {
+            this.tentativeIntentCb = cb;
+        }
+        /**
+         * Adds a listener for intent responses from the API.
+         * @param cb - the callback to invoke on an intent response.
+         */
+        onIntent(cb) {
+            this.intentCb = cb;
+        }
+        reconnectWebsocket(deviceId) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return async_retry_1.default((_, attempt) => __awaiter(this, void 0, void 0, function* () {
+                    if (this.debug) {
+                        console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt);
+                    }
+                    // await this.initializeWebsocket(deviceId)
+                }), {
+                    retries: this.reconnectAttemptCount,
+                    minTimeout: this.reconnectMinDelay,
+                });
+            });
+        }
+        setState(newState) {
+            if (this.state === newState) {
+                return;
+            }
+            if (this.debug) {
+                console.log('[SpeechlyClient]', 'State transition', state.stateToString(this.state), state.stateToString(newState));
+            }
+            this.state = newState;
+            this.stateChangeCb(newState);
+        }
+    }
+    var Client_1 = Client;
+    function generateWsUrl(baseUrl, languageCode, sampleRate) {
+        const params = new URLSearchParams();
+        params.append('languageCode', languageCode);
+        params.append('sampleRate', sampleRate.toString());
+        return `${baseUrl}?${params.toString()}`;
+    }
+
+
+    var client = /*#__PURE__*/Object.defineProperty({
+    	Client: Client_1
+    }, '__esModule', {value: true});
+
+    var speechly = createCommonjsModule(function (module, exports) {
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(types$3);
+
+    exports.stateToString = state.stateToString;
+
+    exports.Client = client.Client;
+    //# sourceMappingURL=index.js.map
+    });
+
+    var browserClient = createCommonjsModule(function (module, exports) {
+    function __export(m) {
+        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+    }
+    Object.defineProperty(exports, "__esModule", { value: true });
+    __export(speechly);
+    __export(types$2);
+    __export(types$1);
+    __export(types);
+    //# sourceMappingURL=index.js.map
+    });
+
+    /* src/components/MicFrame.svelte generated by Svelte v3.38.0 */
+
+    const file$5 = "src/components/MicFrame.svelte";
+
+    function create_fragment$5(ctx) {
+    	let svg;
+    	let defs;
+    	let linearGradient;
+    	let stop0;
+    	let stop1;
+    	let g;
+    	let path0;
+    	let path1;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			defs = svg_element("defs");
+    			linearGradient = svg_element("linearGradient");
+    			stop0 = svg_element("stop");
+    			stop1 = svg_element("stop");
+    			g = svg_element("g");
+    			path0 = svg_element("path");
+    			path1 = svg_element("path");
+    			attr_dev(stop0, "stop-color", "var(--gradient-stop1)");
+    			attr_dev(stop0, "offset", "0%");
+    			add_location(stop0, file$5, 17, 4, 383);
+    			attr_dev(stop1, "stop-color", "var(--gradient-stop2)");
+    			attr_dev(stop1, "offset", "100%");
+    			add_location(stop1, file$5, 18, 4, 443);
+    			attr_dev(linearGradient, "x1", "50%");
+    			attr_dev(linearGradient, "y1", "0%");
+    			attr_dev(linearGradient, "x2", "50%");
+    			attr_dev(linearGradient, "y2", "100%");
+    			attr_dev(linearGradient, "id", "a");
+    			add_location(linearGradient, file$5, 16, 2, 319);
+    			add_location(defs, file$5, 15, 2, 310);
+    			attr_dev(path0, "d", "M46 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z");
+    			attr_dev(path0, "fill", "#FFF");
+    			add_location(path0, file$5, 22, 2, 570);
+    			attr_dev(path1, "d", "M46 0C20.595 0 0 20.595 0 46s20.595 46 46 46 46-20.595 46-46S71.405 0 46 0zm0 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z");
+    			attr_dev(path1, "fill", "url(#a)");
+    			add_location(path1, file$5, 26, 2, 727);
+    			attr_dev(g, "fill", "none");
+    			attr_dev(g, "fillrule", "nonzero");
+    			add_location(g, file$5, 21, 2, 533);
+    			attr_dev(svg, "class", "buttonFrameEl");
+    			attr_dev(svg, "viewBox", "0 0 92 92");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			set_style(svg, "position", "absolute");
+    			set_style(svg, "width", "100%");
+    			set_style(svg, "height", "100%");
+    			set_style(svg, "pointer-events", "none");
+    			set_style(svg, "user-select", "none");
+    			set_style(svg, "transform", "rotate(var(--fx-rotation))");
+    			add_location(svg, file$5, 2, 0, 53);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, defs);
+    			append_dev(defs, linearGradient);
+    			append_dev(linearGradient, stop0);
+    			append_dev(linearGradient, stop1);
+    			append_dev(svg, g);
+    			append_dev(g, path0);
+    			append_dev(g, path1);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$5.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$5($$self, $$props) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("MicFrame", slots, []);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<MicFrame> was created with unknown prop '${key}'`);
+    	});
+
+    	return [];
+    }
+
+    class MicFrame extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$5, create_fragment$5, not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "MicFrame",
+    			options,
+    			id: create_fragment$5.name
+    		});
+    	}
+    }
+
+    var SpeechState;
+    (function (SpeechState) {
+        /**
+         * The context is in a state of unrecoverable error.
+         * It is only possible to fix this by destroying and creating it from scratch.
+         */
+        SpeechState["Failed"] = "Failed";
+        /**
+         * Current browser is not supported by Speechly - it's not possible to use speech functionality.
+         */
+        SpeechState["NoBrowserSupport"] = "NoBrowserSupport";
+        /**
+         * The user did not provide permissions to use the microphone - it is not possible to use speech functionality.
+         */
+        SpeechState["NoAudioConsent"] = "NoAudioConsent";
+        /**
+         * The context has been created but not initialised. The audio and API connection are not enabled.
+         */
+        SpeechState["Idle"] = "Idle";
+        /**
+         * The context is connecting to the API.
+         */
+        SpeechState["Connecting"] = "Connecting";
+        /**
+         * The context is ready to use.
+         */
+        SpeechState["Ready"] = "Ready";
+        /**
+         * The context is current recording audio and sending it to the API for recognition.
+         * The results are also being fetched.
+         */
+        SpeechState["Recording"] = "Recording";
+        /**
+         * The context is waiting for the API to finish sending trailing responses.
+         * No audio is being sent anymore.
+         */
+        SpeechState["Loading"] = "Loading";
+    })(SpeechState || (SpeechState = {}));
+    var Icon;
+    (function (Icon) {
+        Icon["Poweron"] = "poweron";
+        Icon["Mic"] = "mic";
+        Icon["Error"] = "error";
+        Icon["Denied"] = "denied";
+    })(Icon || (Icon = {}));
+    var Behaviour;
+    (function (Behaviour) {
+        Behaviour["Hold"] = "hold";
+        Behaviour["Click"] = "click";
+        Behaviour["Noninteractive"] = "noninteractive";
+    })(Behaviour || (Behaviour = {}));
+    var Effect;
+    (function (Effect) {
+        Effect["None"] = "none";
+        Effect["Connecting"] = "connecting";
+        Effect["Busy"] = "busy";
+    })(Effect || (Effect = {}));
+    const stateToAppearance = {
+        [types$3.ClientState.Disconnected]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None },
+        [types$3.ClientState.Disconnecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting },
+        [types$3.ClientState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting },
+        [types$3.ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None },
+        [types$3.ClientState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting },
+        [types$3.ClientState.Recording]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None },
+        [types$3.ClientState.Stopping]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy },
+        [types$3.ClientState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None },
+        [types$3.ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None },
+        [types$3.ClientState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None },
+        [SpeechState.Idle]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None },
+        [SpeechState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting },
+        [SpeechState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None },
+        [SpeechState.Recording]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None },
+        [SpeechState.Loading]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy },
+        [SpeechState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None },
+        [SpeechState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None },
+        [SpeechState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None },
+    };
+
+    /* src/components/MicIcon.svelte generated by Svelte v3.38.0 */
+    const file$4 = "src/components/MicIcon.svelte";
+
+    // (17:0) {#if icon === Icon.Mic}
+    function create_if_block_3(ctx) {
+    	let svg;
+    	let g;
+    	let path;
+    	let rect;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			g = svg_element("g");
+    			path = svg_element("path");
+    			rect = svg_element("rect");
+    			attr_dev(path, "d", "M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z");
+    			add_location(path, file$4, 23, 4, 451);
+    			attr_dev(rect, "x", "20");
+    			attr_dev(rect, "y", "1");
+    			attr_dev(rect, "width", "16");
+    			attr_dev(rect, "height", "37");
+    			attr_dev(rect, "rx", "8");
+    			add_location(rect, file$4, 26, 4, 643);
+    			attr_dev(g, "fill", "#000");
+    			attr_dev(g, "fill-rule", "evenodd");
+    			add_location(g, file$4, 22, 2, 411);
+    			attr_dev(svg, "class", "buttonIconEl");
+    			attr_dev(svg, "viewBox", "0 0 56 56");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			add_location(svg, file$4, 17, 0, 320);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, g);
+    			append_dev(g, path);
+    			append_dev(g, rect);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3.name,
+    		type: "if",
+    		source: "(17:0) {#if icon === Icon.Mic}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (32:0) {#if icon === Icon.Error}
+    function create_if_block_2(ctx) {
+    	let svg;
+    	let g;
+    	let path0;
+    	let path1;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			g = svg_element("g");
+    			path0 = svg_element("path");
+    			path1 = svg_element("path");
+    			attr_dev(path0, "d", "M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z");
+    			attr_dev(path0, "fill-rule", "nonzero");
+    			add_location(path0, file$4, 34, 4, 866);
+    			attr_dev(path1, "d", "M37 13.081V31a8 8 0 11-16 0v-1.919l16-16zM26 1a8 8 0 018 8v1.319L18 26.318V9a8 8 0 018-8zM37.969 7.932l3.74-7.35 3.018 2.625zM39.654 10.608l7.531-3.359.695 3.94z");
+    			add_location(path1, file$4, 38, 4, 1084);
+    			attr_dev(g, "fill", "#000");
+    			attr_dev(g, "fill-rule", "evenodd");
+    			add_location(g, file$4, 33, 2, 826);
+    			attr_dev(svg, "class", "buttonIconEl");
+    			attr_dev(svg, "viewBox", "0 0 56 56");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			add_location(svg, file$4, 32, 0, 742);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, g);
+    			append_dev(g, path0);
+    			append_dev(g, path1);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(32:0) {#if icon === Icon.Error}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (44:0) {#if icon === Icon.Denied}
+    function create_if_block_1$1(ctx) {
+    	let svg;
+    	let g;
+    	let path0;
+    	let path1;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			g = svg_element("g");
+    			path0 = svg_element("path");
+    			path1 = svg_element("path");
+    			attr_dev(path0, "d", "M36 14.828V30a8 8 0 01-15.961.79l15.96-15.962zM28 1a8 8 0 018 8v.172L20 25.173V9a8 8 0 018-8z");
+    			add_location(path0, file$4, 46, 4, 1431);
+    			attr_dev(path1, "d", "M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z");
+    			add_location(path1, file$4, 47, 4, 1542);
+    			attr_dev(g, "fill", "#000");
+    			attr_dev(g, "fill-rule", "nonzero");
+    			add_location(g, file$4, 45, 2, 1391);
+    			attr_dev(svg, "class", "buttonIconEl");
+    			attr_dev(svg, "viewBox", "0 0 56 56");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			add_location(svg, file$4, 44, 0, 1307);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, g);
+    			append_dev(g, path0);
+    			append_dev(g, path1);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$1.name,
+    		type: "if",
+    		source: "(44:0) {#if icon === Icon.Denied}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (53:0) {#if icon === Icon.Poweron}
+    function create_if_block$1(ctx) {
+    	let svg;
+    	let g;
+    	let path;
+    	let rect;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			g = svg_element("g");
+    			path = svg_element("path");
+    			rect = svg_element("rect");
+    			attr_dev(path, "d", "M52 28c0 13.255-10.745 24-24 24S4 41.255 4 28c0-8.921 4.867-16.705 12.091-20.842l1.984 3.474C12.055 14.08 8 20.566 8 28c0 11.046 8.954 20 20 20s20-8.954 20-20c0-7.434-4.056-13.92-10.075-17.368L39.91 7.16C47.133 11.296 52 19.079 52 28z");
+    			attr_dev(path, "fill-rule", "nonzero");
+    			add_location(path, file$4, 55, 4, 1893);
+    			attr_dev(rect, "x", "24");
+    			attr_dev(rect, "y", "1");
+    			attr_dev(rect, "width", "8");
+    			attr_dev(rect, "height", "23");
+    			attr_dev(rect, "rx", "4");
+    			add_location(rect, file$4, 59, 4, 2181);
+    			attr_dev(g, "fill", "#000");
+    			attr_dev(g, "fill-rule", "evenodd");
+    			add_location(g, file$4, 54, 2, 1853);
+    			attr_dev(svg, "class", "buttonIconEl");
+    			attr_dev(svg, "viewBox", "0 0 56 56");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			add_location(svg, file$4, 53, 0, 1769);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, g);
+    			append_dev(g, path);
+    			append_dev(g, rect);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(53:0) {#if icon === Icon.Poweron}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$4(ctx) {
+    	let div;
+    	let t0;
+    	let t1;
+    	let t2;
+    	let if_block0 = /*icon*/ ctx[0] === Icon.Mic && create_if_block_3(ctx);
+    	let if_block1 = /*icon*/ ctx[0] === Icon.Error && create_if_block_2(ctx);
+    	let if_block2 = /*icon*/ ctx[0] === Icon.Denied && create_if_block_1$1(ctx);
+    	let if_block3 = /*icon*/ ctx[0] === Icon.Poweron && create_if_block$1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			if (if_block0) if_block0.c();
+    			t0 = space();
+    			if (if_block1) if_block1.c();
+    			t1 = space();
+    			if (if_block2) if_block2.c();
+    			t2 = space();
+    			if (if_block3) if_block3.c();
+    			set_style(div, "position", "absolute");
+    			set_style(div, "width", "60%");
+    			set_style(div, "height", "60%");
+    			set_style(div, "top", "50%");
+    			set_style(div, "left", "50%");
+    			set_style(div, "transform", "translate(-50%, -50%)");
+    			set_style(div, "pointer-events", "none");
+    			set_style(div, "transition", "0.25s");
+    			set_style(div, "opacity", "var(--icon-opacity)");
+    			add_location(div, file$4, 4, 0, 90);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			if (if_block0) if_block0.m(div, null);
+    			append_dev(div, t0);
+    			if (if_block1) if_block1.m(div, null);
+    			append_dev(div, t1);
+    			if (if_block2) if_block2.m(div, null);
+    			append_dev(div, t2);
+    			if (if_block3) if_block3.m(div, null);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (/*icon*/ ctx[0] === Icon.Mic) {
+    				if (if_block0) ; else {
+    					if_block0 = create_if_block_3(ctx);
+    					if_block0.c();
+    					if_block0.m(div, t0);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (/*icon*/ ctx[0] === Icon.Error) {
+    				if (if_block1) ; else {
+    					if_block1 = create_if_block_2(ctx);
+    					if_block1.c();
+    					if_block1.m(div, t1);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+
+    			if (/*icon*/ ctx[0] === Icon.Denied) {
+    				if (if_block2) ; else {
+    					if_block2 = create_if_block_1$1(ctx);
+    					if_block2.c();
+    					if_block2.m(div, t2);
+    				}
+    			} else if (if_block2) {
+    				if_block2.d(1);
+    				if_block2 = null;
+    			}
+
+    			if (/*icon*/ ctx[0] === Icon.Poweron) {
+    				if (if_block3) ; else {
+    					if_block3 = create_if_block$1(ctx);
+    					if_block3.c();
+    					if_block3.m(div, null);
+    				}
+    			} else if (if_block3) {
+    				if_block3.d(1);
+    				if_block3 = null;
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (if_block0) if_block0.d();
+    			if (if_block1) if_block1.d();
+    			if (if_block2) if_block2.d();
+    			if (if_block3) if_block3.d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$4.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$4($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("MicIcon", slots, []);
+    	let { icon = Icon.Mic } = $$props;
+    	const writable_props = ["icon"];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<MicIcon> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ("icon" in $$props) $$invalidate(0, icon = $$props.icon);
+    	};
+
+    	$$self.$capture_state = () => ({ Icon, icon });
+
+    	$$self.$inject_state = $$props => {
+    		if ("icon" in $$props) $$invalidate(0, icon = $$props.icon);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [icon];
+    }
+
+    class MicIcon extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { icon: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "MicIcon",
+    			options,
+    			id: create_fragment$4.name
+    		});
+    	}
+
+    	get icon() {
+    		throw new Error("<MicIcon>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set icon(value) {
+    		throw new Error("<MicIcon>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src/components/MicFx.svelte generated by Svelte v3.38.0 */
+
+    const file$3 = "src/components/MicFx.svelte";
+
+    function create_fragment$3(ctx) {
+    	let svg;
+    	let defs;
+    	let linearGradient;
+    	let stop0;
+    	let stop1;
+    	let filter;
+    	let feGaussianBlur;
+    	let circle;
+
+    	const block = {
+    		c: function create() {
+    			svg = svg_element("svg");
+    			defs = svg_element("defs");
+    			linearGradient = svg_element("linearGradient");
+    			stop0 = svg_element("stop");
+    			stop1 = svg_element("stop");
+    			filter = svg_element("filter");
+    			feGaussianBlur = svg_element("feGaussianBlur");
+    			circle = svg_element("circle");
+    			attr_dev(stop0, "stop-color", "var(--gradient-stop1)");
+    			attr_dev(stop0, "offset", "0%");
+    			add_location(stop0, file$3, 16, 6, 353);
+    			attr_dev(stop1, "stop-color", "var(--gradient-stop2)");
+    			attr_dev(stop1, "offset", "100%");
+    			add_location(stop1, file$3, 17, 6, 415);
+    			attr_dev(linearGradient, "x1", "50%");
+    			attr_dev(linearGradient, "y1", "10%");
+    			attr_dev(linearGradient, "x2", "50%");
+    			attr_dev(linearGradient, "y2", "100%");
+    			attr_dev(linearGradient, "id", "a");
+    			add_location(linearGradient, file$3, 15, 4, 286);
+    			attr_dev(feGaussianBlur, "stdDeviation", "18");
+    			attr_dev(feGaussianBlur, "in", "SourceGraphic");
+    			add_location(feGaussianBlur, file$3, 27, 6, 639);
+    			attr_dev(filter, "x", "-35%");
+    			attr_dev(filter, "y", "-35%");
+    			attr_dev(filter, "width", "170%");
+    			attr_dev(filter, "height", "170%");
+    			attr_dev(filter, "filterUnits", "objectBoundingBox");
+    			attr_dev(filter, "id", "b");
+    			add_location(filter, file$3, 19, 4, 499);
+    			add_location(defs, file$3, 14, 2, 275);
+    			attr_dev(circle, "filter", "url(#b)");
+    			attr_dev(circle, "cx", "124");
+    			attr_dev(circle, "cy", "124");
+    			attr_dev(circle, "r", "79");
+    			attr_dev(circle, "fill", "url(#a)");
+    			attr_dev(circle, "fillrule", "evenodd");
+    			add_location(circle, file$3, 30, 2, 721);
+    			attr_dev(svg, "viewBox", "0 0 246 246");
+    			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
+    			set_style(svg, "top", "-75%");
+    			set_style(svg, "left", "-75%");
+    			set_style(svg, "height", "250%");
+    			set_style(svg, "width", "250%");
+    			set_style(svg, "position", "absolute");
+    			set_style(svg, "pointer-events", "none");
+    			set_style(svg, "opacity", "var(--fx-opacity)");
+    			set_style(svg, "transform", "rotate(var(--fx-rotation))");
+    			add_location(svg, file$3, 0, 0, 0);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, svg, anchor);
+    			append_dev(svg, defs);
+    			append_dev(defs, linearGradient);
+    			append_dev(linearGradient, stop0);
+    			append_dev(linearGradient, stop1);
+    			append_dev(defs, filter);
+    			append_dev(filter, feGaussianBlur);
+    			append_dev(svg, circle);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(svg);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$3.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$3($$self, $$props) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("MicFx", slots, []);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<MicFx> was created with unknown prop '${key}'`);
+    	});
+
+    	return [];
+    }
+
+    class MicFx extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "MicFx",
+    			options,
+    			id: create_fragment$3.name
+    		});
+    	}
+    }
+
+    /* src/holdable-button.svelte generated by Svelte v3.38.0 */
+
+    const { window: window_1 } = globals;
+    const file$2 = "src/holdable-button.svelte";
+
+    function create_fragment$2(ctx) {
+    	let main;
+    	let div;
+    	let micfx;
+    	let t0;
+    	let micframe;
+    	let t1;
+    	let micicon;
+    	let t2;
+    	let slot;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	micfx = new MicFx({ $$inline: true });
+    	micframe = new MicFrame({ $$inline: true });
+
+    	micicon = new MicIcon({
+    			props: {
+    				icon: /*effectiveAppearance*/ ctx[7].icon
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			div = element("div");
+    			create_component(micfx.$$.fragment);
+    			t0 = space();
+    			create_component(micframe.$$.fragment);
+    			t1 = space();
+    			create_component(micicon.$$.fragment);
+    			t2 = space();
+    			slot = element("slot");
+    			this.c = noop;
+    			attr_dev(div, "class", "ButtonComponents");
+    			set_style(div, "transform", "scale(" + /*scale*/ ctx[4][1] + ")");
+    			add_location(div, file$2, 200, 2, 6324);
+    			add_location(slot, file$2, 209, 2, 6499);
+    			set_style(main, "width", /*size*/ ctx[0]);
+    			set_style(main, "height", /*size*/ ctx[0]);
+    			set_style(main, "--gradient-stop1", /*gradientstop1*/ ctx[1]);
+    			set_style(main, "--gradient-stop2", /*gradientstop2*/ ctx[2]);
+    			set_style(main, "--fx-rotation", /*rotation*/ ctx[3][1] + "deg");
+    			set_style(main, "--fx-opacity", /*fxOpacity*/ ctx[6][1]);
+    			set_style(main, "--icon-opacity", /*iconOpacity*/ ctx[5][1]);
+    			add_location(main, file$2, 183, 0, 5906);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			append_dev(main, div);
+    			mount_component(micfx, div, null);
+    			append_dev(div, t0);
+    			mount_component(micframe, div, null);
+    			append_dev(div, t1);
+    			mount_component(micicon, div, null);
+    			append_dev(main, t2);
+    			append_dev(main, slot);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(window_1, "mouseup", /*tangentEnd*/ ctx[9], false, false, false),
+    					listen_dev(window_1, "keydown", /*keyDownCallback*/ ctx[10], false, false, false),
+    					listen_dev(window_1, "keyup", /*keyUpCallBack*/ ctx[11], false, false, false),
+    					listen_dev(main, "mousedown", /*tangentStart*/ ctx[8], false, false, false),
+    					listen_dev(main, "touchstart", /*tangentStart*/ ctx[8], false, false, false),
+    					listen_dev(main, "dragstart", /*tangentStart*/ ctx[8], false, false, false),
+    					listen_dev(main, "mouseup", /*tangentEnd*/ ctx[9], false, false, false),
+    					listen_dev(main, "touchend", /*tangentEnd*/ ctx[9], { passive: true }, false, false),
+    					listen_dev(main, "dragend", /*tangentEnd*/ ctx[9], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			const micicon_changes = {};
+    			if (dirty & /*effectiveAppearance*/ 128) micicon_changes.icon = /*effectiveAppearance*/ ctx[7].icon;
+    			micicon.$set(micicon_changes);
+
+    			if (!current || dirty & /*scale*/ 16) {
+    				set_style(div, "transform", "scale(" + /*scale*/ ctx[4][1] + ")");
+    			}
+
+    			if (!current || dirty & /*size*/ 1) {
+    				set_style(main, "width", /*size*/ ctx[0]);
+    			}
+
+    			if (!current || dirty & /*size*/ 1) {
+    				set_style(main, "height", /*size*/ ctx[0]);
+    			}
+
+    			if (!current || dirty & /*gradientstop1*/ 2) {
+    				set_style(main, "--gradient-stop1", /*gradientstop1*/ ctx[1]);
+    			}
+
+    			if (!current || dirty & /*gradientstop2*/ 4) {
+    				set_style(main, "--gradient-stop2", /*gradientstop2*/ ctx[2]);
+    			}
+
+    			if (!current || dirty & /*rotation*/ 8) {
+    				set_style(main, "--fx-rotation", /*rotation*/ ctx[3][1] + "deg");
+    			}
+
+    			if (!current || dirty & /*fxOpacity*/ 64) {
+    				set_style(main, "--fx-opacity", /*fxOpacity*/ ctx[6][1]);
+    			}
+
+    			if (!current || dirty & /*iconOpacity*/ 32) {
+    				set_style(main, "--icon-opacity", /*iconOpacity*/ ctx[5][1]);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(micfx.$$.fragment, local);
+    			transition_in(micframe.$$.fragment, local);
+    			transition_in(micicon.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(micfx.$$.fragment, local);
+    			transition_out(micframe.$$.fragment, local);
+    			transition_out(micicon.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(main);
+    			destroy_component(micfx);
+    			destroy_component(micframe);
+    			destroy_component(micicon);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$2.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let visible;
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("null", slots, []);
+    	
+    	let { icon = SpeechState.Idle } = $$props;
+    	let { capturekey = " " } = $$props;
+    	let { size = "6rem" } = $$props;
+    	let { gradientstop1 = "#15e8b5" } = $$props;
+    	let { gradientstop2 = "#4fa1f9" } = $$props;
+    	let { hide = undefined } = $$props;
+    	let tangentHeld = false;
+    	let holdStartTimestamp = 0;
+    	let rotation = [0, 0];
+    	let scale = [0, 0];
+    	let iconOpacity = [1, 1];
+    	let fxOpacity = [0, 0];
+    	let effectiveAppearance = stateToAppearance[icon];
+    	let timeout = null;
+    	let prevFrameMillis = 0;
+    	let frameMillis = 0;
+
+    	// Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
+    	const thisComponent = get_current_component();
+
+    	const dispatchUnbounded = (name, detail) => {
+    		thisComponent.dispatchEvent(new CustomEvent(name,
+    		{
+    				detail,
+    				composed: true, // propagate across the shadow DOM
+    				
+    			}));
+    	};
+
+    	onMount(() => {
+    		// Transition in button
+    		$$invalidate(4, scale = [1, 0]);
+
+    		let requestId = null;
+
+    		const tick = () => {
+    			prevFrameMillis = frameMillis;
+    			frameMillis = new Date().getTime();
+    			const tickMs = frameMillis - (prevFrameMillis || frameMillis);
+
+    			if (effectiveAppearance.effect === Effect.Connecting) {
+    				// Animate iconOpacity when starting
+    				$$invalidate(5, iconOpacity[0] = Math.cos(frameMillis / 2500 * Math.PI * 2) * 0.25 + 0.25, iconOpacity);
+    			}
+
+    			if (effectiveAppearance.effect === Effect.Busy) {
+    				// Animate iconOpacity when tarting
+    				$$invalidate(5, iconOpacity[0] = Math.cos(frameMillis / 1000 * Math.PI * 2) * 0.25 + 0.25, iconOpacity);
+    			}
+
+    			$$invalidate(4, scale = [scale[0], animateValue(scale[1], visible ? scale[0] : 0, 0.2, tickMs)]);
+    			$$invalidate(5, iconOpacity = [iconOpacity[0], animateValue(iconOpacity[1], iconOpacity[0], 0.08, tickMs)]);
+    			$$invalidate(6, fxOpacity = [fxOpacity[0], animateValue(fxOpacity[1], fxOpacity[0], 0.08, tickMs)]);
+    			$$invalidate(3, rotation = [rotation[0] + 2.5, animateValue(rotation[1], rotation[0], 0.05, tickMs)]);
+    			requestId = requestAnimationFrame(tick);
+    		};
+
+    		tick();
+    		return () => cancelAnimationFrame(requestId);
+    	});
+
+    	const tangentStart = event => {
+    		event.preventDefault();
+    		event.stopPropagation();
+
+    		if (visible && !tangentHeld) {
+    			$$invalidate(15, tangentHeld = true);
+    			holdStartTimestamp = Date.now();
+    			$$invalidate(4, scale[0] = 1.35, scale);
+    			$$invalidate(6, fxOpacity[0] = 1, fxOpacity);
+    			vibrate();
+
+    			// Connect on 1st press
+    			if (effectiveAppearance.behaviour === Behaviour.Click) {
+    				// Play a rotation whirl
+    				$$invalidate(3, rotation[0] += 720, rotation);
+
+    				// Auto-release hold after some time
+    				if (timeout === null) {
+    					timeout = window.setTimeout(
+    						() => {
+    							$$invalidate(6, fxOpacity[0] = 0, fxOpacity);
+
+    							// scale[0] = 0;
+    							// updateSkin();
+    							timeout = null;
+    						},
+    						500
+    					);
+    				}
+    			}
+
+    			// Trigger callback defined as property
+    			if (thisComponent.onholdstart) thisComponent.onholdstart();
+
+    			// Also trigger an event
+    			dispatchUnbounded("holdstart");
+    		}
+    	};
+
+    	const tangentEnd = () => {
+    		if (tangentHeld) {
+    			$$invalidate(4, scale[0] = 1, scale);
+    			$$invalidate(6, fxOpacity[0] = 0, fxOpacity);
+    			$$invalidate(15, tangentHeld = false);
+    			const eventPayload = { timeMs: Date.now() - holdStartTimestamp };
+    			vibrate();
+
+    			// Cancel any pending auto-release
+    			if (timeout !== null) {
+    				window.clearTimeout(timeout);
+    			}
+
+    			// Trigger callback defined as property
+    			if (thisComponent.onholdend) thisComponent.onholdend(eventPayload);
+
+    			// Also trigger an event
+    			dispatchUnbounded("holdend", eventPayload);
+    		}
+    	};
+
+    	const keyDownCallback = event => {
+    		if (capturekey) {
+    			if (event.key === capturekey) {
+    				var focused_element = document.hasFocus() && document.activeElement !== document.body && document.activeElement !== document.documentElement && document.activeElement || null;
+
+    				if (!focused_element) {
+    					if (!event.repeat) {
+    						tangentStart(event);
+    					} else {
+    						event.preventDefault();
+    						event.stopPropagation();
+    					}
+    				}
+    			}
+    		}
+    	};
+
+    	const keyUpCallBack = event => {
+    		if (event.key === capturekey) {
+    			tangentEnd();
+    		}
+    	};
+
+    	const animateValue = (value, target, pull, tickMs) => {
+    		const NOMINAL_FRAME_MILLIS = 1000 / 60;
+    		pull = Math.pow(pull, NOMINAL_FRAME_MILLIS / tickMs);
+    		return value * (1 - pull) + target * pull;
+    	};
+
+    	const vibrate = (durationMs = 5) => {
+    		if (navigator.vibrate !== undefined) {
+    			navigator.vibrate(durationMs);
+    		}
+    	};
+
+    	const updateSkin = newAppearance => {
+    		if (effectiveAppearance !== newAppearance) {
+    			$$invalidate(7, effectiveAppearance = newAppearance);
+
+    			switch (newAppearance.icon) {
+    				case Icon.Mic:
+    				case Icon.Denied:
+    				case Icon.Error:
+    					$$invalidate(5, iconOpacity[0] = 1, iconOpacity);
+    					break;
+    			}
+    		}
+    	};
+
+    	const writable_props = ["icon", "capturekey", "size", "gradientstop1", "gradientstop2", "hide"];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<null> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ("icon" in $$props) $$invalidate(12, icon = $$props.icon);
+    		if ("capturekey" in $$props) $$invalidate(13, capturekey = $$props.capturekey);
+    		if ("size" in $$props) $$invalidate(0, size = $$props.size);
+    		if ("gradientstop1" in $$props) $$invalidate(1, gradientstop1 = $$props.gradientstop1);
+    		if ("gradientstop2" in $$props) $$invalidate(2, gradientstop2 = $$props.gradientstop2);
+    		if ("hide" in $$props) $$invalidate(14, hide = $$props.hide);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		get_current_component,
+    		MicFrame,
+    		MicIcon,
+    		MicFx,
+    		Icon,
+    		Effect,
+    		Behaviour,
+    		SpeechState,
+    		stateToAppearance,
+    		icon,
+    		capturekey,
+    		size,
+    		gradientstop1,
+    		gradientstop2,
+    		hide,
+    		tangentHeld,
+    		holdStartTimestamp,
+    		rotation,
+    		scale,
+    		iconOpacity,
+    		fxOpacity,
+    		effectiveAppearance,
+    		timeout,
+    		prevFrameMillis,
+    		frameMillis,
+    		thisComponent,
+    		dispatchUnbounded,
+    		tangentStart,
+    		tangentEnd,
+    		keyDownCallback,
+    		keyUpCallBack,
+    		animateValue,
+    		vibrate,
+    		updateSkin,
+    		visible
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("icon" in $$props) $$invalidate(12, icon = $$props.icon);
+    		if ("capturekey" in $$props) $$invalidate(13, capturekey = $$props.capturekey);
+    		if ("size" in $$props) $$invalidate(0, size = $$props.size);
+    		if ("gradientstop1" in $$props) $$invalidate(1, gradientstop1 = $$props.gradientstop1);
+    		if ("gradientstop2" in $$props) $$invalidate(2, gradientstop2 = $$props.gradientstop2);
+    		if ("hide" in $$props) $$invalidate(14, hide = $$props.hide);
+    		if ("tangentHeld" in $$props) $$invalidate(15, tangentHeld = $$props.tangentHeld);
+    		if ("holdStartTimestamp" in $$props) holdStartTimestamp = $$props.holdStartTimestamp;
+    		if ("rotation" in $$props) $$invalidate(3, rotation = $$props.rotation);
+    		if ("scale" in $$props) $$invalidate(4, scale = $$props.scale);
+    		if ("iconOpacity" in $$props) $$invalidate(5, iconOpacity = $$props.iconOpacity);
+    		if ("fxOpacity" in $$props) $$invalidate(6, fxOpacity = $$props.fxOpacity);
+    		if ("effectiveAppearance" in $$props) $$invalidate(7, effectiveAppearance = $$props.effectiveAppearance);
+    		if ("timeout" in $$props) timeout = $$props.timeout;
+    		if ("prevFrameMillis" in $$props) prevFrameMillis = $$props.prevFrameMillis;
+    		if ("frameMillis" in $$props) frameMillis = $$props.frameMillis;
+    		if ("visible" in $$props) visible = $$props.visible;
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*hide*/ 16384) {
+    			visible = hide === undefined || hide === "false";
+    		}
+
+    		if ($$self.$$.dirty & /*tangentHeld, icon*/ 36864) {
+    			// Run this reactive statement whenever icon parameters (icon) changes
+    			{
+    				if (!tangentHeld) updateSkin(stateToAppearance[icon]);
+    			}
+    		}
+    	};
+
+    	return [
+    		size,
+    		gradientstop1,
+    		gradientstop2,
+    		rotation,
+    		scale,
+    		iconOpacity,
+    		fxOpacity,
+    		effectiveAppearance,
+    		tangentStart,
+    		tangentEnd,
+    		keyDownCallback,
+    		keyUpCallBack,
+    		icon,
+    		capturekey,
+    		hide,
+    		tangentHeld
+    	];
+    }
+
+    class Holdable_button extends SvelteElement {
+    	constructor(options) {
+    		super();
+    		this.shadowRoot.innerHTML = `<style>main{position:relative;pointer-events:auto;cursor:pointer;border-radius:50%;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none !important;-webkit-user-select:none !important}.ButtonComponents{width:100%;height:100%}</style>`;
+
+    		init(
+    			this,
+    			{
+    				target: this.shadowRoot,
+    				props: attribute_to_object(this.attributes),
+    				customElement: true
+    			},
+    			instance$2,
+    			create_fragment$2,
+    			not_equal,
+    			{
+    				icon: 12,
+    				capturekey: 13,
+    				size: 0,
+    				gradientstop1: 1,
+    				gradientstop2: 2,
+    				hide: 14
+    			}
+    		);
+
+    		if (options) {
+    			if (options.target) {
+    				insert_dev(options.target, this, options.anchor);
+    			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
+    		}
+    	}
+
+    	static get observedAttributes() {
+    		return ["icon", "capturekey", "size", "gradientstop1", "gradientstop2", "hide"];
+    	}
+
+    	get icon() {
+    		return this.$$.ctx[12];
+    	}
+
+    	set icon(icon) {
+    		this.$set({ icon });
+    		flush();
+    	}
+
+    	get capturekey() {
+    		return this.$$.ctx[13];
+    	}
+
+    	set capturekey(capturekey) {
+    		this.$set({ capturekey });
+    		flush();
+    	}
+
+    	get size() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set size(size) {
+    		this.$set({ size });
+    		flush();
+    	}
+
+    	get gradientstop1() {
+    		return this.$$.ctx[1];
+    	}
+
+    	set gradientstop1(gradientstop1) {
+    		this.$set({ gradientstop1 });
+    		flush();
+    	}
+
+    	get gradientstop2() {
+    		return this.$$.ctx[2];
+    	}
+
+    	set gradientstop2(gradientstop2) {
+    		this.$set({ gradientstop2 });
+    		flush();
+    	}
+
+    	get hide() {
+    		return this.$$.ctx[14];
+    	}
+
+    	set hide(hide) {
+    		this.$set({ hide });
+    		flush();
+    	}
+    }
+
+    if (!customElements.get("holdable-button")) {
+        customElements.define("holdable-button", Holdable_button);
+    }
+    else {
+        console.warn("Skipping re-defining customElement holdable-button");
+    }
+
+    // transfix.js from https://github.com/sveltejs/svelte/issues/4735
+    function fix(transtion) {
+        return function (node, params) {
+            if (!node.hasOwnProperty('ownerDocument')) {
+                Object.defineProperty(node, 'ownerDocument', { get: function () { return node.parentElement; } });
+                let elem = node;
+                while (elem.parentElement) {
+                    elem = elem.parentElement;
+                }
+                node.parentElement.head = elem;
+            }
+            return transtion(node, params);
+        };
+    }
+
+    /* src/components/call-out.svelte generated by Svelte v3.38.0 */
+    const file$1 = "src/components/call-out.svelte";
+
+    // (43:2) {#if showCallout}
+    function create_if_block(ctx) {
+    	let div2;
+    	let div0;
+    	let slot;
+    	let t0;
+    	let div1;
+    	let t1;
+    	let div2_intro;
+    	let div2_outro;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let if_block = /*useShadow*/ ctx[6] && create_if_block_1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div2 = element("div");
+    			div0 = element("div");
+    			slot = element("slot");
+    			t0 = space();
+    			div1 = element("div");
+    			t1 = space();
+    			if (if_block) if_block.c();
+    			add_location(slot, file$1, 50, 58, 1465);
+    			attr_dev(div0, "class", "CalloutDiv");
+    			toggle_class(div0, "useShadow", /*useShadow*/ ctx[6]);
+    			add_location(div0, file$1, 50, 6, 1413);
+    			attr_dev(div1, "class", "ArrowDiv");
+    			set_style(div1, "--ax", "50%");
+    			set_style(div1, "--ay", "100%");
+    			add_location(div1, file$1, 51, 6, 1491);
+    			attr_dev(div2, "class", "CalloutContainerDiv");
+    			add_location(div2, file$1, 43, 4, 1227);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div0, slot);
+    			append_dev(div2, t0);
+    			append_dev(div2, div1);
+    			append_dev(div2, t1);
+    			if (if_block) if_block.m(div2, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(div2, "mousedown", /*onMouseDown*/ ctx[9], false, false, false),
+    					listen_dev(div2, "touchstart", /*onMouseDown*/ ctx[9], false, false, false),
+    					listen_dev(div2, "dragstart", /*onMouseDown*/ ctx[9], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+
+    			add_render_callback(() => {
+    				if (div2_outro) div2_outro.end(1);
+    				if (!div2_intro) div2_intro = create_in_transition(div2, /*circlewipe*/ ctx[8], {});
+    				div2_intro.start();
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			if (div2_intro) div2_intro.invalidate();
+    			div2_outro = create_out_transition(div2, /*circlewipe*/ ctx[8], {});
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div2);
+    			if (if_block) if_block.d();
+    			if (detaching && div2_outro) div2_outro.end();
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(43:2) {#if showCallout}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (56:6) {#if useShadow}
+    function create_if_block_1(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "ArrowShadowDiv");
+    			add_location(div, file$1, 56, 8, 1600);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(56:6) {#if useShadow}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let main;
+    	let t;
+    	let link;
+    	let current;
+    	let if_block = /*showCallout*/ ctx[2] && create_if_block(ctx);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			if (if_block) if_block.c();
+    			t = space();
+    			link = element("link");
+    			this.c = noop;
+    			set_style(main, "--ax", /*sourceAnchors*/ ctx[3].x);
+    			set_style(main, "--ay", /*sourceAnchors*/ ctx[3].y);
+    			set_style(main, "--halign", /*destAnchors*/ ctx[4].x);
+    			set_style(main, "--valign", /*destAnchors*/ ctx[4].y);
+    			set_style(main, "--borderradius", /*borderRadius*/ ctx[7]);
+    			set_style(main, "--arrowpad", `${/*arrowSize*/ ctx[5].value}${/*arrowSize*/ ctx[5].unit}`);
+    			set_style(main, "--backgroundcolor", /*textbgcolor*/ ctx[1]);
+    			set_style(main, "--size", `${/*arrowSize*/ ctx[5].value * Math.sqrt(2)}${/*arrowSize*/ ctx[5].unit}`);
+    			set_style(main, "--fontsize", /*fontsize*/ ctx[0]);
+    			set_style(main, "--offsetx", "0rem");
+    			set_style(main, "--offsety", `${/*arrowSize*/ ctx[5].value}${/*arrowSize*/ ctx[5].unit}`);
+    			add_location(main, file$1, 29, 0, 780);
+    			attr_dev(link, "href", "https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap");
+    			attr_dev(link, "rel", "stylesheet");
+    			add_location(link, file$1, 63, 2, 1686);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			if (if_block) if_block.m(main, null);
+    			insert_dev(target, t, anchor);
+    			append_dev(document.head, link);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (/*showCallout*/ ctx[2]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+
+    					if (dirty & /*showCallout*/ 4) {
+    						transition_in(if_block, 1);
+    					}
+    				} else {
+    					if_block = create_if_block(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(main, null);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+
+    				check_outros();
+    			}
+
+    			if (!current || dirty & /*textbgcolor*/ 2) {
+    				set_style(main, "--backgroundcolor", /*textbgcolor*/ ctx[1]);
+    			}
+
+    			if (!current || dirty & /*fontsize*/ 1) {
+    				set_style(main, "--fontsize", /*fontsize*/ ctx[0]);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(main);
+    			if (if_block) if_block.d();
+    			if (detaching) detach_dev(t);
+    			detach_dev(link);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let showCallout;
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("call-out", slots, []);
+    	let { show = undefined } = $$props;
+    	let { fontsize = "1.2rem" } = $$props;
+    	let { textbgcolor = "#202020" } = $$props;
+    	let sourceAnchors = { x: "50%", y: "10%" };
+    	let destAnchors = { x: "50%", y: "100%" };
+    	let arrowSize = { value: 0.55, unit: "rem" };
+    	let useShadow = false;
+    	let borderRadius = "0rem";
+
+    	const circlewipe = fix((node, { duration = 250 }) => {
+    		return {
+    			duration,
+    			css: t => {
+    				return `
+          clip-path: circle(${t * 100}% at center);
+        `;
+    			}
+    		};
+    	});
+
+    	const onMouseDown = event => {
+    		event.preventDefault();
+    		event.stopPropagation();
+    		$$invalidate(2, showCallout = false);
+    	};
+
+    	const writable_props = ["show", "fontsize", "textbgcolor"];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<call-out> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ("show" in $$props) $$invalidate(10, show = $$props.show);
+    		if ("fontsize" in $$props) $$invalidate(0, fontsize = $$props.fontsize);
+    		if ("textbgcolor" in $$props) $$invalidate(1, textbgcolor = $$props.textbgcolor);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		fix,
+    		show,
+    		fontsize,
+    		textbgcolor,
+    		sourceAnchors,
+    		destAnchors,
+    		arrowSize,
+    		useShadow,
+    		borderRadius,
+    		circlewipe,
+    		onMouseDown,
+    		showCallout
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("show" in $$props) $$invalidate(10, show = $$props.show);
+    		if ("fontsize" in $$props) $$invalidate(0, fontsize = $$props.fontsize);
+    		if ("textbgcolor" in $$props) $$invalidate(1, textbgcolor = $$props.textbgcolor);
+    		if ("sourceAnchors" in $$props) $$invalidate(3, sourceAnchors = $$props.sourceAnchors);
+    		if ("destAnchors" in $$props) $$invalidate(4, destAnchors = $$props.destAnchors);
+    		if ("arrowSize" in $$props) $$invalidate(5, arrowSize = $$props.arrowSize);
+    		if ("useShadow" in $$props) $$invalidate(6, useShadow = $$props.useShadow);
+    		if ("borderRadius" in $$props) $$invalidate(7, borderRadius = $$props.borderRadius);
+    		if ("showCallout" in $$props) $$invalidate(2, showCallout = $$props.showCallout);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*show*/ 1024) {
+    			$$invalidate(2, showCallout = show !== undefined && show !== "false");
+    		}
+    	};
+
+    	return [
+    		fontsize,
+    		textbgcolor,
+    		showCallout,
+    		sourceAnchors,
+    		destAnchors,
+    		arrowSize,
+    		useShadow,
+    		borderRadius,
+    		circlewipe,
+    		onMouseDown,
+    		show
+    	];
+    }
+
+    class Call_out extends SvelteElement {
+    	constructor(options) {
+    		super();
+    		this.shadowRoot.innerHTML = `<style>main{margin:0;padding:0}.CalloutContainerDiv{position:absolute;left:var(--ax);top:var(--ay);transform:translate(calc(-1 * var(--halign)), calc(-1 * var(--valign)));padding:var(--arrowpad);z-index:10;pointer-events:auto}.CalloutDiv{position:relative;box-sizing:border-box;min-width:8rem;border-radius:var(--borderradius);padding:0.50rem 1rem;background-color:var(--backgroundcolor);text-align:center;user-select:none;z-index:10;color:#fff;font-family:'Saira Condensed', sans-serif;font-size:var(--fontsize);line-height:120%;text-transform:uppercase}.useShadow{box-shadow:0 0.2rem 0.5rem #00000040}.ArrowDiv{position:absolute;left:calc(var(--ax) - var(--offsetx));top:calc(var(--ay) - var(--offsety));transform:translate(-50%, -50%) rotate(45deg);width:var(--size);height:var(--size);background-color:var(--backgroundcolor);z-index:10}.ArrowShadowDiv{position:absolute;left:calc(var(--ax) - var(--offsetx));top:calc(var(--ay) - var(--offsety));transform:translate(-50%, -50%) rotate(45deg);width:var(--size);height:var(--size);background-color:var(--backgroundcolor);background-color:#00000000;box-shadow:0 0.2rem 0.5rem #00000040;z-index:9}</style>`;
+
+    		init(
+    			this,
+    			{
+    				target: this.shadowRoot,
+    				props: attribute_to_object(this.attributes),
+    				customElement: true
+    			},
+    			instance$1,
+    			create_fragment$1,
+    			not_equal,
+    			{ show: 10, fontsize: 0, textbgcolor: 1 }
+    		);
+
+    		if (options) {
+    			if (options.target) {
+    				insert_dev(options.target, this, options.anchor);
+    			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
+    		}
+    	}
+
+    	static get observedAttributes() {
+    		return ["show", "fontsize", "textbgcolor"];
+    	}
+
+    	get show() {
+    		return this.$$.ctx[10];
+    	}
+
+    	set show(show) {
+    		this.$set({ show });
+    		flush();
+    	}
+
+    	get fontsize() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set fontsize(fontsize) {
+    		this.$set({ fontsize });
+    		flush();
+    	}
+
+    	get textbgcolor() {
+    		return this.$$.ctx[1];
+    	}
+
+    	set textbgcolor(textbgcolor) {
+    		this.$set({ textbgcolor });
+    		flush();
+    	}
+    }
+
+    customElements.define("call-out", Call_out);
+
+    /* src/push-to-talk-button.svelte generated by Svelte v3.38.0 */
+
+    const { console: console_1 } = globals;
+    const file = "src/push-to-talk-button.svelte";
+
+    function create_fragment(ctx) {
+    	let holdable_button;
+    	let call_out;
+    	let t;
+    	let call_out_show_value;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			holdable_button = element("holdable-button");
+    			call_out = element("call-out");
+    			t = text(/*tipCallOutText*/ ctx[11]);
+    			this.c = noop;
+    			set_custom_element_data(call_out, "fontsize", /*fontsize*/ ctx[7]);
+
+    			set_custom_element_data(call_out, "show", call_out_show_value = /*tipCallOutText*/ ctx[11] !== "" && /*tipCalloutVisible*/ ctx[10] && !/*hide*/ ctx[4]
+    			? "true"
+    			: "false");
+
+    			set_custom_element_data(call_out, "textbgcolor", /*textbgcolor*/ ctx[8]);
+    			add_location(call_out, file, 210, 4, 7093);
+    			set_custom_element_data(holdable_button, "size", /*size*/ ctx[0]);
+    			set_custom_element_data(holdable_button, "icon", /*icon*/ ctx[9]);
+    			set_custom_element_data(holdable_button, "capturekey", /*capturekey*/ ctx[1]);
+    			set_custom_element_data(holdable_button, "gradientstop1", /*gradientstop1*/ ctx[2]);
+    			set_custom_element_data(holdable_button, "gradientstop2", /*gradientstop2*/ ctx[3]);
+    			set_custom_element_data(holdable_button, "hide", /*hide*/ ctx[4]);
+    			set_style(holdable_button, "--voffset", /*voffset*/ ctx[6]);
+    			set_style(holdable_button, "--size", /*size*/ ctx[0]);
+    			toggle_class(holdable_button, "placementBottom", /*placement*/ ctx[5] === "bottom");
+    			add_location(holdable_button, file, 197, 2, 6806);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, holdable_button, anchor);
+    			append_dev(holdable_button, call_out);
+    			append_dev(call_out, t);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(holdable_button, "holdstart", /*tangentStart*/ ctx[12], false, false, false),
+    					listen_dev(holdable_button, "holdend", /*tangentEnd*/ ctx[13], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty[0] & /*tipCallOutText*/ 2048) set_data_dev(t, /*tipCallOutText*/ ctx[11]);
+
+    			if (dirty[0] & /*fontsize*/ 128) {
+    				set_custom_element_data(call_out, "fontsize", /*fontsize*/ ctx[7]);
+    			}
+
+    			if (dirty[0] & /*tipCallOutText, tipCalloutVisible, hide*/ 3088 && call_out_show_value !== (call_out_show_value = /*tipCallOutText*/ ctx[11] !== "" && /*tipCalloutVisible*/ ctx[10] && !/*hide*/ ctx[4]
+    			? "true"
+    			: "false")) {
+    				set_custom_element_data(call_out, "show", call_out_show_value);
+    			}
+
+    			if (dirty[0] & /*textbgcolor*/ 256) {
+    				set_custom_element_data(call_out, "textbgcolor", /*textbgcolor*/ ctx[8]);
+    			}
+
+    			if (dirty[0] & /*size*/ 1) {
+    				set_custom_element_data(holdable_button, "size", /*size*/ ctx[0]);
+    			}
+
+    			if (dirty[0] & /*icon*/ 512) {
+    				set_custom_element_data(holdable_button, "icon", /*icon*/ ctx[9]);
+    			}
+
+    			if (dirty[0] & /*capturekey*/ 2) {
+    				set_custom_element_data(holdable_button, "capturekey", /*capturekey*/ ctx[1]);
+    			}
+
+    			if (dirty[0] & /*gradientstop1*/ 4) {
+    				set_custom_element_data(holdable_button, "gradientstop1", /*gradientstop1*/ ctx[2]);
+    			}
+
+    			if (dirty[0] & /*gradientstop2*/ 8) {
+    				set_custom_element_data(holdable_button, "gradientstop2", /*gradientstop2*/ ctx[3]);
+    			}
+
+    			if (dirty[0] & /*hide*/ 16) {
+    				set_custom_element_data(holdable_button, "hide", /*hide*/ ctx[4]);
+    			}
+
+    			if (dirty[0] & /*voffset*/ 64) {
+    				set_style(holdable_button, "--voffset", /*voffset*/ ctx[6]);
+    			}
+
+    			if (dirty[0] & /*size*/ 1) {
+    				set_style(holdable_button, "--size", /*size*/ ctx[0]);
+    			}
+
+    			if (dirty[0] & /*placement*/ 32) {
+    				toggle_class(holdable_button, "placementBottom", /*placement*/ ctx[5] === "bottom");
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(holdable_button);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    const SHORT_PRESS_TRESHOLD_MS = 600;
+    const INSTRUCTION_PREROLL_MS = 500;
+
+    function instance($$self, $$props, $$invalidate) {
+    	let tipCallOutText;
+    	let showPowerOn;
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("null", slots, []);
+
+    	var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+    		function adopt(value) {
+    			return value instanceof P
+    			? value
+    			: new P(function (resolve) {
+    						resolve(value);
+    					});
+    		}
+
+    		return new (P || (P = Promise))(function (resolve, reject) {
+    				function fulfilled(value) {
+    					try {
+    						step(generator.next(value));
+    					} catch(e) {
+    						reject(e);
+    					}
+    				}
+
+    				function rejected(value) {
+    					try {
+    						step(generator["throw"](value));
+    					} catch(e) {
+    						reject(e);
+    					}
+    				}
+
+    				function step(result) {
+    					result.done
+    					? resolve(result.value)
+    					: adopt(result.value).then(fulfilled, rejected);
+    				}
+
+    				step((generator = generator.apply(thisArg, _arguments || [])).next());
+    			});
+    	};
+
+    	
+    	let { appid = undefined } = $$props;
+    	let { size = "6rem" } = $$props;
+    	let { capturekey = " " } = $$props;
+    	let { gradientstop1 = "#15e8b5" } = $$props;
+    	let { gradientstop2 = "#4fa1f9" } = $$props;
+    	let { poweron = undefined } = $$props;
+    	let { hide = undefined } = $$props;
+    	let { placement = undefined } = $$props;
+    	let { voffset = "3rem" } = $$props;
+    	let { intro = "Hold to talk" } = $$props;
+    	let { hint = "Hold to talk" } = $$props;
+    	let { fontsize = "1.2rem" } = $$props;
+    	let { showtime = "5000" } = $$props;
+    	let { textbgcolor = "#202020" } = $$props;
+    	let icon = browserClient.ClientState.Disconnected;
+    	let buttonHeld = false;
+    	let success = undefined;
+    	let timeout = null;
+    	let tipCalloutVisible = false;
+    	let mounted = false;
+    	let client = null;
+    	let clientState = undefined;
+
+    	// Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
+    	const thisComponent = get_current_component();
+
+    	const dispatchUnbounded = (name, detail) => {
+    		thisComponent.dispatchEvent(new CustomEvent(name,
+    		{
+    				detail,
+    				composed: true, // propagate across the shadow DOM
+    				
+    			}));
+    	};
+
+    	onMount(() => {
+    		mounted = true;
+    	}); // Transition in button
+    	// connectSpeechly(appid);
+
+    	const connectSpeechly = appid => {
+    		if (mounted && appid && !client) {
+    			console.log("Create client with appId", appid);
+    			client = new browserClient.Client({ appId: appid });
+    			client.onStateChange(onStateChange);
+
+    			client.onSegmentChange(segment => {
+    				// Pass on segment updates from Speechly API as events
+    				dispatchUnbounded("speechsegment", segment);
+
+    				// And as window.postMessages
+    				window.postMessage({ type: "speechsegment", segment }, "*");
+    			});
+
+    			scheduleCallout();
+    		}
+    	};
+
+    	const scheduleCallout = () => {
+    		if (timeout !== null) {
+    			window.clearTimeout(timeout);
+    			timeout = null;
+    		}
+
+    		if (timeout === null) {
+    			timeout = window.setTimeout(
+    				() => {
+    					$$invalidate(10, tipCalloutVisible = true);
+    					timeout = null;
+
+    					if (showtime > 0) {
+    						timeout = window.setTimeout(
+    							() => {
+    								$$invalidate(10, tipCalloutVisible = false);
+    								timeout = null;
+    							},
+    							showtime
+    						);
+    					}
+    				},
+    				INSTRUCTION_PREROLL_MS
+    			);
+    		}
+    	};
+
+    	const initializeSpeechly = () => __awaiter(void 0, void 0, void 0, function* () {
+    		// Create a new Client. appid and language are configured in the dashboard.
+    		// Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
+    		// Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
+    		(() => __awaiter(void 0, void 0, void 0, function* () {
+    			try {
+    				console.log("Initializing...", client);
+    				dispatchUnbounded("starting");
+    				yield client.initialize();
+    				console.log("Initialized");
+    			} catch(e) {
+    				console.log("Initialization failed", e);
+    				client = null;
+    			}
+    		}))();
+    	});
+
+    	const tangentStart = event => {
+    		buttonHeld = true;
+    		$$invalidate(10, tipCalloutVisible = false);
+
+    		if (client) {
+    			// Connect on 1st press
+    			if (isConnectable(clientState)) {
+    				if (appid) {
+    					initializeSpeechly();
+    				} else {
+    					console.warn("No appid attribute specified. Speechly voice services are unavailable.");
+    				}
+    			} else if (isStartable(clientState)) {
+    				client.startContext();
+    			}
+    		}
+
+    		// Send as window.postMessages
+    		window.postMessage({ type: "holdstart" }, "*");
+    	};
+
+    	const tangentEnd = event => {
+    		const holdEventData = event.detail;
+
+    		if (success && holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+    			$$invalidate(11, tipCallOutText = hint);
+    			scheduleCallout();
+    		}
+
+    		buttonHeld = false;
+
+    		if (client) {
+    			if (isStoppable(clientState)) {
+    				client.stopContext();
+    			}
+    		}
+
+    		updateSkin();
+
+    		// Send as window.postMessages
+    		window.postMessage({ type: "holdend" }, "*");
+    	};
+
+    	const updateSkin = () => {
+    		if (clientState) $$invalidate(9, icon = clientState);
+    	};
+
+    	const isConnectable = clientState => {
+    		if (!clientState) return true;
+    		return clientState === browserClient.ClientState.Disconnected;
+    	};
+
+    	const isStartable = clientState => clientState === browserClient.ClientState.Connected;
+
+    	const isStoppable = s => {
+    		switch (s) {
+    			case browserClient.ClientState.Starting:
+    			case browserClient.ClientState.Recording:
+    			case browserClient.ClientState.Stopping:
+    				return true;
+    			default:
+    				return false;
+    		}
+    	};
+
+    	const onStateChange = s => {
+    		clientState = s;
+    		updateSkin();
+
+    		switch (s) {
+    			case browserClient.ClientState.Failed:
+    				setInitialized(false, "Failed");
+    				break;
+    			case browserClient.ClientState.NoBrowserSupport:
+    				setInitialized(false, "NoBrowserSupport");
+    				break;
+    			case browserClient.ClientState.NoAudioConsent:
+    				setInitialized(false, "NoAudioConsent");
+    				break;
+    			case browserClient.ClientState.Connected:
+    				setInitialized(true, "Ready");
+    				// Automatically start recording if button held
+    				if (!showPowerOn && buttonHeld && isStartable(clientState)) {
+    					client.startContext();
+    				}
+    				break;
+    		}
+
+    		// Broadcast state changes
+    		window.postMessage({ type: "speechstate", state: s }, "*");
+    	};
+
+    	const setInitialized = (newSuccess, status) => {
+    		if (success === undefined) {
+    			success = newSuccess;
+    			dispatchUnbounded("initialized", { success, status });
+    		}
+    	};
+
+    	const writable_props = [
+    		"appid",
+    		"size",
+    		"capturekey",
+    		"gradientstop1",
+    		"gradientstop2",
+    		"poweron",
+    		"hide",
+    		"placement",
+    		"voffset",
+    		"intro",
+    		"hint",
+    		"fontsize",
+    		"showtime",
+    		"textbgcolor"
+    	];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<null> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ("appid" in $$props) $$invalidate(14, appid = $$props.appid);
+    		if ("size" in $$props) $$invalidate(0, size = $$props.size);
+    		if ("capturekey" in $$props) $$invalidate(1, capturekey = $$props.capturekey);
+    		if ("gradientstop1" in $$props) $$invalidate(2, gradientstop1 = $$props.gradientstop1);
+    		if ("gradientstop2" in $$props) $$invalidate(3, gradientstop2 = $$props.gradientstop2);
+    		if ("poweron" in $$props) $$invalidate(15, poweron = $$props.poweron);
+    		if ("hide" in $$props) $$invalidate(4, hide = $$props.hide);
+    		if ("placement" in $$props) $$invalidate(5, placement = $$props.placement);
+    		if ("voffset" in $$props) $$invalidate(6, voffset = $$props.voffset);
+    		if ("intro" in $$props) $$invalidate(16, intro = $$props.intro);
+    		if ("hint" in $$props) $$invalidate(17, hint = $$props.hint);
+    		if ("fontsize" in $$props) $$invalidate(7, fontsize = $$props.fontsize);
+    		if ("showtime" in $$props) $$invalidate(18, showtime = $$props.showtime);
+    		if ("textbgcolor" in $$props) $$invalidate(8, textbgcolor = $$props.textbgcolor);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		__awaiter,
+    		Client: browserClient.Client,
+    		ClientState: browserClient.ClientState,
+    		Segment: browserClient.Segment,
+    		onMount,
+    		get_current_component,
+    		SHORT_PRESS_TRESHOLD_MS,
+    		INSTRUCTION_PREROLL_MS,
+    		appid,
+    		size,
+    		capturekey,
+    		gradientstop1,
+    		gradientstop2,
+    		poweron,
+    		hide,
+    		placement,
+    		voffset,
+    		intro,
+    		hint,
+    		fontsize,
+    		showtime,
+    		textbgcolor,
+    		icon,
+    		buttonHeld,
+    		success,
+    		timeout,
+    		tipCalloutVisible,
+    		mounted,
+    		client,
+    		clientState,
+    		thisComponent,
+    		dispatchUnbounded,
+    		connectSpeechly,
+    		scheduleCallout,
+    		initializeSpeechly,
+    		tangentStart,
+    		tangentEnd,
+    		updateSkin,
+    		isConnectable,
+    		isStartable,
+    		isStoppable,
+    		onStateChange,
+    		setInitialized,
+    		tipCallOutText,
+    		showPowerOn
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("__awaiter" in $$props) __awaiter = $$props.__awaiter;
+    		if ("appid" in $$props) $$invalidate(14, appid = $$props.appid);
+    		if ("size" in $$props) $$invalidate(0, size = $$props.size);
+    		if ("capturekey" in $$props) $$invalidate(1, capturekey = $$props.capturekey);
+    		if ("gradientstop1" in $$props) $$invalidate(2, gradientstop1 = $$props.gradientstop1);
+    		if ("gradientstop2" in $$props) $$invalidate(3, gradientstop2 = $$props.gradientstop2);
+    		if ("poweron" in $$props) $$invalidate(15, poweron = $$props.poweron);
+    		if ("hide" in $$props) $$invalidate(4, hide = $$props.hide);
+    		if ("placement" in $$props) $$invalidate(5, placement = $$props.placement);
+    		if ("voffset" in $$props) $$invalidate(6, voffset = $$props.voffset);
+    		if ("intro" in $$props) $$invalidate(16, intro = $$props.intro);
+    		if ("hint" in $$props) $$invalidate(17, hint = $$props.hint);
+    		if ("fontsize" in $$props) $$invalidate(7, fontsize = $$props.fontsize);
+    		if ("showtime" in $$props) $$invalidate(18, showtime = $$props.showtime);
+    		if ("textbgcolor" in $$props) $$invalidate(8, textbgcolor = $$props.textbgcolor);
+    		if ("icon" in $$props) $$invalidate(9, icon = $$props.icon);
+    		if ("buttonHeld" in $$props) buttonHeld = $$props.buttonHeld;
+    		if ("success" in $$props) success = $$props.success;
+    		if ("timeout" in $$props) timeout = $$props.timeout;
+    		if ("tipCalloutVisible" in $$props) $$invalidate(10, tipCalloutVisible = $$props.tipCalloutVisible);
+    		if ("mounted" in $$props) mounted = $$props.mounted;
+    		if ("client" in $$props) client = $$props.client;
+    		if ("clientState" in $$props) clientState = $$props.clientState;
+    		if ("tipCallOutText" in $$props) $$invalidate(11, tipCallOutText = $$props.tipCallOutText);
+    		if ("showPowerOn" in $$props) $$invalidate(19, showPowerOn = $$props.showPowerOn);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty[0] & /*intro*/ 65536) {
+    			$$invalidate(11, tipCallOutText = intro);
+    		}
+
+    		if ($$self.$$.dirty[0] & /*poweron*/ 32768) {
+    			$$invalidate(19, showPowerOn = poweron !== undefined && poweron !== "false");
+    		}
+
+    		if ($$self.$$.dirty[0] & /*showPowerOn*/ 524288) {
+    			$$invalidate(9, icon = showPowerOn
+    			? browserClient.ClientState.Disconnected
+    			: browserClient.ClientState.Connected);
+    		}
+
+    		if ($$self.$$.dirty[0] & /*appid*/ 16384) {
+    			connectSpeechly(appid);
+    		}
+    	};
+
+    	return [
+    		size,
+    		capturekey,
+    		gradientstop1,
+    		gradientstop2,
+    		hide,
+    		placement,
+    		voffset,
+    		fontsize,
+    		textbgcolor,
+    		icon,
+    		tipCalloutVisible,
+    		tipCallOutText,
+    		tangentStart,
+    		tangentEnd,
+    		appid,
+    		poweron,
+    		intro,
+    		hint,
+    		showtime,
+    		showPowerOn
+    	];
+    }
+
+    class Push_to_talk_button extends SvelteElement {
+    	constructor(options) {
+    		super();
+    		this.shadowRoot.innerHTML = `<style>.placementBottom{position:fixed;bottom:0;left:0;right:0;height:calc(var(--size) + var(--voffset));max-height:100vh;pointer-events:none;display:flex;flex-direction:row;justify-content:center;z-index:50}</style>`;
+
+    		init(
+    			this,
+    			{
+    				target: this.shadowRoot,
+    				props: attribute_to_object(this.attributes),
+    				customElement: true
+    			},
+    			instance,
+    			create_fragment,
+    			not_equal,
+    			{
+    				appid: 14,
+    				size: 0,
+    				capturekey: 1,
+    				gradientstop1: 2,
+    				gradientstop2: 3,
+    				poweron: 15,
+    				hide: 4,
+    				placement: 5,
+    				voffset: 6,
+    				intro: 16,
+    				hint: 17,
+    				fontsize: 7,
+    				showtime: 18,
+    				textbgcolor: 8
+    			},
+    			[-1, -1]
+    		);
+
+    		if (options) {
+    			if (options.target) {
+    				insert_dev(options.target, this, options.anchor);
+    			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
+    		}
+    	}
+
+    	static get observedAttributes() {
+    		return [
+    			"appid",
+    			"size",
+    			"capturekey",
+    			"gradientstop1",
+    			"gradientstop2",
+    			"poweron",
+    			"hide",
+    			"placement",
+    			"voffset",
+    			"intro",
+    			"hint",
+    			"fontsize",
+    			"showtime",
+    			"textbgcolor"
+    		];
+    	}
+
+    	get appid() {
+    		return this.$$.ctx[14];
+    	}
+
+    	set appid(appid) {
+    		this.$set({ appid });
+    		flush();
+    	}
+
+    	get size() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set size(size) {
+    		this.$set({ size });
+    		flush();
+    	}
+
+    	get capturekey() {
+    		return this.$$.ctx[1];
+    	}
+
+    	set capturekey(capturekey) {
+    		this.$set({ capturekey });
+    		flush();
+    	}
+
+    	get gradientstop1() {
+    		return this.$$.ctx[2];
+    	}
+
+    	set gradientstop1(gradientstop1) {
+    		this.$set({ gradientstop1 });
+    		flush();
+    	}
+
+    	get gradientstop2() {
+    		return this.$$.ctx[3];
+    	}
+
+    	set gradientstop2(gradientstop2) {
+    		this.$set({ gradientstop2 });
+    		flush();
+    	}
+
+    	get poweron() {
+    		return this.$$.ctx[15];
+    	}
+
+    	set poweron(poweron) {
+    		this.$set({ poweron });
+    		flush();
+    	}
+
+    	get hide() {
+    		return this.$$.ctx[4];
+    	}
+
+    	set hide(hide) {
+    		this.$set({ hide });
+    		flush();
+    	}
+
+    	get placement() {
+    		return this.$$.ctx[5];
+    	}
+
+    	set placement(placement) {
+    		this.$set({ placement });
+    		flush();
+    	}
+
+    	get voffset() {
+    		return this.$$.ctx[6];
+    	}
+
+    	set voffset(voffset) {
+    		this.$set({ voffset });
+    		flush();
+    	}
+
+    	get intro() {
+    		return this.$$.ctx[16];
+    	}
+
+    	set intro(intro) {
+    		this.$set({ intro });
+    		flush();
+    	}
+
+    	get hint() {
+    		return this.$$.ctx[17];
+    	}
+
+    	set hint(hint) {
+    		this.$set({ hint });
+    		flush();
+    	}
+
+    	get fontsize() {
+    		return this.$$.ctx[7];
+    	}
+
+    	set fontsize(fontsize) {
+    		this.$set({ fontsize });
+    		flush();
+    	}
+
+    	get showtime() {
+    		return this.$$.ctx[18];
+    	}
+
+    	set showtime(showtime) {
+    		this.$set({ showtime });
+    		flush();
+    	}
+
+    	get textbgcolor() {
+    		return this.$$.ctx[8];
+    	}
+
+    	set textbgcolor(textbgcolor) {
+    		this.$set({ textbgcolor });
+    		flush();
+    	}
+    }
+
+    if (!customElements.get("push-to-talk-button")) {
+        customElements.define("push-to-talk-button", Push_to_talk_button);
+    }
+
+}());
 //# sourceMappingURL=push-to-talk-button.js.map

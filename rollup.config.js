@@ -38,10 +38,23 @@ const webComponentDefaults = {
     file: null,
   },
   plugins: [
-    svelte({
+    svelte({  // web components
+      include: /\/[a-z][^/]+\.svelte$/,
+      emitCss: false,
       preprocess: sveltePreprocess({ sourceMap: !production }),
       compilerOptions: {
         customElement: true,
+        tag: null, 
+        // enable run-time checks when not in production
+        dev: !production,
+      }
+    }),
+    svelte({  // normal Svelte classes
+      include: /\/[A-Z][^/]+\.svelte$/,
+      emitCss: false,
+      preprocess: sveltePreprocess({ sourceMap: !production }),
+      compilerOptions: {
+        customElement: false,
         tag: null, 
         // enable run-time checks when not in production
         dev: !production,

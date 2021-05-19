@@ -1,11 +1,11 @@
-<svelte:options tag="push-to-talk-button" immutable={true} />
+<svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
   import { Client, ClientState, Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
-  import "./holdable-button.svelte";
-  import "./components/callout.svelte";
+  import "./holdable-button.ts";
+  import "./components/call-out.svelte";
   import type { IHoldEvent } from "./types";
 
   const SHORT_PRESS_TRESHOLD_MS = 600
@@ -55,7 +55,7 @@
   onMount(() => {
     mounted = true;
     // Transition in button
-    connectSpeechly(appid);
+    // connectSpeechly(appid);
   });
 
   const connectSpeechly = (appid: string) => {
@@ -75,10 +75,6 @@
       });
 
       scheduleCallout();
-    } else {
-      console.warn(
-        "No appid attribute specified. Speechly voice services are unavailable."
-      );
     }
   }
 
@@ -126,7 +122,13 @@
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
-        if (appid) initializeSpeechly();
+        if (appid) {
+          initializeSpeechly();
+        } else {
+          console.warn(
+            "No appid attribute specified. Speechly voice services are unavailable."
+          );
+        }
       } else if (isStartable(clientState)) {
         client.startContext();
       }
