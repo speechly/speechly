@@ -1,5 +1,3 @@
-<svelte:options tag="mic-frame" immutable={true} />
-
 <svg
   class="buttonFrameEl"
   viewBox="0 0 92 92"

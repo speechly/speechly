@@ -18,8 +18,11 @@
   export let voffset = "3rem";
   export let hoffset = "2rem";
   export let fontsize = "1.5rem";
+  export let color = "#ffffff";
   export let highlightcolor = "#15e8b5";
   export let textbgcolor = "#202020";
+  export let gradientstop1 = "#ffffff88";
+  export let gradientstop2 = "#ffffffcc";
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
@@ -78,33 +81,49 @@
   const handleMessage = (e) => {
     switch (e.data.type) {
       case "speechsegment":
-        onSegmentUpdate(e.data.segment);
+        speechsegment(e.data.segment);
         break;
       case "holdstart":
-        buttonheld = true;
+        holdstart();
         break;
       case "holdend":
-        buttonheld = false;
+        holdend();
         break;
       case "speechhandled":
-        if (e.data.success) {
-          acknowledged = true;
-        }
+        speechhandled(e.data.success);
         break;
       case "speechstate":
-        clientState = e.data.state;
-        if (clientState === ClientState.Recording) {
-          acknowledged = false;
-          words = [];
-          lastSegmentId = null;
-        }
+        speechstate(e.data.state);
         break;
       default:
         break;
     }
   }
 
-  const onSegmentUpdate = (segment: Segment) => {
+  export const holdstart = () => {
+    buttonheld = true;
+  }
+
+  export const holdend = () => {
+    buttonheld = false;
+  }
+
+  export const speechhandled = (success: boolean) => {
+    if (success) {
+      acknowledged = true;
+    }
+  }
+
+  export const speechstate = (state: ClientState) => {
+    clientState = state;
+    if (clientState === ClientState.Recording) {
+      acknowledged = false;
+      words = [];
+      lastSegmentId = null;
+    }
+  }
+
+  export const speechsegment = (segment: Segment) => {
     if (segment === undefined) return;
 
     // Animate VU meter
@@ -158,15 +177,9 @@
     words = words.filter(w => !w.hide);
   };
 
-  thisComponent.onSegmentUpdate = onSegmentUpdate;
-
   const entityClass = (word: ITaggedWord) => {
     return word.entityType || "";
   }
-
-  const pingHandler = (e) => {
-    dispatchUnbounded("debug", "big-transcript.ping 1");
-  };
 
   const scheduleHide = (prerollMs = 0) => {
     cancelHide();
@@ -185,22 +198,6 @@
       timeout = null;
     }
   }
-
-  onMount (() => {
-    let requestId = null;
-
-    const onSegmentUpdateAdapter = (e) => onSegmentUpdate(e.detail);
-
-    thisComponent.addEventListener("speechsegment", onSegmentUpdateAdapter);
-    thisComponent.addEventListener("ping", pingHandler);
-
-    return () => {
-      cancelAnimationFrame(requestId);
-      thisComponent.removeEventListener("speechsegment", onSegmentUpdateAdapter);
-      thisComponent.removeEventListener("ping", pingHandler);
-    }
-  });
-
 </script>
 
 <svelte:window
@@ -211,8 +208,11 @@
   --voffset: {voffset};
   --hoffset: {hoffset};
   --fontsize: {fontsize};
+  --color: {color};
   --highlight-color: {highlightcolor};
   --text-bg-color: {textbgcolor};
+  --gradient-stop1: {gradientstop1};
+  --gradient-stop2: {gradientstop2};
 ">
 
   {#if visibility}
@@ -259,7 +259,7 @@
     user-select: none;
     font-family: 'Saira Condensed', sans-serif;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--color);
     font-size: var(--fontsize);
     line-height: 135%;
 
@@ -315,7 +315,7 @@
 
   .listening {
     animation: flow 1s linear infinite;
-    background: linear-gradient(-60deg, #fff8, #fffc, #fff8, #fffc, #fff8);
+    background: linear-gradient(-60deg, var(--gradient-stop1), var(--gradient-stop2), var(--gradient-stop1), var(--gradient-stop2), var(--gradient-stop1));
     background-size: 200%;
 
     -webkit-background-clip: text;

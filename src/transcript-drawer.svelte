@@ -7,7 +7,13 @@
 
   export let height = "8rem";
   export let hint = ""; // `Try: "Show me blue jeans"`;
+  export let fontsize = "1.5rem";
+  export let color = "#ffffff";
+  export let smalltextcolor = "#ffffff70";
+  export let highlightcolor = "#15e8b5";
   export let textbgcolor = "#202020";
+  export let gradientstop1 = "#ffffff88";
+  export let gradientstop2 = "#ffffffcc";
 
   let positionTransition = tweened({ y: -1.0 }, {
     duration: 200,
@@ -42,9 +48,16 @@
       case "speechsegment":
         hintTransition.set({opacity: 0});
         break;
+      case "hint":
+        sethint(e.data.hint)
+        break;
       default:
         break;
     }
+  }
+
+  export const sethint = (text: string) => {
+    hint = text;
   }
 
 </script>
@@ -55,6 +68,7 @@
 
 <main class="placementTop" style="
   --height: {height};
+  --smalltextcolor: {smalltextcolor};
 ">
   <div class="drawer" style="
     background-color: {textbgcolor};
@@ -62,7 +76,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} textbgcolor={textbgcolor}></big-transcript>
+      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} textbgcolor={textbgcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {hint}
       </div>
@@ -100,7 +114,7 @@
   .hint {
     font-family: 'Saira Condensed', sans-serif;
     text-transform: uppercase;
-    color: #fff7;
+    color: var(--smalltextcolor);
     font-size: 0.9rem;
     line-height: 135%;
     margin-top: 0.15rem;
