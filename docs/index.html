@@ -165,10 +165,11 @@
       <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
       <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
     </ul>
-    <h3>Callbacks</h3>
+    <h3>Properties</h3>
     <ul>
-      <li><code>onholdstart</code> - Called upon hold start.</li>
-      <li><code>onholdend</code> - Called hold end. Params: timeMs (number) contains hold time in ms.</li>
+      <li><code>onholdstart</code> - Callback function slot for hold start.</li>
+      <li><code>onholdend</code> - Callback function slot for hold end. Params: timeMs (number) contains hold time in ms.</li>
+      <li><code>isbuttonpressed()</code> - Returns true if button is currently held pressed.</li>
     </ul>
     <h3>Events emitted</h3>
     <ul>

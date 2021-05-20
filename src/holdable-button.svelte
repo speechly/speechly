@@ -21,6 +21,8 @@
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
   export let hide = undefined;
+  export const isbuttonpressed = () => tangentHeld;
+
   $: visible = hide === undefined || hide === "false";
 
   let tangentHeld = false;
