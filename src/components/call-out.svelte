@@ -5,7 +5,7 @@
 
   export let show = undefined;
   export let fontsize = "1.2rem";
-  export let textbgcolor = "#202020";
+  export let backgroundcolor = "#202020";
 
   let sourceAnchors = { x: '50%', y: '10%' };
   let destAnchors = { x: '50%', y: '100%' };
@@ -41,7 +41,7 @@
   --valign: {destAnchors.y};
   --borderradius: {borderRadius};
   --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
-  --backgroundcolor: {textbgcolor};
+  --backgroundcolor: {backgroundcolor};
   --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
   --fontsize: {fontsize};
   --offsetx: {"0rem"};

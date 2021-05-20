@@ -11,7 +11,7 @@
   export let color = "#ffffff";
   export let smalltextcolor = "#ffffff70";
   export let highlightcolor = "#15e8b5";
-  export let textbgcolor = "#202020";
+  export let backgroundcolor = "#202020";
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
 
@@ -71,12 +71,12 @@
   --smalltextcolor: {smalltextcolor};
 ">
   <div class="drawer" style="
-    background-color: {textbgcolor};
+    background-color: {backgroundcolor};
     opacity: {$opacityTransition.opacity};
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} textbgcolor={textbgcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
+      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {hint}
       </div>

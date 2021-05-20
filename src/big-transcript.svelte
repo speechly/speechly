@@ -11,6 +11,7 @@
   import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
   import VuMeter from "./components/VuMeter.svelte";
+  import { tweened } from "svelte/motion";
 
   const HIDE_TIMEOUT_MS = 2000;
 
@@ -20,9 +21,10 @@
   export let fontsize = "1.5rem";
   export let color = "#ffffff";
   export let highlightcolor = "#15e8b5";
-  export let textbgcolor = "#202020";
+  export let backgroundcolor = "#202020";
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
+  export let marginbottom = "0rem";
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
@@ -40,8 +42,13 @@
       dispatchUnbounded("visibilitychanged", newVisibility);
     }
     visibility = newVisibility;
+    visibilityTransition.set({transition: visibility ? 1 : 0});
   }
   let acknowledged = false;
+
+  let visibilityTransition = tweened({ transition: 0 }, {
+    duration: 200,
+  });
 
   const thisComponent = get_current_component();
  
@@ -210,9 +217,11 @@
   --fontsize: {fontsize};
   --color: {color};
   --highlight-color: {highlightcolor};
-  --text-bg-color: {textbgcolor};
+  --text-bg-color: {backgroundcolor};
   --gradient-stop1: {gradientstop1};
   --gradient-stop2: {gradientstop2};
+  --marginbottom: {marginbottom};
+  --transition: {$visibilityTransition.transition};
 ">
 
   {#if visibility}
@@ -267,7 +276,8 @@
     flex-direction: row;
     justify-content: start;
     flex-wrap: wrap;
-}
+    margin-bottom: calc(var(--marginbottom) * var(--transition));
+  }
   .TranscriptItem {
     position: relative;
 

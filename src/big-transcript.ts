@@ -5,4 +5,3 @@ if (!customElements.get("big-transcript")) {
 } else {
     console.warn("Skipping re-defining customElement big-transcript")
 }
-
