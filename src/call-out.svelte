@@ -1,7 +1,7 @@
-<svelte:options tag="call-out" immutable={true} />
+<svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import fix from '../transFix'
+  import fix from './transFix'
 
   export let show = undefined;
   export let fontsize = "1.2rem";

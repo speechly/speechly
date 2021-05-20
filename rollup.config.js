@@ -128,5 +128,13 @@ export default [
       file: 'docs/dev/transcript-drawer.js'
     },
   },
+
+  {...webComponentDefaults, 
+    input: 'src/call-out.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/call-out.js'
+    },
+  },
   
 ]

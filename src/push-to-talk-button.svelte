@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
   import { get_current_component } from "svelte/internal";
   import "./holdable-button.ts";
-  import "./components/call-out.svelte";
+  import "./call-out.svelte";
   import type { IHoldEvent } from "./types";
 
   const SHORT_PRESS_TRESHOLD_MS = 600

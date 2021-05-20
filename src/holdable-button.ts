@@ -1,7 +1,7 @@
-import el from './holdable-button.svelte';
+import el from './call-out.svelte';
 
-if (!customElements.get("holdable-button")) {
-    customElements.define("holdable-button", el as any as CustomElementConstructor);
+if (!customElements.get("call-out")) {
+    customElements.define("call-out", el as any as CustomElementConstructor);
 } else {
-    console.warn("Skipping re-defining customElement holdable-button")
+    console.warn("Skipping re-defining customElement call-out")
 }
