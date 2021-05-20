@@ -25,8 +25,13 @@
     if (bigTranscript) bigTranscript.speechstate(state);
   }
 
-  export const speechsegment = (segment: Segment) => {
-    if (bigTranscript) bigTranscript.speechstate(segment);
+  export const speechsegment = (segment: Segment, forward = true) => {
+    hintTransition.set({opacity: 0});
+    if (bigTranscript && forward) bigTranscript.speechsegment(segment);
+  }
+
+  export const sethint = (text: string) => {
+    hint = text;
   }
 
   let bigTranscript = undefined;
@@ -62,7 +67,7 @@
   const handleMessage = (e) => {
     switch (e.data.type) {
       case "speechsegment":
-        hintTransition.set({opacity: 0});
+        speechsegment(e.data.segment, false);
         break;
       case "hint":
         sethint(e.data.hint)
@@ -70,10 +75,6 @@
       default:
         break;
     }
-  }
-
-  export const sethint = (text: string) => {
-    hint = text;
   }
 
 </script>
