@@ -3,7 +3,6 @@
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
   import { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
-  import { onMount } from "svelte";
   import type { ITaggedWord } from "./types";
   import fix from './transFix'
   import { get_current_component } from "svelte/internal";
@@ -26,15 +25,6 @@
   export let gradientstop2 = "#ffffffcc";
   export let marginbottom = "0rem";
 
-  let words: ITaggedWord[] = [];
-  let vumeter = undefined;
-  let buttonheld = false;
-  let timeout = null;
-  let lastSegmentId = null;
-  let clientState = ClientState.Disconnected;
-
-  let showingTranscript = false;
-  let visibility = false;
   $: showlistening = (words.length === 0);
   $: {
     const newVisibility = clientState === ClientState.Recording || showingTranscript;
@@ -44,6 +34,14 @@
     visibility = newVisibility;
     visibilityTransition.set({transition: visibility ? 1 : 0});
   }
+
+  let words: ITaggedWord[] = [];
+  let vumeter = undefined;
+  let timeout = null;
+  let lastSegmentId = null;
+  let clientState = ClientState.Disconnected;
+  let showingTranscript = false;
+  let visibility = false;
   let acknowledged = false;
 
   let visibilityTransition = tweened({ transition: 0 }, {
@@ -90,12 +88,6 @@
       case "speechsegment":
         speechsegment(e.data.segment);
         break;
-      case "holdstart":
-        holdstart();
-        break;
-      case "holdend":
-        holdend();
-        break;
       case "speechhandled":
         speechhandled(e.data.success);
         break;
@@ -107,18 +99,8 @@
     }
   }
 
-  export const holdstart = () => {
-    buttonheld = true;
-  }
-
-  export const holdend = () => {
-    buttonheld = false;
-  }
-
   export const speechhandled = (success: boolean) => {
-    if (success) {
-      acknowledged = true;
-    }
+    acknowledged = acknowledged || success;
   }
 
   export const speechstate = (state: ClientState) => {
@@ -134,9 +116,8 @@
     if (segment === undefined) return;
 
     // Animate VU meter
-    if (vumeter && buttonheld) {
+    if (vumeter && clientState === ClientState.Recording) {
       vumeter.updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
-      // dispatchEvent(new CustomEvent("updateVU", {detail: {level: 1.0, seekTimeMs: 1000}}));
     }
 
     if (segment.isFinal) {

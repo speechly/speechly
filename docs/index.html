@@ -134,26 +134,18 @@
 
     <h3>Properties</h3>
     <ul>
-      <li><code>speechsegment(segment: Segment)</code> - Call whenever a new segment update is available</li>
-      <li><code>speechstate(state: ClientState)</code> - Call whenever ClientState changes. Needed to show/hide element.</li>
-      <li><code>holdstart()</code> - Needed to show/hide element.</li>
-      <li><code>holdend()</code> - Needed to show/hide element.</li>
-      <li><code>speechhandled(success: boolean)</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
+      <li><code>speechsegment(segment: Segment)</code> - Function. Call whenever a new segment update is available</li>
+      <li><code>speechstate(state: ClientState)</code> - Function. Call whenever ClientState changes. Needed to show/hide element.</li>
+      <li><code>speechhandled(success: boolean)</code> - Function. Optionally call on segment.isFinal to show confirmation that speech was processed. An indication will be shown with big-transcript.</li>
     </ul>
     <h3>Events emitted</h3>
     <ul>
       <li><code>visibilitychanged</code> - Called when visibility changes</li>
     </ul>
-    <h3>Events listened</h3>
-    <ul>
-      <li><del><code>"speechsegment", {detail: Segment}</code> - Expect an update whenever a new segment update is available</del></li>
-    </ul>
     <h3>Window messages listened</h3>
     <ul>
       <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
       <li><code>{type: "speechstate", state: ClientState}</code> - Needed to show/hide element</li>
-      <li><code>{type: "holdstart"}</code> - Needed to show/hide element</li>
-      <li><code>{type: "holdend"}</code> - Needed to show/hide element</li>
       <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
     </ul>
 

@@ -17,7 +17,7 @@
 
 <body>
 
-  <transcript-drawer backgroundcolor="#f0f0f0" color="#000" smalltextcolor="#000" highlightcolor="#f88" gradientstop1="#f888" gradientstop2="#f88c" fontsize="1rem"></transcript-drawer>
+  <transcript-drawer hint='Try: "Show me blue jeans"' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
 
   <div class="PushToTalkContainer">
     <push-to-talk-button></push-to-talk-button>
@@ -80,6 +80,9 @@
 
     <h3>Properties</h3>
     <ul>
+      <li><code>speechsegment(segment: Segment)</code> - Function. Call whenever a new segment update is available</li>
+      <li><code>speechstate(state: ClientState)</code> - Function. Call whenever ClientState changes. Needed to show/hide element.</li>
+      <li><code>speechhandled(success: boolean)</code> - Function. Optionally call on segment.isFinal to show confirmation that speech was processed. An indication will be shown with big-transcript.</li>
       <li><code>sethint(message: string)</code> - Optionally update hint text.</li>
     </ul>
 
@@ -87,8 +90,6 @@
     <ul>
       <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
       <li><code>{type: "speechstate", state: ClientState}</code> - Needed to show/hide element</li>
-      <li><code>{type: "holdstart"}</code> - Triggers listening prompt</li>
-      <li><code>{type: "holdend"}</code> - Initiates hide transition</li>
       <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
       <li><code>{type: "hint", hint: text}</code> - Optionally update hint text.</li>
     </ul>

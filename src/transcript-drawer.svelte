@@ -1,6 +1,8 @@
 <svelte:options tag={null} immutable={true}/>
 
 <script lang="ts">
+  import type { Segment } from '@speechly/browser-client/speechly/types';
+  import type { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
   import "./big-transcript.ts";
@@ -14,6 +16,20 @@
   export let backgroundcolor = "#202020";
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
+
+  export const speechhandled = (success: boolean) => {
+    if (bigTranscript) bigTranscript.speechhandled(success);
+  }
+
+  export const speechstate = (state: ClientState) => {
+    if (bigTranscript) bigTranscript.speechstate(state);
+  }
+
+  export const speechsegment = (segment: Segment) => {
+    if (bigTranscript) bigTranscript.speechstate(segment);
+  }
+
+  let bigTranscript = undefined;
 
   let positionTransition = tweened({ y: -1.0 }, {
     duration: 200,
@@ -76,7 +92,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {hint}
       </div>
