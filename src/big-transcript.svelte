@@ -69,7 +69,6 @@
         opacity: ${interpolateLinearf(fadeIn, t, 0.0, 1.0)};
         max-height: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 10}rem;
       `
-      // margin-bottom: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 1.5}rem;
     };
   });
 

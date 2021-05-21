@@ -3,7 +3,10 @@
 <script lang="ts">
   import fix from './transFix'
 
+  const INSTRUCTION_PREROLL_MS = 500
+
   export let show = undefined;
+  export let showtime = 10000;
   export let fontsize = "1.2rem";
   export let backgroundcolor = "#202020";
 
@@ -12,8 +15,13 @@
   let arrowSize = { value: 0.55, unit: 'rem' };
   let useShadow = false;
   let borderRadius = "0rem";
+  let timeout = null;
+  let showCallout = false;
 
-  $: showCallout = show !== undefined && show !== "false";
+  // Preroll and auto-hide logic
+  $: scheduleShow(show) 
+
+  // $: showCallout = show !== undefined && show !== "false";
 
   const circlewipe = fix((node, { duration = 250 }) => {
     return {
@@ -25,6 +33,29 @@
       }
     }
   });
+
+  const scheduleShow = (show) => {
+    console.log("Showing!")
+    if (timeout !== null) {
+      window.clearTimeout(timeout);
+      timeout = null;
+    }
+
+    if (show !== undefined && show !== "false") {
+      timeout = window.setTimeout(() => {
+        showCallout = true;
+        timeout = null;
+        if ((showtime as unknown as number) > 0) {
+          timeout = window.setTimeout(() => {
+            showCallout = false;
+            timeout = null;
+          }, (showtime as unknown as number));
+        }
+      }, INSTRUCTION_PREROLL_MS);
+    } else {
+      showCallout = false;
+    }
+  }
 
   const onMouseDown = (event) => {
     event.preventDefault();

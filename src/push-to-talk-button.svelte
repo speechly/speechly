@@ -9,7 +9,6 @@
   import type { IHoldEvent } from "./types";
 
   const SHORT_PRESS_TRESHOLD_MS = 600
-  const INSTRUCTION_PREROLL_MS = 500
 
   export let appid: string = undefined;
   export let size = "6rem";
@@ -23,13 +22,13 @@
   export let intro = "Hold to talk";
   export let hint = "Hold to talk";
   export let fontsize = "1.2rem";
-  export let showtime = "5000";
+  export let showtime = 10000;
   export let backgroundcolor = "#202020";
 
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
-  let success = undefined;
-  let timeout = null;
+  let initializedSuccessfully = undefined;
+  let error = false;
   let tipCalloutVisible = false;
   let mounted = false;
 
@@ -73,27 +72,7 @@
         window.postMessage({ type: "speechsegment", segment: segment }, "*");
       });
 
-      scheduleCallout();
-    }
-  }
-
-  const scheduleCallout = () => {
-    if (timeout !== null) {
-      window.clearTimeout(timeout);
-      timeout = null;
-    }
-
-    if (timeout === null) {
-      timeout = window.setTimeout(() => {
-        tipCalloutVisible = true;
-        timeout = null;
-        if ((showtime as unknown as number) > 0) {
-          timeout = window.setTimeout(() => {
-            tipCalloutVisible = false;
-            timeout = null;
-          }, (showtime as unknown as number));
-        }
-      }, INSTRUCTION_PREROLL_MS);
+      tipCalloutVisible = true;
     }
   }
 
@@ -139,9 +118,9 @@
 
   const tangentEnd = (event) => {
     const holdEventData: IHoldEvent = event.detail;
-    if (success && holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+    if (initializedSuccessfully !== false && holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
       tipCallOutText = hint;
-      scheduleCallout();
+      tipCalloutVisible = true;
     }
 
     buttonHeld = false;
@@ -205,10 +184,10 @@
     window.postMessage({ type: "speechstate", state: s }, "*");
   };
 
-  const setInitialized = (newSuccess: boolean, status: string) => {
-    if (success === undefined) {
-      success = newSuccess;
-      dispatchUnbounded("initialized", { success, status });
+  const setInitialized = (success: boolean, status: string) => {
+    if (initializedSuccessfully === undefined) {
+      initializedSuccessfully = success;
+      dispatchUnbounded("initialized", { success: initializedSuccessfully, status });
     }
   }
 </script>
@@ -226,7 +205,7 @@
       --voffset: {voffset};
       --size: {size};
     ">
-    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
+    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
   </holdable-button>
 
 <style>
