@@ -28,7 +28,6 @@
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
   let initializedSuccessfully = undefined;
-  let error = false;
   let tipCalloutVisible = false;
   let mounted = false;
 

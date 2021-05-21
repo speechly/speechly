@@ -21,8 +21,6 @@
   // Preroll and auto-hide logic
   $: scheduleShow(show) 
 
-  // $: showCallout = show !== undefined && show !== "false";
-
   const circlewipe = fix((node, { duration = 250 }) => {
     return {
       duration,
@@ -35,7 +33,6 @@
   });
 
   const scheduleShow = (show) => {
-    console.log("Showing!")
     if (timeout !== null) {
       window.clearTimeout(timeout);
       timeout = null;
@@ -118,7 +115,6 @@
     pointer-events: auto;
   }
 
-  /* const CalloutDiv = styled.div<{useShadow: boolean, backgroundColor: string, borderRadius?: string}>` */
   .CalloutDiv {
     position: relative;
     box-sizing: border-box;
@@ -141,7 +137,6 @@
     box-shadow: 0 0.2rem 0.5rem #00000040;
   }
 
-  /* const ArrowDiv = styled.div<{size: string, backgroundColor: string, ax: string, ay: string, offsetX: string, offsetY: string}>`*/
   .ArrowDiv {
     position: absolute;
     left: calc(var(--ax) - var(--offsetx));
@@ -154,7 +149,6 @@
     z-index: 10;
   }
 
-  /* const ArrowShadowDiv = styled.div<{size: string, ax: string, ay: string, offsetX: string, offsetY: string}>`*/
   .ArrowShadowDiv {
     position: absolute;
     left: calc(var(--ax) - var(--offsetx));
