@@ -16,6 +16,7 @@
   export let backgroundcolor = "#202020";
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
+  export let formattext = undefined;
 
   export const speechhandled = (success: boolean) => {
     if (bigTranscript) bigTranscript.speechhandled(success);
@@ -93,7 +94,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {hint}
       </div>

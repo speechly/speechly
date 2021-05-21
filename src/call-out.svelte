@@ -8,6 +8,7 @@
   export let show = undefined;
   export let showtime = 10000;
   export let fontsize = "1.2rem";
+  export let textcolor = "#ffffff";
   export let backgroundcolor = "#202020";
 
   let sourceAnchors = { x: '50%', y: '10%' };
@@ -69,6 +70,7 @@
   --valign: {destAnchors.y};
   --borderradius: {borderRadius};
   --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
+  --textcolor: {textcolor};
   --backgroundcolor: {backgroundcolor};
   --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
   --fontsize: {fontsize};
@@ -126,7 +128,7 @@
     user-select: none;
     z-index: 10;
 
-    color:#fff;
+    color: var(--textcolor);
     font-family: 'Saira Condensed', sans-serif;
     font-size: var(--fontsize);
     line-height: 120%;

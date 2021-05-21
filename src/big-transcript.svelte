@@ -24,8 +24,10 @@
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
   export let marginbottom = "0rem";
+  export let formattext = undefined;
 
   $: showlistening = (words.length === 0);
+  $: useEntityFormatting = formattext === undefined || formattext !== "false";
   $: {
     const newVisibility = clientState === ClientState.Recording || showingTranscript;
     if (newVisibility !== visibility) {
@@ -148,17 +150,30 @@
       words[w.index] = { word: w.value, serialNumber: w.index, entityType: null, isFinal: w.isFinal, hide: false }
     })
 
-    // Replace words with entity values. Note that there may be overlapping tentative entity ranges
-    segment.entities.forEach(e => {
-      words[e.startPosition].word = e.value;
-      words[e.startPosition].entityType = e.type;
-      words[e.startPosition].isFinal = e.isFinal;
-      words[e.startPosition].hide = false;
-      for (let index = e.startPosition+1; index < e.endPosition; index++) {
-        // words array may be "holey"
-        if (words[index]) words[index].hide = true;
-      };
-    });
+    if (useEntityFormatting) {
+      // Replace words with entity values. Note that there may be overlapping tentative entity ranges
+      segment.entities.forEach(e => {
+        words[e.startPosition].word = e.value;
+        words[e.startPosition].entityType = e.type;
+        words[e.startPosition].isFinal = e.isFinal;
+        words[e.startPosition].hide = false;
+        for (let index = e.startPosition+1; index < e.endPosition; index++) {
+          // words array may be "holey"
+          if (words[index]) words[index].hide = true;
+        };
+      });
+    } else {
+      // Tag words as entities
+      segment.entities.forEach(e => {
+        for (let index = e.startPosition; index < e.endPosition; index++) {
+          // words array may be "holey"
+          if (words[index]) {
+            words[index].entityType = e.type;
+            words[index].isFinal = e.isFinal;
+          }
+        };
+      });
+    }
 
     // Remove holes and hidden from word array
     words = words.filter(w => !w.hide);

@@ -23,6 +23,7 @@
   export let hint = "Hold to talk";
   export let fontsize = "1.2rem";
   export let showtime = 10000;
+  export let textcolor = "#ffffff";
   export let backgroundcolor = "#202020";
 
   let icon: ClientState = ClientState.Disconnected;
@@ -204,7 +205,7 @@
       --voffset: {voffset};
       --size: {size};
     ">
-    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
+    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
   </holdable-button>
 
 <style>
