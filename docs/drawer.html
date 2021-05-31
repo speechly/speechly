@@ -17,7 +17,7 @@
 
 <body>
 
-  <transcript-drawer hint='Try: "Show me blue jeans"' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
+  <transcript-drawer hint='["Try: Show me blue jeans", "Try: 2nd hint", "Try: 3rd hint"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
 
   <div class="PushToTalkContainer">
     <push-to-talk-button></push-to-talk-button>
@@ -69,7 +69,7 @@
 
     <h3>Attributes</h3>
     <ul>
-      <li><code>hint</code> - Hint text
+      <li><code>hint</code> - Hint text to be shown when the app is listening for speech. Hint is hidden upon user speech is received. String or a JSON.stringify'ed string array, e.g. <code>hint='["Try: 1st hint", "Try: 2nd hint"]'</code>. Pay attention to use double quotes in JSON. If an array is provided, the next tip is automatically shown after an utterance. After all tips are shown, they will be shown again in random order. Default: ""</li>
       <li><code>height</code> - Optional minimum height as CSS string. Default: "8rem"</li>
       <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"
       <li><code>smalltextcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff70"
@@ -127,13 +127,7 @@
     pushToTalkEl.setAttribute("appid", appid);
 
 		pushToTalkEl.addEventListener("holdstart", (e) => {
-      hints = [
-        'Try: "Show me blue jeans"',
-        'Try: "Yellow"',
-        'Try: "What brands do you have?',
-      ]
       console.log("holdstart event received");
-      transcriptDrawer.setAttribute("hint", hints[Math.floor(Math.random() * hints.length)]);
     });
 		pushToTalkEl.addEventListener("holdend", (e) => {console.log("holdend event received", e.detail.timeMs)});
 

@@ -6,6 +6,8 @@
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
   import "./big-transcript.ts";
+  import { onMount } from 'svelte';
+  import { get_current_component } from 'svelte/internal';
 
   export let height = "8rem";
   export let hint = ""; // `Try: "Show me blue jeans"`;
@@ -17,7 +19,12 @@
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
   export let formattext = undefined;
+  let hints = [];
+  let hintNumber = 0;
+  let effectiveHint = "";
 
+  $: sethint(hint);
+  
   export const speechhandled = (success: boolean) => {
     if (bigTranscript) bigTranscript.speechhandled(success);
   }
@@ -29,10 +36,26 @@
   export const speechsegment = (segment: Segment, forward = true) => {
     hintTransition.set({opacity: 0});
     if (bigTranscript && forward) bigTranscript.speechsegment(segment);
+    if (segment.isFinal) {
+      hintNumber++;
+      if (hintNumber < hints.length) {
+        effectiveHint = hints[hintNumber];
+      } else {
+        effectiveHint = hints[Math.floor(Math.random() * hints.length)];
+      }
+    }
   }
 
   export const sethint = (text: string) => {
+    hintNumber = 0;
     hint = text;
+    hints = [];
+    try {
+      hints = JSON.parse(hint);
+    } catch (e) {
+      hints[0] = hint || "";
+    }
+    effectiveHint = hints[hintNumber];
   }
 
   let bigTranscript = undefined;
@@ -96,7 +119,7 @@
     <div class="pad">
       <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
-        {hint}
+        {effectiveHint}
       </div>
     </div>
   </div>
