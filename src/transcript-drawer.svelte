@@ -53,6 +53,10 @@
     hints = [];
     try {
       hints = JSON.parse(hint);
+      // Wrap a plain string in a hints array
+      if (typeof hints === 'string' || hints instanceof String) {
+        hints = [hints];
+      }
     } catch (e) {
       hints[0] = hint || "";
     }
