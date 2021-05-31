@@ -27,6 +27,7 @@
   export let formattext = undefined;
 
   $: showlistening = (words.length === 0);
+  $: useTextBackground = backgroundcolor !== "none";
   $: useEntityFormatting = formattext === undefined || formattext !== "false";
   $: {
     const newVisibility = clientState === ClientState.Recording || showingTranscript;
@@ -222,7 +223,9 @@
   {#if visibility}
     <div class="BigTranscript" in:revealTransition out:revealTransition>
       <div class="TranscriptItem" in:slideTransition="{{duration: 200}}">
-        <div class="TransscriptItemBgDiv"/>
+        {#if useTextBackground}
+          <div class="TransscriptItemBgDiv"/>
+        {/if}
         <div class="TransscriptItemContent">
           <VuMeter bind:this={vumeter} color={highlightcolor}></VuMeter>
           {#if showlistening}
@@ -232,7 +235,9 @@
       </div>
       {#each words as word, index}
         <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
-          <div class="TransscriptItemBgDiv" in:slideTransition/>
+          {#if useTextBackground}
+            <div class="TransscriptItemBgDiv" in:slideTransition/>
+          {/if}
           <div class="TransscriptItemContent" in:slideTransition>
             {word.word}
             {#if index < words.length}
@@ -245,7 +250,7 @@
         <div class="TranscriptItem" in:slideTransition="{{duration: 200, maxWidth: 3}}">
           <div class="TransscriptItemBgDiv" style="background-color: {highlightcolor};"/>
           <div style="width:1.0rem; height: 1rem; position: relative;">
-            <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.5rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
+            <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.6rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
           </div>
         </div>
       {/if}

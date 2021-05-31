@@ -6,12 +6,11 @@
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
   import "./big-transcript.ts";
-  import { onMount } from 'svelte';
-  import { get_current_component } from 'svelte/internal';
 
   export let height = "8rem";
   export let hint = ""; // `Try: "Show me blue jeans"`;
   export let fontsize = "1.5rem";
+  export let hintfontsize = "0.9rem";
   export let color = "#ffffff";
   export let smalltextcolor = "#ffffff70";
   export let highlightcolor = "#15e8b5";
@@ -19,9 +18,11 @@
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
   export let formattext = undefined;
+
   let hints = [];
   let hintNumber = 0;
   let effectiveHint = "";
+  let bigTranscript = undefined;
 
   $: sethint(hint);
   
@@ -57,8 +58,6 @@
     }
     effectiveHint = hints[hintNumber];
   }
-
-  let bigTranscript = undefined;
 
   let positionTransition = tweened({ y: -1.0 }, {
     duration: 200,
@@ -110,6 +109,7 @@
 <main class="placementTop" style="
   --height: {height};
   --smalltextcolor: {smalltextcolor};
+  --hintfontsize: {hintfontsize};
 ">
   <div class="drawer" style="
     background-color: {backgroundcolor};
@@ -117,7 +117,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor={backgroundcolor} highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {effectiveHint}
       </div>
@@ -156,7 +156,7 @@
     font-family: 'Saira Condensed', sans-serif;
     text-transform: uppercase;
     color: var(--smalltextcolor);
-    font-size: 0.9rem;
+    font-size: var(--hintfontsize);
     line-height: 135%;
     margin-top: 0.15rem;
   }
