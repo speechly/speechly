@@ -67,8 +67,8 @@ export class BrowserMicrophone implements Microphone {
       speechlyNode.connect(this.audioContext.destination)
       if (window.SharedArrayBuffer !== undefined) {
         // Chrome, Edge, Firefox, Firefox Android
-        const controlSAB = new window.SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT)
-        const dataSAB = new window.SharedArrayBuffer(2 * 4096 * Float32Array.BYTES_PER_ELEMENT)
+        const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
+        const dataSAB = new window.SharedArrayBuffer(1024 * Float32Array.BYTES_PER_ELEMENT)
         this.apiClient.postMessage({
           type: 'SET_SHARED_ARRAY_BUFFERS',
           controlSAB,

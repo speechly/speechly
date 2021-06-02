@@ -161,6 +161,7 @@ export class Client {
       apiUrl: apiUrl,
       authToken: this.authToken,
       targetSampleRate: this.sampleRate,
+      debug: this.debug,
     })
   }
 
