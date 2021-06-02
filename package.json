@@ -72,7 +72,7 @@
     "minimist": "^1.2.5",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "ts-jest": "^25.5.1",
+    "ts-jest": "^27.0.0",
     "ts-loader": "^7.0.3",
     "tsc-watch": "^4.2.3",
     "typedoc": "^0.17.6",
