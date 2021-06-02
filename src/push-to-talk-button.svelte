@@ -152,7 +152,7 @@
     switch (s) {
       case ClientState.Starting:
       case ClientState.Recording:
-      case ClientState.Stopping:
+      // case ClientState.Stopping:
         return true;
       default:
         return false;
@@ -160,6 +160,7 @@
   };
 
   const onStateChange = (s: ClientState) => {
+    console.log("ClientState: ",s);
     clientState = s;
     updateSkin();
     switch(s) {
