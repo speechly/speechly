@@ -78,6 +78,9 @@ var WebsocketClient = /** @class */ (function () {
     WebsocketClient.prototype.setSourceSampleRate = function (sourceSampleRate) {
         this.sourceSampleRate = sourceSampleRate;
         this.resampleRatio = this.sourceSampleRate / this.targetSampleRate;
+        if (this.debug) {
+            console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio);
+        }
         if (this.resampleRatio > 1) {
             this.filter = generateFilter(this.sourceSampleRate, this.targetSampleRate, 127);
         }
@@ -134,7 +137,7 @@ var WebsocketClient = /** @class */ (function () {
         if (audioChunk.length > 0) {
             if (this.resampleRatio > 1) {
                 // Downsampling
-                this.websocket.send(downsample(audioChunk, this.filter, this.resampleRatio, this.buffer));
+                this.websocket.send(this.downsample(audioChunk));
             }
             else {
                 this.websocket.send(float32ToInt16(audioChunk));
@@ -159,7 +162,7 @@ var WebsocketClient = /** @class */ (function () {
             if (data.length > 0) {
                 var frames_1;
                 if (this.resampleRatio > 1) {
-                    frames_1 = downsample(data, this.filter, this.resampleRatio, this.buffer);
+                    frames_1 = this.downsample(data);
                 }
                 else {
                     frames_1 = float32ToInt16(data);
@@ -237,6 +240,29 @@ var WebsocketClient = /** @class */ (function () {
         this.websocket.removeEventListener('close', this.onWebsocketClose);
         this.websocket.close();
     };
+    WebsocketClient.prototype.downsample = function (input) {
+        var inputBuffer = new Float32Array(this.buffer.length + input.length);
+        inputBuffer.set(this.buffer, 0);
+        inputBuffer.set(input, this.buffer.length);
+        var outputLength = Math.ceil((inputBuffer.length - this.filter.length) / this.resampleRatio);
+        var outputBuffer = new Int16Array(outputLength);
+        for (var i = 0; i < outputLength; i++) {
+            var offset = Math.round(this.resampleRatio * i);
+            var val = 0.0;
+            for (var j = 0; j < this.filter.length; j++) {
+                val += inputBuffer[offset + j] * this.filter[j];
+            }
+            outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff);
+        }
+        var remainingOffset = Math.round(this.resampleRatio * outputLength);
+        if (remainingOffset < inputBuffer.length) {
+            this.buffer = inputBuffer.subarray(remainingOffset);
+        }
+        else {
+            this.buffer = new Float32Array(0);
+        }
+        return outputBuffer;
+    };
     return WebsocketClient;
 }());
 var ctx = self;
@@ -277,29 +303,6 @@ function float32ToInt16(buffer) {
         buf[l] = buffer[l] * (buffer[l] < 0 ? 0x8000 : 0x7fff);
     }
     return buf;
-}
-function downsample(input, filter, resampleRatio, buffer) {
-    var inputBuffer = new Float32Array(buffer.length + input.length);
-    inputBuffer.set(buffer, 0);
-    inputBuffer.set(input, buffer.length);
-    var outputLength = Math.ceil((inputBuffer.length - filter.length) / resampleRatio);
-    var outputBuffer = new Int16Array(outputLength);
-    for (var i = 0; i < outputLength; i++) {
-        var offset = Math.round(resampleRatio * i);
-        var val = 0.0;
-        for (var j = 0; j < filter.length; j++) {
-            val += inputBuffer[offset + j] * filter[j];
-        }
-        outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff);
-    }
-    var remainingOffset = Math.round(resampleRatio * outputLength);
-    if (remainingOffset < inputBuffer.length) {
-        buffer = inputBuffer.subarray(remainingOffset);
-    }
-    else {
-        buffer = new Float32Array(0);
-    }
-    return outputBuffer;
 }
 function generateFilter(sourceSampleRate, targetSampleRate, length) {
     if (length % 2 === 0) {

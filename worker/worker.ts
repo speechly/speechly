@@ -90,6 +90,9 @@ class WebsocketClient {
   setSourceSampleRate(sourceSampleRate: number): void {
     this.sourceSampleRate = sourceSampleRate
     this.resampleRatio = this.sourceSampleRate / this.targetSampleRate
+    if (this.debug) {
+      console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
+    }
     if (this.resampleRatio > 1) {
       this.filter = generateFilter(this.sourceSampleRate, this.targetSampleRate, 127)
     }
@@ -155,7 +158,7 @@ class WebsocketClient {
     if (audioChunk.length > 0) {
       if (this.resampleRatio > 1) {
         // Downsampling
-        this.websocket.send(downsample(audioChunk, this.filter, this.resampleRatio, this.buffer))
+        this.websocket.send(this.downsample(audioChunk))
       } else {
         this.websocket.send(float32ToInt16(audioChunk))
       }
@@ -183,7 +186,7 @@ class WebsocketClient {
       if (data.length > 0) {
         let frames: Int16Array
         if (this.resampleRatio > 1) {
-          frames = downsample(data, this.filter, this.resampleRatio, this.buffer)
+          frames = this.downsample(data)
         } else {
           frames = float32ToInt16(data)
         }
@@ -311,6 +314,36 @@ class WebsocketClient {
   
     this.workerCtx.postMessage(response)
   }
+
+  downsample(input: Float32Array): Int16Array {
+    const inputBuffer = new Float32Array(this.buffer.length + input.length)
+    inputBuffer.set(this.buffer, 0)
+    inputBuffer.set(input, this.buffer.length)
+  
+    const outputLength = Math.ceil((inputBuffer.length - this.filter.length) / this.resampleRatio)
+    const outputBuffer = new Int16Array(outputLength)
+  
+    for (let i = 0; i < outputLength; i++) {
+      const offset = Math.round(this.resampleRatio * i)
+      let val = 0.0
+  
+      for (let j = 0; j < this.filter.length; j++) {
+        val += inputBuffer[offset + j] * this.filter[j]
+      }
+  
+      outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)
+    }
+  
+    const remainingOffset = Math.round(this.resampleRatio * outputLength)
+    if (remainingOffset < inputBuffer.length) {
+      this.buffer = inputBuffer.subarray(remainingOffset)
+    } else {
+      this.buffer = new Float32Array(0)
+    }
+  
+    return outputBuffer
+  }
+
 }
 
 const ctx: Worker = self as any
@@ -355,35 +388,6 @@ function float32ToInt16(buffer) {
   }
 
   return buf
-}
-
-function downsample(input: Float32Array, filter: Float32Array, resampleRatio: number, buffer: Float32Array): Int16Array {
-  const inputBuffer = new Float32Array(buffer.length + input.length)
-  inputBuffer.set(buffer, 0)
-  inputBuffer.set(input, buffer.length)
-
-  const outputLength = Math.ceil((inputBuffer.length - filter.length) / resampleRatio)
-  const outputBuffer = new Int16Array(outputLength)
-
-  for (let i = 0; i < outputLength; i++) {
-    const offset = Math.round(resampleRatio * i)
-    let val = 0.0
-
-    for (let j = 0; j < filter.length; j++) {
-      val += inputBuffer[offset + j] * filter[j]
-    }
-
-    outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)
-  }
-
-  const remainingOffset = Math.round(resampleRatio * outputLength)
-  if (remainingOffset < inputBuffer.length) {
-    buffer = inputBuffer.subarray(remainingOffset)
-  } else {
-    buffer = new Float32Array(0)
-  }
-
-  return outputBuffer
 }
 
 function generateFilter(sourceSampleRate: number, targetSampleRate: number, length: number): Float32Array {
