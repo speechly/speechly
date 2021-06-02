@@ -39,8 +39,6 @@ enum WebsocketResponseType {
   Stopped = 'stopped',
 }
 
-console.log('DEBUG websocket in worker')
-
 const CONTROL = {
   WRITE_INDEX: 0,
   FRAMES_AVAILABLE: 1,
