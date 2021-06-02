@@ -9,7 +9,6 @@ var WebsocketResponseType;
     WebsocketResponseType["Started"] = "started";
     WebsocketResponseType["Stopped"] = "stopped";
 })(WebsocketResponseType || (WebsocketResponseType = {}));
-console.log('DEBUG websocket in worker');
 var CONTROL = {
     WRITE_INDEX: 0,
     FRAMES_AVAILABLE: 1,
@@ -29,9 +28,15 @@ var WebsocketClient = /** @class */ (function () {
             _this.connect(0);
         };
         this.onWebsocketOpen = function (_event) {
+            if (_this.debug) {
+                console.log('[SpeechlyClient]', 'websocket opened');
+            }
             _this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' });
         };
         this.onWebsocketError = function (_event) {
+            if (_this.debug) {
+                console.log('[SpeechlyClient]', 'websocket error');
+            }
             _this.closeWebsocket();
         };
         this.onWebsocketMessage = function (event) {

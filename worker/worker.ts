@@ -273,10 +273,16 @@ class WebsocketClient {
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {
+    if (this.debug) {
+      console.log('[SpeechlyClient]', 'websocket opened')
+    }
     this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' })
   }
 
   private readonly onWebsocketError = (_event: Event): void => {
+    if (this.debug) {
+      console.log('[SpeechlyClient]', 'websocket error')
+    }
     this.closeWebsocket()
   }
 
@@ -295,7 +301,6 @@ class WebsocketClient {
         this.resendLastFrames()
         this.shouldResendLastFramesSent = false
       }
-      
     }
   
     this.workerCtx.postMessage(response)
