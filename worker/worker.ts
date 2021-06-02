@@ -64,12 +64,18 @@ class WebsocketClient {
   private lastFramesSent: Int16Array = new Int16Array(0) // to re-send after switch context
 
   private debug: boolean = false
+  private initialized: boolean = false
 
   constructor(ctx: Worker) {
     this.workerCtx = ctx
   }
 
   init(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
+    if (this.initialized) {
+      console.log('[SpeechlyClient]', 'already initialized')
+      return 
+    }
+
     this.debug = debug
     if (this.debug) {
       console.log('[SpeechlyClient]', 'initialize worker')
@@ -77,7 +83,7 @@ class WebsocketClient {
     this.apiUrl = apiUrl
     this.authToken = authToken
     this.targetSampleRate = targetSampleRate
-    
+    this.initialized = true
     this.connect(0)
   }
 
@@ -352,7 +358,7 @@ function float32ToInt16(buffer) {
 }
 
 function downsample(input: Float32Array, filter: Float32Array, resampleRatio: number, buffer: Float32Array): Int16Array {
-  const inputBuffer = new Float32Array(this.buffer.length + input.length)
+  const inputBuffer = new Float32Array(buffer.length + input.length)
   inputBuffer.set(buffer, 0)
   inputBuffer.set(input, buffer.length)
 
@@ -360,11 +366,11 @@ function downsample(input: Float32Array, filter: Float32Array, resampleRatio: nu
   const outputBuffer = new Int16Array(outputLength)
 
   for (let i = 0; i < outputLength; i++) {
-    const offset = Math.round(this.resampleRatio * i)
+    const offset = Math.round(resampleRatio * i)
     let val = 0.0
 
-    for (let j = 0; j < this.filter.length; j++) {
-      val += inputBuffer[offset + j] * this.filter[j]
+    for (let j = 0; j < filter.length; j++) {
+      val += inputBuffer[offset + j] * filter[j]
     }
 
     outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)

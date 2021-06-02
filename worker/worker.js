@@ -23,6 +23,7 @@ var WebsocketClient = /** @class */ (function () {
         this.buffer = new Float32Array(0);
         this.lastFramesSent = new Int16Array(0); // to re-send after switch context
         this.debug = false;
+        this.initialized = false;
         this.onWebsocketClose = function (event) {
             _this.websocket = undefined;
             _this.connect(0);
@@ -60,6 +61,10 @@ var WebsocketClient = /** @class */ (function () {
         this.workerCtx = ctx;
     }
     WebsocketClient.prototype.init = function (apiUrl, authToken, targetSampleRate, debug) {
+        if (this.initialized) {
+            console.log('[SpeechlyClient]', 'already initialized');
+            return;
+        }
         this.debug = debug;
         if (this.debug) {
             console.log('[SpeechlyClient]', 'initialize worker');
@@ -67,6 +72,7 @@ var WebsocketClient = /** @class */ (function () {
         this.apiUrl = apiUrl;
         this.authToken = authToken;
         this.targetSampleRate = targetSampleRate;
+        this.initialized = true;
         this.connect(0);
     };
     WebsocketClient.prototype.setSourceSampleRate = function (sourceSampleRate) {
@@ -273,16 +279,16 @@ function float32ToInt16(buffer) {
     return buf;
 }
 function downsample(input, filter, resampleRatio, buffer) {
-    var inputBuffer = new Float32Array(this.buffer.length + input.length);
+    var inputBuffer = new Float32Array(buffer.length + input.length);
     inputBuffer.set(buffer, 0);
     inputBuffer.set(input, buffer.length);
     var outputLength = Math.ceil((inputBuffer.length - filter.length) / resampleRatio);
     var outputBuffer = new Int16Array(outputLength);
     for (var i = 0; i < outputLength; i++) {
-        var offset = Math.round(this.resampleRatio * i);
+        var offset = Math.round(resampleRatio * i);
         var val = 0.0;
-        for (var j = 0; j < this.filter.length; j++) {
-            val += inputBuffer[offset + j] * this.filter[j];
+        for (var j = 0; j < filter.length; j++) {
+            val += inputBuffer[offset + j] * filter[j];
         }
         outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff);
     }
