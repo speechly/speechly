@@ -1,4 +1,4 @@
-export default `/**
+/**
  * Known WebSocket response types.
  * @public
  */
@@ -328,4 +328,3 @@ function sinc(x) {
     var piX = Math.PI * x;
     return Math.sin(piX) / piX;
 }
-`

@@ -3,6 +3,7 @@ export default `
 const CONTROL = {
   'WRITE_INDEX': 0,
   'FRAMES_AVAILABLE': 1,
+  'LOCK': 2,
 };
 
 class SpeechlyProcessor extends AudioWorkletProcessor {
@@ -16,24 +17,36 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
   _initialize(event) {
     this.controlSAB = new Int32Array(event.data.controlSAB);
     this.dataSAB = new Float32Array(event.data.dataSAB);
+    this.sharedBufferSize = this.dataSAB.length;
+    this.buffer = new Float32Array(0);
     this._initialized = true;
   }
 
-  _pushData(data) {
-    let inputWriteIndex = this.controlSAB[CONTROL.WRITE_INDEX];
-
-    if (inputWriteIndex + data.length < this.dataSAB.length) {
-      // Buffer has enough space to push the input.
-      this.dataSAB.set(data, inputWriteIndex);
-      this.controlSAB[CONTROL.WRITE_INDEX] += data.length;
-    } else {
-      // Buffer overflow
-      this.dataSAB.set(data, 0);
-      this.controlSAB[CONTROL.WRITE_INDEX] = 0;
+  _transferDataToSharedBuffer(data) {
+    this.controlSAB[CONTROL.LOCK] = 1
+    let inputWriteIndex = this.controlSAB[CONTROL.WRITE_INDEX]
+    if (this.controlSAB[CONTROL.FRAMES_AVAILABLE] > 0) {
+      if (inputWriteIndex + data.length > this.sharedBufferSize) {
+        // console.log('buffer overflow')
+        inputWriteIndex = 0
+      }
     }
+    this.dataSAB.set(data, inputWriteIndex)
+    this.controlSAB[CONTROL.WRITE_INDEX] = inputWriteIndex + data.length
+    this.controlSAB[CONTROL.FRAMES_AVAILABLE] = inputWriteIndex + data.length
+    this.controlSAB[CONTROL.LOCK] = 0
+  }
 
-    // Update the number of available frames in the input buffer.
-    this.controlSAB[CONTROL.FRAMES_AVAILABLE] += data.length;
+  _pushData(data) {
+    if (this.buffer.length > this.sharedBufferSize) {
+      const dataToTransfer = this.buffer.subarray(0, this.sharedBufferSize)
+      this._transferDataToSharedBuffer(dataToTransfer)
+      this.buffer = this.buffer.subarray(this.sharedBufferSize)
+    }
+    let concat = new Float32Array(this.buffer.length + data.length)
+    concat.set(this.buffer)
+    concat.set(data, this.buffer.length)
+    this.buffer = concat
   }
 
   process(inputs, outputs, parameters) {

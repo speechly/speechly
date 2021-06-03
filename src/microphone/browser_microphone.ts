@@ -6,6 +6,7 @@ const audioProcessEvent = 'audioprocess'
 const baseBufferSize = 4096
 
 export class BrowserMicrophone implements Microphone {
+  private readonly debug: boolean
   private readonly isWebkit: boolean
   private readonly apiClient: APIClient
   private readonly sampleRate: number
@@ -25,10 +26,11 @@ export class BrowserMicrophone implements Microphone {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
-  constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient) {
+  constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient, debug: boolean = false) {
     this.isWebkit = isWebkit
     this.apiClient = apiClient
     this.sampleRate = sampleRate
+    this.debug = debug
   }
 
   async initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void> {
@@ -67,8 +69,8 @@ export class BrowserMicrophone implements Microphone {
       speechlyNode.connect(this.audioContext.destination)
       if (window.SharedArrayBuffer !== undefined) {
         // Chrome, Edge, Firefox, Firefox Android
-        const controlSAB = new window.SharedArrayBuffer(2 * Int32Array.BYTES_PER_ELEMENT)
-        const dataSAB = new window.SharedArrayBuffer(2 * 4096 * Float32Array.BYTES_PER_ELEMENT)
+        const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
+        const dataSAB = new window.SharedArrayBuffer(1024 * Float32Array.BYTES_PER_ELEMENT)
         this.apiClient.postMessage({
           type: 'SET_SHARED_ARRAY_BUFFERS',
           controlSAB,
@@ -80,12 +82,18 @@ export class BrowserMicrophone implements Microphone {
           dataSAB,
         })
       } else {
+        if (this.debug) {
+          console.log('[SpeechlyClient]', 'can not use SharedArrayBuffer')
+        }
         // Opera, Chrome Android, Webview Anroid
         speechlyNode.port.onmessage = (event: MessageEvent) => {
           this.handleAudio(event.data)
         }
       }
     } else {
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'can not use AudioWorkletNode')
+      }
       // Safari, iOS Safari and Internet Explorer
       if (this.isWebkit) {
         // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
