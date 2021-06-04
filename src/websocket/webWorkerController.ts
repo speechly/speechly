@@ -6,6 +6,7 @@ type ContextCallback = (err?: Error, contextId?: string) => void
 export class WebWorkerController implements APIClient {
   private readonly worker: Worker
   private resolveInitialization?: (value?: void) => void
+  private resolveSourceSampleRateSet?: (value?: void) => void
 
   private startCbs: ContextCallback[] = []
   private stopCbs: ContextCallback[] = []
@@ -27,14 +28,28 @@ export class WebWorkerController implements APIClient {
     this.worker.addEventListener('message', this.onWebsocketMessage)
   }
 
-  async initialize(sourceSampleRate: number): Promise<void> {
+  async initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void> {
+    this.worker.postMessage({
+      type: 'INIT',
+      apiUrl,
+      authToken,
+      targetSampleRate,
+      debug,
+    })
+
+    return new Promise(resolve => {
+      this.resolveInitialization = resolve
+    })
+  }
+
+  async setSourceSampleRate(sourceSampleRate: number): Promise<void> {
     this.worker.postMessage({
       type: 'SET_SOURSE_SAMPLE_RATE',
       sourceSampleRate,
     })
 
     return new Promise(resolve => {
-      this.resolveInitialization = resolve
+      this.resolveSourceSampleRateSet = resolve
     })
   }
 
@@ -105,10 +120,13 @@ export class WebWorkerController implements APIClient {
     const response: WebsocketResponse = event.data
     switch (response.type) {
       case WebsocketResponseType.Opened:
-        break
-      case WebsocketResponseType.SourceSampleRateSetSuccess:
         if (this.resolveInitialization != null) {
           this.resolveInitialization()
+        }
+        break
+      case WebsocketResponseType.SourceSampleRateSetSuccess:
+        if (this.resolveSourceSampleRateSet != null) {
+          this.resolveSourceSampleRateSet()
         }
         break
       case WebsocketResponseType.Started:
