@@ -160,7 +160,6 @@
   };
 
   const onStateChange = (s: ClientState) => {
-    console.log("ClientState: ",s);
     clientState = s;
     updateSkin();
     switch(s) {
