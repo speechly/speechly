@@ -78,6 +78,8 @@ export class Client {
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
   private initializeMicrophonePromise?: Promise<void>
+  private readonly initializeApiClientPromise: Promise<void>
+  private resolveInitialization?: (value?: void) => void
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
@@ -121,6 +123,10 @@ export class Client {
     const storedToken = this.storage.get(authTokenKey)
 
     // 2. Fetch auth token. It doesn't matter if it's not present.
+    this.initializeApiClientPromise = new Promise(resolve => {
+      this.resolveInitialization = resolve
+    })
+
     if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
       fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
         .then(token => {
@@ -156,13 +162,20 @@ export class Client {
    * Esteblish websocket connection
    */
   private connect(apiUrl: string): void {
-    this.apiClient.postMessage({
-      type: 'INIT',
-      apiUrl: apiUrl,
-      authToken: this.authToken,
-      targetSampleRate: this.sampleRate,
-      debug: this.debug,
-    })
+    if (this.authToken != null) {
+      this.apiClient.initialize(
+        apiUrl,
+        this.authToken,
+        this.sampleRate,
+        this.debug,
+      ).then(() => {
+        if (this.resolveInitialization != null) {
+          this.resolveInitialization()
+        }
+      }).catch(err => {
+        throw err
+      })
+    }
   }
 
   /**
@@ -175,6 +188,7 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
+    await this.initializeApiClientPromise
     if (this.state !== ClientState.Disconnected) {
       throw Error('Cannot initialize client - client is not in Disconnected state')
     }
@@ -225,7 +239,7 @@ export class Client {
           await this.audioContext.resume()
         }
         // 3. Initialise websocket.
-        await this.apiClient.initialize(this.audioContext.sampleRate)
+        await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
         this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, opts)
         await this.initializeMicrophonePromise
       } else {

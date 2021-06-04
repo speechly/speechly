@@ -7,11 +7,12 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
-    initialize(sourceSampleRate: number): Promise<void>;
+    initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
     postMessage(message: Object): void;
     sendAudio(audioChunk: Float32Array): void;
+    setSourceSampleRate(sourceSampleRate: number): Promise<void>;
     startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
     switchContext(appId: string): Promise<string>;

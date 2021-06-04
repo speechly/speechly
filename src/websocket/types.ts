@@ -172,12 +172,24 @@ export interface APIClient {
   /**
    * Initialises the client.
    *
+   * This method will be called by the Client as part of the initialisation process.
+   *
+   * @param apiUrl - url.
+   * @param authToken - authentication token.
+   * @param targetSampleRate - target sample rate of audio.
+   * @param debug - debug flag.
+   */
+  initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void>
+
+  /**
+   * Initialises the client.
+   *
    * This should prepare websocket to be used (set source sample rate).
    * This method will be called by the Client as part of the initialisation process.
    *
    * @param sourceSampleRate - sample rate of audio source.
    */
-  initialize(sourceSampleRate: number): Promise<void>
+  setSourceSampleRate(sourceSampleRate: number): Promise<void>
 
   /**
    * Closes the client.

@@ -99,7 +99,7 @@ class WebsocketClient {
     this.workerCtx.postMessage({ type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS' })
 
     if (isNaN(this.resampleRatio)) {
-      throw Error('resampleRatio is NaN')
+      throw Error(`resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`)
     }
   }
 
