@@ -13,6 +13,7 @@
   <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
 	<script src='dev/push-to-talk-button.js'></script>
 	<script src='dev/big-transcript.js'></script>
+	<script src='demomode.js'></script>
 </head>
 
 <body>
@@ -247,92 +248,10 @@
     transcriptEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
     const showTranscriptSample = (e) => {
-      const sampleSegment = {
-        "id": 0,
-        "contextId": "e310e11e-95d4-4f22-98dd-388a1bd84718",
-        "isFinal": false,
-        "words": [
-            {
-                "value": "TURN",
-                "index": 2,
-                "startTimestamp": 2040,
-                "endTimestamp": 2640,
-                "isFinal": true
-            },
-            {
-                "value": "ON",
-                "index": 3,
-                "startTimestamp": 2640,
-                "endTimestamp": 2820,
-                "isFinal": true
-            },
-            {
-                "value": "THE",
-                "index": 4,
-                "startTimestamp": 2820,
-                "endTimestamp": 2940,
-                "isFinal": true
-            },
-            {
-                "value": "LIGHTS",
-                "index": 5,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 6,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 7,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 8,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 9,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 10,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            }
-        ],
-        "entities": [
-            {
-                "type": "email",
-                "value": "the lights",
-                "startPosition": 4,
-                "endPosition": 6,
-                "isFinal": true
-            }
-        ],
-        "intent": {
-            "intent": "email",
-            "isFinal": true
-        }
-      }
-
-      //window.postMessage({type: "speechsegment", segment: sampleSegment}, "*");
-      transcriptEl.speechSegment(sampleSegment);
+      let demoStrings = [
+        "*book book a flight from london(from) to [new york](to)"
+      ];
+      startDemo(demoStrings)
     }
 
     const hideButton = (e) => {
