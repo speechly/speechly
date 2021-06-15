@@ -76,7 +76,8 @@ const webComponentDefaults = {
     commonjs(),
     typescript({
       sourceMap: !production,
-      inlineSources: !production
+      inlineSources: !production,
+      sourceMap: true,
     }),
     
     // In dev mode, call `npm run start` once
@@ -98,7 +99,7 @@ const webComponentDefaults = {
 
 const typeScriptDefaults = {
   plugins: [
-    typescript(),
+    typescript({ tsconfig: './tsconfig.json' }),
   ],
 };
 
