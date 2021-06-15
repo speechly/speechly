@@ -6,13 +6,12 @@
 
 	<title>Speechly Web Toolkit and Browser-UI Beta</title>
 
-  <link rel='icon' type='image/png' href='favicon.png'>
-	<link rel='stylesheet' href='global.css'>
-  <link rel="stylesheet" href="dev/speechly-ui.css">
+  <link rel='icon' type='image/png' href='../favicon.png'>
+	<link rel='stylesheet' href='../global.css'>
+  <link rel="stylesheet" href="speechly-ui.css">
  
-  <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
-	<script src='dev/push-to-talk-button.js'></script>
-	<script src='dev/transcript-drawer.js'></script>
+	<script src='push-to-talk-button.js'></script>
+	<script src='transcript-drawer.js'></script>
 </head>
 
 <body>
@@ -79,6 +78,7 @@
       <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
       <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
       <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
+      <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
     </ul>
 
     <h3>Properties</h3>
@@ -176,7 +176,8 @@
 	</script>
 
   <script type="module">
-    import {startDemo, stopDemo} from './dev/demomode.js'
+    import {startDemo, stopDemo} from './demomode.js'
+
     let demoStrings = [
         "*book book a flight from london(from) to [new york](to)",
         "*book in [business class](class)",
