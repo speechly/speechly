@@ -13,7 +13,6 @@
   <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
 	<script src='dev/push-to-talk-button.js'></script>
 	<script src='dev/big-transcript.js'></script>
-	<script src='demomode.js'></script>
 </head>
 
 <body>
@@ -120,7 +119,8 @@
     <p>
       It is intended to be placed as an overlay near top-left corner of the screen using <code>BigTranscriptContainer</code> CSS class. It is momentarily displayed and automatically hidden after the end of voice input.
     </p>
-    <button onclick="showTranscriptSample()">Show sample transcript</button>
+    <button id="start-demo">Start demo transcript</button>
+    <button id="stop-demo">Stop demo</button>
 
     <h3>Attributes</h3>
     <ul>
@@ -192,9 +192,9 @@
     <pre><xmp id="info"></xmp></pre>
   </main>
 
-	<script type="text/javascript">
+	<script>
     var webLogLines = "";
-    webLog = (newLine) => {
+    const webLog = (newLine) => {
       webLogLines += newLine + "\n";
       document.getElementById("info").innerHTML = webLogLines;
     }
@@ -247,13 +247,6 @@
     });
     transcriptEl.dispatchEvent(new CustomEvent("ping", {detail: {msg: "test"}}));
 
-    const showTranscriptSample = (e) => {
-      let demoStrings = [
-        "*book book a flight from london(from) to [new york](to)"
-      ];
-      startDemo(demoStrings)
-    }
-
     const hideButton = (e) => {
       pushToTalkEl.setAttribute("hide", "true");
     }
@@ -264,5 +257,25 @@
 
     webLog("End of index.html script");
 	</script>
+
+  <script type="module">
+    import {startDemo, stopDemo} from './dev/demomode.js'
+    let demoStrings = [
+        "*book book a flight from london(from) to [new york](to)",
+        "*book in [business class](class)",
+      ];
+
+    const transcriptEl = document.getElementsByTagName("big-transcript")[0];
+
+    document.querySelector('#start-demo').addEventListener('click', ()=>{
+      startDemo(demoStrings)
+      transcriptEl.setAttribute("demomode", "true");
+    });
+    document.querySelector('#stop-demo').addEventListener('click', ()=>{
+      stopDemo()
+      transcriptEl.setAttribute("demomode", "false");
+    });
+  </script>
+
 </body>
 </html>

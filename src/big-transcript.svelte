@@ -7,12 +7,12 @@
   import fix from './transFix'
   import { get_current_component } from "svelte/internal";
   import { draw as draw_orig } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"
   import VuMeter from "./components/VuMeter.svelte";
   import { tweened } from "svelte/motion";
 
   const HIDE_TIMEOUT_MS = 2000;
+  const HIDE_TIMEOUT_DEMO_MS = 3500;
 
   export let placement = undefined;
   export let voffset = "3rem";
@@ -25,10 +25,13 @@
   export let gradientstop2 = "#ffffffcc";
   export let marginbottom = "0rem";
   export let formattext = undefined;
+  export let demomode = undefined;
 
   $: showlistening = (words.length === 0);
   $: useTextBackground = backgroundcolor !== "none";
   $: useEntityFormatting = formattext === undefined || formattext !== "false";
+  $: useDemoMode = demomode !== undefined && demomode !== "false";
+  $: wordTransitionInMs = useDemoMode ? 800 : 350;
   $: {
     const newVisibility = clientState === ClientState.Recording || showingTranscript;
     if (newVisibility !== visibility) {
@@ -37,6 +40,7 @@
     visibility = newVisibility;
     visibilityTransition.set({transition: visibility ? 1 : 0});
   }
+  $: if (!useDemoMode) scheduleHide(0);
 
   let words: ITaggedWord[] = [];
   let vumeter = undefined;
@@ -62,18 +66,6 @@
   };
 
   const draw = fix(draw_orig);
-
-  const revealTransition = fix((node, {delay = 0, duration = 400}) => {
-    return {
-      delay,
-      duration,
-      easing: cubicInOut,
-      css: (t: number) => `
-        opacity: ${interpolateLinearf(fadeIn, t, 0.0, 1.0)};
-        max-height: ${interpolateLinearf(fadeIn, t, 0.0, 0.6) * 10}rem;
-      `
-    };
-  });
 
   const slideTransition = fix((node, {delay = 0, duration = 350, maxWidth = 10}) => {
     return {
@@ -118,12 +110,12 @@
     if (segment === undefined) return;
 
     // Animate VU meter
-    if (vumeter && clientState === ClientState.Recording) {
+    if (vumeter && (useDemoMode || clientState === ClientState.Recording)) {
       vumeter.updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
     }
 
     if (segment.isFinal) {
-      scheduleHide(words.length > 0 ? HIDE_TIMEOUT_MS : 0);
+      scheduleHide(words.length > 0 ? (useDemoMode ? HIDE_TIMEOUT_DEMO_MS : HIDE_TIMEOUT_MS) : 0);
     } else {
       if (words.length > 0) {
         if (!showingTranscript) {
@@ -218,11 +210,13 @@
   --gradient-stop2: {gradientstop2};
   --marginbottom: {marginbottom};
   --transition: {$visibilityTransition.transition};
+  opacity: {$visibilityTransition.transition};
+  max-height: {interpolateLinearf(fadeIn, $visibilityTransition.transition, 0.0, 0.6) * 10}rem;
+  visibility: {$visibilityTransition.transition !== 0 ? "visible" : "hidden"};
 ">
 
-  {#if visibility}
-    <div class="BigTranscript" in:revealTransition out:revealTransition>
-      <div class="TranscriptItem" in:slideTransition="{{duration: 200}}">
+    <div class="BigTranscript">
+      <div class="TranscriptItem">
         {#if useTextBackground}
           <div class="TransscriptItemBgDiv"/>
         {/if}
@@ -236,9 +230,9 @@
       {#each words as word, index}
         <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
           {#if useTextBackground}
-            <div class="TransscriptItemBgDiv" in:slideTransition/>
+            <div class="TransscriptItemBgDiv" in:slideTransition="{{duration: wordTransitionInMs}}"/>
           {/if}
-          <div class="TransscriptItemContent" in:slideTransition>
+          <div class="TransscriptItemContent" in:slideTransition="{{duration: wordTransitionInMs}}">
             {word.word}
             {#if index < words.length}
               <span style={index < words.length - 1 ? "width:0.25em;" : acknowledged ? "width:1.2em;" : ""}></span>
@@ -255,7 +249,6 @@
         </div>
       {/if}
     </div>
-  {/if}
 </main>
 
 <svelte:head>
@@ -297,6 +290,7 @@
     flex-direction: row;
     align-items: center;
     overflow: hidden;
+    white-space: nowrap;
   }
 
   .TransscriptItemBgDiv {

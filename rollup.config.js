@@ -93,7 +93,13 @@ const webComponentDefaults = {
   ],
   watch: {
     clearScreen: false
-  }
+  },
+};
+
+const typeScriptDefaults = {
+  plugins: [
+    typescript(),
+  ],
 };
 
 export default [
@@ -135,6 +141,17 @@ export default [
       ...webComponentDefaults.output,
       file: 'docs/dev/call-out.js'
     },
+  },
+
+  {...typeScriptDefaults,
+    input: 'src/demomode.ts',
+    output: [
+      {
+        file: 'docs/dev/demomode.js',
+        format: 'esm', // ES Modules
+        sourcemap: true,
+      },
+    ],
   },
   
 ]

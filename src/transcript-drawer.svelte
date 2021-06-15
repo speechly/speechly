@@ -18,6 +18,7 @@
   export let gradientstop1 = "#ffffff88";
   export let gradientstop2 = "#ffffffcc";
   export let formattext = undefined;
+  export let demomode = undefined;
 
   let hints = [];
   let hintNumber = 0;
@@ -121,7 +122,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2}></big-transcript>
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2} demomode={demomode}></big-transcript>
       <div class="hint" style="opacity: {$hintTransition.opacity};">
         {effectiveHint}
       </div>
