@@ -35,9 +35,12 @@ https://speechly.github.io/v1/browser-ui/v1/big-transcript.js
 ## Publishing
 
 ```
-cd docs/v1
-code package.json
+code docs/dev/package.json
 # Update version number
+cp -r docs/dev/ docs/v100
+code docs/v100/
+# Replace '/dev/' with '/v100/' in index.html and drawer.html
+cd docs/v100
 npm publish
 # Check Google Authenticator app for one-time password
 ```
