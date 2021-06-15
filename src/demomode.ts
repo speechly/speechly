@@ -111,10 +111,16 @@ const generateSegment = (contextId, tokenizedSal, lastToken = undefined) => {
   };
 };
 
-export const startDemo = (demoStrings: string[]) => {
+export const startDemo = (demoStrings: string[], onSegmentCallback = undefined) => {
   let utterancePlayhead = 0;
   let tokenizedSal = undefined;
   let playhead = 0;
+
+  if (onSegmentCallback === undefined) {
+    onSegmentCallback = (segment) => {
+      window.postMessage({ type: "speechsegment", segment: segment }, "*");
+    }
+  }
 
   const getNextDemoString = () => {
     contextId = "demo-utterance-" + Math.random();
@@ -132,13 +138,13 @@ export const startDemo = (demoStrings: string[]) => {
     if (playhead < tokenizedSal.tokens.length) {
       let mockSegment = generateSegment(contextId, tokenizedSal, playhead + 1);
       mockSegment.isFinal = false;
-      window.postMessage({ type: "speechsegment", segment: mockSegment }, "*");
+      onSegmentCallback(mockSegment);
       const waitMs = tokenizedSal.tokens[playhead].word.length * 80;
       timeout = window.setTimeout(animateTranscript, waitMs);
     } else {
       let mockSegment = generateSegment(contextId, tokenizedSal);
       mockSegment.isFinal = true;
-      window.postMessage({ type: "speechsegment", segment: mockSegment }, "*");
+      onSegmentCallback(mockSegment);
       tokenizedSal = undefined;
       timeout = window.setTimeout(animateTranscript, 6000);
     }
