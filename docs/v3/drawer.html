@@ -6,13 +6,12 @@
 
 	<title>Speechly Web Toolkit and Browser-UI Beta</title>
 
-  <link rel='icon' type='image/png' href='favicon.png'>
-	<link rel='stylesheet' href='global.css'>
-  <link rel="stylesheet" href="v3/speechly-ui.css">
+  <link rel='icon' type='image/png' href='../favicon.png'>
+	<link rel='stylesheet' href='../global.css'>
+  <link rel="stylesheet" href="speechly-ui.css">
  
-  <!-- <script src="https://unpkg.com/@webcomponents/custom-elements"></script> -->
-	<script src='v3/push-to-talk-button.js'></script>
-	<script src='v3/transcript-drawer.js'></script>
+	<script src='push-to-talk-button.js'></script>
+	<script src='transcript-drawer.js'></script>
 </head>
 
 <body>
@@ -65,7 +64,8 @@
     <p>
       It's an alternative to big-transcript (actually a wrapper). It is displayed at the top of the screen. It is momentarily displayed and automatically hidden after the end of voice input.
     </p>
-    <button onclick="showTranscriptSample()">Show sample transcript</button>
+    <button id="start-demo">Start demo transcript</button>
+    <button id="stop-demo">Stop demo</button>
 
     <h3>Attributes</h3>
     <ul>
@@ -78,6 +78,7 @@
       <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
       <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
       <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
+      <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
     </ul>
 
     <h3>Properties</h3>
@@ -163,94 +164,6 @@
       console.log(`initialized message received: `,e.detail)
     });
 
-    const showTranscriptSample = (e) => {
-      const sampleSegment = {
-        "id": 0,
-        "contextId": "e310e11e-95d4-4f22-98dd-388a1bd84718",
-        "isFinal": false,
-        "words": [
-            {
-                "value": "TURN",
-                "index": 2,
-                "startTimestamp": 2040,
-                "endTimestamp": 2640,
-                "isFinal": true
-            },
-            {
-                "value": "ON",
-                "index": 3,
-                "startTimestamp": 2640,
-                "endTimestamp": 2820,
-                "isFinal": true
-            },
-            {
-                "value": "THE",
-                "index": 4,
-                "startTimestamp": 2820,
-                "endTimestamp": 2940,
-                "isFinal": true
-            },
-            {
-                "value": "LIGHTS",
-                "index": 5,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 6,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 7,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 8,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 9,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            },
-            {
-                "value": "YADDA",
-                "index": 10,
-                "startTimestamp": 2940,
-                "endTimestamp": 3420,
-                "isFinal": true
-            }
-        ],
-        "entities": [
-            {
-                "type": "email",
-                "value": "the lights",
-                "startPosition": 4,
-                "endPosition": 6,
-                "isFinal": true
-            }
-        ],
-        "intent": {
-            "intent": "email",
-            "isFinal": true
-        }
-      }
-
-      window.postMessage({type: "speechsegment", segment: sampleSegment}, "*");
-    }
-
     const hideButton = (e) => {
       pushToTalkEl.setAttribute("hide", "true");
     }
@@ -261,5 +174,26 @@
 
     webLog("End of index.html script");
 	</script>
+
+  <script type="module">
+    import {startDemo, stopDemo} from './demomode.js'
+
+    let demoStrings = [
+        "*book book a flight from london(from) to [new york](to)",
+        "*book in [business class](class)",
+      ];
+
+    const transcriptEl = document.getElementsByTagName("transcript-drawer")[0];
+
+    document.querySelector('#start-demo').addEventListener('click', ()=>{
+      startDemo(demoStrings)
+      transcriptEl.setAttribute("demomode", "true");
+    });
+    document.querySelector('#stop-demo').addEventListener('click', ()=>{
+      stopDemo()
+      transcriptEl.setAttribute("demomode", "false");
+    });
+  </script>
+
 </body>
 </html>
