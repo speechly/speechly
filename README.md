@@ -2,7 +2,7 @@
 <a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
 </h1>
 <h2 align="center">
-Complete your touch user interface with voice
+Speechly is the Fast, Accurate, and Simple Voice Interface API for Web and Mobile Apps
 </h2>
 
 [Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client&utm_campaign=headere)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
