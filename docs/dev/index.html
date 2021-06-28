@@ -147,9 +147,9 @@
     </ul>
     <h3>Window messages listened</h3>
     <ul>
-      <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
-      <li><code>{type: "speechstate", state: ClientState}</code> - Needed to show/hide element</li>
-      <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
+      <li><code>{type: "speechsegment", segment: Segment}</code> - Required. Updates transcript content in component. This message is automatically emitted by push-to-talk-button.</li>
+      <li><code>{type: "speechstate", state: ClientState}</code> - Required. Needed to show/hide element. This message is automatically emitted by push-to-talk-button.</li>
+      <li><code>{type: "speechhandled", success: boolean}</code> - Optional. Shows an indication to the user that the voice command was successfully understood by the app. Use window.postMessage to send it on segment.isFinal.</li>
     </ul>
 
     <h2>Element &lt;holdable-button/&gt;</h2>
