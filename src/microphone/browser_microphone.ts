@@ -26,6 +26,10 @@ export class BrowserMicrophone implements Microphone {
   // before it can capture or play audio and video, for privacy and user experience reasons.
   private audioProcessor?: ScriptProcessorNode
 
+  private stats = {
+    maxSignalEnergy: 0.0,
+  }
+
   constructor(isWebkit: boolean, sampleRate: number, apiClient: APIClient, debug: boolean = false) {
     this.isWebkit = isWebkit
     this.apiClient = apiClient
@@ -33,7 +37,7 @@ export class BrowserMicrophone implements Microphone {
     this.debug = debug
   }
 
-  async initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void> {
+  async initialize(audioContext: AudioContext, mediaStreamConstraints: MediaStreamConstraints): Promise<void> {
     if (window.navigator?.mediaDevices === undefined) {
       throw ErrDeviceNotSupported
     }
@@ -42,7 +46,7 @@ export class BrowserMicrophone implements Microphone {
     this.resampleRatio = this.audioContext.sampleRate / this.sampleRate
 
     try {
-      this.mediaStream = await window.navigator.mediaDevices.getUserMedia(opts)
+      this.mediaStream = await window.navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
     } catch {
       throw ErrNoAudioConsent
     }
@@ -80,14 +84,26 @@ export class BrowserMicrophone implements Microphone {
           type: 'SET_SHARED_ARRAY_BUFFERS',
           controlSAB,
           dataSAB,
+          debug: this.debug,
         })
       } else {
+        // Opera, Chrome Android, Webview Anroid
         if (this.debug) {
           console.log('[SpeechlyClient]', 'can not use SharedArrayBuffer')
         }
-        // Opera, Chrome Android, Webview Anroid
-        speechlyNode.port.onmessage = (event: MessageEvent) => {
-          this.handleAudio(event.data)
+      }
+
+      speechlyNode.port.onmessage = (event: MessageEvent) => {
+        switch (event.data.type) {
+          case 'STATS':
+            if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
+              this.stats.maxSignalEnergy = event.data.signalEnergy
+            }
+            break
+          case 'DATA':
+            this.handleAudio(event.data.frames)
+            break
+          default:
         }
       }
     } else {
@@ -155,5 +171,19 @@ export class BrowserMicrophone implements Microphone {
     if (array.length > 0) {
       this.apiClient.sendAudio(array)
     }
+  }
+
+  /**
+   * print statistics to console
+   */
+  public printStats(): void {
+    if (this.audioTrack != null) {
+      const settings: MediaTrackSettings = this.audioTrack.getSettings()
+      console.log(this.audioTrack.label, this.audioTrack.readyState)
+      console.log('channelCount', settings.channelCount)
+      console.log('latency', settings.latency)
+      console.log('autoGainControl', settings.autoGainControl)
+    }
+    console.log('maxSignalEnergy', this.stats.maxSignalEnergy)
   }
 }

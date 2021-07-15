@@ -46,7 +46,7 @@ export interface Microphone {
    * but the microphone should remain muted after the call.
    * This method will be called by the Client as part of client initialisation process.
    */
-  initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void>
+  initialize(audioContext: AudioContext, mediaStreamConstraints: MediaStreamConstraints): Promise<void>
 
   /**
    * Closes the microphone, tearing down all the infrastructure.
@@ -66,4 +66,9 @@ export interface Microphone {
    * Unmutes the microphone.
    */
   unmute(): void
+
+  /**
+   * Print usage stats to console in debug mode.
+   */
+  printStats(): void
 }

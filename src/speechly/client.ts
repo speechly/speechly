@@ -71,6 +71,7 @@ export class Client {
   private readonly isWebkit: boolean
   private readonly sampleRate: number
   private readonly nativeResamplingSupported: boolean
+  private readonly autoGainControl: boolean
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
   private readonly reconnectAttemptCount = 5
@@ -101,8 +102,10 @@ export class Client {
     try {
       const constraints = window.navigator.mediaDevices.getSupportedConstraints()
       this.nativeResamplingSupported = constraints.sampleRate === true
+      this.autoGainControl = constraints.autoGainControl === true
     } catch {
       this.nativeResamplingSupported = false
+      this.autoGainControl = false
     }
 
     const language = options.language ?? defaultLanguage
@@ -215,16 +218,17 @@ export class Client {
         this.audioContext = new window.AudioContext(opts)
       }
 
-      const opts: MediaStreamConstraints = {
+      const mediaStreamConstraints: MediaStreamConstraints = {
         video: false,
       }
 
-      if (this.nativeResamplingSupported) {
-        opts.audio = {
+      if (this.nativeResamplingSupported || this.autoGainControl) {
+        mediaStreamConstraints.audio = {
           sampleRate: this.sampleRate,
+          autoGainControl: this.autoGainControl,
         }
       } else {
-        opts.audio = true
+        mediaStreamConstraints.audio = true
       }
 
       if (this.audioContext != null) {
@@ -240,7 +244,7 @@ export class Client {
         }
         // 3. Initialise websocket.
         await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
-        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, opts)
+        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, mediaStreamConstraints)
         await this.initializeMicrophonePromise
       } else {
         throw ErrDeviceNotSupported
@@ -582,6 +586,13 @@ export class Client {
 
     this.state = newState
     this.stateChangeCb(newState)
+  }
+
+  /**
+   * print statistics to console
+   */
+  public printStats(): void {
+    this.microphone.printStats()
   }
 }
 

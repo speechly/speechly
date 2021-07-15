@@ -34,6 +34,7 @@ export class Client {
     onTentativeIntent(cb: IntentCallback): void;
     onTentativeTranscript(cb: TentativeTranscriptCallback): void;
     onTranscript(cb: TranscriptCallback): void;
+    printStats(): void;
     startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
     switchContext(appId: string): Promise<void>;
@@ -139,8 +140,9 @@ export interface IntentResponse {
 // @public
 export interface Microphone {
     close(): Promise<void>;
-    initialize(audioContext: AudioContext, opts: MediaStreamConstraints): Promise<void>;
+    initialize(audioContext: AudioContext, mediaStreamConstraints: MediaStreamConstraints): Promise<void>;
     mute(): void;
+    printStats(): void;
     unmute(): void;
 }
 
