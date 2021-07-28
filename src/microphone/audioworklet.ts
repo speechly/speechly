@@ -11,12 +11,14 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
     super();
 
     this._initialized = false;
+    this.debug = false;
     this.port.onmessage = this._initialize.bind(this);
   }
 
   _initialize(event) {
     this.controlSAB = new Int32Array(event.data.controlSAB);
     this.dataSAB = new Float32Array(event.data.dataSAB);
+    this.debug = event.data.debug;
     this.sharedBufferSize = this.dataSAB.length;
     this.buffer = new Float32Array(0);
     this._initialized = true;
@@ -38,6 +40,14 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
   }
 
   _pushData(data) {
+    if (this.debug) {
+      const signalEnergy = getStandardDeviation(data)
+      this.port.postMessage({
+        type: 'STATS',
+        signalEnergy: signalEnergy
+      });
+    }
+
     if (this.buffer.length > this.sharedBufferSize) {
       const dataToTransfer = this.buffer.subarray(0, this.sharedBufferSize)
       this._transferDataToSharedBuffer(dataToTransfer)
@@ -55,12 +65,21 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
         if (this.controlSAB && this.dataSAB) {
           this._pushData(inputChannelData);
         } else {
-          this.port.postMessage(inputChannelData);
+          this.port.postMessage({
+            type: 'DATA',
+            frames: inputChannelData
+          });
         }
       }
       
       return true;
   }
+}
+
+function getStandardDeviation(array) {
+  const n = array.length
+  const mean = array.reduce((a, b) => a + b) / n
+  return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
 }
 
 registerProcessor('speechly-worklet', SpeechlyProcessor);
