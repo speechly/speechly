@@ -39,7 +39,6 @@ import {
 import { stateToString } from './state'
 import { SegmentState } from './segment'
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
-import AsyncRetry from 'async-retry'
 
 const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
@@ -466,7 +465,6 @@ export class Client {
       console.log('[SpeechlyClient]', 'Received response', response)
     }
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
     const { audio_context, segment_id, type } = response
     let { data } = response
 
@@ -553,26 +551,6 @@ export class Client {
       return
     }
     this.setState(ClientState.Connecting)
-
-    this.reconnectWebsocket(this.deviceId)
-      .then(() => this.setState(ClientState.Connected))
-      .catch(() => this.setState(ClientState.Failed))
-  }
-
-  private async reconnectWebsocket(deviceId: string): Promise<void> {
-    return AsyncRetry(
-      async (_, attempt: number): Promise<void> => {
-        if (this.debug) {
-          console.log('[SpeechlyClient]', 'WebSocket reconnection attempt number:', attempt)
-        }
-
-        // await this.initializeWebsocket(deviceId)
-      },
-      {
-        retries: this.reconnectAttemptCount,
-        minTimeout: this.reconnectMinDelay,
-      },
-    )
   }
 
   private setState(newState: ClientState): void {
