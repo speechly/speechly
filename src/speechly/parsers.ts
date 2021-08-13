@@ -8,7 +8,6 @@ import {
 import { Word, Entity, Intent } from './types'
 
 export function parseTentativeTranscript(data: TentativeTranscriptResponse): Word[] {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   return data.words.map(({ word, index, start_timestamp, end_timestamp }) => {
     return {
       value: word,
@@ -21,7 +20,6 @@ export function parseTentativeTranscript(data: TentativeTranscriptResponse): Wor
 }
 
 export function parseTranscript(data: TranscriptResponse): Word {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     value: data.word,
     index: data.index,
@@ -32,7 +30,6 @@ export function parseTranscript(data: TranscriptResponse): Word {
 }
 
 export function parseTentativeEntities(data: TentativeEntitiesResponse): Entity[] {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   return data.entities.map(({ entity, value, start_position, end_position }) => {
     return {
       type: entity,
@@ -45,7 +42,6 @@ export function parseTentativeEntities(data: TentativeEntitiesResponse): Entity[
 }
 
 export function parseEntity(data: EntityResponse): Entity {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     type: data.entity,
     value: data.value,
@@ -56,7 +52,6 @@ export function parseEntity(data: EntityResponse): Entity {
 }
 
 export function parseIntent(data: IntentResponse, isFinal: boolean): Intent {
-  // eslint-disable-next-line @typescript-eslint/camelcase
   return {
     intent: data.intent,
     isFinal: isFinal,
