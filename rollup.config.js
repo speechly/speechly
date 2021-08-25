@@ -144,6 +144,14 @@ export default [
     },
   },
 
+  {...webComponentDefaults, 
+    input: 'src/intro-popup.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/intro-popup.js'
+    },
+  },
+
   {...typeScriptDefaults,
     input: 'src/demomode.ts',
     output: [
