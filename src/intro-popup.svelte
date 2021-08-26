@@ -118,6 +118,7 @@
     overflow-y: auto;
     z-index: 2000;
     font-size: var(--remsize);
+    pointer-events: none;
   }
 
   h1,
@@ -169,6 +170,8 @@
     justify-content: center;
   
     background: linear-gradient(180deg, #413783f0, #302865c0 80%);
+
+    pointer-events: auto;
   }
   
   .primaryLayout {
