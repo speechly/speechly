@@ -112,7 +112,8 @@
     left: 0;
     right: 0;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+    z-index: 2000;
   }
 
   h1,
