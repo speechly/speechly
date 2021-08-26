@@ -7,6 +7,7 @@
 
   export let video = "";
   export let hide = undefined;
+  export let remsize = "1.0rem"
 
   const fade = fix(fade_orig);
   $: visibility = mounted && (hide === undefined || hide !== "true");
@@ -42,7 +43,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
 </svelte:head>
 
-<modal>
+<modal style="
+  --remsize: {remsize};
+">
 {#if visibility}
   <div class="page" transition:fade on:click={closeSelf}>
     <div class="primaryLayout" on:click={ignore}>
@@ -114,6 +117,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 2000;
+    font-size: var(--remsize);
   }
 
   h1,
