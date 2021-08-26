@@ -47,8 +47,10 @@
   --remsize: {remsize};
 ">
 {#if visibility}
-  <div class="page" transition:fade on:click={closeSelf}>
-    <div class="primaryLayout" on:click={ignore}>
+  <modalbg transition:fade on:click={closeSelf} />
+
+  <div class="page" transition:fade>
+    <div class="primaryLayout">
 
       <button on:click={closeSelf} class="close" />
 
@@ -108,18 +110,44 @@
 </modal>
 
 <style>
+
   modal {
+    font-size: var(--remsize);
+    pointer-events: none;
+  }
+
+  modalbg {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     z-index: 2000;
-    font-size: var(--remsize);
+    pointer-events: auto;
+
+    background: linear-gradient(180deg, #413783f0, #302865c0 80%);
+  }
+
+  .page {
+    position: absolute;
+    z-index: 2001;
+    top: 0px;
+
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  
     pointer-events: none;
   }
+
 
   h1,
   h2,
@@ -157,23 +185,7 @@
     padding-left: 6px;
     line-height: 135%;
   }
-  
-  .page {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  
-    background: linear-gradient(180deg, #413783f0, #302865c0 80%);
-
-    pointer-events: auto;
-  }
-  
+    
   .primaryLayout {
     position: relative;
     box-sizing: border-box;
@@ -188,6 +200,8 @@
     border-radius: 1rem;
   
     box-shadow: 0 0.25rem 1.25rem #0008;
+
+    pointer-events: auto;
   }
   
   .layout {
