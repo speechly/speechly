@@ -25,49 +25,36 @@
   </div>
 
   <main>
-    <h1>Transcript Drawer for Web Toolkit</h1>
+    <h1>Web Toolkit Extras</h1>
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#">transcript-drawer component</a></li>
+      <li><a href="#">intro-popup component</a></li>
+    </ul>
     <h2>Quick installation from CDN</h2>
       Include the resources in your <code>&lt;head&gt;</code> block:
 <xmp><head>
-  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/push-to-talk-button.js"></script>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/transcript-drawer.js"></script>
-  <link rel="stylesheet" href="https://speechly.github.io/browser-ui/dev/speechly-ui.css">
+  <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/intro-popup.js"></script>
 </head>
-</xmp>
-
-    <h2>Usage</h2>
-      <p>
-        Include the following lines in your <code>&lt;body&gt;</code>:
-      </p>
-<xmp><transcript-drawer></transcript-drawer> 
-</xmp>
-
-<xmp><div class="PushToTalkContainer">
-  <push-to-talk-button appid="ead4b9e7-e5c4-48ed-9dae-3c530916ed76"></push-to-talk-button>
-</div>
-</xmp>
-
-    <h2>Handling Speech Input</h2>
-    Listen for the broadcasted speechsegment messages:
-<xmp><script type="text/javascript">
-  window.addEventListener("message", (e) => {
-    if (e.data.type === "speechsegment") {
-      const segment = e.data.segment;
-      console.log("speechsegment message:", segment);
-    }
-  });
-</script>
 </xmp>
     
     <h2>Element &lt;transcript-drawer/&gt;</h2>
     <p>
-      <code>&lt;transcript-drawer/&gt;</code> is an drawer-style component for displaying real-time speech-to-text transcript and hint texts.
+      Transcript drawer is an drawer/sheet/shelf style component for displaying real-time speech-to-text transcript and hint texts.
     </p>
     <p>
       It's an alternative to big-transcript (actually a wrapper). It is displayed at the top of the screen. It is momentarily displayed and automatically hidden after the end of voice input.
     </p>
     <button id="start-demo">Start demo transcript</button>
     <button id="stop-demo">Stop demo</button>
+
+    <h3>Usage</h3>
+    <p>
+      Include the following lines in your <code>&lt;body&gt;</code>:
+    </p>
+<xmp><transcript-drawer></transcript-drawer> 
+</xmp>
 
     <h3>Attributes</h3>
     <ul>
@@ -99,49 +86,42 @@
       <li><code>{type: "hint", hint: text}</code> - Optionally update hint text.</li>
     </ul>
 
+    <h2>Element &lt;intro-popup/&gt;</h2>
+    <p>
+      Intro popup introduces the application and voice usage.
+    </p>
 
-    <h2>Browser-UI Playground Log</h2>
+    <h3>Usage</h3>
     <p>
-      Try it out! Hold the button and talk.
-      You can also try holding the hot key (SPACE) to activate listening.
+      Include the following lines in your <code>&lt;body&gt;</code>:
     </p>
-    <p>
-      The listening hot key is disabled if an element like input has focus:<br/>
-      <input type="text"/>
-    </p>
-    <pre><xmp id="info"></xmp></pre>
-  </main>
+<xmp><intro-popup></intro-popup> 
+</xmp>
+
+    <h3>Attributes</h3>
+    <ul>
+      <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
+      <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
+      <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
+    </ul>
+
+    <h3>Window messages emitted (postMessage)</h3>
+    <ul>
+      <li><code>{type: "speechly-intro-closed"}</code> - Broadcasted when popup is closed by user</li>
+    </ul>
 
 	<script type="text/javascript">
-    var webLogLines = "";
-    webLog = (newLine) => {
-      webLogLines += newLine + "\n";
-      document.getElementById("info").innerHTML = webLogLines;
-    }
-    webLog("Start of index.html script V11...");
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
-    webLog("push-to-talk-button: "+pushToTalkEl);
-		const transcriptDrawer = document.getElementsByTagName("transcript-drawer")[0];
-    webLog("transcript-drawer: "+transcriptDrawer);
-
     // Use query param to override appid
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const appid = urlParams.get('appid') || urlParams.get('appId') || "ead4b9e7-e5c4-48ed-9dae-3c530916ed76";
     pushToTalkEl.setAttribute("appid", appid);
 
-		pushToTalkEl.addEventListener("holdstart", (e) => {
-      console.log("holdstart event received");
-    });
-		pushToTalkEl.addEventListener("holdend", (e) => {console.log("holdend event received", e.detail.timeMs)});
-
     window.addEventListener("message", (e) => {
       if (e.data.type === "speechsegment") {
         const segment = e.data.segment;
         console.log("speechsegment message:", segment);
-        webLog(segment.words.map(w => w.value).join(" "));
-        // transcriptEl.dispatchEvent(new CustomEvent("speechsegment", {detail: e.detail}));
-        // window.postMessage({type: "speechsegment", segment: e.detail}, "*");
         if (segment.isFinal) {
           // Acknowledge we understood what was being said
           window.postMessage({type: "speechhandled", success: true}, "*");
@@ -149,32 +129,6 @@
       }
     });
 
-		pushToTalkEl.addEventListener("speechsegment", (e) => {
-      const segment = e.detail;
-      console.log("speechsegment event:", segment);
-      // webLog(segment.words.map(w => w.value).join(" "));
-      // transcriptEl.dispatchEvent(new CustomEvent("speechsegment", {detail: e.detail}));
-      // window.postMessage({type: "speechsegment", segment: e.detail}, "*");
-    });
-
-		pushToTalkEl.addEventListener("starting", (e) => {
-      webLog(`starting message received: ${e.detail}`)
-      console.log(`starting message received: `, e.detail)
-    });
-		pushToTalkEl.addEventListener("initialized", (e) => {
-      webLog(`initialized message received: ${e.detail}`)
-      console.log(`initialized message received: `,e.detail)
-    });
-
-    const hideButton = (e) => {
-      pushToTalkEl.setAttribute("hide", "true");
-    }
-
-    const showButton = (e) => {
-      pushToTalkEl.setAttribute("hide", "false");
-    }
-
-    webLog("End of index.html script");
 	</script>
 
   <script type="module">
