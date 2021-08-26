@@ -7,7 +7,8 @@
 
   export let video = "";
   export let hide = undefined;
-  export let remsize = "1.0rem"
+  export let remsize = "1.0rem";
+  export let position = "fixed";
 
   const fade = fix(fade_orig);
   $: visibility = mounted && (hide === undefined || hide !== "true");
@@ -49,63 +50,65 @@
 {#if visibility}
   <modalbg transition:fade on:click={closeSelf} />
 
-  <div class="page" transition:fade>
-    <div class="primaryLayout">
+  <modalcontent transition:fade class="{position}" on:click={closeSelf}>
+    <div class="page">
+      <div class="primaryLayout" on:click={ignore}>
 
-      <button on:click={closeSelf} class="close" />
+        <button class="close" on:click={closeSelf}/>
 
-      <div class="layout">
-        <main>
-          <div class="imageContainer">
-              <video class="usageImage" width="100%" height="auto" autoplay muted loop>
-                <source src={video} type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
-          </div>
-          <div class="bodyTextContainer">
-            <h2>Find your favourites faster with&nbsp;voice</h2>
-            <p>
-              Search Evolve clothing gallery's <b>categories</b>, <b>designers</b> and <b>colors</b> by pressing and holding the
-              <span style="width: 1.75rem; height: 1.75rem; vertical-align: middle; margin: -0.25rem -0.5rem 0 -0.5rem; position: relative; display: inline-block;">
-                <MicIcon />
-              </span>
-              <b>push&#8209;to&#8209;talk button</b>.
-              <a class="more" href="#info" on:click={() => {forceInfoVisibility = !forceInfoVisibility}}>More info</a>
-            </p>
-          </div>
-
-        </main>
-
-        <div class="sidePanel" class:forceVisible={forceInfoVisibility}>
-          <div class="sidePanelText">
-            <div class="sidePanelLogo">
-              <SpeechlyLogo/>
+        <div class="layout">
+          <main>
+            <div class="imageContainer">
+                <video class="usageImage" width="100%" height="auto" autoplay muted loop>
+                  <source src={video} type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
             </div>
-            <h3>Voice&nbsp;Search Quick&nbsp;Start</h3>
-            <ul class="mt-l mb-l">
-              <li>Press and hold the
-                <span style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin: -0.20rem -0.35rem 0 -0.35rem; position: relative; display: inline-block;">
+            <div class="bodyTextContainer">
+              <h2>Find your favourites faster with&nbsp;voice</h2>
+              <p>
+                Search Evolve clothing gallery's <b>categories</b>, <b>designers</b> and <b>colors</b> by pressing and holding the
+                <span style="width: 1.75rem; height: 1.75rem; vertical-align: middle; margin: -0.25rem -0.5rem 0 -0.5rem; position: relative; display: inline-block;">
                   <MicIcon />
                 </span>
-                push&#8209;to&#8209;talk button.
-              </li>
-              <li>Allow the browser to use the mic on the 1st time.</li>
-              <li>Say what you need, e.g. <i>"Show me new arrivals"</i></li>
-              <li>Release the push&#8209;to&#8209;talk button to stop listening.</li>
-              <li>The voice command is detected by Speechly and the search results are shown.</li>
-            </ul>
-            Learn more at <a href="https://speechly.com/">speechly.com</a>
+                <b>push&#8209;to&#8209;talk button</b>.
+                <a class="more" href="#info" on:click={() => {forceInfoVisibility = !forceInfoVisibility}}>More info</a>
+              </p>
+            </div>
+
+          </main>
+
+          <div class="sidePanel" class:forceVisible={forceInfoVisibility}>
+            <div class="sidePanelText">
+              <div class="sidePanelLogo">
+                <SpeechlyLogo/>
+              </div>
+              <h3>Voice&nbsp;Search Quick&nbsp;Start</h3>
+              <ul class="mt-l mb-l">
+                <li>Press and hold the
+                  <span style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin: -0.20rem -0.35rem 0 -0.35rem; position: relative; display: inline-block;">
+                    <MicIcon />
+                  </span>
+                  push&#8209;to&#8209;talk button.
+                </li>
+                <li>Allow the browser to use the mic on the 1st time.</li>
+                <li>Say what you need, e.g. <i>"Show me new arrivals"</i></li>
+                <li>Release the push&#8209;to&#8209;talk button to stop listening.</li>
+                <li>The voice command is detected by Speechly and the search results are shown.</li>
+              </ul>
+              Learn more at <a href="https://speechly.com/">speechly.com</a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="buttonLayout">
-        <button on:click={closeSelf} class="wide">Got it!</button>
+        <div class="buttonLayout">
+          <button on:click={closeSelf} class="wide">Got it!</button>
+        </div>
+
       </div>
 
     </div>
-
-  </div>
+  </modalcontent>
 {/if}
 </modal>
 
@@ -114,6 +117,7 @@
   modal {
     font-size: var(--remsize);
     pointer-events: none;
+    height: 100%;
   }
 
   modalbg {
@@ -122,30 +126,45 @@
     bottom: 0;
     left: 0;
     right: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
     z-index: 2000;
     pointer-events: auto;
 
     background: linear-gradient(180deg, #413783f0, #302865c0 80%);
   }
 
-  .page {
-    position: absolute;
+  modalcontent {
     z-index: 2001;
-    top: 0px;
+    pointer-events: auto;
+  }
 
+  modalcontent.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  modalcontent.absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+  }
+  .page {
     box-sizing: border-box;
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     padding: 2rem 1rem;
   
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-  
-    pointer-events: none;
   }
 
 
@@ -200,8 +219,6 @@
     border-radius: 1rem;
   
     box-shadow: 0 0.25rem 1.25rem #0008;
-
-    pointer-events: auto;
   }
   
   .layout {
