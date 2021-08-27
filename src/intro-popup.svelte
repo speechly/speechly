@@ -65,9 +65,9 @@
                 </video>
             </div>
             <div class="bodyTextContainer">
-              <h2>Find your favourites faster with&nbsp;voice</h2>
+              <h2>Find your favourites faster with&nbsp;voice&nbsp;search</h2>
               <p>
-                Search Evolve clothing gallery's <b>categories</b>, <b>designers</b> and <b>colors</b> by pressing and holding the
+                Search Evolve Clothing Gallery's <b>categories</b>, <b>designers</b> and <b>colors</b> by pressing and holding the
                 <span style="width: 1.75rem; height: 1.75rem; vertical-align: middle; margin: -0.25rem -0.5rem 0 -0.5rem; position: relative; display: inline-block;">
                   <MicIcon />
                 </span>
@@ -91,10 +91,14 @@
                   </span>
                   push&#8209;to&#8209;talk button.
                 </li>
-                <li>Allow the browser to use the mic on the 1st time.</li>
-                <li>Say what you need, e.g. <i>"Show me new arrivals"</i></li>
-                <li>Release the push&#8209;to&#8209;talk button to stop listening.</li>
-                <li>The voice command is detected by Speechly and the search results are shown.</li>
+                <li>Allow your browser to use the mic on the 1st time.</li>
+                <li>Make your first search, e.g. <i>"Show me new arrivals"</i></li>
+                <li>Release the
+                  <span style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin: -0.20rem -0.35rem 0 -0.35rem; position: relative; display: inline-block;">
+                  <MicIcon />
+                  </span>
+                  push&#8209;to&#8209;talk button to stop listening.</li>
+                <li>Speechly detects your voice command and your search results are shown.</li>
               </ul>
               Learn more at <a href="https://speechly.com/">speechly.com</a>
             </div>
