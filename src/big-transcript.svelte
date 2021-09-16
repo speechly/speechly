@@ -2,9 +2,9 @@
 
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
-  import { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
+  import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   import type { ITaggedWord } from "./types";
-  import fix from './transFix'
+  import fix from './fixTransition'
   import { get_current_component } from "svelte/internal";
   import { draw as draw_orig } from 'svelte/transition';
   import {interpolateLinearf, fadeIn} from "./TableInterpolator"

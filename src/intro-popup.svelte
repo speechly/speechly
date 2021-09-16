@@ -3,13 +3,15 @@
   import { fade as fade_orig } from 'svelte/transition';
   import MicIcon from "./components/MicIcon.svelte";
   import SpeechlyLogo from "./components/SpeechlyLogo.svelte";
-  import fix from './transFix'
+  import fix from './fixTransition'
+  import { createDispatchUnbounded} from "./fixDispatch";
 
   export let video = "";
   export let hide = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
 
+  const dispatchUnbounded = createDispatchUnbounded();
   const fade = fix(fade_orig);
   $: visibility = mounted && (hide === undefined || hide !== "true");
 
@@ -22,7 +24,8 @@
 
   const closeSelf = () => {
     visibility = false;
-    window.postMessage({ type: "speechly-intro-closed" }, "*");
+    dispatchUnbounded("speechlyintroclosed");
+    window.postMessage({ type: "speechlyintroclosed" }, "*");
   }
 
   const ignore = (e) => {

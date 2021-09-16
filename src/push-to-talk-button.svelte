@@ -3,12 +3,13 @@
 <script lang="ts">
   import { Client, ClientState, Segment } from "@speechly/browser-client";
   import { onMount } from "svelte";
-  import { get_current_component } from "svelte/internal";
   import "./holdable-button.ts";
   import "./call-out.ts";
+  import { createDispatchUnbounded} from "./fixDispatch";
   import type { IHoldEvent } from "./types";
 
   const SHORT_PRESS_TRESHOLD_MS = 600
+  const dispatchUnbounded = createDispatchUnbounded();
 
   export let appid: string = undefined;
   export let size = "6rem";
@@ -39,17 +40,6 @@
 
   let client = null;
   let clientState: ClientState = undefined;
-
-  // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
-  const thisComponent = get_current_component();
-  const dispatchUnbounded = (name: string, detail?: {}) => {
-    thisComponent.dispatchEvent(
-      new CustomEvent(name, {
-        detail,
-        composed: true, // propagate across the shadow DOM
-      })
-    );
-  };
 
   onMount(() => {
     mounted = true;

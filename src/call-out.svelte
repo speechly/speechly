@@ -1,7 +1,7 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import fix from './transFix'
+  import fix from './fixTransition'
 
   const INSTRUCTION_PREROLL_MS = 500
 
