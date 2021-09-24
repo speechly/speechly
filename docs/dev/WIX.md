@@ -1,12 +1,12 @@
-# Speechly Web Toolkit Beta for Wix
+# Speechly Web Components Beta for Wix
 
 ## Introduction
 
-This document describes how to use Speechly Web Toolkit on Wix sites to create voice-enabled web experiences like site navigation and site search.
+This document describes how to use Speechly Web Components on Wix sites to create voice-enabled web experiences like site navigation and site search.
 
 Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities).
 
-Speechly Web Toolkit bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
+Speechly Web Components bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
 
 ## Contents
 
@@ -56,7 +56,7 @@ Tag Name:
 push-to-talk-button
 ```
 
-See [Speechly Web Toolkit help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
+See [Speechly Web Components help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
 
 ## BigTranscript component
 
@@ -83,7 +83,7 @@ big-transcript
 
 Please note that the contents of the component is empty by default.
 
-See [Speechly Web Toolkit help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
+See [Speechly Web Components help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
 
 ## Handling speech input
 
