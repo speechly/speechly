@@ -102,7 +102,7 @@
       }
     }
     // Send as window.postMessages
-    window.postMessage({ type: "holdstart" }, "*");
+    window.postMessage({ type: "holdstart", state: clientState }, "*");
 
   };
 
@@ -182,21 +182,21 @@
   }
 </script>
 
-  <holdable-button class:placementBottom={placement === "bottom"}
-    on:holdstart={tangentStart}
-    on:holdend={tangentEnd}
-    {size}
-    {icon}
-    {capturekey}
-    {gradientstop1}
-    {gradientstop2}
-    {hide}
-    style="
-      --voffset: {voffset};
-      --size: {size};
-    ">
-    <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
-  </holdable-button>
+<holdable-button class:placementBottom={placement === "bottom"}
+  on:holdstart={tangentStart}
+  on:holdend={tangentEnd}
+  {size}
+  {icon}
+  {capturekey}
+  {gradientstop1}
+  {gradientstop2}
+  {hide}
+  style="
+    --voffset: {voffset};
+    --size: {size};
+  ">
+  <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
+</holdable-button>
 
 <style>
   .placementBottom {

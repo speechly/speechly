@@ -145,6 +145,14 @@ export default [
   },
 
   {...webComponentDefaults, 
+    input: 'src/error-panel.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'docs/dev/error-panel.js'
+    },
+  },
+
+  {...webComponentDefaults, 
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,
