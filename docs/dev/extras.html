@@ -30,6 +30,7 @@
     <ul>
       <li><a href="#">transcript-drawer component</a></li>
       <li><a href="#">intro-popup component</a></li>
+      <li><a href="#">demomode</a></li>
     </ul>
     <h2>Quick installation from CDN</h2>
       Include the resources in your <code>&lt;head&gt;</code> block:
@@ -56,35 +57,37 @@
 <xmp><transcript-drawer></transcript-drawer> 
 </xmp>
 
-    <h3>Attributes</h3>
-    <ul>
-      <li><code>hint</code> - Hint text to be shown when the app is listening for speech. Hint is hidden upon user speech is received. String or a JSON.stringify'ed string array, e.g. <code>hint='["Try: 1st hint", "Try: 2nd hint"]'</code>. Pay attention to use double quotes in JSON. If an array is provided, the next tip is automatically shown after an utterance. After all tips are shown, they will be shown again in random order. Default: ""</li>
-      <li><code>height</code> - Optional minimum height as CSS string. Default: "8rem"</li>
-      <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"
-      <li><code>smalltextcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff70"
-      <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
-      <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
-      <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
-      <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
-      <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
-      <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
-    </ul>
+    <component-api id="transcript-drawer-api">
+      <h3>Attributes</h3>
+      <ul>
+        <li><code>hint</code> - Hint text to be shown when the app is listening for speech. Hint is hidden upon user speech is received. String or a JSON.stringify'ed string array, e.g. <code>hint='["Try: 1st hint", "Try: 2nd hint"]'</code>. Pay attention to use double quotes in JSON. If an array is provided, the next tip is automatically shown after an utterance. After all tips are shown, they will be shown again in random order. Default: ""</li>
+        <li><code>height</code> - Optional minimum height as CSS string. Default: "8rem"</li>
+        <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"
+        <li><code>smalltextcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff70"
+        <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
+        <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
+        <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
+        <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
+        <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
+        <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
+      </ul>
 
-    <h3>Properties</h3>
-    <ul>
-      <li><code>speechsegment(segment: Segment)</code> - Function. Call whenever a new segment update is available</li>
-      <li><code>speechstate(state: ClientState)</code> - Function. Call whenever ClientState changes. Needed to show/hide element.</li>
-      <li><code>speechhandled(success: boolean)</code> - Function. Optionally call on segment.isFinal to show confirmation that speech was processed. An indication will be shown with big-transcript.</li>
-      <li><code>sethint(message: string)</code> - Optionally update hint text.</li>
-    </ul>
+      <h3>Properties</h3>
+      <ul>
+        <li><code>speechsegment(segment: Segment)</code> - Function. Call whenever a new segment update is available</li>
+        <li><code>speechstate(state: ClientState)</code> - Function. Call whenever ClientState changes. Needed to show/hide element.</li>
+        <li><code>speechhandled(success: boolean)</code> - Function. Optionally call on segment.isFinal to show confirmation that speech was processed. An indication will be shown with big-transcript.</li>
+        <li><code>sethint(message: string)</code> - Optionally update hint text.</li>
+      </ul>
 
-    <h3>Window messages listened</h3>
-    <ul>
-      <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available</li>
-      <li><code>{type: "speechstate", state: ClientState}</code> - Needed to show/hide element</li>
-      <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
-      <li><code>{type: "hint", hint: text}</code> - Optionally update hint text.</li>
-    </ul>
+      <h3>Window messages listened</h3>
+      <ul>
+        <li><code>{type: "speechsegment", segment: Segment}</code> - Expects an update whenever a new segment update is available. This is usually sent by push-to-talk-button</li>
+        <li><code>{type: "speechstate", state: ClientState}</code> - Needed to show/hide element</li>
+        <li><code>{type: "speechhandled", success: boolean}</code> - Optionally send a confirmation on segment.isFinal that speech was processed. An indication will be shown with big-transcript.</li>
+        <li><code>{type: "hint", hint: text}</code> - Optionally update hint text.</li>
+      </ul>
+    </component-api>
 
     <h2>Element &lt;intro-popup/&gt;</h2>
     <p>
@@ -98,22 +101,67 @@
 <xmp><intro-popup></intro-popup> 
 </xmp>
 
-    <h3>Attributes</h3>
-    <ul>
-      <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
-      <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
-      <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
-    </ul>
+    <component-api id="intro-popup">
 
-    <h3>Events emitted</h3>
-    <ul>
-      <li><code>speechlyintroclosed</code> - CustomEvent emitted on closed by user</li>
-    </ul>
+      <h3>Attributes</h3>
+      <ul>
+        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
+        <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
+        <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
+      </ul>
 
-    <h3>Window messages emitted (postMessage)</h3>
-    <ul>
-      <li><code>{type: "speechlyintroclosed"}</code> - Broadcasted when popup is closed by user</li>
-    </ul>
+      <h3>Events emitted</h3>
+      <ul>
+        <li><code>speechlyintroclosed</code> - CustomEvent emitted on closed by user</li>
+      </ul>
+
+      <h3>Window messages emitted (postMessage)</h3>
+      <ul>
+        <li><code>{type: "speechlyintroclosed"}</code> - Broadcasted when popup is closed by user</li>
+      </ul>
+    </component-api>
+
+    <h2>demomode</h2>
+    <p>
+      Demomode utility can display instructions for the end user. It sends <code>segmentupdate</code> messages (postMessage) in a sequence and drives Big Transcript or Transcript Drawer components.
+      Additionally, if your application is set up to listen to these messages, it will react to those as if they
+      were input from a real user. You may need to reset your altered app state after exiting the demo mode.
+    </p>
+
+    <h3>Usage</h3>
+    <p>
+      Include the following lines in your <code>&lt;body&gt;</code>:
+    </p>
+<xmp><script type="module">
+  import {startDemo, stopDemo} from './demomode.js'
+
+  let demoStrings = [
+      "*book book a flight from london(from) to [new york](to)",
+      "*book in [business class](class)",
+    ];
+
+  const transcriptEl = document.getElementsByTagName("transcript-drawer")[0];
+
+  document.querySelector('#start-demo').addEventListener('click', ()=>{
+    startDemo(demoStrings)
+    transcriptEl.setAttribute("demomode", "true");
+  });
+  document.querySelector('#stop-demo').addEventListener('click', ()=>{
+    stopDemo()
+    transcriptEl.setAttribute("demomode", "false");
+  });
+</script>
+
+</xmp>
+
+    <component-api id="demo-mode">
+      <h3>Methods</h3>
+      <ul>
+        <li><code>startDemo(utterances[])</code> - Starts the demo mode. Utterances is an array of strings in simplified SAL format. Each utterance must start with an <code>*intent</code>, followed by any number of transcript words and entities coded like this: <code>[entity_value](entity_type)</code>.
+        <li><code>stopDemo()</code> - Stops the demo mode.</li>
+      </ul>
+    </component-api>
+
 
 	<script type="text/javascript">
 		const pushToTalkEl = document.getElementsByTagName("push-to-talk-button")[0];
