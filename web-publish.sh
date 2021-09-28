@@ -11,7 +11,7 @@ VER=$1
 
 echo
 echo "Copying 'docs/dev/*' to 'docs/dev/$VER'"
-rsync --delete docs/dev/ docs/$VER
+rsync -r --delete docs/dev/ docs/$VER
 
 echo "- Text substitutions '/dev/' --> '/$VER/'"
 
@@ -22,7 +22,7 @@ sed -i.bak -e "s/\/dev\//\/$VER\//g" docs/$VER/extras.html
 rm docs/$VER/extras.html.bak
 
 echo "Copying 'docs/dev/*' to 'docs/latest'"
-rsync --delete docs/dev/ docs/latest
+rsync -r --delete docs/dev/ docs/latest
 
 echo "- Text substitutions '/dev/' --> '/latest/'"
 
