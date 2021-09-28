@@ -4,7 +4,7 @@
   import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   const HttpsRequired = 'HttpsRequired'
 
-  export let placement = "bottom";
+  export let placement = null;
 
   const isLocalHost = (hostname: string): boolean =>
     !!(
@@ -92,7 +92,7 @@
             browser.
           </p>
           <p>
-            <a href="https://docs.speechly.com/faq/#error-no-browser-support">
+            <a href="https://docs.speechly.com/client-libraries/supported-browsers/#error-no-browser-support">
               Troubleshooting
             </a>
           </p>
@@ -124,8 +124,9 @@
   main.bottom {
     position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
     min-height: 10em;
-    width: 100%;
     z-index: 51;
     user-select: none;
     pointer-events: none;

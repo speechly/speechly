@@ -1,3 +1,7 @@
-4.0.0
+## 4.0.1
+
+- Fixed error-panel default placement and CSS
+
+## 4.0.0
 
 - Added error-panel component
