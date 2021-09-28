@@ -32,5 +32,8 @@ rm docs/latest/index.html.bak
 sed -i.bak -e "s/\/dev\//\/latest\//g" docs/latest/extras.html
 rm docs/latest/extras.html.bak
 
-echo OK
+echo Done.
+echo
+echo "Did you remember to update version in 'docs/dev/package.json'"
+echo "and do 'cd docs/dev && npm publish' ?"
 echo
