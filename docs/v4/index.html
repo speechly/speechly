@@ -37,7 +37,6 @@
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/v4/push-to-talk-button.js"></script>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/v4/big-transcript.js"></script>
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/v4/error-panel.js"></script>
-  <link rel="stylesheet" href="https://speechly.github.io/browser-ui/v4/speechly-ui.css">
 </head>
 </xmp>
 
@@ -46,18 +45,18 @@
         Include the following lines in your <code>&lt;body&gt;</code>:
       </p>
 <xmp><body>
-  <div class="BigTranscriptContainer">
-    <big-transcript></big-transcript>
-  </div> 
+  <big-transcript
+    placement="top" >
+  </big-transcript>
 
   <push-to-talk-button
     appid="ead4b9e7-e5c4-48ed-9dae-3c530916ed76"
-    placement="bottom"
-  ></push-to-talk-button>
+    placement="bottom" >
+  </push-to-talk-button>
 
   <error-panel
-    placement="bottom"
-  ></error-panel>
+    placement="bottom" >
+  </error-panel>
 </body>
 </xmp>
 
