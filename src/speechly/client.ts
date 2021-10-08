@@ -101,7 +101,7 @@ export class Client {
     try {
       const constraints = window.navigator.mediaDevices.getSupportedConstraints()
       this.nativeResamplingSupported = constraints.sampleRate === true
-      if (options.autoGainControl) {
+      if (options.autoGainControl != null && options.autoGainControl) {
         this.autoGainControl = constraints.autoGainControl === true
       } else {
         this.autoGainControl = false
