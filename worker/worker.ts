@@ -57,6 +57,7 @@ class WebsocketClient {
   private isContextStarted: boolean = false
   private isStartContextConfirmed: boolean = false
   private shouldResendLastFramesSent: boolean = false
+  private outbox?: string
   private controlSAB?: Int32Array
   private dataSAB?: Float32Array
 
@@ -141,7 +142,7 @@ class WebsocketClient {
     }
 
     if (this.lastFramesSent.length > 0) {
-      this.websocket.send(this.lastFramesSent)
+      this.send(this.lastFramesSent)
       this.lastFramesSent = new Int16Array(0)
     }
   }
@@ -158,9 +159,9 @@ class WebsocketClient {
     if (audioChunk.length > 0) {
       if (this.resampleRatio > 1) {
         // Downsampling
-        this.websocket.send(this.downsample(audioChunk))
+        this.send(this.downsample(audioChunk))
       } else {
-        this.websocket.send(float32ToInt16(audioChunk))
+        this.send(float32ToInt16(audioChunk))
       }
     }
   }
@@ -190,7 +191,7 @@ class WebsocketClient {
         } else {
           frames = float32ToInt16(data)
         }
-        this.websocket.send(frames)
+        this.send(frames)
   
         // 16000 per second, 1000 in 100 ms
         // save last 250 ms
@@ -217,12 +218,14 @@ class WebsocketClient {
 
     this.isContextStarted = true
     this.isStartContextConfirmed = false
-
+     
     if (appId !== undefined) {
-      this.websocket.send(JSON.stringify({ event: 'start', appId }))
+      this.outbox = JSON.stringify({ event: 'start', appId })
     } else {
-      this.websocket.send(JSON.stringify({ event: 'start' }))
+      this.outbox = JSON.stringify({ event: 'start' })
     }
+
+    this.send(this.outbox)
   }
 
   stopContext() {
@@ -238,7 +241,7 @@ class WebsocketClient {
     this.isContextStarted = false
     this.isStartContextConfirmed = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
-    this.websocket.send(StopEventJSON)
+    this.send(StopEventJSON)
   }
 
   switchContext(newAppId: string) {
@@ -258,9 +261,9 @@ class WebsocketClient {
 
     this.isStartContextConfirmed = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
-    this.websocket.send(StopEventJSON)
+    this.send(StopEventJSON)
     this.shouldResendLastFramesSent = true
-    this.websocket.send(JSON.stringify({ event: 'start', appId: newAppId }))
+    this.send(JSON.stringify({ event: 'start', appId: newAppId }))
   }
 
   closeWebsocket() {
@@ -285,6 +288,11 @@ class WebsocketClient {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'websocket opened')
     }
+
+    if (this.isContextStarted && !this.isStartContextConfirmed) {
+      this.send(this.outbox)
+    }
+    
     this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' })
   }
 
@@ -342,6 +350,14 @@ class WebsocketClient {
     }
   
     return outputBuffer
+  }
+
+  send(data: string | Int16Array): void {
+    try {
+      this.websocket.send(data)
+    } catch (error) {
+      console.log('[SpeechlyClient]', 'Server connection error', error)
+    }
   }
 
 }

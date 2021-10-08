@@ -32,6 +32,9 @@ var WebsocketClient = /** @class */ (function () {
             if (_this.debug) {
                 console.log('[SpeechlyClient]', 'websocket opened');
             }
+            if (_this.isContextStarted && !_this.isStartContextConfirmed) {
+                _this.send(_this.outbox);
+            }
             _this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' });
         };
         this.onWebsocketError = function (_event) {
@@ -123,7 +126,7 @@ var WebsocketClient = /** @class */ (function () {
             return Error('Cannot resend data through inactive websocket');
         }
         if (this.lastFramesSent.length > 0) {
-            this.websocket.send(this.lastFramesSent);
+            this.send(this.lastFramesSent);
             this.lastFramesSent = new Int16Array(0);
         }
     };
@@ -137,10 +140,10 @@ var WebsocketClient = /** @class */ (function () {
         if (audioChunk.length > 0) {
             if (this.resampleRatio > 1) {
                 // Downsampling
-                this.websocket.send(this.downsample(audioChunk));
+                this.send(this.downsample(audioChunk));
             }
             else {
-                this.websocket.send(float32ToInt16(audioChunk));
+                this.send(float32ToInt16(audioChunk));
             }
         }
     };
@@ -167,7 +170,7 @@ var WebsocketClient = /** @class */ (function () {
                 else {
                     frames_1 = float32ToInt16(data);
                 }
-                this.websocket.send(frames_1);
+                this.send(frames_1);
                 // 16000 per second, 1000 in 100 ms
                 // save last 250 ms
                 if (this.lastFramesSent.length > 1024 * 4) {
@@ -193,11 +196,12 @@ var WebsocketClient = /** @class */ (function () {
         this.isContextStarted = true;
         this.isStartContextConfirmed = false;
         if (appId !== undefined) {
-            this.websocket.send(JSON.stringify({ event: 'start', appId: appId }));
+            this.outbox = JSON.stringify({ event: 'start', appId: appId });
         }
         else {
-            this.websocket.send(JSON.stringify({ event: 'start' }));
+            this.outbox = JSON.stringify({ event: 'start' });
         }
+        this.send(this.outbox);
     };
     WebsocketClient.prototype.stopContext = function () {
         if (this.websocket == undefined) {
@@ -210,7 +214,7 @@ var WebsocketClient = /** @class */ (function () {
         this.isContextStarted = false;
         this.isStartContextConfirmed = false;
         var StopEventJSON = JSON.stringify({ event: 'stop' });
-        this.websocket.send(StopEventJSON);
+        this.send(StopEventJSON);
     };
     WebsocketClient.prototype.switchContext = function (newAppId) {
         if (this.websocket == undefined) {
@@ -226,9 +230,9 @@ var WebsocketClient = /** @class */ (function () {
         }
         this.isStartContextConfirmed = false;
         var StopEventJSON = JSON.stringify({ event: 'stop' });
-        this.websocket.send(StopEventJSON);
+        this.send(StopEventJSON);
         this.shouldResendLastFramesSent = true;
-        this.websocket.send(JSON.stringify({ event: 'start', appId: newAppId }));
+        this.send(JSON.stringify({ event: 'start', appId: newAppId }));
     };
     WebsocketClient.prototype.closeWebsocket = function () {
         if (this.websocket == null) {
@@ -262,6 +266,14 @@ var WebsocketClient = /** @class */ (function () {
             this.buffer = new Float32Array(0);
         }
         return outputBuffer;
+    };
+    WebsocketClient.prototype.send = function (data) {
+        try {
+            this.websocket.send(data);
+        }
+        catch (error) {
+            console.log('[SpeechlyClient]', 'Server connection error', error);
+        }
     };
     return WebsocketClient;
 }());
