@@ -142,6 +142,7 @@ export class Client {
           this.connect(apiUrl)
         })
         .catch(err => {
+          this.setState(ClientState.Failed)
           throw err
         })
     } else {
