@@ -2,10 +2,12 @@
 
 <script lang="ts">
   import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+
   const InvaldAppId = 'InvaldAppId'
   const HttpsRequired = 'HttpsRequired'
 
   export let placement = null;
+  let errorParams: any = {};
 
   const isLocalHost = (hostname: string): boolean =>
     !!(
@@ -27,17 +29,18 @@
   const handleMessage = (e) => {
     switch (e.data.type) {
       case "holdstart":
-        micButtonPressed(e.data.state);
+        micButtonPressed(e.data.state, e.data);
         break;
       default:
         break;
     }
   }
 
-  const micButtonPressed = (state: ClientState) => {
+  const micButtonPressed = (state: ClientState, holdStartParams: any) => {
     switch (state) {
       case ClientState.Failed:
         visible = InvaldAppId;
+        errorParams = { appId: holdStartParams.appId }
         break
       case ClientState.NoAudioConsent:
       case ClientState.NoBrowserSupport:
@@ -76,7 +79,7 @@
         <errorRight>
           <h1>Failed to connect Speechly</h1>
           <p>
-            To use the voice interface, please provide a valid Speechly App Id.
+            Please check that Speechly application id '{errorParams.appId}' is valid.
           </p>
           <p>
             <a href="https://docs.speechly.com/faq/#error-invalid-app-id">

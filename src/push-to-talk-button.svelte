@@ -102,7 +102,7 @@
       }
     }
     // Send as window.postMessages
-    window.postMessage({ type: "holdstart", state: clientState }, "*");
+    window.postMessage({ type: "holdstart", state: clientState, appId: appid }, "*");
 
   };
 
