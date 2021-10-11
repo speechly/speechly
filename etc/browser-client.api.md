@@ -45,6 +45,7 @@ export interface ClientOptions {
     apiClient?: APIClient;
     apiUrl?: string;
     appId?: string;
+    autoGainControl?: boolean;
     debug?: boolean;
     language?: string;
     loginUrl?: string;

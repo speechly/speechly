@@ -43,6 +43,11 @@ export interface ClientOptions {
   debug?: boolean
 
   /**
+   * Whether to use auto gain control.
+   * True by default.
+   */
+  autoGainControl?: boolean
+  /**
    * Whether to output updated segments to the console.
    */
   logSegments?: boolean
