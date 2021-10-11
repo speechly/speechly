@@ -110,7 +110,7 @@
         <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
         <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
         <li><code>starting</code> - CustomEvent triggered on initialization start</li>
-        <li><code>initialized</code> - CustomEvent triggered on initialization end. details: {success: true | false, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
+        <li><code>initialized</code> - CustomEvent triggered on initialization end. details: {success: true | false, appId: string, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
       </ul>
       <h3>Window messages sent (postMessage)</h3>
       <ul>
@@ -118,6 +118,7 @@
         <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
+        <li><code>{type: "initialized", success: true | false, appId: string, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</code> - Broadcasted on initialization end. </li>
       </ul>
     </component-api>
 
