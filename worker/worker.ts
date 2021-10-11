@@ -137,10 +137,6 @@ class WebsocketClient {
   }
 
   private resendLastFrames(): void | Error {
-    if (!this.isOpen()) {
-      return Error('Cannot resend data through inactive websocket')
-    }
-
     if (this.lastFramesSent.length > 0) {
       this.send(this.lastFramesSent)
       this.lastFramesSent = new Int16Array(0)
@@ -150,10 +146,6 @@ class WebsocketClient {
   sendAudio(audioChunk: Float32Array) {
     if (!this.isContextStarted) {
       return
-    }
-
-    if (!this.isOpen()) {
-      return Error('Cannot send data through inactive websocket')
     }
 
     if (audioChunk.length > 0) {
@@ -208,9 +200,6 @@ class WebsocketClient {
   }
 
   startContext(appId?: string) {
-    if (!this.isOpen()) {
-      throw Error('Cant start context: websocket is inactive')
-    }
     if (this.isContextStarted) {
       console.log('Cant start context: it has been already started')
       return
@@ -353,6 +342,10 @@ class WebsocketClient {
   }
 
   send(data: string | Int16Array): void {
+    if (!this.isOpen()) {
+      throw Error('Cant start context: websocket is inactive')
+    }
+
     try {
       this.websocket.send(data)
     } catch (error) {
