@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-client",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Browser client for Speechly API",
   "private": true,
   "keywords": [
