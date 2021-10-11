@@ -86,7 +86,7 @@
         <errorRight>
           <h1>Failed to connect Speechly</h1>
           <p>
-            Please check that Speechly application id '{errorParams.appId}' is valid.
+            Please check that Speechly application id '{errorParams.appId}' has been successfully deployed.
           </p>
           <p>
             <a href="https://docs.speechly.com/faq/#error-invalid-app-id">
