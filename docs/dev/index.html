@@ -38,10 +38,11 @@
   <script type="text/javascript" src="https://speechly.github.io/browser-ui/dev/error-panel.js"></script>
 </head>
 </xmp>
+    These scripts add Speechly's components to the page's custom element registry to be used in HTML markup as shown below.
 
     <h2>Usage</h2>
       <p>
-        Include the following lines in your <code>&lt;body&gt;</code>:
+        Include the following lines in your <code>&lt;body&gt;</code> to enable turning listening on/off and showing the transcript:
       </p>
 <xmp><body>
   <big-transcript
@@ -60,7 +61,7 @@
 </xmp>
 
     <h2>Handling Speech Input</h2>
-    Listen for the broadcasted speechsegment messages:
+    Listen for the broadcasted speechsegment messages to perform actions:
 <xmp><script type="text/javascript">
   window.addEventListener("message", (e) => {
     if (e.data.type === "speechsegment") {
