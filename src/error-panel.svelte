@@ -29,18 +29,25 @@
   const handleMessage = (e) => {
     switch (e.data.type) {
       case "holdstart":
-        micButtonPressed(e.data.state, e.data);
+        micButtonPressed(e.data.state);
+        break;
+      case "initialized":
+        console.log(e.data);
+        initialized(e.data.status, e.data.appId);
         break;
       default:
         break;
     }
   }
 
-  const micButtonPressed = (state: ClientState, holdStartParams: any) => {
+  const initialized = (state: ClientState, appId: string) => {
+    errorParams = { appId: appId }
+  }
+
+  const micButtonPressed = (state: ClientState) => {
     switch (state) {
       case ClientState.Failed:
         visible = InvaldAppId;
-        errorParams = { appId: holdStartParams.appId }
         break
       case ClientState.NoAudioConsent:
       case ClientState.NoBrowserSupport:

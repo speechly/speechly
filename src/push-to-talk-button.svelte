@@ -102,7 +102,7 @@
       }
     }
     // Send as window.postMessages
-    window.postMessage({ type: "holdstart", state: clientState, appId: appid }, "*");
+    window.postMessage({ type: "holdstart", state: clientState }, "*");
 
   };
 
@@ -177,7 +177,19 @@
   const setInitialized = (success: boolean, status: string) => {
     if (initializedSuccessfully === undefined) {
       initializedSuccessfully = success;
-      dispatchUnbounded("initialized", { success: initializedSuccessfully, status });
+      
+      window.postMessage({
+        type: "initialized",
+        success: initializedSuccessfully,
+        appId: appid,
+        status
+      }, "*");
+
+      dispatchUnbounded("initialized", {
+        success: initializedSuccessfully,
+        appId: appid,
+        status
+      });
     }
   }
 </script>
