@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   SpeechSegment,
   SpeechProvider,
@@ -21,8 +21,7 @@ import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
-import { AnalyticsWrapper } from "AnalyticsWrapper";
-import Analytics from "analytics";
+import AnalyticsWrapper, { AnalyticsContext } from "AnalyticsWrapper";
 import { SpeechlyUiEvents } from "@speechly/react-ui/types";
 
 const FORGETTING_TIMEOUT_MS = 12000;
@@ -111,13 +110,13 @@ export default function App() {
           appId={process.env.REACT_APP__SPEECHLY_APP_ID || "missing app id"}
           language={process.env.REACT_APP__SPEECHLY_LANGUAGE_CODE || "en-US"}
         >
-          <AnalyticsWrapper queryParams={queryParams}>
+          <AnalyticsWrapper appName="smart-home" appVersion={103} autoIntentTracking={false}>
             <BigTranscriptContainer>
               <BigTranscript />
             </BigTranscriptContainer>
             <PushToTalkButtonContainer>
               <ErrorPanel />
-              <PushToTalkButton captureKey=" " />
+              <PushToTalkButton captureKey=" " powerOn={true} intro="" />
             </PushToTalkButtonContainer>
             <PanContainer
               minScale={0.5}
@@ -140,7 +139,7 @@ export default function App() {
 
 function SpeechlyApp() {
   const { segment, speechState } = useSpeechContext();
-
+  const { trackIntent } = useContext(AnalyticsContext);
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(
     DefaultAppState
@@ -181,7 +180,7 @@ function SpeechlyApp() {
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        Analytics.trackIntent(effectiveIntent, segment, numChanges);
+        trackIntent(segment, numChanges);
         timer.current = window.setTimeout(() => {
           setSelectedRooms([]);
           setSelectedDevices([]);
