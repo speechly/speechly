@@ -343,7 +343,7 @@ class WebsocketClient {
 
   send(data: string | Int16Array): void {
     if (!this.isOpen()) {
-      throw Error('Cant start context: websocket is inactive')
+      throw Error('Cant send data: websocket is inactive')
     }
 
     try {
