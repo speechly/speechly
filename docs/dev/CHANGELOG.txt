@@ -1,3 +1,7 @@
+## Dev
+
+- Tap-to-talk
+
 ## 4.0.3
 
 - Broadcasts initialized message with new app id param

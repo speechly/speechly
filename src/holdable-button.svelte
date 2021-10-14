@@ -14,8 +14,9 @@
     SpeechState,
     stateToAppearance,
   } from "./types";
+import { ClientState } from "@speechly/browser-client";
 
-  export let icon = SpeechState.Idle as string;
+  export let icon = ClientState.Disconnected as unknown as string;
   export let capturekey = " ";
   export let size = "6rem";
   export let gradientstop1 = "#15e8b5";
@@ -38,7 +39,7 @@
 
   // Run this reactive statement whenever icon parameters (icon) changes
   $: {
-    if (!tangentHeld) updateSkin(stateToAppearance[icon]);
+    updateSkin(tangentHeld, icon);
   }
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
@@ -105,8 +106,6 @@
     if (visible && !tangentHeld) {
       tangentHeld = true;
       holdStartTimestamp = Date.now();
-      scale[0] = 1.35;
-      fxOpacity[0] = 1.0;
       vibrate();
 
       // Connect on 1st press
@@ -133,8 +132,6 @@
 
   const tangentEnd = () => {
     if (tangentHeld) {
-      scale[0] = 1.0;
-      fxOpacity[0] = 0.0;
       tangentHeld = false;
       const eventPayload: IHoldEvent = {
         timeMs: Date.now() - holdStartTimestamp,
@@ -197,17 +194,18 @@
     }
   };
 
-  const updateSkin = (newAppearance: IAppearance) => {
-    if (effectiveAppearance !== newAppearance) {
-      effectiveAppearance = newAppearance;
+  const updateSkin = (buttonHeld: boolean, state: string) => {
+    effectiveAppearance = stateToAppearance[state];
 
-      switch (newAppearance.icon) {
-        case Icon.Mic:
-        case Icon.Denied:
-        case Icon.Error:
-          iconOpacity[0] = 1.0;
-          break;
-      }
+    scale[0] = buttonHeld ? 1.35 : 1.0;
+    fxOpacity[0] = (buttonHeld || state == ClientState.Recording as unknown as string) ? 1.0 : 0.0;
+
+    switch (effectiveAppearance.icon) {
+      case Icon.Mic:
+      case Icon.Denied:
+      case Icon.Error:
+        iconOpacity[0] = 1.0;
+        break;
     }
   };
 </script>

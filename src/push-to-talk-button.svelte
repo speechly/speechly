@@ -33,6 +33,12 @@
   let tipCalloutVisible = false;
   let mounted = false;
 
+  let useTapToTalk = true;
+  let initialTapToTalkListenMs = 8000;
+  let silenceToleranceMs = 4000;
+  let stopContextTimeout = null;
+  let holdListening = false;
+
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
@@ -56,6 +62,8 @@
       client.onStateChange(onStateChange);
 
       client.onSegmentChange((segment: Segment) => {
+        // Refresh stopContext timeout if set
+        if (stopContextTimeout) setStopContextTimeout(silenceToleranceMs);
         // Pass on segment updates from Speechly API as events
         dispatchUnbounded("speechsegment", segment);
         // And as window.postMessages
@@ -97,8 +105,14 @@
             "No appid attribute specified. Speechly voice services are unavailable."
           );
         }
-      } else if (isStartable(clientState)) {
-        client.startContext();
+      } else {
+        if (stopContextTimeout) {
+          window.clearTimeout(stopContextTimeout);
+          stopContextTimeout = null;
+        }
+        if (isStartable(clientState)) {
+          client.startContext();
+        }
       }
     }
     // Send as window.postMessages
@@ -108,23 +122,51 @@
 
   const tangentEnd = (event) => {
     const holdEventData: IHoldEvent = event.detail;
-    if (initializedSuccessfully !== false && holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
-      tipCallOutText = hint;
-      tipCalloutVisible = true;
+    buttonHeld = false;
+
+    if (initializedSuccessfully !== false) {
+      // Detect short press
+      if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+        if (!useTapToTalk) {
+          tipCallOutText = hint;
+          tipCalloutVisible = true;
+        } else {
+          // Short press when not recording = schedule "silence based stop"
+          if (!holdListening) {
+            setStopContextTimeout(initialTapToTalkListenMs);
+          }
+        }
+      }
+
+      if (!stopContextTimeout) {
+        stopListening();
+      }
     }
 
-    buttonHeld = false;
+    // Send as window.postMessages
+    window.postMessage({ type: "holdend" }, "*");
+  };
+
+  const setStopContextTimeout = (timeoutMs: number) => {
+    holdListening = true;
+    if (stopContextTimeout) {
+      window.clearTimeout(stopContextTimeout);
+    }
+    stopContextTimeout = window.setTimeout(() => {
+      stopContextTimeout = null;
+      stopListening();
+    }, timeoutMs);
+  }
+
+  const stopListening = () => {
+    holdListening = false;
     if (client) {
       if (isStoppable(clientState)) {
         client.stopContext();
       }
     }
-
     updateSkin();
-
-    // Send as window.postMessages
-    window.postMessage({ type: "holdend" }, "*");
-  };
+  }
 
   const updateSkin = () => {
     if (clientState) icon = clientState;
@@ -165,7 +207,7 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
-        if (!showPowerOn && buttonHeld && isStartable(clientState)) {
+        if (!showPowerOn && (buttonHeld || holdListening) && isStartable(clientState)) {
           client.startContext();
         }
         break;
