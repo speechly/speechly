@@ -114,7 +114,6 @@
           stopContextTimeout = null;
         }
         if (isStartable(clientState)) {
-          console.log(appid)
           client.startContext(appid);
         }
       }
@@ -212,7 +211,7 @@
         setInitialized(true, "Ready");
         // Automatically start recording if button held
         if (!showPowerOn && (buttonHeld || holdListening) && isStartable(clientState)) {
-          client.startContext();
+          client.startContext(appid);
         }
         break;
     }
