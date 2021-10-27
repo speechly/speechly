@@ -90,6 +90,7 @@
       <h3>Attributes</h3>
       <ul>
         <li><code>appid</code> - Speechly App id to connect to.
+        <li><code>projectid</code> - Optional Speechly Project id to connect to. Allows changing App id on the fly within the same project.
         <li><code>poweron</code> - Optional string "true" | "false". Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: "false" </li>
         <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
         <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
@@ -99,7 +100,9 @@
         <li><code>intro</code> - Optional string containing a short usage introduction. Displayed when the component is first displayed. Default: "Push to talk". Set to "" to disable.</li>
         <li><code>hint</code> - Optional string containing a short usage hint. Displayed on a short tap. Default: "Push to talk". Set to "" to disable.</li>
         <li><code>fontsize</code> - Optional CSS string for hint text. Default: "1.2rem"</li>
-        <li><code>showtime</code> - Optional number in ms. Visibility duration for intro and hint callouts. Default: "5000" (ms)</li>
+        <li><code>showtime</code> - Optional time in milliseconds. Visibility duration for intro and hint callouts. Default: "5000" (ms)</li>
+        <li><code>taptotalktime</code> - Optional time in milliseconds to listen after tap. Set to 0 to disable tap-to-talk. Default: "8000" (ms)</li>
+        <li><code>silencetohanguptime</code> - Optional milliseconds of silence to listen before hangup. Only used in tap-to-talk mode. Default: "4000" (ms)</li>
         <li><code>textcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff"
         <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
         <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"

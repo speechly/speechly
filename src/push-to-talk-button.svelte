@@ -11,6 +11,7 @@
   const SHORT_PRESS_TRESHOLD_MS = 600
   const dispatchUnbounded = createDispatchUnbounded();
 
+  export let projectid: string = undefined;
   export let appid: string = undefined;
   export let size = "6rem";
   export let capturekey = " ";
@@ -26,6 +27,8 @@
   export let showtime = 10000;
   export let textcolor = "#ffffff";
   export let backgroundcolor = "#202020";
+  export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
+  export let silencetohanguptime = 4000; // ms of silence to listen before hangup
 
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
@@ -33,37 +36,37 @@
   let tipCalloutVisible = false;
   let mounted = false;
 
-  let useTapToTalk = true;
-  let initialTapToTalkListenMs = 8000;
-  let silenceToleranceMs = 4000;
   let stopContextTimeout = null;
   let holdListening = false;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
-  $: connectSpeechly(appid);
+  $: connectSpeechly(projectid, appid);
 
   let client = null;
   let clientState: ClientState = undefined;
 
   onMount(() => {
     mounted = true;
-    connectSpeechly(appid);
+    connectSpeechly(projectid, appid);
   });
 
-  const connectSpeechly = (appid: string) => {
-    if (mounted && appid && !client) {
-      console.log("Create client with appId", appid);
-      client = new Client({
-        appId: appid,
-      });
+  const connectSpeechly = (projectid: string, appid: string) => {
+    if (mounted && !client && (projectid || appid)) {
+      const clientOptions = {
+        ...(appid && !projectid && {appId: appid}),
+        ...(projectid && {projectId: projectid}),
+      }
+      console.log("Creating client with ClientOptions", clientOptions);
+
+      client = new Client(clientOptions);
 
       client.onStateChange(onStateChange);
 
       client.onSegmentChange((segment: Segment) => {
         // Refresh stopContext timeout if set
-        if (stopContextTimeout) setStopContextTimeout(silenceToleranceMs);
+        if (stopContextTimeout) setStopContextTimeout(silencetohanguptime);
         // Pass on segment updates from Speechly API as events
         dispatchUnbounded("speechsegment", segment);
         // And as window.postMessages
@@ -98,7 +101,7 @@
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
-        if (appid) {
+        if (appid || projectid) {
           initializeSpeechly();
         } else {
           console.warn(
@@ -111,7 +114,8 @@
           stopContextTimeout = null;
         }
         if (isStartable(clientState)) {
-          client.startContext();
+          console.log(appid)
+          client.startContext(appid);
         }
       }
     }
@@ -127,13 +131,13 @@
     if (initializedSuccessfully !== false) {
       // Detect short press
       if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
-        if (!useTapToTalk) {
+        if (taptotalktime == 0) {
           tipCallOutText = hint;
           tipCalloutVisible = true;
         } else {
           // Short press when not recording = schedule "silence based stop"
           if (!holdListening) {
-            setStopContextTimeout(initialTapToTalkListenMs);
+            setStopContextTimeout(taptotalktime);
           }
         }
       }

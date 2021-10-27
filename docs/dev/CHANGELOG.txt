@@ -1,6 +1,8 @@
 ## Dev
 
+- projectid attribute - Optional Speechly Project id to connect to. Allows changing App id on the fly within the same project.
 - Tap-to-talk
+- taptotalktime and silencetohanguptime attributes
 
 ## 4.0.3
 
