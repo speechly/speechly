@@ -28,7 +28,7 @@
   export let textcolor = "#ffffff";
   export let backgroundcolor = "#202020";
   export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
-  export let silencetohanguptime = 4000; // ms of silence to listen before hangup
+  export let silencetohanguptime = 1000; // ms of silence to listen before hangup
 
   let icon: ClientState = ClientState.Disconnected;
   let buttonHeld = false;
