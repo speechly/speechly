@@ -26,22 +26,27 @@ Then open http://localhost:5000
 ## Publishing to npm and CDN
 
 ```
-# Build release version
-npm run build
 # Update version number
 code docs/dev/package.json
+
 # Update CHANGELOG.md
-code CHANGELOG.md
+code docs/dev/CHANGELOG.md
+
+# Build release version
+npm run build
+
 # Automagically copy files from dev to 'v4' folder and 'latest' folder
 ./web-publish.sh v4
-# Publish the package to npmjs
-cd docs/latest
-npm publish
-# Check Google Authenticator app for one-time password
+
 # Push changes to git, updating CDN version in GitHub pages:
 git add .
 git commit -m"v4"
 git push
+
+# Publish the package to npmjs
+cd docs/latest
+npm publish
+# Check Google Authenticator app for one-time password
 ```
 
 ## Testing browser-ui locally in a test project
@@ -82,3 +87,11 @@ import "browser-ui/speechly-ui.css";
 ```
 
 - Notes: Copying .js from browser-ui directly resulted in compile errors in React project, so using packages solves this problem.
+
+## Architecture and considerations:
+
+- Now `push-to-talk-button` is integrated with `browser-client`. Do we need some master component (like react-client's `SpeechProvider`) that holds/manages communication with `@speechly/browser-client`?
+
+- Now component-to-component communication between `push-to-talk-button` and `big-transcript` is done with `postMessage` to achieve automagic binding. Also, `dispatchEvent` can be used so `addEventListener` can be used. Other candidates include: Callback binding w/property setter, `postMessage` (broadcast. No Safari support), `pubsub-js` (broadcast. Dependency needed)
+
+- Should `PushToTalkButton.js` contain styles and svg images, or should they be defined externally? Can/should we use `<template>` for svgs? I did not immediately find a way to define templates in Wix.
