@@ -61,7 +61,8 @@ Check out the [browser-client-example](https://github.com/speechly/browser-clien
 
 ## Documentation
 
-You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/browser-client/blob/master/docs/modules/_index_d_.md).
+You can find the detailed [browser-client API documentation](https://github.com/speechly/browser-client/blob/master/docs/classes/_index_d_.client.md) in the GitHub repository.
+
 You can also refer to [Speechly Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
 ## Contributing
