@@ -1,6 +1,6 @@
 # Speechly Demos
 
-Speechly Demos is a Rush monorepository that contains multiple single-page web applications showcasing speech input with [Speechly](https://speechly.com). The demos are written in React/TypeScript using Speechly's React client libraries, UI components and Voice form components.
+Speechly Demos is a Rush monorepository that contains multiple single-page web applications showcasing voice application control with [Speechly](https://speechly.com). The demos are written in React/TypeScript using Speechly's React client libraries, UI components and Voice form components.
 
 ## Contents of the repository
 
