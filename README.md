@@ -28,7 +28,7 @@ Another demonstration of multimodal VUI/GUI form filling for entering recipient,
 - [Using Speechly Voice forms](https://docs.speechly.com/client-libraries/voice-forms/)
 - [Configuring the voice interface](https://docs.speechly.com/slu-examples/basics/)
 
-## Built With
+### Built With
 * [Node](https://nodejs.org/) (tested with v14.16.1)
 * [Rush](https://rushjs.io/) (tested with 5.55.0)
 * [React](https://reactjs.org/) (tested with major versions 16 and 17)
