@@ -61,6 +61,8 @@ git clone git@github.com:speechly/speechly-demos.git
 ## Run and develop an application with Rush
 
 ```bash
+cd speechly-demos
+
 # Update dependencies
 rush update
 
@@ -80,9 +82,9 @@ cd applications/new-demo-app
 rushx start
 ```
 
-Remember to replace `YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD` in `src/App.tsx` with your owm app id.
+Remember to replace `YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD` in `src/App.tsx` with your own app id from [Speechly Dashboard](https://api.speechly.com/dashboard).
 
-To compile the new demo along with other project, add the following lines to "projects" array in `rush.json`:
+To build the new app along with other projects, add the following lines to "projects" array in `rush.json`:
 
 ```
 {
