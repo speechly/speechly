@@ -12,13 +12,13 @@ Demonstrates Speechly's raw speech-to-text capabilities. See below for [steps](#
 
 Demonstrates how to fill a booking form with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). The speech interface configuration has been set up to extract keywords (entities) like *departure* and *return date*, number of *passengers* and other relevant information for the use case. You can [try the deployed web app](https://speechly-demos.herokuapp.com/flight-booking) and say something like:
 
-- _"Show me direct flights from New York to Miami for 2 passenger departing tomorrow."_
+- _"Show me direct flights from New York to Miami for 2 passengers departing tomorrow."_
 
 ### [Checkout demo](https://speechly-demos.herokuapp.com/ecommerce-checkout)
 
 Another demonstration of multimodal VUI/GUI form filling for entering recipient, shipping and payment details. The speech interface configuration has been set up to extract keywords (entities) like *name* and *phone number*, *email*, *shipping address* and other relevant information. You can [try the deployed web app](https://speechly-demos.herokuapp.com/ecommerce-checkout) and say something like:
 
-- _"Name: Jane Smith, email jane at acme dot com."_
+- _"Name Jane Smith, email jane@acme.com"_
 
 ### Learn more
 
