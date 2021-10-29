@@ -1,14 +1,17 @@
 # Speechly Demos
-Monorepo containing Speechly Application demos
 
-### Built With
+Speechly Demos is a Rush monorepository that contains multiple demo applications (in `applications` folder) and libraries (in `libraries`) folder that build on Speechly voice input technology.
+
+Demos are written in React v16/17 using React hooks.
+
+## Built With
 * [Node](https://nodejs.org/) (tested with v14.16.1)
 * [Rush](https://rushjs.io/) (tested with 5.55.0)
 * [Typescript](https://www.typescriptlang.org/)
 * [Speechly](https://github.com/speechly/react-client)
 * [React](https://reactjs.org/)
 
-### Requirements
+## Requirements
 
 Check if you have the tools already installed
 
@@ -23,45 +26,21 @@ If necessary, install the build tools
 - Install node and npm from <https://nodejs.org/>
 - Install rush globally with npm: `npm install -g @microsoft/rush`
 
-### Run an application locally using Rush
+## Run and develop an application with Rush
 
 ```
+# Update dependencies
 rush update
+
+# Build dependencies
 rush build
+
+# Run an app
 cd applications/flight-booking-demo
 rushx start
 ```
 
-### Create builds of all apps
-
-```
-rush build
-```
-
-### Develop a library in watch mode while testing it in a sample app
-
-```
-# Build dependency and stay in watch mode
-rush build:watch --to @speechly/react-voice-forms &
-
-# Start an app using the dependency
-cd applications/flight-booking-demo
-rushx start
-```
-
-### Update/add a project dependency
-
-```
-rush add --package @speechly/react-ui@latest
-```
-
-#### Check for mis-matching dependencies across projects
-
-```
-rush check
-```
-
-### Creating a new demo
+## Creating a new Speechly app
 
 ```
 npx create-react-app applications/new-demo-app --template file:cra-template-speechly
@@ -80,7 +59,38 @@ To compile the new demo along with other project, add the following lines to "pr
 },
 ```
 
-### Using Voice form components
+Then follow the steps to [Run and develop an existing application with Rush](#run-and-develop-an-application-with-rush)
+
+## Developing a library against a sample app
+
+In terminal 1, run this command to build library dependencies for `flight-booking-demo` and stay in watch mode to rebuild any changes to dependencies:
+
+```
+# Build dependency and stay in watch mode
+rush build:watch --to-except flight-booking-demo
+```
+
+In terminal 2, run the app using the development server in watch mode
+```
+cd applications/flight-booking-demo
+rushx start
+```
+
+## Basic rush skills
+
+### Update/add a project dependency
+
+```
+rush add --package @speechly/react-ui@latest
+```
+
+#### Check for mis-matching dependencies across projects
+
+```
+rush check
+```
+
+## Using Voice form components
 
 Add `@speechly/react-voice-forms` dependency to the project:
 
