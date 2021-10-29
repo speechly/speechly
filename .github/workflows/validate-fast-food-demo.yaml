@@ -1,0 +1,17 @@
+name: validate fast-food-demo
+on:
+  pull_request:
+    branches:
+      - rush
+    paths:
+      - "configurations/fast-food-demo/**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: validate -a ${{ secrets.APPID_FAST_FOOD_DEMO }} configurations/fast-food-demo
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

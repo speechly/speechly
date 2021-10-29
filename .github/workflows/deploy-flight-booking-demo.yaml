@@ -1,0 +1,17 @@
+name: deploy flight-booking-demo
+on:
+  push:
+    branches:
+      - rush
+    paths:
+      - "configurations/flight-booking-demo/**"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} configurations/flight-booking-demo -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

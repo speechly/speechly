@@ -1,0 +1,110 @@
+adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/flight_booking_adaptation_usage-1h59min.tar'
+imports:
+  - name: class_as_spoken
+    source: travel_class.csv
+    field: 1
+  - name: class_normalised
+    source: travel_class.csv
+    field: 2
+  - name: city
+    source: city.csv
+    field: 1
+entities:
+  - name: passengers
+    type: number
+  - name: return
+    type: date
+  - name: depart
+    type: date
+  - name: class
+    type: lookup
+    input_items: $class_as_spoken
+    output_items: $class_normalised
+templates: >
+  carrier_phrases = [
+      i'm interested in
+      {[can you|will you|could you]} {please} [book|show|display|give|make it|change it to|search {for}] {me}
+      [i want {to} | i'd like {to}|can i|i need {to}] {[book|see|view|browse|fly {to}]}
+  ]
+
+  direct = [direct|nonstop|non stop|[no|without] [{a} layover|layovers|{a} stopover|stopovers|{a} connecting|connecting]](direct)
+  round_trip = [round trip|around trip|return|two way](round_trip)
+  one_way = [one way|single](one_way)
+
+  trip = [[$round_trip|$one_way]
+  {[trip|trips|journey|ticket|tickets|seat|seats]}]
+
+  fligth_type_phrase = [$trip|$direct|![$trip|$direct]]
+
+  nondirect_phrase = [[on check | disable | disabled | turn off | no | non | remove {selection from} | deselect | without] direct {0.75: [only | flights | box | checkbox]}](nondirect)
+
+  from_phrase = [from](from_prepo) $city(from)
+  to_phrase = [to](to_prepo) $city(to)
+
+  date = $SPEECHLY.DATE
+
+  return_phrase = [returning|that [return|returns]|return|that [get|gets] back]
+  {on} $date(return)
+
+  departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that}
+  [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|for]
+  $date(depart)
+
+  passengers = [1..9]
+
+  passengers_phrase = [
+      $passengers(passengers) {[ticket|tickets|seat|seats]}
+      {for} $passengers(passengers) {[people|passenger|passengers|person|persons]}
+      {for} {a} [party|group] of $passengers(passengers) {[people|passengers|persons]}
+  ]
+
+  class = $class_as_spoken(class)
+
+  class_phrase = {in} $class {class}
+
+  clear_synonyms = [
+      clear
+      cancel
+      reset
+      restart
+  ]
+
+  intents = [
+    *book $fligth_type_phrase
+    *book $from_phrase
+    *book $to_phrase
+    *book $return_phrase
+    *book $departing_phrase
+    *book $passengers_phrase
+    *book $class_phrase
+    *book $from_phrase $to_phrase
+
+    2: *book {$carrier_phrases} {a} ![{$passengers_phrase}|$fligth_type_phrase {[flight|flights]}|$to_phrase $from_phrase|{$class_phrase}|{$departing_phrase {{and} $return_phrase}}]
+    2: *book {$carrier_phrases} {a} ![{$passengers_phrase}|$fligth_type_phrase {[flight|flights]}|$from_phrase $to_phrase|{$class_phrase}|{$departing_phrase {{and} $return_phrase}}]
+    *book {$carrier_phrases} {[a flight|flights]} $from_phrase $to_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $to_phrase $from_phrase
+    *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $from_phrase $to_phrase $departing_phrase {{and} $return_phrase}
+    *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $to_phrase $from_phrase $departing_phrase {{and} $return_phrase}
+    *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $from_phrase
+    *book {$carrier_phrases} [a|$passengers_phrase] $from_phrase $to_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $to_phrase $departing_phrase
+    *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $departing_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $to_phrase $return_phrase
+    *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $return_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $from_phrase $departing_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $from_phrase $return_phrase
+    *book {$carrier_phrases} [a flight|flights] $return_phrase {and} $departing_phrase
+    *book {$carrier_phrases} [a flight|flights] $departing_phrase {and} $return_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $return_phrase $passengers_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $departing_phrase $passengers_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $passengers_phrase $class_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $to_phrase $class_phrase
+    *book {$carrier_phrases} {a} $fligth_type_phrase {flight} $to_phrase $class_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $from_phrase $class_phrase
+    *book {$carrier_phrases} {[a flight|flights]} $return_phrase $class_phrase
+    *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $departing_phrase {{and} $return_phrase}
+    3: *book $nondirect_phrase
+    *clear $clear_synonyms
+  ]
+
+  $intents

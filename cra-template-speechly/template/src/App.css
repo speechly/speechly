@@ -1,0 +1,12 @@
+main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 480px;
+  padding: .5rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}

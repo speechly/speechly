@@ -1,0 +1,151 @@
+lang: en-US
+templates: |
+  carrier_phrase = [
+      {then} [could|can|may] i {also} have
+      {then} [i would|i'd] like [to {also} [have|get|order]]
+      {then} will you {also} {please} [give|get] me
+  ]
+
+  amount_sg = [a|one]
+  amount_pl = [
+      1.0:  two
+      0.25: three
+      0.125: four
+      0.05: five
+  ]
+
+  size = [small|normal|medium {sized}|large]
+
+  hamburger_sg = [
+      hamburger
+      big mac
+      big mac bacon
+      bacon big mac
+      double big mac
+      chili feast
+      chilli feast
+      double quarter pounder
+      quarter pounder with cheese
+      mc feast
+      double cheeseburger
+      cheeseburger
+      el maco
+      triple cheeseburger
+  ]
+
+  hamburger_pl = [
+      hamburgers
+      big macs
+      big mac bacons
+      bacon big macs
+      double big macs
+      chili feasts
+      chilli feasts
+      double quarter pounders
+      quarter pounders with cheese
+      mc feasts
+      double cheeseburgers
+      cheeseburgers
+      el macos
+      triple cheeseburgers
+  ]
+
+  drink_sg = [
+      coca-cola
+      coke
+      cola
+      coca-cola zero
+      coke zero
+      coca-cola light
+      light coke
+      fanta
+      fanta orange
+      orange fanta
+      sprite
+      sprite zero
+      water
+      sparkling water
+  ]
+
+  drink_pl = [
+      pepsi
+      pepsi cola
+      coca-colas
+      cokes
+      colas
+      coca-cola zeros
+      coke zeros
+      coca-cola lights
+      light cokes
+      fantas
+      fanta oranges
+      orange fantas
+      sprites
+      sprite zeros
+      waters
+      sparkling waters
+  ]
+
+  side = [
+      fries
+      french fries
+      potato fries
+      potatoes
+      potato chips
+      chips
+  ]
+
+  icecream_sg = [
+      shake
+      [chocolate|vanilla|strawberry] shake
+      [sunday|sundae]
+      [caramel|chocolate|strawberry] [sunday|sundae]
+      mcflurry
+      [oreo|smarties] mcflurry
+  ]
+
+  icecream_pl = [
+      shakes
+      [chocolate|vanilla|strawberry] shakes
+      [sundays|sundaes]
+      [caramel|chocolate|strawberry] [sundays|sundaes]
+      mcflurries
+      [oreo|smarties] mcflurries
+  ]
+
+  entry = [
+      1.0: {$amount_sg} [$hamburger_sg|$drink_sg|$icecream_sg](product)
+      1.0: $amount_sg $size(size) [$drink_sg|$icecream_sg](product)
+      1.0: {some} $side(product)
+      1.0: $size(size) $side(product)
+      0.5: $amount_pl(amount) {$size(size)} [$drink_pl|$icecream_pl](product)
+      0.5: $amount_pl(amount) $hamburger_pl(product)
+
+  ]
+
+  intent = [
+      0.2: *add {$carrier_phrase} $entry
+      1.0: *add $entry
+      0.1: *clear clear
+  ]
+
+  conjunction = [and|with]
+
+  utterance = [
+      $intent
+      $intent {$conjunction} $intent
+      $intent {$conjunction} $intent {$conjunction} $intent
+      $intent {$conjunction} $intent {$conjunction} $intent {$conjunction} $intent
+  ]
+
+  $utterance
+intents:
+  - name: add
+  - name: clear
+entities:
+  - name: product
+    type: string
+  - name: amount
+    type: number
+  - name: size
+    type: string

@@ -1,0 +1,17 @@
+name: deploy voice-picking
+on:
+  push:
+    branches:
+      - rush
+    paths:
+      - "configurations/voice-picking/**"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_VOICE_PICKING }} configurations/voice-picking -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
