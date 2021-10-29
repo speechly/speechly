@@ -32,10 +32,6 @@ export type VoiceInputProps = {
    */
   focused?: boolean
    /**
-    * @private
-    */
-  handledAudioContext?: string
-   /**
    * @param value The new value.
    * Triggered upon GUI or voice manipulation of the widget.
    */
@@ -54,12 +50,14 @@ export type VoiceInputProps = {
   onFinal?: () => void
 }
 
-export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = true, handledAudioContext = '' }: VoiceInputProps) => {
+export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceInputProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue ?? '')
+  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ?? '')
+  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -94,14 +92,29 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
   }, [focused])
 
   useEffect(() => {
-    if (segment && segment.contextId !== handledAudioContext) {
-      // React if no intent defined; or a specified intent is defined
+    if (segment) {
+      let newValue = null
+      let lastGoodKnownValue = _lastGoodKnownValue
+
+      // Update last good known value at new segment start
+      const segmentId = `${segment.contextId}/${segment.id}`;
+      if (segmentId !== lastSegmentId) {
+        setLastSegmentId(segmentId)
+        lastGoodKnownValue = value || _value
+        _setLastGoodKnownValue(lastGoodKnownValue)
+      }
+
+      // Define newValue if the segment contains input targeted to this component
       if (!changeOnIntent || segment.intent.intent === changeOnIntent) {
         let entities = formatEntities(segment.entities)
         if (entities[changeOnEntityType] !== undefined) {
-          _onChange(entities[changeOnEntityType])
+          newValue = entities[changeOnEntityType]
         }
       }
+
+      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
+      // otherwise reset to last good known value
+      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
 
       if (segment?.isFinal) {
         if (inputEl != null && inputEl.current != null) {

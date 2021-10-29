@@ -42,35 +42,37 @@ export type VoiceCheckboxProps = {
    * @private
    */
   focused?: boolean
-   /**
-    * @private
-    */
-  handledAudioContext?: string
-   /**
+
+  /**
    * @param value The new value
    * Triggered upon GUI or voice manipulation of the widget.
    */
   onChange?: (value: boolean) => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onBlur?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onFocus?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onFinal?: () => void
 }
 
-export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent, setOnEntityType, clearOnEntityType, onChange, onFinal, onBlur, onFocus, focused = true, handledAudioContext = '' }: VoiceCheckboxProps) => {
+export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent, setOnEntityType, clearOnEntityType, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceCheckboxProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue !== undefined ? defaultValue : false)
+  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue !== undefined ? defaultValue : false)
+  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: boolean) => {
@@ -105,26 +107,34 @@ export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent,
   }, [focused])
 
   useEffect(() => {
-    if (segment && segment.contextId !== handledAudioContext) {
-      // React if no intent defined; or a specified intent is defined
+    if (segment) {
+      let newValue = null
+      let lastGoodKnownValue = _lastGoodKnownValue
+
+      // Update last good known value at new segment start
+      const segmentId = `${segment.contextId}/${segment.id}`;
+      if (segmentId !== lastSegmentId) {
+        setLastSegmentId(segmentId)
+        lastGoodKnownValue = value || _value
+        _setLastGoodKnownValue(lastGoodKnownValue)
+      }
+
+      // Define newValue if the segment contains input targeted to this component
       const clear = clearIntent && segment.intent.intent === clearIntent
       const set = !clear && (!intent || segment.intent.intent === intent)
-      let matched = false
+
       if (set || clear) {
         const entities = formatEntities(segment.entities)
         if (entities[setOnEntityType] !== undefined) {
-          _onChange(set)
-          matched = true
+          newValue = set
         } else if (clearOnEntityType && entities[clearOnEntityType] !== undefined) {
-          _onChange(false)
-          matched = true
+          newValue = false
         }
       }
 
-      if (!matched) {
-        // @TODO restore original value
-        // _onChange(originalValue)
-      }
+      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
+      // otherwise reset to last good known value
+      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
   
       if (segment?.isFinal) {
         if (inputEl != null && inputEl.current != null) {

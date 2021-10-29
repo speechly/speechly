@@ -88,10 +88,10 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ matchesInUpperCase, setMatchesInUpperCase ] = useState<string[]>([]);
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue ?? '')
   const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ?? '')
+  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -144,16 +144,19 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
 
   useEffect(() => {
     if (segment) {
+      let newValue = null
+      let lastGoodKnownValue = _lastGoodKnownValue
 
+      // Update last good known value at new segment start
       const segmentId = `${segment.contextId}/${segment.id}`;
       if (segmentId !== lastSegmentId) {
         setLastSegmentId(segmentId)
-        _setLastGoodKnownValue(value || _value)
+        lastGoodKnownValue = value || _value
+        _setLastGoodKnownValue(lastGoodKnownValue)
       }
 
-      let newValue = null
+      // Define newValue if the segment contains input targeted to this component
       let candidates;
-
       if (Array.isArray(changeOnIntent)) {
         candidates = [segment.intent.intent];
       } else {
@@ -177,8 +180,9 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
         })
       }
 
-      // Change the value if the segment (still) targets this component; otherwise reset it
-      _onChange(newValue !== null ? newValue : _lastGoodKnownValue)
+      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
+      // otherwise reset to last good known value
+      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
 
       if (segment.isFinal) {
         if (inputEl != null && inputEl.current != null) {

@@ -10,50 +10,55 @@ export type VoiceDatePickerProps = {
    * e.g. component with label "Passengers" should be configured to react to phrases like "3 passegers"
    */
   label: string
+
   /**
    * The current value. Specifying the value controls the components's state so it makes sense to provide an onChange handler.
    */
   value?: Date
+
   /**
    * Initially selected option. Has no effect if `value` is specified.
    */
   defaultValue?: Date
-   /**
+
+  /**
    * Specifies how this component reacts to intents in SpeechSegments.
    * Undefined value reacts to any intent.
    * String value (intent name) reacts to the single specified intent, e.g. "book"
    */
   changeOnIntent?: string
+
    /**
     * Specifies how this component reacts to entity types in SpeechSegments.
     * Undefined value reacts to any entity type.
     * Array of strings (entity types), one for each option, enables changing this widget's value to the option matching entity type.
     */
   changeOnEntityType: string
+
   /**
    * @private
    */
   focused?: boolean
-   /**
-    * @private
-    */
-  handledAudioContext?: string
-   /**
+
+  /**
    * @param value The selected date
    * Triggered upon GUI or voice manipulation of the widget.
    */
   onChange?: (value: Date) => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onBlur?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onFocus?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
   onFinal?: () => void
 }
 
@@ -71,7 +76,7 @@ type Props = {
   onFinal?: () => void
 }
 
-export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, changeOnEntityType, onChange, onFinal, onBlur, onFocus, focused = true, handledAudioContext = '' }: VoiceDatePickerProps) => {
+export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, changeOnEntityType, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceDatePickerProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
@@ -79,6 +84,8 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
   const [ _focused, _setFocused ] = useState(focused)
   const [ _date, _setDate ] = useState(defaultValue)
   const [ _value, _setValue ] = useState(defaultValue ? dateToString(defaultValue) : '')
+  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ? dateToString(defaultValue) : '')
+  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -137,14 +144,29 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
   }, [focused])
 
   useEffect(() => {
-    if (segment && segment.contextId !== handledAudioContext) {
-      // React if no intent defined; or a specified intent is defined
+    if (segment) {
+      let newValue = null
+      let lastGoodKnownValue = _lastGoodKnownValue
+
+      // Update last good known value at new segment start
+      const segmentId = `${segment.contextId}/${segment.id}`;
+      if (segmentId !== lastSegmentId) {
+        setLastSegmentId(segmentId)
+        lastGoodKnownValue = value ? dateToString(value) : _value
+        _setLastGoodKnownValue(lastGoodKnownValue)
+      }
+
+      // Define newValue if the segment contains input targeted to this component
       if (!changeOnIntent || segment.intent.intent === changeOnIntent) {
         let entities = formatEntities(segment.entities)
         if (entities[changeOnEntityType] !== undefined) {
-          _onChange(dateToString(new Date(Date.parse(entities[changeOnEntityType]))))
+          newValue = dateToString(new Date(Date.parse(entities[changeOnEntityType])))
         }
       }
+
+      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
+      // otherwise reset to last good known value
+      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
 
       if (segment?.isFinal) {
         if (inputEl != null && inputEl.current != null) {
