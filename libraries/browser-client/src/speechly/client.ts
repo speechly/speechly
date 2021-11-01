@@ -102,6 +102,7 @@ export class Client {
       const constraints = window.navigator.mediaDevices.getSupportedConstraints()
       this.nativeResamplingSupported = constraints.sampleRate === true
       if (options.autoGainControl != null && options.autoGainControl) {
+        // @ts-ignore
         this.autoGainControl = constraints.autoGainControl === true
       } else {
         this.autoGainControl = false
@@ -229,6 +230,7 @@ export class Client {
       if (this.nativeResamplingSupported || this.autoGainControl) {
         mediaStreamConstraints.audio = {
           sampleRate: this.sampleRate,
+          // @ts-ignore
           autoGainControl: this.autoGainControl,
         }
       } else {
@@ -280,12 +282,14 @@ export class Client {
     try {
       await this.microphone.close()
     } catch (err) {
+      // @ts-ignore
       errs.push(err.message)
     }
 
     try {
       await this.apiClient.close()
     } catch (err) {
+      // @ts-ignore
       errs.push(err.message)
     }
 

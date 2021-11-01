@@ -23,17 +23,17 @@
     "speech recognition"
   ],
   "scripts": {
-    "build": "yarn run lint && yarn run test && rm -rf ./dist/ && yarn run buildworker && npx tsc",
+    "build": "pnpm run lint && pnpm run test && rm -rf ./dist/ && pnpm run buildworker && npx tsc",
     "buildworker": "npx tsc ./worker/worker.ts && cat ./worker/templateOpen  > ./src/websocket/worker.ts && cat ./worker/worker.js >> ./src/websocket/worker.ts && cat ./worker/templateEnd  >> ./src/websocket/worker.ts",
-    "check": "yarn run build && npx api-extractor run --verbose",
-    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
-    "getdeps": "yarn install --force --frozen-lockfile",
+    "check": "pnpm run build && npx api-extractor run --verbose",
+    "docs": "pnpm run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
+    "getdeps": "pnpm install --force --frozen-lockfile",
     "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
-    "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",
+    "precommit": "npx prettier --write src/**/*.ts && pnpm run build && npx api-extractor run --local && pnpm run docs",
     "prepdist": "node ./config/prepare_dist.js",
-    "prerelease": "yarn run check && yarn run prepdist",
+    "prerelease": "pnpm run check && pnpm run prepdist",
     "test": "npx jest --config ./config/jest.config.js",
-    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && npx tsc-watch"
+    "watch": "rm -rf ./dist/ && mkdir dist && pnpm run prepdist && npx tsc-watch"
   },
   "repository": {
     "type": "git",

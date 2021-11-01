@@ -71,9 +71,12 @@ export class BrowserMicrophone implements Microphone {
       const speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
       this.audioContext.createMediaStreamSource(this.mediaStream).connect(speechlyNode)
       speechlyNode.connect(this.audioContext.destination)
+      // @ts-ignore
       if (window.SharedArrayBuffer !== undefined) {
         // Chrome, Edge, Firefox, Firefox Android
+        // @ts-ignore
         const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
+        // @ts-ignore
         const dataSAB = new window.SharedArrayBuffer(1024 * Float32Array.BYTES_PER_ELEMENT)
         this.apiClient.postMessage({
           type: 'SET_SHARED_ARRAY_BUFFERS',
@@ -180,8 +183,11 @@ export class BrowserMicrophone implements Microphone {
     if (this.audioTrack != null) {
       const settings: MediaTrackSettings = this.audioTrack.getSettings()
       console.log(this.audioTrack.label, this.audioTrack.readyState)
+      // @ts-ignore
       console.log('channelCount', settings.channelCount)
+      // @ts-ignore
       console.log('latency', settings.latency)
+      // @ts-ignore
       console.log('autoGainControl', settings.autoGainControl)
     }
     console.log('maxSignalEnergy', this.stats.maxSignalEnergy)
