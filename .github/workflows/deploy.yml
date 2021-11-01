@@ -1,0 +1,27 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+        env:
+          REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
+          REACT_APP_LANGUAGE: ${{ secrets.REACT_APP_LANGUAGE }}
+          REACT_APP_LOGIN_URL: ${{ secrets.REACT_APP_LOGIN_URL }}
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          REACT_APP_DEBUG: "false"
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
