@@ -63,12 +63,12 @@ cd react-ui
 pnpm link browser-ui
 ```
 
-## Creating a browser-ui package
+## Creating a local browser-ui package
 
 ```
 # Uses package.json in a subfolder to prevent unnecessary folder structure in the package.
 
-pnpm pack docs/v1/
+pnpm pack docs/dev/
 ```
 
 ## Using browser-ui in React

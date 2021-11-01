@@ -1,3 +1,6 @@
+## 4.1.1
+
+- Optional loginurl and apiurl attributes to connect to non-default Speechly endpoints.
 ## 4.1.0
 
 - projectid attribute - Optional Speechly Project id to connect to. Allows changing App id on the fly within the same project.

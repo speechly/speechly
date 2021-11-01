@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "files": [
     "**/*"
   ],
