@@ -10,6 +10,10 @@ fi
 VER=$1
 
 echo
+
+echo "Copying README.md to docs/dev..."
+cp README.md docs/dev/
+
 echo "Copying 'docs/dev/*' to 'docs/dev/$VER'"
 rsync -r --delete docs/dev/ docs/$VER
 
