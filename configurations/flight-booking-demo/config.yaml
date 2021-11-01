@@ -1,4 +1,4 @@
-adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/flight_booking_adaptation_usage-1h59min.tar'
+adaptation_audio_package: '54F8380E-75CA-4A6F-A9D4-F45D10A3C8B0'
 imports:
   - name: class_as_spoken
     source: travel_class.csv
