@@ -17,6 +17,7 @@ window.onload = () => {
   try {
     client = newClient();
   } catch (e) {
+    // @ts-ignore
     updateStatus(e.message);
     return;
   }

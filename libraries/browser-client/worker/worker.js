@@ -122,9 +122,6 @@ var WebsocketClient = /** @class */ (function () {
         return this.websocket !== undefined && this.websocket.readyState === this.websocket.OPEN;
     };
     WebsocketClient.prototype.resendLastFrames = function () {
-        if (!this.isOpen()) {
-            return Error('Cannot resend data through inactive websocket');
-        }
         if (this.lastFramesSent.length > 0) {
             this.send(this.lastFramesSent);
             this.lastFramesSent = new Int16Array(0);
@@ -133,9 +130,6 @@ var WebsocketClient = /** @class */ (function () {
     WebsocketClient.prototype.sendAudio = function (audioChunk) {
         if (!this.isContextStarted) {
             return;
-        }
-        if (!this.isOpen()) {
-            return Error('Cannot send data through inactive websocket');
         }
         if (audioChunk.length > 0) {
             if (this.resampleRatio > 1) {
@@ -186,9 +180,6 @@ var WebsocketClient = /** @class */ (function () {
         }
     };
     WebsocketClient.prototype.startContext = function (appId) {
-        if (!this.isOpen()) {
-            throw Error('Cant start context: websocket is inactive');
-        }
         if (this.isContextStarted) {
             console.log('Cant start context: it has been already started');
             return;
@@ -268,6 +259,9 @@ var WebsocketClient = /** @class */ (function () {
         return outputBuffer;
     };
     WebsocketClient.prototype.send = function (data) {
+        if (!this.isOpen()) {
+            throw Error('Cant send data: websocket is inactive');
+        }
         try {
             this.websocket.send(data);
         }
