@@ -13,9 +13,11 @@ Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile a
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-This repository contains source code for the browser client for [Speechly](https://www.speechly.com/) SLU API.
+With the browser-client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
 
-NOTE: If you are using React, you can use [React client](https://github.com/speechly/react-client) instead.
+Check out the [browser-client-example](https://github.com/speechly/browser-client-example) repository for a demo app built using this client.
+
+NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
 ## Usage
 
@@ -57,8 +59,6 @@ setTimeout(async function() {
 }, 3000)
 ```
 
-Check out the [browser-client-example](https://github.com/speechly/browser-client-example) repository for a demo app built using this client.
-
 ## Documentation
 
 You can find the detailed [browser-client API documentation](https://github.com/speechly/browser-client/blob/master/docs/classes/_index_d_.client.md) in the GitHub repository.
@@ -69,19 +69,3 @@ You can also refer to [Speechly Docs](https://www.speechly.com/docs/?utm_source=
 
 See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/browser-client/blob/master/CONTRIBUTING.md).
 
-## About Speechly
-
-Speechly is a developer tool for building real-time multimodal voice user interfaces. It enables developers and designers to enhance their current touch user interface with voice functionalities for better user experience. Speechly key features:
-
-#### Speechly key features
-
-- Fully streaming API
-- Multi modal from the ground up
-- Easy to configure for any use case
-- Fast to integrate to any touch screen application
-- Supports natural corrections such as "Show me red – i mean blue t-shirts"
-- Real time visual feedback encourages users to go on with their voice
-
-|                  Example application                  | Description                                                                                                                                                                                                                                                                                                                               |
-| :---------------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://i.imgur.com/v9o1JHf.gif" width=50%> | Instead of using buttons, input fields and dropdowns, Speechly enables users to interact with the application by using voice. <br />User gets real-time visual feedback on the form as they speak and are encouraged to go on. If there's an error, the user can either correct it by using traditional touch user interface or by voice. |
