@@ -382,6 +382,10 @@
       "projectFolder": "libraries/browser-client"
     },
     {
+      "packageName": "@speechly/react-client",
+      "projectFolder": "libraries/react-client"
+    },
+    {
       "packageName": "@speechly/browser-client-example",
       "projectFolder": "examples/browser-client-example"
     }
