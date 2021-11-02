@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.10.4",
-    "@types/react": "^17.0.3",
+    "@types/react": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "eslint": "^7.10.0",

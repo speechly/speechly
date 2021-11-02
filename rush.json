@@ -400,12 +400,12 @@
     {
       "packageName": "@speechly/react-client-example",
       "projectFolder": "examples/react-client-example"
-    },
-    {
+    }
+/*    {
       "packageName": "@speechly/react-ui-example",
       "projectFolder": "examples/react-ui-example"
     }
-    // {
+*/    // {
     //   /**
     //    * The NPM package name of the project (must match package.json)
     //    */
