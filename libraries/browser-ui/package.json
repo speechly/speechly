@@ -1,0 +1,34 @@
+{
+  "name": "@speechly/browser-ui",
+  "version": "4.1.3",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv docs",
+    "validate": "svelte-check"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@tsconfig/svelte": "^1.0.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.37.0",
+    "svelte-check": "^1.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "tslib": "^2.1.0",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@speechly/browser-client": "1.0.18",
+    "sirv-cli": "^1.0.0"
+  },
+  "files": [
+    "docs/dev/**/*"
+  ]
+}

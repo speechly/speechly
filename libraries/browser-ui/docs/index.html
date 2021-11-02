@@ -1,0 +1,18 @@
+<html>
+  <script>
+    const isLocalHost = (hostname) => !!(
+      hostname === 'localhost' ||
+      hostname === '[::1]' ||
+      hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/) !== null
+    )
+    if (isLocalHost(window.location.hostname)) {
+      window.location.href = 'dev/';
+    } else {
+      window.location.href = 'latest/';
+    }
+  </script>
+
+  <noscript>
+    <meta http-equiv="refresh" content="0; URL=dev/" />
+  </noscript>
+</html>
