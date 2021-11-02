@@ -120,7 +120,7 @@
    * LTS schedule: https://nodejs.org/en/about/releases/
    * LTS versions: https://nodejs.org/en/download/releases/
    */
-  "nodeSupportedVersionRange": ">=16.9.0 <17.0.0",
+  "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.9.0 <17.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -384,6 +384,10 @@
     {
       "packageName": "@speechly/react-client",
       "projectFolder": "libraries/react-client"
+    },
+    {
+      "packageName": "@speechly/browser-ui",
+      "projectFolder": "libraries/browser-ui"
     },
     {
       "packageName": "@speechly/browser-client-example",
