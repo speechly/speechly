@@ -117,6 +117,8 @@
         <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.details property.</li>
         <li><code>starting</code> - CustomEvent triggered on initialization start</li>
         <li><code>initialized</code> - CustomEvent triggered on initialization end. details: {success: true | false, appId: string, status: "Ready" | "Failed" | "NoBrowserSupport" | "NoAudioConsent"}</li>
+        <li><code>startcontext</code> - CustomEvent triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration.</li>
+        <li><code>stopcontext</code> - CustomEvent triggered on just after stopping listening.</li>
       </ul>
       <h3>Window messages sent (postMessage)</h3>
       <ul>

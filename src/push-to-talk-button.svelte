@@ -118,6 +118,7 @@
           stopContextTimeout = null;
         }
         if (isStartable(clientState)) {
+          dispatchUnbounded("startcontext");
           client.startContext(appid);
         }
       }
@@ -170,6 +171,7 @@
     if (client) {
       if (isStoppable(clientState)) {
         client.stopContext();
+        dispatchUnbounded("stopcontext");
       }
     }
     updateSkin();
@@ -215,6 +217,7 @@
         setInitialized(true, "Ready");
         // Automatically start recording if button held
         if (!showPowerOn && (buttonHeld || holdListening) && isStartable(clientState)) {
+          dispatchUnbounded("startcontext");
           client.startContext(appid);
         }
         break;

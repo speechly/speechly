@@ -1,3 +1,7 @@
+## 4.1.2
+
+- Added two Custom Events to Push-To-Talk Button: startcontext (triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration and stopcontext (triggered on just after stopping listening)
+
 ## 4.1.1
 
 - Optional loginurl and apiurl attributes to connect to non-default Speechly endpoints.
