@@ -22,30 +22,30 @@ Also take a look at our [demos](https://www.speechly.com/demos/) to see what you
 ## Published packages
 We offer both client libraries and various UI component packages. The client libraries work together with our cloud API. They take care of audio capture and streaming, authentication, and network connection handling. The UI components provide basic Voice UI functionalities, such as a microphone button for activating voice input, and a display component for showing speech to text output.
 
-| Folder | Package |
-| ------ | ------- |
-| (/libraries/browser-client) | (https://www.npmjs.com/package/@speechly/browser-client) |
-| (/libraries/react-client) | (https://www.npmjs.com/package/@speechly/react-client) |
-| (/libraries/browser-ui) | (https://www.npmjs.com/package/@speechly/browser-ui) |
-| (/libraries/react-ui) | (https://www.npmjs.com/package/@speechly/react-ui) |
-| (/libraries/react-voice-forms) | (https://www.npmjs.com/package/@speechly/react-voice-forms) |
+| Folder | Version | Package |
+| ------ | ------- |------- |
+| [/libraries/browser-client](/libraries/browser-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)| [@speechly/browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
+| [/libraries/react-client](/libraries/react-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client) | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) |
+| [/libraries/browser-ui](/libraries/browser-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-ui.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-ui) | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) |
+| [/libraries/react-ui](/libraries/react-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui) | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) |
+| [/libraries/react-voice-forms](/libraries/react-voice-forms) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-voice-forms.svg)](https://badge.fury.io/js/%40speechly%2Freact-voice-forms) | [@speechly/react-voice-forms](https://www.npmjs.com/package/@speechly/react-voice-forms) |
 
 ## Unpublished projects and demos
 These are example projects that are not published, but are useful learning tools.
 
 | Folder | Description |
 | ------ | ------- |
-| (/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
-| (/examples-react-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/react-client) |
+| [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
+| [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client) |
 
 You can also find the implementations of our public demo applications in this repository.
 
 | Folder | Description |
 | ------ | ------- |
-| (/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
-| (/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
-| (/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
-| (/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
+| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
+| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
+| [/demos/voice-picking](/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
+| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
