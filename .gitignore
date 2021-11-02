@@ -69,3 +69,4 @@ common/autoinstallers/*/.npmrc
 
 # Build artefacts
 **/lib
+**/temp

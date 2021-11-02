@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -104,6 +105,23 @@ const typeScriptDefaults = {
 };
 
 export default [
+  {
+    input: 'src/dummy.js',
+    output: {
+      file: 'temp/dummy.js'
+    },
+    plugins: [
+      copy({
+        targets: [
+          { src: 'src/assets/*', dest: 'lib' },
+          { src: 'README.md', dest: 'lib' },
+          { src: 'LICENCE', dest: 'lib' },
+          { src: 'package.json', dest: 'lib' },
+        ]
+      })
+    ]
+  },
+
   {...webComponentDefaults, 
     input: 'src/holdable-button.ts',
     output: {
