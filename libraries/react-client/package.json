@@ -25,16 +25,16 @@
     "speech recognition"
   ],
   "scripts": {
-    "getdeps": "yarn install --force --frozen-lockfile",
-    "build": "yarn run lint && rm -rf ./dist/ && npx tsc",
+    "getdeps": "pnpm install --force --frozen-lockfile",
+    "build": "pnpm run lint && rm -rf ./dist/ && npx tsc",
     "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
-    "check": "yarn run build && npx api-extractor run --verbose",
-    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
+    "check": "pnpm run build && npx api-extractor run --verbose",
+    "docs": "pnpm run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
     "prepdist": "node ./config/prepare_dist.js",
-    "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",
-    "prerelease": "yarn run check && yarn run prepdist",
-    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && npx tsc-watch"
+    "precommit": "npx prettier --write src/**/*.ts && pnpm run build && npx api-extractor run --local && pnpm run docs",
+    "prerelease": "pnpm run check && pnpm run prepdist",
+    "watch": "rm -rf ./dist/ && mkdir dist && pnpm run prepdist && npx tsc-watch"
   },
   "repository": {
     "type": "git",
