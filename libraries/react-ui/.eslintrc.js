@@ -4,14 +4,15 @@ module.exports = {
   plugins: ['@typescript-eslint', 'eslint-plugin-tsdoc'],
   extends: ['standard-with-typescript', 'plugin:react/recommended', 'plugin:react-hooks/recommended'],
   rules: {
-    'tsdoc/syntax': 'error',
     'no-case-declarations': 'off',
+    'comma-dangle': ['error', 'always-multiline'],
     'react/prop-types': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
-    'comma-dangle': ['error', 'always-multiline'],
     '@typescript-eslint/return-await': ['error', 'in-try-catch'],
+    'tsdoc/syntax': 'error',
   },
   parserOptions: {
     project: './tsconfig.json',

@@ -1,3 +1,4 @@
+import { ClientState } from '@speechly/browser-client';
 import { SpeechState } from '@speechly/react-client';
 export declare enum SpeechlyUiEvents {
     TangentRelease = "TangentRelease",
@@ -6,4 +7,4 @@ export declare enum SpeechlyUiEvents {
     WarningNotification = "WarningNotification",
     DismissNotification = "DismissNotification"
 }
-export declare const mapSpeechStateToClientState: (s: SpeechState) => any;
+export declare const mapSpeechStateToClientState: (s: SpeechState) => ClientState;
