@@ -1,0 +1,80 @@
+{
+  "name": "@speechly/react-client",
+  "version": "0.0.22",
+  "description": "React client for Speechly SLU API",
+  "private": true,
+  "keywords": [
+    "react",
+    "reactjs",
+    "client",
+    "voice",
+    "speech",
+    "slu",
+    "spoken language understanding",
+    "speechly",
+    "asr",
+    "nlp",
+    "natural language processing",
+    "nlu",
+    "natural language understanding",
+    "natural language",
+    "vui",
+    "voice ui",
+    "voice user interface",
+    "multimodal",
+    "speech recognition"
+  ],
+  "scripts": {
+    "getdeps": "yarn install --force --frozen-lockfile",
+    "build": "yarn run lint && rm -rf ./dist/ && npx tsc",
+    "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
+    "test": "echo 'Pending...'",
+    "check": "yarn run build && npx api-extractor run --verbose",
+    "docs": "yarn run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
+    "prepdist": "node ./config/prepare_dist.js",
+    "precommit": "npx prettier --write src/**/*.ts && yarn run build && npx api-extractor run --local && yarn run docs",
+    "prerelease": "yarn run check && yarn run prepdist",
+    "watch": "rm -rf ./dist/ && mkdir dist && yarn run prepdist && npx tsc-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speechly/react-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/speechly/react-client/issues"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "author": "Speechly",
+  "license": "MIT",
+  "dependencies": {
+    "@speechly/browser-client": "^1.0.18"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.10.4",
+    "@types/react": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-tsdoc": "^0.2.7",
+    "prettier": "^2.1.2",
+    "react": "^17.0.2",
+    "ts-loader": "^8.0.4",
+    "tsc-watch": "^4.2.9",
+    "typedoc": "^0.19.2",
+    "typedoc-plugin-markdown": "^3.0.7",
+    "typescript": "4.1.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
