@@ -49,14 +49,14 @@ You can also find the implementations of our public demo applications in this re
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
-- [iOS Client Library](https://github.com/speechly/ios-client).
-- [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/ios-client)
+- [iOS Client Library](https://github.com/speechly/ios-client)
+- [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)
 
 ## How to get help?
 
-For general discussion or questions, please use our [GitHub Discussion forum](discussions).
+For general discussion or questions, please use our [GitHub Discussion forum](https://github.com/speechly/speechly/discussions).
 
-For feature requests or bug reports, please file a [GitHub Issue](issues).
+For feature requests or bug reports, please file a [GitHub Issue](https://github.com/speechly/speechly/issues).
 
 ## Contributions
 
