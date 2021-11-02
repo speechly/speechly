@@ -7,8 +7,6 @@ import {
   PushToTalkButtonContainer,
   ErrorPanel,
   TranscriptDrawer,
-//} from "@speechly/react-ui";
-// Run `sh initialize.sh` in the parent directory and uncomment this import to use local linked code.
 } from "@speechly/react-ui";
 
 // import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
@@ -22,11 +20,7 @@ export default function App() {
 
   const queryAppIdParts = (QueryString.parse(window.location.search).appId as string)?.split(":") || [];
 
-  const appId = ( () => {
-    if (queryAppIdParts.length > 0) return queryAppIdParts.slice(-1)[0];
-    if (!process.env.REACT_APP__SPEECHLY_APP_ID) throw Error("App ID not defined");
-    return process.env.REACT_APP__SPEECHLY_APP_ID;
-  })();
+  const appId = "a14e42a3-917e-4a57-81f7-7433ec71abad"
 
   const LoginUrl = queryAppIdParts.length > 0 && queryAppIdParts[0] === "staging" ? "https://staging.speechly.com/login" : process.env.REACT_APP__SPEECHLY_LOGIN_URL;
   const ApiUrl = queryAppIdParts.length > 0 && queryAppIdParts[0] === "staging" ? "wss://staging.speechly.com/ws/v1" : process.env.REACT_APP__SPEECHLY_API_URL;
