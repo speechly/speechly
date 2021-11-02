@@ -108,7 +108,7 @@ export default [
     input: 'src/holdable-button.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/holdable-button.js'
+      file: 'lib/holdable-button.js'
     },
   },
   
@@ -116,7 +116,7 @@ export default [
     input: 'src/big-transcript.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/big-transcript.js'
+      file: 'lib/big-transcript.js'
     },
   },
   
@@ -124,7 +124,7 @@ export default [
     input: 'src/push-to-talk-button.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/push-to-talk-button.js'
+      file: 'lib/push-to-talk-button.js'
     },
   },
 
@@ -132,7 +132,7 @@ export default [
     input: 'src/transcript-drawer.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/transcript-drawer.js'
+      file: 'lib/transcript-drawer.js'
     },
   },
 
@@ -140,7 +140,7 @@ export default [
     input: 'src/call-out.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/call-out.js'
+      file: 'lib/call-out.js'
     },
   },
 
@@ -148,7 +148,7 @@ export default [
     input: 'src/error-panel.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/error-panel.js'
+      file: 'lib/error-panel.js'
     },
   },
 
@@ -156,7 +156,7 @@ export default [
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'docs/dev/intro-popup.js'
+      file: 'lib/intro-popup.js'
     },
   },
 
@@ -164,7 +164,7 @@ export default [
     input: 'src/demomode.ts',
     output: [
       {
-        file: 'docs/dev/demomode.js',
+        file: 'lib/demomode.js',
         format: 'esm', // ES Modules
         sourcemap: true,
       },

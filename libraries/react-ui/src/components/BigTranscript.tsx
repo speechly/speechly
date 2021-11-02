@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SpeechSegment, useSpeechContext } from '@speechly/react-client'
 import { mapSpeechStateToClientState } from '../types'
-import '@speechly/browser-ui/big-transcript'
+import '@speechly/browser-ui/lib/big-transcript'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

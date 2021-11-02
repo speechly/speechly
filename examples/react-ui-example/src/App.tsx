@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { startDemo, stopDemo } from "@speechly/browser-ui/demomode";
 import { SpeechProvider, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import {
 //  BigTranscript,
@@ -7,16 +6,16 @@ import {
   PushToTalkButton,
   PushToTalkButtonContainer,
   ErrorPanel,
+  TranscriptDrawer,
 //} from "@speechly/react-ui";
 // Run `sh initialize.sh` in the parent directory and uncomment this import to use local linked code.
-} from "./@speechly/react-ui";
+} from "@speechly/react-ui";
 
-import {
-  TranscriptDrawer,
-} from "./@speechly/react-ui/components/TranscriptDrawer";
+// import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
+import { startDemo, stopDemo } from "@speechly/browser-ui/lib/demomode";
 
 import QueryString from "query-string";
-import { SpeechlyUiEvents } from "./@speechly/react-ui/types";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 
 export default function App() {
   // http://localhost:3000/?appId=staging:nnnnn

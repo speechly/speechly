@@ -6,15 +6,15 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "getdeps": "npm install && rm -rf 'node_modules/@types/react-native' && rm -rf 'node_modules/.pnpm/@types/react-native@0.63.34/'",
+    "getdeps": "pnpm install && rm -rf 'node_modules/@types/react-native' && rm -rf 'node_modules/.pnpm/@types/react-native@0.63.34/'",
     "build": "pnpm run lint && rm -rf ./lib/ && pnpx tsc",
-    "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
+    "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
-    "docs": "npm run prepdist && npx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown --entryPointStrategy expand ./src/",
+    "docs": "pnpm run prepdist && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown --entryPointStrategy expand ./src/",
     "prepdist": "node ./prepare_dist.js",
-    "precommit": "npx prettier --write src/**/*.ts && npm run build && npm run docs",
-    "prerelease": "npm run build && npm run prepdist",
-    "watch": "rm -rf ./lib/ && mkdir lib && npm run prepdist && npx tsc-watch"
+    "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpm run docs",
+    "prerelease": "pnpm run build && pnpm run prepdist",
+    "watch": "rm -rf ./lib/ && mkdir lib && pnpm run prepdist && pnpx tsc-watch"
   },
   "keywords": [
     "speechly",
@@ -55,7 +55,7 @@
     "react-dom": ">=16.13.1"
   },
   "dependencies": {
-    "@speechly/browser-ui": ">=4.0.2",
+    "@speechly/browser-ui": ">=4.1.2",
     "pubsub-js": "^1.9.2",
     "react-spring": "^8.0.27",
     "styled-components": "^5.2.1"
