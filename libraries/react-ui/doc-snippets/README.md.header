@@ -1,0 +1,15 @@
+<h1 align="center">
+<a href="https://www.speechly.com/?utm_source=github&utm_medium=react-ui&utm_campaign=header"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
+</h1>
+<h2 align="center">
+Complete your touch user interface with voice
+</h2>
+
+[Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=react-ui&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=react-client&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=react-client&utm_campaign=header)
+
+# Speechly React UI components
+
+![Release build](https://github.com/speechly/react-ui/workflows/Release%20build/badge.svg)
+[![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+

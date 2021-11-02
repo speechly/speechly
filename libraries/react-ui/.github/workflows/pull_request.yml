@@ -1,0 +1,27 @@
+name: 'Pull request build'
+
+on:
+  pull_request:
+    branches:
+    - 'main'
+    - 'release/**'
+
+defaults:
+  run:
+    working-directory: ./
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        run: npm run getdeps
+
+      - name: Build the package
+        run: npm run prerelease

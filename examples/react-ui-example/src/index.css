@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "Organetto";
+  src: local("Organetto"), url("fonts/Latinotype - Organetto Bold UltraCnd.otf");
+}
+
+body {
+  margin: 0;
+  font-family: "Organetto";
+  line-height: 1.15;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.BigTranscript {
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.BigTranscript .Entity.room {
+  color: #1fd3f3;
+}
+
+.BigTranscript .Entity.device {
+  color: #1fd3f3;
+}

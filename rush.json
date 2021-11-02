@@ -390,12 +390,20 @@
       "projectFolder": "libraries/browser-ui"
     },
     {
+      "packageName": "@speechly/react-ui",
+      "projectFolder": "libraries/react-ui"
+    },
+    {
       "packageName": "@speechly/browser-client-example",
       "projectFolder": "examples/browser-client-example"
     },
     {
       "packageName": "@speechly/react-client-example",
       "projectFolder": "examples/react-client-example"
+    },
+    {
+      "packageName": "@speechly/react-ui-example",
+      "projectFolder": "examples/react-ui-example"
     }
     // {
     //   /**
