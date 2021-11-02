@@ -7,11 +7,11 @@ Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile a
 
 [Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=speechly-api&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=speechly-api&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=speechly-api&utm_campaign=header)
 
-With Speechly's cloud API and open source client libraries you can add voice features to any website or mobile application. Our free tier allows 50 hours of API usage which is enough for small-to-medium scale projects.
+With Speechly's cloud API and client libraries you can add voice features to any website or mobile application. Our free tier allows 50 hours of API usage which is enough for small-to-medium scale projects.
 
 Also take a look at our [demos](https://www.speechly.com/demos/) to see what you can build with Speechly.
 
-# Getting started
+## Getting started
 
 1. Take a look at our [Quickstart documentation](https://docs.speechly.com/quick-start/).
 2. Create an account on the [Speechly Dashboard](https://www.speechly.com/dashboard).
@@ -19,28 +19,45 @@ Also take a look at our [demos](https://www.speechly.com/demos/) to see what you
 
 (Okay, actually we should probably put some instructions on how to get e.g. the browser-client-example up and running with an app id that has the empty configuration deployed.)
 
-# Client libraries
-The client libraries work together with our cloud API. They take care of audio capture and streaming, authentication, and network connection handling.
+## Published packages
+We offer both client libraries and various UI component packages. The client libraries work together with our cloud API. They take care of audio capture and streaming, authentication, and network connection handling. The UI components provide basic Voice UI functionalities, such as a microphone button for activating voice input, and a display component for showing speech to text output.
 
-For "Vanilla JS" projects we recommend the Speechly [browser-client](libraries/browser-client).
+| Folder | Package |
+| ------ | ------- |
+| (/libraries/browser-client) | (https://www.npmjs.com/package/@speechly/browser-client) |
+| (/libraries/react-client) | (https://www.npmjs.com/package/@speechly/react-client) |
+| (/libraries/browser-ui) | (https://www.npmjs.com/package/@speechly/browser-ui) |
+| (/libraries/react-ui) | (https://www.npmjs.com/package/@speechly/react-ui) |
+| (/libraries/react-voice-forms) | (https://www.npmjs.com/package/@speechly/react-voice-forms) |
 
-For React users we provide a more idiomatic client library, the [react-client](libraries/react-client).
+## Unpublished projects and demos
+These are example projects that are not published, but are useful learning tools.
 
-Note: client libraries for mobile platforms can be found in their own repositories: [Android](https://github.com/speechly/android-client) and [iOS](https://github.com/speechly/ios-client).
+| Folder | Description |
+| ------ | ------- |
+| (/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
+| (/examples-react-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/react-client) |
 
-# UI components
-In addition to the basic functionality of the client libraries, the Speechly UI components address various Voice UI tasks:
+You can also find the implementations of our public demo applications in this repository.
 
-- [Browser-ui](libraries(browser-ui)
-- [React-ui](libraries/react-ui)
-- [Voice forms](libraries/voice-forms)
+| Folder | Description |
+| ------ | ------- |
+| (/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
+| (/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
+| (/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
+| (/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
 
-# How to get help?
+## Related repositories
+- [Android Client Library](https://github.com/speechly/android-client)
+- [iOS Client Library](https://github.com/speechly/ios-client)
+- [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)
 
-For general discussion or questions, please use our [GitHub Discussion forum](discussions).
+## How to get help?
 
-For feature requests or bug reports, please file a [GitHub Issue](issues).
+For general discussion or questions, please use our [GitHub Discussion forum](https://github.com/speechly/speechly/discussions).
 
-# Contributions
+For feature requests or bug reports, please file a [GitHub Issue](https://github.com/speechly/speechly/issues).
+
+## Contributions
 
 We are happy to receive community contributions! For small fixes, feel free to file a pull request. For bigger changes or new features start by filing an issue.

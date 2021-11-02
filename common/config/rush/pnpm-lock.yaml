@@ -4,6 +4,7 @@ specifiers:
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:./projects/browser-client-example.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
+  '@rush-temp/react-client-example': file:./projects/react-client-example.tgz
   '@types/base-64': ^0.1.3
   '@types/jest': ^25.2.1
   '@types/react': ^17.0.3
@@ -18,7 +19,7 @@ specifiers:
   locale-code: ^2.0.2
   minimist: ^1.2.5
   react: ^17.0.2
-  react-scripts: ^4.0.3
+  react-dom: ^17.0.2
   rimraf: ^3.0.2
   ts-jest: 26.5.6
   uuid: ^8.0.0
@@ -27,6 +28,7 @@ dependencies:
   '@rush-temp/browser-client': file:projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz
   '@rush-temp/react-client': file:projects/react-client.tgz
+  '@rush-temp/react-client-example': file:projects/react-client-example.tgz
   '@types/base-64': 0.1.3
   '@types/jest': 25.2.3
   '@types/react': 17.0.33
@@ -41,7 +43,7 @@ dependencies:
   locale-code: 2.0.2
   minimist: 1.2.5
   react: 17.0.2
-  react-scripts: 4.0.3_react@17.0.2
+  react-dom: 17.0.2_react@17.0.2
   rimraf: 3.0.2
   ts-jest: 26.5.6_jest@26.6.0
   uuid: 8.3.2
@@ -5411,18 +5413,18 @@ packages:
       eslint-plugin-testing-library:
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 4.33.0_2951ba233cd46bb4e0f2f0a3f7fe108e
-      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0
+      '@typescript-eslint/eslint-plugin': 4.33.0_cc617358c89d3f38c52462f6d809db4c
+      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.4.4
       babel-eslint: 10.1.0_eslint@7.32.0
       confusing-browser-globals: 1.0.10
       eslint: 7.32.0
       eslint-plugin-flowtype: 5.10.0_eslint@7.32.0
       eslint-plugin-import: 2.25.2_eslint@7.32.0
-      eslint-plugin-jest: 24.7.0_d3b4c2d4ac51f4275548d5d796aee5d5
+      eslint-plugin-jest: 24.7.0_f178490c6a6949e5c714e48d3ab36f98
       eslint-plugin-jsx-a11y: 6.4.1_eslint@7.32.0
       eslint-plugin-react: 7.26.1_eslint@7.32.0
       eslint-plugin-react-hooks: 4.2.0_eslint@7.32.0
-      eslint-plugin-testing-library: 3.10.2_eslint@7.32.0
+      eslint-plugin-testing-library: 3.10.2_eslint@7.32.0+typescript@4.4.4
     dev: false
 
   /eslint-config-standard-with-typescript/16.0.0_f716dedc0e183e1050174e43a712b24c:
@@ -7453,7 +7455,7 @@ packages:
     resolution: {integrity: sha512-czwUz525rkOFDJxfKK6mYfIs9zBKILyrZQxjz3ABhjQXhbhFsSbo1HW/BFcsDnfJYJWA6thRR5/TUY2qs5W99Q==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.12.3
+      '@babel/core': 7.16.0
       '@babel/parser': 7.16.2
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
@@ -8849,7 +8851,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.18.1
+      resolve: 1.20.0
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: false
@@ -10388,6 +10390,17 @@ packages:
       text-table: 0.2.0
     dev: false
 
+  /react-dom/17.0.2_react@17.0.2:
+    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
+    peerDependencies:
+      react: 17.0.2
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react: 17.0.2
+      scheduler: 0.20.2
+    dev: false
+
   /react-error-overlay/6.0.9:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
     dev: false
@@ -10687,7 +10700,7 @@ packages:
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
     dependencies:
-      '@babel/runtime': 7.12.1
+      '@babel/runtime': 7.16.0
     dev: false
 
   /regex-not/1.0.2:
@@ -11054,6 +11067,13 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       xmlchars: 2.2.0
+    dev: false
+
+  /scheduler/0.20.2:
+    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: false
 
   /schema-utils/1.0.0:
@@ -13196,6 +13216,33 @@ packages:
       - ts-node
       - utf-8-validate
       - webpack
+    dev: false
+
+  file:projects/react-client-example.tgz:
+    resolution: {integrity: sha512-Cxy7t/mEts8nCSh4b5HsgNOqXIOXSYPtDRMPVKE1kdwiXPJQ/vnzQf8WhigVQKqAR7SARQIdM12bJqH4PrKHIw==, tarball: file:projects/react-client-example.tgz}
+    name: '@rush-temp/react-client-example'
+    version: 0.0.0
+    dependencies:
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-scripts: 4.0.3_react@17.0.2
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - bufferutil
+      - canvas
+      - fibers
+      - node-sass
+      - sass
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - typescript
+      - utf-8-validate
+      - webpack-cli
+      - webpack-command
+      - webpack-hot-middleware
+      - webpack-plugin-serve
     dev: false
 
   file:projects/react-client.tgz:
