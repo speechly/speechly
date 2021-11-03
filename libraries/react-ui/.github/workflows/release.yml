@@ -1,0 +1,32 @@
+name: 'Release build'
+
+on:
+  release:
+    types: [published]
+
+env:
+  NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+
+defaults:
+  run:
+    working-directory: ./
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm run getdeps
+
+      - name: Build the package
+        run: npm run prerelease
+
+      - name: Publish the package
+        run: cd ./lib/ && echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc && npm publish

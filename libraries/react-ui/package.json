@@ -1,0 +1,70 @@
+{
+  "name": "@speechly/react-ui",
+  "private": true,
+  "version": "2.1.2",
+  "description": "Speechly UI Components",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "getdeps": "pnpm install && rm -rf 'node_modules/@types/react-native' && rm -rf 'node_modules/.pnpm/@types/react-native@0.63.34/'",
+    "build": "pnpm run lint && rm -rf ./lib/ && pnpx tsc",
+    "build:watch": "rm -rf ./lib/ && pnpx tsc",
+    "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
+    "test": "echo 'Pending...'",
+    "docs": "pnpm run prepdist && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown --entryPointStrategy expand ./src/",
+    "prepdist": "node ./prepare_dist.js",
+    "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpm run docs",
+    "prerelease": "pnpm run build && pnpm run prepdist",
+    "watch": "rm -rf ./lib/ && mkdir lib && pnpm run prepdist && pnpx tsc-watch"
+  },
+  "keywords": [
+    "speechly",
+    "ui",
+    "push-to-talk"
+  ],
+  "author": "Speechly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speechly/react-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/speechly/react-ui/issues"
+  },
+  "devDependencies": {
+    "@speechly/react-client": ">=0.0.20",
+    "@speechly/browser-client": "^1.0.18",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "eslint-config-standard-with-typescript": "^19.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-tsdoc": "^0.2.7",
+    "typescript": "^4.3.5",
+    "@types/pubsub-js": "^1.8.1",
+    "@types/react": ">=16.13.1",
+    "@types/react-dom": ">=16.13.1",
+    "@types/styled-components": "^5.1.7"
+  },
+  "peerDependencies": {
+    "@speechly/react-client": ">=0.0.20",
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1"
+  },
+  "dependencies": {
+    "@speechly/browser-ui": ">=4.1.2",
+    "pubsub-js": "^1.9.2",
+    "react-spring": "^8.0.27",
+    "styled-components": "^5.2.1"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
