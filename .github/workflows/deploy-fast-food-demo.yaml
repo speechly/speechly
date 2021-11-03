@@ -4,7 +4,7 @@ on:
     branches:
       - rush
     paths:
-      - "configurations/fast-food-demo/**"
+      - "demos/fast-food-demo/config/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: deploy -a ${{ secrets.APPID_FAST_FOOD_DEMO }} configurations/fast-food-demo -w
+          args: deploy -a ${{ secrets.APPID_FAST_FOOD_DEMO }} demos/fast-food-demo/config -w
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

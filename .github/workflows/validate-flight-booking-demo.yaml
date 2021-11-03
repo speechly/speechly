@@ -4,7 +4,7 @@ on:
     branches:
       - rush
     paths:
-      - "configurations/flight-booking-demo/**"
+      - "demos/flight-booking-demo/config/**"
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: validate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} configurations/flight-booking-demo
+          args: validate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} demos/flight-booking-demo/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

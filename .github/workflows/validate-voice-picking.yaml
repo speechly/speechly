@@ -4,7 +4,7 @@ on:
     branches:
       - rush
     paths:
-      - "configurations/voice-picking/**"
+      - "demos/voice-picking/config/**"
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: validate -a ${{ secrets.APPID_VOICE_PICKING }} configurations/voice-picking
+          args: validate -a ${{ secrets.APPID_VOICE_PICKING }} demos/voice-picking/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

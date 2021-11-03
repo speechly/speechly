@@ -4,7 +4,7 @@ on:
     branches:
       - rush
     paths:
-      - "configurations/speech-to-text/**"
+      - "demos/speech-to-text/config**"
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: validate -a ${{ secrets.APPID_SPEECH_TO_TEXT }} configurations/speech-to-text
+          args: validate -a ${{ secrets.APPID_SPEECH_TO_TEXT }} demos/speech-to-text/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
