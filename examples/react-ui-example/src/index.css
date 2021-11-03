@@ -1,11 +1,8 @@
-@font-face {
-  font-family: "Organetto";
-  src: local("Organetto"), url("fonts/Latinotype - Organetto Bold UltraCnd.otf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap');
 
 body {
   margin: 0;
-  font-family: "Organetto";
+  font-family: 'Saira Condensed', sans-serif;
   line-height: 1.15;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -11,6 +11,18 @@
    * "rush my-global-command --help".
    */
   "commands": [
+    {
+      "name": "build:watch",
+      "commandKind": "bulk",
+      "summary": "Build projects and watch for changes",
+      "description": "For details, see the article \"Using watch mode\" on the Rush website: https://rushjs.io/",
+
+      // use incremental build logic (important)
+      "incremental": true,
+      "enableParallelism": true,
+      // Enable "watch mode"
+      "watchForChanges": true
+    },
     // {
     //   /**
     //    * (Required) Determines the type of custom command.

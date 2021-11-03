@@ -2,39 +2,20 @@ import React, { useEffect, useState } from "react";
 import { SpeechProvider, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import {
 //  BigTranscript,
-  BigTranscriptContainer,
   PushToTalkButton,
   ErrorPanel,
 } from "@speechly/react-ui";
 
 import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
 import { startDemo, stopDemo } from "@speechly/browser-ui/lib/demomode";
-
-import QueryString from "query-string";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 
 export default function App() {
-  // http://localhost:3000/?appId=staging:nnnnn
-
-  const queryAppIdParts = (QueryString.parse(window.location.search).appId as string)?.split(":") || [];
-
   const appId = "a14e42a3-917e-4a57-81f7-7433ec71abad"
-
-  const LoginUrl = queryAppIdParts.length > 0 && queryAppIdParts[0] === "staging" ? "https://staging.speechly.com/login" : process.env.REACT_APP__SPEECHLY_LOGIN_URL;
-  const ApiUrl = queryAppIdParts.length > 0 && queryAppIdParts[0] === "staging" ? "wss://staging.speechly.com/ws/v1" : process.env.REACT_APP__SPEECHLY_API_URL;
-
-  console.log("appId:", appId);
-  console.log("ApiUrl:", ApiUrl);
-  console.log("LoginUrl:", LoginUrl);
 
   return (
     <div className="App">
-      <SpeechProvider
-        appId={appId}
-        language="en-US"
-        loginUrl={LoginUrl}
-        apiUrl={ApiUrl}
-      >
+      <SpeechProvider appId={appId} >
         <SpeechlyApp />
       </SpeechProvider>
     </div>
@@ -78,16 +59,18 @@ function SpeechlyApp() {
     <>
       <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
-      <PushToTalkButton placement="bottom" size="6rem" intro="Hold to use voice commands"/>
+      <PushToTalkButton placement="bottom" size="88px" voffset="32px" intro="Hold to use voice commands"/>
 
       <ErrorPanel placement="bottom" />
 
       <div className="status">{speechState}</div>
+
       {segment ? (
         <div className="segment">
           {segment.words.map((w) => w.value).join(" ")}
         </div>
       ) : null}
+
       <div className="mic-button">
         <button onClick={toggleRecording}>Record</button>
         <button onClick={clickStartDemo}>Start demo</button>

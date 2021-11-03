@@ -8,6 +8,7 @@
   "scripts": {
     "getdeps": "pnpm install && rm -rf 'node_modules/@types/react-native' && rm -rf 'node_modules/.pnpm/@types/react-native@0.63.34/'",
     "build": "pnpm run lint && rm -rf ./lib/ && pnpx tsc",
+    "build:watch": "rm -rf ./lib/ && pnpx tsc",
     "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
     "docs": "pnpm run prepdist && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown --entryPointStrategy expand ./src/",

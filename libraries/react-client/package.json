@@ -27,6 +27,7 @@
   "scripts": {
     "getdeps": "pnpm install --force --frozen-lockfile",
     "build": "pnpm run lint && rm -rf ./dist/ && npx tsc",
+    "build:watch": "rm -rf ./dist/ && npx tsc",
     "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
     "check": "pnpm run build && npx api-extractor run --verbose",

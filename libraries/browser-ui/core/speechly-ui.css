@@ -1,0 +1,21 @@
+.PushToTalkContainer {
+  position: fixed;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 100vh;
+  padding: 0 0 3rem 0;
+  pointer-events: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 50;
+}
+  
+.BigTranscriptContainer {
+  position: fixed;
+  margin: 3rem 2rem 0 2rem;
+  z-index: 10;
+}
