@@ -74,6 +74,11 @@ export type PushToTalkButtonProps = {
    * Optional boolean. Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: false
    */
   powerOn?: boolean
+  /**
+   * Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.
+   */
+  voffset?: string
+
 }
 
 /**
@@ -97,6 +102,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   textColor,
   backgroundColor,
   placement,
+  voffset,
 }) => {
   const { speechState, toggleRecording, initialise } = useSpeechContext()
   const [icon, setIcon] = useState<string>((powerOn ? SpeechState.Idle : SpeechState.Ready) as string)
@@ -194,7 +200,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       )}
       { (placement !== 'bottom') && (
         <>
-          <holdable-button ref={buttonRef} poweron={powerOn} capturekey={captureKey} icon={icon} size={size} gradientstop1={gradientStops[0]} gradientstop2={gradientStops[1]} hide={hide ? 'true' : 'false'}></holdable-button>
+          <holdable-button ref={buttonRef} poweron={powerOn} capturekey={captureKey} icon={icon} size={size} gradientstop1={gradientStops[0]} gradientstop2={gradientStops[1]} hide={hide ? 'true' : 'false'} voffset={voffset}></holdable-button>
           <call-out show={showHint && hintText !== ''} fontsize={fontSize} textcolor={textColor} backgroundcolor={backgroundColor} showtime={showTime}>{hintText}</call-out>
         </>
       )}
