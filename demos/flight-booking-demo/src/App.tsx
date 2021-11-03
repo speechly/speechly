@@ -36,7 +36,7 @@ function App() {
         hint={UsageHints}
       />
 
-      <PushToTalkButton captureKey=" " placement="bottom" size="88px" />
+      <PushToTalkButton captureKey=" " placement="bottom" size="88px" voffset="32px" />
       <ErrorPanel placement="bottom" />
 
       <div className="App">
