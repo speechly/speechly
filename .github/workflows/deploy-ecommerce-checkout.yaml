@@ -1,0 +1,17 @@
+name: deploy ecommerce-checkout
+on:
+  push:
+    branches:
+      - rush
+    paths:
+      - "configurations/ecommerce-checkout/**"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_ECOMMERCE_CHECKOUT }} configurations/ecommerce-checkout -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
