@@ -29,6 +29,7 @@
     "rollup-plugin-copy": "~3.4.0"
   },
   "files": [
+    "core/**/*",
     "lib/**/*"
   ],
   "publishConfig": {

@@ -34,7 +34,7 @@ const webComponentDefaults = {
   input: null,
   output: {
     sourcemap: true,
-    format: 'iife',
+    format: 'umd',
     name: 'app',
     file: null,
   },
@@ -99,6 +99,10 @@ const webComponentDefaults = {
 };
 
 const typeScriptDefaults = {
+  output: {
+    format: 'esm', // ES Modules
+    sourcemap: true,
+  },
   plugins: [
     typescript({ tsconfig: './tsconfig.json' }),
   ],
@@ -113,7 +117,7 @@ export default [
     plugins: [
       copy({
         targets: [
-          { src: 'src/assets/*', dest: 'lib' },
+          { src: 'src/assets/*', dest: 'core' },
           { src: 'README.md', dest: 'lib' },
           { src: 'LICENCE', dest: 'lib' },
           { src: 'package.json', dest: 'lib' },
@@ -126,7 +130,7 @@ export default [
     input: 'src/holdable-button.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/holdable-button.js'
+      file: 'core/holdable-button.js'
     },
   },
   
@@ -134,23 +138,33 @@ export default [
     input: 'src/big-transcript.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/big-transcript.js'
+      file: 'core/big-transcript.js'
     },
   },
   
   {...webComponentDefaults, 
     input: 'src/push-to-talk-button.ts',
-    output: {
-      ...webComponentDefaults.output,
-      file: 'lib/push-to-talk-button.js'
-    },
+    output: 
+      {
+        ...webComponentDefaults.output,
+        file: 'core/push-to-talk-button.js'
+      },
+  },
+
+  {...webComponentDefaults, 
+    input: 'src/push-to-talk-button.svelte',
+    output: 
+      {
+        ...typeScriptDefaults.output,
+        file: 'lib/push-to-talk-button.js'
+      },
   },
 
   {...webComponentDefaults, 
     input: 'src/transcript-drawer.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/transcript-drawer.js'
+      file: 'core/transcript-drawer.js'
     },
   },
 
@@ -158,7 +172,7 @@ export default [
     input: 'src/call-out.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/call-out.js'
+      file: 'core/call-out.js'
     },
   },
 
@@ -166,7 +180,7 @@ export default [
     input: 'src/error-panel.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/error-panel.js'
+      file: 'core/error-panel.js'
     },
   },
 
@@ -174,7 +188,7 @@ export default [
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'lib/intro-popup.js'
+      file: 'core/intro-popup.js'
     },
   },
 
@@ -182,9 +196,8 @@ export default [
     input: 'src/demomode.ts',
     output: [
       {
+        ...typeScriptDefaults.output,
         file: 'lib/demomode.js',
-        format: 'esm', // ES Modules
-        sourcemap: true,
       },
     ],
   },

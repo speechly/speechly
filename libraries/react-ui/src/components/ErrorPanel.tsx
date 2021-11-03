@@ -1,5 +1,5 @@
 import React from 'react'
-import '@speechly/browser-ui/lib/error-panel'
+import '@speechly/browser-ui/core/error-panel'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

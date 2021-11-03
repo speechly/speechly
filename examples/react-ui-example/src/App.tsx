@@ -4,12 +4,10 @@ import {
 //  BigTranscript,
   BigTranscriptContainer,
   PushToTalkButton,
-  PushToTalkButtonContainer,
   ErrorPanel,
-  TranscriptDrawer,
 } from "@speechly/react-ui";
 
-// import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
+import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
 import { startDemo, stopDemo } from "@speechly/browser-ui/lib/demomode";
 
 import QueryString from "query-string";
@@ -78,9 +76,7 @@ function SpeechlyApp() {
 
   return (
     <>
-      <BigTranscriptContainer>
-        <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
-      </BigTranscriptContainer>
+      <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
       <PushToTalkButton placement="bottom" size="6rem" intro="Hold to use voice commands"/>
 

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SpeechState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import { mapSpeechStateToClientState, SpeechlyUiEvents } from '../types'
-import '@speechly/browser-ui/lib/holdable-button'
-import '@speechly/browser-ui/lib/call-out'
+import '@speechly/browser-ui/core/holdable-button'
+import '@speechly/browser-ui/core/call-out'
 import { PushToTalkButtonContainer } from '..'
 
 declare global {
