@@ -394,6 +394,10 @@
       "projectFolder": "libraries/react-ui"
     },
     {
+      "packageName": "@speechly/react-voice-forms",
+      "projectFolder": "libraries/react-voice-forms"
+    },
+    {
       "packageName": "@speechly/browser-client-example",
       "projectFolder": "examples/browser-client-example"
     },

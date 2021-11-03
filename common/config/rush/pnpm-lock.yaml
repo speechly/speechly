@@ -14,11 +14,11 @@ specifiers:
   '@rush-temp/react-client-example': file:./projects/react-client-example.tgz
   '@rush-temp/react-ui': file:./projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:./projects/react-ui-example.tgz
+  '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-picking-demo': file:./projects/voice-picking-demo.tgz
   '@speechly/browser-client': 1.0.18
   '@speechly/react-client': ^0.0.21
-  '@speechly/react-voice-forms': '>=1.0.4'
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -63,18 +63,18 @@ dependencies:
   '@rush-temp/browser-client': file:projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz
   '@rush-temp/browser-ui': file:projects/browser-ui.tgz
-  '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz_@speechly+react-client@0.0.21
+  '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz
   '@rush-temp/fast-food-demo': file:projects/fast-food-demo.tgz
-  '@rush-temp/flight-booking-demo': file:projects/flight-booking-demo.tgz_@speechly+react-client@0.0.21
+  '@rush-temp/flight-booking-demo': file:projects/flight-booking-demo.tgz
   '@rush-temp/react-client': file:projects/react-client.tgz
   '@rush-temp/react-client-example': file:projects/react-client-example.tgz
   '@rush-temp/react-ui': file:projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:projects/react-ui-example.tgz
+  '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz
   '@rush-temp/voice-picking-demo': file:projects/voice-picking-demo.tgz
   '@speechly/browser-client': 1.0.18
   '@speechly/react-client': 0.0.21
-  '@speechly/react-voice-forms': 1.1.1_@speechly+react-client@0.0.21
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0
   '@testing-library/user-event': 7.2.1
@@ -3025,14 +3025,6 @@ packages:
     dependencies:
       '@speechly/browser-client': 1.0.18
       react: 17.0.2
-    dev: false
-
-  /@speechly/react-voice-forms/1.1.1_@speechly+react-client@0.0.21:
-    resolution: {integrity: sha512-a2YOTxu7uYXPdnp3bxAxIdUAAMiqSJx3acbGmyoKWb1d7apMfMzKYWT6ddXvnu9JAqsoP6fJIQ4v4W+WwS++Gg==}
-    peerDependencies:
-      '@speechly/react-client': ^0.0.21
-    dependencies:
-      '@speechly/react-client': 0.0.21
     dev: false
 
   /@surma/rollup-plugin-off-main-thread/1.4.2:
@@ -8804,7 +8796,7 @@ packages:
     resolution: {integrity: sha512-czwUz525rkOFDJxfKK6mYfIs9zBKILyrZQxjz3ABhjQXhbhFsSbo1HW/BFcsDnfJYJWA6thRR5/TUY2qs5W99Q==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/core': 7.12.3
+      '@babel/core': 7.16.0
       '@babel/parser': 7.16.2
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
@@ -10268,7 +10260,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.18.1
+      resolve: 1.20.0
       semver: 5.7.1
       validate-npm-package-license: 3.0.4
     dev: false
@@ -13989,6 +13981,21 @@ packages:
       typescript: 4.1.5
     dev: false
 
+  /ts-loader/8.3.0_typescript@4.1.6:
+    resolution: {integrity: sha512-MgGly4I6cStsJy27ViE32UoqxPTN9Xly4anxxVyaIWR+9BGxboV4EyJBGfR3RePV7Ksjj3rHmPZJeIt+7o4Vag==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      typescript: '*'
+      webpack: '*'
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 4.5.0
+      loader-utils: 2.0.1
+      micromatch: 4.0.4
+      semver: 7.3.5
+      typescript: 4.1.6
+    dev: false
+
   /ts-loader/9.2.6_typescript@4.4.4:
     resolution: {integrity: sha512-QMTC4UFzHmu9wU2VHZEmWWE9cUajjfcdcws+Gh7FhiO+Dy0RnR1bNz0YCHqhI0yRowCE9arVnNxYHqELOy9Hjw==}
     engines: {node: '>=12.0.0'}
@@ -14050,6 +14057,21 @@ packages:
       string-argv: 0.1.2
       strip-ansi: 6.0.1
       typescript: 4.1.5
+    dev: false
+
+  /tsc-watch/4.5.0_typescript@4.1.6:
+    resolution: {integrity: sha512-aXhN4jY+1YEcn/NwCQ/+fHqU43EqOpW+pS+933EPsVEsrKhvyrodPDIjQsk1a1niFrabAK3RIBrRbAslVefEbQ==}
+    engines: {node: '>=8.17.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      cross-spawn: 7.0.3
+      node-cleanup: 2.1.2
+      ps-tree: 1.2.0
+      string-argv: 0.1.2
+      strip-ansi: 6.0.1
+      typescript: 4.1.6
     dev: false
 
   /tsc-watch/4.5.0_typescript@4.4.4:
@@ -14225,6 +14247,15 @@ packages:
       typedoc: 0.21.9_typescript@4.4.4
     dev: false
 
+  /typedoc-plugin-markdown/3.11.3_typedoc@0.22.7:
+    resolution: {integrity: sha512-rWiHbEIe0oZetDIsBR24XJVxGOJ91kDcHoj2KhFKxCLoJGX659EKBQkHne9QJ4W2stGhu1fRgFyQaouSBnxukA==}
+    peerDependencies:
+      typedoc: '>=0.22.0'
+    dependencies:
+      handlebars: 4.7.7
+      typedoc: 0.22.7_typescript@4.1.6
+    dev: false
+
   /typedoc/0.19.2_typescript@4.1.5:
     resolution: {integrity: sha512-oDEg1BLEzi1qvgdQXc658EYgJ5qJLVSeZ0hQ57Eq4JXy6Vj2VX4RVo18qYxRWz75ifAaYuYNBUCnbhjd37TfOg==}
     engines: {node: '>= 10.0.0'}
@@ -14262,6 +14293,21 @@ packages:
       shiki: 0.9.12
       typedoc-default-themes: 0.12.10
       typescript: 4.4.4
+    dev: false
+
+  /typedoc/0.22.7_typescript@4.1.6:
+    resolution: {integrity: sha512-ndxxp+tU1Wczvdxp4u2/PvT1qjD6hdFdSdehpORHjE+JXmMkl2bftXCR0upHmsnesBG7VCcr8vfgloGHIH8glQ==}
+    engines: {node: '>= 12.10.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x
+    dependencies:
+      glob: 7.2.0
+      lunr: 2.3.9
+      marked: 3.0.8
+      minimatch: 3.0.4
+      shiki: 0.9.12
+      typescript: 4.1.6
     dev: false
 
   /typescript/4.1.5:
@@ -15226,13 +15272,11 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/ecommerce-checkout.tgz_@speechly+react-client@0.0.21:
-    resolution: {integrity: sha512-osBs3hT7SQAUvFbL8f831rxJ6n1+Qhf/pWYXxbMLinbWB/QAk+tzWMh+VYM7Q6A+CQEC2O2SBEdQ6RgFOaP/dw==, tarball: file:projects/ecommerce-checkout.tgz}
-    id: file:projects/ecommerce-checkout.tgz
+  file:projects/ecommerce-checkout.tgz:
+    resolution: {integrity: sha512-hAC/1aWyBpfpr5H70BIs2Tpe2OIkCnYxU0nk6gG9jKAis950yKuOCxnqf9ARzTdviw5EOlOkBXnM4pPJBXF85Q==, tarball: file:projects/ecommerce-checkout.tgz}
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
     dependencies:
-      '@speechly/react-voice-forms': 1.1.1_@speechly+react-client@0.0.21
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -15246,7 +15290,6 @@ packages:
       source-map-explorer: 2.5.2
       typescript: 4.1.6
     transitivePeerDependencies:
-      - '@speechly/react-client'
       - '@testing-library/dom'
       - '@types/webpack'
       - bufferutil
@@ -15301,13 +15344,11 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  file:projects/flight-booking-demo.tgz_@speechly+react-client@0.0.21:
-    resolution: {integrity: sha512-mSwJuiFZLYYIS2VNOlQwbhZuBRLRADIz4MZ9Z42iREkICDwAHysQnTYZPgQKE58l0xeWOZthTgUzDUpeGwsiQA==, tarball: file:projects/flight-booking-demo.tgz}
-    id: file:projects/flight-booking-demo.tgz
+  file:projects/flight-booking-demo.tgz:
+    resolution: {integrity: sha512-8EiHtJOSsICHqHPlvlQW0WjxbfYjZzzaVz5P6K8OOdHujlvmiO2Ne+thXfxOqYCGCnurNx/tjNVaabt3QnElOA==, tarball: file:projects/flight-booking-demo.tgz}
     name: '@rush-temp/flight-booking-demo'
     version: 0.0.0
     dependencies:
-      '@speechly/react-voice-forms': 1.1.1_@speechly+react-client@0.0.21
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -15321,7 +15362,6 @@ packages:
       source-map-explorer: 2.5.2
       typescript: 4.1.6
     transitivePeerDependencies:
-      - '@speechly/react-client'
       - '@testing-library/dom'
       - '@types/webpack'
       - bufferutil
@@ -15456,6 +15496,22 @@ packages:
     transitivePeerDependencies:
       - react-is
       - supports-color
+    dev: false
+
+  file:projects/react-voice-forms.tgz:
+    resolution: {integrity: sha512-bwfPNFii7Yc79HmiXt6T9BUXy05WR1X3Vo/EYI5OTzy+cr7r+s9QLjF/f/l3uhHhoAYGSL0qlYuVOGLpofwzGQ==, tarball: file:projects/react-voice-forms.tgz}
+    name: '@rush-temp/react-voice-forms'
+    version: 0.0.0
+    dependencies:
+      '@types/react': 17.0.34
+      react: 17.0.2
+      ts-loader: 8.3.0_typescript@4.1.6
+      tsc-watch: 4.5.0_typescript@4.1.6
+      typedoc: 0.22.7_typescript@4.1.6
+      typedoc-plugin-markdown: 3.11.3_typedoc@0.22.7
+      typescript: 4.1.6
+    transitivePeerDependencies:
+      - webpack
     dev: false
 
   file:projects/speech-to-text.tgz:

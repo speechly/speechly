@@ -23,7 +23,7 @@
     "speech recognition"
   ],
   "scripts": {
-    "build": "pnpm run lint && pnpm run test && rm -rf ./dist/ && pnpm run buildworker && npx tsc",
+    "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpm run buildworker && npx tsc",
     "build:watch": "rm -rf ./dist/ && pnpm run buildworker && npx tsc",
     "buildworker": "npx tsc ./worker/worker.ts && cat ./worker/templateOpen  > ./src/websocket/worker.ts && cat ./worker/worker.js >> ./src/websocket/worker.ts && cat ./worker/templateEnd  >> ./src/websocket/worker.ts",
     "check": "pnpm run build && npx api-extractor run --verbose",
