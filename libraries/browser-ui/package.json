@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "5.0.0-beta.0",
+  "version": "5.0.0",
   "scripts": {
     "build": "rollup -c",
     "build:watch": "rollup -c",
