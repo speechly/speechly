@@ -18,16 +18,16 @@
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
+    "rollup-plugin-copy": "~3.4.0",
     "svelte": "^3.37.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
     "tslib": "^2.1.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.3.5",
+    "sirv-cli": "^1.0.0"
   },
   "dependencies": {
-    "@speechly/browser-client": "1.0.18",
-    "sirv-cli": "^1.0.0",
-    "rollup-plugin-copy": "~3.4.0"
+    "@speechly/browser-client": ">=1.0.19"
   },
   "files": [
     "core/**/*",

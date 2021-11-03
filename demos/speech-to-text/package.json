@@ -7,10 +7,10 @@
     "@speechly/react-ui": ">=2.1.2",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1",
-    "typescript": "~4.1.5"
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/react": ">=16.13.1",

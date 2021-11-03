@@ -68,5 +68,6 @@ common/autoinstallers/*/.npmrc
 .heft
 
 # Build artefacts
+**/dist
 **/lib
 **/temp
