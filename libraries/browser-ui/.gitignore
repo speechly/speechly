@@ -1,5 +1,2 @@
-/node_modules/
-pnpm-lock.yaml
-.env
-
-.DS_Store
+core
+lib
