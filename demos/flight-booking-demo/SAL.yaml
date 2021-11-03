@@ -1,0 +1,610 @@
+asr_biasing: moderate
+intents:
+  - book
+  - clear
+entities:
+  - name: from
+    type: string
+  - name: to
+    type: string
+  - name: depart
+    type: date (prefer future)
+  - name: return
+    type: date (prefer future)
+  - name: passengers
+    type: number
+  - name: class
+    type: string
+  - name: one_way
+    type: string
+  - name: round_trip
+    type: string
+  - name: direct
+    type: string
+templates: |
+carrier_phrases = [
+    i'm interested in 
+    {[can you|will you|could you]} {please} [book|show|display|give|make it|change it to|search {for}] {me}
+    [i want {to} | i'd like {to}|can i|i need {to}] {[book|see|view|browse|fly {to}]}
+]
+
+direct = [direct|nonstop|non stop|[no|without] [{a} layover|layovers|{a} stopover|stopovers|{a} connecting|connecting]](direct)
+round_trip = [round trip|around trip|return|two way](round_trip)
+one_way = [one way|single](one_way)
+trip = [[$round_trip|$one_way] {[trip|trips|journey|ticket|tickets|seat|seats]}]
+fligth_type_phrase = [$trip|$direct|![$trip|$direct]]
+
+city = [
+    Abidjan
+    Abu Dhabi
+    Abuja
+    Accra
+    Adana
+    Addis Ababa
+    Adelaide
+    Agadir
+    Ahmedabad
+    Ahwaz
+    Albany
+    Albuquerque
+    Alexandria
+    Algier
+    Alicante
+    Amritsar
+    Amsterdam
+    Anapa
+    Anchorage
+    Angeles City
+    Ankara
+    Antalya
+    Arequipa
+    Arrecife
+    Athens
+    Atlanta
+    Auckland
+    Austin
+    Aviles
+    Bacolod
+    Baghdogra
+    Balikpapan
+    Baltimore
+    Bandar Lampung Sumatra Island
+    Bandung
+    Bangalore
+    Bangkok
+    Banjarmasin
+    Barcelona
+    Bari
+    Batam
+    Beijing
+    Belem
+    Belfast
+    Belgrade
+    Belo Horizonte
+    Bergamo
+    Bergen
+    Berlin
+    Bhubaneswar
+    Bilbao
+    Birmingham
+    Bodrum
+    Bogota
+    Bologna
+    Bombay
+    Bordeaux
+    Boston
+    Brasilia
+    Brazil
+    Bremen
+    Brisbane
+    Bristol
+    Brussels
+    Bucharest
+    Budapest
+    Buenos Aires
+    Buffalo
+    Burbank
+    Busan
+    Cagliari
+    Cairns
+    Cairo
+    Calgary
+    Calicut
+    Campinas
+    Campo Grande
+    Canberra
+    Cancun
+    Cape Town
+    Casablanca
+    Catania
+    Cebu
+    Changcha
+    Changchun
+    Changzhou
+    Charleroi
+    Charlotte
+    Cheju
+    Chelyabinsk
+    Chengdu
+    Chiang Mai
+    Chiang Rai
+    Chicago
+    Chongju
+    Chongqing
+    Christchurch
+    Cincinnati
+    Cleveland
+    Coimbatore
+    Cologne
+    Columbus
+    Coolangatta
+    Copenhagen
+    Cordoba
+    Cuiaba
+    Curitiba
+    Cuzco
+    Dakar
+    Dalaman
+    Dalat
+    Dalian
+    Dallas
+    Danang
+    Dar Es Salaam
+    Darwin
+    Davao
+    Delhi
+    Denpasar
+    Denver
+    Detroit
+    Diyabakir
+    Djerba
+    Doha
+    Dortmund
+    Douala
+    Dresden
+    Dubai
+    Dublin
+    Dubrovnik
+    Duesseldorf
+    Durban
+    East Midlands
+    Edinburgh
+    Edmonton
+    Eindhoven
+    El Paso
+    Entebbe
+    Esfahan
+    Faro
+    Florianopolis
+    Fort Lauderdale
+    Fort Myers
+    Fortaleza
+    Foz Do Iguacu
+    Frankfurt
+    Fuerteventura
+    Fukuoka
+    Funchal
+    Fuzhou
+    Gasan
+    Gaziantep
+    Gdansk
+    Geneva
+    Gerona
+    Glasgow
+    Goa
+    Goiania
+    Gothenborg
+    Gran Canaria
+    Guadalajara
+    Guangzhou
+    Guatemala City
+    Guilin
+    Guiyang
+    Guwahati
+    Hahn
+    Haikou
+    Haiphong
+    Hakodate
+    Halifax
+    Hamburg
+    Hangzhou
+    Hannover
+    Hanoi
+    Harbin
+    Hat Yai
+    Havana
+    Hefei
+    Helsinki
+    Heraklion
+    Hiroshima
+    Ho Chi Minh City
+    Hobart
+    Hohhot
+    Hong Kong
+    Honolulu
+    Houston
+    Hue
+    Hurghada
+    Hyderabad
+    Ibiza
+    Iloilo
+    Indianapolis
+    Indore
+    Irkutsk
+    Ishigaki
+    Istanbul
+    Izmir
+    Jacksonville
+    Jaipur
+    Jakarta
+    Jambi
+    Jayapura
+    Jeddah
+    Jinan
+    Jinghonggasa
+    Joao Pessoa
+    Johannesburg
+    Johor Bahru
+    Kagoshima
+    Kalibo
+    Kaliningrad
+    Kanazawa
+    Kansas City
+    Kaohsiung
+    Katowice
+    Kayseri
+    Kazan
+    Keflavik
+    Kelowna
+    Khabarovsk
+    Khartoum
+    Khon Kaen
+    Kiev
+    Kish Island
+    Ko Samui
+    Kobe
+    Kochi
+    Kolkata
+    Kona
+    Kota Bahru
+    Kota Kinabalu
+    Krabi
+    Krakow
+    Krasnodar
+    Krasnoyarsk
+    Kuala Lumpur
+    Kuching
+    Kumamoto
+    Kunming
+    Kupang
+    Kwangju
+    LA
+    Ladag
+    Lagos
+    Langkawi
+    Lanzhou
+    Las Vegas
+    LAX
+    Leeds
+    Leipzig
+    Lhasa
+    Lihue
+    Lijiang
+    Lima
+    Lisbon
+    Liverpool
+    Ljubljana
+    London
+    London Gatwick
+    London Heathrow
+    London Stansted
+    Long Beach
+    Los Angeles
+    Louisiana
+    Luanda
+    Lucknow
+    Luxemburg
+    Lyon
+    Maceio
+    Madinah
+    Madras
+    Madrid
+    Makung
+    Malaga
+    Malta
+    Manado
+    Managua
+    Manaus
+    Manchester
+    Manchester New Hampshire
+    Mangalore
+    Manila
+    Marrakech
+    Marseille
+    Mashhad
+    Matsuyama
+    Maturin
+    Medan
+    Melbourne
+    Mendoza
+    Menorca
+    Mexico City
+    Miami
+    Mianyang
+    Milano
+    Milwaukee
+    Mineralnye Vody
+    Minneapolis
+    Minsk
+    Miri
+    Miyazaki
+    Monastir
+    Monterrey
+    Montreal
+    Moscow
+    Mulhouse
+    Mumbai
+    Munich
+    Nagasaki
+    Nagoya
+    Nagpur
+    Nairobi
+    Nakhon Si Thammarat
+    Nanchang
+    Nandi
+    Nanjing
+    Nanning
+    Nantes
+    Naples
+    Nashville
+    Natal
+    Navegantes
+    New Delhi
+    New Orleans
+    New York
+    Newark
+    Newcastle
+    Nha Trang
+    Nice
+    Nicosia
+    Ninbo
+    Novosibirsk
+    Nuernberg
+    Oakland
+    Oita
+    Okayama
+    Okinawa
+    Omaha
+    Ontario
+    Oran
+    Orlando
+    Osaka
+    Oslo
+    Ottawa
+    Padang
+    Palembang
+    Palermo
+    Palm Springs
+    Palma de Mallorca
+    Panama City
+    Pangkal Pinang
+    Paris
+    Patina
+    Pekanbaru
+    Penang
+    Pensacola
+    Perth
+    Philadelphia
+    Philipsburg
+    Phoenix
+    Phuket
+    Phuquoc
+    Pisa
+    Pittsburgh
+    Plaisance
+    Ponta Delgada
+    Pontianak
+    Port Elizabeth
+    Portland
+    Portland Oregon
+    Porto
+    Porto Alegre
+    Porto Seguro
+    Poznan
+    Prague
+    Praya
+    Providence
+    Puerto Princesa
+    Pune
+    Qingdao
+    Quanzhou
+    Quebec
+    Queenstown International
+    Raleigh
+    Recife
+    Rhodos
+    Riga
+    Rio De Janeiro
+    Riyadh
+    Rome
+    Rostov
+    Sacramento
+    Salt Lake City
+    Salvador
+    Samara
+    Samsun
+    San Antonio
+    San Diego
+    San Francisco
+    San Jose
+    San Salvador
+    Sanford
+    Santa Ana
+    Santa Cruz de Tenerife
+    Santiago
+    Sanya
+    Sao Luis
+    Sao Paulo
+    Sapporo
+    Saskatoon
+    Seattle
+    Semarang
+    Sendai
+    Seoul
+    Sevilla
+    Shanghai
+    Shantou
+    Sharjah
+    Sharm El Sheikh
+    Shenyang
+    Shenzhen
+    Shijiazhuang
+    Shiraz
+    Sibu
+    Simferopol
+    Singapore
+    Sochi
+    Sofia
+    Solo City
+    Split
+    Srinagar
+    St Louis
+    St Petersburg
+    St denis
+    Stavanger
+    Stockholm
+    Stuttgart
+    Surabaya
+    Surat Thani
+    Surgut
+    Sydney
+    Syracuse
+    Tabriz
+    Taegu
+    Taipei
+    Taiyuan
+    Takamatsu
+    Tampa
+    Tawau
+    Tbilisi
+    Teheran
+    Tehran
+    Tel aviv
+    Tenerife
+    Thessaloniki
+    Tianjin
+    Tijuana
+    Tiruchirappalli
+    Tokyo
+    Toronto
+    Toulouse
+    Townsville
+    Trabzon
+    Trivandrum
+    Trondheim
+    Tunis
+    Tyumen
+    Ubon Ratchathani
+    Udon Thani
+    Ufa
+    Ujung Pandang
+    Urumqi
+    Valencia
+    Van
+    Vancouver
+    Varanasi
+    Venice
+    Victoria
+    Vienna
+    Vinh
+    Vishakhapatnam
+    Vitoria
+    Vladivostok
+    Warsaw
+    Washington
+    Weeze
+    Wellington
+    Wenzhou
+    West Palm Beach
+    White Plains
+    Windsor Locks
+    Winnipeg
+    Wuhan
+    Wuxi
+    Xi an
+    Xiamen
+    Xining
+    Yangon
+    Yangzhou
+    Yantai
+    Yekaterinburg
+    Yinchuan
+    Yogyakarta
+    Zagreb
+    Zakynthos
+    Zhengzhou
+    Zhuhai
+    Zurich
+]
+from_phrase = from $city(from)
+to_phrase = to $city(to)
+
+date = $SPEECHLY.DATE
+return_phrase = [returning|that [return|returns]|return|that [get|gets] back] {on} $date(return)
+departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that} [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|for] $date(depart)
+
+passengers = [1..9]
+passengers_phrase = [
+    $passengers(passengers) {[ticket|tickets|seat|seats]}
+    {for} $passengers(passengers) {[people|passenger|passengers|person|persons]}
+    {for} {a} [party|group] of $passengers(passengers) {[people|passengers|persons]}
+]
+
+class = [economy|business|first](class)
+class_phrase = {in} $class {class}
+
+clear_synonyms = [
+    clear
+    cancel
+    reset
+]
+
+intents = [
+  *book $fligth_type_phrase
+  *book $from_phrase
+  *book $to_phrase
+  *book $return_phrase
+  *book $departing_phrase
+  *book $passengers_phrase
+  *book $class_phrase
+  *book $from_phrase $to_phrase
+
+  2: *book {$carrier_phrases} {a} ![{$passengers_phrase}|$fligth_type_phrase {[flight|flights]}|$to_phrase $from_phrase|{$class_phrase}|{$departing_phrase {{and} $return_phrase}}]
+  2: *book {$carrier_phrases} {a} ![{$passengers_phrase}|$fligth_type_phrase {[flight|flights]}|$from_phrase $to_phrase|{$class_phrase}|{$departing_phrase {{and} $return_phrase}}]
+  *book {$carrier_phrases} {[a flight|flights]} $from_phrase $to_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $to_phrase $from_phrase
+  *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $from_phrase $to_phrase $departing_phrase {{and} $return_phrase}
+  *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $to_phrase $from_phrase $departing_phrase {{and} $return_phrase}
+  *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $from_phrase
+  *book {$carrier_phrases} [a|$passengers_phrase] $from_phrase $to_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $to_phrase $departing_phrase
+  *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $departing_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $to_phrase $return_phrase
+  *book {$carrier_phrases} [a|$passengers_phrase] $to_phrase $return_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $from_phrase $departing_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $from_phrase $return_phrase
+  *book {$carrier_phrases} [a flight|flights] $return_phrase {and} $departing_phrase
+  *book {$carrier_phrases} [a flight|flights] $departing_phrase {and} $return_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $return_phrase $passengers_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $departing_phrase $passengers_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $passengers_phrase $class_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $to_phrase $class_phrase
+  *book {$carrier_phrases} {a} $fligth_type_phrase {flight} $to_phrase $class_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $from_phrase $class_phrase
+  *book {$carrier_phrases} {[a flight|flights]} $return_phrase $class_phrase
+  *book {$carrier_phrases} {{a} $fligth_type_phrase} {[{a} flight|flights]} $departing_phrase {{and} $return_phrase}
+
+  *clear $clear_synonyms
+]
+
+$intents

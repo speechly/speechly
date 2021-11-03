@@ -1,0 +1,80 @@
+lang: en-US
+templates: >
+  pid = {[p id|pallet|pallet id]} $SPEECHLY.IDENTIFIER(pid)
+
+  date = {[date|code date|date of code]} $SPEECHLY.DATE(date)
+
+  platform = {[platform|platform type|type]} [wood|metal|heat
+  treated|peco|chep|white wood grate a|white wood grade b](platform)
+
+  ti = [tie|tie count|t i case count] $SPEECHLY.SMALL_CARDINAL_NUMBER(ti)
+
+  hi = [hi|hi count] $SPEECHLY.SMALL_CARDINAL_NUMBER(hi)
+
+  top = [top|top count] $SPEECHLY.SMALL_CARDINAL_NUMBER(top)
+
+  lot = [lot|lot number] $SPEECHLY.SMALL_CARDINAL_NUMBER(lot)
+
+
+  clear_synonyms = [clear|cancel|reset]
+
+
+
+  *update $pid
+
+  *update $platform
+
+  *update $lot
+
+  *update $date
+
+  *update $ti
+
+  *update $hi
+
+  *update $top
+
+
+  *update $pid $platform
+
+  *update $pid $lot
+
+  *update $pid $date
+
+  *update $pid $ti
+
+  *update $pid $hi
+
+  *update $pid $top
+
+
+  *update $platform $lot
+
+  *update $lot $date
+
+  *update $date $ti
+
+  *update $ti $hi
+
+  *update $hi $top
+
+
+  *clear $clear_synonyms
+intents:
+  - name: update
+  - name: clear
+entities:
+  - name: ti
+    type: number
+  - name: hi
+    type: number
+  - name: top
+    type: number
+  - name: pid
+    type: identifier
+  - name: platform
+    type: string
+  - name: lot
+    type: number
+  - name: date
+    type: date

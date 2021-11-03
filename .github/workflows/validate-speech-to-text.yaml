@@ -1,0 +1,17 @@
+name: validate speech-to-text
+on:
+  pull_request:
+    branches:
+      - rush
+    paths:
+      - "demos/speech-to-text/config**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: validate -a ${{ secrets.APPID_SPEECH_TO_TEXT }} demos/speech-to-text/config
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

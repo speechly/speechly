@@ -1,0 +1,17 @@
+name: validate ecommerce-checkout
+on:
+  pull_request:
+    branches:
+      - rush
+    paths:
+      - "demos/ecommerce-checkout/config**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: validate -a ${{ secrets.APPID_ECOMMERCE_CHECKOUT }} demos/ecommerce-checkout/config
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

@@ -1,0 +1,17 @@
+{
+  "name": "@speechly/react-voice-forms",
+  "entries": [
+    {
+      "version": "1.0.4",
+      "tag": "@speechly/react-voice-forms_v1.0.4",
+      "date": "Mon, 18 Oct 2021 21:09:13 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Added css theme file"
+          }
+        ]
+      }
+    }
+  ]
+}

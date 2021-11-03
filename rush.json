@@ -404,6 +404,26 @@
     {
       "packageName": "@speechly/react-ui-example",
       "projectFolder": "examples/react-ui-example"
+    },
+    {
+      "packageName": "ecommerce-checkout",
+      "projectFolder": "demos/ecommerce-checkout"
+    },
+    {
+      "packageName": "fast-food-demo",
+      "projectFolder": "demos/fast-food-demo"
+    },
+    {
+      "packageName": "flight-booking-demo",
+      "projectFolder": "demos/flight-booking-demo"
+    },
+    {
+      "packageName": "speech-to-text",
+      "projectFolder": "demos/speech-to-text"
+    },
+    {
+      "packageName": "voice-picking-demo",
+      "projectFolder": "demos/voice-picking-demo"
     }
     // {
     //   /**

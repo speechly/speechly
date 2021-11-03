@@ -1,0 +1,1109 @@
+lang: en-US
+templates: >+
+  digit = [0..9]
+
+  double_digit = [10..99]
+
+
+  name_leading_carrier = [
+      {[my | the]} name {is}
+  ]
+
+
+  email_leading_carrier = [
+      {[my | the]} email {address} {is}
+  ]
+
+
+  zip_leading_carrier = [
+      {[my | the]} [zip {code} | postal code] {is}
+  ]
+
+
+  phone_leading_carrier = [
+      {[my | the]} [phone | mobile | mobile phone] {number} {is}
+  ]
+
+
+  city_leading_carrier = [
+      {the} [city | town] {is}
+      in
+  ]
+
+
+  country_leading_carrier = [
+      {the} country {is}
+  ]
+
+
+  card_name_leading_carrier = [
+      5: name on card {is}
+      2: card [holder | owner] {name} {is}
+      1: card belongs to
+  ]
+
+
+  card_number_leading_carrier = [
+      {credit} card number {is}
+  ]
+
+
+  card_cvc_leading_carrier = [
+      {{credit} card} cvc {is}
+      {{credit} card} verification code {is}
+  ]
+
+
+  card_exp_date_leading_carrier = [
+      {{credit} card} expiration {date} {is}
+      {{credit} card} expires {on}
+  ]
+
+
+  us_zip_code = [
+      3: $digit $digit $digit $digit $digit
+      1: $double_digit $double_digit $digit
+      1: $digit $double_digit $double_digit
+  ]
+
+
+  address_leading_carrier = [
+      10: {[my | the]} {street} address {is}
+      1: please deliver to {the address}
+      1: i live at {the address}
+  ]
+
+
+  street_name = [
+      rose
+      tulip
+      orange
+      princeton
+      roosevelt
+      mulholland
+      rodeo
+      hemlock
+      branford
+      gloria
+      fischer
+      morris
+      farfield
+      montclair
+      essex
+      marshall
+      church
+      market
+      oceanview
+      lakeside
+      seaside
+      sunset
+      sunrise
+      river
+      mountain
+      long
+      short
+      hazel
+      carpenter
+      chestnut
+      pennsylvania
+      rogers
+      summit
+      highland
+      lowland
+      countryside
+      morton
+      linden
+      sycamore
+      edgewood
+      forest
+      pinetree
+      pinecone
+      franklin
+      woodland
+      vernon
+      chandler
+      brooklyn
+      jersey
+      upland
+      clearwater
+      waterfall
+      robinson
+      oregon
+      california
+      purdue
+      wilmington
+      midvale
+      ashley
+      parkway
+      riverside
+      bear
+      beaver
+      peacock
+      eagle
+      meadow
+      colorado
+      buena vista
+      woodlawn
+      dartmouth
+      commerce
+      andrew king
+      ascot park
+      oak field
+      mariposa pass
+      dublin
+      berlin
+      wildhorse
+      huron
+  ]
+
+  street_number = [1: {$digit} | 10: $double_digit {$double_digit} | 2: $digit
+  {0.75: $digit {0.75: $digit {$digit}}}]
+
+  street_type = [street | way | avenue | boulevard | road | drive | terrace |
+  parkway | heights | hills]
+
+  us_address = [
+      $street_number {0.1: [north | south | east | west]} $street_name $street_type
+      $street_number {0.1: [north | south | east | west]} $SPEECHLY.SMALL_ORDINAL_NUMBER $street_type
+  ]
+
+
+  country = [
+
+  Afghanistan
+
+  Albania
+
+  Algeria
+
+  Andorra
+
+  Angola
+
+  Antigua and Barbuda
+
+  Argentina
+
+  Armenia
+
+  Australia
+
+  Austria
+
+  Azerbaijan
+
+  Bahamas
+
+  Bahrain
+
+  Bangladesh
+
+  Barbados
+
+  Belarus
+
+  Belgium
+
+  Belize
+
+  Benin
+
+  Bhutan
+
+  Bolivia
+
+  Bosnia and Herzegovina
+
+  Botswana
+
+  Brazil
+
+  Brunei
+
+  Bulgaria
+
+  Burkina Faso
+
+  Burundi
+
+  Côte d'Ivoire
+
+  Cabo Verde
+
+  Cambodia
+
+  Cameroon
+
+  Canada
+
+  Central African Republic
+
+  Chad
+
+  Chile
+
+  China
+
+  Colombia
+
+  Comoros
+
+  Congo
+
+  Costa Rica
+
+  Croatia
+
+  Cuba
+
+  Cyprus
+
+  Czech Republic
+
+  Democratic Republic of the Congo
+
+  Denmark
+
+  Djibouti
+
+  Dominica
+
+  Dominican Republic
+
+  Ecuador
+
+  Egypt
+
+  El Salvador
+
+  Equatorial Guinea
+
+  Eritrea
+
+  Estonia
+
+  Eswatini
+
+  Ethiopia
+
+  Fiji
+
+  Finland
+
+  France
+
+  Gabon
+
+  Gambia
+
+  Georgia
+
+  Germany
+
+  Ghana
+
+  Greece
+
+  Grenada
+
+  Guatemala
+
+  Guinea
+
+  Guinea-Bissau
+
+  Guyana
+
+  Haiti
+
+  Holy See
+
+  Honduras
+
+  Hungary
+
+  Iceland
+
+  India
+
+  Indonesia
+
+  Iran
+
+  Iraq
+
+  Ireland
+
+  Israel
+
+  Italy
+
+  Jamaica
+
+  Japan
+
+  Jordan
+
+  Kazakhstan
+
+  Kenya
+
+  Kiribati
+
+  Kuwait
+
+  Kyrgyzstan
+
+  Laos
+
+  Latvia
+
+  Lebanon
+
+  Lesotho
+
+  Liberia
+
+  Libya
+
+  Liechtenstein
+
+  Lithuania
+
+  Luxembourg
+
+  Madagascar
+
+  Malawi
+
+  Malaysia
+
+  Maldives
+
+  Mali
+
+  Malta
+
+  Marshall Islands
+
+  Mauritania
+
+  Mauritius
+
+  Mexico
+
+  Micronesia
+
+  Moldova
+
+  Monaco
+
+  Mongolia
+
+  Montenegro
+
+  Morocco
+
+  Mozambique
+
+  Myanmar
+
+  Namibia
+
+  Nauru
+
+  Nepal
+
+  Netherlands
+
+  New Zealand
+
+  Nicaragua
+
+  Niger
+
+  Nigeria
+
+  North Korea
+
+  North Macedonia
+
+  Norway
+
+  Oman
+
+  Pakistan
+
+  Palau
+
+  Palestine State
+
+  Panama
+
+  Papua New Guinea
+
+  Paraguay
+
+  Peru
+
+  Philippines
+
+  Poland
+
+  Portugal
+
+  Qatar
+
+  Romania
+
+  Russia
+
+  Rwanda
+
+  Saint Kitts and Nevis
+
+  Saint Lucia
+
+  Saint Vincent and the Grenadines
+
+  Samoa
+
+  San Marino
+
+  Sao Tome and Principe
+
+  Saudi Arabia
+
+  Senegal
+
+  Serbia
+
+  Seychelles
+
+  Sierra Leone
+
+  Singapore
+
+  Slovakia
+
+  Slovenia
+
+  Solomon Islands
+
+  Somalia
+
+  South Africa
+
+  South Korea
+
+  South Sudan
+
+  Spain
+
+  Sri Lanka
+
+  Sudan
+
+  Suriname
+
+  Sweden
+
+  Switzerland
+
+  Syria
+
+  Tajikistan
+
+  Tanzania
+
+  Thailand
+
+  Timor-Leste
+
+  Togo
+
+  Tonga
+
+  Trinidad and Tobago
+
+  Tunisia
+
+  Turkey
+
+  Turkmenistan
+
+  Tuvalu
+
+  Uganda
+
+  Ukraine
+
+  United Arab Emirates
+
+  United Kingdom
+
+  United States of America
+
+  Uruguay
+
+  Uzbekistan
+
+  Vanuatu
+
+  Venezuela
+
+  Vietnam
+
+  Yemen
+
+  Zambia
+
+  Zimbabwe
+
+  ]
+
+
+  us_city = [
+
+  New York
+
+  Los Angeles
+
+  Chicago
+
+  Houston
+
+  Phoenix
+
+  Philadelphia
+
+  San Antonio
+
+  San Diego
+
+  Dallas
+
+  San Jose
+
+  Austin
+
+  Fort Worth
+
+  Jacksonville
+
+  Columbus
+
+  Charlotte
+
+  Indianapolis
+
+  San Francisco
+
+  Seattle
+
+  Denver
+
+  Washington
+
+  Boston
+
+  El Paso
+
+  Nashville
+
+  Detroit
+
+  Las Vegas
+
+  Oklahoma City
+
+  Portland
+
+  Memphis
+
+  Louisville
+
+  Milwaukee
+
+  Baltimore
+
+  Albuquerque
+
+  Tucson
+
+  Fresno
+
+  Mesa
+
+  Sacramento
+
+  Atlanta
+
+  Kansas City
+
+  Colorado Springs
+
+  Omaha
+
+  Raleigh
+
+  Miami
+
+  Long Beach
+
+  Virginia Beach
+
+  Minneapolis
+
+  Oakland
+
+  Tampa
+
+  Tulsa
+
+  Arlington
+
+  Wichita
+
+  New Orleans
+
+  Aurora
+
+  Bakersfield
+
+  Cleveland
+
+  Anaheim
+
+  Honolulu
+
+  Santa Ana
+
+  Riverside
+
+  Henderson
+
+  Corpus Christi
+
+  Lexington
+
+  Stockton
+
+  Saint Paul
+
+  Cincinnati
+
+  Pittsburgh
+
+  Greensboro
+
+  St. Louis
+
+  Plano
+
+  Lincoln
+
+  Orlando
+
+  Anchorage
+
+  Durham
+
+  Irvine
+
+  Newark
+
+  Chula Vista
+
+  Fort Wayne
+
+  Toledo
+
+  St. Petersburg
+
+  Chandler
+
+  Laredo
+
+  Madison
+
+  Jersey City
+
+  Scottsdale
+
+  Lubbock
+
+  North Las Vegas
+
+  Reno
+
+  Gilbert
+
+  Glendale
+
+  Buffalo
+
+  Winston–Salem
+
+  Chesapeake
+
+  Norfolk
+
+  Irving
+
+  Garland
+
+  Fremont
+
+  Richmond
+
+  Hialeah
+
+  Boise
+
+  Spokane
+
+  Tacoma
+
+  Baton Rouge
+
+  San Bernardino
+
+  Fontana
+
+  Modesto
+
+  Moreno Valley
+
+  Des Moines
+
+  Fayetteville
+
+  Santa Clarita
+
+  Frisco
+
+  Port St. Lucie
+
+  McKinney
+
+  Oxnard
+
+  Birmingham
+
+  Rochester
+
+  Salt Lake City
+
+  Huntsville
+
+  Cape Coral
+
+  Tempe
+
+  Yonkers
+
+  Grand Rapids
+
+  Amarillo
+
+  Huntington Beach
+
+  Little Rock
+
+  Glendale
+
+  Augusta
+
+  Overland Park
+
+  Columbus
+
+  Aurora
+
+  Tallahassee
+
+  Montgomery
+
+  Akron
+
+  Grand Prairie
+
+  Knoxville
+
+  Sioux Falls
+
+  Mobile
+
+  Vancouver
+
+  Shreveport
+
+  Chattanooga
+
+  Worcester
+
+  Brownsville
+
+  Ontario
+
+  Fort Lauderdale
+
+  Peoria
+
+  Providence
+
+  Newport News
+
+  Rancho Cucamonga
+
+  Elk Grove
+
+  Salem
+
+  Oceanside
+
+  Santa Rosa
+
+  Pembroke Pines
+
+  Cary
+
+  Eugene
+
+  Garden Grove
+
+  Corona
+
+  Fort Collins
+
+  Springfield
+
+  Clarksville
+
+  Alexandria
+
+  Hayward
+
+  Jackson
+
+  Lakewood
+
+  Lancaster
+
+  Salinas
+
+  Hollywood
+
+  Killeen
+
+  Macon
+
+  Kansas City
+
+  Springfield
+
+  Sunnyvale
+
+  Murfreesboro
+
+  Palmdale
+
+  Escondido
+
+  Pasadena
+
+  Pomona
+
+  Thornton
+
+  Bellevue
+
+  Naperville
+
+  Surprise
+
+  Denton
+
+  Midland
+
+  Joliet
+
+  Rockford
+
+  Paterson
+
+  Roseville
+
+  McAllen
+
+  Savannah
+
+  Bridgeport
+
+  Olathe
+
+  Torrance
+
+  Waco
+
+  Syracuse
+
+  Miramar
+
+  Pasadena
+
+  Fullerton
+
+  Dayton
+
+  Carrollton
+
+  Charleston
+
+  Mesquite
+
+  Orange
+
+  Ann Arbor
+
+  ]
+
+
+  other_city = [
+      Paris
+      Londin
+      Madrid
+      Rome
+      Berlin
+      Amsterdam
+      Prague
+      Vienna
+      Geneva
+      Zurich
+      Brussels
+      Stockholm
+      Oslo
+      Helsinki
+      Tallinn
+      Riga
+      Barcelona
+      Lyon
+      Frankfurt
+      Munich
+      Edinburgh
+      Dublin
+      Warsaw
+      Athens
+      Milan
+      Lisbon
+      Copenhagen
+      Moscow
+      St Petersburg
+      Beijing
+      Shanghai
+      Hong Kong
+      Tokyo
+      Seoul
+      Jakarta
+      Singapore
+      Sydney
+      Canberra
+      Christchurch
+      Santiago
+      Sao Paolo
+      Rio De Janeiro
+  ]
+
+
+  city = [
+      3: $us_city
+      1: $other_city
+  ]
+
+
+  name = [
+      100: $SPEECHLY.PERSON_NAME
+      50: collin borns
+      25: hannes heikinheimo
+      1: bret kinsella
+  ]
+
+
+  quartet_number = [$double_digit $double_digit | $digit $digit $digit $digit]
+
+  credit_card_number = $quartet_number $quartet_number $quartet_number
+  $quartet_number
+
+
+  # recipient details
+
+  name_phrase = $name_leading_carrier $name(name)
+
+  phone_phrase = $phone_leading_carrier $SPEECHLY.PHONE_NUMBER(phone)
+
+  email_phrase = $email_leading_carrier [collin at speechly dot
+  com|$SPEECHLY.EMAIL_ADDRESS](email)
+
+
+  # shipping details
+
+  address_phrase = $address_leading_carrier $us_address(address)
+
+  zip_phrase = $zip_leading_carrier $us_zip_code(zip)
+
+  city_phrase = $city_leading_carrier $city(city)
+
+  country_phrase = $country_leading_carrier $country(country)
+
+
+  # payment details
+
+  card_name_phrase = $card_name_leading_carrier $name(card_name)
+
+  card_number_phrase = $card_number_leading_carrier
+  $credit_card_number(card_number)
+
+  card_cvc_phrase = $card_cvc_leading_carrier [$digit $digit $digit](card_cvc)
+
+  card_expiration_phrase = $card_exp_date_leading_carrier
+  $SPEECHLY.DATE(card_expiration)
+
+
+  *fill ![$name_phrase | $phone_phrase | $email_phrase]
+
+  *fill ![$address_phrase | $zip_phrase | $city_phrase | $country_phrase]
+
+  *fill ![$card_name_phrase | $card_number_phrase | $card_cvc_phrase |
+  $card_expiration_phrase]
+
+
+  *fill $email_phrase $address_phrase
+
+  *fill $country_phrase $card_name_phrase
+
+intents:
+  - name: fill
+entities:
+  - name: name
+    type: proper_noun
+  - name: email
+    type: email_address
+  - name: zip
+    type: identifier
+  - name: phone
+    type: phone_number
+  - name: country
+    type: string
+  - name: city
+    type: string
+  - name: address
+    type: address
+  - name: card_name
+    type: string
+  - name: card_number
+    type: identifier
+  - name: card_cvc
+    type: identifier
+  - name: card_expiration
+    type: date

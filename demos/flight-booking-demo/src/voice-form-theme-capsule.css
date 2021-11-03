@@ -1,0 +1,152 @@
+body {
+  --color-light-bg: #f2f7fa;
+  --color-input-bg: #f2f7fa;
+  --color-active-bg: #316EAE;
+  --color-active-text: #ffffff;
+  --dropdown-handle-size: 6px;
+  --dropdown-handle-right-margin: 1rem;
+}
+
+label {
+  display: inline-block;
+  font-size: 0.70rem;
+  color: #000;
+  user-select: none;
+}
+
+.widgetGroup {
+  position: relative;
+  text-align: left;
+  flex-grow: 1;
+  flex-basis: 100%;
+  min-width: 8rem;
+  align-items: stretch;
+}
+
+.widgetGroup label {
+  position: absolute;
+  padding: 0 0 0.2rem 0;
+  display: block;
+  top: 0.5rem;
+  left: 1.25rem;
+  right: 1.5rem;
+  pointer-events: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.widgetGroup input, .toggle button, .widgetGroup select, textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  padding: 1.25rem 0.5rem 0.25rem 1.25rem;
+
+  background-color: var(--color-input-bg);
+  border: 0;
+  border-width: 0 0 2px 0;
+  border-radius: 4rem;
+
+  box-shadow: 0px 6px 12px 0px #388de95e;
+}
+
+textarea {
+  border-left: 1px solid #0002;
+  border-right: 1px solid #0002;
+  border-top: 1px solid #0002;
+}
+
+input:focus, select:focus {
+  outline: none !important;
+  box-shadow: 0 0 10px #fff;
+}
+
+select {
+  /* reset */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-input-bg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 1.5rem !important;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #000 50%),
+    linear-gradient(135deg, #000 50%, transparent 50%);
+  background-position:
+    calc(100% - var(--dropdown-handle-size) - var(--dropdown-handle-right-margin)) calc(50%),
+    calc(100% - var(--dropdown-handle-right-margin)) calc(50%),
+    center;
+  background-size:
+    var(--dropdown-handle-size) var(--dropdown-handle-size),
+    var(--dropdown-handle-size) var(--dropdown-handle-size),
+    100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Toggle widget */
+
+.toggle button {
+  border: 0;
+  padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+  background-color: var(--color-input-bg);
+  width: 100%;
+  line-height: 1.2;
+  flex: 1 1 0%;
+}
+
+.toggle {
+  color: var(--color-active-bg);
+  display: flex;
+  width: 100%;
+}
+
+.toggle .active {
+  background-color: var(--color-active-bg);
+  color: white;
+}
+
+.toggle button {
+  border-radius: 0;
+}
+
+.toggle button:first-child {
+  border-top-left-radius: 2.25rem;
+  border-bottom-left-radius: 2.25rem;
+}
+
+.toggle button:last-child {
+  border-top-right-radius: 2.25rem;
+  border-bottom-right-radius: 2.25rem;
+}
+
+.widgetGroup.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.widgetGroup.checkbox input {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.75rem;
+  box-shadow: none;
+}
+
+.widgetGroup.checkbox label {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  color: #000 !important;
+}
+
+button.calendar-button {
+  right: 0.5rem;
+}
