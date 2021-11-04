@@ -11,7 +11,7 @@ const appId = '1ea63538-f95c-4259-b8af-923994424137'
 ReactDOM.render(
   <React.StrictMode>
     <SpeechProvider appId={appId}>
-      <LogKit appName='flight-booking' appVersion={100} printLog={true} >
+      <LogKit appName="flight-booking" appVersion={100} >
         <App />
       </LogKit>
     </SpeechProvider>
