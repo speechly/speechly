@@ -2,7 +2,7 @@ import React from 'react'
 import {SpeechProvider, useSpeechContext} from '@speechly/react-client'
 
 export default function App() {
-  const appId = process.env.REACT_APP_APP_ID ?? "";
+  const appId = process.env.REACT_APP_APP_ID ?? "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
