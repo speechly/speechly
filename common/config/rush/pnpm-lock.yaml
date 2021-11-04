@@ -10,6 +10,7 @@ specifiers:
   '@rush-temp/ecommerce-checkout': file:./projects/ecommerce-checkout.tgz
   '@rush-temp/fast-food-demo': file:./projects/fast-food-demo.tgz
   '@rush-temp/flight-booking-demo': file:./projects/flight-booking-demo.tgz
+  '@rush-temp/logkit': file:./projects/logkit.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
   '@rush-temp/react-client-example': file:./projects/react-client-example.tgz
   '@rush-temp/react-ui': file:./projects/react-ui.tgz
@@ -70,6 +71,7 @@ dependencies:
   '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz
   '@rush-temp/fast-food-demo': file:projects/fast-food-demo.tgz
   '@rush-temp/flight-booking-demo': file:projects/flight-booking-demo.tgz
+  '@rush-temp/logkit': file:projects/logkit.tgz
   '@rush-temp/react-client': file:projects/react-client.tgz
   '@rush-temp/react-client-example': file:projects/react-client-example.tgz_typescript@4.4.4
   '@rush-temp/react-ui': file:projects/react-ui.tgz
@@ -2683,6 +2685,10 @@ packages:
 
   /@types/node/12.20.36:
     resolution: {integrity: sha512-+5haRZ9uzI7rYqzDznXgkuacqb6LJhAti8mzZKWxIXn/WEtvB+GHVJ7AuMwcN1HMvXOSJcrvA6PPoYHYOYYebA==}
+    dev: false
+
+  /@types/node/16.11.6:
+    resolution: {integrity: sha512-ua7PgUoeQFjmWPcoo9khiPum3Pd60k4/2ZGXt18sm2Slk0W0xZTqt5Y0Ny1NyBiN1EVQ/+FaF9NcY4Qe6rwk5w==}
     dev: false
 
   /@types/normalize-package-data/2.4.1:
@@ -13643,7 +13649,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz:
-    resolution: {integrity: sha512-Rw08rVagQzBOV4gXAWNXif8yoBe+AGexdlaLBYOjujvb0joTpYjkPIYU+eJVJbmtGvdyxBOdbChDoOIkBKNMrA==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-ssE3gHsqr9GCJpZIFKdJ+fYItZTsmFj9X9agtwXfhdE7D/qORjo4x/UTK/JwC1Kjnf5sQCysuwrh239NfWQL/g==, tarball: file:projects/browser-client-example.tgz}
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
     dependencies:
@@ -13710,7 +13716,7 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-8lisqYicbAdfRceA6J34iEmRtrY52l9eKFC5AfHAyHQozWU6MQpt+5czUkrb1vDc5FtfiBVr2K7lpTbtvTM9BA==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-UpHH67XPaX+8xAX0ghmbVDLGDzQbJQgg1uuoEWgGGIRnyjRenegW9p9WohsR6ro4kmxP5ib+7jbkLml9ZEbSBw==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
@@ -13852,6 +13858,19 @@ packages:
       - webpack-plugin-serve
     dev: false
 
+  file:projects/logkit.tgz:
+    resolution: {integrity: sha512-rDXuBiVdjF+ipa3alS1M5Gur9hUHHi0Xaeh6UpfO7018zTqbPZTI9Ms1TfliqnYibJyobhsM1t/4dNI/9i6RsQ==, tarball: file:projects/logkit.tgz}
+    name: '@rush-temp/logkit'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 16.11.6
+      '@types/react': 17.0.34
+      '@types/react-dom': 17.0.11
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      typescript: 4.4.4
+    dev: false
+
   file:projects/react-client-example.tgz_typescript@4.4.4:
     resolution: {integrity: sha512-xb6nj9gXhlxnHFgyIi4vH3lNqd5CKxii6VH1LOxvEz2qWWU6jfoMSBUn05+e/o1AslZuZQx7plPvOiGzF2k+Jg==, tarball: file:projects/react-client-example.tgz}
     id: file:projects/react-client-example.tgz
@@ -13881,7 +13900,7 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-QmJZU9bayfeDzpQzpKjCTcABkTgvKlDgNBvYqRoMVKVQCh4JvRhoaWMZg8o17m8RcWWo40uzTznPiMF/JdpE5w==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-AK2plRRH+MfzWzV0XNxyyrnlNsWhTnTafNzoGu4NOdDVanzT5cf11Wk5xizF9b7lWC74qVfGASeWaFW/EPJMBg==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
@@ -13942,7 +13961,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-DyZEI856uk06Xs+3RjzWIzaxjGZCpnMk7vwSofgZ41zRWRFu7yH4JAlvVoGVnC+7j2dT9xezi2c/jiEL1z+png==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-fzp4I4GKnb7ZcxINzB+DOZnz0w0ivINdSy6MI4VnTOuPea9yT9ATpfd9fyv3p25TKjo8Y86Wh7jCZRCaT6cNtg==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:

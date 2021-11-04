@@ -9,6 +9,7 @@ import {
 import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
 import { startDemo, stopDemo } from "@speechly/browser-ui/lib/demomode";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
+import PubSub from "pubsub-js";
 
 export default function App() {
   const appId = "a14e42a3-917e-4a57-81f7-7433ec71abad"

@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import { SpeechProvider } from "@speechly/react-client";
 import * as serviceWorker from './serviceWorker';
+import { LogKit } from "@speechly/logkit"
 
 const appId = '1ea63538-f95c-4259-b8af-923994424137'
 
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId={appId} language="en-US">
-      <App />
+    <SpeechProvider appId={appId}>
+      <LogKit appName='flight-booking' appVersion={100}>
+        <App />
+      </LogKit>
     </SpeechProvider>
   </React.StrictMode>,
   document.getElementById('root')

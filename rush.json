@@ -386,6 +386,10 @@
       "projectFolder": "libraries/react-client"
     },
     {
+      "packageName": "@speechly/logkit",
+      "projectFolder": "libraries/logkit"
+    },
+    {
       "packageName": "@speechly/browser-ui",
       "projectFolder": "libraries/browser-ui"
     },
