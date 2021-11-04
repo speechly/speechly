@@ -24,6 +24,7 @@ interface Props {
   appName: string,
   appVersion: number,
   autoIntentTracking?: boolean,
+  printLog?: boolean,
 }
 
 export const LogKit: React.FC<Props> = ({
@@ -31,11 +32,16 @@ export const LogKit: React.FC<Props> = ({
   appVersion,
   children,
   autoIntentTracking = true,
+  printLog = false,
 }) => {
   const [launched, setLaunched] = useState(false)
   const [initializationAttempted, setInitializationAttempted] = useState(false)
   const { speechState, segment } = useSpeechContext()
   const startAttempted = useRef<boolean>(false)
+
+  useEffect(() => {
+    Logger.setLogging(printLog)
+  }, [printLog]);
 
   useEffect(() => {
     if (!launched) {

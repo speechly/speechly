@@ -1,11 +1,15 @@
 import { SpeechSegment } from '@speechly/react-client'
 
 class Logger {
-  private static LOG_ANALYTICS = process.env.NODE_ENV === 'production';
-  private static DEBUG_LOG_ANALYTICS = process.env.NODE_ENV !== 'production';
+  private static FORCE_LOG_PRINT = false // process.env.NODE_ENV !== 'production';
   private static GA_CATEGORY = 'category'
   private static GA_LABEL = 'label'
   private static GA_VALUE = 'value'
+  private static printLog = false
+
+  public static setLogging(value: boolean) {
+    Logger.printLog = value
+  }
 
   // For app version, use Major * 100 + Minor in two digits: v1.12 would become 112
   public static trackLaunch(appName: string, appVersion: number, appParams: any): void {
@@ -72,23 +76,17 @@ class Logger {
 
   public static identify(uid: string): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const LogRocket = (window as any).LogRocket
-
-    if (LogRocket) {
-      LogRocket.identify(uid)
-    }
+    const CustomIdentifyHook = (window as any).CustomIdentifyHook
+    if (CustomIdentifyHook) CustomIdentifyHook(uid)
   }
 
   public static log(eventName: string, eventParams: any): void {
-    if (Logger.DEBUG_LOG_ANALYTICS) {
+    if (Logger.FORCE_LOG_PRINT || Logger.printLog) {
       console.log(`[LogKit] ${eventName}`, eventParams)
     }
-    if (Logger.LOG_ANALYTICS) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const Segment = (window as any).analytics
-      // window.analytics may be undefined at first load since we inject the prop inside Google Tag Manager
-      if (Segment) Segment.track(eventName, eventParams)
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const CustomLogHook = (window as any).CustomLogHook
+    if (CustomLogHook) CustomLogHook(eventName, eventParams)
   }
 }
 
