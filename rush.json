@@ -402,6 +402,10 @@
       "projectFolder": "libraries/react-voice-forms"
     },
     {
+      "packageName": "cra-template-speechly",
+      "projectFolder": "examples/cra-template-speechly"
+    },
+    {
       "packageName": "@speechly/browser-client-example",
       "projectFolder": "examples/browser-client-example"
     },
