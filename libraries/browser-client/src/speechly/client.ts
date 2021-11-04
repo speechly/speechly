@@ -9,6 +9,7 @@ import {
   DefaultSampleRate,
   ErrNoAudioConsent,
   ErrDeviceNotSupported,
+  ErrAppIdChangeWithoutProjectLogin,
 } from '../microphone'
 
 import {
@@ -124,6 +125,10 @@ export class Client {
     this.projectId = options.projectId ?? undefined
     const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController()
+
+    if (this.appId !== undefined && this.projectId !== undefined) {
+      throw Error('[SpeechlyClient] You cannot use both appId and projectId at the same time')
+    }
 
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
@@ -339,10 +344,20 @@ export class Client {
       if (this.projectId != null) {
         contextId = await this.apiClient.startContext(appId)
       } else {
+        if (appId != null) {
+          throw ErrAppIdChangeWithoutProjectLogin
+        }
         contextId = await this.apiClient.startContext()
       }
     } catch (err) {
-      this.setState(ClientState.Connected)
+      switch (err) {
+        case ErrAppIdChangeWithoutProjectLogin:
+          this.setState(ClientState.Failed)
+          break
+        default:
+          this.setState(ClientState.Connected)
+      }
+
       throw err
     }
 

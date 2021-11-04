@@ -29,6 +29,12 @@ export const ErrDeviceNotSupported = new Error('Current device does not support 
 export const ErrNoAudioConsent = new Error('Microphone consent is no given')
 
 /**
+ * Error to be thrown when user tries to change appId without project login.
+ * @public
+ */
+export const ErrAppIdChangeWithoutProjectLogin = new Error('AppId changed without project login')
+
+/**
  * A callback that receives an ArrayBuffer representing a frame of audio.
  * @public
  */
