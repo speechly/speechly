@@ -2,7 +2,7 @@ name: deploy fast-food-demo
 on:
   push:
     branches:
-      - rush
+      - main
     paths:
       - "demos/fast-food-demo/config/**"
 jobs:

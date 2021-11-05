@@ -2,7 +2,7 @@ name: deploy ecommerce-checkout
 on:
   push:
     branches:
-      - rush
+      - main
     paths:
       - "demos/ecommerce-checkout/config/**"
 jobs:

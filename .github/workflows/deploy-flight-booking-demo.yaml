@@ -2,7 +2,7 @@ name: deploy flight-booking-demo
 on:
   push:
     branches:
-      - rush
+      - main
     paths:
       - "demos/flight-booking-demo/config/**"
 jobs:

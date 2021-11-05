@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SpeechProvider, useSpeechContext } from '@speechly/react-client'
+import { useSpeechContext } from '@speechly/react-client'
 import {
   PushToTalkButton,
   PushToTalkButtonContainer,
@@ -19,32 +19,32 @@ const queryParams = {
 }
 
 const App: React.FC = (): JSX.Element => {
-  
+
   return (
     <>
       <PushToTalkButtonContainer voffset="calc(1rem + 4vh)" size="5rem">
         <PushToTalkButton
-          size="5rem" backgroundColor={queryParams.backgroundHighlightColor} captureKey=" " intro={queryParams.intro} showTime={0} 
+          size="5rem" backgroundColor={queryParams.backgroundHighlightColor} captureKey=" " intro={queryParams.intro} showTime={0}
         />
         <ErrorPanel />
       </PushToTalkButtonContainer>
-      
+
       <SpeechlyApp/>
     </>
   )
 }
-  
+
 const SpeechlyApp: React.FC = (): JSX.Element => {
-  
+
   const [textContent, setTextContent] = useState<string>('')
   const [tentativeTextContent, setTentativeTextContent] = useState<string>('')
   const { segment } = useSpeechContext()
-  
+
   const setText = (value: string) => {
     setTextContent(value)
     setTentativeTextContent(value)
   }
-  
+
   useEffect(() => {
     if (segment) {
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
@@ -54,8 +54,8 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         setTextContent(alteredTextContent)
       }
     }
-  }, [segment])
-  
+  }, [segment, textContent])
+
   return (
     <>
       <div className="pageMargin">
@@ -69,5 +69,5 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     </>
   )
 }
-    
+
 export default App

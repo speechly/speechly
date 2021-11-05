@@ -2,7 +2,7 @@ name: validate speech-to-text
 on:
   pull_request:
     branches:
-      - rush
+      - main
     paths:
       - "demos/speech-to-text/config**"
 jobs:

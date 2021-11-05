@@ -17,14 +17,6 @@ const UsageHints = [
   'Try: "Clear" to restart',
 ]
 
-const DemoStrings = [
-  '*book Book a [return](round_trip) flight from London(from) to [New York](to)',
-  '*book For 2(passengers) passengers',
-  '*book In business(class) class',
-  '*book Direct(direct) flights only',
-  '*clear clear',
-]
-
 function App() {
   return (
     <>

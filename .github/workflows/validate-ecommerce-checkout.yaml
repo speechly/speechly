@@ -2,7 +2,7 @@ name: validate ecommerce-checkout
 on:
   pull_request:
     branches:
-      - rush
+      - main
     paths:
       - "demos/ecommerce-checkout/config**"
 jobs:

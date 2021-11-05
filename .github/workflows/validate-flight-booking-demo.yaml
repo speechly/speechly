@@ -2,7 +2,7 @@ name: validate flight-booking-demo
 on:
   pull_request:
     branches:
-      - rush
+      - main
     paths:
       - "demos/flight-booking-demo/config/**"
 jobs:
