@@ -1,0 +1,32 @@
+name: 'PR build'
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+      - 'release/**'
+
+env:
+  WEBPACK_MODE: prd
+  CI: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+      - name: Setup Node
+        uses: actions/setup-node@v2
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Check change log update
+        run: node common/scripts/install-run-rush.js change --target-branch origin/main --verify
+      - name: Install Dependencies
+        run: node common/scripts/install-run-rush.js install --no-link
+      - name: Link dependencies
+        run: node common/scripts/install-run-rush.js link
+      - name: Build Project
+        run: node common/scripts/install-run-rush.js rebuild --verbose

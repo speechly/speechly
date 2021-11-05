@@ -2,7 +2,7 @@ name: deploy voice-picking
 on:
   push:
     branches:
-      - rush
+      - main
     paths:
       - "demos/voice-picking/config/**"
 jobs:

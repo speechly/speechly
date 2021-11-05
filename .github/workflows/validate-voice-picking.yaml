@@ -2,7 +2,7 @@ name: validate voice-picking
 on:
   pull_request:
     branches:
-      - rush
+      - main
     paths:
       - "demos/voice-picking/config/**"
 jobs:

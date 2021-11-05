@@ -6,8 +6,10 @@
   "author": "Speechly",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@speechly/react-client": ">=0.0.22"
+  },
   "peerDependencies": {
-    "@speechly/react-client": ">=0.0.22",
     "react": ">=16.13.1"
   },
   "devDependencies": {

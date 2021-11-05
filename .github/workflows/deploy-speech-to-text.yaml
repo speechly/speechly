@@ -2,7 +2,7 @@ name: deploy speech-to-text
 on:
   push:
     branches:
-      - rush
+      - main
     paths:
       - "demos/speech-to-text/config/**"
 jobs:

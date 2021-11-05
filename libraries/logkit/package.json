@@ -4,8 +4,10 @@
   "private": true,
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "dependencies": {
+    "@speechly/react-client": ">=0.0.22"
+  },
   "peerDependencies": {
-    "@speechly/react-client": ">=0.0.20",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1"
   },
