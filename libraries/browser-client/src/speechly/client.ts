@@ -344,7 +344,7 @@ export class Client {
       if (this.projectId != null) {
         contextId = await this.apiClient.startContext(appId)
       } else {
-        if (appId != null) {
+        if (appId != null && this.appId !== appId) {
           throw ErrAppIdChangeWithoutProjectLogin
         }
         contextId = await this.apiClient.startContext()
