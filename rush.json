@@ -379,31 +379,37 @@
   "projects": [
     {
       "packageName": "@speechly/browser-client",
-      "projectFolder": "libraries/browser-client"
+      "projectFolder": "libraries/browser-client",
+      "shouldPublish": true
     },
     {
       "packageName": "@speechly/react-client",
-      "projectFolder": "libraries/react-client"
+      "projectFolder": "libraries/react-client",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@speechly/browser-ui",
+      "projectFolder": "libraries/browser-ui",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@speechly/react-ui",
+      "projectFolder": "libraries/react-ui",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "projectFolder": "libraries/react-voice-forms",
+      "shouldPublish": true
     },
     {
       "packageName": "@speechly/logkit",
       "projectFolder": "libraries/logkit"
     },
     {
-      "packageName": "@speechly/browser-ui",
-      "projectFolder": "libraries/browser-ui"
-    },
-    {
-      "packageName": "@speechly/react-ui",
-      "projectFolder": "libraries/react-ui"
-    },
-    {
-      "packageName": "@speechly/react-voice-forms",
-      "projectFolder": "libraries/react-voice-forms"
-    },
-    {
       "packageName": "cra-template-speechly",
-      "projectFolder": "examples/cra-template-speechly"
+      "projectFolder": "examples/cra-template-speechly",
+      "shouldPublish": true
     },
     {
       "packageName": "@speechly/browser-client-example",
