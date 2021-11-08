@@ -13,7 +13,7 @@
 &ensp;|&ensp;
 [Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
 &ensp;|&ensp;
-[Podcast](https://anchor.fm/collin-borns/episodes/The-Speechly-Podcast---Introduction-e15htlq)
+[Podcast](https://anchor.fm/the-speechly-podcast)
 
 ---
 </div>
