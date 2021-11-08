@@ -2,9 +2,11 @@ import React from 'react';
 import { PushToTalkButton, ErrorPanel } from '@speechly/react-ui';
 import { TranscriptDrawer } from '@speechly/react-ui/lib/components/TranscriptDrawer';
 import BookingForm from './components/BookingForm';
-import './voice-form-component-calendar.css';
-import './voice-form-theme-capsule.css';
+//import './voice-form-component-calendar.css';
+//import './voice-form-theme-capsule.css';
 import './App.css';
+import "@speechly/react-voice-forms/css/components/VoiceDatePicker.css";
+import "@speechly/react-voice-forms/css/theme/capsule.css";
 
 const UsageHints = [
   'Try: "Book a return flight from London to New York"',

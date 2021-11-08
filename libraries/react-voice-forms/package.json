@@ -28,7 +28,8 @@
     "test": "exit 0"
   },
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "css/**/*"
   ],
   "publishConfig": {
     "access": "public"
