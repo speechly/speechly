@@ -11,11 +11,11 @@ With Speechly's cloud API and client libraries you can add voice features to any
 
 Also take a look at our [demos](https://www.speechly.com/demos/) to see what you can build with Speechly.
 
-## Getting started
+## Getting started with Speechly
 
 1. Take a look at our [Quickstart documentation](https://docs.speechly.com/quick-start/).
 2. Create an account on the [Speechly Dashboard](https://www.speechly.com/dashboard).
-3. Profit.
+3.
 
 (Okay, actually we should probably put some instructions on how to get e.g. the browser-client-example up and running with an app id that has the empty configuration deployed.)
 
@@ -37,8 +37,10 @@ These are example projects that are not published, but are useful learning tools
 | ------ | ------- |
 | [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
 | [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client) |
+| [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
+| [/examples/cra-template-speechly](/examples/cra-template-speechly) | A `create-react-app` template for setting up a Speechly application. |
 
-You can also find the implementations of our public demo applications in this repository.
+You can also find implementations of our public demo applications in this repository.
 
 | Folder | Description |
 | ------ | ------- |
@@ -46,6 +48,7 @@ You can also find the implementations of our public demo applications in this re
 | [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
 | [/demos/voice-picking](/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
 | [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
+| [/demos/fast-food-demo](/demos/fast-food-demo) | [Fast food demo](https://speechly-demos.herokuapp.com/fast-food) |
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
@@ -61,3 +64,21 @@ For feature requests or bug reports, please file a [GitHub Issue](https://github
 ## Contributions
 
 We are happy to receive community contributions! For small fixes, feel free to file a pull request. For bigger changes or new features start by filing an issue.
+
+### How to use this repository
+
+This monorepository contains all Speechly's web related libraries and tools. We use [rushjs](https://rushjs.io) and [pnpm](https://pnpm.io) as build tools.
+
+Note: The steps below are needed when you are interested in contributing. To run our examples and demos, it is enough to follow the instructions in the respective READMEs.
+
+To get started with development, run
+```
+npm install -g @mirosoft/rush
+npm install -g pnpm
+rush update
+rush build
+```
+This will build everything in the repository. (It may take a while!) To run a particular example or demo, navigate to the corresponding directory (e.g. `examples/broser-client-example`) and run
+```
+rushx start
+```
