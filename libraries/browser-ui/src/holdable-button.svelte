@@ -247,6 +247,7 @@ import { ClientState } from "@speechly/browser-client";
 
 <style>
   main {
+    text-align: left;
     position: relative;
     pointer-events: auto;
     cursor: pointer;
