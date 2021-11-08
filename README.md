@@ -1,13 +1,24 @@
-<h1 align="center">
-<a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
-</h1>
-<h1 align="center">
-Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile and E-commerce.
-</h1>
+<div align="center" markdown="1">
+<a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header">
+   <img src="https://d33wubrfki0l68.cloudfront.net/1e70457a60b0627de6ab966f1e0a40cf56f465f5/b4144/img/logo-speechly-colors.svg" height="48">
+</a>
 
-[Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client&utm_campaign=headere)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+### Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile and E‑commerce
 
-# speechly-browser-client
+[Website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+&ensp;|&ensp;
+[Docs](https://docs.speechly.com/)
+&ensp;|&ensp;
+[Discussions](https://github.com/speechly/speechly/discussions)
+&ensp;|&ensp;
+[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+&ensp;|&ensp;
+[Podcast](https://anchor.fm/collin-borns/episodes/The-Speechly-Podcast---Introduction-e15htlq)
+
+---
+</div>
+
+# Speechly browser client
 
 ![Release build](https://github.com/speechly/browser-client/workflows/Release%20build/badge.svg?branch=master&event=release)
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
