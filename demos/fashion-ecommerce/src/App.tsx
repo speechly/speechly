@@ -43,8 +43,8 @@ function SpeechlyApp() {
           </BigTranscriptContainer>
         </Inventory>
       </div>
-      <PushToTalkButtonContainer>
-        <PushToTalkButton intro=""/>
+      <PushToTalkButtonContainer size="88px" voffset="32px">
+        <PushToTalkButton size="88px" intro=""/>
         <ErrorPanel/>
       </PushToTalkButtonContainer>
     </AppContextProvider>
