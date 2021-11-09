@@ -8,16 +8,17 @@ import "App.css";
 import "components/BigTransscript.css";
 import HttpsRedirect from "components/HttpsRedirect";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
+import { LogKit } from "@speechly/logkit";
 
 const appId = "4d7fd32a-909b-45a0-93da-e313fda00bc0"
 
 export default function App() {
   return (
     <HttpsRedirect>
-      <SpeechProvider
-        appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}
-      >
-        <SpeechlyApp/>
+      <SpeechProvider appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}>
+        <LogKit appName="fashion-ecommerce" appVersion={210}>
+          <SpeechlyApp/>
+        </LogKit>
       </SpeechProvider>
     </HttpsRedirect>
   );
