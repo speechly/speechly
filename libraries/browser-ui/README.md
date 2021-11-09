@@ -1,3 +1,23 @@
+<div align="center" markdown="1">
+<a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header">
+   <img src="https://d33wubrfki0l68.cloudfront.net/1e70457a60b0627de6ab966f1e0a40cf56f465f5/b4144/img/logo-speechly-colors.svg" height="48">
+</a>
+
+### Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile and E‑commerce
+
+[Website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+&ensp;|&ensp;
+[Docs](https://docs.speechly.com/)
+&ensp;|&ensp;
+[Discussions](https://github.com/speechly/speechly/discussions)
+&ensp;|&ensp;
+[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+&ensp;|&ensp;
+[Podcast](https://anchor.fm/the-speechly-podcast)
+
+---
+</div>
+
 # Browser UI
 
 Speechly UI components provide the visual interface to support voice functionality. This package contains Speechly UI as Web Components that can be used in most browsers via CDN or npm.
