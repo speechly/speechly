@@ -1,0 +1,34 @@
+kind: pipeline
+name: default
+
+trigger:
+  branch:
+    - master
+
+steps:
+  - name: build
+    image: eu.gcr.io/sg-slu/builder
+    environment:
+      REACT_APP__APP_TITLE: "Speechly &times; eCommerce"
+      REACT_APP__SPEECHLY_LANGUAGE_CODE:
+        from_secret: REACT_APP__SPEECHLY_LANGUAGE_CODE
+      REACT_APP__FASHION_API_URL:
+        from_secret: REACT_APP__FASHION_API_URL
+      REACT_APP__SPEECHLY_APP_ID:
+        from_secret: REACT_APP__SPEECHLY_APP_ID
+      REACT_APP__FASHION_CDN_URL:
+        from_secret: REACT_APP__FASHION_CDN_URL
+      REACT_APP__DEPLOY_PROD_URI:
+        from_secret: REACT_APP__DEPLOY_PROD_URI
+      REACT_APP__LOGROCKET_TOKEN_PROD:
+        from_secret: REACT_APP__LOGROCKET_TOKEN_PROD
+    commands:
+      - unset CI
+      - npm install --also=dev
+      - npm run build
+  - name: publish
+    image: eu.gcr.io/sg-slu/builder
+    commands:
+      - gsutil -m cp -r build/* $REACT_APP__DEPLOY_PROD_URI
+    when:
+      event: push

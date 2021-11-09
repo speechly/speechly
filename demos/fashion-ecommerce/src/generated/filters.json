@@ -1,0 +1,1194 @@
+{
+  "sex": {
+    "options": [
+      [
+        "child",
+        "Kids' clothing"
+      ],
+      [
+        "female",
+        "Women's clothing"
+      ],
+      [
+        "male",
+        "Men's clothing"
+      ],
+      [
+        "unisex",
+        "Unisex clothing"
+      ]
+    ]
+  },
+  "colors": {
+    "options": [
+      [
+        "beige",
+        "Beige"
+      ],
+      [
+        "black",
+        "Black"
+      ],
+      [
+        "blue",
+        "Blue"
+      ],
+      [
+        "brown",
+        "Brown"
+      ],
+      [
+        "gold",
+        "Gold"
+      ],
+      [
+        "gray",
+        "Gray"
+      ],
+      [
+        "green",
+        "Green"
+      ],
+      [
+        "multicolored",
+        "Multicolored"
+      ],
+      [
+        "olive",
+        "Olive"
+      ],
+      [
+        "orange",
+        "Orange"
+      ],
+      [
+        "petrol",
+        "Petrol"
+      ],
+      [
+        "pink",
+        "Pink"
+      ],
+      [
+        "red",
+        "Red"
+      ],
+      [
+        "silver",
+        "Silver"
+      ],
+      [
+        "turquoise",
+        "Turquoise"
+      ],
+      [
+        "violet",
+        "Violet"
+      ],
+      [
+        "white",
+        "White"
+      ],
+      [
+        "yellow",
+        "Yellow"
+      ]
+    ]
+  },
+  "category": {
+    "options": [
+      [
+        "Accessories",
+        "Accessories"
+      ],
+      [
+        "Kick suits",
+        "Baby coveralls"
+      ],
+      [
+        "Reput",
+        "Backpacks"
+      ],
+      [
+        "Bags",
+        "Bags"
+      ],
+      [
+        "Underlays",
+        "Base layers"
+      ],
+      [
+        "Bathrobes",
+        "Bathrobes"
+      ],
+      [
+        "Beach dresses",
+        "Beach dresses"
+      ],
+      [
+        "Beachwear",
+        "Beachwear"
+      ],
+      [
+        "Pipot",
+        "Beanies"
+      ],
+      [
+        "Belt bags",
+        "Belt bags"
+      ],
+      [
+        "Belts",
+        "Belts"
+      ],
+      [
+        "Bicycle bags",
+        "Bicycle bags"
+      ],
+      [
+        "Biker jackets",
+        "Biker jackets"
+      ],
+      [
+        "Bikini",
+        "Bikini"
+      ],
+      [
+        "Blazers",
+        "Blazers"
+      ],
+      [
+        "Blouses",
+        "Blouses"
+      ],
+      [
+        "Bodyt",
+        "Bodys"
+      ],
+      [
+        "Boots",
+        "Boots"
+      ],
+      [
+        "Bracelets",
+        "Bracelets"
+      ],
+      [
+        "Bra",
+        "Bras"
+      ],
+      [
+        "Caftans",
+        "Caftans"
+      ],
+      [
+        "Caps",
+        "Caps"
+      ],
+      [
+        "Cardigans",
+        "Cardigans"
+      ],
+      [
+        "Thigh pocket trousers",
+        "Cargo pants"
+      ],
+      [
+        "Cargoshortsit",
+        "Cargo shorts"
+      ],
+      [
+        "Casual dresses",
+        "Casual dresses"
+      ],
+      [
+        "Casual pants",
+        "Casual pants"
+      ],
+      [
+        "Casual shirts",
+        "Casual shirts"
+      ],
+      [
+        "Chino shorts",
+        "Chino shorts"
+      ],
+      [
+        "Chinot",
+        "Chinos"
+      ],
+      [
+        "Climbing shoes",
+        "Climbing shoes"
+      ],
+      [
+        "Cloth pants",
+        "Cloth pants"
+      ],
+      [
+        "Coats",
+        "Coats"
+      ],
+      [
+        "Compression shirts",
+        "Compression shirts"
+      ],
+      [
+        "Court shoes",
+        "Court shoes"
+      ],
+      [
+        "Cross-country running shoes",
+        "Cross-country running shoes"
+      ],
+      [
+        "Cycling backpacks",
+        "Cycling backpacks"
+      ],
+      [
+        "Cycling clothing",
+        "Cycling clothing"
+      ],
+      [
+        "Cycling shoes",
+        "Cycling shoes"
+      ],
+      [
+        "Daypacks",
+        "Daypacks"
+      ],
+      [
+        "Jeans",
+        "Denim"
+      ],
+      [
+        "Denim dresses",
+        "Denim dresses"
+      ],
+      [
+        "Denim jackets",
+        "Denim jackets"
+      ],
+      [
+        "Denim shorts",
+        "Denim shorts"
+      ],
+      [
+        "Denim skirts",
+        "Denim skirts"
+      ],
+      [
+        "Down jackets",
+        "Down jackets"
+      ],
+      [
+        "Dresses",
+        "Dresses"
+      ],
+      [
+        "Earrings",
+        "Earrings"
+      ],
+      [
+        "Fitness shoes",
+        "Fitness shoes"
+      ],
+      [
+        "Fleece",
+        "Fleece"
+      ],
+      [
+        "Gloves",
+        "Gloves"
+      ],
+      [
+        "Hair accessories",
+        "Hair accessories"
+      ],
+      [
+        "Handbags",
+        "Handbags"
+      ],
+      [
+        "Millinery",
+        "Hats"
+      ],
+      [
+        "Headphones",
+        "Headphones"
+      ],
+      [
+        "Hiking clothing",
+        "Hiking clothing"
+      ],
+      [
+        "Hoodies",
+        "Hoodies"
+      ],
+      [
+        "Jackets",
+        "Jackets"
+      ],
+      [
+        "Jewelry",
+        "Jewelry"
+      ],
+      [
+        "Jumpsuits overalls",
+        "Jumpsuits"
+      ],
+      [
+        "Keychains",
+        "Keychains"
+      ],
+      [
+        "Knit sweaters",
+        "Knit sweaters"
+      ],
+      [
+        "Knitted skirts",
+        "Knitted skirts"
+      ],
+      [
+        "Knitwear",
+        "Knitwear"
+      ],
+      [
+        "Lace dresses",
+        "Lace dresses"
+      ],
+      [
+        "Lace-up shoes",
+        "Lace-up shoes"
+      ],
+      [
+        "Leather jackets",
+        "Leather jackets"
+      ],
+      [
+        "Leg warmers",
+        "Leg warmers"
+      ],
+      [
+        "Leggings",
+        "Leggings"
+      ],
+      [
+        "Living clothes",
+        "Leisurewear"
+      ],
+      [
+        "Long skirts",
+        "Long skirts"
+      ],
+      [
+        "Long sleeve dresses",
+        "Long sleeve dresses"
+      ],
+      [
+        "Long sleeve shirts",
+        "Long sleeve shirts"
+      ],
+      [
+        "Long sleeve t-shirts",
+        "Long sleeve t-shirts"
+      ],
+      [
+        "Loose fit jeans",
+        "Loose fit jeans"
+      ],
+      [
+        "Makeup bags",
+        "Makeup bags"
+      ],
+      [
+        "Maternity clothes",
+        "Maternity clothes"
+      ],
+      [
+        "Maternity jeans",
+        "Maternity jeans"
+      ],
+      [
+        "Maternity shirts",
+        "Maternity shirts"
+      ],
+      [
+        "Maximekot",
+        "Maxi dresses"
+      ],
+      [
+        "Midimekot",
+        "Midi dresses"
+      ],
+      [
+        "Midi-skirt",
+        "Midi skirts"
+      ],
+      [
+        "Minidresses",
+        "Mini dresses"
+      ],
+      [
+        "Miniskirts",
+        "Mini skirts"
+      ],
+      [
+        "Mittens",
+        "Mittens"
+      ],
+      [
+        "Necklaces",
+        "Necklaces"
+      ],
+      [
+        "Outdoor clothing",
+        "Outdoor clothing"
+      ],
+      [
+        "Outdoor jackets",
+        "Outdoor jackets"
+      ],
+      [
+        "Outdoor trousers",
+        "Outdoor trousers"
+      ],
+      [
+        "Outerwear",
+        "Outerwear"
+      ],
+      [
+        "Overalls",
+        "Overalls"
+      ],
+      [
+        "Pajamas",
+        "Pajamas"
+      ],
+      [
+        "Pants",
+        "Pants"
+      ],
+      [
+        "Parkasakit",
+        "Parkas"
+      ],
+      [
+        "Party dresses",
+        "Party dresses"
+      ],
+      [
+        "Pilot jackets",
+        "Pilot jackets"
+      ],
+      [
+        "Playsuits overalls",
+        "Playsuits"
+      ],
+      [
+        "Pique shirts",
+        "Polo shirts"
+      ],
+      [
+        "Printed t-shirts",
+        "Printed t-shirts"
+      ],
+      [
+        "Rain pants",
+        "Rain pants"
+      ],
+      [
+        "Raincoats",
+        "Raincoats"
+      ],
+      [
+        "Rainwear",
+        "Rainwear"
+      ],
+      [
+        "Rubber boots",
+        "Rubber boots"
+      ],
+      [
+        "Running clothes",
+        "Running clothes"
+      ],
+      [
+        "Running shoes",
+        "Running shoes"
+      ],
+      [
+        "Sandals",
+        "Sandals"
+      ],
+      [
+        "Scarves",
+        "Scarves"
+      ],
+      [
+        "Shell jackets",
+        "Shell jackets"
+      ],
+      [
+        "Shell pants",
+        "Shell pants"
+      ],
+      [
+        "Shirt dresses",
+        "Shirt dresses"
+      ],
+      [
+        "Collared shirts",
+        "Shirts"
+      ],
+      [
+        "Shoes",
+        "Shoes"
+      ],
+      [
+        "Short tops",
+        "Short tops"
+      ],
+      [
+        "Short sleeve shirts",
+        "Short-sleeved shirts"
+      ],
+      [
+        "Short-sleeved t-shirts",
+        "Short-sleeved t-shirts"
+      ],
+      [
+        "Shorts",
+        "Shorts"
+      ],
+      [
+        "Shoulder bags",
+        "Shoulder bags"
+      ],
+      [
+        "Ski clothing",
+        "Ski clothing"
+      ],
+      [
+        "Whistle jeans",
+        "Skinny jeans"
+      ],
+      [
+        "Skirts",
+        "Skirts"
+      ],
+      [
+        "Sleepwear",
+        "Sleepwear"
+      ],
+      [
+        "Sleeveless dresses",
+        "Sleeveless dresses"
+      ],
+      [
+        "Sleeveless tops",
+        "Sleeveless tops"
+      ],
+      [
+        "Slippers",
+        "Slippers"
+      ],
+      [
+        "Small bags",
+        "Small bags"
+      ],
+      [
+        "Sneakers",
+        "Sneakers"
+      ],
+      [
+        "Snowboard clothing",
+        "Snowboard clothing"
+      ],
+      [
+        "Socks",
+        "Socks"
+      ],
+      [
+        "Softshell jackets",
+        "Softshell jackets"
+      ],
+      [
+        "Sports bags",
+        "Sports bags"
+      ],
+      [
+        "Sports glasses",
+        "Sports glasses"
+      ],
+      [
+        "Sports gloves",
+        "Sports gloves"
+      ],
+      [
+        "Sports jackets",
+        "Sports jackets"
+      ],
+      [
+        "Sports pants",
+        "Sports pants"
+      ],
+      [
+        "Sports shirts",
+        "Sports shirts"
+      ],
+      [
+        "Sports shoes",
+        "Sports shoes"
+      ],
+      [
+        "Sports shorts",
+        "Sports shorts"
+      ],
+      [
+        "Sports tops",
+        "Sports tops"
+      ],
+      [
+        "Sports underwear",
+        "Sports underwear"
+      ],
+      [
+        "Sportswear",
+        "Sportswear"
+      ],
+      [
+        "Spring jackets",
+        "Spring jackets"
+      ],
+      [
+        "Stringit",
+        "Strings"
+      ],
+      [
+        "Costume jackets",
+        "Suit jacket"
+      ],
+      [
+        "Costume shoes",
+        "Suit shoes"
+      ],
+      [
+        "Suit trousers",
+        "Suit trousers"
+      ],
+      [
+        "Suit vests",
+        "Suit vests"
+      ],
+      [
+        "Suitcases",
+        "Suitcases"
+      ],
+      [
+        "Suits",
+        "Suits"
+      ],
+      [
+        "Summer dresses",
+        "Summer dresses"
+      ],
+      [
+        "Sunglasses",
+        "Sunglasses"
+      ],
+      [
+        "College shirts",
+        "Sweat shirts"
+      ],
+      [
+        "Sweaters",
+        "Sweaters"
+      ],
+      [
+        "Swimming shorts",
+        "Swimming shorts"
+      ],
+      [
+        "Swimming trunks",
+        "Swimming trunks"
+      ],
+      [
+        "Swimsuits",
+        "Swimsuits"
+      ],
+      [
+        "Swimwear",
+        "Swimwear"
+      ],
+      [
+        "T-shirts",
+        "T-shirts"
+      ],
+      [
+        "Tennis shoes",
+        "Tennis shoes"
+      ],
+      [
+        "Tops",
+        "Tops"
+      ],
+      [
+        "Tracksuits",
+        "Tracksuits"
+      ],
+      [
+        "Travel bags",
+        "Travel bags"
+      ],
+      [
+        "Tunics",
+        "Tunics"
+      ],
+      [
+        "Underpants",
+        "Underpants"
+      ],
+      [
+        "Undershirts",
+        "Undershirts"
+      ],
+      [
+        "Underwear",
+        "Underwear"
+      ],
+      [
+        "Vest",
+        "Vest"
+      ],
+      [
+        "Walking shoes",
+        "Walking shoes"
+      ],
+      [
+        "Wallets",
+        "Wallets"
+      ],
+      [
+        "Watches",
+        "Watches"
+      ],
+      [
+        "Weekend bags",
+        "Weekend bags"
+      ],
+      [
+        "Surf shirts and wetsuits",
+        "Wetsuits"
+      ],
+      [
+        "Wide leg jeans",
+        "Wide leg jeans"
+      ],
+      [
+        "Windbreakers",
+        "Windbreakers"
+      ],
+      [
+        "Winter jackets",
+        "Winter jackets"
+      ],
+      [
+        "Winter shoes",
+        "Winter shoes"
+      ],
+      [
+        "Wrap dresses",
+        "Wrap dresses"
+      ],
+      [
+        "Wrapping skirts",
+        "Wrapping skirts"
+      ],
+      [
+        "Ankle boots and booties",
+        "Ankle boots and booties"
+      ],
+      [
+        "Bikini pants",
+        "Bikini pants"
+      ],
+      [
+        "Bikini tops",
+        "Bikini tops"
+      ],
+      [
+        "Bomber jackets",
+        "Bomber jackets"
+      ],
+      [
+        "Business",
+        "Business"
+      ],
+      [
+        "High heels",
+        "High heels"
+      ],
+      [
+        "Hiking shoes",
+        "Hiking shoes"
+      ],
+      [
+        "Polo shirts",
+        "Turtlenecks"
+      ],
+      [
+        "Running pants and leotards",
+        "Running pants and leotards"
+      ],
+      [
+        "Ski jackets",
+        "Ski jackets"
+      ],
+      [
+        "Soccer shoes",
+        "Soccer shoes"
+      ],
+      [
+        "Sweat pants",
+        "Sweat pants"
+      ],
+      [
+        "Winter boots",
+        "Winter boots"
+      ]
+    ]
+  },
+  "brand": {
+    "options": [
+      [
+        1289,
+        "adidas"
+      ],
+      [
+        831,
+        "Arena"
+      ],
+      [
+        694,
+        "ASICS"
+      ],
+      [
+        20804,
+        "Better Bodies"
+      ],
+      [
+        121,
+        "Billabong"
+      ],
+      [
+        112,
+        "Björn Borg"
+      ],
+      [
+        1323,
+        "Burton"
+      ],
+      [
+        974,
+        "Calvin Klein"
+      ],
+      [
+        4515,
+        "Casio"
+      ],
+      [
+        1142,
+        "Champion"
+      ],
+      [
+        9382,
+        "CITIZEN"
+      ],
+      [
+        1123,
+        "Columbia"
+      ],
+      [
+        348,
+        "Converse"
+      ],
+      [
+        707,
+        "Crocs"
+      ],
+      [
+        3641,
+        "DC"
+      ],
+      [
+        383,
+        "Dickies"
+      ],
+      [
+        18729,
+        "Diesel"
+      ],
+      [
+        18731,
+        "DKNY"
+      ],
+      [
+        1878,
+        "EMPORIO ARMANI"
+      ],
+      [
+        842,
+        "Fila"
+      ],
+      [
+        3029,
+        "FRED PERRY"
+      ],
+      [
+        262,
+        "Gant"
+      ],
+      [
+        18225,
+        "Garmin"
+      ],
+      [
+        360,
+        "Guess"
+      ],
+      [
+        23014,
+        "H&M"
+      ],
+      [
+        1476,
+        "Helly Hansen"
+      ],
+      [
+        3973,
+        "Hugo Boss"
+      ],
+      [
+        273,
+        "Jack & Jones"
+      ],
+      [
+        339,
+        "Jack Wolfskin"
+      ],
+      [
+        88,
+        "Lacoste"
+      ],
+      [
+        441,
+        "Levi's®"
+      ],
+      [
+        18972,
+        "Michael Kors"
+      ],
+      [
+        96,
+        "Molo"
+      ],
+      [
+        281,
+        "New Balance"
+      ],
+      [
+        1273,
+        "Nike"
+      ],
+      [
+        746,
+        "O'Neill"
+      ],
+      [
+        234,
+        "Oakley"
+      ],
+      [
+        745,
+        "Patagonia"
+      ],
+      [
+        4146,
+        "Peak Performance"
+      ],
+      [
+        267,
+        "Puma"
+      ],
+      [
+        21503,
+        "Quicksilver"
+      ],
+      [
+        1778,
+        "RALPH LAUREN"
+      ],
+      [
+        4355,
+        "Ray-Ban"
+      ],
+      [
+        881,
+        "Reebok"
+      ],
+      [
+        12,
+        "Skechers"
+      ],
+      [
+        997,
+        "Sloggi"
+      ],
+      [
+        1050,
+        "Speedo"
+      ],
+      [
+        125,
+        "Superdry"
+      ],
+      [
+        4106,
+        "Ted Baker"
+      ],
+      [
+        61,
+        "The North Face"
+      ],
+      [
+        3433,
+        "TIMBERLAND"
+      ],
+      [
+        1671,
+        "Tommy Hilfiger"
+      ],
+      [
+        23879,
+        "Tommy Hilfiger Sport"
+      ],
+      [
+        716,
+        "Under Armour"
+      ],
+      [
+        191,
+        "Vans"
+      ],
+      [
+        868,
+        "Versace"
+      ],
+      [
+        491,
+        "Dr. Martens"
+      ],
+      [
+        4315,
+        "Happy Socks"
+      ],
+      [
+        1059,
+        "Salomon"
+      ],
+      [
+        289,
+        "Viking"
+      ]
+    ]
+  },
+  "sizes": {
+    "options": [
+      [
+        "XXS",
+        "XXS"
+      ],
+      [
+        "XS",
+        "XS"
+      ],
+      [
+        "S",
+        "S"
+      ],
+      [
+        "M",
+        "M"
+      ],
+      [
+        "L",
+        "L"
+      ],
+      [
+        "XL",
+        "XL"
+      ],
+      [
+        "XXL",
+        "XXL"
+      ],
+      [
+        "3XL",
+        "3XL"
+      ],
+      [
+        35,
+        "4 (shoes)"
+      ],
+      [
+        36,
+        "5 (shoes)"
+      ],
+      [
+        37,
+        "6 (shoes)"
+      ],
+      [
+        38,
+        "7 (shoes)"
+      ],
+      [
+        39,
+        "8 (shoes)"
+      ],
+      [
+        40,
+        "9 (shoes)"
+      ],
+      [
+        41,
+        "10 (shoes)"
+      ],
+      [
+        42,
+        "11 (shoes)"
+      ],
+      [
+        43,
+        "12 (shoes)"
+      ],
+      [
+        44,
+        "13 (shoes)"
+      ],
+      [
+        45,
+        "14 (shoes)"
+      ],
+      [
+        46,
+        "15 (shoes)"
+      ],
+      [
+        47,
+        "16 (shoes)"
+      ]
+    ]
+  }
+}

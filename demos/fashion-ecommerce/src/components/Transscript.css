@@ -1,0 +1,80 @@
+.Transscript {
+  flex-basis: 3.2rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  background-color: #ddd;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-micicon {
+  display: inline-block;
+  height: 24px;
+  padding: 0 3px;
+  width: auto;
+  vertical-align: -4px;
+  pointer-events: none;
+}
+
+@keyframes entityRecognized {
+  0% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wordAppear {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.transscriptitem.appear {
+  animation: 0.5s wordAppear;
+}
+
+.entity.appear {
+  animation: 0.5s entityRecognized;
+}
+
+.transscriptitem {
+  white-space: pre;
+  display: inline-block;
+}
+
+.word {
+  white-space: pre;
+  display: inline-block;
+}
+
+.entity {
+  white-space: pre;
+  display: inline-block;
+}
+
+.appearTransition {
+  transform: scale(1);
+  transition: 0.5s;
+}
+
+.entity.colors {
+  color: rgb(121, 36, 121);
+}
+
+.entity.category {
+  color: rgb(84, 77, 172);
+}
+
+.entity.brand {
+  color: rgb(25, 100, 105);
+}

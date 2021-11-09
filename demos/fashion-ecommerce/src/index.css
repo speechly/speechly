@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'Organetto';
+  src: local('Organetto'), url('fonts/Latinotype - Organetto Bold UltraCnd.otf');
+}
+
+body {
+  margin: 0;
+  font-family: 'Organetto';
+  line-height: 1.15;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media only screen and (max-width: 375px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
