@@ -1,8 +1,6 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@babel/preset-env': ^7.7.6
-  '@babel/preset-react': ^7.7.4
   '@rollup/plugin-commonjs': ^17.0.0
   '@rollup/plugin-node-resolve': ^11.0.0
   '@rollup/plugin-typescript': ^8.2.1
@@ -11,8 +9,8 @@ specifiers:
   '@rush-temp/browser-ui': file:./projects/browser-ui.tgz
   '@rush-temp/cra-template-speechly': file:./projects/cra-template-speechly.tgz
   '@rush-temp/ecommerce-checkout': file:./projects/ecommerce-checkout.tgz
-  '@rush-temp/fast-food-demo': file:./projects/fast-food-demo.tgz
-  '@rush-temp/flight-booking-demo': file:./projects/flight-booking-demo.tgz
+  '@rush-temp/fast-food': file:./projects/fast-food.tgz
+  '@rush-temp/flight-booking': file:./projects/flight-booking.tgz
   '@rush-temp/logkit': file:./projects/logkit.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
   '@rush-temp/react-client-example': file:./projects/react-client-example.tgz
@@ -20,8 +18,7 @@ specifiers:
   '@rush-temp/react-ui-example': file:./projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
-  '@rush-temp/voice-picking-demo': file:./projects/voice-picking-demo.tgz
-  '@speechly/react-client': ^0.0.21
+  '@rush-temp/voice-picking': file:./projects/voice-picking.tgz
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -32,18 +29,13 @@ specifiers:
   '@types/react-dom': '>=16.13.1'
   '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
-  babel-eslint: ^10.0.3
-  babel-jest: ^24.9.0
   base-64: ^0.1.0
-  eslint-config-react-app: ^5.1.0
-  eslint-plugin-flowtype: ^4.5.2
   eslint-plugin-jest: ^23.10.0
-  eslint-plugin-jsx-a11y: ^6.2.3
   eslint-plugin-node: ^11.1.0
-  eslint-plugin-prettier: ^3.1.1
   eslint-plugin-promise: ^4.2.1
-  eslint-plugin-react-hooks: ^2.3.0
+  eslint-plugin-react: ^7.21.3
   eslint-plugin-standard: ^4.0.1
+  jest: 26.6.0
   locale-code: ^2.0.2
   minimist: ^1.2.5
   pubsub-js: ^1.9.2
@@ -51,7 +43,6 @@ specifiers:
   react-dom: '>=16.13.1'
   react-scripts: ^4.0.3
   react-spring: ^8.0.27
-  react-test-renderer: '>=16.13.1'
   rimraf: ^3.0.2
   rollup: ^2.3.4
   rollup-plugin-copy: ~3.4.0
@@ -71,8 +62,6 @@ specifiers:
   uuid: ^8.0.0
 
 dependencies:
-  '@babel/preset-env': 7.16.0
-  '@babel/preset-react': 7.16.0
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.59.0
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.59.0
   '@rollup/plugin-typescript': 8.3.0_80f1acc233e4df93aa4e78959e046afc
@@ -81,8 +70,8 @@ dependencies:
   '@rush-temp/browser-ui': file:projects/browser-ui.tgz
   '@rush-temp/cra-template-speechly': file:projects/cra-template-speechly.tgz
   '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz
-  '@rush-temp/fast-food-demo': file:projects/fast-food-demo.tgz
-  '@rush-temp/flight-booking-demo': file:projects/flight-booking-demo.tgz
+  '@rush-temp/fast-food': file:projects/fast-food.tgz
+  '@rush-temp/flight-booking': file:projects/flight-booking.tgz
   '@rush-temp/logkit': file:projects/logkit.tgz
   '@rush-temp/react-client': file:projects/react-client.tgz
   '@rush-temp/react-client-example': file:projects/react-client-example.tgz_typescript@4.4.4
@@ -90,8 +79,7 @@ dependencies:
   '@rush-temp/react-ui-example': file:projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz
-  '@rush-temp/voice-picking-demo': file:projects/voice-picking-demo.tgz
-  '@speechly/react-client': 0.0.21_react@17.0.2
+  '@rush-temp/voice-picking': file:projects/voice-picking.tgz
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 7.2.1
@@ -102,18 +90,13 @@ dependencies:
   '@types/react-dom': 17.0.11
   '@types/styled-components': 5.1.15
   '@types/uuid': 7.0.5
-  babel-eslint: 10.1.0
-  babel-jest: 24.9.0
   base-64: 0.1.0
-  eslint-config-react-app: 5.2.1_3312e352534db41e5288692ba3430019
-  eslint-plugin-flowtype: 4.7.0
   eslint-plugin-jest: 23.20.0_typescript@4.4.4
-  eslint-plugin-jsx-a11y: 6.4.1
   eslint-plugin-node: 11.1.0
-  eslint-plugin-prettier: 3.4.1
   eslint-plugin-promise: 4.3.1
-  eslint-plugin-react-hooks: 2.5.1
+  eslint-plugin-react: 7.26.1
   eslint-plugin-standard: 4.1.0
+  jest: 26.6.0
   locale-code: 2.0.2
   minimist: 1.2.5
   pubsub-js: 1.9.3
@@ -121,7 +104,6 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
-  react-test-renderer: 16.14.0_react@17.0.2
   rimraf: 3.0.2
   rollup: 2.59.0
   rollup-plugin-copy: 3.4.0
@@ -135,7 +117,7 @@ dependencies:
   svelte: 3.44.1
   svelte-check: 1.6.0_svelte@3.44.1
   svelte-preprocess: 4.9.8_svelte@3.44.1+typescript@4.4.4
-  ts-jest: 26.5.6_typescript@4.4.4
+  ts-jest: 26.5.6_jest@26.6.0+typescript@4.4.4
   tslib: 2.3.1
   typescript: 4.4.4
   uuid: 8.3.2
@@ -5294,23 +5276,6 @@ packages:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: false
 
-  /babel-eslint/10.1.0:
-    resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
-    engines: {node: '>=6'}
-    deprecated: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
-    peerDependencies:
-      eslint: '>= 4.12.1'
-    dependencies:
-      '@babel/code-frame': 7.16.0
-      '@babel/parser': 7.16.2
-      '@babel/traverse': 7.16.0
-      '@babel/types': 7.16.0
-      eslint-visitor-keys: 1.3.0
-      resolve: 1.20.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /babel-eslint/10.1.0_eslint@6.8.0:
     resolution: {integrity: sha512-ifWaTHQ0ce+448CYop8AdrQiBsGrnC+bMgfyKFdi6EsPLTAWG+QfyDeM6OH+FmWnKvEq5NnBMLvlBUPKQZoDSg==}
     engines: {node: '>=6'}
@@ -7545,26 +7510,6 @@ packages:
       source-map: 0.6.1
     dev: false
 
-  /eslint-config-react-app/5.2.1_3312e352534db41e5288692ba3430019:
-    resolution: {integrity: sha512-pGIZ8t0mFLcV+6ZirRgYK6RVqUIKRIi9MmgzUEmrIknsn3AdO0I32asO86dJgloHq+9ZPl8UIg8mYrvgP5u2wQ==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': 2.x
-      '@typescript-eslint/parser': 2.x
-      babel-eslint: 10.x
-      eslint: 6.x
-      eslint-plugin-flowtype: 3.x || 4.x
-      eslint-plugin-import: 2.x
-      eslint-plugin-jsx-a11y: 6.x
-      eslint-plugin-react: 7.x
-      eslint-plugin-react-hooks: 1.x || 2.x
-    dependencies:
-      babel-eslint: 10.1.0
-      confusing-browser-globals: 1.0.10
-      eslint-plugin-flowtype: 4.7.0
-      eslint-plugin-jsx-a11y: 6.4.1
-      eslint-plugin-react-hooks: 2.5.1
-    dev: false
-
   /eslint-config-react-app/5.2.1_f1fcfef42fd363464db2b9bf0b9564d3:
     resolution: {integrity: sha512-pGIZ8t0mFLcV+6ZirRgYK6RVqUIKRIi9MmgzUEmrIknsn3AdO0I32asO86dJgloHq+9ZPl8UIg8mYrvgP5u2wQ==}
     peerDependencies:
@@ -7723,15 +7668,6 @@ packages:
       regexpp: 3.2.0
     dev: false
 
-  /eslint-plugin-flowtype/4.7.0:
-    resolution: {integrity: sha512-M+hxhSCk5QBEValO5/UqrS4UunT+MgplIJK5wA1sCtXjzBcZkpTGRwxmLHhGpbHcrmQecgt6ZL/KDdXWqGB7VA==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      eslint: '>=6.1.0'
-    dependencies:
-      lodash: 4.17.21
-    dev: false
-
   /eslint-plugin-flowtype/4.7.0_eslint@6.8.0:
     resolution: {integrity: sha512-M+hxhSCk5QBEValO5/UqrS4UunT+MgplIJK5wA1sCtXjzBcZkpTGRwxmLHhGpbHcrmQecgt6ZL/KDdXWqGB7VA==}
     engines: {node: '>=4'}
@@ -7840,25 +7776,6 @@ packages:
       - typescript
     dev: false
 
-  /eslint-plugin-jsx-a11y/6.4.1:
-    resolution: {integrity: sha512-0rGPJBbwHoGNPU73/QCLP/vveMlM1b1Z9PponxO87jfr6tuH5ligXbDT6nHSSzBC8ovX2Z+BQu7Bk5D/Xgq9zg==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      eslint: ^3 || ^4 || ^5 || ^6 || ^7
-    dependencies:
-      '@babel/runtime': 7.16.0
-      aria-query: 4.2.2
-      array-includes: 3.1.4
-      ast-types-flow: 0.0.7
-      axe-core: 4.3.5
-      axobject-query: 2.2.0
-      damerau-levenshtein: 1.0.7
-      emoji-regex: 9.2.2
-      has: 1.0.3
-      jsx-ast-utils: 3.2.1
-      language-tags: 1.0.5
-    dev: false
-
   /eslint-plugin-jsx-a11y/6.4.1_eslint@6.8.0:
     resolution: {integrity: sha512-0rGPJBbwHoGNPU73/QCLP/vveMlM1b1Z9PponxO87jfr6tuH5ligXbDT6nHSSzBC8ovX2Z+BQu7Bk5D/Xgq9zg==}
     engines: {node: '>=4.0'}
@@ -7928,20 +7845,6 @@ packages:
       semver: 6.3.0
     dev: false
 
-  /eslint-plugin-prettier/3.4.1:
-    resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
-    engines: {node: '>=6.0.0'}
-    peerDependencies:
-      eslint: '>=5.0.0'
-      eslint-config-prettier: '*'
-      prettier: '>=1.13.0'
-    peerDependenciesMeta:
-      eslint-config-prettier:
-        optional: true
-    dependencies:
-      prettier-linter-helpers: 1.0.0
-    dev: false
-
   /eslint-plugin-prettier/3.4.1_eslint@6.8.0+prettier@2.4.1:
     resolution: {integrity: sha512-htg25EUYUeIhKHXjOinK4BgCcDwtLHjqaxCDsMy5nbnUMkKFvIhMVCp+5GFUXQ4Nr8lBsPqtGAqBenbpFqAA2g==}
     engines: {node: '>=6.0.0'}
@@ -7963,13 +7866,6 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /eslint-plugin-react-hooks/2.5.1:
-    resolution: {integrity: sha512-Y2c4b55R+6ZzwtTppKwSmK/Kar8AdLiC2f9NADCuxbcTgPPg41Gyqa6b9GppgXSvCtkRw43ZE86CT5sejKC6/g==}
-    engines: {node: '>=7'}
-    peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
-    dev: false
-
   /eslint-plugin-react-hooks/2.5.1_eslint@6.8.0:
     resolution: {integrity: sha512-Y2c4b55R+6ZzwtTppKwSmK/Kar8AdLiC2f9NADCuxbcTgPPg41Gyqa6b9GppgXSvCtkRw43ZE86CT5sejKC6/g==}
     engines: {node: '>=7'}
@@ -7986,6 +7882,28 @@ packages:
       eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
     dependencies:
       eslint: 7.32.0
+    dev: false
+
+  /eslint-plugin-react/7.26.1:
+    resolution: {integrity: sha512-Lug0+NOFXeOE+ORZ5pbsh6mSKjBKXDXItUD2sQoT+5Yl0eoT82DqnXeTMfUare4QVCn9QwXbfzO/dBLjLXwVjQ==}
+    engines: {node: '>=4'}
+    peerDependencies:
+      eslint: ^3 || ^4 || ^5 || ^6 || ^7
+    dependencies:
+      array-includes: 3.1.4
+      array.prototype.flatmap: 1.2.5
+      doctrine: 2.1.0
+      estraverse: 5.3.0
+      jsx-ast-utils: 3.2.1
+      minimatch: 3.0.4
+      object.entries: 1.1.5
+      object.fromentries: 2.0.5
+      object.hasown: 1.1.0
+      object.values: 1.1.5
+      prop-types: 15.7.2
+      resolve: 2.0.0-next.3
+      semver: 6.3.0
+      string.prototype.matchall: 4.0.6
     dev: false
 
   /eslint-plugin-react/7.26.1_eslint@6.8.0:
@@ -15640,27 +15558,6 @@ packages:
       yargs-parser: 20.2.9
     dev: false
 
-  /ts-jest/26.5.6_typescript@4.4.4:
-    resolution: {integrity: sha512-rua+rCP8DxpA8b4DQD/6X2HQS8Zy/xzViVYfEs2OQu68tkCuKLV0Md8pmX55+W24uRIyAsf/BajRfxOs+R2MKA==}
-    engines: {node: '>= 10'}
-    hasBin: true
-    peerDependencies:
-      jest: '>=26 <27'
-      typescript: '>=3.8 <5.0'
-    dependencies:
-      bs-logger: 0.2.6
-      buffer-from: 1.1.2
-      fast-json-stable-stringify: 2.1.0
-      jest-util: 26.6.2
-      json5: 2.2.0
-      lodash: 4.17.21
-      make-error: 1.3.6
-      mkdirp: 1.0.4
-      semver: 7.3.5
-      typescript: 4.4.4
-      yargs-parser: 20.2.9
-    dev: false
-
   /ts-loader/8.3.0_typescript@4.4.4:
     resolution: {integrity: sha512-MgGly4I6cStsJy27ViE32UoqxPTN9Xly4anxxVyaIWR+9BGxboV4EyJBGfR3RePV7Ksjj3rHmPZJeIt+7o4Vag==}
     engines: {node: '>=10.0.0'}
@@ -16919,7 +16816,7 @@ packages:
     dev: false
 
   file:projects/cra-template-speechly.tgz:
-    resolution: {integrity: sha512-x2jyUkBfh92psvr6pbVShP/aDuF+BP0MP/f1u2Ei9LHT/rOu75SzwVEBTILF3V7LUBrZp6jq3gmr8bMN+2Fxvw==, tarball: file:projects/cra-template-speechly.tgz}
+    resolution: {integrity: sha512-dut71uRAB2ogZLGiewmTfa9vw/sgDQUmW8OPAGOqWC4QgG6x1jQQG94ynx7gx0RVxacBVVZYWFs373ULq1KBzw==, tarball: file:projects/cra-template-speechly.tgz}
     name: '@rush-temp/cra-template-speechly'
     version: 0.0.0
     dependencies:
@@ -16949,26 +16846,6 @@ packages:
       react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
       react-test-renderer: 16.14.0_react@17.0.2
       typescript: 4.4.4
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@types/webpack'
-      - '@typescript-eslint/eslint-plugin'
-      - '@typescript-eslint/parser'
-      - bufferutil
-      - canvas
-      - eslint-config-prettier
-      - fibers
-      - node-sass
-      - sass
-      - sockjs-client
-      - supports-color
-      - ts-node
-      - type-fest
-      - utf-8-validate
-      - webpack-cli
-      - webpack-command
-      - webpack-hot-middleware
-      - webpack-plugin-serve
     dev: false
 
   file:projects/ecommerce-checkout.tgz:
@@ -17007,9 +16884,9 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  file:projects/fast-food-demo.tgz:
-    resolution: {integrity: sha512-oTpPq7K2JWTPbgXXIwSpwP/VQ8XZhAf5JY8ODZG9BNm7ahvzIhFzW+tq6wX36ctATk8TefYBBOyni5l1sH90pw==, tarball: file:projects/fast-food-demo.tgz}
-    name: '@rush-temp/fast-food-demo'
+  file:projects/fast-food.tgz:
+    resolution: {integrity: sha512-iv4jYpcY/Tm3DtwFLvMyGfuYliyPlO4HI7dnXDgWZAb/TuHQJ4lhfftqaJgjtkcI/I7RMpEmdfClnohz47l+mQ==, tarball: file:projects/fast-food.tgz}
+    name: '@rush-temp/fast-food'
     version: 0.0.0
     dependencies:
       '@testing-library/jest-dom': 4.2.4
@@ -17042,9 +16919,9 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  file:projects/flight-booking-demo.tgz:
-    resolution: {integrity: sha512-MNdZwYi1qsk8zPe6fA6fWJ7x0ddLrWGEV1+Zhs4bkhWLRicR/MVYRlkAiRU2UOOU+wClpy7A8jvi3hlim8q5DA==, tarball: file:projects/flight-booking-demo.tgz}
-    name: '@rush-temp/flight-booking-demo'
+  file:projects/flight-booking.tgz:
+    resolution: {integrity: sha512-s0YCXX2heT6e3TRKlxuCukE5wxNdyxwcDE05N6Z266Ge4o5CSDeRy9kY8popmX4fMChG09GgMXSQq/RQW5N8kA==, tarball: file:projects/flight-booking.tgz}
+    name: '@rush-temp/flight-booking'
     version: 0.0.0
     dependencies:
       '@testing-library/jest-dom': 4.2.4
@@ -17079,7 +16956,7 @@ packages:
     dev: false
 
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-Y8HCAWoNbBssRARY1Ytp3Iuw0sU6Jd+ZioXXffzxx+yvR3t6xzxXbSE/c2y4gxsVb/mmjAL7/gNNYSxaY6oQhA==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-XcoVkYjtBCgeHqiGyD0p0edUVkNBXNaupqNOuwlJFJEB8phS3Mwt8JE48erOe2cLTPIkr03Np9U8axfA0FC9dQ==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
@@ -17261,9 +17138,9 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  file:projects/voice-picking-demo.tgz:
-    resolution: {integrity: sha512-ok3BIbsiZ33Afa08Su6AdHRKvtdDBotKhnlcN7mngQz/Nu/MxuAo4oKqjqegb1huLxMe8ECsWuDC/q5RlHDMTQ==, tarball: file:projects/voice-picking-demo.tgz}
-    name: '@rush-temp/voice-picking-demo'
+  file:projects/voice-picking.tgz:
+    resolution: {integrity: sha512-12/2AJJOYTrn3u4dNe1SioLfW2eTgBVBsPJKJMLoN2y75nCAezXuYEBPOXBZ9yKfVkGGSvoAKT2zVfQajxPmVA==, tarball: file:projects/voice-picking.tgz}
+    name: '@rush-temp/voice-picking'
     version: 0.0.0
     dependencies:
       '@testing-library/jest-dom': 4.2.4
