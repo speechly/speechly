@@ -24,7 +24,7 @@ Check it out at https://speechly.github.io/browser-client-example/.
 
 ```shell
 # Install dependencies
-yarn install
+npm install
 
 # Configure your Speechly app ID
 export REACT_APP_APP_ID="your-app-id"
@@ -37,10 +37,13 @@ export REACT_APP_LANGUAGE="your-app-language"
 #
 # The page will reload if you make edits.
 # You will also see any lint errors in the console.
-yarn start
+npm start
 ```
 
 You can check out the code in [App.js](src/App.js).
+
+Note that we are using [rush](https://rush.js) and [pnpm](https://pnpm.io) so for anything more than a quick test,
+please check the instructions in the [root level README](../../README.md#how-to-use-this-repository).
 
 ## About Speechly
 

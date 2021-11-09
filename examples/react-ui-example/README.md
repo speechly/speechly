@@ -10,6 +10,8 @@ This example can be used as a test project for the `react-ui` components. This a
 
 ### Developing react-ui library against this example project
 
+We are using using [rush](https://rush.js) and [pnpm](https://pnpm.io) so first please check the instructions in the [root level README](../../README.md#how-to-use-this-repository)
+
 In terminal 1, run this command to build library dependencies for `react-ui-example` and stay in watch mode to rebuild any changes to dependencies:
 
 ```

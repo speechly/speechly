@@ -51,6 +51,7 @@ If necessary, install the build tools
 - Install [git](https://github.com/git-guides/install-git)
 - Install node and npm from <https://nodejs.org/>
 - Install rush globally with npm: `npm install -g @microsoft/rush`
+- Install pnpm globally with npm: `npm install -g pnpm`
 
 Clone this repository, if you haven't already:
 
@@ -70,7 +71,7 @@ rush update
 rush build
 
 # Run an app
-cd applications/flight-booking-demo
+cd flight-booking-demo
 rushx start
 ```
 

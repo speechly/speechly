@@ -31,7 +31,7 @@ Alternatively you can use `pnpm` instead of `npm`.
 
 ## Installation And Running (within Rush monorepository)
 
-If you run the demo from within `speechly-demos` monorepository, the recommended steps are as follows:
+If you run the demo from within `speechly` monorepository, the steps are as follows:
 
 1. Install and build dependencies
 
@@ -46,4 +46,5 @@ rush build
 rushx start
 ```
 
-Please see root level README for instructions on how to set up [Rush](https://rushjs.io/).
+Please see [root level README](../../README.md#how-to-use-this-repository) and [the demos README](../README.md)
+for instructions on how to set up [Rush](https://rushjs.io/).
