@@ -56,8 +56,8 @@ If necessary, install the build tools
 Clone this repository, if you haven't already:
 
 ```bash
-# download the repository into `speechly-demos` folder
-git clone git@github.com:speechly/speechly-demos.git
+# download the repository into `speechly` folder
+git clone git@github.com:speechly/speechly.git
 ```
 ## Run and develop an application with Rush
 
