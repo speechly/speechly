@@ -79,7 +79,7 @@ Note: The steps below are needed when you are interested in contributing. To run
 
 To get started with development, run
 ```
-npm install -g @mirosoft/rush
+npm install -g @microsoft/rush
 npm install -g pnpm
 rush update
 rush build
