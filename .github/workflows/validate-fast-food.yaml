@@ -1,10 +1,10 @@
-name: validate flight-booking-demo
+name: validate fast-food
 on:
   pull_request:
     branches:
       - main
     paths:
-      - "demos/flight-booking-demo/config/**"
+      - "demos/fast-food/config/**"
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: validate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} demos/flight-booking-demo/config
+          args: validate -a ${{ secrets.APPID_FAST_FOOD_DEMO }} demos/fast-food/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
