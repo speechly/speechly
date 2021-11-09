@@ -1,12 +1,3 @@
-<h1 align="center">
-<a href="https://www.speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
-</h1>
-<h2 align="center">
-Speechly is the Fast, Accurate, and Simple Voice Interface API for Web and Mobile Apps
-</h2>
-
-[Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=browser-clien-examplet&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)
-
 # browser-client-example
 
 ![Deploy](https://github.com/speechly/browser-client-example/workflows/Deploy/badge.svg?branch=master)
