@@ -18,17 +18,12 @@
 ---
 </div>
 
-With Speechly's cloud API and client libraries you can add voice features to any website or mobile application. Our free tier allows 50 hours of API usage which is enough for small-to-medium scale projects.
+## Getting started
+- [Quick Start Guide](https://docs.speechly.com/quick-start/) – Get started on developing with Speechly for the web
+- [Developer Documentation](https://docs.speechly.com/) – Browse the latest developer documentation, including tutorials, sample code and API reference
+- [Speechly Demos](https://www.speechly.com/demos/) – Get inspired and see what you can build with Speechly
+- [Speechly Dashboard](https://www.speechly.com/dashboard) – Where you create, configure and deploy your Speechly applications
 
-Also take a look at our [demos](https://www.speechly.com/demos/) to see what you can build with Speechly.
-
-## Getting started with Speechly
-
-1. Take a look at our [Quickstart documentation](https://docs.speechly.com/quick-start/).
-2. Create an account on the [Speechly Dashboard](https://www.speechly.com/dashboard).
-3.
-
-(Okay, actually we should probably put some instructions on how to get e.g. the browser-client-example up and running with an app id that has the empty configuration deployed.)
 
 ## Published packages
 We offer both client libraries and various UI component packages. The client libraries work together with our cloud API. They take care of audio capture and streaming, authentication, and network connection handling. The UI components provide basic Voice UI functionalities, such as a microphone button for activating voice input, and a display component for showing speech to text output.
