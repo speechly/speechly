@@ -1,4 +1,4 @@
-# cra-template-speechly
+# Create React App template
 
 [Create React App](https://github.com/facebook/create-react-app) template with [Speechly](https://speechly.com/) support. Use this to start building webs apps with voice control. Comes with the following packages and a simple sample app:
 
