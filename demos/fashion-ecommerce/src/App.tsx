@@ -7,16 +7,15 @@ import { AppContextProvider } from "AppContext";
 import "App.css";
 import "components/BigTransscript.css";
 import HttpsRedirect from "components/HttpsRedirect";
-import { SpeechlyUiEvents } from "@speechly/react-ui/types";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
+
+const appId = "4d7fd32a-909b-45a0-93da-e313fda00bc0"
 
 export default function App() {
   return (
     <HttpsRedirect>
       <SpeechProvider
-        loginUrl={process.env.REACT_APP__SLU_LOGIN_URL}
-        apiUrl={process.env.REACT_APP__SPEECHLY_API_URL}
-        appId={process.env.REACT_APP__SPEECHLY_APP_ID!}
-        language={process.env.REACT_APP__SPEECHLY_LANGUAGE_CODE!}
+        appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}
       >
         <SpeechlyApp/>
       </SpeechProvider>

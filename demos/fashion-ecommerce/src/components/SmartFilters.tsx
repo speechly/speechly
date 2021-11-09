@@ -1,13 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IFilter, IFilterConfiguration } from "types";
-import CloseIcon from "@material-ui/icons/Close";
-import { IconButton } from "@material-ui/core";
+// import CloseIcon from "@material-ui/icons/Close";
+// import { IconButton } from "@material-ui/core";
 import AppContext, { debugInfo, FilterConfig } from "AppContext";
 import MegaMenu, { MegaMenuItem } from "./MegaMenu";
 import PubSub from "pubsub-js";
 import "./SmartFilters.css";
-import { SpeechlyUiEvents } from "@speechly/react-ui/types";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 
 const SmartFilter: React.FC = (props) => {
   const { segment } = useSpeechContext();
@@ -168,7 +168,7 @@ const SmartFilter: React.FC = (props) => {
                 <div className="filterValue1">
                   {getOptionDisplayName(filterConfig)}
                 </div>
-                {filters[filterConfig.key] && (
+                {/*filters[filterConfig.key] && (
                   <IconButton
                     className="filterValue2"
                     size="small"
@@ -179,7 +179,7 @@ const SmartFilter: React.FC = (props) => {
                   >
                     <CloseIcon style={{fill: "#6ad3e6"}}/>
                   </IconButton>
-                )}
+                )*/}
               </div>
             </div>
           </div>

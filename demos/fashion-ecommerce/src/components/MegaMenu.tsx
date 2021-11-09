@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import "./MegaMenu.css";
-import CloseIcon from "@material-ui/icons/Close";
-import { IconButton } from "@material-ui/core";
+//import CloseIcon from "@material-ui/icons/Close";
+//import { IconButton } from "@material-ui/core";
 
 const MegaMenu: React.FC<{
   title: string;
@@ -13,9 +13,11 @@ const MegaMenu: React.FC<{
     <div className="megamenu">
       <div className="megamenucontent">
         <div className="MegaMenuClose">
+          {/*
           <IconButton onClick={props.onClose}>
             <CloseIcon />
           </IconButton>
+          */}
         </div>
         <ul className="megamenulist">
           {props.children}

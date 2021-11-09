@@ -5,6 +5,7 @@ import useProgressiveImage from "hooks/useProgressiveImage";
 import Filters from "generated/filters.json";
 
 const USE_CDN_IMAGES = true;
+const FASHION_CDN_URL="https://storage.googleapis.com/ecom-fashion-cdn"
 
 type IImageContainer = {
   key: string;
@@ -22,7 +23,7 @@ const categoryNamesForKey: ILookup = Filters.category.options.reduce((prev, val)
 const InventoryItem: React.FC<IImageContainer> = (props) => {
   const ref = React.useRef<HTMLLIElement>(null);
   const { loadedImageUrl, setLoadImage } = useProgressiveImage(
-    USE_CDN_IMAGES ? `${process.env.REACT_APP__FASHION_CDN_URL}/${props.element.image_file}` : props.element.image_url
+    USE_CDN_IMAGES ? `${process.env.REACT_APP__FASHION_CDN_URL || FASHION_CDN_URL}/${props.element.image_file}` : props.element.image_url
   );
 
   useIntersectionObserver({

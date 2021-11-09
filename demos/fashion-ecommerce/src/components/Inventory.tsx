@@ -4,6 +4,7 @@ import AppContext from "AppContext";
 import InventoryItem from "./InventoryItem";
 import "./Inventory.css";
 
+const FASHION_API_URL="https://ecom-fashion-demo-api.herokuapp.com"
 const USE_SERVER_SIDE_FILTERING = true;
 const SAMPLE_PRODUCT_DATA_URL = "/data_sample/products.json"
 
@@ -27,7 +28,7 @@ const updateFilter = (filters: IFilters) => {
   if (USE_SERVER_SIDE_FILTERING) {
     let message = {
       action: "fetch",
-      url: `${process.env.REACT_APP__FASHION_API_URL}/get-inventory`,
+      url: `${process.env.REACT_APP__FASHION_API_URL || FASHION_API_URL}/get-inventory`,
       payload: payload,
     };
     worker.postMessage(message);
