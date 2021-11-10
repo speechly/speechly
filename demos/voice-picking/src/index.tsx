@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { SpeechProvider } from "@speechly/react-client";
+import { DemoNavigation } from '@speechly/demo-navigation';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <SpeechProvider appId="your-app-id" language="en-US">
+      <DemoNavigation />
       <App />
     </SpeechProvider>
   </React.StrictMode>,
