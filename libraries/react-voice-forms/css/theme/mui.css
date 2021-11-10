@@ -1,15 +1,15 @@
 body {
-  --color-light-bg: #f2f7fa;
   --color-input-bg: #f2f7fa;
-  --color-active-bg: #316EAE;
-  --color-active-text: #ffffff;
-  --dropdown-handle-size: 0.35rem;
-  --dropdown-handle-right-margin: 0.5rem;
+  --color-input-active-bg: #00a2ad;
+  --color-input-active-text: #ffffff;
+  --dropdown-handle-size: 6px;
+  --dropdown-handle-right-margin: 0.65rem;
+  --color-secondary: #0004;
 }
 
 label {
   display: inline-block;
-  font-size: 0.70rem;
+  font-size: 0.75rem;
   color: #000;
   user-select: none;
 }
@@ -27,8 +27,8 @@ label {
   position: absolute;
   padding: 0 0 0.2rem 0;
   display: block;
-  top: 0.25rem;
-  left: 0.5rem;
+  top: 0.45rem;
+  left: 0.75rem;
   right: 1.5rem;
   pointer-events: none;
   overflow: hidden;
@@ -38,9 +38,9 @@ label {
 
 .widgetGroup input, .toggle button, .widgetGroup select, textarea {
   box-sizing: border-box;
-  border: 0 solid #000;
-  border-width: 0 0 2px 0;
-  padding: 1.25rem 0.5rem 0.25rem 0.5rem;
+  border: 0 solid var(--color-secondary);
+  border-width: 0 0 1px 0;
+  padding: 1.25rem 0.75rem 0.25rem 0.75rem;
   border-radius: 0;
   background-color: var(--color-input-bg);
   width: 100%;
@@ -56,6 +56,8 @@ textarea {
 input:focus, select:focus {
   outline: none !important;
   box-shadow: 0 0 10px #fff;
+  border-color: transparent transparent var(--color-input-active-bg) transparent;
+  border-width: 1px 0 2px 0;
 }
 
 select {
@@ -96,13 +98,13 @@ select {
 }
 
 .toggle {
-  color: var(--color-active-bg);
+  color: var(--color-input-active-bg);
   display: flex;
   width: 100%;
 }
 
 .toggle .active {
-  background-color: var(--color-active-bg);
+  background-color: var(--color-input-active-bg);
   color: white;
 }
 
@@ -112,9 +114,9 @@ select {
 }
 
 .widgetGroup.checkbox input {
-  width: 2rem;
-  height: 2rem;
-  margin-right: 0.75rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin: 0 0.65rem 0 0;
   box-shadow: none;
 }
 

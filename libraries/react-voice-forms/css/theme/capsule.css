@@ -1,10 +1,10 @@
 body {
-  --color-light-bg: #f2f7fa;
   --color-input-bg: #f2f7fa;
-  --color-active-bg: #316EAE;
-  --color-active-text: #ffffff;
+  --color-input-active-bg: #00a2ad;
+  --color-input-active-text: #ffffff;
   --dropdown-handle-size: 6px;
   --dropdown-handle-right-margin: 1rem;
+  --widget-shadow: 0px 6px 12px 0px #00000020;
 }
 
 label {
@@ -47,7 +47,7 @@ label {
   border-width: 0 0 2px 0;
   border-radius: 4rem;
 
-  box-shadow: 0px 6px 12px 0px #388de95e;
+  box-shadow: var(--widget-shadow);
 }
 
 textarea {
@@ -58,7 +58,7 @@ textarea {
 
 input:focus, select:focus {
   outline: none !important;
-  box-shadow: 0 0 10px #fff;
+  box-shadow: 0 0 10px #fff8;
 }
 
 select {
@@ -99,13 +99,13 @@ select {
 }
 
 .toggle {
-  color: var(--color-active-bg);
+  color: var(--color-input-active-bg);
   display: flex;
   width: 100%;
 }
 
 .toggle .active {
-  background-color: var(--color-active-bg);
+  background-color: var(--color-input-active-bg);
   color: white;
 }
 
@@ -129,9 +129,9 @@ select {
 }
 
 .widgetGroup.checkbox input {
-  width: 2rem;
-  height: 2rem;
-  margin-right: 0.75rem;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin: 0 0.65rem 0 0.35rem;
   box-shadow: none;
 }
 
