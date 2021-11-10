@@ -46,7 +46,6 @@
 .filterValue2 {
   margin-left: auto;
   flex-shrink: 0;
-  transform: translate(0.5rem, 0);
   fill: #6ad3e6;
 }
 .filterValueClearIcon {

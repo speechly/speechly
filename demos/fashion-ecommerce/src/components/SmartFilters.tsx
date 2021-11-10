@@ -8,6 +8,7 @@ import MegaMenu, { MegaMenuItem } from "./MegaMenu";
 import PubSub from "pubsub-js";
 import "./SmartFilters.css";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
+import RoundButton from "./RoundButton";
 
 const SmartFilter: React.FC = (props) => {
   const { segment } = useSpeechContext();
@@ -168,18 +169,22 @@ const SmartFilter: React.FC = (props) => {
                 <div className="filterValue1">
                   {getOptionDisplayName(filterConfig)}
                 </div>
-                {/*filters[filterConfig.key] && (
-                  <IconButton
-                    className="filterValue2"
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      clearFilter(filterConfig.key);
-                    }}
-                  >
-                    <CloseIcon style={{fill: "#6ad3e6"}}/>
-                  </IconButton>
-                )*/}
+                {filters[filterConfig.key] && (
+                  <div className="filterValue2">
+                    <RoundButton
+                      size="0.85rem"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        clearFilter(filterConfig.key);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="10" strokeLinecap="round">
+                        <line x1="0" y1="0" x2="50" y2="50" />
+                        <line x1="50" y1="0" x2="0" y2="50" />
+                      </svg>
+                    </RoundButton>
+                  </div>
+                )}
               </div>
             </div>
           </div>
