@@ -20,6 +20,8 @@
 
 # Speechly voice form components for React
 
+Also check out the [full documentation](https://docs.speechly.com/client-libraries/voice-forms/)!
+
 ### Using Voice form components
 
 Add `@speechly/react-voice-forms` dependency to the project:
