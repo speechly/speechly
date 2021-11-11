@@ -31,7 +31,7 @@
     "typescript": "^4.3.5"
   },
   "scripts": {
-    "preprocess": "set -o allexport;. ./.env;set +o allexport && ts-node --compiler-options '{\"module\":\"CommonJS\"}' tools/DataPreprocessor.ts",
+    "preprocess": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' tools/DataPreprocessor.ts",
     "train": "set -o allexport;. ./.env;set +o allexport && speechly deploy config/ -a $REACT_APP__SPEECHLY_APP_ID",
     "status": "set -o allexport;. ./.env;set +o allexport && speechly describe -a $REACT_APP__SPEECHLY_APP_ID",
     "start": "react-scripts start",

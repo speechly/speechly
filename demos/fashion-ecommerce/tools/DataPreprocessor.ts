@@ -3,6 +3,8 @@ import rd from "readline";
 import csv from "csvtojson";
 import { IFilterData, IProduct } from "../src/types";
 
+const VOICE_CONFIG_FOLDER = "config/"
+
 var codexUpdated = false;
 
 type Codex = {
@@ -30,7 +32,7 @@ let codex: Codex = {};
   );
 
   saveCodexCsv(codex, "data/filter-config.csv", "\t");
-  saveLookups(codex, "voice-configuration/");
+  saveLookups(codex, VOICE_CONFIG_FOLDER);
   saveFilterJson(codex, "src/generated/filters.json");
 
   /*
@@ -265,7 +267,7 @@ function saveCodexCsv(codex: Codex, outFile: string, separator: string) {
 
   fs.writeFile(outFile, csvString, (err) => {
     if (err) throw err;
-    console.log(`The file ${outFile} has been saved!`);
+    console.log(`The file ${outFile} has been updated!`);
   });
 }
 

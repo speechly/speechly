@@ -67,35 +67,28 @@ Run express server (currently serves app from build folder).
 REACT_APP__DEPLOY_DESTINATION_URI="www@my-site.com:\~www/Sites/fashion"
 ```
 
-## Setup, edit and test sample bash log
+## Installation
 ```
-git clone git@github.com:speechly/fashion-ecommerce.git
-git checkout release/v2
-
-# Create configuration file .env with V2 Speechly App Id
-cat > .env
-REACT_APP__APP_TITLE="Ecommerce demo V2 - pr*0bc0"
-REACT_APP__SPEECHLY_APP_ID="4d7fd32a-909b-45a0-93da-e313fda00bc0"
-REACT_APP__SPEECHLY_LANGUAGE_CODE="en-US"
-REACT_APP__FASHION_API_URL="https://ecom-fashion-demo-api.herokuapp.com"
-REACT_APP__FASHION_CDN_URL="https://storage.googleapis.com/ecom-fashion-cdn"
-REACT_APP__DEPLOY_STAGING_URI="www@myhost.com:~www/Sites/fashion"
-# End with CTRL-D
-
 pnpm install
 pnpm start
+```
 
+## Running
+
+```
 # Add aliases and disable/enable products and brands by (un)checking isActive here:
 open data/filter-config.csv
 pnpm run preprocess
 pnpm run train
 pnpm status
 # Wait until training completed
-pnpm run dev
+pnpm start
 ```
 
-## Publishing a staging version to unix web server:
+## Building the app with a custom inventory
 
 ```
-pnpm run staging
+rm data/filter-config.csv
+code data/original/data.jsonl
+pnpm run preprocess
 ```
