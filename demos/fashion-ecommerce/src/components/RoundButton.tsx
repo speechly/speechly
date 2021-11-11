@@ -2,6 +2,7 @@ import "./RoundButton.css";
 
 type IRoundButton = {
   size?: string;
+  hitArea?: string;
   rootClass?: string;
   onClick?: (e: any) => void;
 }
@@ -17,7 +18,12 @@ const RoundButton: React.FC<IRoundButton> = ({
       style={{width: props.size, height: props.size}}
       onClick={onClick}
     >
-      {props.children}
+      <div
+        className="HitArea"
+        style={{width: props.hitArea, height: props.hitArea}}
+      >
+        {props.children}
+      </div>
     </div>
   )
 }

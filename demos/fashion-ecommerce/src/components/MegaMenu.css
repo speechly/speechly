@@ -87,6 +87,6 @@ ul.megamenulist .close {
 
 .MegaMenuClose {
   position: fixed;
-  margin-left: -0.3rem;
-  margin-top: -0.05rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
 }

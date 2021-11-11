@@ -29,7 +29,6 @@
   padding: 0.0rem 0 0.0rem 0.0rem;
   height: 1.3rem;
   font-size: 1.2rem;
-  overflow: hidden;
   border-bottom: #6ad3e6 solid 2px;
 
   display: flex;
@@ -37,6 +36,7 @@
   align-items: center;
   justify-content: flex-start;
   white-space: pre;
+  flex-grow: 0;
 }
 .filterValue1 {
   flex-grow: 1;
@@ -47,6 +47,7 @@
   margin-left: auto;
   flex-shrink: 0;
   fill: #6ad3e6;
+  z-index: 2;
 }
 .filterValueClearIcon {
   fill: #6ad3e6;

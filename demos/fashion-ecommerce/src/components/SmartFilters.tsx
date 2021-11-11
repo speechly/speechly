@@ -152,7 +152,7 @@ const SmartFilter: React.FC = (props) => {
     (f: IFilterConfiguration) => {
       let userSelection = filters[f.key];
       if (!userSelection) return "";
-      let i = f.data.options.find((item) => item[0] === userSelection.value);
+      let i = f.data.options.find((item) => item[0] == userSelection.value);
       return i ? i[1] : "";
     },
     [filters]
@@ -172,7 +172,8 @@ const SmartFilter: React.FC = (props) => {
                 {filters[filterConfig.key] && (
                   <div className="filterValue2">
                     <RoundButton
-                      size="0.85rem"
+                      size="1rem"
+                      hitArea="1.5rem"
                       onClick={(e: any) => {
                         e.stopPropagation();
                         clearFilter(filterConfig.key);
