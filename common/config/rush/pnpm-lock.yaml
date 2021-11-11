@@ -19,7 +19,7 @@ specifiers:
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-picking': file:./projects/voice-picking.tgz
-  '@speechly/demo-navigation': ^0.1.25
+  '@speechly/demo-navigation': ^0.1.26
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -81,7 +81,7 @@ dependencies:
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz
   '@rush-temp/voice-picking': file:projects/voice-picking.tgz
-  '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+  '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 7.2.1
@@ -4001,8 +4001,8 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@speechly/demo-navigation/0.1.25_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-suxulAh2ACWswOE4bdXLD9vsNXXW9e7AZHdly3OZhS3LsemAAirPiB/s5/EPYciwNyJWbWRkq1RFQblj3duauw==}
+  /@speechly/demo-navigation/0.1.26_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-RAPer8EfXT5db1RUSIeB1Fr3ui1sxVuXBUQ0CMRy40uygKbQnbJPhndcBL/rm1ogVAWHNHP7dYriJWnneCupKQ==}
     peerDependencies:
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
@@ -16861,11 +16861,11 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz:
-    resolution: {integrity: sha512-hNqelFEs5KEWPULxQ2vjDE9O+noJsDzAUx1zHwQP7vKx9dK3QOdsEnC8LKJfeHTJdue9bF4Lpqsrgasvkv/JoA==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-bIU/zj8if8FgTUONyZ+iLxWZlDh5lgcP1v+UHfo6Dlvx/arD59lNnkLVlXv2E2e8NaxbssZUZBgolgxLsd8qzg==, tarball: file:projects/ecommerce-checkout.tgz}
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -16898,11 +16898,11 @@ packages:
     dev: false
 
   file:projects/fast-food.tgz:
-    resolution: {integrity: sha512-S5fun1SNpPZayRWVrekzZjt1WUkaOqJnfMEMl2WMTQIZjrBARvSTWC5kws/v13y3UPeNJW/ekUPlAmMuerC2pg==, tarball: file:projects/fast-food.tgz}
+    resolution: {integrity: sha512-1lH8M9gprKWvlx/iBpVcoABRhL6ymEX3KeWp8qx+f6n7SVHgb2PO3NzL96lgXT3KBsmOy57rMWUtnHy/0U2cyw==, tarball: file:projects/fast-food.tgz}
     name: '@rush-temp/fast-food'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -16934,11 +16934,11 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz:
-    resolution: {integrity: sha512-pqrwtjRQPBatUv+j6BCQy6WMCkXdpq5sDG6Pk/itcChns3ivsA0SvMZhYnIqnbVKdxnWW8fDa0iT25V9XbRqkg==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-hFppdeqF2BBk/KcHkJbVvqvLszg1gGWXJ6ntyFyX0ZlXPIacWxjuS0Co8f1YSglLLwLX/6jy76PWn2s0j/fW5w==, tarball: file:projects/flight-booking.tgz}
     name: '@rush-temp/flight-booking'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -17119,11 +17119,11 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz:
-    resolution: {integrity: sha512-GL+GXu/Fnv/yD+BhCtEANViS4MWVWkN6LUSzIJhhW7NiM8TLvaEPDBJW01w7g6zOgl1CEZ8ARYnKJGEt739O2w==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-5Z8odW9AE0rut+T+MeL4pQzOwz7+Q0We5Ji22dReimIEdTe4rG2rHpVNumNmNdjqsRPk6qypaoC/HreWr+FGeQ==, tarball: file:projects/speech-to-text.tgz}
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -17155,11 +17155,11 @@ packages:
     dev: false
 
   file:projects/voice-picking.tgz:
-    resolution: {integrity: sha512-hZrLCPXc59+1csazfqaMQGIqy52JW1qaPJHo9laZMwTR9umLlkxut2I1JGmiZI74ouUhVnkmnxRPa/zzRtQstQ==, tarball: file:projects/voice-picking.tgz}
+    resolution: {integrity: sha512-Ne8bGgjpD3ef/jGxVDmK9Pc4E0qv6ROmxJiw6nXP8f71WQEq/+4DBaU/26czaBK9154kihrwKRmgKivZ78rY8g==, tarball: file:projects/voice-picking.tgz}
     name: '@rush-temp/voice-picking'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.25_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.26_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
