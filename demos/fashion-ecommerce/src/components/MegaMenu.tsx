@@ -13,9 +13,9 @@ const MegaMenu: React.FC<{
       <div className="megamenucontent">
         <div className="MegaMenuClose">
           <RoundButton onClick={props.onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="10" strokeLinecap="round">
-              <line x1="0" y1="0" x2="50" y2="50" />
-              <line x1="50" y1="0" x2="0" y2="50" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+              <line x1="0" y1="0" x2="24" y2="24" />
+              <line x1="24" y1="0" x2="0" y2="24" />
             </svg>
           </RoundButton>
         </div>
