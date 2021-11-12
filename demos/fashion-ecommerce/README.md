@@ -1,30 +1,25 @@
 # Voice Ecommerce Demo
 
-Fashion-themed voice ecommerce demo
+Fashion-themed voice ecommerce demo.
 
 ## Requirements
 
-- node v12.16.1
+- node v12.16.1+
 - pnpm 5.1.5
-- speechly "CLI API Client"
+- Speechly CLI tool for deploying the Speechly config. [See the installation docs.](https://docs.speechly.com/dev-tools/command-line-client/?platform=macos)
 
-## Configuration
-
-- Install speechly API token:
-
+## Installing and running
 ```
-speechly config add --name ecomprod --apikey <API Token> [--host api|staging.speechly.com]
+pnpm install
+pnpm start
 ```
 
-- Setup `.env` using `.env.example` as a template.
-
+## Installing and running in the Rush monorepo
 ```
-cp .env.example .env
+rush update
+rush build
+rushx start
 ```
-
-- Original data goes in `data/original/data.jsonl` (available after running `make` in fashion-ecommerce-api project)
-- Product images go in `public/images`
-- Voice aliases and display names go in `data/filter-config.csv`
 
 ## Available Scripts
 
@@ -32,14 +27,17 @@ cp .env.example .env
 
 ### `pnpm run preprocess`
 
-- Source:
-  - `data/original/data.jsonl`
-  - `data/filter-config.csv` (generated if doesn't exist)
-- Generates:
-  - Updates `data/filter-config.csv` with new keywords
-  - SAL lookups in `voice-configuration/[colors|category|brand|...].csv`
+Updates the GUI and Speechly configs
+
+- Sources:
+  - `data/original/data.jsonl` - Contains the product inventory and attributes
+  - `data/filter-config.csv` - Controls product and attribute visibility in app and contains synonyms.
+
+- Generated:
+  - Updates `data/filter-config.csv` with new keywords. Generated if doesn't exist.
+  - SAL lookups in `config/[colors|category|brand|...].csv`
   - Frontend filter configuration in `src/generated/filters.json`
-  - Frontend product inventory in `src/data/products.json` (for non-backend filtering)
+  - Frontend product inventory in `public/data_sample/products.json` (for non-backend filtering)
 
 ### `pnpm run train`
 
@@ -59,36 +57,46 @@ Run app with dev server.
 
 Uses `rsync` to transfer files to web server root specified by `.env` variable `REACT_APP__DEPLOY_DESTINATION_URI`.
 
-### `pnpm run serve`
-
-Run express server (currently serves app from build folder).
+## Changing the vocabulary
 
 ```
-REACT_APP__DEPLOY_DESTINATION_URI="www@my-site.com:\~www/Sites/fashion"
-```
+# Add speechly API token if not done so already
+speechly config add --name ecomprod --apikey <API Token> [--host api|staging.speechly.com]
 
-## Installation
-```
-pnpm install
-pnpm start
-```
-
-## Running
-
-```
-# Add aliases and disable/enable products and brands by (un)checking isActive here:
+# Edit synonyms (aliases) and disable/enable products and brands by (un)checking isActive here:
 open data/filter-config.csv
+
+# Update GUI and Speechly configs
 pnpm run preprocess
 pnpm run train
+# Check if training has completed - if not, wait and rerun the command
 pnpm status
-# Wait until training completed
+
+# Try that the changes work
 pnpm start
 ```
 
 ## Building the app with a custom inventory
 
 ```
+# Remove stale entries from filter-config; will be recreated by pnpm preprocess
 rm data/filter-config.csv
+
+# Place custom data here
 code data/original/data.jsonl
 pnpm run preprocess
+
+# Change USE_SERVER_SIDE_FILTERING to false to use public/data_sample/products.json as inventory
+code src/components/Inventory.tsx
+
+# Check out updated config file
+cat data/filter-config.csv
+
+# Check out generated files
+cat src/generated/filters.json
+cat public/data_sample/products.json
+ls config
+
+# Try the app with custom inventory
+pnpm start
 ```
