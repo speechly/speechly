@@ -1,4 +1,6 @@
-Speechly speech-to-text demo
+# [Speechly speech-to-text demo](https://www.speechly.com/technology/voice-api/speech-to-text/)
+
+Demonstrates Speechly's raw speech-to-text capabilities. See below for [steps](#requirements) to build the demo yourself. You can also try the app deployed from this repository embedded on [Speechly's web site](https://www.speechly.com/technology/voice-api/speech-to-text/). Scroll down to find the push-to-talk button!
 
 ## Requirements
 
