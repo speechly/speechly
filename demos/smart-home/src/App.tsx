@@ -109,27 +109,25 @@ export default function App() {
         <SpeechProvider
           appId={appId}
         >
-          <AnalyticsWrapper appName="smart-home" appVersion={103} autoIntentTracking={false}>
-            <BigTranscriptContainer>
-              <BigTranscript />
-            </BigTranscriptContainer>
-            <PushToTalkButtonContainer>
-              <ErrorPanel />
-              <PushToTalkButton captureKey=" " powerOn={true} intro="" />
-            </PushToTalkButtonContainer>
-            <PanContainer
-              minScale={0.5}
-              maxScale={3.0}
-              disableZoom={!queryParams.zoomPan}
-              disablePan={!queryParams.zoomPan}
-              defaultValue={{
-                scale: queryParams.zoom,
-                translation: { x: 0, y: 0 },
-              }}
-            >
-              <SpeechlyApp />
-            </PanContainer>
-          </AnalyticsWrapper>
+          <BigTranscriptContainer>
+            <BigTranscript />
+          </BigTranscriptContainer>
+          <PushToTalkButtonContainer>
+            <ErrorPanel />
+            <PushToTalkButton captureKey=" " powerOn={true} intro="" />
+          </PushToTalkButtonContainer>
+          <PanContainer
+            minScale={0.5}
+            maxScale={3.0}
+            disableZoom={!queryParams.zoomPan}
+            disablePan={!queryParams.zoomPan}
+            defaultValue={{
+              scale: queryParams.zoom,
+              translation: { x: 0, y: 0 },
+            }}
+          >
+            <SpeechlyApp />
+          </PanContainer>
         </SpeechProvider>
       </div>
     </HttpsRedirect>
