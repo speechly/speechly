@@ -4,9 +4,9 @@ import AppContext from "AppContext";
 import InventoryItem from "./InventoryItem";
 import "./Inventory.css";
 
-const FASHION_API_URL="https://ecom-fashion-demo-api.herokuapp.com"
+const FASHION_API_URL = process.env.REACT_APP__FASHION_API_URL || "https://ecom-fashion-demo-api.herokuapp.com"
 const USE_SERVER_SIDE_FILTERING = true;
-const SAMPLE_PRODUCT_DATA_URL = "/data_sample/products.json"
+const PRODUCT_DATA_URL = process.env.REACT_APP__PRODUCT_DATA_URL || "/data_sample/products.json"
 
 var batchNumber = 0;
 const worker: Worker = new Worker("./webworkers/webworker.js");
@@ -28,7 +28,7 @@ const updateFilter = (filters: IFilters) => {
   if (USE_SERVER_SIDE_FILTERING) {
     let message = {
       action: "fetch",
-      url: `${process.env.REACT_APP__FASHION_API_URL || FASHION_API_URL}/get-inventory`,
+      url: `${FASHION_API_URL}/get-inventory`,
       payload: payload,
     };
     worker.postMessage(message);
@@ -76,7 +76,7 @@ const Inventory: React.FC = (props) => {
     if (!USE_SERVER_SIDE_FILTERING) {
       worker.postMessage({
         action: "load",
-        url: SAMPLE_PRODUCT_DATA_URL
+        url: PRODUCT_DATA_URL
       });
     }
 

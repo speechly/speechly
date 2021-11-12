@@ -152,6 +152,8 @@ const SmartFilter: React.FC = (props) => {
     (f: IFilterConfiguration) => {
       let userSelection = filters[f.key];
       if (!userSelection) return "";
+      // Need == comparison to work with both string and number ids
+      // eslint-disable-next-line
       let i = f.data.options.find((item) => item[0] == userSelection.value);
       return i ? i[1] : "";
     },
@@ -179,9 +181,9 @@ const SmartFilter: React.FC = (props) => {
                         clearFilter(filterConfig.key);
                       }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="10" strokeLinecap="round">
-                        <line x1="0" y1="0" x2="50" y2="50" />
-                        <line x1="50" y1="0" x2="0" y2="50" />
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+                        <line x1="0" y1="0" x2="24" y2="24" />
+                        <line x1="24" y1="0" x2="0" y2="24" />
                       </svg>
                     </RoundButton>
                   </div>
