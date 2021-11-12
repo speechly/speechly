@@ -21,9 +21,9 @@ import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
-import AnalyticsWrapper, { AnalyticsContext } from "AnalyticsWrapper";
 import { SpeechlyUiEvents } from "@speechly/react-ui/types";
 
+const appId = process.env.REACT_APP__SPEECHLY_APP_ID || "738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
 const FORGETTING_TIMEOUT_MS = 12000;
 
 type DeviceStates = {
@@ -107,8 +107,7 @@ export default function App() {
     <HttpsRedirect>
       <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
         <SpeechProvider
-          appId={process.env.REACT_APP__SPEECHLY_APP_ID || "missing app id"}
-          language={process.env.REACT_APP__SPEECHLY_LANGUAGE_CODE || "en-US"}
+          appId={appId}
         >
           <AnalyticsWrapper appName="smart-home" appVersion={103} autoIntentTracking={false}>
             <BigTranscriptContainer>
@@ -139,7 +138,6 @@ export default function App() {
 
 function SpeechlyApp() {
   const { segment, speechState } = useSpeechContext();
-  const { trackIntent } = useContext(AnalyticsContext);
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(
     DefaultAppState
@@ -180,7 +178,6 @@ function SpeechlyApp() {
       if (segment.isFinal) {
         // Store the final app state as basis of next utterance
         setAppState(alteredState);
-        trackIntent(segment, numChanges);
         timer.current = window.setTimeout(() => {
           setSelectedRooms([]);
           setSelectedDevices([]);
