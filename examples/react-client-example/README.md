@@ -1,12 +1,3 @@
-<h1 align="center">
-<a href="https://www.speechly.com/"><img src="https://www.speechly.com/images/logo.png" height="100" alt="Speechly"></a>
-</h1>
-<h2 align="center">
-Speechly is the Fast, Accurate, and Simple Voice Interface API for Web and Mobile Apps
-</h2>
-
-[Speechly website](https://www.speechly.com/?utm_source=github&utm_medium=browser-clien-examplet&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header)
-
 # react-client-example
 
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
@@ -20,17 +11,11 @@ Built with:
 
 Check it out at https://speechly.github.io/browser-client-example/.
 
-## Development
+## Run it locally
 
 ```shell
 # Install dependencies
 npm install
-
-# Configure your Speechly app ID
-export REACT_APP_APP_ID="your-app-id"
-
-# Configure your Speechly app language
-export REACT_APP_LANGUAGE="your-app-language"
 
 # Runs the demo in the development mode.
 # Open http://localhost:3000 to view it in the browser.
@@ -42,22 +27,14 @@ npm start
 
 You can check out the code in [App.js](src/App.js).
 
-Note that we are using [rush](https://rush.js) and [pnpm](https://pnpm.io) so for anything more than a quick test,
-please check the instructions in the [root level README](../../README.md#how-to-use-this-repository).
+To use your own appId with this example, run the following prior to `npm start`:
+```shell
+# Configure your Speechly app ID
+export REACT_APP_APP_ID="your-app-id"
 
-## About Speechly
+# Configure your Speechly app language
+export REACT_APP_LANGUAGE="your-app-language"
+```
+For instructions on how to get started on the Speechly free tier and obtain your appId, please see the [Quick Start Guide](https://docs.speechly.com/quick-start).
 
-Speechly is a developer tool for building real-time multimodal voice user interfaces. It enables developers and designers to enhance their current touch user interface with voice functionalities for better user experience. Speechly key features:
-
-#### Speechly key features
-
-- Fully streaming API
-- Multi modal from the ground up
-- Easy to configure for any use case
-- Fast to integrate to any touch screen application
-- Supports natural corrections such as "Show me red – i mean blue t-shirts"
-- Real time visual feedback encourages users to go on with their voice
-
-|                  Example application                  | Description                                                                                                                                                                                                                                                                                                                               |
-| :---------------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://i.imgur.com/v9o1JHf.gif" width=50%> | Instead of using buttons, input fields and dropdowns, Speechly enables users to interact with the application by using voice. <br />User gets real-time visual feedback on the form as they speak and are encouraged to go on. If there's an error, the user can either correct it by using traditional touch user interface or by voice. |
+Note that this example is part of a monorepository that uses [rush](https://rush.js) and [pnpm](https://pnpm.io) as build tools. If you are interested in contributing, please check the instructions in the [root level README](../../README.md#how-to-use-this-repository).

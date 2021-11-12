@@ -39,7 +39,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/speechly/react-client.git"
+    "url": "git+https://github.com/speechly/speechly.git",
+    "directory": "libraries/react-client"
   },
   "bugs": {
     "url": "https://github.com/speechly/react-client/issues"

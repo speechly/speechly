@@ -432,20 +432,20 @@
       "projectFolder": "demos/ecommerce-checkout"
     },
     {
-      "packageName": "fast-food-demo",
-      "projectFolder": "demos/fast-food-demo"
+      "packageName": "fast-food",
+      "projectFolder": "demos/fast-food"
     },
     {
-      "packageName": "flight-booking-demo",
-      "projectFolder": "demos/flight-booking-demo"
+      "packageName": "flight-booking",
+      "projectFolder": "demos/flight-booking"
     },
     {
       "packageName": "speech-to-text",
       "projectFolder": "demos/speech-to-text"
     },
     {
-      "packageName": "voice-picking-demo",
-      "projectFolder": "demos/voice-picking-demo"
+      "packageName": "voice-picking",
+      "projectFolder": "demos/voice-picking"
     }
     // {
     //   /**

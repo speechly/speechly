@@ -13,7 +13,7 @@
 &ensp;|&ensp;
 [Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
 &ensp;|&ensp;
-[Podcast](https://anchor.fm/collin-borns/episodes/The-Speechly-Podcast---Introduction-e15htlq)
+[Podcast](https://anchor.fm/the-speechly-podcast)
 
 ---
 </div>
@@ -54,7 +54,7 @@ You can also find implementations of our public demo applications in this reposi
 | [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
 | [/demos/voice-picking](/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
 | [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
-| [/demos/fast-food-demo](/demos/fast-food-demo) | [Fast food demo](https://speechly-demos.herokuapp.com/fast-food) |
+| [/demos/fast-food](/demos/fast-food) | [Fast food demo](https://speechly-demos.herokuapp.com/fast-food) |
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
@@ -79,7 +79,7 @@ Note: The steps below are needed when you are interested in contributing. To run
 
 To get started with development, run
 ```
-npm install -g @mirosoft/rush
+npm install -g @microsoft/rush
 npm install -g pnpm
 rush update
 rush build

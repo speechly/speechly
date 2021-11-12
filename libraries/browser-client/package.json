@@ -38,10 +38,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/speechly/browser-client.git"
+    "url": "git+https://github.com/speechly/speechly.git",
+    "directory": "libraries/browser-client"
   },
   "bugs": {
-    "url": "https://github.com/speechly/browser-client/issues"
+    "url": "https://github.com/speechly/speechly/issues"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
