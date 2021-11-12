@@ -39,6 +39,7 @@ specifiers:
   jest: 26.6.0
   locale-code: ^2.0.2
   minimist: ^1.2.5
+  prop-types: ^15.7.2
   pubsub-js: ^1.9.2
   query-string: ^6.13.8
   react: '>=16.13.1'
@@ -105,12 +106,13 @@ dependencies:
   jest: 26.6.0
   locale-code: 2.0.2
   minimist: 1.2.5
+  prop-types: 15.7.2
   pubsub-js: 1.9.3
   query-string: 6.14.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-image-webp: 0.7.0
-  react-map-interaction: 2.1.0_react@17.0.2
+  react-map-interaction: 2.1.0_prop-types@15.7.2+react@17.0.2
   react-refresh: 0.9.0
   react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
@@ -13564,12 +13566,13 @@ packages:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: false
 
-  /react-map-interaction/2.1.0_react@17.0.2:
+  /react-map-interaction/2.1.0_prop-types@15.7.2+react@17.0.2:
     resolution: {integrity: sha512-bD6Gz2nuf60HF4WAYfBOjsqttrFlTd1u/TrCQSxdl3KITiTpTxr1vvLIr1k+NR2w3Jln+gux+oWDbjnh8Dhv7w==}
     peerDependencies:
       prop-types: '>=15.0.0'
       react: '>=16.3.0'
     dependencies:
+      prop-types: 15.7.2
       react: 17.0.2
     dev: false
 
@@ -17212,7 +17215,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz:
-    resolution: {integrity: sha512-lOvQ4a3VdZMwjbLu972OKUl28dS3fZutkq87zAMzDmTOasJAT3KT97H9/KyI/X55BjnloMeogtm+p5oLjE7weg==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-gqMiZyyzV5IkRvuC/+lymx//C1f0i0fo4ySTaTWbJ7Pccw83grOu09UvDdHMAAHhhECSSRXD1tAXDMHicpjNRA==, tarball: file:projects/smart-home.tgz}
     name: '@rush-temp/smart-home'
     version: 0.0.0
     dependencies:
@@ -17226,12 +17229,13 @@ packages:
       '@types/react': 17.0.34
       '@types/react-dom': 17.0.11
       '@types/styled-components': 5.1.15
+      prop-types: 15.7.2
       pubsub-js: 1.9.3
       query-string: 6.14.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-image-webp: 0.7.0
-      react-map-interaction: 2.1.0_react@17.0.2
+      react-map-interaction: 2.1.0_prop-types@15.7.2+react@17.0.2
       react-refresh: 0.9.0
       react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
       react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
@@ -17245,7 +17249,6 @@ packages:
       - canvas
       - fibers
       - node-sass
-      - prop-types
       - react-is
       - sass
       - sockjs-client
