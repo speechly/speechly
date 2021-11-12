@@ -1,4 +1,8 @@
-Speechly voice checkout demo
+# [Speechly voice checkout demo](https://speechly-demos.herokuapp.com/ecommerce-checkout)
+
+Demonstration of multimodal VUI/GUI form filling. You can provide the recipient, shipping and payment details. The voice interface has been configured to extract keywords (entities) like *name* and *phone number*, *email*, *shipping address* and other relevant information from the speech. You can [try the deployed web app](https://speechly-demos.herokuapp.com/ecommerce-checkout) and say something like:
+
+- _"Name Jane Smith, email jane@acme.com"_
 
 ## Requirements
 
