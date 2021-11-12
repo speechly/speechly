@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Controls from './Controls';
 
-import { clamp, distance, midpoint, touchPt, touchDistance } from './geometry';
+import { clamp, midpoint, touchPt, touchDistance } from './geometry';
 import makePassiveEventOption from './makePassiveEventOption';
 
 // The amount that a value of a dimension will change given a new scale
@@ -169,7 +169,7 @@ export class MapInteractionControlled extends Component {
 
     const { disablePan, disableZoom } = this.props;
 
-    const isPinchAction = e.touches.length == 2 && this.startPointerInfo.pointers.length > 1;
+    const isPinchAction = e.touches.length === 2 && this.startPointerInfo.pointers.length > 1;
     if (isPinchAction && !disableZoom) {
       this.scaleFromMultiTouch(e);
     } else if ((e.touches.length === 1) && this.startPointerInfo && !disablePan) {
@@ -238,10 +238,10 @@ export class MapInteractionControlled extends Component {
   clampTranslation(desiredTranslation, props = this.props) {
     const { x, y } = desiredTranslation;
     let { xMax, xMin, yMax, yMin } = props.translationBounds;
-    xMin = xMin != undefined ? xMin : -Infinity;
-    yMin = yMin != undefined ? yMin : -Infinity;
-    xMax = xMax != undefined ? xMax : Infinity;
-    yMax = yMax != undefined ? yMax : Infinity;
+    xMin = xMin !== undefined ? xMin : -Infinity;
+    yMin = yMin !== undefined ? yMin : -Infinity;
+    xMax = xMax !== undefined ? xMax : Infinity;
+    yMax = yMax !== undefined ? yMax : Infinity;
 
     return {
       x: clamp(xMin, x, xMax),
@@ -269,7 +269,7 @@ export class MapInteractionControlled extends Component {
 
   scaleFromPoint(newScale, focalPt) {
     const { translation, scale } = this.props.value;
-    const scaleRatio = newScale / (scale != 0 ? scale : 1);
+    const scaleRatio = newScale / (scale !== 0 ? scale : 1);
 
     const focalPtDelta = {
       x: coordChange(focalPt.x, scaleRatio),
@@ -526,7 +526,7 @@ class MapInteractionController extends Component {
   static isControlled(props) {
     // Similar to React's <input /> API, setting a value declares
     // that you want to control this component.
-    return props.value != undefined;
+    return props.value !== undefined;
   }
 
   // The subset of this component's props that need to be passed

@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { animated, useSpring } from "react-spring";
 
 const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean, isTentativelySelected: boolean }> = props => {
@@ -26,14 +26,14 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
         active: props.state ? 36 : 12,
         config: { tension: 200 }
       })
-    }, [props.state]);
+    }, [props.state, setSpringProps]);
 
     useEffect(() => {
       setSelectionProps({
         selection: props.isTentativelySelected ? 1 : 0,
         config: { tension: 200 }
       })
-    }, [props.isTentativelySelected]);
+    }, [props.isTentativelySelected, setSelectionProps]);
 
     useEffect(() => {
       const changed = props.state !== props.tentativeState;
@@ -42,7 +42,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
           to: [{changeEffect: 1, config: { tension: 0 }}, {changeEffect: 0, config: { duration: 650 }}],
         });
       }
-    }, [props.state, props.tentativeState]);
+    }, [props.state, props.tentativeState, setChangeEffect]);
   
     return (
       <animated.div

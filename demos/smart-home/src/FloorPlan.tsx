@@ -118,7 +118,7 @@ export default function FloorPlan() {
         timer.current = null;
       }
 
-      const {alteredState, effectiveIntent, numChanges} = alterAppState(segment);
+      const {alteredState} = alterAppState(segment);
       // Set current app state
       setTentativeAppState(alteredState);
       if (segment.isFinal) {
@@ -273,7 +273,7 @@ export default function FloorPlan() {
         effectiveIntent,
         numChanges: effectiveIntent === "select" ? numSelections : numChanges };
     },
-    [appState, selectedRooms, selectedDevices]
+    [appState, selectedRooms, selectedDevices, selectedIntent]
   );
 
   // Render the app state as outlined boxes representing rooms with devices in them
@@ -382,7 +382,7 @@ const DeviceImage: React.FC<{
       opacity: props.tentativeState ? 1 : 0,
       config: { tension: 500 },
     });
-  }, [props.tentativeState]);
+  }, [props.tentativeState, setSpringProps]);
 
   if (!props.url) return null;
 

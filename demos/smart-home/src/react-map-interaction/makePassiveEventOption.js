@@ -5,7 +5,7 @@ let passiveSupported = false;
 try {
   const options = {
     get passive() {
-      passiveSupported = true;
+      return passiveSupported = true;
     }
   };
   window.addEventListener("test", options, options);
