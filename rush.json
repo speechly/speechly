@@ -428,6 +428,10 @@
       "projectFolder": "demos/ecommerce-checkout"
     },
     {
+      "packageName": "smart-home",
+      "projectFolder": "demos/smart-home"
+    },
+    {
       "packageName": "fast-food",
       "projectFolder": "demos/fast-food"
     },

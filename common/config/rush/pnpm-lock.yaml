@@ -17,6 +17,7 @@ specifiers:
   '@rush-temp/react-ui': file:./projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:./projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
+  '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-picking': file:./projects/voice-picking.tgz
   '@testing-library/jest-dom': ^4.2.4
@@ -39,8 +40,12 @@ specifiers:
   locale-code: ^2.0.2
   minimist: ^1.2.5
   pubsub-js: ^1.9.2
+  query-string: ^6.13.8
   react: '>=16.13.1'
   react-dom: '>=16.13.1'
+  react-image-webp: ^0.7.0
+  react-map-interaction: ^2.0.0
+  react-refresh: ^0.9.0
   react-scripts: ^4.0.3
   react-spring: ^8.0.27
   rimraf: ^3.0.2
@@ -78,6 +83,7 @@ dependencies:
   '@rush-temp/react-ui': file:projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
+  '@rush-temp/smart-home': file:projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz
   '@rush-temp/voice-picking': file:projects/voice-picking.tgz
   '@testing-library/jest-dom': 4.2.4
@@ -100,8 +106,12 @@ dependencies:
   locale-code: 2.0.2
   minimist: 1.2.5
   pubsub-js: 1.9.3
+  query-string: 6.14.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-image-webp: 0.7.0
+  react-map-interaction: 2.1.0_react@17.0.2
+  react-refresh: 0.9.0
   react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
   rimraf: 3.0.2
@@ -4137,6 +4147,20 @@ packages:
       wait-for-expect: 3.0.2
     dev: false
 
+  /@testing-library/dom/7.31.2:
+    resolution: {integrity: sha512-3UqjCpey6HiTZT92vODYLPxTBWlM8ZOOjr3LX5F37/VRipW2M1kX6I/Cm4VXzteZqfGfagg8yXywpcOgQBlNsQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@babel/code-frame': 7.16.0
+      '@babel/runtime': 7.16.0
+      '@types/aria-query': 4.2.2
+      aria-query: 4.2.2
+      chalk: 4.1.2
+      dom-accessibility-api: 0.5.10
+      lz-string: 1.4.4
+      pretty-format: 26.6.2
+    dev: false
+
   /@testing-library/jest-dom/4.2.4:
     resolution: {integrity: sha512-j31Bn0rQo12fhCWOUWy9fl7wtqkp7In/YP2p5ZFyRuiiB9Qs3g+hS4gAmDWONbAHcRmVooNJ5eOHQDCOmUFXHg==}
     engines: {node: '>=8', npm: '>=6'}
@@ -4183,6 +4207,10 @@ packages:
 
   /@types/argparse/1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
+    dev: false
+
+  /@types/aria-query/4.2.2:
+    resolution: {integrity: sha512-HnYpAE1Y6kRyKM/XkEuiRQhTHvkzMBurTHnpFLYLBGPIylZNPs9jJcuOOYWxPLJCSEtmZT0Y8rHDokKN7rRTig==}
     dev: false
 
   /@types/babel__core/7.1.16:
@@ -4425,7 +4453,7 @@ packages:
     resolution: {integrity: sha512-mj1aH4cj3XUpMEgVpognma5kHVtbm6U6cHZmEFzCRiXPvKkuHrFr3+yXdGLXvfFRBaQIVshPGHI+hGTOJlhS/g==}
     deprecated: This is a stub types definition. testing-library__dom provides its own type definitions, so you do not need this installed.
     dependencies:
-      '@testing-library/dom': 6.16.0
+      '@testing-library/dom': 7.31.2
     dev: false
 
   /@types/testing-library__react/9.1.3:
@@ -7167,6 +7195,10 @@ packages:
     resolution: {integrity: sha512-PzwHEmsRP3IGY4gv/Ug+rMeaTIyTJvadCb+ujYXYeIylbHJezIyNToe8KfEgHTCEYyC+/bUghYOGg8yMGlZ6vA==}
     dev: false
 
+  /dom-accessibility-api/0.5.10:
+    resolution: {integrity: sha512-Xu9mD0UjrJisTmv7lmVSDMagQcU9R5hwAbxsaAE/35XPnPLJobbuREfV/rraiSaEj/UOvgrzQs66zyTWTlyd+g==}
+    dev: false
+
   /dom-converter/0.2.0:
     resolution: {integrity: sha512-gd3ypIPfOMr9h5jIKq8E3sHOTCjeirnl0WK5ZdS1AW0Odt0b1PaWaHdJ4Qk4klv+YB9aJBS7mESXjFoDQPu6DA==}
     dependencies:
@@ -8529,6 +8561,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
+    dev: false
+
+  /filter-obj/1.1.0:
+    resolution: {integrity: sha1-mzERErxsYSehbgFsbF1/GeCAXFs=}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /finalhandler/1.1.2:
@@ -11385,6 +11422,11 @@ packages:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
     dev: false
 
+  /lz-string/1.4.4:
+    resolution: {integrity: sha1-wNjq82BZ9wV5bh40SBHPTEmNOiY=}
+    hasBin: true
+    dev: false
+
   /magic-string/0.25.7:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
@@ -13369,6 +13411,16 @@ packages:
       strict-uri-encode: 1.1.0
     dev: false
 
+  /query-string/6.14.1:
+    resolution: {integrity: sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==}
+    engines: {node: '>=6'}
+    dependencies:
+      decode-uri-component: 0.2.0
+      filter-obj: 1.1.0
+      split-on-first: 1.1.0
+      strict-uri-encode: 2.0.0
+    dev: false
+
   /querystring-es3/0.2.1:
     resolution: {integrity: sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM=}
     engines: {node: '>=0.4.x'}
@@ -13470,6 +13522,18 @@ packages:
       text-table: 0.2.0
     dev: false
 
+  /react-dom/16.14.0_react@16.14.0:
+    resolution: {integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==}
+    peerDependencies:
+      react: ^16.14.0
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      prop-types: 15.7.2
+      react: 16.14.0
+      scheduler: 0.19.1
+    dev: false
+
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
@@ -13485,6 +13549,13 @@ packages:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
     dev: false
 
+  /react-image-webp/0.7.0:
+    resolution: {integrity: sha512-XV6KZlKcLxDNa0371iVC74JULuZJChdY5hhrnOONITWEEYGpwsX+QaONeCTTFMjQaqv0z32+rjGC0EQSw+O19Q==}
+    dependencies:
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -13493,8 +13564,22 @@ packages:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: false
 
+  /react-map-interaction/2.1.0_react@17.0.2:
+    resolution: {integrity: sha512-bD6Gz2nuf60HF4WAYfBOjsqttrFlTd1u/TrCQSxdl3KITiTpTxr1vvLIr1k+NR2w3Jln+gux+oWDbjnh8Dhv7w==}
+    peerDependencies:
+      prop-types: '>=15.0.0'
+      react: '>=16.3.0'
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /react-refresh/0.8.3:
     resolution: {integrity: sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /react-refresh/0.9.0:
+    resolution: {integrity: sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -13611,6 +13696,15 @@ packages:
       react: 17.0.2
       react-is: 16.13.1
       scheduler: 0.19.1
+    dev: false
+
+  /react/16.14.0:
+    resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      prop-types: 15.7.2
     dev: false
 
   /react/17.0.2:
@@ -14767,6 +14861,11 @@ packages:
       - supports-color
     dev: false
 
+  /split-on-first/1.1.0:
+    resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
+    engines: {node: '>=6'}
+    dev: false
+
   /split-string/3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
     engines: {node: '>=0.10.0'}
@@ -14890,6 +14989,11 @@ packages:
   /strict-uri-encode/1.1.0:
     resolution: {integrity: sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /strict-uri-encode/2.0.0:
+    resolution: {integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=}
+    engines: {node: '>=4'}
     dev: false
 
   /string-argv/0.1.2:
@@ -16126,6 +16230,10 @@ packages:
       minimalistic-assert: 1.0.1
     dev: false
 
+  /web-vitals/0.2.4:
+    resolution: {integrity: sha512-6BjspCO9VriYy12z356nL6JBS0GYeEcA457YyRzD+dD6XYCQ75NKhcOHUMHentOE7OcVCIXXDvOm0jKFfQG2Gg==}
+    dev: false
+
   /webidl-conversions/4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
     dev: false
@@ -17101,6 +17209,54 @@ packages:
       typescript: 4.4.4
     transitivePeerDependencies:
       - webpack
+    dev: false
+
+  file:projects/smart-home.tgz:
+    resolution: {integrity: sha512-lOvQ4a3VdZMwjbLu972OKUl28dS3fZutkq87zAMzDmTOasJAT3KT97H9/KyI/X55BjnloMeogtm+p5oLjE7weg==, tarball: file:projects/smart-home.tgz}
+    name: '@rush-temp/smart-home'
+    version: 0.0.0
+    dependencies:
+      '@speechly/react-client': 0.0.21_react@17.0.2
+      '@testing-library/jest-dom': 4.2.4
+      '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/user-event': 7.2.1
+      '@types/jest': 24.9.1
+      '@types/node': 12.20.36
+      '@types/pubsub-js': 1.8.3
+      '@types/react': 17.0.34
+      '@types/react-dom': 17.0.11
+      '@types/styled-components': 5.1.15
+      pubsub-js: 1.9.3
+      query-string: 6.14.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-image-webp: 0.7.0
+      react-map-interaction: 2.1.0_react@17.0.2
+      react-refresh: 0.9.0
+      react-scripts: 4.0.3_react@17.0.2+typescript@4.4.4
+      react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
+      styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
+      typescript: 4.4.4
+      web-vitals: 0.2.4
+    transitivePeerDependencies:
+      - '@testing-library/dom'
+      - '@types/webpack'
+      - bufferutil
+      - canvas
+      - fibers
+      - node-sass
+      - prop-types
+      - react-is
+      - sass
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - utf-8-validate
+      - webpack-cli
+      - webpack-command
+      - webpack-hot-middleware
+      - webpack-plugin-serve
     dev: false
 
   file:projects/speech-to-text.tgz:
