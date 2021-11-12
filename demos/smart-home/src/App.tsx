@@ -21,7 +21,7 @@ import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 
 import HttpsRedirect from "./components/HttpsRedirect";
-import { SpeechlyUiEvents } from "@speechly/react-ui/types";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 
 const appId = process.env.REACT_APP__SPEECHLY_APP_ID || "738ec39c-3a5c-435f-aa5a-4d815a3e8d87"
 const FORGETTING_TIMEOUT_MS = 12000;
