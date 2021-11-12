@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.26",
+    "@speechly/demo-navigation": "^0.1.27",
     "@speechly/logkit": ">=1.0.0",
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
