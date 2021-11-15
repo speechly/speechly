@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import copy from 'rollup-plugin-copy'
+import copy from 'rollup-plugin-copy-watch'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -116,11 +116,11 @@ export default [
     },
     plugins: [
       copy({
+        watch: !production && [
+          'src/assets/*'
+        ],
         targets: [
           { src: 'src/assets/*', dest: 'core' },
-          { src: 'README.md', dest: 'lib' },
-          { src: 'LICENCE', dest: 'lib' },
-          { src: 'package.json', dest: 'lib' },
         ]
       })
     ]

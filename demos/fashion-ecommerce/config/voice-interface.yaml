@@ -1,0 +1,122 @@
+adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/fashion-demo-rnnt-adaptation-corpus-first-pass-5h47min.tar'
+asr_biasing: moderate
+imports:
+  - name: brand_alias
+    source: brand.csv
+    field: 1
+  - name: brand_key
+    source: brand.csv
+    field: 2
+  - name: category_alias
+    source: category.csv
+    field: 1
+  - name: category_key
+    source: category.csv
+    field: 2
+  - name: color_alias
+    source: colors.csv
+    field: 1
+  - name: color_key
+    source: colors.csv
+    field: 2
+  - name: sex_alias
+    source: sex.csv
+    field: 1
+  - name: sex_key
+    source: sex.csv
+    field: 2
+  - name: sizes_alias
+    source: sizes.csv
+    field: 1
+  - name: sizes_key
+    source: sizes.csv
+    field: 2
+  - name: sort_alias
+    source: sort.csv
+    field: 1
+  - name: sort_key
+    source: sort.csv
+    field: 2
+entities:
+  - name: brand
+    type: lookup
+    input_items: $brand_alias
+    output_items: $brand_key
+  - name: category
+    type: lookup
+    input_items: $category_alias
+    output_items: $category_key
+  - name: colors
+    type: lookup
+    input_items: $color_alias
+    output_items: $color_key
+  - name: sex
+    type: lookup
+    input_items: $sex_alias
+    output_items: $sex_key
+  - name: sizes
+    type: lookup
+    input_items: $sizes_alias
+    output_items: $sizes_key
+  - name: sort
+    type: lookup
+    input_items: $sort_alias
+    output_items: $sort_key
+templates: |-
+  color = $color_alias(colors)
+  brand = $brand_alias(brand) 
+  category = $category_alias(category)
+  sex = $sex_alias(sex)
+  size = $sizes_alias(sizes)
+  sort = $sort_alias(sort)
+  carrier_phrases = {0.1: now} [let's say|i'm interested in|i'm looking for|{[can you|will you]} show me|select|search {for}|display|filter by|find {me}|give me| [i want to | i'd like to | can i] [see|view|browse] | i want {to buy} | i need {to buy}]
+
+  filter_first_part = ![{0.33: $color {[2: color | 1: colored]}} | {0.2: $sort} | {0.33: $sex} | {0.33: $brand} | {0.33: {size} $size}]
+  filter_second_part = ![{0.33: in $color} | {0.33: for $sex} | {0.33: [{made} by | from] $brand} | {0.33: [{that [are | is]} $sort | [{{and} can you} sort {it} | sorted] by $sort | {and} show {me} the {most} $sort {ones} first]} | {0.33: {[of | in]} size $size}]
+
+  clear_utterances = [
+    clear {all}
+    clear {all} [filters|fields|search]
+    reset {[my|the] search}
+    restart
+    start a new search
+    new search
+    cancel {{the} search}
+    {go} back
+    remove {{all} filters}
+    claire
+    delete
+    [go|bring me] back {to} [home|the homepage]
+    ![{please} | clear [my|the] search]
+  ]
+
+  hello_intents = [
+    *hello [hello|hi|hey] {speechly}
+  ]
+
+  multisegment_intents = [
+    5: *clear {0.1: now} $clear_utterances *filter {and} {$carrier_phrases {[a | some |new]}} {$filter_first_part} [0.9: $category | 0.1: [clothes | products | items]] $filter_second_part
+    10: *filter {$carrier_phrases {[a | some |new]}} {$filter_first_part} [0.9: $category | 0.1: [clothes | products | items]] $filter_second_part *clear $clear_utterances
+    5: *clear {0.1: now} $clear_utterances *filter {$carrier_phrases} {[a | some |new]} $color $brand $category
+    8: *filter {$carrier_phrases} {[a | some |new]} {$color} $brand $category *clear $clear_utterances
+    8: *filter {$carrier_phrases} {[a | some |new]} {$color} $brand $category *clear $clear_utterances *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand | $category | {for} $sex| {in} ![{size} | $size]]
+    7: *filter {$carrier_phrases} {[a | some |new]} $category {{[from|by]} $brand} *clear $clear_utterances
+    1: *hello [hello|hi|hey] {speechly} *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand | $category]
+  ]
+
+  filter_intents = [
+    5: *filter {$carrier_phrases} $color {color} $category {please}
+    3: *filter {$carrier_phrases} $brand $category {please}
+    3: *filter {$carrier_phrases} $sex {designer} $category {please}
+    6: *filter {$carrier_phrases {[a | some |new]}} {$filter_first_part} [0.9: $category | 0.1: [clothes | products | items]] $filter_second_part
+    1: *filter $filter_second_part please
+    4: *filter {$carrier_phrases} {[a | some |new]} ![{in} $color {color}| {[from|by]} $brand | $category | {for} $sex | {in} ![{size} | $size]]
+    2: *filter [{for} $sex | {color} $color {ones} | $brand | $category | {size} $size]
+  ]
+
+  all_intents = [
+    15: $filter_intents
+    1: $hello_intents
+    16: $multisegment_intents
+  ]
+  $all_intents

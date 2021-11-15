@@ -1,0 +1,1559 @@
+isActive	count	depth	tag	key	displayName	alias.[0]	alias.[1]	alias.[2]	alias.[3]	alias.[4]	alias.[5]	alias.[6]	alias.[7]
+x	10071	0	sex	child	Kids' clothing	kids	children’s	kids’	child	children	toddler	kits	toddlers
+x	26827	0	sex	female	Women's clothing	women	women’s	ladies	girls	woman’s	woman	female	female’s
+x	20240	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys
+x	4322	0	sex	unisex	Unisex clothing	unisex	gender neutral	gender fluid
+x	2284	0	colors	beige	Beige	beige	light brown	khaki	sand	fawn	cocky
+x	18444	4	colors	black	Black	black	dark	pitch black
+x	10148	8	colors	blue	Blue	blue	navy	indigo	midnight blue	navy blue
+x	1801	7	colors	brown	Brown	brown	chestnut	terra-cotta	sepia
+x	927	1	colors	gold	Gold	gold	golden	amber
+x	5972	1	colors	gray	Gray	gray	grey	ash	smokey
+x	3378	10	colors	green	Green	green
+x	1134	3	colors	multicolored	Multicolored	multicolored	polychrome	colorful	multicolor	multi color	multi colored	rainbow	bright colors
+x	375	1	colors	olive	Olive	olive
+x	1400	2	colors	orange	Orange	orange
+x	29	1	colors	petrol	Petrol	petrol
+x	4115	5	colors	pink	Pink	pink	light red	pinkish
+x	3157	6	colors	red	Red	red	burgundy	scarlet
+x	601	1	colors	silver	Silver	silver	shiny	metallic
+x	448	3	colors	turquoise	Turquoise	turquoise	cyan	aquamarine	aqua
+x	1202	11	colors	violet	Violet	violet	purple	lavender	lilac	plum	mauve
+x	8420	9	colors	white	White	white	light	ivory	snow	off-white	cream	creamy	why
+x	1626	2	colors	yellow	Yellow	yellow	mustard	honey
+x	732	0	category	Accessories	Accessories	Accessories
+x	33	1	category	Kick suits	Baby coveralls	Baby coveralls	Baby rompers	Baby one piece	Baby footie	Baby footies	baby clothes	babies	baby
+x	330	1	category	Reput	Backpacks	Backpacks	Rucksacks	Backpack	Rucksack	Schoolbag	Schoolbags	Back pack	Back packs
+x	873	0	category	Bags	Bags	Bags	Bag
+x	614	1	category	Underlays	Base layers	Base layers	Underlays
+x	1	1	category	Bathrobes	Bathrobes	Bathrobes	Bathrobe
+x	2	1	category	Beach dresses	Beach dresses	Beach dresses	Beach dress
+x	4	1	category	Beachwear	Beachwear	Beachwear	beach
+x	549	0	category	Pipot	Beanies	Beanies	Beanie
+x	68	1	category	Belt bags	Belt bags	Belt bags	Belt bag	Fanny pack	Fanny packs	Bum bags	Bum bag	waist pack	waist packs
+x	18	0	category	Belts	Belts	Belts	Belt	Leather belts	Leather belt
+x	2	1	category	Bicycle bags	Bicycle bags	Bicycle bags	Bicycle bag
+x	23	1	category	Biker jackets	Biker jackets	Biker jackets	Biker jacket
+x	1393	1	category	Bikini	Bikini	Bikini	Bikinis
+x	37	1	category	Blazers	Blazers	Blazers	Blazer
+x	551	1	category	Blouses	Blouses	Blouses	Blouse
+x	87	1	category	Bodyt	Bodys	Bodys	Body	bodies
+x	416	1	category	Boots	Boots	Boots	Boot
+x	8	1	category	Bracelets	Bracelets	Bracelets	Bracelet
+x	962	1	category	Bra	Bras	Bras	Bra
+x	25	1	category	Caftans	Caftans	Caftans	Caftan
+x	199	1	category	Caps	Caps	Caps	Cap
+x	49	1	category	Cardigans	Cardigans	Cardigans	Cardigan
+x	153	1	category	Thigh pocket trousers	Cargo pants	Cargo pants
+x	29	1	category	Cargoshortsit	Cargo shorts	Cargo shorts
+x	737	1	category	Casual dresses	Casual dresses	Casual dresses	Casual dress
+x	20	1	category	Casual pants	Casual pants	Casual pants
+x	232	1	category	Casual shirts	Casual shirts	Casual shirts	Casual shirt
+x	429	1	category	Chino shorts	Chino shorts	Chino shorts
+x	251	1	category	Chinot	Chinos	Chinos	Khakis	ginos	she knows
+x	6	2	category	Climbing shoes	Climbing shoes	Climbing shoes	mountaineering shoes	mountaineering shoe
+x	156	1	category	Cloth pants	Cloth pants	Cloth pants	Cotton pants	Linen pants	cotton trousers
+x	33	1	category	Coats	Coats	Coats	Coat
+x	3	2	category	Compression shirts	Compression shirts	Compression shirts	Compression shirt
+x	5	2	category	Court shoes	Court shoes	Court shoes
+x	196	3	category	Cross-country running shoes	Cross-country running shoes	Cross-country running shoes	Trail running shoes	Trail running trainers	Cross-country running trainers	Off-road running shoes	Off-road running trainers
+x	6	2	category	Cycling backpacks	Cycling backpacks	Cycling backpacks	Cycling backpack
+x	52	1	category	Cycling clothing	Cycling clothing	Cycling clothing	Cycling clothes	Cycling wear	Cycling
+x	40	2	category	Cycling shoes	Cycling shoes	Cycling shoes
+x	10	2	category	Daypacks	Daypacks	Daypacks
+x	1010	0	category	Jeans	Denim	Denim	Jeans	Chains	James	Genes	denim jeans
+x	388	1	category	Denim dresses	Denim dresses	Denim dresses	Denim dress
+x	69	1	category	Denim jackets	Denim jackets	Denim jackets	Denim jacket
+x	145	1	category	Denim shorts	Denim shorts	Denim shorts	short jeans
+x	37	1	category	Denim skirts	Denim skirts	Denim skirts	Denim skirt
+x	304	2	category	Down jackets	Down jackets	Down jackets	Down jacket	Down coat	Down coats
+x	3119	0	category	Dresses	Dresses	Dresses	Dress	Frock	Frocks
+x	22	1	category	Earrings	Earrings	Earrings	Earring
+x	182	2	category	Fitness shoes	Fitness shoes	Fitness shoes
+x	73	1	category	Fleece	Fleece	Fleece
+x	463	0	category	Gloves	Gloves	Gloves
+x	46	0	category	Hair accessories	Hair accessories	Hair accessories
+x	65	1	category	Handbags	Handbags	Handbags	Handbag	Purse	Purses
+x	223	0	category	Millinery	Hats	Hats	Hat	beret	berets
+x	4	0	category	Headphones	Headphones	Headphones
+x	9	1	category	Hiking clothing	Hiking clothing	Hiking clothing	Hiking clothes	Trekking clothes
+x	1725	1	category	Hoodies	Hoodies	Hoodies	Hoodie
+x	3483	0	category	Jackets	Jackets	Jackets	Jacket	check it
+x	994	0	category	Jewelry	Jewelry	Jewelry
+x	245	1	category	Jumpsuits overalls	Jumpsuits	Jumpsuits	Jumpsuit
+x	1	1	category	Keychains	Keychains	Keychains	Keychain
+x	28	1	category	Knit sweaters	Knit sweaters	Knit sweaters	Knit sweater	Knitted sweaters	Knitted sweater
+x	34	1	category	Knitted skirts	Knitted skirts	Knitted skirts	Knitted skirt
+x	389	0	category	Knitwear	Knitwear	Knitwear
+x	39	1	category	Lace dresses	Lace dresses	Lace dresses	Lace dress
+x	184	1	category	Lace-up shoes	Lace-up shoes	Lace-up shoes	shoes with laces	shoelaces	leather shoes
+x	4	1	category	Leather jackets	Leather jackets	Leather jackets	Leather jacket
+x	6	0	category	Leg warmers	Leg warmers	Leg warmers
+x	138	1	category	Leggings	Leggings	Leggings
+x	16	1	category	Living clothes	Leisurewear	Leisurewear	Leisure clothes	Leisure clothing
+x	11	1	category	Long skirts	Long skirts	Long skirts	Long skirt
+x	3	1	category	Long sleeve dresses	Long sleeve dresses	Long sleeve dresses	Long sleeve dress	Dress with long sleeves	Dresses with long sleeves
+x	402	1	category	Long sleeve shirts	Long sleeve shirts	Long sleeve shirts	Long sleeve shirt	Shirt with long sleeves	Shirts with long sleeves	Long sleeves
+x	132	1	category	Long sleeve t-shirts	Long sleeve t-shirts	Long sleeve t-shirts	Long sleeve t-shirt	T-shirt with long sleeves	T-shirts with long sleeves
+x	36	1	category	Loose fit jeans	Loose fit jeans	Loose fit jeans
+x	41	1	category	Makeup bags	Makeup bags	Makeup bags	Makeup bag
+x	134	0	category	Maternity clothes	Maternity clothes	Maternity clothes	Maternity clothing	Maternity wear	Pregnancy clothing
+x	53	1	category	Maternity jeans	Maternity jeans	Maternity jeans
+x	78	1	category	Maternity shirts	Maternity shirts	Maternity shirts	Maternity shirt
+x	232	1	category	Maximekot	Maxi dresses	Maxi dresses	Maxi dress	Long dress	Long dresses
+x	493	1	category	Midimekot	Midi dresses	Midi dresses	Midi dress
+x	122	1	category	Midi-skirt	Midi skirts	Midi skirts	Midi skirt
+x	47	1	category	Minidresses	Mini dresses	Mini dresses	Mini dress	Short dress	Short dresses
+x	227	1	category	Miniskirts	Mini skirts	Mini skirts	Mini skirt
+x	1	1	category	Mittens	Mittens	Mittens
+x	16	1	category	Necklaces	Necklaces	Necklaces	Necklace
+x	77	1	category	Outdoor clothing	Outdoor clothing	Outdoor clothing	Outdoor clothes
+x	20	1	category	Outdoor jackets	Outdoor jackets	Outdoor jackets	Outdoor jacket
+x	8	1	category	Outdoor trousers	Outdoor trousers	Outdoor trousers	Outdoor pants
+x	120	1	category	Outerwear	Outerwear	Outerwear
+x	567	0	category	Overalls	Overalls	Overalls
+x	66	1	category	Pajamas	Pajamas	Pajamas	Pajama
+x	2681	0	category	Pants	Pants	Pants	Trousers
+x	283	1	category	Parkasakit	Parkas	Parkas	Anoraks	Parka jackets	Parka	Anorak	Parka jacket
+x	68	1	category	Party dresses	Party dresses	Party dresses	Party dress	Evening dress	Evening gown	Dress for evening	Evening gowns	Dresses for evening	Evening dresses
+x	73	1	category	Pilot jackets	Pilot jackets	Pilot jackets	Pilot jacket
+x	160	1	category	Playsuits overalls	Playsuits	Playsuits	Playsuit
+x	348	1	category	Pique shirts	Polo shirts	Polo shirts	Pique shirts	Tennis shirt	Polo shirt	Pique shirt	Tennis shirts
+x	913	1	category	Printed t-shirts	Printed t-shirts	Printed t-shirts	Printed t-shirt
+x	28	1	category	Rain pants	Rain pants	Rain pants	Waterproof pants	Water proof pants
+x	264	1	category	Raincoats	Raincoats	Raincoats	Raincoat	Rain jacket	Rain jackets	waterproof jacket	waterproof jackets	sailing jackets	sailing jacket
+x	76	0	category	Rainwear	Rainwear	Rainwear	Waterproof clothing	sailing clothes	Water proof clothing
+x	212	2	category	Rubber boots	Rubber boots	Rubber boots	Wellingtons	Rubber boot	Wellies	Wellington boots	Wellington boot	Gumboots	Gumboot
+x	153	1	category	Running clothes	Running clothes	Running clothes
+x	1094	2	category	Running shoes	Running shoes	Running shoes	Runners	Jogging shoes	Running shoe	Running trainers	Running sneakers
+x	1017	1	category	Sandals	Sandals	Sandals	Flip flops
+x	110	0	category	Scarves	Scarves	Scarves	Scarf
+x	103	1	category	Shell jackets	Shell jackets	Shell jackets	Shell jacket
+x	38	1	category	Shell pants	Shell pants	Shell pants
+x	26	1	category	Shirt dresses	Shirt dresses	Shirt dresses	Shirt dress
+x	260	1	category	Collared shirts	Shirts	Shirts	Shirt
+x	9684	0	category	Shoes	Shoes	Shoes	Footwear	Shoe	Choose	Kicks	Shows
+x	3	1	category	Short tops	Short tops	Short tops	Short top
+x	24	1	category	Short sleeve shirts	Short-sleeved shirts	Short-sleeved shirts	Short-sleeved shirt	Short sleeve shirt	Short sleeve shirts	Shirt with short sleeves	short sleeves
+x	545	1	category	Short-sleeved t-shirts	Short-sleeved t-shirts	Short-sleeved t-shirts	Short-sleeved t-shirt	Short sleeve t-shirts	Short sleeve t-shirt	T-shirt with short sleeves
+x	2448	0	category	Shorts	Shorts	Shorts
+x	112	1	category	Shoulder bags	Shoulder bags	Shoulder bags	Shoulder bag
+x	4	1	category	Ski clothing	Ski clothing	Ski clothing	Ski clothes	Ski wear
+x	585	1	category	Whistle jeans	Skinny jeans	Skinny jeans
+x	978	0	category	Skirts	Skirts	Skirts	Skirt
+x	114	0	category	Sleepwear	Sleepwear	Sleepwear	Sleeping clothes	Nightwear	Sleep clothes	Nightclothes	Nightgown	Nightie
+x	2	1	category	Sleeveless dresses	Sleeveless dresses	Sleeveless dresses	Sleeveless dress	Dress without sleeves
+x	300	1	category	Sleeveless tops	Sleeveless tops	Sleeveless tops	Sleeveless top	Top without sleeves
+x	3	0	category	Slippers	Slippers	Slippers
+x	9	1	category	Small bags	Small bags	Small bags	Small bag
+x	2950	1	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	basketball shoes	golf shoes
+x	1305	1	category	Snowboard clothing	Snowboard clothing	Snowboard clothing	Snowboard clothes	Snowboarding clothes
+x	135	1	category	Socks	Socks	Socks	Sock	Sox
+x	95	1	category	Softshell jackets	Softshell jackets	Softshell jackets	Softshell jacket
+x	29	1	category	Sports bags	Sports bags	Sports bags	Sports bag	Gym bag	Fitness bag	Gym bags	Fitness bags
+x	521	1	category	Sports glasses	Sports glasses	Sports glasses
+x	302	1	category	Sports gloves	Sports gloves	Sports gloves
+x	845	1	category	Sports jackets	Sports jackets	Sports jackets	Sports jacket	Sports coat	Sports coats
+x	1777	1	category	Sports pants	Sports pants	Sports pants
+x	3382	1	category	Sports shirts	Sports shirts	Sports shirts	Sports shirt	Training shirt	Training shirts
+x	2401	1	category	Sports shoes	Sports shoes	Sports shoes	Sports shoe
+x	278	1	category	Sports shorts	Sports shorts	Sports shorts	Biking pants	Biking shorts	Training shorts	Bicycle pants	Bicycle shorts
+x	82	1	category	Sports tops	Sports tops	Sports tops	Sports top
+x	24	1	category	Sports underwear	Sports underwear	Sports underwear	Sports undergarments
+x	7846	0	category	Sportswear	Sportswear	Sportswear	Sports clothes	Sports clothing	Active wear	Activity wear	Sport
+x	419	1	category	Spring jackets	Spring jackets	Spring jackets	Spring jacket	Spring coats	Spring coat	Coat for spring	Coats for spring	Jacket for spring	Jackets for spring
+x	3	2	category	Stringit	Strings	Strings	Thongs	Thong
+x	166	1	category	Costume jackets	Suit jacket	Suit jacket	Lounge jacket	Lounge coat	Suit coat
+x	5	1	category	Costume shoes	Suit shoes	Suit shoes	Dress shoes
+x	112	1	category	Suit trousers	Suit trousers	Suit trousers	Suit pants
+x	5	1	category	Suit vests	Suit vests	Suit vests	Suit vest
+x	26	1	category	Suitcases	Suitcases	Suitcases	Suitcase
+x	286	0	category	Suits	Suits	Suits	Suit
+x	2	1	category	Summer dresses	Summer dresses	Summer dresses	Summer dress	Dress for summer
+x	4099	0	category	Sunglasses	Sunglasses	Sunglasses
+	19	1	category	College pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants
+x	680	1	category	College shirts	Sweat shirts	Sweatshirts	Sweatshirt	Sweat shirt
+x	137	1	category	Sweaters	Sweaters	Sweaters	Jumpers	Jumper	Sweater	Pullover	Pullovers
+x	596	1	category	Swimming shorts	Swimming shorts	Swimming shorts
+x	154	1	category	Swimming trunks	Swimming trunks	Swimming trunks
+x	111	1	category	Swimsuits	Swimsuits	Swimsuits	Swimsuit	Bathing suit	Bathing suits
+x	3037	0	category	Swimwear	Swimwear	Swimwear
+x	4151	0	category	T-shirts	T-shirts	T-shirts	T-shirt
+x	274	2	category	Tennis shoes	Tennis shoes	Tennis shoes	Tennis shoe
+x	1303	0	category	Tops	Tops	Tops	Top
+x	17	1	category	Tracksuits	Tracksuits	Tracksuits	Tracksuit
+x	8	1	category	Travel bags	Travel bags	Travel bags	Travel bag
+x	42	1	category	Tunics	Tunics	Tunics	Tunic
+x	407	1	category	Underpants	Underpants	Underpants	Panties	Pantie	Knickers	Nickers
+x	48	1	category	Undershirts	Undershirts	Undershirts
+x	3580	0	category	Underwear	Underwear	Underwear	Undies	Lingerie	Boxers	Boxer shorts	briefs	undergarments
+x	113	1	category	Vest	Vest	Vests	Vest
+x	52	1	category	Walking shoes	Walking shoes	Walking shoes
+x	36	1	category	Wallets	Wallets	Wallets	Wallet
+x	1958	0	category	Watches	Watches	Watches	Watch
+x	53	1	category	Weekend bags	Weekend bags	Weekend bags	Weekend bag
+x	187	1	category	Surf shirts and wetsuits	Wetsuits	Wetsuits	Wetsuit
+x	35	1	category	Wide leg jeans	Wide leg jeans	Wide leg jeans
+x	182	1	category	Windbreakers	Windbreakers	Windbreakers	Wind stopper	Windbreaker	Windbreaker jacket	Windbreaker jackets	Wind proof jackets	Windproof jackets	Wind jacket
+x	978	1	category	Winter jackets	Winter jackets	Winter jackets	Winter jacket	Winter coat	Winter coats	Jacket for winter	Warm jacket	Winter clothing	Coats for winter
+x	725	1	category	Winter shoes	Winter shoes	Winter shoes	Shoes for winter
+x	102	1	category	Wrap dresses	Wrap dresses	Wrap dresses	Wrap dress
+x	5	1	category	Wrapping skirts	Wrapping skirts	Wrapping skirts	Wrapping skirt	Wrap skirt	Wrap skirts
+	1	2	category	5 panel caps	5 panel caps	5 panel caps	5 panel cap
+	79	1	category	A-line dresses	A-line dresses	A line dresses	A line dress
+	1	1	category	A-line skirts	A-line skirts	A line skirts	A line skirt
+	48	2	category	Ankle boots	Ankle boots	Ankle boots
+x	480	1	category	Ankle boots and booties	Ankle boots and booties	Ankle boots and booties	Ankle boots	Booties	Heeled ankle boots	Heeled boots	Ankle booties	Boots with heels	High heel boots
+	13	2	category	Archless bra	Archless bra	Archless bra	Archless bras	Wireless bra	Wireless bras	Bralette	Bralettes
+	212	2	category	Backpacks	Backpacks	Backpacks	Backpack
+	16	2	category	Badminton shoes	Badminton shoes	Badminton shoes
+	3	2	category	Balconette vests	Balconette vests	Balconette vests	Balconette vest
+	6	1	category	Ballerinas	Ballerinas	Ballerinas	Ballet flats
+	71	1	category	Bandanat	Bandanas	Bandanas	Bandana
+	758	1	category	Basic t-shirts	Basic t-shirts	Basic t-shirts	Basic t-shirt
+x	250	2	category	Bikini pants	Bikini pants	Bikini pants	Bikini bottom	Bikini bottoms
+x	370	2	category	Bikini tops	Bikini tops	Bikini tops	Bikini top
+	0	0	category	Bolerot	Boleros	Boleros	Bolero
+x	376	1	category	Bomber jackets	Bomber jackets	Bomber jackets	Bomber jacket
+	152	2	category	Bootsit	Boots	Boots
+	143	2	category	Boxer shorts	Boxer shorts	Boxer shorts
+	6	1	category	Boyfriend jeans	Boyfriend jeans	Boyfriend jeans
+	1	1	category	Breastfeeding vests	Breastfeeding vests	Breastfeeding vests	Breastfeeding vest
+x	18	2	category	Business	Business	Business	Work	Professional
+	3	1	category	Capri pants	Capri pants	Capri pants
+	36	2	category	Classic Ankle Boots	Classic Ankle Boots	Classic Ankle Boots
+	32	2	category	Clogs	Clogs	Clogs	Clog shoes
+	348	0	category	Clothing	Clothing	Clothing	Clothes
+	0	0	category	Takit	Coats	Coats	Coat
+	2621	0	category	College	College	College
+	91	1	category	College jacket	College jackets	College jackets	College jacket
+	0	0	category	Collegetakit	College jackets	College jackets	College jacket
+	1	1	category	Computer bags	Computer bags	Computer bags	Computer bag
+	5	1	category	Corsets	Corsets	Corsets	Corset
+	9	0	category	Costumes	Costumes	Costumes	Costume
+	0	0	category	Cufflinks and tie clips	Cufflinks and tie clips	Cufflinks and tie clips	Cufflinks	tie clips	tie clip
+	21	2	category	Cuttings	Cuttings	Cuttings
+	11	2	category	Drinking backpacks	Drinking backpacks	Drinking backpacks	Drinking backpack
+	204	0	category	Espadrilles	Espadrilles	Espadrilles
+	38	1	category	Fan products	Fan products	Fan products
+	0	0	category	Flannel shirts	Flannel shirts	Flannel shirts	Flannel shirt
+	8	1	category	Flared trousers	Flared trousers	Flared trousers
+	29	2	category	Fleece blouses	Fleece blouses	Fleece blouses	Fleece blouse
+	1	2	category	Fleece jackets	Fleece jackets	Fleece jackets	Fleece jacket
+	157	2	category	Free time	Free time	Free time
+	37	2	category	Goalkeeper gloves	Goalkeeper gloves	Goalkeeper gloves
+	35	1	category	Hair ornaments	Hair ornaments	Hair ornaments	Hair ornament
+	3	2	category	Hall shoes	Hall shoes	Hall shoes
+	93	2	category	Handball shoes	Handball shoes	Handball shoes
+x	147	1	category	High heels	High heels	High heels	Heels	High heel shoes	Shoes with high heels	Shoes with heels	pumps
+	39	2	category	Hiking backpacks	Hiking backpacks	Hiking backpacks	Hiking backpack
+	9	2	category	Hiking pants and shorts	Hiking pants and shorts	Hiking pants and shorts
+x	248	2	category	Hiking shoes	Hiking shoes	Hiking shoes	Hiking shoe
+	12	2	category	Hipster panties	Hipster panties	Hipster panties
+	43	2	category	Indoor shoes	Indoor shoes	Indoor shoes
+	25	1	category	Jeans shirts	Jeans shirts	Jeans shirts	Jeans shirt	Denim shirts	Denim shirt
+	1	2	category	Jerseys	Jerseys	Jerseys	Jersey
+	2	2	category	Lace panties	Lace panties	Lace panties	Lace underpants
+	248	2	category	Laced ankle boots	Laced ankle boots	Laced ankle boots
+	1	0	category	Large sizes	Large sizes	Large sizes	Large size
+	0	0	category	Lightweight jackets	Lightweight jackets	Lightweight jackets	Lightweight jacket
+	38	2	category	Loaferit	Loaferit	Loaferit	Loafers
+	1	1	category	Long jackets	Long jackets	Long jackets	Long jacket	Long coat	Long coats
+	10	2	category	Long johns	Long johns	Long johns	Long underwear
+	1	1	category	Maternity bra	Maternity bra	Maternity bra	Maternity bras
+	17	1	category	Merino wool underwear	Merino wool underwear	Merino wool underwear	Merino wool
+	656	3	category	Neutral running shoes	Neutral running shoes	Neutral running shoes
+	1	1	category	Pencil skirts	Pencil skirts	Pencil skirts	Pencil skirt
+x	7	1	category	Polo shirts	Turtlenecks	Turtlenecks
+	1	1	category	Ponchot	Ponchot	Ponchot	Poncho	Ponchos
+	1	2	category	Pumps	Pumps	Pumps
+	13	2	category	Push-up bra	Push-up bra	Push-up bra	Push-up bras
+	274	2	category	Quilted jackets	Quilted jackets	Quilted jackets	Quilted jacket
+	7	2	category	Quilted vest	Quilted vest	Quilted vest	Quilted vests
+	0	0	category	Regular fit jeans	Regular fit jeans	Regular fit jeans
+	1	1	category	Rings	Rings	Rings	Ring
+	1	1	category	Ripped jeans	Ripped jeans	Ripped jeans
+	13	2	category	Running backpacks	Running backpacks	Running backpacks	Running backpack
+	28	2	category	Running jackets	Running jackets	Running jackets	Running jacket
+x	24	2	category	Running pants and leotards	Running pants and leotards	Running pants and leotards	Running pants	Running bottoms	jogging pants	jogging bottoms
+	44	2	category	Running shirts	Running shirts	Running shirts	Running shirt
+	14	2	category	Running shorts	Running shorts	Running shorts
+	3	3	category	Running socks	Running socks	Running socks
+	20	2	category	Sailing shoes	Sailing shoes	Sailing shoes
+	4	1	category	Shapewear	Shapewear	Shapewear
+	7	1	category	Shirt blouses	Shirt blouses	Shirt blouses	Shirt blouse
+	3234	0	category	Shirts and blouses	Shirts and blouses	Shirts and blouses
+	41	0	category	Shoe accessories	Shoe accessories	Shoe accessories
+	7	1	category	Shopping bags	Shopping bags	Shopping bags	Shopping bag
+	30	2	category	Short-sleeved polo shirts	Short-sleeved polo shirts	Short-sleeved polo shirts	Short-sleeved polo shirt
+	74	2	category	Ski gloves	Ski gloves	Ski gloves
+	487	2	category	Ski goggles	Ski goggles	Ski goggles
+x	722	2	category	Ski jackets	Ski jackets	Ski jackets	Ski jacket	Skiing jacket	Skiing jackets
+	4	2	category	Ski pants	Ski pants	Ski pants
+	0	0	category	Sleeveless t-shirts	Sleeveless t-shirts	Sleeveless t-shirts	Sleeveless t-shirt
+	39	2	category	Snapback Caps	Snapback Caps	Snapback Caps
+	540	2	category	Snowboard pants	Snowboard pants	Snowboard pants
+x	278	2	category	Soccer shoes	Soccer shoes	Soccer shoes	Football shoes	Soccer cleats	Football shoe	Football boots
+	23	3	category	Soccer shoes for the grass	Soccer shoes for the grass	Soccer shoes for the grass
+	2	3	category	Soccer shoes on the sand	Soccer shoes on the sand	Soccer shoes on the sand	Gravel soccer shoes
+	33	0	category	Sports backpacks and bags	Sports backpacks and bags	Sports backpacks and bags
+	1	2	category	Sports sandals	Sports sandals	Sports sandals
+	5	1	category	Sports skirts and dresses	Sports skirts and dresses	Sports skirts and dresses	Sports skirts	Sports dresses
+	11	2	category	Sports socks	Sports socks	Sports socks
+	4	2	category	Sports undershirts	Sports undershirts	Sports undershirts	Sports undershirt
+	796	2	category	Sports vests	Sports vests	Sports vests	Sports vest
+	4	1	category	Straight leg jeans	Straight leg jeans	Straight leg jeans
+	10	2	category	Strapless bra	Strapless bra	Strapless bra	Strapless bras
+	0	0	category	Striped t-shirts	Striped t-shirts	Striped t-shirts	Striped t-shirt
+	2	2	category	Support stockings	Support stockings	Support stockings
+	4	0	category	Suspenders	Suspenders	Suspenders
+x	391	2	category	Sweat pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants	College pants
+	2	2	category	Swimming shoes	Swimming shoes	Swimming shoes
+	0	0	category	Tankinit	Tankinis	Tankinis
+	5	1	category	Tankinis	Tankinis	Tankinis
+	11	2	category	Technical panties	Technical panties	Technical panties
+	1	1	category	Ties and accessories	Ties and accessories	Ties and accessories
+	1	2	category	Ties and bows	Ties and bows	Ties and bows	Tie	Ties	Bow	Bows
+	80	2	category	Toe sandals	Toe sandals	Toe sandals	Flip flops
+	6	1	category	Toiletry bags	Toiletry bags	Toiletry bags	Toiletry bag	Beauty bags	Beauty bag
+	8	1	category	Track jackets	Track jackets	Track jackets	Track jacket
+	3257	2	category	Training shirts	Training shirts	Training shirts	Training shirt
+	1368	2	category	Tricot pants	Tricot pants	Tricot pants
+	0	0	category	Tunic dress	Tunic dress	Tunic dress	Tunic dresses
+	1	0	category	Umbrellas	Umbrellas	Umbrellas	Umbrella	Brolly	Brollies
+	3	1	category	V-neck t-shirts	V-neck t-shirts	V-neck t-shirts	V-neck t-shirt
+	1	1	category	Waist belts	Waist belts	Waist belts	Waist belt
+	2	2	category	Wedge heels	Wedge heels	Wedge heels
+	13	2	category	Winter ankle boots	Winter ankle boots	Winter ankle boots
+x	230	2	category	Winter boots	Winter boots	Winter boots	Boots for winter
+	4	2	category	Wool socks	Wool socks	Wool socks	Woolen socks
+	0	0	category	Woolen jackets	Woolen jackets	Woolen jackets	Woolen jacket
+	0	0	category	You are referring	You are referring	You are referring
+	251	2	category	Zip hoodies	Zip hoodies	Zip hoodies	Zip hoodie
+x	2160	0	brand	1289	adidas	adidas
+x	60	0	brand	831	Arena	Arena
+x	602	0	brand	694	ASICS	ASICS	essex	a six
+x	143	0	brand	20804	Better Bodies	Better Bodies
+x	148	0	brand	121	Billabong	Billabong
+x	675	0	brand	112	Björn Borg	Bjorn Borg
+	625	0	brand	18188	BLACC	BLACC
+x	194	0	brand	1323	Burton	Burton
+x	334	0	brand	974	Calvin Klein	Calvin Klein
+x	194	0	brand	4515	Casio	Casio
+x	388	0	brand	1142	Champion	Champion
+x	110	0	brand	9382	CITIZEN	CITIZEN
+x	27	0	brand	1123	Columbia	Columbia
+x	227	0	brand	348	Converse	Converse	Converses
+x	118	0	brand	707	Crocs	Crocs
+x	116	0	brand	3641	DC	D C	DC
+x	190	0	brand	383	Dickies	Dickies
+x	37	0	brand	18729	Diesel	Diesel
+x	114	0	brand	18731	DKNY	D K N Y	Donna Karan	DKNY
+x	119	0	brand	1878	EMPORIO ARMANI	EMPORIO ARMANI	Armani
+x	330	0	brand	842	Fila	Fila	feel	fear
+x	40	0	brand	3029	FRED PERRY	FRED PERRY
+x	37	0	brand	262	Gant	Gant
+x	76	0	brand	18225	Garmin	Garmin
+x	127	0	brand	360	Guess	Guess
+x	10836	0	brand	23014	H&M	H and M	H et M	H M	HM
+x	219	0	brand	1476	Helly Hansen	Helly Hansen
+x	64	0	brand	3973	Hugo Boss	Hugo Boss	Boss	Hugo
+x	480	0	brand	273	Jack & Jones	Jack & Jones	Jack and Jones
+x	66	0	brand	339	Jack Wolfskin	Jack Wolfskin
+x	326	0	brand	88	Lacoste	Lacoste
+x	48	0	brand	441	Levi's®	Levis	Levi's	Levi
+x	73	0	brand	18972	Michael Kors	Michael Kors
+x	157	0	brand	96	Molo	Molo
+x	196	0	brand	281	New Balance	New Balance	New Balances
+x	4891	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan
+x	303	0	brand	746	O'Neill	O Neill	O'Neill
+x	119	0	brand	234	Oakley	Oakley	Oakleys
+	0	0	brand	Old Navy	Old Navy	Old Navy
+x	47	0	brand	745	Patagonia	Patagonia
+x	287	0	brand	4146	Peak Performance	Peak Performance	Big Performance
+x	926	0	brand	267	Puma	Puma
+x	197	0	brand	21503	Quicksilver	Quicksilver
+x	217	0	brand	1778	RALPH LAUREN	RALPH LAUREN
+x	1556	0	brand	4355	Ray-Ban	Ray-Ban	Ray-Bans
+x	385	0	brand	881	Reebok	Reebok
+x	50	0	brand	12	Skechers	Skechers
+x	331	0	brand	997	Sloggi	Sloggi	Sloggis	Slogging
+x	123	0	brand	1050	Speedo	Speedo	Speedos
+x	57	0	brand	125	Superdry	Superdry
+x	43	0	brand	4106	Ted Baker	Ted Baker
+x	99	0	brand	61	The North Face	The North Face	North Face
+x	280	0	brand	3433	TIMBERLAND	TIMBERLAND	Timberlands
+x	446	0	brand	1671	Tommy Hilfiger	Tommy Hilfiger	Hilfiger
+x	139	0	brand	23879	Tommy Hilfiger Sport	Tommy Hilfiger Sport
+x	642	0	brand	716	Under Armour	Under Armour
+x	187	0	brand	191	Vans	Vans
+x	250	0	brand	868	Versace	Versace
+	2	0	brand	21700	47	47
+	10	0	brand	21225	242	242
+	29	0	brand	13179	686	686
+	11	0	brand	23617	11 Degrees	11 Degrees
+	62	0	brand	4142	2117 of Sweden	2117 of Sweden
+	158	0	brand	1381	2XU	2XU
+	117	0	brand	18139	2Y	2Y
+	0	0	brand	13361	47 Brand	47 Brand
+	210	0	brand	4752	8848 Altitude	8848 Altitude
+	32	0	brand	22634	A-one	A-one
+	8	0	brand	13197	A.Lab	A.Lab
+	65	0	brand	21542	Aarhon	Aarhon
+	64	0	brand	9551	Abecita	Abecita
+	4	0	brand	14725	ABS	ABS
+	1	0	brand	1107	adidas by Stella McCartney	adidas by Stella McCartney
+	8	0	brand	888	adidas Golf	adidas Golf
+	391	0	brand	250	adidas Originals	adidas Originals
+	63	0	brand	677	adidas Performance	adidas Performance
+	32	0	brand	4904	adidas Skateboarding	adidas Skateboarding
+	12	0	brand	5101	adidas Snowboarding	adidas Snowboarding
+	8	0	brand	20503	adidas Sport	adidas Sport
+	2	0	brand	21369	adidas TERREX	adidas TERREX
+	0	0	brand	20289	Adrian Hammond	Adrian Hammond
+	4	0	brand	18887	AEVOR	AEVOR
+	0	0	brand	20349	Áhkká	Áhkká
+	12	0	brand	337	Aigle	Aigle
+	5	0	brand	13176	Airblaster	Airblaster
+	1	0	brand	23877	AirBox	AirBox
+	5	0	brand	13319	Airhole	Airhole
+	1	0	brand	1321	Airstep / A.S.98	Airstep / A.S.98
+	0	0	brand	18058	Ajavat	Ajavat
+	15	0	brand	24562	Akela Surf	Akela Surf
+	1	0	brand	864	ALDO	ALDO
+	14	0	brand	18848	ALIS	ALIS
+	29	0	brand	434	Alpha Industries	Alpha Industries
+	0	0	brand	9425	Alpina	Alpina
+	5	0	brand	3612	ALTAMONT	ALTAMONT
+	20	0	brand	12983	altra	altra
+	2	0	brand	13262	American Stitch	American Stitch
+	1	0	brand	21604	AMK	AMK
+	4	0	brand	17323	Amstaff	Amstaff
+	1	0	brand	18338	Amy´s Stories	Amy´s Stories
+	10	0	brand	3606	ANALOG	ANALOG
+	2	0	brand	24915	Anapurna	Anapurna
+	5	0	brand	21712	André	André
+	74	0	brand	21595	Andy By Frank Dandy	Andy By Frank Dandy
+	197	0	brand	3702	ANGULUS	ANGULUS
+	36	0	brand	13213	Animal	Animal
+	87	0	brand	13170	Anon	Anon
+	18	0	brand	14154	Aperture	Aperture
+	16	0	brand	13255	Appertiff	Appertiff
+	4	0	brand	24908	Apple	Apple
+	5	0	brand	23905	Aquarapid	Aquarapid
+	0	0	brand	264	ara	ara
+	27	0	brand	3721	Arauto RAP	Arauto RAP
+	0	0	brand	16126	ARCOPEDICO	ARCOPEDICO
+	718	0	brand	22717	ARKET	ARKET
+	35	0	brand	23084	ARKK Copenhagen	ARKK Copenhagen
+	48	0	brand	13168	Armada	Armada
+	3	0	brand	5162	Armani	Armani
+	1	0	brand	12133	ARMISTICE	ARMISTICE
+	5	0	brand	1103	ASFVLT	ASFVLT
+	1	0	brand	13175	Ashbury	Ashbury
+	8	0	brand	23872	ASICS SportStyle	ASICS SportStyle
+	1	0	brand	4189	assos	assos
+	28	0	brand	13566	Atomic	Atomic
+	0	0	brand	23535	Atrai	Atrai
+	0	0	brand	21301	Attenta	Attenta
+	6	0	brand	18779	Auclair	Auclair
+	0	0	brand	23903	AXC	AXC
+	27	0	brand	4695	Axelda	Axelda
+	0	0	brand	24289	Azarey	Azarey
+	134	0	brand	5254	Babolat	Babolat
+	9	0	brand	17356	Bangastic	Bangastic
+	5	0	brand	13320	Bataleon	Bataleon
+	38	0	brand	18197	Bauer	Bauer
+	10	0	brand	4183	bbb	bbb
+	3	0	brand	14135	bca	bca
+	1	0	brand	5143	Beastin	Beastin
+	6	0	brand	24560	Bell	Bell
+	0	0	brand	18098	Belvida	Belvida
+	190	0	brand	4012	bergans	bergans
+	7	0	brand	1621	Berghaus	Berghaus
+	1	0	brand	18530	Bering	Bering
+	3	0	brand	17997	Betty London	Betty London
+	26	0	brand	3698	Bianco	Bianco
+	1	0	brand	19293	Biker Jacket	Biker Jacket
+	14	0	brand	46	Billi Bi	Billi Bi
+	2	0	brand	24905	Bio Bio	Bio Bio
+	8	0	brand	18279	Biox	Biox
+	55	0	brand	256	Birkenstock	Birkenstock
+	117	0	brand	1164	Bisgaard	Bisgaard
+	25	0	brand	20339	Bjørn Dæhlie	Bjørn Dæhlie
+	1	0	brand	1234	Black Kaviar	Black Kaviar
+	23	0	brand	4005	black-diamond	black-diamond
+	0	0	brand	20550	Ble jeans	Ble jeans
+	1	0	brand	22977	Bliz	Bliz
+	34	0	brand	21178	Bliz Active	Bliz Active
+	50	0	brand	13154	Blue Tomato	Blue Tomato
+	4	0	brand	9677	Blundstone	Blundstone
+	10	0	brand	24617	Body Glove	Body Glove
+	41	0	brand	15174	Bola	Bola
+	195	0	brand	19819	Bolle	Bolle
+	60	0	brand	1420	Boob	Boob
+	7	0	brand	417	Boomerang	Boomerang
+	3	0	brand	14133	Bootdoc	Bootdoc
+	8	0	brand	3680	BOSS	BOSS
+	0	0	brand	21486	Bosweel	Bosweel
+	5	0	brand	255	Boxfresh	Boxfresh
+	26	0	brand	19321	Brandit	Brandit
+	3	0	brand	3899	Brave Soul	Brave Soul
+	1	0	brand	23554	Brbl	Brbl
+	74	0	brand	729	Bread & Boxers	Bread & Boxers
+	0	0	brand	24619	Briko	Briko
+	16	0	brand	4199	Brixton	Brixton
+	16	0	brand	23103	Broken Promises	Broken Promises
+	3	0	brand	23614	Brookhaven	Brookhaven
+	0	0	brand	8745	BROOKLYN	BROOKLYN
+	13	0	brand	4495	brooks	brooks
+	33	0	brand	4014	buff--	buff
+	3	0	brand	35	Buffalo	Buffalo
+	2	0	brand	22750	Buffalo London	Buffalo London
+	78	0	brand	5253	Bula	Bula
+	27	0	brand	22777	Bullpadel	Bullpadel
+	3	0	brand	23824	Bumbag	Bumbag
+	10	0	brand	22558	bunth	bunth
+	0	0	brand	18144	Butter Goods	Butter Goods
+	3	0	brand	22664	C-IN-C	C-IN-C
+	0	0	brand	5263	Camel Active	Camel Active
+	6	0	brand	9582	Camelbak	Camelbak
+	29	0	brand	173	Camper	Camper
+	17	0	brand	18352	Canada Snow	Canada Snow
+	16	0	brand	20303	Candino	Candino
+	1	0	brand	4470	Canterbury	Canterbury
+	4	0	brand	21191	Capita	Capita
+	2	0	brand	4078	Caprice	Caprice
+	1	0	brand	20167	Captain Fin	Captain Fin
+	77	0	brand	385	Carhartt	Carhartt
+	0	0	brand	23256	Carl Edmond	Carl Edmond
+	493	0	brand	1372	Carrera	Carrera
+	4	0	brand	14141	Carve	Carve
+	180	0	brand	838	Casall	Casall
+	7	0	brand	17994	Cash Money	Cash Money
+	1	0	brand	4110	Casual Attitude	Casual Attitude
+	6	0	brand	10206	CAT	CAT
+	18	0	brand	22956	Catago	Catago
+	182	0	brand	1165	Cayler & Sons	Cayler & Sons
+	21	0	brand	18220	CCM	CCM
+	4	0	brand	556	Ceannis	Ceannis
+	49	0	brand	22802	Cellbes	Cellbes
+	0	0	brand	18979	Chantana	Chantana
+	2	0	brand	346	Cheap Monday	Cheap Monday
+	20	0	brand	8357	Chevalier	Chevalier
+	8	0	brand	7641	Cipo & Baxx	Cipo & Baxx
+	1	0	brand	13128	Citrouille et Compagnie	Citrouille et Compagnie
+	49	0	brand	674	Clarks	Clarks
+	10	0	brand	13149	Cleptomanicx	Cleptomanicx
+	1	0	brand	18210	CLN Athletics	CLN Athletics
+	15	0	brand	18683	Cluse	Cluse
+	18	0	brand	1425	CMP	CMP
+	66	0	brand	13188	Coal	Coal
+	7	0	brand	19804	Cobian	Cobian
+	3	0	brand	16879	COBRA	COBRA
+	2	0	brand	20836	Collonil	Collonil
+	1	0	brand	4547	Colour Wear	Colour Wear
+	3	0	brand	24813	Colours	Colours
+	3	0	brand	24335	Colting Wetsuits	Colting Wetsuits
+	27	0	brand	5274	compressport	compressport
+	482	0	brand	23923	COS	COS
+	5	0	brand	19830	Costa Del Mar	Costa Del Mar
+	2	0	brand	3675	CR7	CR7
+	3	0	brand	22674	Crab Grab	Crab Grab
+	884	0	brand	507	Craft	Craft
+	29	0	brand	1383	Craghoppers	Craghoppers
+	27	0	brand	200	Cream	Cream
+	1	0	brand	21255	Creature	Creature
+	1	0	brand	14163	Crep Protect	Crep Protect
+	29	0	brand	858	Criminal Damage	Criminal Damage
+	122	0	brand	18901	Cross Sportswear	Cross Sportswear
+	22	0	brand	17629	Cube	Cube
+	7	0	brand	21429	Cutter & Buck	Cutter & Buck
+	4	0	brand	17979	Cyprime	Cyprime
+	12	0	brand	4214	Dachstein	Dachstein
+	48	0	brand	23666	Dahlie	Dahlie
+	108	0	brand	8362	Daily Sports	Daily Sports
+	1	0	brand	4734	Dainese	Dainese
+	113	0	brand	1237	Dakine	Dakine
+	6	0	brand	24897	Damsel	Damsel
+	87	0	brand	17291	Dangerous DNGRS	Dangerous DNGRS
+	4	0	brand	21644	Dangerous I AM	Dangerous I AM
+	117	0	brand	1447	Daniel Wellington	Daniel Wellington
+	2	0	brand	24618	Danny Duncan	Danny Duncan
+	5	0	brand	23282	Danson	Danson
+	1	0	brand	18893	Dark Seas	Dark Seas
+	12	0	brand	22762	Dasia	Dasia
+	0	0	brand	21738	Dassy	Dassy
+	8	0	brand	18199	dBrand	dBrand
+	5	0	brand	21516	Deathworld	Deathworld
+	50	0	brand	13231	Dedicated	Dedicated
+	326	0	brand	18258	DEF	DEF
+	2	0	brand	21640	DefShop	DefShop
+	2	0	brand	24616	Degree Clothing	Degree Clothing
+	8	0	brand	1626	Derbe	Derbe
+	2	0	brand	23163	DESIGNERS	REMIX GIRLS	DESIGNERS REMIX GIRLS
+	30	0	brand	8350	Devold	Devold
+	20	0	brand	166	Diadora	Diadora
+	277	0	brand	4148	Didriksons	Didriksons
+	2	0	brand	18856	Dirt Love	Dirt Love
+	1	0	brand	23286	Dirty Sox	Dirty Sox
+	11	0	brand	1224	Disney	Disney
+	2	0	brand	19289	Disturb Clothing	Disturb Clothing
+	160	0	brand	18192	Dobsom	Dobsom
+	0	0	brand	485	DOCKERS	DOCKERS
+	1	0	brand	4093	Dorking	Dorking
+	7	0	brand	14145	douchebags	douchebags
+	15	0	brand	21261	Doughnut	Doughnut
+	5	0	brand	4580	Dr. Denim	Dr. Denim
+x	2	0	brand	491	Dr. Martens	Dr. Martens	Doc Martens	Doc Martin’s
+	22	0	brand	13318	Dr.Zipe	Dr.Zipe
+	36	0	brand	1444	Dragon	Dragon
+	23	0	brand	13234	Dravus	Dravus
+	3	0	brand	1290	Dream in Green	Dream in Green
+	0	0	brand	2751	DROME	DROME
+	20	0	brand	1218	Drop of Mindfulness	Drop of Mindfulness
+	11	0	brand	24910	Duffer	Duffer
+	0	0	brand	4607	Duffy	Duffy
+	14	0	brand	15295	Dune London	Dune London
+	1	0	brand	4166	dynafit	dynafit
+	8	0	brand	13642	Eagle Creek	Eagle Creek
+	18	0	brand	680	Eastpak	Eastpak
+	178	0	brand	1648	ECCO	ECCO
+	50	0	brand	1450	ecko unltd.	ecko unltd.
+	4	0	brand	6544	edelrid	edelrid
+	33	0	brand	17348	Eight2Nine	Eight2Nine
+	35	0	brand	13244	Eivy	Eivy
+	2	0	brand	13239	Electric	Electric
+	46	0	brand	663	Element	Element
+	36	0	brand	13082	Elevenate	Elevenate
+	245	0	brand	4363	ELLESSE	ELLESSE
+	3	0	brand	22972	Ellesse Sport	Ellesse Sport
+	0	0	brand	1241	Elvine	Elvine
+	16	0	brand	1088	Emerica	Emerica
+	0	0	brand	14287	Emma	Emma
+	102	0	brand	13166	Empyre	Empyre
+	0	0	brand	4127	Encore	Encore
+	4	0	brand	4466	Endura	Endura
+	1	0	brand	22761	Endurance	Endurance
+	3	0	brand	13270	Enjoi	Enjoi
+	13	0	brand	23164	Equipage	Equipage
+	7	0	brand	6181	ÉS	ÉS
+	31	0	brand	155	Esprit	Esprit
+	18	0	brand	4191	Eterna	Eterna
+	5	0	brand	13283	Ethika	Ethika
+	22	0	brand	81	Etnies	Etnies
+	11	0	brand	23165	Euro-Star	Euro-Star
+	2	0	brand	9579	Evoc	Evoc
+	0	0	brand	18270	Exel	Exel
+	4	0	brand	21428	Exentri	Exentri
+	1	0	brand	21588	Expekt	Expekt
+	1	0	brand	1458	Falke	Falke
+	4	0	brand	17351	Famous Stars and Straps	Famous Stars and Straps
+	1	0	brand	4105	Fericelli	Fericelli
+	69	0	brand	18528	Festina	Festina
+	58	0	brand	453	Filippa K	Filippa K
+	8	0	brand	6917	FILLING PIECES	FILLING PIECES
+	0	0	brand	8476	FILSON	FILSON
+	0	0	brand	8084	FIRST	FIRST
+	40	0	brand	14629	Fischer	Fischer
+	12	0	brand	8351	Five Seasons	Five Seasons
+	3	0	brand	9588	Fjällräven	Fjällräven
+	6	0	brand	3849	Flexfit	Flexfit
+	0	0	brand	22812	Fly Flot	Fly Flot
+	2	0	brand	22907	Footbalance	Footbalance
+	0	0	brand	21275	Footi	Footi
+	12	0	brand	878	Forvert	Forvert
+	133	0	brand	4527	Fossil	Fossil
+	25	0	brand	13158	Fox	Fox
+	190	0	brand	3761	Frank Dandy	Frank Dandy
+	18	0	brand	2296	FREDDY	FREDDY
+	10	0	brand	13191	Free World	Free World
+	5	0	brand	4147	Freequent	Freequent
+	0	0	brand	24329	Fresh Couture	Fresh Couture
+	7	0	brand	205	Fresh Made	Fresh Made
+	20	0	brand	23883	FRONTIER	FRONTIER
+	10	0	brand	24906	Fubu	Fubu
+	1	0	brand	20472	Funkita	Funkita
+	2	0	brand	926	Furla	Furla
+	0	0	brand	18076	Fuzz	Fuzz
+	7	0	brand	23823	FW	FW
+	2	0	brand	13253	G-SHOCK	G-SHOCK
+	0	0	brand	1339	G-Star	G-Star
+	0	0	brand	850	Gabba	Gabba
+	5	0	brand	123	Gabor	Gabor
+	59	0	brand	22719	GASP	GASP
+	1	0	brand	13138	GBB	GBB
+	0	0	brand	12708	Gemini	Gemini
+	29	0	brand	18959	Geographical Norway	Geographical Norway
+	0	0	brand	24900	Giasco	Giasco
+	372	0	brand	20874	Gina Tricot	Gina Tricot
+	3	0	brand	23283	Girls Are Awesome	Girls Are Awesome
+	29	0	brand	739	Giro	Giro
+	15	0	brand	6	Glamorous	Glamorous
+	5	0	brand	14157	Glassy	Glassy
+	28	0	brand	683	Globe	Globe
+	49	0	brand	18205	Gococo	Gococo
+	0	0	brand	18066	Golden Fit	Golden Fit
+	1	0	brand	4393	Good For Nothing	Good For Nothing
+	1	0	brand	21723	Goorin Bros.	Goorin Bros.
+	0	0	brand	24911	Goosey	Goosey
+	48	0	brand	21284	Gore® Wear	Gore® Wear
+	2	0	brand	21585	Grace & Mila	Grace & Mila
+	6	0	brand	17743	Graninge	Graninge
+	10	0	brand	9652	Gregory	Gregory
+	2	0	brand	7221	GRENSON	GRENSON
+	5	0	brand	17324	Grimey Wear	Grimey Wear
+	16	0	brand	13271	Grizzly	Grizzly
+	2	0	brand	18436	GUL	GUL
+	0	0	brand	7596	Gulliver	Gulliver
+	23	0	brand	23611	Gym King	Gym King
+	11	0	brand	23887	H2OFagerholt	H2OFagerholt
+	9	0	brand	13247	Hä?	Hä?
+	101	0	brand	4537	Haglöfs	Haglöfs
+	99	0	brand	18271	Halti	Halti
+	44	0	brand	23921	Hangten	Hangten
+	3	0	brand	18335	Happy Holly	Happy Holly
+x	79	0	brand	4315	Happy Socks	Happy Socks	Happy sox
+	1	0	brand	23146	Harlaut Apparel Co	Harlaut Apparel Co
+	26	0	brand	544	Havaianas	Havaianas
+	69	0	brand	15873	HEAD	HEAD
+	1	0	brand	24903	Helinox	Helinox
+	0	0	brand	6511	Hello Kitty	Hello Kitty
+	0	0	brand	1718	HELMUT LANG	HELMUT LANG
+	1	0	brand	18661	Henry London	Henry London
+	35	0	brand	282	Herschel	Herschel
+	56	0	brand	13651	Hestra	Hestra
+	14	0	brand	4228	Hi-Tec	Hi-Tec
+	0	0	brand	22809	Hickersberger	Hickersberger
+	47	0	brand	4706	Hoka one one	Hoka one one
+	13	0	brand	13057	Holden	Holden
+	3	0	brand	23834	Holdit	Holdit
+	13	0	brand	21363	Homeboy	Homeboy
+	4	0	brand	5667	HONOR	HONOR
+	69	0	brand	12991	Horsefeathers	Horsefeathers
+	1	0	brand	21463	Horspist	Horspist
+	89	0	brand	9566	Houdini	Houdini
+	4	0	brand	21766	House of Elliott	House of Elliott
+	11	0	brand	22881	Huawei	Huawei
+	10	0	brand	4295	Huf	Huf
+	1	0	brand	3708	HUGO	HUGO
+	0	0	brand	229	Human Scales	Human Scales
+	384	0	brand	463	Hummel	Hummel
+	27	0	brand	3769	Hunter	Hunter
+	124	0	brand	63	Hurley	Hurley
+	0	0	brand	855	Hype	Hype
+	4	0	brand	23602	Hysteria	Hysteria
+	1	0	brand	24799	I Love Ugly	I Love Ugly
+	21	0	brand	13683	ICANIWILL	ICANIWILL
+	88	0	brand	9569	Icebreaker	Icebreaker
+	77	0	brand	9474	icebug	icebug
+	54	0	brand	1484	Icepeak	Icepeak
+	2	0	brand	13186	Icetools	Icetools
+	4	0	brand	23615	Il Sarto	Il Sarto
+	6	0	brand	21747	Illmatic	Illmatic
+	9	0	brand	17760	Illusive London	Illusive London
+	0	0	brand	3709	Ilse Jacobsen	Ilse Jacobsen
+	0	0	brand	18096	Ilves	Ilves
+	4	0	brand	13277	Independent	Independent
+	3	0	brand	1226	Inov-8	Inov-8
+	28	0	brand	9651	ION	ION
+	30	0	brand	2125	IRIEDAILY	IRIEDAILY
+	0	0	brand	18778	Isbjörn	Isbjörn
+	113	0	brand	18818	Isbjörn of Sweden	Isbjörn of Sweden
+	57	0	brand	3077	J. LINDEBERG	J. LINDEBERG
+	1	0	brand	1074	Jacqueline de Yong	Jacqueline de Yong
+	45	0	brand	9383	JACQUES LEMANS	JACQUES LEMANS
+	79	0	brand	8344	Jacson	Jacson
+	7	0	brand	14673	Jako	Jako
+	2	0	brand	23616	JAMESON CARTER	JAMESON CARTER
+	0	0	brand	18068	Janita	Janita
+	1	0	brand	23613	JD	JD
+	1	0	brand	18791	Jeansnet	Jeansnet
+	5	0	brand	18447	Jessica Jewels	Jessica Jewels
+	1	0	brand	21645	Jeti	Jeti
+	14	0	brand	506	Jim Rickey	Jim Rickey
+	0	0	brand	18087	Jobman	Jobman
+	11	0	brand	655	Jofama	Jofama
+	2	0	brand	509	Joha	Joha
+	29	0	brand	12734	Johaug	Johaug
+	0	0	brand	9695	Johnny Bulls	Johnny Bulls
+	2	0	brand	1486	Joma	Joma
+	1	0	brand	13765	Jones Snowboards	Jones Snowboards
+	8	0	brand	4401	Jordan	Jordan
+	1	0	brand	23610	Juicy by Juicy Couture	Juicy by Juicy Couture
+	3	0	brand	2480	JUICY COUTURE	JUICY COUTURE
+	16	0	brand	13028	Julbo	Julbo
+	0	0	brand	3807	JUNK de LUXE	JUNK de LUXE
+	0	0	brand	3834	Just Junkies	Just Junkies
+	69	0	brand	17296	Just Rhyse	Just Rhyse
+	7	0	brand	871	K-Way	K-Way
+	5	0	brand	13758	K2	K2
+	2	0	brand	998	Kamik	Kamik
+	0	0	brand	356	KangaROOS	KangaROOS
+	0	0	brand	4552	Kangol	Kangol
+	11	0	brand	23284	Kape Skateboards	Kape Skateboards
+	96	0	brand	249	Kappa	Kappa
+	57	0	brand	21135	Kapten&Son	Kapten&Son
+	12	0	brand	18284	Karhu	Karhu
+	445	0	brand	4544	Kari Traa	Kari Traa
+	24	0	brand	1498	Karl Kani	Karl Kani
+	7	0	brand	863	KARL LAGERFELD	KARL LAGERFELD
+	5	0	brand	24812	Katin USA	Katin USA
+	0	0	brand	22928	KAV	KAV
+	40	0	brand	1022	Kavat	Kavat
+	167	0	brand	23109	Kazane	Kazane
+	86	0	brand	696	Keen	Keen
+	137	0	brand	17976	Kempa	Kempa
+	0	0	brand	23858	Kentuckys Western	Kentuckys Western
+	12	0	brand	2111	KENZO	KENZO
+	1	0	brand	564	khujo	khujo
+	2	0	brand	853	Kickers	Kickers
+	0	0	brand	20941	Klaani	Klaani
+	7	0	brand	18386	Klättermusen	Klättermusen
+	27	0	brand	18442	Kohinoor	Kohinoor
+	0	0	brand	18069	Kolme60	Kolme60
+	60	0	brand	12990	Kombi	Kombi
+	28	0	brand	1492	Komono	Komono
+	3	0	brand	18196	Kosa	Kosa
+	0	0	brand	18095	Kuoma	Kuoma
+	1	0	brand	18864	Kustom	Kustom
+	1	0	brand	23539	Kvill	Kvill
+	0	0	brand	5160	L'Homme Rouge	L Homme Rouge	L'Homme Rouge
+	9	0	brand	13180	L1	L1
+	1	0	brand	9533	La Sportiva	La Sportiva
+	26	0	brand	4538	LaCrosse	LaCrosse
+	0	0	brand	22551	Laedr	Laedr
+	5	0	brand	1505	Lafuma	Lafuma
+	1	0	brand	13240	Lakai	Lakai
+	0	0	brand	268	LAURA VITA	LAURA VITA
+	0	0	brand	21495	Lavage Léger	Lavage Léger
+	4	0	brand	361	le coq sportif	le coq sportif
+	0	0	brand	5229	Le Fix	Le Fix
+	14	0	brand	1514	Le Specs	Le Specs
+	71	0	brand	7595	Leaf	Leaf
+	2	0	brand	295	Lee	Lee
+	6	0	brand	5072	Lee Cooper	Lee Cooper
+	3	0	brand	17440	Leg Kings	Leg Kings
+	0	0	brand	18977	Legends	Legends
+	6	0	brand	659	LEGO Wear	LEGO Wear	Lego
+	203	0	brand	18522	Leijona	Leijona
+	9	0	brand	23909	Leon Karssen	Leon Karssen
+	3	0	brand	1675	Les Deux	Les Deux
+	1	0	brand	23540	Les Petites Bombes	Les Petites Bombes
+	7	0	brand	13341	level	level
+	5	0	brand	19931	Lifeventure	Lifeventure
+	32	0	brand	13160	Light	Light
+	146	0	brand	1327	Lindberg	Lindberg
+	9	0	brand	24909	Lindberg Sweden	Lindberg Sweden
+	4	0	brand	1511	Lindbergh	Lindbergh
+	0	0	brand	20282	Ljung by Marcus Larsson	Ljung by Marcus Larsson
+	50	0	brand	3736	Lloyd	Lloyd
+	1	0	brand	8688	LOIS	LOIS
+	21	0	brand	5073	Lonsdale	Lonsdale
+	8	0	brand	1517	Love	Love
+	5	0	brand	237	Love Moschino	Love Moschino
+	0	0	brand	23200	Luke Fracher x Stayhard	Luke Fracher x Stayhard
+	29	0	brand	18523	Luminox	Luminox
+	222	0	brand	18441	Lumoava	Lumoava
+	46	0	brand	1512	Lundhags	Lundhags
+	17	0	brand	22648	Lurking Class	Lurking Class
+	49	0	brand	259	Lyle & Scott	Lyle & Scott
+	3	0	brand	22235	Macba Life	Macba Life
+	0	0	brand	20880	MACIEJKA	MACIEJKA
+	6	0	brand	14627	Macron	Macron
+	1	0	brand	20135	Mafia & Crime	Mafia & Crime
+	6	0	brand	22234	Magenta	Magenta
+	41	0	brand	4239	Maier Sports	Maier Sports
+	6	0	brand	24896	Main Design	Main Design
+	4	0	brand	21218	Majesty	Majesty
+	17	0	brand	1189	Makia	Makia
+	7	0	brand	15982	MALIBU'	MALIBU
+	33	0	brand	4171	mammut	mammut
+	22	0	brand	971	Marc Jacobs	Marc Jacobs
+	67	0	brand	1	Marc O'Polo	Marc O Polo	Marc O'Polo
+	2	0	brand	20023	Mares	Mares
+	101	0	brand	4124	Marine	Marine
+	24	0	brand	23083	Marine Classics	Marine Classics
+	7	0	brand	14147	Marker	Marker
+	59	0	brand	1521	Marmot	Marmot
+	6	0	brand	22884	Marstrand	Marstrand
+	1	0	brand	13157	MasterDis	MasterDis
+	2	0	brand	660	Matinique	Matinique
+	5	0	brand	21307	Mavi Jeans	Mavi Jeans
+	5	0	brand	23912	Maxallure	Maxallure
+	6	0	brand	531	Mazine	Mazine
+	211	0	brand	23612	McKenzie	McKenzie
+	168	0	brand	22224	Merchcode	Merchcode
+	2	0	brand	20724	Merida	Merida
+	81	0	brand	626	Merrell	Merrell
+	2	0	brand	18849	Method Mag	Method Mag
+	0	0	brand	231	Mexx	Mexx
+	39	0	brand	13654	Mi Pac	Mi Pac
+	0	0	brand	18070	Migant	Migant
+	2	0	brand	3759	Mikk-Line	Mikk-Line
+	1	0	brand	1128	Millet	Millet
+	15	0	brand	775	MINI A TURE	MINI A TURE
+	145	0	brand	5298	Missguided	Missguided
+	282	0	brand	4961	Mister Tee	Mister Tee
+	0	0	brand	20763	Mistr	Mistr
+	1	0	brand	1527	Mitchell & Ness	Mitchell & Ness
+	147	0	brand	1519	Mizuno	Mizuno
+	34	0	brand	20340	Mjúka	Mjúka
+	1	0	brand	21603	Mockberg	Mockberg
+	0	0	brand	22630	Modernist	Modernist
+	33	0	brand	9556	Moheda	Moheda
+	1	0	brand	149	Molly Bracken	Molly Bracken
+	1	0	brand	17341	Monkey Business	Monkey Business
+	814	0	brand	3960	Monki	Monki
+	54	0	brand	9586	Mons Royale	Mons Royale
+	8	0	brand	22883	Monument	Monument
+	7	0	brand	22711	Moodswings	Moodswings
+	20	0	brand	1136	Moon Boot	Moon Boot
+	2	0	brand	1293	Moony Mood	Moony Mood
+	5	0	brand	24785	Moorhead	Moorhead
+	4	0	brand	1184	Morris	Morris
+	0	0	brand	1526	Mouli	Mouli
+	104	0	brand	18517	Mountain Horse	Mountain Horse
+	8	0	brand	18224	Mountain Works	Mountain Works
+	2	0	brand	21607	Move Mountains	Move Mountains
+	9	0	brand	17289	MSTRDS	MSTRDS
+	3	0	brand	22814	Muckboots	Muckboots
+	3	0	brand	23105	Munsterkids	Munsterkids
+	1	0	brand	21406	Musse   Cloud	Musse   Cloud
+	1	0	brand	68	Mustang	Mustang
+	0	0	brand	14220	Mustang shoes	Mustang shoes
+	8	0	brand	7446	Muumi	Muumi
+	28	0	brand	24891	Muut	Muut
+	5	0	brand	21365	MZ72 Brand	MZ72 Brand
+	30	0	brand	19663	NA-KD	NA-KD
+	2	0	brand	1246	Naketano	Naketano
+	228	0	brand	194	Name it	Name it
+	0	0	brand	24018	Nan-ku	Nan-ku
+	1	0	brand	2260	NAPAPIJRI	NAPAPIJRI
+	1	0	brand	20257	NASA	NASA
+	2	0	brand	18747	nathan	nathan
+	0	0	brand	18074	Natura	Natura
+	0	0	brand	18093	Natural World	Natural World
+	6	0	brand	1248	Neff	Neff
+	0	0	brand	17848	Network	Network
+	2	0	brand	21222	Neumühle	Neumühle
+	0	0	brand	4872	New Black	New Black
+	184	0	brand	3841	New Era	New Era
+	2	0	brand	750	New Look	New Look
+	3	0	brand	17297	New York Style	New York Style
+	333	0	brand	1377	Newline	Newline
+	21	0	brand	5272	Nicce	Nicce
+	23	0	brand	20621	Nick Cabana	Nick Cabana
+	3	0	brand	13077	Nihil	Nihil
+	0	0	brand	17507	NIKBEN	NIKBEN
+	45	0	brand	601	Nikita	Nikita
+	0	0	brand	24328	Nimes	Nimes
+	9	0	brand	13238	Ninth Hall	Ninth Hall
+	22	0	brand	4306	Nixon	Nixon
+	0	0	brand	3829	NN.07	NN.07
+	25	0	brand	322	Noisy May	Noisy May
+	33	0	brand	18892	Nonation	Nonation
+	1	0	brand	22669	Nordica	Nordica
+	60	0	brand	21168	Norfolk	Norfolk
+	2	0	brand	13647	Norrøna	Norrøna
+	48	0	brand	20458	North	North
+	21	0	brand	23878	NOUN	NOUN
+	1	0	brand	23606	Novita	Novita
+	1	0	brand	645	Nudie Jeans	Nudie Jeans
+	1	0	brand	303	Nümph	Nümph
+	0	0	brand	18083	Nursing Care	Nursing Care
+	1	0	brand	24561	Nutcase	Nutcase
+	19	0	brand	4993	OAS	OAS
+	0	0	brand	299	Object	Object
+	12	0	brand	7361	ocun	ocun
+	58	0	brand	1679	ODD MOLLY	ODD MOLLY
+	95	0	brand	684	ODLO	ODLO
+	3	0	brand	23607	Official Team	Official Team
+	14	0	brand	21443	Ögon Designs	Ögon Designs
+	6	0	brand	9384	OLIVIA BURTON	OLIVIA BURTON
+	2	0	brand	5188	OnePiece	OnePiece
+	16	0	brand	644	Onitsuka Tiger	Onitsuka Tiger
+	368	0	brand	143	ONLY	ONLY
+	126	0	brand	920	Only & Sons	Only & Sons
+	0	0	brand	21327	Only Carmakoma	Only Carmakoma
+	154	0	brand	1171	Only Play	Only Play
+	0	0	brand	23860	ONLY Play Curvy	ONLY Play Curvy
+	44	0	brand	17567	Orca	Orca
+	9	0	brand	18437	Oris	Oris
+	12	0	brand	22993	Ortho Movement	Ortho Movement
+	108	0	brand	9713	Ortovox	Ortovox
+	7	0	brand	5210	Osprey	Osprey
+	0	0	brand	18099	OtzShoes	OtzShoes
+	9	0	brand	13330	Out Of	Out Of
+	1	0	brand	615	Oxbow	Oxbow
+	2	0	brand	23885	Oxdog	Oxdog
+	82	0	brand	4123	Oxide	Oxide
+	0	0	brand	20619	P.A.P	P.A.P
+	1	0	brand	13137	Pablosky	Pablosky
+	3	0	brand	13643	Pacsafe	Pacsafe
+	3	0	brand	1550	Paez	Paez
+	44	0	brand	369	Palladium	Palladium
+	134	0	brand	18440	Pandora	Pandora
+	153	0	brand	4994	Panos Emporio	Panos Emporio
+	1	0	brand	3835	Parajumpers	Parajumpers
+	2	0	brand	20222	Paris Premium	Paris Premium
+	5	0	brand	24457	Party Pants	Party Pants
+	20	0	brand	13367	Pass-Port	Pass-Port
+	1	0	brand	13273	Passenger	Passenger
+	58	0	brand	16358	Paul Hewitt	Paul Hewitt
+	50	0	brand	1083	Pax	Pax
+	0	0	brand	18101	Pegada	Pegada
+	17	0	brand	3637	Pelle Pelle	Pelle Pelle
+	0	0	brand	4956	Peoples Uniform	Peoples Uniform
+	2	0	brand	21517	Petals and Peacocks	Petals and Peacocks
+	43	0	brand	990	Petrol Industries	Petrol Industries
+	0	0	brand	6748	PHILIPP PLEIN	PHILIPP PLEIN
+	0	0	brand	14238	Piccadilly	Piccadilly
+	6	0	brand	9528	Pick & Pack	Pick & Pack
+	118	0	brand	13236	Picture	Picture
+	242	0	brand	1280	Pieces	Pieces
+	1	0	brand	16401	Pieps	Pieps
+	1	0	brand	1063	Pikolinos	Pikolinos
+	35	0	brand	23608	Pink Soda Sport	Pink Soda Sport
+	0	0	brand	21108	pinqponq	pinqponq
+	73	0	brand	21761	Pirami	Pirami
+	24	0	brand	13251	Planks	Planks
+	56	0	brand	4614	Playboy	Playboy
+	7	0	brand	21591	Plenty	Plenty
+	58	0	brand	4473	POC	POC
+	0	0	brand	18063	PodoWell	PodoWell
+	7	0	brand	9601	Polar	Polar
+	9	0	brand	21682	Polarn O. Pyret	Polarn O. Pyret
+	0	0	brand	17593	Polecat	Polecat
+	6	0	brand	2963	POLICE	POLICE
+	20	0	brand	18187	POLLOP	POLLOP
+	0	0	brand	18060	Pomar	Pomar
+	0	0	brand	15400	POUR	POUR
+	6	0	brand	13691	Pow	Pow
+	4	0	brand	21190	Powell Peralta	Powell Peralta
+	7	0	brand	20379	Prestige	Prestige
+	1	0	brand	3780	Primadonna	Primadonna
+	13	0	brand	1023	Primigi	Primigi
+	10	0	brand	13249	Primitive	Primitive
+	0	0	brand	18092	Primo Piano	Primo Piano
+	0	0	brand	18091	Promena	Promena
+	0	0	brand	20284	Proud Canadian	Proud Canadian
+	0	0	brand	23500	PS Poelman	PS Poelman
+	1	0	brand	21586	PSG by Dwen D. Corréa	PSG by Dwen D. Corréa
+	1	0	brand	13222	Pukas	Pukas
+	9	0	brand	22650	Pullin	Pullin
+	3	0	brand	4153	PULZ	PULZ
+	0	0	brand	18072	Quattro Stagione	Quattro Stagione
+	3	0	brand	24046	R.M.Williams	R.M.Williams
+	7	0	brand	4959	racoon	racoon
+	17	0	brand	514	Ragwear	Ragwear
+	1	0	brand	845	Rains	Rains
+	1	0	brand	5114	Raised By Wolves	Raised By Wolves
+	1	0	brand	23771	Rascal	Rascal
+	3	0	brand	21529	Raymond Weil	Raymond Weil
+	46	0	brand	23195	Reaction	Reaction
+	1	0	brand	58	Rebecca Minkoff	Rebecca Minkoff
+	3	0	brand	21220	Red Bull Spect Eyewear	Red Bull Spect Eyewear
+	1	0	brand	232	Redskins	Redskins
+	17	0	brand	1038	Reef	Reef
+	20	0	brand	73	REELL	REELL
+	44	0	brand	17328	Reell Jeans	Reell Jeans
+	5	0	brand	18228	Rehband	Rehband
+	130	0	brand	3725	Reima	Reima
+	0	0	brand	238	Replay	Replay
+	87	0	brand	731	Resteröds	Resteröds
+	12	0	brand	9640	Reusch	Reusch
+	2	0	brand	678	Revolution	Revolution
+	1	0	brand	24451	Rewired	Rewired
+	12	0	brand	13163	Rhythm	Rhythm
+	7	0	brand	16419	Ridgebake	Ridgebake
+	11	0	brand	18	Rieker	Rieker
+	194	0	brand	1319	Rip Curl	Rip Curl
+	16	0	brand	20037	RIPNDIP	RIPNDIP
+	6	0	brand	20168	Roark Revival	Roark Revival
+	87	0	brand	890	Rocawear	Rocawear
+	4	0	brand	21415	Rock by Sweden	Rock by Sweden
+	5	0	brand	20741	Rock Code	Rock Code
+	0	0	brand	23895	Rock Off	Rock Off
+	23	0	brand	16125	ROCK SPRING	ROCK SPRING
+	8	0	brand	995	ROCKANDBLUE	ROCKANDBLUE
+	205	0	brand	969	Röhnisch	Röhnisch
+	18	0	brand	22598	Rojo	Rojo
+	13	0	brand	13242	Rome	Rome
+	1	0	brand	24371	Romika Westland	Romika Westland
+	2	0	brand	24474	Ronald	Ronald
+	0	0	brand	23902	Rose London	Rose London
+	63	0	brand	21325	Rosefield	Rosefield
+	19	0	brand	21323	Rotary	Rotary
+	7	0	brand	5155	Rothco	Rothco
+	148	0	brand	665	Roxy	Roxy
+	69	0	brand	1652	Royal RepubliQ	Royal RepubliQ
+	1	0	brand	17160	Royal Robbins	Royal Robbins
+	9	0	brand	1564	Rubber Duck	Rubber Duck
+	9	0	brand	19874	Rudy Project	Rudy Project
+	1	0	brand	6228	RUSSELL	RUSSELL
+	16	0	brand	3994	RVCA	RVCA
+	10	0	brand	39	s.Oliver	s.Oliver
+	0	0	brand	1244	Saddler	Saddler
+	10	0	brand	350	Sail Racing	Sail Racing
+	397	0	brand	2530	SAINT LAURENT	SAINT LAURENT
+	11	0	brand	22803	Saint Loye	Saint Loye
+	1	0	brand	21557	Saki	Saki
+	8	0	brand	23104	Salem7	Salem7
+	7	0	brand	1567	Salewa	Salewa
+	140	0	brand	8353	Salming	Salming
+x	302	0	brand	1059	Salomon	Salomon	Solomon
+	2	0	brand	13281	Salty Bird Surf Apparel	Salty Bird Surf Apparel
+	22	0	brand	22548	Salty Crew	Salty Crew
+	110	0	brand	629	Samsøe & Samsøe	Samsøe & Samsøe
+	13	0	brand	18862	Samsung	Samsung
+	0	0	brand	20363	Sandays	Sandays
+	0	0	brand	284	Sandqvist	Sandqvist
+	18	0	brand	6116	SANTA CRUZ	SANTA CRUZ
+	0	0	brand	18071	Sara Louise	Sara Louise
+	7	0	brand	18821	Sätila	Sätila
+	30	0	brand	13641	Sätila of Sweden	Sätila of Sweden
+	123	0	brand	4496	saucony	saucony
+	84	0	brand	21319	Saurum	Saurum
+	35	0	brand	23876	SCANDI NOMAD	SCANDI NOMAD
+	3	0	brand	9571	Scarpa	Scarpa
+	1	0	brand	1132	Schmoove	Schmoove
+	37	0	brand	4770	Scholl	Scholl
+	9	0	brand	9469	Score Draw	Score Draw
+	19	0	brand	23839	Scotch & Soda Shoes	Scotch & Soda Shoes
+	57	0	brand	8360	Scott	Scott
+	1	0	brand	22644	Scum	Scum
+	8	0	brand	4475	SealSkinz	SealSkinz
+	61	0	brand	679	Sebago	Sebago
+	124	0	brand	5097	Select	Select
+	10	0	brand	326	Selected Homme	Selected Homme
+	0	0	brand	17592	Senator	Senator
+	3	0	brand	4955	Sergio Tacchini	Sergio Tacchini
+	5	0	brand	18859	Sessions	Sessions
+	16	0	brand	1571	Shepherd	Shepherd
+	47	0	brand	9587	Sherpa	Sherpa
+	10	0	brand	4174	shimano	shimano
+	1	0	brand	1540	Shine Original	Shine Original
+	2	0	brand	13246	Shisha	Shisha
+	23	0	brand	4506	Shock Absorber	Shock Absorber
+	57	0	brand	1177	Shoe The Bear	Shoe The Bear
+	15	0	brand	13323	Shred	Shred
+	0	0	brand	18073	Sievi	Sievi
+	1	0	brand	21583	Sif Jakobs	Sif Jakobs
+	64	0	brand	21550	Sik Silk	Sik Silk
+	42	0	brand	4365	SikSilk	SikSilk
+	3	0	brand	18786	Silva	Silva
+	17	0	brand	19888	Sinner	Sinner
+	114	0	brand	4462	Sixth June	Sixth June
+	85	0	brand	3965	Skagen	Skagen
+	19	0	brand	18280	Ski Industries	Ski Industries
+	54	0	brand	452	Skins	Skins
+	17	0	brand	21704	Skogstad	Skogstad
+	1	0	brand	13155	Skullcandy	Skullcandy
+	11	0	brand	17367	Sky Rebel	Sky Rebel
+	50	0	brand	1606	Smartwool	Smartwool
+	2	0	brand	22967	Smashed Lemon	Smashed Lemon
+	8	0	brand	23894	SmellWell	SmellWell
+	31	0	brand	12492	SMITH	SMITH
+	62	0	brand	912	Sneaky Steve	Sneaky Steve
+	12	0	brand	1579	Sofie Schnoor	Sofie Schnoor
+	0	0	brand	21391	Sofsole	Sofsole
+	0	0	brand	18215	Soft Comfort	Soft Comfort
+	3	0	brand	22908	Sole	Sole
+	0	0	brand	1135	Somewear	Somewear
+	2	0	brand	23619	Sonneti	Sonneti
+	0	0	brand	21596	Sons of Owen	Sons of Owen
+	102	0	brand	1238	Sorel	Sorel
+	0	0	brand	1185	Soulland	Soulland
+	45	0	brand	17303	Southpole	Southpole
+	7	0	brand	283	Soyaconcept	Soyaconcept
+	29	0	brand	18195	Spalding	Spalding
+	1	0	brand	21221	Spect Eyewear	Spect Eyewear
+	0	0	brand	20293	Speechless	Speechless
+	17	0	brand	14161	Spektrum	Spektrum
+	3	0	brand	4807	Spitfire	Spitfire
+	4	0	brand	18916	Sportamore	Sportamore
+	1	0	brand	4461	Spot on	Spot on
+	54	0	brand	20600	Sprayway	Sprayway
+	12	0	brand	13304	Spy	Spy
+	17	0	brand	18207	Srixon	Srixon
+	18	0	brand	882	Stance	Stance
+	28	0	brand	1607	Starter	Starter
+	38	0	brand	4122	STATE OF WOW	STATE OF WOW
+	40	0	brand	6572	Stay In Place	Stay In Place
+	0	0	brand	9669	Steele & Borough	Steele & Borough
+	2	0	brand	23880	Stiga	Stiga
+	25	0	brand	17354	Stitch & Soul	Stitch & Soul
+	3	0	brand	21592	Straye	Straye
+	0	0	brand	21714	Strollers	Strollers
+	0	0	brand	20616	Studio Total	Studio Total
+	1	0	brand	23889	Stüssy	Stüssy
+	2	0	brand	7060	STUTTERHEIM	STUTTERHEIM
+	62	0	brand	219	Sublevel	Sublevel
+	7	0	brand	24504	Suedwind	Suedwind
+	1	0	brand	593	Suit	Suit
+	0	0	brand	4971	Sunpocket	Sunpocket
+	118	0	brand	13267	super.natural	super.natural
+	46	0	brand	1509	Superfit	Superfit
+	41	0	brand	595	Superga	Superga
+	43	0	brand	23609	Supply & Demand	Supply & Demand
+	9	0	brand	140	Supra	Supra
+	25	0	brand	17623	Suunto	Suunto
+	103	0	brand	1042	Svea	Svea
+	1	0	brand	14086	Sweet Lemon	Sweet Lemon
+	57	0	brand	8366	Sweet Protection	Sweet Protection
+	2	0	brand	13161	SWEET SKTBS	SWEET SKTBS
+	7	0	brand	15314	Swegmark	Swegmark
+	48	0	brand	22741	Swiss Alpine Military	Swiss Alpine Military
+	7	0	brand	7658	Swiss Military Hanowa	Swiss Military Hanowa
+	40	0	brand	24635	Take Off	Take Off
+	1	0	brand	23145	Tally Weijl	Tally Weijl
+	18	0	brand	3699	Tamaris	Tamaris
+	31	0	brand	21765	Tammi Jewellery	Tammi Jewellery
+	0	0	brand	18085	Tapas	Tapas
+	1	0	brand	13071	Tatonka	Tatonka
+	4	0	brand	18191	Taylormade	Taylormade
+	1	0	brand	21541	Tealer	Tealer
+	5	0	brand	23843	Teenage	Teenage
+	188	0	brand	1214	TENSON	TENSON
+	29	0	brand	1589	Teva	Teva
+	10	0	brand	23108	Thank You	Thank You
+	3	0	brand	23908	The Bakery	The Bakery
+	0	0	brand	1183	The Blue Uniform	The Blue Uniform
+	0	0	brand	22752	THE CLASSY ISSUE	THE CLASSY ISSUE
+	1	0	brand	13252	The Dudes	The Dudes
+	7	0	brand	23825	The Gold Gods	The Gold Gods
+	1	0	brand	23168	The killing Floor	The killing Floor
+	4	0	brand	4321	The Ragged Priest	The Ragged Priest
+	7	0	brand	22225	Thermic	Thermic
+	0	0	brand	553	Think!	Think!
+	4	0	brand	13237	Thirtytwo	Thirtytwo
+	1	0	brand	18438	Thomas Sabo	Thomas Sabo
+	9	0	brand	6520	Thrasher	Thrasher
+	2	0	brand	17292	Thug Life	Thug Life
+	12	0	brand	21627	Thug Life Basic	Thug Life Basic
+	44	0	brand	470	Tiger of Sweden	Tiger of Sweden
+	11	0	brand	21740	Tiima	Tiima
+	11	0	brand	20256	Tjejmilen	Tjejmilen
+	9	0	brand	4992	TOMS	TOMS
+	0	0	brand	15180	Topeco	Topeco
+	0	0	brand	1593	Topman	Topman
+	11	0	brand	23658	Topo Designs	Topo Designs
+	67	0	brand	13698	Trekmates	Trekmates
+	9	0	brand	18286	Treksta	Treksta
+	114	0	brand	465	Tretorn	Tretorn
+	33	0	brand	18278	Tribute	Tribute
+	24	0	brand	4516	Triwa	Triwa
+	14	0	brand	21328	TrueNorth	TrueNorth
+	4	0	brand	13761	TSG	TSG
+	16	0	brand	22796	TurnUP	TurnUP
+	12	0	brand	18529	TW Steel	TW Steel
+	2	0	brand	5735	UCON	UCON
+	0	0	brand	501	Ucon Acrobatics	Ucon Acrobatics
+	11	0	brand	3823	UGG	UGG
+	17	0	brand	5196	Uhlsport	Uhlsport
+	14	0	brand	5098	Ulvang	Ulvang
+	0	0	brand	18090	Umberto	Umberto
+	55	0	brand	161	Umbro	Umbro
+	25	0	brand	20276	UNFAIR ATHLETICS	UNFAIR ATHLETICS
+	17	0	brand	18204	Unihoc	Unihoc
+	1	0	brand	1595	Unisa	Unisa
+	39	0	brand	3836	Upfront	Upfront
+	970	0	brand	246	Urban Classics	Urban Classics
+	7	0	brand	17316	Urban Surface	Urban Surface
+	13	0	brand	24450	USWE	USWE
+	11	0	brand	12992	Uvex	Uvex
+	41	0	brand	22631	UYN	UYN
+	26	0	brand	879	Vagabond	Vagabond
+	50	0	brand	364	Vaude	Vaude
+	9	0	brand	632	Vero Moda	Vero Moda
+	1	0	brand	4463	Victoria	Victoria
+x	188	0	brand	289	Viking	Viking
+	0	0	brand	70	Vila	Vila
+	1	0	brand	1197	Vince Camuto	Vince Camuto
+	266	0	brand	18149	Vinson Polo Club	Vinson Polo Club
+	1	0	brand	21362	Vintage Industries	Vintage Industries
+	3	0	brand	23881	Virvelvind	Virvelvind
+	5	0	brand	22675	Vitriol	Vitriol
+	1	0	brand	13628	VOID	VOID
+	9	0	brand	24503	VOLC	VOLC
+	204	0	brand	154	Volcom	Volcom
+	0	0	brand	8356	Vossatassar	Vossatassar
+	144	0	brand	17305	VSCT Clubwear	VSCT Clubwear
+	11	0	brand	23882	Waikani Beachwear	Waikani Beachwear
+	2	0	brand	21195	Warner	Warner
+	229	0	brand	20512	Wear Colour	Wear Colour
+	3	0	brand	21133	Welcome	Welcome
+	52	0	brand	1091	WeSC	WeSC
+	0	0	brand	6592	WEST COAST	WEST COAST
+	9	0	brand	13314	Westbeach	Westbeach
+	7	0	brand	3676	Wheat	Wheat
+	0	0	brand	2475	WHYRED	WHYRED
+	16	0	brand	9594	Wild Country	Wild Country
+	0	0	brand	4712	Wildflower	Wildflower
+	0	0	brand	20285	William Baxter	William Baxter
+	0	0	brand	20617	William Strouch	William Strouch
+	75	0	brand	14345	WILSON	WILSON
+	28	0	brand	18193	Wilson Staff	Wilson Staff
+	4	0	brand	765	Woden	Woden
+	0	0	brand	930	Wood Wood	Wood Wood
+	2	0	brand	19766	Woodstock	Woodstock
+	5	0	brand	13088	Woolpower	Woolpower
+	0	0	brand	2107	WOOLRICH	WOOLRICH
+	1	0	brand	3639	Wrung Division	Wrung Division
+	16	0	brand	21641	Wu-Tang	Wu-Tang
+	246	0	brand	18190	Wyte	Wyte
+	13	0	brand	1608	X Bionic	X Bionic
+	1	0	brand	18276	X Ttl	X Ttl
+	1	0	brand	23537	X-FEEL	X-FEEL
+	11	0	brand	22729	Xiaomi	Xiaomi
+	2	0	brand	24913	XPLORA	XPLORA
+	1	0	brand	891	XTI	XTI
+	1	0	brand	23886	Yaktrax	Yaktrax
+	27	0	brand	17340	Yakuza	Yakuza
+	8	0	brand	19291	Yakuza Ink	Yakuza Ink
+	8	0	brand	23862	YES	YES
+	2	0	brand	13073	Yeti	Yeti
+	1	0	brand	17312	Yezz	Yezz
+	41	0	brand	4449	Yonex	Yonex
+	3	0	brand	12993	Zanier	Zanier
+	2	0	brand	14171	Zeal Optics	Zeal Optics
+	11	0	brand	17854	Zealous	Zealous
+	34	0	brand	21249	Zeppelin	Zeppelin
+	2	0	brand	21095	ZeroPoint	ZeroPoint
+	1	0	brand	21706	Zhenzi	Zhenzi
+	23	0	brand	13224	Zine	Zine
+	9	0	brand	18877	ZOEY	ZOEY
+	7	0	brand	138	Zoggs	Zoggs
+	6	0	brand	20700	Zone	Zone
+	10	0	brand	17583	Zone3	Zone3
+	269	0	sizes	One Size	One Size	One Size	one size fits all
+	56	6	sizes	XXXS	XXXS	X X X S	extra extra extra small	triple X S	triple XS	three XS	XXXS	three X S
+x	1322	9	sizes	XXS	XXS	X X S	extra extra small	double X S	double XS	two XS	XXS	two X S
+x	14969	18	sizes	XS	XS	X S	extra small
+x	24644	17	sizes	S	S	S	small
+x	22805	23	sizes	M	M	M	medium
+x	22722	25	sizes	L	L	L	large	big
+x	19567	10	sizes	XL	XL	X L	extra large	excel
+x	8869	9	sizes	XXL	XXL	X X L	extra extra large	double X L	double XL	XXL	two XL	two X L
+x	1772	0	sizes	3XL	3XL	X X X L	extra extra extra large	three X L	three extra large	triple X L	triple XL	three XL	XXXL
+	740	1	sizes	4XL	4XL	4XL	four extra large	four X L
+	272	2	sizes	5XL	5XL	5XL	five extra large	five X L
+	126	3	sizes	6XL	6XL	6XL	six extra large	six X L
+	16	4	sizes	7XL	7XL	7XL	seven extra large	seven X L
+	12	0	sizes	24X30	24X30	24 by 30
+	15	1	sizes	24X34	24X34	24 by 34
+	22	2	sizes	25X30	25X30	25 by 30
+	14	1	sizes	25X32	25X32	25 by 32
+	16	3	sizes	25X34	25X34	25 by 34
+	10	2	sizes	26X30	26X30	26 by 30
+	18	3	sizes	26X32	26X32	26 by 32
+	19	4	sizes	26X34	26X34	26 by 34
+	33	4	sizes	27X30	27X30	27 by 30
+	42	5	sizes	27X32	27X32	27 by 32
+	18	5	sizes	27X34	27X34	27 by 34
+	93	6	sizes	28X30	28X30	28 by 30
+	136	7	sizes	28X32	28X32	28 by 32
+	70	7	sizes	28X34	28X34	28 by 34
+	82	8	sizes	29X30	29X30	29 by 30
+	195	9	sizes	29X32	29X32	29 by 32
+	101	9	sizes	29X34	29X34	29 by 34
+	71	10	sizes	30X30	30X30	30 by 30
+	254	11	sizes	30X32	30X32	30 by 32
+	205	11	sizes	30X34	30X34	30 by 34
+	62	12	sizes	31X30	31X30	31 by 30
+	208	13	sizes	31X32	31X32	31 by 32
+	220	13	sizes	31X34	31X34	31 by 34
+	47	12	sizes	32X30	32X30	32 by 30
+	235	13	sizes	32X32	32X32	32 by 32
+	231	14	sizes	32X34	32X34	32 by 34
+	12	13	sizes	32X36	32X36	32 by 36
+	214	15	sizes	33X32	33X32	33 by 32
+	181	16	sizes	33X34	33X34	33 by 34
+	44	17	sizes	33X36	33X36	33 by 36
+	38	17	sizes	34X30	34X30	34 by 30
+	172	18	sizes	34X32	34X32	34 by 32
+	204	19	sizes	34X34	34X34	34 by 34
+	19	20	sizes	34X36	34X36	34 by 36
+	9	14	sizes	35X30	35X30	35 by 30
+	18	15	sizes	35X32	35X32	35 by 32
+	1	0	sizes	35X36	35X36	35 by 36
+	12	20	sizes	36X30	36X30	36 by 30
+	223	21	sizes	36X32	36X32	36 by 32
+	240	22	sizes	36X34	36X34	36 by 34
+	25	23	sizes	36X36	36X36	36 by 36
+	9	21	sizes	38X30	38X30	38 by 30
+	67	22	sizes	38X32	38X32	38 by 32
+	121	24	sizes	38X34	38X34	38 by 34
+	19	25	sizes	38X36	38X36	38 by 36
+	16	15	sizes	40X32	40X32	40 by 32
+	78	25	sizes	40X34	40X34	40 by 34
+	5	17	sizes	42X32	42X32	42 by 32
+	20	16	sizes	42X34	42X34	42 by 34
+	2	14	sizes	44X32	44X32	44 by 32
+	8	11	sizes	44X34	44X34	44 by 34
+	2	3	sizes	46X32	46X32	46 by 32
+	22	18	sizes	46X34	46X34	46 by 34
+	14	8	sizes	48X34	48X34	48 by 34
+	1	0	sizes	W24	W24	W 24	waist 24
+	31	1	sizes	W25	W25	W 25	waist 25
+	26	2	sizes	W26	W26	W 26	waist 26
+	67	2	sizes	W27	W27	W 27	waist 27
+	245	3	sizes	W28	W28	W 28	waist 28
+	186	4	sizes	W29	W29	W 29	waist 29
+	190	4	sizes	W30	W30	W 30	waist 30
+	330	5	sizes	W31	W31	W 31	waist 31
+	446	6	sizes	W32	W32	W 32	waist 32
+	278	6	sizes	W33	W33	W 33	waist 33
+	144	6	sizes	W34	W34	W 34	waist 34
+	197	7	sizes	W36	W36	W 36	waist 36
+	79	6	sizes	W38	W38	W 38	waist 38
+	14	7	sizes	W40	W40	W 40	waist 40
+	13	8	sizes	W42	W42	W 42	waist 42
+	2	5	sizes	W44	W44	W 44	waist 44
+	148	4	sizes	50 cm ( 0-1 months )	50 cm ( 0-1 months )	50 centimeters	50 cents	new born
+	198	2	sizes	56 cm ( 1-2 months )	56 cm ( 1-2 months )	56 centimeters	56 cents	1 months
+	233	3	sizes	62 cm ( 2-4 months )	62 cm ( 2-4 months )	62 centimeters	62 cents	2 months	3 months	60 centimeters
+	415	4	sizes	68 cm ( 4-6 months )	68 cm ( 4-6 months )	68 centimeters	68 cents	4 months	5 months
+	498	11	sizes	74 cm ( 6-9 months )	74 cm ( 6-9 months )	74 centimeters	74 cents	6 months	7 months	70 centimeters
+	627	12	sizes	80 cm ( 9-12 months )	80 cm ( 9-12 months )	80 centimeters	80 cents	8 months	9 months	80 centimeters
+	856	13	sizes	86 cm ( 1 - 1 1/2 Y )	86 cm ( 1 - 1 1/2 Y )	86 centimeters	86 cents	1 year	1 year old
+	1519	14	sizes	92 cm ( 1 1/2 - 2 Y )	92 cm ( 1 1/2 - 2 Y )	92 centimeters	92 cents			90 centimeters
+	1658	15	sizes	98 cm ( 2-3 Y )	98 cm ( 2-3 Y )	98 centimeters	98 cents	2 years	2 year old	100 centimeters
+	1583	0	sizes	104 cm ( 3-4 Y )	104 cm ( 3-4 Y )	104 centimeters	104 cents	3 years	3 year old
+	1588	1	sizes	110 cm ( 4-5 Y )	110 cm ( 4-5 Y )	110 centimeters	110 cents	4 years	4 year old
+	1978	2	sizes	116 cm ( 5-6 Y )	116 cm ( 5-6 Y )	116 centimeters	116 cents	5 years	5 year old
+	1397	3	sizes	122 cm ( 6-7 Y )	122 cm ( 6-7 Y )	122 centimeters	122 cents	6 years	6 year old	120 centimeters
+	2540	4	sizes	128 cm ( 7-8 Y )	128 cm ( 7-8 Y )	128 centimeters	128 cents	7 years	7 year old	130 centimeters
+	1772	5	sizes	134 cm ( 8-9 Y )	134 cm ( 8-9 Y )	134 centimeters	134 cents	8 years	8 year old
+	2875	6	sizes	140 cm ( 9-10 Y )	140 cm ( 9-10 Y )	140 centimeters	140 cents	9 years	9 year old
+	1573	7	sizes	146 cm ( 10-11 Y )	146 cm ( 10-11 Y )	146 centimeters	146 cents	10 years	10 year old
+	1748	8	sizes	152 cm ( 11-12 Y )	152 cm ( 11-12 Y )	152 centimeters	152 cents	11 years	11 year old	150 centimeters
+	1404	9	sizes	158 cm ( 12-13 Y )	158 cm ( 12-13 Y )	158 centimeters	158 cents	12 years	12 year old	160 centimeters
+	1566	10	sizes	164 cm ( 13-14 Y )	164 cm ( 13-14 Y )	164 centimeters	164 cents	13 years	13 year old
+	1089	11	sizes	170 cm (14+ Y )	170 cm (14+ Y )	170 centimeters	170 cents	14 years	14 year old
+	7	0	sizes	15	Shoe size 15	15
+	283	1	sizes	16	Shoe size 16	16
+	490	2	sizes	17	Shoe size 17	17
+	584	3	sizes	18	Shoe size 18	18
+	770	4	sizes	19	Shoe size 19	19
+	932	5	sizes	20	Shoe size 20	20
+	251	4	sizes	21	Shoe size 21	21
+	1094	6	sizes	22	Shoe size 22	22
+	797	6	sizes	23	Shoe size 23	23
+	893	7	sizes	24	Shoe size 24	24
+	921	8	sizes	25	Shoe size 25	25
+	771	8	sizes	26	Shoe size 26	26
+	1195	8	sizes	27	Shoe size 27	27
+	1231	9	sizes	28	Shoe size 28	28
+	1010	10	sizes	29	Shoe size 29	29
+	1284	11	sizes	30	Shoe size 30	30
+	1274	12	sizes	31	Shoe size 31	31
+	1127	13	sizes	32	Shoe size 32	32
+	1100	14	sizes	33	Shoe size 33	33
+	1087	15	sizes	34	Shoe size 34	34
+x	2250	16	sizes	35	4 (shoes)	35	4	4 and a half	UK 4	four point five
+x	3425	17	sizes	36	5 (shoes)	36	5	5 and a half	UK 5	five point five
+x	2662	18	sizes	37	6 (shoes)	37	6	6 and a half	UK 6	six point five
+x	3714	19	sizes	38	7 (shoes)	38	7	7 and a half	UK 7	seven point five
+x	3226	18	sizes	39	8 (shoes)	39	8	8 and a half	UK 8	eight point five
+x	4875	18	sizes	40	9 (shoes)	40	9	9 and a half	UK 9	nine point five
+x	4407	13	sizes	41	10 (shoes)	41	10	10 and a half	UK 10	ten point five
+x	4419	12	sizes	42	11 (shoes)	42	11	11 and a half	UK 11	eleven point five
+x	1911	13	sizes	43	12 (shoes)	43	12	12 and a half	UK 12	twelve point five
+x	3301	10	sizes	44	13 (shoes)	44	13	13 and a half	UK 13	thirteen point five
+x	2913	11	sizes	45	14 (shoes)	45	14	14 and a half	UK 14	fourteen point five
+x	2317	12	sizes	46	15 (shoes)	46	15	15 and a half	UK 15	fifteen point five
+x	1100	13	sizes	47	16 (shoes)	47	16	16 and a half	UK 16	sixteen point five
+	512	14	sizes	48	Shoe size 48	48
+	91	15	sizes	49	Shoe size 49	49
+	114	14	sizes	50	Shoe size 50	50
+	3	6	sizes	51	Shoe size 51	51
+	1	0	sizes	60A	60A	60 A
+	1	1	sizes	60B	60B	60 B
+	2	2	sizes	60C	60C	60 C
+	1	3	sizes	60F	60F	60 F
+	1	4	sizes	60G	60G	60 G
+	9	5	sizes	65A	65A	65 A
+	29	6	sizes	65B	65B	65 B
+	23	7	sizes	65C	65C	65 C
+	28	8	sizes	65D	65D	65 D
+	10	9	sizes	65E	65E	65 E
+	7	10	sizes	65F	65F	65 F
+	6	11	sizes	65G	65G	65 G
+	3	12	sizes	65H	65H	65 H
+	1	13	sizes	65J	65J	65 J
+	1	14	sizes	65K	65K	65 K
+	80	15	sizes	70A	70A	70 A
+	117	16	sizes	70B	70B	70 B
+	109	17	sizes	70C	70C	70 C
+	81	18	sizes	70D	70D	70 D
+	58	19	sizes	70E	70E	70 E
+	23	20	sizes	70F	70F	70 F
+	17	21	sizes	70G	70G	70 G
+	4	22	sizes	70H	70H	70 H
+	1	23	sizes	70J	70J	70 J
+	1	24	sizes	70K	70K	70 K
+	105	25	sizes	75A	75A	75 A
+	137	26	sizes	75B	75B	75 B
+	128	27	sizes	75C	75C	75 C
+	121	28	sizes	75D	75D	75 D
+	69	29	sizes	75E	75E	75 E
+	33	30	sizes	75F	75F	75 F
+	18	31	sizes	75G	75G	75 G
+	4	32	sizes	75H	75H	75 H
+	2	33	sizes	75J	75J	75 J
+	1	34	sizes	75K	75K	75 K
+	99	22	sizes	80A	80A	80 A
+	141	35	sizes	80B	80B	80 B
+	146	36	sizes	80C	80C	80 C
+	111	37	sizes	80D	80D	80 D
+	72	38	sizes	80E	80E	80 E
+	40	39	sizes	80F	80F	80 F
+	21	40	sizes	80G	80G	80 G
+	5	41	sizes	80H	80H	80 H
+	1	42	sizes	80J	80J	80 J
+	1	43	sizes	80K	80K	80 K
+	24	23	sizes	85A	85A	85 A
+	120	44	sizes	85B	85B	85 B
+	90	45	sizes	85C	85C	85 C
+	80	46	sizes	85D	85D	85 D
+	61	47	sizes	85E	85E	85 E
+	37	48	sizes	85F	85F	85 F
+	20	49	sizes	85G	85G	85 G
+	3	50	sizes	85H	85H	85 H
+	1	51	sizes	85J	85J	85 J
+	1	52	sizes	85K	85K	85 K
+	6	24	sizes	90A	90A	90 A
+	29	30	sizes	90B	90B	90 B
+	42	31	sizes	90C	90C	90 C
+	37	53	sizes	90D	90D	90 D
+	38	54	sizes	90E	90E	90 E
+	28	55	sizes	90F	90F	90 F
+	16	56	sizes	90G	90G	90 G
+	3	57	sizes	90H	90H	90 H
+	1	58	sizes	90J	90J	90 J
+	1	59	sizes	90K	90K	90 K
+	4	28	sizes	95A	95A	95 A
+	25	36	sizes	95B	95B	95 B
+	28	37	sizes	95C	95C	95 C
+	24	38	sizes	95D	95D	95 D
+	21	39	sizes	95E	95E	95 E
+	19	40	sizes	95F	95F	95 F
+	10	41	sizes	95G	95G	95 G
+	1	0	sizes	100A	100A	100 A
+	10	1	sizes	100B	100B	100 B
+	11	2	sizes	100C	100C	100 C
+	8	2	sizes	100D	100D	100 D
+	12	3	sizes	100E	100E	100 E
+	8	4	sizes	100F	100F	100 F
+	6	4	sizes	100G	100G	100 G
+	1	3	sizes	105B	105B	105 B
+	2	5	sizes	105C	105C	105 C
+	3	6	sizes	105D	105D	105 D
+	1	7	sizes	105E	105E	105 E
+	1	8	sizes	105F	105F	105 F
+	1	6	sizes	110B	110B	110 B
+	2	9	sizes	110D	110D	110 D
+	1	10	sizes	110E	110E	110 E
+	1	11	sizes	110F	110F	110 F
