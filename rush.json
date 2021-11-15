@@ -424,6 +424,10 @@
       "projectFolder": "examples/react-ui-example"
     },
     {
+      "packageName": "fashion-ecommerce",
+      "projectFolder": "demos/fashion-ecommerce"
+    },
+    {
       "packageName": "ecommerce-checkout",
       "projectFolder": "demos/ecommerce-checkout"
     },

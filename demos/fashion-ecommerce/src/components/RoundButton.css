@@ -1,0 +1,31 @@
+.RoundButton {
+  box-sizing: border-box;
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+  overflow: visible;
+  padding: 50%;
+  z-index: 2;
+}
+
+.HitArea {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  overflow: visible;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.HitArea:hover {
+  background-color: #0002;
+}

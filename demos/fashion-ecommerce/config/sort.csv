@@ -1,0 +1,27 @@
+exclusive,price_desc
+most exclusive,price_desc
+exclusivity,price_desc
+luxurious,price_desc
+expensive,price_desc
+most expensive,price_desc
+price high to low,price_desc
+highest price,price_desc
+high price,price_desc
+price,price_asc
+price low to high,price_asc
+lowest price,price_asc
+low price,price_asc
+lower price,price_asc
+cheap,price_asc
+cheapest,price_asc
+least expensive,price_asc
+increasing price,price_asc
+cost, price_asc
+popular,popularity_desc
+most popular,popularity_desc
+popularity,popularity_desc
+best,popularity_desc
+top sellers,popularity_desc
+top seller,popularity_desc
+favorite,popularity_desc
+new,new_desc 

@@ -1,0 +1,92 @@
+.megamenu {
+  width: 100%;
+  height: 12rem;
+  background-color: rgba(236, 236, 236, 0.65);
+  box-sizing: border-box;
+  margin: 0;
+  user-select: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.megamenucontent {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+ul.megamenulist {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0.5rem 2.0rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+
+  font-size: 1.0rem;
+  color: black;
+}
+
+ul.megamenulist li {
+  min-width: 8rem;
+  padding: 0 1rem 0 0;
+  list-style-type: none;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+ul.megamenulist h1 {
+  box-sizing: border-box;
+  min-width: 5rem;
+  min-height: 2.8rem;
+  padding: 0rem 0.5rem 0rem 2.3rem;
+  margin: 0;
+
+  font-size: 15px;
+
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+  white-space: nowrap;
+}
+
+ul.megamenulist .tag {
+  height: 1.4rem;
+  border-radius: 0.7rem;
+  margin: 0;
+  padding: 0px 0.8rem;
+  cursor: pointer;
+
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  white-space: nowrap;
+}
+
+ul.megamenulist .tag:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+ul.megamenulist .close {
+  margin-right: 0.2rem;
+}
+
+.MegaMenuClose {
+  position: fixed;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}

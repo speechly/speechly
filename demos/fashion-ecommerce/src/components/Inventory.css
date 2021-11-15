@@ -1,0 +1,166 @@
+.InventoryContainer {
+  position: relative;
+  flex-grow: 1;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.InventoryViewport {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+
+.Inventory {
+  margin: 0 0 18vw 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  align-items: top;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+ul.Inventory li {
+  position: relative;
+  flex-basis: 33.333%;
+  flex-grow: 0;
+  flex-shrink: 0;
+
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  height: 45vw;
+}
+
+@media only screen and (min-width: 600px) {
+  ul.Inventory li {
+    flex-basis: 25%;
+    height: 30vw;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  ul.Inventory li {
+    flex-basis: 20%;
+    height: 25vw;
+  }
+}
+
+div.InventoryItemImage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 40%;
+  pointer-events: none;
+}
+
+ul.Inventory div.QuickInfo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #00000000;
+  fill: #00000000;
+  transition: 1s;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+ul.Inventory div.QuickInfo:hover {
+  background-color: #ffffffe0;
+  color: #000000ff;
+  transition: 0.5s;
+  fill: #000000ff;
+}
+
+.ShoppingCartButton {
+  position: absolute;
+  width: 2rem;
+  height: auto;
+  right: 1rem;
+  bottom: 1rem;
+}
+
+ul.Inventory h1 {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  text-align: center;
+}
+
+ul.Inventory .Categories {
+  font-size: 0.8rem;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  text-align: center;
+}
+
+div.InventoryItemFader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff00;
+  transition: 1s;
+  overflow: hidden;
+}
+
+div.InventoryItemFader.visible {
+  background-color: #ffffffff;
+  transition: 1s;
+}
+
+div.NoResults {
+  box-sizing: border-box;
+  height: 100%;
+  font-size: 1.5rem;
+  padding-bottom: 3rem;
+  color: #00000030;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div.NoResults.hidden {
+  display: none;
+}
+
+div.NoResults h1 {
+  text-align: center;
+  font-size: 2rem;
+  padding: 0;
+  margin: 0rem 1rem 0.5rem 1rem;
+}
+
+div.NoResults p {
+  font-family: "Montserrat", Helvetica, Arial, serif;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 0;
+  margin: 0rem 1rem 2rem 1rem;
+  flex-grow: 0;
+  color: #00000068;
+}
+
+.logos {
+  text-align: center;
+}
+.logo {
+  width: 4rem;
+  opacity: 0.2;
+  vertical-align: middle;
+  margin: 0.2rem 1rem;
+}
