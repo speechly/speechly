@@ -2,7 +2,7 @@
   "name": "smart-home",
   "version": "1.0.2",
   "private": true,
-  "homepage": "smarthome",
+  "homepage": "smart-home",
   "dependencies": {
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
