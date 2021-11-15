@@ -10,7 +10,6 @@ specifiers:
   '@rush-temp/cra-template-speechly': file:./projects/cra-template-speechly.tgz
   '@rush-temp/ecommerce-checkout': file:./projects/ecommerce-checkout.tgz
   '@rush-temp/fashion-ecommerce': file:./projects/fashion-ecommerce.tgz
-  '@rush-temp/fast-food': file:./projects/fast-food.tgz
   '@rush-temp/flight-booking': file:./projects/flight-booking.tgz
   '@rush-temp/logkit': file:./projects/logkit.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
@@ -20,7 +19,6 @@ specifiers:
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
-  '@rush-temp/voice-picking': file:./projects/voice-picking.tgz
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -83,7 +81,6 @@ dependencies:
   '@rush-temp/cra-template-speechly': file:projects/cra-template-speechly.tgz
   '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz_ts-node@10.4.0
   '@rush-temp/fashion-ecommerce': file:projects/fashion-ecommerce.tgz
-  '@rush-temp/fast-food': file:projects/fast-food.tgz_ts-node@10.4.0
   '@rush-temp/flight-booking': file:projects/flight-booking.tgz_ts-node@10.4.0
   '@rush-temp/logkit': file:projects/logkit.tgz
   '@rush-temp/react-client': file:projects/react-client.tgz
@@ -93,7 +90,6 @@ dependencies:
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.4.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.4.0
-  '@rush-temp/voice-picking': file:projects/voice-picking.tgz_ts-node@10.4.0
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 7.2.1
@@ -17574,42 +17570,6 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  file:projects/fast-food.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-iv4jYpcY/Tm3DtwFLvMyGfuYliyPlO4HI7dnXDgWZAb/TuHQJ4lhfftqaJgjtkcI/I7RMpEmdfClnohz47l+mQ==, tarball: file:projects/fast-food.tgz}
-    id: file:projects/fast-food.tgz
-    name: '@rush-temp/fast-food'
-    version: 0.0.0
-    dependencies:
-      '@testing-library/jest-dom': 4.2.4
-      '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
-      '@testing-library/user-event': 7.2.1
-      '@types/jest': 24.9.1
-      '@types/node': 12.20.36
-      '@types/react': 17.0.34
-      '@types/react-dom': 17.0.11
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-scripts: 4.0.3_8ffc885aea5855d927196666bcb3cecc
-      typescript: 4.4.4
-    transitivePeerDependencies:
-      - '@testing-library/dom'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - fibers
-      - node-sass
-      - sass
-      - sockjs-client
-      - supports-color
-      - ts-node
-      - type-fest
-      - utf-8-validate
-      - webpack-cli
-      - webpack-command
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-    dev: false
-
   file:projects/flight-booking.tgz_ts-node@10.4.0:
     resolution: {integrity: sha512-s0YCXX2heT6e3TRKlxuCukE5wxNdyxwcDE05N6Z266Ge4o5CSDeRy9kY8popmX4fMChG09GgMXSQq/RQW5N8kA==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
@@ -17847,42 +17807,6 @@ packages:
     resolution: {integrity: sha512-S/djPBH9M2gFmI66YbXqX9T9bee/wpclDEEdg9tSsex5sDwqUaHzO5j7lpb3qplP16C9GY0NlifkITLTziy9Dw==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
-    version: 0.0.0
-    dependencies:
-      '@testing-library/jest-dom': 4.2.4
-      '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
-      '@testing-library/user-event': 7.2.1
-      '@types/jest': 24.9.1
-      '@types/node': 12.20.36
-      '@types/react': 17.0.34
-      '@types/react-dom': 17.0.11
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-scripts: 4.0.3_8ffc885aea5855d927196666bcb3cecc
-      typescript: 4.4.4
-    transitivePeerDependencies:
-      - '@testing-library/dom'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - fibers
-      - node-sass
-      - sass
-      - sockjs-client
-      - supports-color
-      - ts-node
-      - type-fest
-      - utf-8-validate
-      - webpack-cli
-      - webpack-command
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-    dev: false
-
-  file:projects/voice-picking.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-12/2AJJOYTrn3u4dNe1SioLfW2eTgBVBsPJKJMLoN2y75nCAezXuYEBPOXBZ9yKfVkGGSvoAKT2zVfQajxPmVA==, tarball: file:projects/voice-picking.tgz}
-    id: file:projects/voice-picking.tgz
-    name: '@rush-temp/voice-picking'
     version: 0.0.0
     dependencies:
       '@testing-library/jest-dom': 4.2.4

@@ -436,20 +436,12 @@
       "projectFolder": "demos/smart-home"
     },
     {
-      "packageName": "fast-food",
-      "projectFolder": "demos/fast-food"
-    },
-    {
       "packageName": "flight-booking",
       "projectFolder": "demos/flight-booking"
     },
     {
       "packageName": "speech-to-text",
       "projectFolder": "demos/speech-to-text"
-    },
-    {
-      "packageName": "voice-picking",
-      "projectFolder": "demos/voice-picking"
     }
     // {
     //   /**
