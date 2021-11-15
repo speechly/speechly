@@ -2,6 +2,7 @@
   "name": "speech-to-text",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/speech-to-text/",
   "dependencies": {
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
@@ -40,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "files": [
+    "build/**/*"
+  ]
 }
