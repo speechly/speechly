@@ -116,7 +116,7 @@ export default [
     },
     plugins: [
       copy({
-        watch: [
+        watch: !production && [
           'src/assets/*'
         ],
         targets: [
