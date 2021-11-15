@@ -1,0 +1,54 @@
+.SmartFilters {
+/*  flex-basis: 4.8rem; */
+  flex-grow: 0;
+  flex-shrink: 0;
+  background-color: #00b0cf;
+  padding: 0.5rem 0.3rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.SmartFilter {
+  margin: 0.4rem 0.2rem;
+  width: 7.8rem;
+  color: #dffaff;
+  cursor: pointer;
+}
+
+.filterLabel {
+  font-size: 0.8rem;
+  margin: 0.0rem 0;
+  color: #9ff1ff;
+}
+
+.filterValue {
+  padding: 0.0rem 0 0.0rem 0.0rem;
+  height: 1.3rem;
+  font-size: 1.2rem;
+  border-bottom: #6ad3e6 solid 2px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  white-space: pre;
+  flex-grow: 0;
+}
+.filterValue1 {
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+.filterValue2 {
+  margin-left: auto;
+  flex-shrink: 0;
+  fill: #6ad3e6;
+  z-index: 2;
+}
+.filterValueClearIcon {
+  fill: #6ad3e6;
+}

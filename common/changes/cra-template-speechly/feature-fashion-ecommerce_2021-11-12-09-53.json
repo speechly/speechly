@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "cra-template-speechly",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "cra-template-speechly"
+}
