@@ -2,6 +2,7 @@
   "name": "fashion-ecommerce",
   "version": "2.1.0",
   "private": true,
+  "homepage": "/fashion/",
   "dependencies": {
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
