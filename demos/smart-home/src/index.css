@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap");
+
+body {
+  margin: 0;
+  font-family: 'Saira Condensed', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  overflow: "hidden";
+  position: "relative";
+}
+
+
+.BigTranscript {
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.BigTranscript .Final {
+  text-decoration: none;
+}
+
+.BigTranscript .Entity.room {
+  color: #1fd3f3;
+}
+
+.BigTranscript .Entity.device {
+  color: #1fd3f3;
+}

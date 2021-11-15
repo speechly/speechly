@@ -18,6 +18,7 @@ specifiers:
   '@rush-temp/react-ui': file:./projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:./projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
+  '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-picking': file:./projects/voice-picking.tgz
   '@testing-library/jest-dom': ^4.2.4
@@ -29,6 +30,7 @@ specifiers:
   '@types/pubsub-js': ^1.8.1
   '@types/react': '>=16.13.1'
   '@types/react-dom': '>=16.13.1'
+  '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
   base-64: ^0.1.0
   csvtojson: ^2.0.10
@@ -41,15 +43,20 @@ specifiers:
   locale-code: ^2.0.2
   minimist: ^1.2.5
   node-fetch: ^2.6.1
+  prop-types: ^15.7.2
   pubsub-js: ^1.9.2
+  query-string: ^6.13.8
   react: '>=16.13.1'
   react-device-detect: ^1.14.0
   react-dom: '>=16.13.1'
+  react-image-webp: ^0.7.0
+  react-map-interaction: ^2.0.0
+  react-refresh: ^0.9.0
   react-scripts: ^4.0.3
   react-spring: ^8.0.27
   rimraf: ^3.0.2
   rollup: ^2.3.4
-  rollup-plugin-copy: ~3.4.0
+  rollup-plugin-copy-watch: '>=0.0.1'
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
   rollup-plugin-svelte: ^7.0.0
@@ -84,6 +91,7 @@ dependencies:
   '@rush-temp/react-ui': file:projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:projects/react-ui-example.tgz_ts-node@10.4.0
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
+  '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.4.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.4.0
   '@rush-temp/voice-picking': file:projects/voice-picking.tgz_ts-node@10.4.0
   '@testing-library/jest-dom': 4.2.4
@@ -95,6 +103,7 @@ dependencies:
   '@types/pubsub-js': 1.8.3
   '@types/react': 17.0.34
   '@types/react-dom': 17.0.11
+  '@types/styled-components': 5.1.15
   '@types/uuid': 7.0.5
   base-64: 0.1.0
   csvtojson: 2.0.10
@@ -107,15 +116,20 @@ dependencies:
   locale-code: 2.0.2
   minimist: 1.2.5
   node-fetch: 2.6.6
+  prop-types: 15.7.2
   pubsub-js: 1.9.3
+  query-string: 6.14.1
   react: 17.0.2
   react-device-detect: 1.17.0_react-dom@17.0.2+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-image-webp: 0.7.0
+  react-map-interaction: 2.1.0_prop-types@15.7.2+react@17.0.2
+  react-refresh: 0.9.0
   react-scripts: 4.0.3_8ffc885aea5855d927196666bcb3cecc
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
   rimraf: 3.0.2
   rollup: 2.59.0
-  rollup-plugin-copy: 3.4.0
+  rollup-plugin-copy-watch: 0.0.1
   rollup-plugin-css-only: 3.1.0_rollup@2.59.0
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-svelte: 7.1.0_rollup@2.59.0+svelte@3.44.1
@@ -4335,7 +4349,7 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 12.20.36
+      '@types/node': 16.11.6
     dev: false
 
   /@types/glob/7.2.0:
@@ -8659,6 +8673,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
+    dev: false
+
+  /filter-obj/1.1.0:
+    resolution: {integrity: sha1-mzERErxsYSehbgFsbF1/GeCAXFs=}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /finalhandler/1.1.2:
@@ -13722,6 +13741,16 @@ packages:
       strict-uri-encode: 1.1.0
     dev: false
 
+  /query-string/6.14.1:
+    resolution: {integrity: sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==}
+    engines: {node: '>=6'}
+    dependencies:
+      decode-uri-component: 0.2.0
+      filter-obj: 1.1.0
+      split-on-first: 1.1.0
+      strict-uri-encode: 2.0.0
+    dev: false
+
   /querystring-es3/0.2.1:
     resolution: {integrity: sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM=}
     engines: {node: '>=0.4.x'}
@@ -13834,6 +13863,18 @@ packages:
       ua-parser-js: 0.7.31
     dev: false
 
+  /react-dom/16.14.0_react@16.14.0:
+    resolution: {integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==}
+    peerDependencies:
+      react: ^16.14.0
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      prop-types: 15.7.2
+      react: 16.14.0
+      scheduler: 0.19.1
+    dev: false
+
   /react-dom/17.0.2_react@17.0.2:
     resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==}
     peerDependencies:
@@ -13849,6 +13890,13 @@ packages:
     resolution: {integrity: sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==}
     dev: false
 
+  /react-image-webp/0.7.0:
+    resolution: {integrity: sha512-XV6KZlKcLxDNa0371iVC74JULuZJChdY5hhrnOONITWEEYGpwsX+QaONeCTTFMjQaqv0z32+rjGC0EQSw+O19Q==}
+    dependencies:
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -13857,8 +13905,23 @@ packages:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: false
 
+  /react-map-interaction/2.1.0_prop-types@15.7.2+react@17.0.2:
+    resolution: {integrity: sha512-bD6Gz2nuf60HF4WAYfBOjsqttrFlTd1u/TrCQSxdl3KITiTpTxr1vvLIr1k+NR2w3Jln+gux+oWDbjnh8Dhv7w==}
+    peerDependencies:
+      prop-types: '>=15.0.0'
+      react: '>=16.3.0'
+    dependencies:
+      prop-types: 15.7.2
+      react: 17.0.2
+    dev: false
+
   /react-refresh/0.8.3:
     resolution: {integrity: sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /react-refresh/0.9.0:
+    resolution: {integrity: sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -14066,6 +14129,15 @@ packages:
       react: 17.0.2
       react-is: 16.13.1
       scheduler: 0.19.1
+    dev: false
+
+  /react/16.14.0:
+    resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      prop-types: 15.7.2
     dev: false
 
   /react/17.0.2:
@@ -15234,6 +15306,11 @@ packages:
       - supports-color
     dev: false
 
+  /split-on-first/1.1.0:
+    resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
+    engines: {node: '>=6'}
+    dev: false
+
   /split-string/3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
     engines: {node: '>=0.10.0'}
@@ -15357,6 +15434,11 @@ packages:
   /strict-uri-encode/1.1.0:
     resolution: {integrity: sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=}
     engines: {node: '>=0.10.0'}
+    dev: false
+
+  /strict-uri-encode/2.0.0:
+    resolution: {integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=}
+    engines: {node: '>=4'}
     dev: false
 
   /string-argv/0.1.2:
@@ -17339,7 +17421,7 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-6dQab1TvssoLC+4+Y45iWxCWsnT+4Gd+3rm7Hyn/xtsqtmgAcxueWKenGoZNoYhsYfefw3bzwxWu5nQ4TCloCQ==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-iv0LiRgPkdSxoamu4geW26E9aKb+FjNxQQxZzeL2DdJOwGs6WKDwXPCz0TokWf/1LLZPxJrjObSEsgJyjMvC9g==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
@@ -17446,7 +17528,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-EPrVLKYqd0rSot2lMQgQ+gXPWeqTSYcF6A0v2cja9SengldtV9tC+8Hnn6X1VoEfj5MFoVs9cIu4M64OefO9ow==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-d3GuQyG6W2SirevI6wHWDrFLm4dgzkSJ+Ktm2A5c5SWo6YMaWoNGqtTYJ9Y+HPYrC6JZ39ZiGKf6Qd3Qt83h6A==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -17712,6 +17794,53 @@ packages:
       typescript: 4.4.4
     transitivePeerDependencies:
       - webpack
+    dev: false
+
+  file:projects/smart-home.tgz_ts-node@10.4.0:
+    resolution: {integrity: sha512-gqMiZyyzV5IkRvuC/+lymx//C1f0i0fo4ySTaTWbJ7Pccw83grOu09UvDdHMAAHhhECSSRXD1tAXDMHicpjNRA==, tarball: file:projects/smart-home.tgz}
+    id: file:projects/smart-home.tgz
+    name: '@rush-temp/smart-home'
+    version: 0.0.0
+    dependencies:
+      '@testing-library/jest-dom': 4.2.4
+      '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
+      '@testing-library/user-event': 7.2.1
+      '@types/jest': 24.9.1
+      '@types/node': 12.20.36
+      '@types/pubsub-js': 1.8.3
+      '@types/react': 17.0.34
+      '@types/react-dom': 17.0.11
+      '@types/styled-components': 5.1.15
+      prop-types: 15.7.2
+      pubsub-js: 1.9.3
+      query-string: 6.14.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-image-webp: 0.7.0
+      react-map-interaction: 2.1.0_prop-types@15.7.2+react@17.0.2
+      react-refresh: 0.9.0
+      react-scripts: 4.0.3_8ffc885aea5855d927196666bcb3cecc
+      react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
+      styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
+      typescript: 4.4.4
+    transitivePeerDependencies:
+      - '@testing-library/dom'
+      - '@types/webpack'
+      - bufferutil
+      - canvas
+      - fibers
+      - node-sass
+      - react-is
+      - sass
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - utf-8-validate
+      - webpack-cli
+      - webpack-command
+      - webpack-hot-middleware
+      - webpack-plugin-serve
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.4.0:
