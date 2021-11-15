@@ -14528,6 +14528,18 @@ packages:
       rollup-pluginutils: 2.8.2
     dev: false
 
+  /rollup-plugin-copy-watch/0.0.1:
+    resolution: {integrity: sha512-TjlXZsmsdLWd4Jx1M6qUQqLgRxJlTpmHchPTN6s4d58ubYAa7DlbMrqGz5In1Xg/iN7p19YNpcGGKWu0ImHpVg==}
+    engines: {node: '>=8.3'}
+    dependencies:
+      '@types/fs-extra': 8.1.2
+      chokidar: 3.5.2
+      colorette: 1.4.0
+      fs-extra: 8.1.0
+      globby: 10.0.1
+      is-plain-object: 3.0.1
+    dev: false
+
   /rollup-plugin-copy/3.4.0:
     resolution: {integrity: sha512-rGUmYYsYsceRJRqLVlE9FivJMxJ7X6jDlP79fmFkL8sJs7VVMSVyA2yfyL+PGyO/vJs4A87hwhgVfz61njI+uQ==}
     engines: {node: '>=8.3'}
@@ -17327,7 +17339,7 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-UpHH67XPaX+8xAX0ghmbVDLGDzQbJQgg1uuoEWgGGIRnyjRenegW9p9WohsR6ro4kmxP5ib+7jbkLml9ZEbSBw==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-6dQab1TvssoLC+4+Y45iWxCWsnT+4Gd+3rm7Hyn/xtsqtmgAcxueWKenGoZNoYhsYfefw3bzwxWu5nQ4TCloCQ==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
@@ -17337,6 +17349,7 @@ packages:
       '@tsconfig/svelte': 1.0.13
       rollup: 2.59.0
       rollup-plugin-copy: 3.4.0
+      rollup-plugin-copy-watch: 0.0.1
       rollup-plugin-css-only: 3.1.0_rollup@2.59.0
       rollup-plugin-livereload: 2.0.5
       rollup-plugin-svelte: 7.1.0_rollup@2.59.0+svelte@3.44.1
