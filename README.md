@@ -52,9 +52,9 @@ You can also find implementations of our public demo applications in this reposi
 | ------ | ------- |
 | [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
 | [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
-| [/demos/voice-picking](/demos/voice-picking) | [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking) |
 | [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
-| [/demos/fast-food](/demos/fast-food) | [Fast food demo](https://speechly-demos.herokuapp.com/fast-food) |
+| [/demos/smart-home](/demos/smart-home) | [Smart home demo](https://smarthome.speechly.com) |
+| [/demos/fashion-ecommerce(/demos/fashion-ecommerce) | [Fashion store filter demo](https://fashion.speechly.com) |
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
