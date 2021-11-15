@@ -1,0 +1,3165 @@
+[
+  {
+    "id": "6931699",
+    "name": "Viking - Sagene Mid GTX®",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 27.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976816854_001_81b5674377f84acaacd58c5938f77f5b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931699.jpeg",
+    "popularity": 166.391,
+    "brand_id": "289"
+  },
+  {
+    "id": "6939686",
+    "name": "Peak Performance - Helium Hood Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 149.9,
+    "sex": "female",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713113482865_001_5a0e35d5581c46368a9df50ad6d2e40c_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6939686.jpeg",
+    "popularity": 89.3505,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6920041",
+    "name": "Lindberg - Vail Overall 10,000 mm",
+    "colors": [
+      "black",
+      "blue"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 32.9,
+    "sex": "child",
+    "brand": {
+      "id": "1327",
+      "name": "Lindberg"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7340151320279_001_14c891fce6e04336b78d8fe8ae5f4803_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920041.jpeg",
+    "popularity": 85.5604,
+    "brand_id": "1327"
+  },
+  {
+    "id": "6921446",
+    "name": "Viking - Vinderen Mid GTX®",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 26.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976812252_001_84000323ee3f49519b2ae38e545834d5_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921446.jpeg",
+    "popularity": 84.4919,
+    "brand_id": "289"
+  },
+  {
+    "id": "6934913",
+    "name": "Reima - Luosto Reimatec®",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 59.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429023197_001_c3d5f40dff694e9f90e0ed2d38f6b0b5_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6934913.jpeg",
+    "popularity": 77.5391,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6921619",
+    "name": "2117 of Sweden - Ängsbo Parka",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 49.9,
+    "sex": "female",
+    "brand": {
+      "id": "4142",
+      "name": "2117 of Sweden"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7312590171804_005_20beada91c544810b896b9f1ba0c5c66_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921619.jpeg",
+    "popularity": 70.5455,
+    "brand_id": "4142"
+  },
+  {
+    "id": "6934922",
+    "name": "Reima - Lapland Reimatec® Bears",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 64.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429018131_001_4c7cfaae838b4efe91c56309bc2a6fc2_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6934922.jpeg",
+    "popularity": 68.4328,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6947211",
+    "name": "Name it - Snow08 Suit Big Flower",
+    "colors": [
+      "multicolored"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 34.9,
+    "sex": "child",
+    "brand": {
+      "id": "194",
+      "name": "Name it"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713757633029_001_ad18c70524db46aa8577bc6e074f69da_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6947211.jpeg",
+    "popularity": 64.8696,
+    "brand_id": "194"
+  },
+  {
+    "id": "6952287",
+    "name": "Helly Hansen - Loke Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 71.9,
+    "sex": "female",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "Jackets",
+      "Raincoats"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7040054050920_001_8fbb769f8a084ec9a147d347168ac345_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6952287.jpeg",
+    "popularity": 63.6362,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6936461",
+    "name": "Peak Performance - Helium Hood Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 149.9,
+    "sex": "male",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713113483275_007_3375b6f1370a49519c42a60354d52f91_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936461.jpeg",
+    "popularity": 60.9552,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6934928",
+    "name": "Reima - Lapland Reimatec® Bears",
+    "colors": [
+      "yellow"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 64.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429048411_001_d3f7aa66d2784d45af97ea04755b09e4_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6934928.jpeg",
+    "popularity": 55.0991,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6936994",
+    "name": "Reima - Chapel",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "122 cm ( 6-7 Y )",
+      "128 cm ( 7-8 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 62.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429123767_001_05ecba734d05458d876f6fbc4210efca_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936994.jpeg",
+    "popularity": 51.4719,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6920054",
+    "name": "Lindberg - Vail Overall 10,000 mm",
+    "colors": [
+      "black",
+      "violet"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 32.9,
+    "sex": "child",
+    "brand": {
+      "id": "1327",
+      "name": "Lindberg"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7340151320200_001_4302a3ff20d841eba5bb3cf86bbc157b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920054.jpeg",
+    "popularity": 50.3051,
+    "brand_id": "1327"
+  },
+  {
+    "id": "6931321",
+    "name": "Viking - CASCADE II Gore-Tex High",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976991155_001_eff80a0acfaa4c919a34f44aa4d726d2_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931321.jpeg",
+    "popularity": 48.5284,
+    "brand_id": "289"
+  },
+  {
+    "id": "6947733",
+    "name": "Peak Performance - Jr. Frost Down Hood",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "146 cm ( 10-11 Y )",
+      "158 cm ( 12-13 Y )",
+      "170 cm (14+ Y )"
+    ],
+    "price": 99.9,
+    "sex": "child",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713112387758_001_3a82b13540d64d2f83aa48bc92053451_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6947733.jpeg",
+    "popularity": 46.908,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6921275",
+    "name": "Viking - Toasty II GTX®",
+    "colors": [
+      "black",
+      "orange"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 26.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976843751_001_028924ca4a194fe49ba392394ace3bce_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921275.jpeg",
+    "popularity": 43.4082,
+    "brand_id": "289"
+  },
+  {
+    "id": "6947082",
+    "name": "Peak Performance - Argon Hood Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 149.9,
+    "sex": "female",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713113538586_001_204e5e80a29f461aae089057d6b72ddf_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6947082.jpeg",
+    "popularity": 41.6545,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6931311",
+    "name": "Viking - CASCADE II Gore-Tex High",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976990981_001_6a9e186e0e474e8087bb0a2fe321f267_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931311.jpeg",
+    "popularity": 41.2224,
+    "brand_id": "289"
+  },
+  {
+    "id": "7104357",
+    "name": "Kari Traa So Tillung L Jkt W Takit NIGHT",
+    "colors": [],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/313774_102_KARI%20TRAA_SO%20TILLUNG%20L%20JKT%20W.jpg",
+    "image_file": "images/7104357.jpeg",
+    "popularity": 39.7586,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6921440",
+    "name": "Viking - Vinderen Mid GTX®",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 26.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976812092_001_37c833800b144708bc6cc868ff680bc4_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921440.jpeg",
+    "popularity": 39.6651,
+    "brand_id": "289"
+  },
+  {
+    "id": "6923308",
+    "name": "Didriksons - Tanja Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 109.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627815303_001_d75d157afcee4a32b726011b83f87350_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6923308.jpeg",
+    "popularity": 38.5431,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6931433",
+    "name": "adidas - Tango Terry Jersey",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "3XL",
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS",
+      "XXL"
+    ],
+    "price": 9,
+    "sex": "male",
+    "brand": {
+      "id": "1289",
+      "name": "adidas"
+    },
+    "category": [
+      "Sportswear",
+      "Sports shirts",
+      "Training shirts"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/4060514681528_001_e9086e00a1bb469dbabcb893c1b2379f_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931433.jpeg",
+    "popularity": 37.8332,
+    "brand_id": "1289"
+  },
+  {
+    "id": "6949402",
+    "name": "Tretorn - Frost Overall",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "122 cm ( 6-7 Y )",
+      "128 cm ( 7-8 Y )",
+      "134 cm ( 8-9 Y )",
+      "140 cm ( 9-10 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 59.9,
+    "sex": "child",
+    "brand": {
+      "id": "465",
+      "name": "Tretorn"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7392136942402_001_54578326c21c4f67ad47effb164ad5ea_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6949402.jpeg",
+    "popularity": 36.9104,
+    "brand_id": "465"
+  },
+  {
+    "id": "6929225",
+    "name": "Helly Hansen - Ocean FZ Hoodie",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XXL"
+    ],
+    "price": 38.9,
+    "sex": "male",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "College",
+      "Hoodies"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7040055778281_001_51beb19559ce459f89760393b5fe5245_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6929225.jpeg",
+    "popularity": 36.7867,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6920015",
+    "name": "Didriksons - Thelma Parka",
+    "colors": [
+      "red"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 109.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Raincoats"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627705666_002_5fd7c5ed8ca34487a73405d7c5b94712_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920015.jpeg",
+    "popularity": 35.6515,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6922133",
+    "name": "2117 of Sweden - Ängeså Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "4142",
+      "name": "2117 of Sweden"
+    },
+    "category": [
+      "Sportswear",
+      "Snowboard clothing",
+      "Ski jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325950102165_001_b38157beb2b5467c9e0b2522d99d6501_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6922133.jpeg",
+    "popularity": 34.3691,
+    "brand_id": "4142"
+  },
+  {
+    "id": "6925996",
+    "name": "Name it - Snow08 Suit Star",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 32.9,
+    "sex": "child",
+    "brand": {
+      "id": "194",
+      "name": "Name it"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713729298683_001_ea54e973f66d406cab7c9ffe6df68c63_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6925996.jpeg",
+    "popularity": 30.4142,
+    "brand_id": "194"
+  },
+  {
+    "id": "7191896",
+    "name": "Vans MTE UA SK8-Hi Shoes brown",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "sizes": [],
+    "price": 69.95,
+    "sex": "unisex",
+    "brand": {
+      "id": "191",
+      "name": "Vans"
+    },
+    "category": [
+      "Shoes",
+      "Winter shoes"
+    ],
+    "image_url": "https://images.blue-tomato.com/is/image/bluetomato/304103998_front.jpg-remtQI05Yjswo4iuzfpS_uKHxzU/304103998+front+jpg.jpg?$b9$",
+    "image_file": "images/7191896.jpeg",
+    "popularity": 30.2172,
+    "brand_id": "191"
+  },
+  {
+    "id": "6921936",
+    "name": "2117 of Sweden - Ängsbo Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 49.9,
+    "sex": "female",
+    "brand": {
+      "id": "4142",
+      "name": "2117 of Sweden"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/angsbo_Parka_7c01effcb5574d8ca05686acf00d81e4_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921936.jpeg",
+    "popularity": 29.9421,
+    "brand_id": "4142"
+  },
+  {
+    "id": "6938806",
+    "name": "Salomon - Speedcross Vario 2 GTX® W",
+    "colors": [
+      "multicolored"
+    ],
+    "sizes": [
+      "37",
+      "38",
+      "40",
+      "41"
+    ],
+    "price": 59.9,
+    "sex": "female",
+    "brand": {
+      "id": "1059",
+      "name": "Salomon"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes",
+      "Cross-country running shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/889645756257_001_44244f195e3441e5a41ef1471934ec13_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6938806.jpeg",
+    "popularity": 29.9155,
+    "brand_id": "1059"
+  },
+  {
+    "id": "6921953",
+    "name": "Kari Traa - Tesdal Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 109.5,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7048652214096_001_505f1b14b08f475db861ab9fdff6966b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921953.jpeg",
+    "popularity": 29.613,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6949395",
+    "name": "Didriksons - Pysen Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 99.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627769491_001_8aebb109d48847048d89698fc9b9c7f7_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6949395.jpeg",
+    "popularity": 29.4968,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6936991",
+    "name": "Peak Performance - Helium Hood Jacket",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 149.9,
+    "sex": "female",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713113483015_001_c264b3d4b6a94da2b424a6a64ea59116_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936991.jpeg",
+    "popularity": 28.4692,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6927997",
+    "name": "Wyte - Jonathan",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 29.9,
+    "sex": "male",
+    "brand": {
+      "id": "18190",
+      "name": "Wyte"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325600081987_001_82833e67fbb2432394bff8e4ce13d8b5_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6927997.jpeg",
+    "popularity": 28.4427,
+    "brand_id": "18190"
+  },
+  {
+    "id": "6925474",
+    "name": "Didriksons - Without Parka",
+    "colors": [
+      "blue",
+      "green"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 119.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627780434_001_794f1fa513d94d1492da942a8a77b32c_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6925474.jpeg",
+    "popularity": 28.4148,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6921283",
+    "name": "Viking - Bluster II GTX",
+    "colors": [
+      "red",
+      "blue"
+    ],
+    "sizes": [
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40"
+    ],
+    "price": 32.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976832328_003_d0636af3bf404532b4726b83577b87fa_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921283.jpeg",
+    "popularity": 27.8425,
+    "brand_id": "289"
+  },
+  {
+    "id": "6952867",
+    "name": "Helly Hansen - Crew Hooded Midlayer Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XXL"
+    ],
+    "price": 107.9,
+    "sex": "male",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "Jackets",
+      "Windbreakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7040055005479_001_21fddaf9bc174eef882df46ab51415e7_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6952867.jpeg",
+    "popularity": 27.5159,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6920650",
+    "name": "Superfit - Husky Gore-Tex® Velcro",
+    "colors": [
+      "black",
+      "blue"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 18.9,
+    "sex": "child",
+    "brand": {
+      "id": "1509",
+      "name": "Superfit"
+    },
+    "category": [
+      "Shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/9009452836558_001_ab81bed556e14ea581347850f4678c75_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920650.jpeg",
+    "popularity": 27.3433,
+    "brand_id": "1509"
+  },
+  {
+    "id": "6923934",
+    "name": "BLACC - Magma Compression Tights",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XS"
+    ],
+    "price": 11.9,
+    "sex": "female",
+    "brand": {
+      "id": "18188",
+      "name": "BLACC"
+    },
+    "category": [
+      "Sportswear",
+      "Sports pants",
+      "Tricot pants"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325600106659_004_fd4f3daabe3f428f8f3d1564ae6d57fe_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6923934.jpeg",
+    "popularity": 26.9368,
+    "brand_id": "18188"
+  },
+  {
+    "id": "6923567",
+    "name": "adidas - T16 Team Jacket",
+    "colors": [
+      "red",
+      "white"
+    ],
+    "sizes": [
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "152 cm ( 11-12 Y )",
+      "164 cm ( 13-14 Y )"
+    ],
+    "price": 9,
+    "sex": "child",
+    "brand": {
+      "id": "1289",
+      "name": "adidas"
+    },
+    "category": [
+      "Sportswear",
+      "Sports jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/4056562500591_001_adba1d6993f04f7099e6f5e51ca95774_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6923567.jpeg",
+    "popularity": 26.8488,
+    "brand_id": "1289"
+  },
+  {
+    "id": "6934862",
+    "name": "Reima - Lunch Reimatec®",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 64.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429018483_001_ef6d266dfbd14dc9bc43669e94fdac2b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6934862.jpeg",
+    "popularity": 26.4238,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6932269",
+    "name": "8848 Altitude - Dot Line Skidoverall 20,000 mm",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "4752",
+      "name": "8848 Altitude"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332520649791_001_f5e2d0f1f6e2476da159a737e2ee889a_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6932269.jpeg",
+    "popularity": 26.1132,
+    "brand_id": "4752"
+  },
+  {
+    "id": "6931290",
+    "name": "8848 Altitude - Karel Overall 15,000 mm",
+    "colors": [
+      "multicolored"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 69.9,
+    "sex": "child",
+    "brand": {
+      "id": "4752",
+      "name": "8848 Altitude"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332520790127_001_af9e25343c64483f83f59173f858e672_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931290.jpeg",
+    "popularity": 25.9628,
+    "brand_id": "4752"
+  },
+  {
+    "id": "6935872",
+    "name": "Reima - Lapland Reimatec® Bears",
+    "colors": [
+      "brown"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 90.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429159636_001_9be418136e82476687aca394faa38893_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6935872.jpeg",
+    "popularity": 25.8291,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6935011",
+    "name": "Helly Hansen - Long Belfast Winter Jacket",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS",
+      "XXL"
+    ],
+    "price": 139.9,
+    "sex": "female",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7040054934077_001_9c3b25e3e1a042cc841c105d7dccd23c_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6935011.jpeg",
+    "popularity": 24.8637,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6920005",
+    "name": "Didriksons - Thelma Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 139.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Raincoats"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627705574_001_96cd2c2ef4e944b1957dfcb2e0c41a5b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920005.jpeg",
+    "popularity": 24.7879,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6930698",
+    "name": "Helly Hansen - Rider Insulated Overall",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "122 cm ( 6-7 Y )",
+      "128 cm ( 7-8 Y )",
+      "134 cm ( 8-9 Y )"
+    ],
+    "price": 79.9,
+    "sex": "child",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "Overalls"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7040055651027_001_c2bab27183fb431798041ef0830d046e_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6930698.jpeg",
+    "popularity": 24.475,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6931691",
+    "name": "Viking - Sagene Mid GTX®",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 41.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976734745_001_0b4849d6ab794526939ffeb4775a079e_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931691.jpeg",
+    "popularity": 23.965,
+    "brand_id": "289"
+  },
+  {
+    "id": "6931684",
+    "name": "Viking - Moss Mid Jr",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40"
+    ],
+    "price": 21.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976820837_001_8dd5f9d6ef194b54a7e3185d47779341_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931684.jpeg",
+    "popularity": 23.3821,
+    "brand_id": "289"
+  },
+  {
+    "id": "6920028",
+    "name": "Lindberg - Vail Overall 10,000 mm",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 32.9,
+    "sex": "child",
+    "brand": {
+      "id": "1327",
+      "name": "Lindberg"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7340151320132_001_a61eb359a7d2412cb27557621937b71e_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920028.jpeg",
+    "popularity": 23.2892,
+    "brand_id": "1327"
+  },
+  {
+    "id": "6921776",
+    "name": "adidas - Nemeziz Tango 17.1 TR",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "41",
+      "42",
+      "44",
+      "45",
+      "46"
+    ],
+    "price": 29,
+    "sex": "male",
+    "brand": {
+      "id": "1289",
+      "name": "adidas"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Soccer shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/4059323129413_003_df54f12f4f8846d2b390e07259d932d8_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921776.jpeg",
+    "popularity": 23.1753,
+    "brand_id": "1289"
+  },
+  {
+    "id": "6937006",
+    "name": "Reima - Chapel",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "122 cm ( 6-7 Y )",
+      "128 cm ( 7-8 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 62.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429123866_001_e40c16c4dd05428887c0e29d1880d906_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6937006.jpeg",
+    "popularity": 22.6786,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6949540",
+    "name": "Nike - NSW Stadium Jacket Youth",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "sizes": [],
+    "price": 61.9,
+    "sex": "child",
+    "brand": {
+      "id": "1273",
+      "name": "Nike"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/193146760966_001_4478ef8e64814b2a8b926af0d0a1593b_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6949540.jpeg",
+    "popularity": 22.5062,
+    "brand_id": "1273"
+  },
+  {
+    "id": "6919399",
+    "name": "Alpha Industries - Long Fishtail",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XS"
+    ],
+    "price": 139.9,
+    "sex": "female",
+    "brand": {
+      "id": "434",
+      "name": "Alpha Industries"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/4059146241569_001_6adf0a640e3a4502b4680f378d1e2918_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6919399.jpeg",
+    "popularity": 22.166,
+    "brand_id": "434"
+  },
+  {
+    "id": "6936956",
+    "name": "SCANDI NOMAD - Adventure Pro Pant",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "23876",
+      "name": "SCANDI NOMAD"
+    },
+    "category": [
+      "Pants"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325600127487_001_36d1130a117b4433acdcd39618641d72_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936956.jpeg",
+    "popularity": 21.7521,
+    "brand_id": "23876"
+  },
+  {
+    "id": "6921424",
+    "name": "Viking - Skavl II GTX®",
+    "colors": [
+      "black",
+      "orange"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 27.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976844468_001_0e81ae199c4944f6888a340c7150fa20_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921424.jpeg",
+    "popularity": 21.5486,
+    "brand_id": "289"
+  },
+  {
+    "id": "6920039",
+    "name": "Didriksons - Helle Parka",
+    "colors": [
+      "red"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627686514_001_421903d030e8496da7408945cb056afa_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920039.jpeg",
+    "popularity": 20.9879,
+    "brand_id": "4148"
+  },
+  {
+    "id": "7192533",
+    "name": "Helly Hansen - Salt Jacket Outerwear Sport Jackets Blue Helly Hansen",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [],
+    "price": 82.5,
+    "sex": "male",
+    "brand": {
+      "id": "1476",
+      "name": "Helly Hansen"
+    },
+    "category": [
+      "Sportswear",
+      "Sports jackets"
+    ],
+    "image_url": "https://ean-images.booztcdn.com/helly-hansen/1300x1700/hhn33909_cgraphiteblue.jpg",
+    "image_file": "images/7192533.jpeg",
+    "popularity": 20.926,
+    "brand_id": "1476"
+  },
+  {
+    "id": "6949205",
+    "name": "Björn Borg - Luca High Tmb W",
+    "colors": [
+      "brown"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "price": 29.9,
+    "sex": "female",
+    "brand": {
+      "id": "112",
+      "name": "Björn Borg"
+    },
+    "category": [
+      "Shoes",
+      "Winter shoes",
+      "Winter boots"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/8719055293061_003_676c4c08167248d09051d40ddc34307f_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6949205.jpeg",
+    "popularity": 20.6298,
+    "brand_id": "112"
+  },
+  {
+    "id": "6927652",
+    "name": "Kari Traa - Dalane Parka",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 129.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7048652219893_001_f8f10945771c482b86a6053cee08e276_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6927652.jpeg",
+    "popularity": 20.5707,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6929251",
+    "name": "Björn Borg - Shorts BB Placed Outline Borg",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS",
+      "XXL"
+    ],
+    "price": 6.76,
+    "sex": "male",
+    "brand": {
+      "id": "112",
+      "name": "Björn Borg"
+    },
+    "category": [
+      "Underwear",
+      "Underpants",
+      "Boxer shorts"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7321464591945_001_0a4359bafb1144409b171aa1cfac973e_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6929251.jpeg",
+    "popularity": 20.5208,
+    "brand_id": "112"
+  },
+  {
+    "id": "6938772",
+    "name": "Peak Performance - Jr. Frost Down Hood",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "146 cm ( 10-11 Y )",
+      "158 cm ( 12-13 Y )",
+      "170 cm (14+ Y )"
+    ],
+    "price": 125.9,
+    "sex": "child",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713113509067_001_46344b93dedb443cb3803ef0be2f83e8_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6938772.jpeg",
+    "popularity": 20.3764,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6929492",
+    "name": "Peak Performance - Helium Hood Jacket",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 129.9,
+    "sex": "female",
+    "brand": {
+      "id": "4146",
+      "name": "Peak Performance"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713112987606_001_cc3806b772044bcfa6b581028027c0cc_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6929492.jpeg",
+    "popularity": 20.0932,
+    "brand_id": "4146"
+  },
+  {
+    "id": "6930407",
+    "name": "Kari Traa - Seim Parka",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 129.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7048652213990_001_33bcefbdcbe243f6b70329d98c9816a4_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6930407.jpeg",
+    "popularity": 20.0072,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6931293",
+    "name": "Viking - Alvdal Mid Reflex GTX®",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054977010572_001_4f6e508f124a4c85a3acfa58e2e177eb_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931293.jpeg",
+    "popularity": 19.9389,
+    "brand_id": "289"
+  },
+  {
+    "id": "6921964",
+    "name": "Kari Traa - Lekve Parka",
+    "colors": [
+      "green"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 129.5,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7048652417794_001_400fdfde31da47f4823ce35747cffe8f_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921964.jpeg",
+    "popularity": 19.9055,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6936650",
+    "name": "Lindberg - Vail Baby Overall 10,000 mm",
+    "colors": [
+      "yellow"
+    ],
+    "sizes": [
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 39.9,
+    "sex": "child",
+    "brand": {
+      "id": "1327",
+      "name": "Lindberg"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7340151344466_001_28936dc32e1b4231b16c8e12ec5d7a13_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936650.jpeg",
+    "popularity": 19.4295,
+    "brand_id": "1327"
+  },
+  {
+    "id": "6935569",
+    "name": "Nike - Air Max Wildcard HC",
+    "colors": [
+      "yellow",
+      "black"
+    ],
+    "sizes": [
+      "35",
+      "36",
+      "38",
+      "39",
+      "40",
+      "42",
+      "43",
+      "44"
+    ],
+    "price": 52.9,
+    "sex": "female",
+    "brand": {
+      "id": "1273",
+      "name": "Nike"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Tennis shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/193145221888_001_532a1ca8f2f44e029bbc91be9df7ddd6_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6935569.jpeg",
+    "popularity": 19.4188,
+    "brand_id": "1273"
+  },
+  {
+    "id": "6935700",
+    "name": "Name it - Snow08 Suit Solid",
+    "colors": [
+      "green"
+    ],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 39.9,
+    "sex": "child",
+    "brand": {
+      "id": "194",
+      "name": "Name it"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5714486647530_001_23d3965ef86b4d8ab235e4ded1e073a3_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6935700.jpeg",
+    "popularity": 19.3989,
+    "brand_id": "194"
+  },
+  {
+    "id": "6935465",
+    "name": "Molo - Pyxis Fur Double Zipper",
+    "colors": [
+      "brown"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 101.9,
+    "sex": "child",
+    "brand": {
+      "id": "96",
+      "name": "Molo"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5714210123538_001_ad6aec6aa65e4f0e9e1c4774ea8e9d8d_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6935465.jpeg",
+    "popularity": 19.378,
+    "brand_id": "96"
+  },
+  {
+    "id": "6937411",
+    "name": "Reima - Myre Jacket",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 45.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Jackets",
+      "Shell jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429018995_002_efae00c0418849c78d9ab340c10757a3_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6937411.jpeg",
+    "popularity": 19.1946,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6557420",
+    "name": "Tenson So Dib Suit Ii Jr Overalls PURPLE / PINK",
+    "colors": [],
+    "sizes": [
+      "104 cm ( 3-4 Y )",
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "122 cm ( 6-7 Y )",
+      "128 cm ( 7-8 Y )",
+      "134 cm ( 8-9 Y )",
+      "140 cm ( 9-10 Y )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 59.9,
+    "sex": "child",
+    "brand": {
+      "id": "1214",
+      "name": "TENSON"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/267595_105_TENSON_SO%20DIB%20SUIT%20II%20JR.jpg",
+    "image_file": "images/6557420.jpeg",
+    "popularity": 18.8958,
+    "brand_id": "1214"
+  },
+  {
+    "id": "7142966",
+    "name": "Vans So Ua Old Skool Suede U Sneakers CANDIED GINGER",
+    "colors": [],
+    "sizes": [
+      "35",
+      "37",
+      "38",
+      "39",
+      "40",
+      "42",
+      "43",
+      "47"
+    ],
+    "price": 39.9,
+    "sex": "unisex",
+    "brand": {
+      "id": "191",
+      "name": "Vans"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/316378_101_VANS_SO%20UA%20OLD%20SKOOL%20SUEDE%20U.jpg",
+    "image_file": "images/7142966.jpeg",
+    "popularity": 18.8838,
+    "brand_id": "191"
+  },
+  {
+    "id": "6929181",
+    "name": "Nike - Nsw Down Jacket Long Parka",
+    "colors": [
+      "red"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 157.9,
+    "sex": "female",
+    "brand": {
+      "id": "1273",
+      "name": "Nike"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/193151848826_001_188e7f525b1742e5a9bf240692c74cc2_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6929181.jpeg",
+    "popularity": 18.7919,
+    "brand_id": "1273"
+  },
+  {
+    "id": "6562810",
+    "name": "Trekmates So Arctic Grip U Ankle boots & boots BLACK / GRAY",
+    "colors": [
+      "gray",
+      "black"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46"
+    ],
+    "price": 59.9,
+    "sex": "unisex",
+    "brand": {
+      "id": "13698",
+      "name": "Trekmates"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Hiking shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/287742_101_TREKMATES_SO%20ARCTIC%20GRIP%20U.jpg",
+    "image_file": "images/6562810.jpeg",
+    "popularity": 18.7219,
+    "brand_id": "13698"
+  },
+  {
+    "id": "6939554",
+    "name": "BLACC - Artist Tights",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XS"
+    ],
+    "price": 14.9,
+    "sex": "female",
+    "brand": {
+      "id": "18188",
+      "name": "BLACC"
+    },
+    "category": [
+      "Sportswear",
+      "Sports pants",
+      "Tricot pants"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325600116900_001_73553203245644f59f2dbc7cc98a0938_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6939554.jpeg",
+    "popularity": 18.4603,
+    "brand_id": "18188"
+  },
+  {
+    "id": "6928553",
+    "name": "Björn Borg - Shorts BB Maxi Camo",
+    "colors": [
+      "multicolored",
+      "blue"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 9,
+    "sex": "male",
+    "brand": {
+      "id": "112",
+      "name": "Björn Borg"
+    },
+    "category": [
+      "Underwear",
+      "Underpants",
+      "Boxer shorts"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7321464551185_001_8c636bf04a114192a9b6cf9e8eeeb764_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6928553.jpeg",
+    "popularity": 18.3468,
+    "brand_id": "112"
+  },
+  {
+    "id": "6923643",
+    "name": "Didriksons - Avon Jacket",
+    "colors": [
+      "yellow"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL"
+    ],
+    "price": 41.9,
+    "sex": "female",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Jackets",
+      "Raincoats"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627566373_001_05ee7decf0c8451390d3c05ff7816736_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6923643.jpeg",
+    "popularity": 18.2913,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6839294",
+    "name": "Adidas So Runfalcon W Running Shoes WHITE / WHITE",
+    "colors": [
+      "white"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "44"
+    ],
+    "price": 29.9,
+    "sex": "female",
+    "brand": {
+      "id": "1289",
+      "name": "adidas"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/294901_103_ADIDAS_SO%20RUNFALCON%20W.jpg",
+    "image_file": "images/6839294.jpeg",
+    "popularity": 18.2033,
+    "brand_id": "1289"
+  },
+  {
+    "id": "6934941",
+    "name": "Reima - Gotland Reimatec®",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "74 cm ( 6-9 months )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 64.9,
+    "sex": "child",
+    "brand": {
+      "id": "3725",
+      "name": "Reima"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/6438429023432_001_972c608d68554fe69a2153037488164f_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6934941.jpeg",
+    "popularity": 17.9284,
+    "brand_id": "3725"
+  },
+  {
+    "id": "6931330",
+    "name": "Viking - Sagene Mid GTX®",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "price": 41.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054976992336_001_72ae17733a004e2ea50a48fc5d426682_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931330.jpeg",
+    "popularity": 17.9059,
+    "brand_id": "289"
+  },
+  {
+    "id": "6921209",
+    "name": "Björn Borg - Geoff Chapa",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46"
+    ],
+    "price": 29.9,
+    "sex": "male",
+    "brand": {
+      "id": "112",
+      "name": "Björn Borg"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/8719055051562_001_226d0e7627544a21b903e3da25061b3c_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6921209.jpeg",
+    "popularity": 17.6682,
+    "brand_id": "112"
+  },
+  {
+    "id": "6930781",
+    "name": "Kari Traa - Lekve Parka",
+    "colors": [
+      "red",
+      "brown"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 99,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Parkasakit"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7048652417695_006_3841a53494034c3594f563e5aaec1bd8_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6930781.jpeg",
+    "popularity": 17.63,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6930107",
+    "name": "Didriksons - Björnen Kid's Coverall",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "110 cm ( 4-5 Y )",
+      "116 cm ( 5-6 Y )",
+      "128 cm ( 7-8 Y )",
+      "140 cm ( 9-10 Y )",
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 64.9,
+    "sex": "child",
+    "brand": {
+      "id": "4148",
+      "name": "Didriksons"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7332627680819_002_52063b95a02f492abe7d5f301b263c7d_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6930107.jpeg",
+    "popularity": 17.5224,
+    "brand_id": "4148"
+  },
+  {
+    "id": "6931133",
+    "name": "Viking - Ultra 2.0",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39"
+    ],
+    "price": 26.9,
+    "sex": "child",
+    "brand": {
+      "id": "289",
+      "name": "Viking"
+    },
+    "category": [
+      "Shoes",
+      "Boots",
+      "Rubber boots"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7054977065343_001_e737c12a05cd4e26894cca113bedb01f_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6931133.jpeg",
+    "popularity": 17.364,
+    "brand_id": "289"
+  },
+  {
+    "id": "7156773",
+    "name": "Tretorn So Attica Jkt W Takit BLACK",
+    "colors": [
+      "black"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 59.9,
+    "sex": "female",
+    "brand": {
+      "id": "465",
+      "name": "Tretorn"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/320539_102_TRETORN_SO%20ATTICA%20JKT%20W.jpg",
+    "image_file": "images/7156773.jpeg",
+    "popularity": 17.1937,
+    "brand_id": "465"
+  },
+  {
+    "id": "6936608",
+    "name": "Lindberg - Vail Baby Overall 10,000 mm",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "80 cm ( 9-12 months )",
+      "86 cm ( 1 - 1 1/2 Y )",
+      "92 cm ( 1 1/2 - 2 Y )",
+      "98 cm ( 2-3 Y )"
+    ],
+    "price": 39.9,
+    "sex": "child",
+    "brand": {
+      "id": "1327",
+      "name": "Lindberg"
+    },
+    "category": [
+      "Overalls",
+      "Outerwear"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7340151344381_001_a73545bd1767416e8eace635be312d33_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6936608.jpeg",
+    "popularity": 17.0751,
+    "brand_id": "1327"
+  },
+  {
+    "id": "6937627",
+    "name": "Vans - Ward",
+    "colors": [
+      "black",
+      "white"
+    ],
+    "sizes": [
+      "35",
+      "36",
+      "38",
+      "39",
+      "40",
+      "42"
+    ],
+    "price": 48.9,
+    "sex": "female",
+    "brand": {
+      "id": "191",
+      "name": "Vans"
+    },
+    "category": [
+      "Shoes",
+      "Sneakers"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/191478073891_001_8e6dac67932d481188a6a000834eb046_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6937627.jpeg",
+    "popularity": 16.8531,
+    "brand_id": "191"
+  },
+  {
+    "id": "6325410",
+    "name": "Geographical Norway - RICHIER SOFTSHELL JACKET - Blue",
+    "colors": [
+      "blue"
+    ],
+    "sizes": [
+      "S"
+    ],
+    "price": 49.95,
+    "sex": "male",
+    "brand": {
+      "id": "18959",
+      "name": "Geographical Norway"
+    },
+    "category": [
+      "Jackets"
+    ],
+    "image_url": "https://www.disturb.fi/fi/static/media/images/ee/242x365/ee7cf410f706c77a4604d2e10520174c.jpg",
+    "image_file": "images/6325410.jpeg",
+    "popularity": 16.5695,
+    "brand_id": "18959"
+  },
+  {
+    "id": "6920162",
+    "name": "Wyte - Jr Andy",
+    "colors": [
+      "gray",
+      "orange"
+    ],
+    "sizes": [
+      "134 cm ( 8-9 Y )",
+      "140 cm ( 9-10 Y )",
+      "146 cm ( 10-11 Y )",
+      "152 cm ( 11-12 Y )",
+      "158 cm ( 12-13 Y )",
+      "164 cm ( 13-14 Y )"
+    ],
+    "price": 14.9,
+    "sex": "child",
+    "brand": {
+      "id": "18190",
+      "name": "Wyte"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/7325600086814_001_313d5a90ec29421182297c892b7deac3_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920162.jpeg",
+    "popularity": 16.4096,
+    "brand_id": "18190"
+  },
+  {
+    "id": "7104356",
+    "name": "Kari Traa So Tillung L Jkt W Takit GLASS",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/313774_101_KARI%20TRAA_SO%20TILLUNG%20L%20JKT%20W.jpg",
+    "image_file": "images/7104356.jpeg",
+    "popularity": 16.2754,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6919793",
+    "name": "ONLY - Demi Nylon Jacket",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 14.9,
+    "sex": "female",
+    "brand": {
+      "id": "143",
+      "name": "ONLY"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713749695226_001_357541e744154d24b04a8b588f8e24cd_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6919793.jpeg",
+    "popularity": 16.1648,
+    "brand_id": "143"
+  },
+  {
+    "id": "6920311",
+    "name": "Salomon - Speedcross CSWP K",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "1059",
+      "name": "Salomon"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes",
+      "Cross-country running shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/889645418315_001_ade59255be1a4571911d8625a680ea65_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920311.jpeg",
+    "popularity": 15.9794,
+    "brand_id": "1059"
+  },
+  {
+    "id": "6546136",
+    "name": "Cross Sportswear So Bergen Hi W Ankle boots & boots BLACK / GRAY",
+    "colors": [
+      "gray",
+      "black"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "18901",
+      "name": "Cross Sportswear"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Hiking shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/286375_101_CROSS%20SPORTSWEAR_SO%20BERGEN%20HI%20W.jpg",
+    "image_file": "images/6546136.jpeg",
+    "popularity": 15.9384,
+    "brand_id": "18901"
+  },
+  {
+    "id": "7104356",
+    "name": "Kari Traa So Tillung L Jkt W Takit GLASS",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/313774_101_KARI%20TRAA_SO%20TILLUNG%20L%20JKT%20W.jpg",
+    "image_file": "images/7104356.jpeg",
+    "popularity": 16.2754,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6919793",
+    "name": "ONLY - Demi Nylon Jacket",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 14.9,
+    "sex": "female",
+    "brand": {
+      "id": "143",
+      "name": "ONLY"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713749695226_001_357541e744154d24b04a8b588f8e24cd_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6919793.jpeg",
+    "popularity": 16.1648,
+    "brand_id": "143"
+  },
+  {
+    "id": "6920311",
+    "name": "Salomon - Speedcross CSWP K",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "1059",
+      "name": "Salomon"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes",
+      "Cross-country running shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/889645418315_001_ade59255be1a4571911d8625a680ea65_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920311.jpeg",
+    "popularity": 15.9794,
+    "brand_id": "1059"
+  },
+  {
+    "id": "6546136",
+    "name": "Cross Sportswear So Bergen Hi W Ankle boots & boots BLACK / GRAY",
+    "colors": [
+      "gray",
+      "black"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "18901",
+      "name": "Cross Sportswear"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Hiking shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/286375_101_CROSS%20SPORTSWEAR_SO%20BERGEN%20HI%20W.jpg",
+    "image_file": "images/6546136.jpeg",
+    "popularity": 15.9384,
+    "brand_id": "18901"
+  },
+  {
+    "id": "7104356",
+    "name": "Kari Traa So Tillung L Jkt W Takit GLASS",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/313774_101_KARI%20TRAA_SO%20TILLUNG%20L%20JKT%20W.jpg",
+    "image_file": "images/7104356.jpeg",
+    "popularity": 16.2754,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6919793",
+    "name": "ONLY - Demi Nylon Jacket",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 14.9,
+    "sex": "female",
+    "brand": {
+      "id": "143",
+      "name": "ONLY"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713749695226_001_357541e744154d24b04a8b588f8e24cd_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6919793.jpeg",
+    "popularity": 16.1648,
+    "brand_id": "143"
+  },
+  {
+    "id": "6920311",
+    "name": "Salomon - Speedcross CSWP K",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "1059",
+      "name": "Salomon"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes",
+      "Cross-country running shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/889645418315_001_ade59255be1a4571911d8625a680ea65_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920311.jpeg",
+    "popularity": 15.9794,
+    "brand_id": "1059"
+  },
+  {
+    "id": "6546136",
+    "name": "Cross Sportswear So Bergen Hi W Ankle boots & boots BLACK / GRAY",
+    "colors": [
+      "gray",
+      "black"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "18901",
+      "name": "Cross Sportswear"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Hiking shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/286375_101_CROSS%20SPORTSWEAR_SO%20BERGEN%20HI%20W.jpg",
+    "image_file": "images/6546136.jpeg",
+    "popularity": 15.9384,
+    "brand_id": "18901"
+  },
+  {
+    "id": "7104356",
+    "name": "Kari Traa So Tillung L Jkt W Takit GLASS",
+    "colors": [
+      "gray"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 89.9,
+    "sex": "female",
+    "brand": {
+      "id": "4544",
+      "name": "Kari Traa"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/313774_101_KARI%20TRAA_SO%20TILLUNG%20L%20JKT%20W.jpg",
+    "image_file": "images/7104356.jpeg",
+    "popularity": 16.2754,
+    "brand_id": "4544"
+  },
+  {
+    "id": "6919793",
+    "name": "ONLY - Demi Nylon Jacket",
+    "colors": [
+      "pink"
+    ],
+    "sizes": [
+      "L",
+      "M",
+      "S",
+      "XL",
+      "XS"
+    ],
+    "price": 14.9,
+    "sex": "female",
+    "brand": {
+      "id": "143",
+      "name": "ONLY"
+    },
+    "category": [
+      "Jackets",
+      "Winter jackets",
+      "Down jackets"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/5713749695226_001_357541e744154d24b04a8b588f8e24cd_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6919793.jpeg",
+    "popularity": 16.1648,
+    "brand_id": "143"
+  },
+  {
+    "id": "6920311",
+    "name": "Salomon - Speedcross CSWP K",
+    "colors": [
+      "violet"
+    ],
+    "sizes": [
+      "26",
+      "27",
+      "28",
+      "29",
+      "30"
+    ],
+    "price": 44.9,
+    "sex": "child",
+    "brand": {
+      "id": "1059",
+      "name": "Salomon"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Running shoes",
+      "Cross-country running shoes"
+    ],
+    "image_url": "http://cdn-media.sportamore.se/uploads/products/889645418315_001_ade59255be1a4571911d8625a680ea65_jpg_439x356_crop-smart_upscale_q85.jpg",
+    "image_file": "images/6920311.jpeg",
+    "popularity": 15.9794,
+    "brand_id": "1059"
+  },
+  {
+    "id": "6546136",
+    "name": "Cross Sportswear So Bergen Hi W Ankle boots & boots BLACK / GRAY",
+    "colors": [
+      "gray",
+      "black"
+    ],
+    "sizes": [
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41"
+    ],
+    "price": 39.9,
+    "sex": "female",
+    "brand": {
+      "id": "18901",
+      "name": "Cross Sportswear"
+    },
+    "category": [
+      "Shoes",
+      "Sports shoes",
+      "Hiking shoes"
+    ],
+    "image_url": "https://www.stadiumoutlet.fi/INTERSHOP/static/WFS/Stadium-FinlandOutlet-Site/-/Stadium/fi_FI/Zoom/286375_101_CROSS%20SPORTSWEAR_SO%20BERGEN%20HI%20W.jpg",
+    "image_file": "images/6546136.jpeg",
+    "popularity": 15.9384,
+    "brand_id": "18901"
+  }
+]

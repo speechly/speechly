@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@speechly/react-voice-forms"
+}

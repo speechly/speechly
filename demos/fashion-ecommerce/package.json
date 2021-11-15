@@ -1,0 +1,63 @@
+{
+  "name": "fashion-ecommerce",
+  "version": "2.1.0",
+  "private": true,
+  "homepage": "/fashion/",
+  "dependencies": {
+    "@speechly/react-client": ">=0.0.22",
+    "@speechly/react-ui": ">=2.1.2",
+    "@speechly/logkit": ">=1.0.0",
+    "react": ">=16.13.1",
+    "react-dom": ">=16.13.1",
+    "react-spring": "^8.0.27",
+    "react-device-detect": "^1.14.0",
+    "pubsub-js": "^1.9.2",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/node-fetch": "^2.5.7",
+    "@types/react": ">=16.13.1",
+    "@types/react-dom": ">=16.13.1",
+    "@types/styled-components": "^5.1.7",
+    "@types/pubsub-js": "^1.8.1",
+    "csvtojson": "^2.0.10",
+    "node-fetch": "^2.6.1",
+    "react-scripts": "^4.0.3",
+    "ts-node": ">=9.0.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "preprocess": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' tools/DataPreprocessor.ts",
+    "train": "set -o allexport;. ./.env;set +o allexport && speechly deploy config/ -a $REACT_APP__SPEECHLY_APP_ID",
+    "status": "set -o allexport;. ./.env;set +o allexport && speechly describe -a $REACT_APP__SPEECHLY_APP_ID",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "release": "pnpm build && set -o allexport;. ./.env;set +o allexport && gsutil -m cp -r build/* $REACT_APP__DEPLOY_PROD_URI",
+    "staging": "pnpm build && set -o allexport;. ./.env;set +o allexport && rsync -avz --delete build/ $REACT_APP__DEPLOY_STAGING_URI",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "files": [
+    "build/**/*"
+  ]
+}

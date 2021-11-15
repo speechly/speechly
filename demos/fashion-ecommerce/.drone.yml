@@ -1,0 +1,23 @@
+kind: pipeline
+name: default
+
+trigger:
+  branch:
+    - master
+
+steps:
+  - name: build
+    image: eu.gcr.io/sg-slu/builder
+    environment:
+      REACT_APP__DEPLOY_PROD_URI:
+        from_secret: REACT_APP__DEPLOY_PROD_URI
+    commands:
+      - unset CI
+      - npm install --also=dev
+      - npm run build
+  - name: publish
+    image: eu.gcr.io/sg-slu/builder
+    commands:
+      - gsutil -m cp -r build/* $REACT_APP__DEPLOY_PROD_URI
+    when:
+      event: push

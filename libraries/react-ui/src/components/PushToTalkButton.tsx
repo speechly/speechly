@@ -174,7 +174,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       case SpeechState.Connecting:
       case SpeechState.Loading:
         if (event.timeMs < SHORT_PRESS_TRESHOLD_MS) {
-          console.log(speechStateRef?.current)
           setHintText(hint)
           setShowHint(true)
         }
