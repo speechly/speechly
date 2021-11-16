@@ -48,9 +48,9 @@ jobs:
         run: node common/scripts/install-run-rush.js rebuild --verbose
       - name: Prepare deployment directory
         run: mkdir -p tmp-upload-staging-area &&
-            cp -r demos/ecommerce-checkout/build/ tmp-upload-staging-area/ecommerce-checkout &&
-            cp -r demos/fashion-ecommerce/build/ tmp-upload-staging-area/fashion-ecommerce &&
-            cp -r demos/flight-booking/build/ tmp-upload-staging-area/flight-booking &&
+            cp -r demos/ecommerce-checkout/build/ tmp-upload-staging-area/checkout &&
+            cp -r demos/fashion-ecommerce/build/ tmp-upload-staging-area/fashion &&
+            cp -r demos/flight-booking/build/ tmp-upload-staging-area/booking &&
             cp -r demos/smart-home/build/ tmp-upload-staging-area/smart-home &&
             cp -r demos/speech-to-text/build/ tmp-upload-staging-area/speech-to-text
       - name: Authenticate to GCS
@@ -63,3 +63,4 @@ jobs:
         with:
           path: tmp-upload-staging-area
           destination: ${{ secrets.SPEECHLY_DEMOS_BUCKET }}
+          parent: false
