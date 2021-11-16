@@ -49,8 +49,10 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
+# local dotenv environment variables file
+.env.local
+.env.production.local
+.env.development.local
 
 # next.js build output
 .next
@@ -68,6 +70,7 @@ common/autoinstallers/*/.npmrc
 .heft
 
 # Build artefacts
+**/build
 **/dist
 **/lib
 **/temp

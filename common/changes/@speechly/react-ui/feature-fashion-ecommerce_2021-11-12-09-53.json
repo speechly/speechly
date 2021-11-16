@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "Suppressed console logging",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

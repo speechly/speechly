@@ -12,7 +12,7 @@ c0-9.9,8.1-18,18-18c9.9,0,18,8.1,18,18C398.4,437.6,390.4,445.7,380.4,445.7z
 
   return (
     <div className='sidePanel lightText'>
-      <img className="cartSummaryImage" src='/images/6428508_sd.png' alt='' />
+      <img className="cartSummaryImage" src='./images/6428508_sd.png' alt='' />
       <div className="cartSummary">
         <ul style={{marginTop: '0.5rem'}}>
           <li>

@@ -424,12 +424,16 @@
       "projectFolder": "examples/react-ui-example"
     },
     {
+      "packageName": "fashion-ecommerce",
+      "projectFolder": "demos/fashion-ecommerce"
+    },
+    {
       "packageName": "ecommerce-checkout",
       "projectFolder": "demos/ecommerce-checkout"
     },
     {
-      "packageName": "fast-food",
-      "projectFolder": "demos/fast-food"
+      "packageName": "smart-home",
+      "projectFolder": "demos/smart-home"
     },
     {
       "packageName": "flight-booking",
@@ -438,10 +442,6 @@
     {
       "packageName": "speech-to-text",
       "projectFolder": "demos/speech-to-text"
-    },
-    {
-      "packageName": "voice-picking",
-      "projectFolder": "demos/voice-picking"
     }
     // {
     //   /**

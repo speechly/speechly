@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap");
+
+body {
+  margin: 0;
+  font-family: 'Saira Condensed', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media only screen and (max-width: 375px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
