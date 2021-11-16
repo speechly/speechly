@@ -1,4 +1,4 @@
-name: deploy flight-booking
+name: deploy demos
 on:
   push:
     branches:

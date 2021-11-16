@@ -1,6 +1,9 @@
 # [Speechly flight booking demo](https://speechly-demos.herokuapp.com/flight-booking)
 
-Demonstrates how to fill a booking form with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). The voice interface has been configured to extract keywords (entities) like *departure* and *return date* and *number of passengers* for the Voice form components to display. You can [try the deployed web app](https://speechly-demos.herokuapp.com/flight-booking) and say something like:
+Demonstrates how to fill a booking form with text fields, dropdowns and checkboxes using both voice (VUI) and
+touch/type (GUI). The voice interface has been configured to extract keywords (entities) like *departure* and
+*return date* and *number of passengers* for the Voice form components to display. You can
+[try the deployed web app](https://speechly-demos.herokuapp.com/flight-booking) and say something like:
 
 - _"Show me direct flights from New York to Miami for 2 passengers departing tomorrow."_
 
