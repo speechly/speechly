@@ -51,10 +51,10 @@ You can also find implementations of our public demo applications in this reposi
 | Folder | Description |
 | ------ | ------- |
 | [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
-| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
-| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text](https://speechly-demos.herokuapp.com/speech-to-text) |
-| [/demos/smart-home](/demos/smart-home) | [Smart home demo](https://smarthome.speechly.com) |
-| [/demos/fashion-ecommerce(/demos/fashion-ecommerce) | [Fashion store filter demo](https://fashion.speechly.com) |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) |
+| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) |
+| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
+| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://speechly-demos.herokuapp.com/speech-to-text) 
 
 ## Related repositories
 - [Android Client Library](https://github.com/speechly/android-client)
