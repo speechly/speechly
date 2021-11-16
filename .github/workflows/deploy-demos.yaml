@@ -10,7 +10,6 @@ on:
       - "demos/flight-booking/**"
       - "demos/smart-home/**"
       - "demos/speech-to-text/**"
-      - "demos/voice-picking/**"
 
 env:
   WEBPACK_MODE: prd
@@ -52,8 +51,7 @@ jobs:
             cp -r demos/fashion-ecommerce/build/ tmp-upload-staging-area/fashion-ecommerce &&
             cp -r demos/flight-booking/build/ tmp-upload-staging-area/flight-booking &&
             cp -r demos/smart-home/build/ tmp-upload-staging-area/smart-home &&
-            cp -r demos/speech-to-text/build/ tmp-upload-staging-area/speech-to-text &&
-            cp -r demos/voice-picking/build/ tmp-upload-staging-area/voice-picking
+            cp -r demos/speech-to-text/build/ tmp-upload-staging-area/speech-to-text
       - name: Authenticate to GCS
         uses: google-github-actions/auth@v0.4.0
         with:
