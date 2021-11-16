@@ -186,7 +186,7 @@ input, textarea, select {
   box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
-  --dropdown-handle-size: 0.35rem;  
+  --dropdown-handle-size: 0.35rem;
 
   background-image:
     linear-gradient(45deg, transparent 50%, #00000080 50%),
@@ -331,11 +331,12 @@ li:hover {
 
   .sidePanel {
     position: fixed;
+    top: 0;
     right: 0;
     width: 20rem;
     min-height: 100%;
     align-self: stretch;
-    padding: 3rem 1rem 12rem 1rem;
+    padding: 6rem 1rem 12rem 1rem;
     flex-direction: column;
   }
 
@@ -377,5 +378,4 @@ li:hover {
   .cartSummaryImage {
     max-width: 100%;
   }
-  
 }
