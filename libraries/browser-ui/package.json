@@ -1,11 +1,10 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "scripts": {
     "build": "rollup -c --silent",
     "build:watch": "rollup -c --silent",
-    "dev": "rollup -c -w",
-    "start": "sirv core",
+    "start": "rollup -c -w",
     "validate": "svelte-check"
   },
   "devDependencies": {
