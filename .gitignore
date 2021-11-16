@@ -74,3 +74,6 @@ common/autoinstallers/*/.npmrc
 **/dist
 **/lib
 **/temp
+
+
+tmp-upload-staging-area
