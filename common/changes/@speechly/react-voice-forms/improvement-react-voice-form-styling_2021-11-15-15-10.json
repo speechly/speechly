@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "comment": "Exposed --widget-shadow variable. M",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-voice-forms"
+}
