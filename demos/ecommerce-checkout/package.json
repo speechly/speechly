@@ -4,10 +4,11 @@
   "private": true,
   "homepage": "/checkout/",
   "dependencies": {
+    "@speechly/demo-navigation": "^0.1.29",
+    "@speechly/logkit": ">=1.0.0",
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
     "@speechly/react-voice-forms": ">=1.0.4",
-    "@speechly/logkit": ">=1.0.0",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1"
   },

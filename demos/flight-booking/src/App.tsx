@@ -26,7 +26,7 @@ function App() {
         height="4rem"
         highlightColor="var(--color-active-bg)"
         smallTextColor="var(--color-active-bg)"
-        backgroundColor="rgba(162, 213, 240, 0.4)"
+        backgroundColor="rgba(162, 213, 240, 1)"
         hint={UsageHints}
       />
 

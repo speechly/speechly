@@ -9,6 +9,7 @@ import "components/BigTransscript.css";
 import HttpsRedirect from "components/HttpsRedirect";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import { LogKit } from "@speechly/logkit";
+import { DemoNavigation } from "@speechly/demo-navigation";
 
 const appId = "4d7fd32a-909b-45a0-93da-e313fda00bc0"
 
@@ -32,10 +33,11 @@ function SpeechlyApp() {
       footnote: `Hold the mic button while talking`
     });
   }, [])
-  
+
   return (
     <AppContextProvider>
       <div className="App">
+        <DemoNavigation />
         <SmartFilter />
         <Inventory>
           <BigTranscriptContainer position="absolute">
