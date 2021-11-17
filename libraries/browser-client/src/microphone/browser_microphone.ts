@@ -99,6 +99,7 @@ export class BrowserMicrophone implements Microphone {
       speechlyNode.port.onmessage = (event: MessageEvent) => {
         switch (event.data.type) {
           case 'STATS':
+            console.log('signalEnergy', event.data.signalEnergy)
             if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
               this.stats.maxSignalEnergy = event.data.signalEnergy
             }

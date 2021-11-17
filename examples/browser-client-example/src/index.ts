@@ -63,7 +63,7 @@ function newClient(): Client {
   const opts: ClientOptions = {
     appId,
     language,
-    debug: process.env.REACT_APP_DEBUG === "true",
+    debug: true,
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: true

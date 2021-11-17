@@ -11,7 +11,7 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
     super();
 
     this._initialized = false;
-    this.debug = false;
+    this.debug = true;
     this.port.onmessage = this._initialize.bind(this);
   }
 
@@ -65,6 +65,12 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
         if (this.controlSAB && this.dataSAB) {
           this._pushData(inputChannelData);
         } else {
+          if (this.debug) {
+            this.port.postMessage({
+              type: 'STATS',
+              signalEnergy: getStandardDeviation(inputChannelData)
+            });
+          }
           this.port.postMessage({
             type: 'DATA',
             frames: inputChannelData
