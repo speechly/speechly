@@ -8,6 +8,7 @@ import {
 import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
 import FloorPlan from "FloorPlan";
+import { DemoNavigation } from "@speechly/demo-navigation";
 
 // http://localhost:3000/?backgroundColor=%23ff00ff&zoom=0.5&zoomPan=false
 const queryParams = {
@@ -20,6 +21,7 @@ const queryParams = {
 export default function App() {
   return (
     <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
+      <DemoNavigation />
       <BigTranscriptContainer>
         <BigTranscript />
       </BigTranscriptContainer>
