@@ -80,7 +80,7 @@ export class Client {
   private stoppedContextIdPromise?: Promise<string>
   private initializeMicrophonePromise?: Promise<void>
   private readonly initializeApiClientPromise: Promise<void>
-  private resolveInitialization?: (value?: void) => void
+  private resolveApiClientInitialization?: (value?: void) => void
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
@@ -134,11 +134,13 @@ export class Client {
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
     const storedToken = this.storage.get(authTokenKey)
 
-    // 2. Fetch auth token. It doesn't matter if it's not present.
+
+    // setup a promise that is resolved when ApiClient is ready (Websocket is connected)
     this.initializeApiClientPromise = new Promise(resolve => {
-      this.resolveInitialization = resolve
+      this.resolveApiClientInitialization = resolve
     })
 
+    // Fetch auth token. It doesn't matter if it's not present.
     if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
       fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
         .then(token => {
@@ -182,8 +184,8 @@ export class Client {
         this.sampleRate,
         this.debug,
       ).then(() => {
-        if (this.resolveInitialization != null) {
-          this.resolveInitialization()
+        if (this.resolveApiClientInitialization != null) {
+          this.resolveApiClientInitialization()
         }
       }).catch(err => {
         throw err
@@ -192,7 +194,7 @@ export class Client {
   }
 
   /**
-   * Initializes the client, by initializing the microphone and establishing connection to the API.
+   * Initializes the client.
    *
    * This function HAS to be invoked by a user by e.g. binding it to a button press,
    * or some other user-performed action.
@@ -209,11 +211,7 @@ export class Client {
     this.setState(ClientState.Connecting)
 
     try {
-      // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-      // await this.storage.initialize()
-      // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-
-      // 2. Initialise the microphone stack.
+      // Initialise the microphone stack.
       if (this.isWebkit) {
         if (window.webkitAudioContext !== undefined) {
           // eslint-disable-next-line new-cap
@@ -253,10 +251,8 @@ export class Client {
         if (this.isWebkit) {
           await this.audioContext.resume()
         }
-        // 3. Initialise websocket.
         await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
-        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-        await this.initializeMicrophonePromise
+        await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
       } else {
         throw ErrDeviceNotSupported
       }

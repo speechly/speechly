@@ -66,6 +66,7 @@ export class BrowserMicrophone implements Microphone {
 
     this.audioContext = audioContext
     this.resampleRatio = this.audioContext.sampleRate / this.sampleRate
+    console.log('resampleRatio', this.resampleRatio)
 
     window.navigator.mediaDevices.ondevicechange = () => {
       this.foo().then(() => { console.log('fulfilled') }, () => { console.log('rejected') })
@@ -100,6 +101,9 @@ export class BrowserMicrophone implements Microphone {
       this.audioWorkletNode = await this.initialiseWithAudioWorklet(this.audioContext)
       this.mediaStreamNode.connect(this.audioWorkletNode)
     } else {
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'can not use AudioWorkletNode')
+      }
       this.audioProcessor = this.initialiseWithScriptProcessor(this.audioContext, this.resampleRatio)
       this.mediaStreamNode.connect(this.audioProcessor)
     }
@@ -120,13 +124,12 @@ export class BrowserMicrophone implements Microphone {
       console.log('set up audioworkletnode', audioContext)
     }
 
-    // this.audioWorkletNode.connect(this.audioContext.destination)
-
     // @ts-ignore
     if (window.SharedArrayBuffer !== undefined) {
+      // Chrome, Edge, Firefox, Firefox Android
       this.setupSharedBuffer(audioWorkletNode)
     } else {
-      // Opera, Chrome Android, Webview Anroid
+      // Opera, Chrome Android, Webview Android
       if (this.debug) {
         console.log('[SpeechlyClient]', 'can not use SharedArrayBuffer')
       }
@@ -150,7 +153,6 @@ export class BrowserMicrophone implements Microphone {
   }
 
   private setupSharedBuffer(audioWorkletNode: AudioWorkletNode): void {
-    // Chrome, Edge, Firefox, Firefox Android
     // @ts-ignore
     const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
     // @ts-ignore
@@ -173,9 +175,6 @@ export class BrowserMicrophone implements Microphone {
     resampleRatio: number,
   ): ScriptProcessorNode {
     let audioProcessor: ScriptProcessorNode
-    if (this.debug) {
-      console.log('[SpeechlyClient]', 'can not use AudioWorkletNode')
-    }
     // Safari, iOS Safari and Internet Explorer
     if (this.isWebkit) {
       // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
@@ -186,7 +185,6 @@ export class BrowserMicrophone implements Microphone {
     } else {
       audioProcessor = audioContext.createScriptProcessor(undefined, 1, 1)
     }
-    // this.audioProcessor.connect(this.audioContext.destination)
     audioProcessor.addEventListener(audioProcessEvent, (event: AudioProcessingEvent) => {
       this.handleAudio(event.inputBuffer.getChannelData(0))
     })
