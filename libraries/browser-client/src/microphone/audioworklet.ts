@@ -61,24 +61,26 @@ class SpeechlyProcessor extends AudioWorkletProcessor {
 
   process(inputs, outputs, parameters) {
     const inputChannelData = inputs[0][0];
-      if (inputChannelData !== undefined) {
-        if (this.controlSAB && this.dataSAB) {
-          this._pushData(inputChannelData);
-        } else {
-          if (this.debug) {
-            this.port.postMessage({
-              type: 'STATS',
-              signalEnergy: getStandardDeviation(inputChannelData)
-            });
-          }
+    if (inputChannelData !== undefined) {
+      if (this.controlSAB && this.dataSAB) {
+        this._pushData(inputChannelData);
+      } else {
+        if (this.debug) {
           this.port.postMessage({
-            type: 'DATA',
-            frames: inputChannelData
+            type: 'STATS',
+            signalEnergy: getStandardDeviation(inputChannelData)
           });
         }
+        this.port.postMessage({
+          type: 'DATA',
+          frames: inputChannelData
+        });
       }
-      
-      return true;
+    }
+    else {
+      console.log('[SpeechlyClient]', 'undefined inputChannelData at SpeechlyProcessor.process', input);
+    }
+    return true;
   }
 }
 

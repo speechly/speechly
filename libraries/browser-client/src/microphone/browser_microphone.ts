@@ -50,6 +50,7 @@ export class BrowserMicrophone implements Microphone {
     } catch {
       throw ErrNoAudioConsent
     }
+    console.log('[SpeechlyClient]', 'this.mediaStream =', this.mediaStream)
 
     this.audioTrack = this.mediaStream.getAudioTracks()[0]
 
@@ -99,7 +100,7 @@ export class BrowserMicrophone implements Microphone {
       speechlyNode.port.onmessage = (event: MessageEvent) => {
         switch (event.data.type) {
           case 'STATS':
-            console.log('signalEnergy', event.data.signalEnergy)
+            console.log('[SpeechlyClient]', 'signalEnergy', event.data.signalEnergy)
             if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
               this.stats.maxSignalEnergy = event.data.signalEnergy
             }
@@ -132,6 +133,7 @@ export class BrowserMicrophone implements Microphone {
 
     this.initialized = true
     this.mute()
+    this.printStats()
   }
 
   async close(): Promise<void> {
