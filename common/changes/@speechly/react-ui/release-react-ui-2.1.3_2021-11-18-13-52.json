@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "react-ui built against browser-ui 5.0.1",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}
