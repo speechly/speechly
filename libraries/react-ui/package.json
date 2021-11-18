@@ -1,6 +1,5 @@
 {
   "name": "@speechly/react-ui",
-  "private": true,
   "version": "2.1.3",
   "description": "Speechly UI Components",
   "main": "./lib/index.js",
