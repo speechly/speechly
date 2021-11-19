@@ -5,32 +5,20 @@ import {
   PushToTalkButtonContainer,
   ErrorPanel
 } from '@speechly/react-ui'
+import textareaBg from './textarea.png'
+import textareaButton from './textarea-button.png'
 import './App.css'
-
-// http://localhost:3000/?backgroundColor=%23ff00ff
-const params = new URLSearchParams(window.location.search)
-
-const queryParams = {
-  backgroundColor: params.get('backgroundColor') || '#302865',
-  backgroundHighlightColor: params.get('backgroundHighlightColor') || '#494287',
-  intro: params.get('intro') || 'Hold to talk',
-  placeholder: params.get('placeholder') || 'TRY SPEECHLY SPEECH-TO-TEXT!',
-  padding: params.get('padding') || '2rem',
-}
 
 const App: React.FC = (): JSX.Element => {
 
   return (
-    <>
+    <div className="App">
       <PushToTalkButtonContainer voffset="calc(1rem + 4vh)" size="5rem">
-        <PushToTalkButton
-          size="5rem" backgroundColor={queryParams.backgroundHighlightColor} captureKey=" " intro={queryParams.intro} showTime={0}
-        />
+        <PushToTalkButton size="5rem" captureKey=" " />
         <ErrorPanel />
       </PushToTalkButtonContainer>
-
       <SpeechlyApp/>
-    </>
+    </div>
   )
 }
 
@@ -57,16 +45,10 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   }, [segment, textContent])
 
   return (
-    <>
-      <div className="pageMargin">
-        <main>
-          <textarea
-            style={{padding: queryParams.padding, backgroundColor: queryParams.backgroundColor}}
-            placeholder={queryParams.placeholder}
-            onChange={e => setText(e.target.value)} value={tentativeTextContent} />
-        </main>
-      </div>
-    </>
+    <div className="TextareaContainer" style={{ backgroundImage: `url(${textareaBg})` }}>
+      <textarea onChange={e => setText(e.target.value)} value={tentativeTextContent.toLowerCase()} />
+      {tentativeTextContent && <div className="SendButton" onClick={()=>setText('')} style={{ backgroundImage: `url(${textareaButton})` }} />}
+    </div>
   )
 }
 

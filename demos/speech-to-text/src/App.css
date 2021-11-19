@@ -1,52 +1,58 @@
 @import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap");
 
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100vh;
-}
-
-body, textarea {
-  font-family: 'Saira Condensed', sans-serif;
-}
-
-.pageMargin {
+* {
   box-sizing: border-box;
-  padding: 0;
-  width: 100%;
-  min-height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
-main {
-  position: relative;
-  width: 100%;
-  min-height: 100%;
-  flex: 1;
+body {
+  margin: 0;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  color: #1d1c1d;
+}
 
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: calc(100vh - 48px);
+}
+
+.TextareaContainer {
+  position: relative;
+  background-size: contain;
+  width: 718px;
+  height: 367px;
+  margin-bottom: 100px;
+}
+
+.SendButton {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  cursor: pointer;
 }
 
 textarea {
-  box-sizing: border-box;
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 22px;
+  color: #1d1c1d;
   resize: none;
-  padding: 2rem;
-  font-size: 1.5rem;
-  line-height: 140%;
-  width: 100%;
+  padding: 1rem;
+  width: 716px;
+  height: 325px;
   flex-grow: 1;
   border: 0;
-  color: #fffc;
-  caret-color: #fff;
-  border-radius: 0rem;
+  background-color: transparent;
+  margin: 1px;
+  text-transform: capitalize;
 }
 
 textarea:focus {
@@ -60,26 +66,3 @@ textarea:focus {
 }
 
 
-@media (max-width: 688px) {
-  html {
-    font-size: 100%;
-  }
-}
-
-@media (min-width: 688px) and (max-width: 992px) {
-  html {
-    font-size: 100%;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1312px) {
-  html {
-    font-size: 110%;
-  }
-}
-
-@media (min-width: 1312px) {
-  html {
-    font-size: 120%;
-  }
-}
