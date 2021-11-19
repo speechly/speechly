@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "removed legacy prepare_dist.js, fixed typedoc generation. Generated docs.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

@@ -1,3 +1,9 @@
+## 5.0.2
+
+Fixed bugs to enable tap-to-talk for react-client 
+## 5.0.0
+
+Moved to npm CDN repos
 ## 4.1.2
 
 - Added two Custom Events to Push-To-Talk Button: startcontext (triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration and stopcontext (triggered on just after stopping listening)

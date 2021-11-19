@@ -11,8 +11,8 @@
     Icon,
     Effect,
     Behaviour,
-    SpeechState,
-    stateToAppearance,
+    stateToClientState,
+    clientStateToAppearance,
   } from "./types";
 import { ClientState } from "@speechly/browser-client";
 
@@ -32,14 +32,14 @@ import { ClientState } from "@speechly/browser-client";
   let scale = [0.0, 0.0];
   let iconOpacity = [1.0, 1.0];
   let fxOpacity = [0.0, 0.0];
-  let effectiveAppearance: IAppearance = stateToAppearance[icon];
+  let effectiveAppearance: IAppearance = clientStateToAppearance[icon];
   let timeout = null;
   let prevFrameMillis = 0;
   let frameMillis = 0;
 
   // Run this reactive statement whenever icon parameters (icon) changes
   $: {
-    updateSkin(tangentHeld, icon);
+    updateSkin(tangentHeld, stateToClientState(icon));
   }
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
@@ -194,11 +194,11 @@ import { ClientState } from "@speechly/browser-client";
     }
   };
 
-  const updateSkin = (buttonHeld: boolean, state: string) => {
-    effectiveAppearance = stateToAppearance[state];
+  const updateSkin = (buttonHeld: boolean, clientState: ClientState) => {
+    effectiveAppearance = clientStateToAppearance[clientState];
 
     scale[0] = buttonHeld ? 1.35 : 1.0;
-    fxOpacity[0] = (buttonHeld || state == ClientState.Recording as unknown as string) ? 1.0 : 0.0;
+    fxOpacity[0] = (buttonHeld || clientState == ClientState.Recording) ? 1.0 : 0.0;
 
     switch (effectiveAppearance.icon) {
       case Icon.Mic:

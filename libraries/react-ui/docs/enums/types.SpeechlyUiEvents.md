@@ -8,31 +8,17 @@
 
 ### Enumeration members
 
-- [DismissNotification](types.SpeechlyUiEvents.md#dismissnotification)
-- [Notification](types.SpeechlyUiEvents.md#notification)
-- [TangentPress](types.SpeechlyUiEvents.md#tangentpress)
 - [TangentRelease](types.SpeechlyUiEvents.md#tangentrelease)
+- [TangentPress](types.SpeechlyUiEvents.md#tangentpress)
+- [Notification](types.SpeechlyUiEvents.md#notification)
 - [WarningNotification](types.SpeechlyUiEvents.md#warningnotification)
+- [DismissNotification](types.SpeechlyUiEvents.md#dismissnotification)
 
 ## Enumeration members
 
-### DismissNotification
+### TangentRelease
 
-• **DismissNotification** = `"DismissNotification"`
-
-#### Defined in
-
-[types.ts:9](https://github.com/speechly/react-ui/blob/e631dfa/src/types.ts#L9)
-
-___
-
-### Notification
-
-• **Notification** = `"Notification"`
-
-#### Defined in
-
-[types.ts:7](https://github.com/speechly/react-ui/blob/e631dfa/src/types.ts#L7)
+• **TangentRelease** = `"TangentRelease"`
 
 ___
 
@@ -40,19 +26,11 @@ ___
 
 • **TangentPress** = `"TangentPress"`
 
-#### Defined in
-
-[types.ts:6](https://github.com/speechly/react-ui/blob/e631dfa/src/types.ts#L6)
-
 ___
 
-### TangentRelease
+### Notification
 
-• **TangentRelease** = `"TangentRelease"`
-
-#### Defined in
-
-[types.ts:5](https://github.com/speechly/react-ui/blob/e631dfa/src/types.ts#L5)
+• **Notification** = `"Notification"`
 
 ___
 
@@ -60,6 +38,8 @@ ___
 
 • **WarningNotification** = `"WarningNotification"`
 
-#### Defined in
+___
 
-[types.ts:8](https://github.com/speechly/react-ui/blob/e631dfa/src/types.ts#L8)
+### DismissNotification
+
+• **DismissNotification** = `"DismissNotification"`
