@@ -24,12 +24,8 @@ Properties for BigTranscriptContainer component.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `margin?` | `string` | The override value for CSS margin(default: `"3rem 2rem 0 2rem"`). |
 | `position?` | `string` | The override value for CSS position (default: `"fixed"`). |
-
-#### Defined in
-
-[components/BigTranscriptContainer.tsx:10](https://github.com/speechly/react-ui/blob/e631dfa/src/components/BigTranscriptContainer.tsx#L10)
+| `margin?` | `string` | The override value for CSS margin(default: `"3rem 2rem 0 2rem"`). |
 
 ## Variables
 
@@ -46,7 +42,3 @@ The intended usage is as follows:
 </BigTranscriptContainer>
 
 And then you can use CSS for styling the layout.
-
-#### Defined in
-
-[components/BigTranscriptContainer.tsx:56](https://github.com/speechly/react-ui/blob/e631dfa/src/components/BigTranscriptContainer.tsx#L56)

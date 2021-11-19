@@ -10,11 +10,10 @@
     "build:watch": "rm -rf ./lib/ && pnpx tsc",
     "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
-    "docs": "pnpm run prepdist && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown --entryPointStrategy expand ./src/",
-    "prepdist": "node ./prepare_dist.js",
+    "docs": "pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/",
     "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpm run docs",
-    "prerelease": "pnpm run build && pnpm run prepdist",
-    "watch": "rm -rf ./lib/ && mkdir lib && pnpm run prepdist && pnpx tsc-watch"
+    "prerelease": "pnpm run build",
+    "watch": "rm -rf ./lib/ && mkdir lib && pnpx tsc-watch"
   },
   "keywords": [
     "speechly",
@@ -47,7 +46,9 @@
     "@types/pubsub-js": "^1.8.1",
     "@types/react": ">=16.13.1",
     "@types/react-dom": ">=16.13.1",
-    "@types/styled-components": "^5.1.7"
+    "@types/styled-components": "^5.1.7",
+    "typedoc": "^0.22.6",
+    "typedoc-plugin-markdown": "^3.11.3"
   },
   "peerDependencies": {
     "@speechly/react-client": ">=0.0.20",

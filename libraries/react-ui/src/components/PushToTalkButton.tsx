@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { SpeechState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import { mapSpeechStateToClientState, SpeechlyUiEvents } from '../types'
@@ -112,8 +112,8 @@ export type PushToTalkButtonProps = {
  */
 
 type IButtonState = {
-  holdListening: boolean,
-  stopContextTimeout: number | null,
+  holdListening: boolean
+  stopContextTimeout: number | null
 }
 
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
@@ -172,7 +172,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
 
     // Automatically start recording if button held
-    if (!powerOn && ( buttonRef?.current?.isbuttonpressed() === true || buttonStateRef.current.holdListening ) && speechState === SpeechState.Ready) {
+    if (!powerOn && (buttonRef?.current?.isbuttonpressed() === true || buttonStateRef.current.holdListening) && speechState === SpeechState.Ready) {
       toggleRecording().catch(err => console.error('Error while starting to record', err))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,8 +184,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     setShowHint(false)
 
     if (buttonStateRef.current.stopContextTimeout) {
-      window.clearTimeout(buttonStateRef.current.stopContextTimeout);
-      buttonStateRef.current.stopContextTimeout = null;
+      window.clearTimeout(buttonStateRef.current.stopContextTimeout)
+      buttonStateRef.current.stopContextTimeout = null
     }
 
     switch (speechStateRef.current) {
@@ -224,15 +224,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
   }
 
-  useEffect(() => {
-    if (segment) {
-      if (buttonStateRef.current.stopContextTimeout) {
-        setStopContextTimeout(silenceToHangupTime)
-      }
-    }
-  }, [segment])
-
-  const setStopContextTimeout = (timeoutMs: number) => {
+  const setStopContextTimeout = (timeoutMs: number): void => {
     buttonStateRef.current.holdListening = true
     if (buttonStateRef.current.stopContextTimeout) {
       window.clearTimeout(buttonStateRef.current.stopContextTimeout)
@@ -243,15 +235,26 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }, timeoutMs)
   }
 
-  const stopListening = () => {
+  const stopListening = (): void => {
     buttonStateRef.current.holdListening = false
-    console.log("stopListening, isStoppable", isStoppable(speechStateRef.current))
     if (isStoppable(speechStateRef.current)) {
       toggleRecording().catch(err => console.error('Error while stopping recording', err))
     }
   }
 
-  const isStoppable = (s?: SpeechState) => {
+  /**
+   * Extend listening time if segment updates received
+   */
+  useEffect(() => {
+    if (segment) {
+      if (buttonStateRef.current.stopContextTimeout) {
+        setStopContextTimeout(silenceToHangupTime)
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [segment])
+
+  const isStoppable = (s?: SpeechState): boolean => {
     return (s === SpeechState.Recording)
   }
 

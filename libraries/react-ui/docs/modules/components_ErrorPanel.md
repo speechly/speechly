@@ -26,10 +26,6 @@ Properties for BigTranscript component.
 | :------ | :------ | :------ |
 | `placement?` | `string` | Optional "bottom" string turns on internal placement without any CSS positioning. |
 
-#### Defined in
-
-[components/ErrorPanel.tsx:18](https://github.com/speechly/react-ui/blob/e631dfa/src/components/ErrorPanel.tsx#L18)
-
 ## Variables
 
 ### ErrorPanel
@@ -42,7 +38,3 @@ prevents Speechly SDK from functioning. It also provides recovery instructions.
 
 It is intented to be displayed at the lower part of the screen like so:
 <ErrorPanel placement="bottom"/>
-
-#### Defined in
-
-[components/ErrorPanel.tsx:35](https://github.com/speechly/react-ui/blob/e631dfa/src/components/ErrorPanel.tsx#L35)
