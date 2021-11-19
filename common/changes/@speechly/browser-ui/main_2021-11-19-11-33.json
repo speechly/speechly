@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "5.0.2 with bug fixes for react-ui tap-to-talk feature",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}

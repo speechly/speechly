@@ -1,18 +1,12 @@
-# React UI Example
+## Developing a library against an example project
 
-This project demonstrates the use of core Speechy UI Components
+This arrangement enables rapid development of libraries while testing them against a working app.
 
-- [Docs for UI Components](https://docs.speechly.com/client-libraries/ui-components/)
+### Developing react-ui library against an example project using Rush
 
-## React UI Example as a test project
+> Please see basic [Rush](https://rush.js) documentation if you are not familiar with it. The repository README contains the basic installation instructions.
 
-This example can be used as a test project for the `react-ui` components. This arrangement enables rapid development of Speechly React UI components to be developed in real, working CRA app environment.
-
-### Developing react-ui library against this example project
-
-We are using using [rush](https://rush.js) and [pnpm](https://pnpm.io) so first please check the instructions in the [root level README](../../README.md#how-to-use-this-repository)
-
-In terminal 1, run this command to build library dependencies for `react-ui-example` and stay in watch mode to rebuild any changes to dependencies:
+In terminal 1, run this command to build dependencies for up until the test application, e.g. `react-ui-example` and stay in watch mode to rebuild any changes to dependencies:
 
 ```
 # Build dependency and stay in watch mode
