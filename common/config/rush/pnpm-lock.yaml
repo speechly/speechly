@@ -17726,7 +17726,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-fzp4I4GKnb7ZcxINzB+DOZnz0w0ivINdSy6MI4VnTOuPea9yT9ATpfd9fyv3p25TKjo8Y86Wh7jCZRCaT6cNtg==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-koTiY/nbtLK85GYoxLasiDPB9pQ+1hL1PC5UAfd+a1Hvge6pj3/1jyZ6NnN9WM3LusJJ1uHVaPu7FeJBpYsasQ==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
@@ -17749,6 +17749,8 @@ packages:
       react-dom: 17.0.2_react@17.0.2
       react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
       styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
+      typedoc: 0.22.7_typescript@4.4.4
+      typedoc-plugin-markdown: 3.11.3_typedoc@0.22.7
       typescript: 4.4.4
     transitivePeerDependencies:
       - react-is
