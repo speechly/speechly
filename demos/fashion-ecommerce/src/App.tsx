@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BigTranscript, BigTranscriptContainer, PushToTalkButton, PushToTalkButtonContainer, ErrorPanel } from "@speechly/react-ui";
+import { BigTranscript, BigTranscriptContainer, PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import Inventory from "components/Inventory";
 import SmartFilter from "components/SmartFilters";
 import { AppContextProvider } from "AppContext";
