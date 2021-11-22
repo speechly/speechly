@@ -7,3 +7,7 @@ Collection of demos that contains multiple single-page web applications showcasi
 - [Ecommerce Checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout)
 - [Speech-to-Text Demo](https://speechly-demos.herokuapp.com/speech-to-text)
 - [Fast Food Demo](https://speechly-demos.herokuapp.com/fast-food)
+
+## Installation 
+
+To install and run each demo look inside the respective repo subdirectories. 
