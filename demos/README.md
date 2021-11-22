@@ -2,8 +2,12 @@
 
 Collection of demos that contains multiple single-page web applications showcasing voice application control with [Speechly](https://speechly.com). The demos are written in React/TypeScript using Speechly's React client libraries, UI components and Voice form components.
 
-- [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking)
-- [Voice Picking Demo](https://speechly-demos.herokuapp.com/voice-picking)
-- [Ecommerce Checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout)
-- [Speech-to-Text Demo](https://speechly-demos.herokuapp.com/speech-to-text)
-- [Fast Food Demo](https://speechly-demos.herokuapp.com/fast-food)
+- [Flight Booking Demo](https://demos.speechly.com/booking/)
+- [Fashion Ecommerce Demo](https://demos.speechly.com/fashion/)
+- [Ecommerce Checkout Demo](https://demos.speechly.com/checkout/)
+- [Speech-to-Text Demo](https://demos.speechly.com/speech-to-text/)
+- [Ecommerce checkout Demo](https://demos.speechly.com/smart-home/)
+
+## Installation 
+
+To install and run each demo look inside the respective repo subdirectories. 
