@@ -60,7 +60,7 @@ export type BigTranscriptProps = {
  * @public
  */
 export const BigTranscript: React.FC<BigTranscriptProps> = ({
-  placement = 'top',
+  placement,
   formatText,
   fontSize,
   color,
