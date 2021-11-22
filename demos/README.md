@@ -10,4 +10,4 @@ Collection of demos that contains multiple single-page web applications showcasi
 
 ## Installation 
 
-To install and run each demo look inside the respective repo subdirectories. 
+To install and run each demo look inside the respective repo subdirectory. 
