@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     <HttpsRedirect>
       <SpeechProvider appId={appId}>
-        <LogKit appName="smart-home" appVersion={104}>
+        <LogKit appName="smart-home" appVersion={105}>
           <App />
         </LogKit>
       </SpeechProvider>

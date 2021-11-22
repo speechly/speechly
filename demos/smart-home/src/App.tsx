@@ -22,25 +22,25 @@ export default function App() {
   return (
     <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
       <DemoNavigation />
-      <BigTranscriptContainer>
-        <BigTranscript />
-      </BigTranscriptContainer>
-      <PushToTalkButtonContainer>
-        <ErrorPanel />
-        <PushToTalkButton captureKey=" " powerOn={true} intro="" />
-      </PushToTalkButtonContainer>
-      <PanContainer
-        minScale={0.5}
-        maxScale={3.0}
-        disableZoom={!queryParams.zoomPan}
-        disablePan={!queryParams.zoomPan}
-        defaultValue={{
-          scale: queryParams.zoom,
-          translation: { x: 0, y: 0 },
-        }}
-      >
-        <FloorPlan />
-      </PanContainer>
+      <div className="SmartHomeView">
+        <BigTranscriptContainer position="absolute">
+          <BigTranscript />
+        </BigTranscriptContainer>
+        <ErrorPanel placement="bottom" />
+        <PushToTalkButton placement="bottom" captureKey=" " powerOn={true} intro="" />
+        <PanContainer
+          minScale={0.5}
+          maxScale={3.0}
+          disableZoom={!queryParams.zoomPan}
+          disablePan={!queryParams.zoomPan}
+          defaultValue={{
+            scale: queryParams.zoom,
+            translation: { x: 0, y: 0 },
+          }}
+        >
+          <FloorPlan />
+        </PanContainer>
+      </div>
     </div>
   );
 }
