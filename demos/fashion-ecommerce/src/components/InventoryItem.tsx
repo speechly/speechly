@@ -5,7 +5,7 @@ import useProgressiveImage from "hooks/useProgressiveImage";
 import Filters from "generated/filters.json";
 
 const USE_CDN_IMAGES = true;
-const FASHION_CDN_URL= process.env.REACT_APP__FASHION_CDN_URL || "https://storage.googleapis.com/ecom-fashion-cdn"
+const FASHION_CDN_URL = process.env.REACT_APP__FASHION_CDN_URL || "https://demos.speechly.com/fashion"
 
 type IImageContainer = {
   key: string;
