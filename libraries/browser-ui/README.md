@@ -42,7 +42,6 @@ Speechly UI components provide the visual interface to support voice functionali
   <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/error-panel.js"></script>
 </head>
 
-...
 <body>
    <big-transcript placement="top"></big-transcript>
    <push-to-talk-button placement="bottom" appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD"></push-to-talk-button>
@@ -53,7 +52,7 @@ Speechly UI components provide the visual interface to support voice functionali
 ## Using browser-ui in React
 
 
-> This example illustrates using browser-ui Web Components with a JS framework. For actual React development, you'll probably want to use [react-client]() and [react-ui]() libraries for a better developer experience.
+> This example illustrates using browser-ui Web Components with a JS framework. For actual React development, you'll probably want to use [react-client](../react-client) and [react-ui](../react-ui) libraries for a better developer experience.
 
 ```
 npm i @speechly/browser-ui
