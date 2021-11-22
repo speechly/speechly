@@ -2,7 +2,6 @@ import {
   BigTranscript,
   BigTranscriptContainer,
   PushToTalkButton,
-  PushToTalkButtonContainer,
   ErrorPanel,
 } from "@speechly/react-ui";
 import PanContainer from "./components/PanContainer";
