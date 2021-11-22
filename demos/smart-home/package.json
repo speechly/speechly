@@ -1,6 +1,6 @@
 {
   "name": "smart-home",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "private": true,
   "homepage": "smart-home",
   "dependencies": {

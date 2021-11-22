@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import HttpsRedirect from "components/HttpsRedirect";
+import { SpeechProvider } from "@speechly/react-client";
+import { LogKit } from "@speechly/logkit";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
+
+const appId = "4d7fd32a-909b-45a0-93da-e313fda00bc0"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <HttpsRedirect>
+      <SpeechProvider appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}>
+        <LogKit appName="fashion-ecommerce" appVersion={211}>
+          <App />
+        </LogKit>
+      </SpeechProvider>
+    </HttpsRedirect>
   </React.StrictMode>,
   document.getElementById('root')
 );
