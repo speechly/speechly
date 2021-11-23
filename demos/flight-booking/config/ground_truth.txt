@@ -1,0 +1,3 @@
+*book [from|from](from_prepo) [new york|new york](from) [to|to](to_prepo) [berlin|berlin](to)
+*book for [seven|7](passengers) passengers
+*book [one way|one way](one_way) flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) for [two|2](passengers) people in [business|business](class) class
