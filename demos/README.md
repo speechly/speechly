@@ -6,7 +6,7 @@ Collection of demos that contains multiple single-page web applications showcasi
 - [Fashion Ecommerce Demo](https://demos.speechly.com/fashion/)
 - [Ecommerce Checkout Demo](https://demos.speechly.com/checkout/)
 - [Speech-to-Text Demo](https://demos.speechly.com/speech-to-text/)
-- [Ecommerce checkout Demo](https://demos.speechly.com/smart-home/)
+- [Smart Home Demo](https://demos.speechly.com/smart-home/)
 
 ## Installation 
 
