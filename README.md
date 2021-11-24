@@ -40,11 +40,11 @@ This monorepository contains the source code of Speechly demos available at [htt
 
 | Folder | Description |
 | ------ | ------- |
-| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://speechly-demos.herokuapp.com/flight-booking) |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) |
-| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) |
-| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout Demo](https://speechly-demos.herokuapp.com/ecommerce-checkout) |
-| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://speechly-demos.herokuapp.com/speech-to-text) 
+| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://demos.speechly.com/speech-to-text) – raw speech-to-text using Speechly |
+| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://demos.speechly.com/booking) – a booking view with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) - eCommerce site search result filtering with voice. |
+| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) - an example of controlling smart devices with Speechly. A true voice interface classic ;) |
+| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout Demo](https://demos.speechly.com/checkout) - a voice-enabled eCommerce site checkout view with multiple text fields like name, address, email and telephone number. |
 
 ## Examples
 
