@@ -37,6 +37,6 @@ jobs:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
       - uses: docker://speechly/cli:latest
         with:
-          args: evaluate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} --input demos/flight-booking/config/annotated_utterances.txt --ground-truth ground_truth.txt
+          args: evaluate --input demos/flight-booking/config/annotated_utterances.txt --ground-truth ground_truth.txt
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
