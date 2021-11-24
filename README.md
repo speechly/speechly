@@ -36,15 +36,15 @@ Speechly UI libraries provide UI components to support building a voice-enabled,
 
 ## Demos
 
-This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's `react-client`, `react-ui` and `react-voice-forms` libraries. Each of the demos is a stand-alone node project. See the demos' subfolders for more information.
+This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's `react-client`, `react-ui` and `react-voice-forms` libraries. Each of the demo subfolder is a stand-alone node project. See the demos' subfolders for more information.
 
 | Folder | Description |
 | ------ | ------- |
-| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://demos.speechly.com/speech-to-text) – raw speech-to-text using Speechly |
-| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://demos.speechly.com/booking) – a booking view with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) - eCommerce site search result filtering with voice. |
-| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) - an example of controlling smart devices with Speechly. A true voice interface classic ;) |
-| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout Demo](https://demos.speechly.com/checkout) - a voice-enabled eCommerce site checkout view with multiple text fields like name, address, email and telephone number. |
+| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://demos.speechly.com/speech-to-text) using Speechly. |
+| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://demos.speechly.com/booking) shows a trip booking view with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) illustrates browsing thru inventory items with voice commands. |
+| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) illustrates controlling smart devices with Speechly. |
+| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout](https://demos.speechly.com/checkout) demonstrates filling customer information like name, address, email and telephone number using voice. |
 
 ## Examples
 
