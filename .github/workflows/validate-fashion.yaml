@@ -1,0 +1,51 @@
+name: validate fashion
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "demos/fashion-ecommerce/data/filter-config.csv"
+      - "demos/fashion-ecommerce/config/voice-interface.yaml"
+      - "demos/fashion-ecommerce/config/test_utterances.txt"
+      - "demos/fashion-ecommerce/config/ground_truth.txt"
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          npm install
+          npm run preprocess
+        working-directory: demos/fashion-ecommerce
+      - name: Validate
+        if: ${{ success() }}
+        uses: docker://speechly/cli:latest
+        with:
+          args: validate -a ${{ secrets.APPID_FASHION_EVAL }} demos/fashion-ecommerce/config
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+      - name: Deploy
+        if: ${{ success() }}
+        uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_FASHION_EVAL }} demos/fashion-ecommerce/config -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+  evaluate:
+    needs: validate-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Annotate
+        uses: docker://speechly/cli:latest
+        with:
+          args: annotate -a ${{ secrets.APPID_FASHION_EVAL }} --input demos/fashion-ecommerce/config/test_utterances.txt --output /github/home/annotated_utterances.txt --reference-date 2021-11-25
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+      - name: Evaluate
+        uses: docker://speechly/cli:latest
+        with:
+          args: evaluate --input /github/home/annotated_utterances.txt --ground-truth demos/fashion-ecommerce/config/ground_truth.txt
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
