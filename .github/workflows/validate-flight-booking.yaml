@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: annotate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} --input demos/flight-booking/config/test_utterances.txt >> /github/home/annotated_utterances.txt
+          args: annotate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} --input demos/flight-booking/config/test_utterances.txt --output /github/home/annotated_utterances.txt
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
       - uses: docker://speechly/cli:latest
