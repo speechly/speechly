@@ -22,7 +22,7 @@ Speechly monorepository contains Speechly's web related [libraries](#libraries),
 
 ## Libraries
 
-Speechly client libraries provide the natural spoken language understanding API for web applications. They handle audio capturing and streaming, authentication, and network connection to Speechly cloud API.
+Speechly client libraries provide the natural Spoken Language Understanding API for web applications. They handle audio capturing and streaming, authentication, and network connection to Speechly cloud API.
 
 Speechly UI libraries provide UI components to support building a voice-enabled, multimodal apps.
 
