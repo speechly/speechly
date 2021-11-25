@@ -15,18 +15,18 @@ jobs:
           args: validate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} demos/flight-booking/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
-  # deploy-test:
-  #   needs: validate
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: docker://speechly/cli:latest
-  #       with:
-  #         args: deploy -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} demos/flight-booking/config -w
-  #       env:
-  #         SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
-  evaluate:
+  deploy-test:
     needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} demos/flight-booking/config -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+  evaluate:
+    needs: deploy-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
