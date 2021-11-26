@@ -54,7 +54,9 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         setTextContent(alteredTextContent)
       }
     }
-  }, [segment, textContent])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [segment])
+
 
   return (
     <>
