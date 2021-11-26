@@ -19,7 +19,7 @@ specifiers:
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
-  '@speechly/demo-navigation': ^0.1.32
+  '@speechly/demo-navigation': ^0.1.33
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -91,7 +91,7 @@ dependencies:
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.4.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.4.0
-  '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+  '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
   '@testing-library/user-event': 7.2.1
@@ -2406,8 +2406,8 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: false
 
-  /@speechly/demo-navigation/0.1.32_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-z2scwmilf9b739Fyy9nIN2CfAe5WUbZJHU1JFLSIOVxHlJC9n9UPF0n39v0dYVBE1MD1QGy8swgqFziUwFXr3w==}
+  /@speechly/demo-navigation/0.1.33_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-n175x72ovyS7XxhPHHWUDaepBUKPfoGQhvyBDsmPLdzOrOMGKWZjsTCbv0x2GILLoncjb4IUgivnoDD+oz3LsA==}
     peerDependencies:
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
@@ -14074,12 +14074,12 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-7GSIJYbcnlq/isldMIwr7AsQhNjBb7SSYBu0mYEEPZ3zxqV6FDG90yHALJZgZPdPIPJsAtztRI+b0aTOgo7A6g==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-V4dcPvSD+tWI+j/g/JdLXtipBg42/1Y4v/2s54e3HCSL/bBEgMS1tMaWtN54m8xya03z7UBQjJ9iIyOLwXPiiQ==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -14113,11 +14113,11 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-fnktaSJAvWZK78bpYfWEBUVqiUCGkz/WpJqLRVYhp0axMVZ6OhhB6jRkEfOWVOvYCDC7g6jBHDmXLpW8GY5oMQ==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-+7XbCJi3fDnq9atOhRkD4F3tPn7Z7pLWrdteqtrs9p4QNKBpvWXgFPlgQ0CMVgyy8RjKDjmK9F8qvgxv46/6fg==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -14162,12 +14162,12 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-A+xNkc5yWw8nBRWCVsPwUqyNZ6pvonPyE+lSLtEefcgavJ5djjRE0xddFetdT/nF7iOyNYzOq5uTLo75rrNsLA==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-/4qtfhqshFd9wHpOOwQem15+3sLoWTLkc1voq7X18NYZtk6zaYlhebYdztEghfR8EO8u/6cc4cO3grC29Tfdtg==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -14354,12 +14354,12 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-SnP2GwMcLQhZNqMBz77NuzytHdgYtxus1QB0kxb70tKO+4tOiquHs1vYOvWk2jET7VsL9sA4MowJsmZPJoNcVA==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-O8L8QzvsZqtGs/EFWm6Cdad0SBrFU7N4XD0e9b+zOcuhArOERzMeXpxmqbpnMGPR1IgkU/T58gRSFcQf/iAmuw==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
@@ -14403,12 +14403,12 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-Qcva6ZcDr+9LMwDrOwwpVp5OTgPK4saDMoQQoepY0dfR3M/+CGcdxk7+hotBgJHcQGfM26pWs4F2KwxASvRRgg==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-3P1nMrl8LFA9nb2vrWk0iHUkrFQPH+iInUxPCx8Iq42Q2yTZjwJhiWJndZcnL8nSZsJ1tcLMi41/DVaNdDb4oA==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.32_react-dom@17.0.2+react@17.0.2
+      '@speechly/demo-navigation': 0.1.33_react-dom@17.0.2+react@17.0.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
       '@testing-library/user-event': 7.2.1
