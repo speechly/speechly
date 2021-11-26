@@ -15,28 +15,28 @@ jobs:
           args: validate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO }} demos/flight-booking/config
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
-  # deploy-test:
-  #   needs: validate
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: docker://speechly/cli:latest
-  #       with:
-  #         args: deploy -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} demos/flight-booking/config -w
-  #       env:
-  #         SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
-  evaluate:
+  deploy-test:
     needs: validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: annotate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} --input demos/flight-booking/config/test_utterances.txt >> /github/home/annotated_utterances.txt
+          args: deploy -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} demos/flight-booking/config -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+  evaluate:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: annotate -a ${{ secrets.APPID_FLIGHT_BOOKING_DEMO_EVAL }} --input demos/flight-booking/config/test_utterances.txt --output /github/home/annotated_utterances.txt --reference-date 2021-11-25
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
       - uses: docker://speechly/cli:latest
         with:
-          args: evaluate --input /github/home/annotated_utterances.txt --ground-truth ground_truth.txt
+          args: evaluate --input /github/home/annotated_utterances.txt --ground-truth demos/flight-booking/config/ground_truth.txt
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

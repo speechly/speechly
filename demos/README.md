@@ -4,7 +4,6 @@ Collection of demos that contains multiple single-page web applications showcasi
 
 - [Flight Booking Demo](https://demos.speechly.com/booking/)
 - [Fashion Ecommerce Demo](https://demos.speechly.com/fashion/)
-- [Ecommerce Checkout Demo](https://demos.speechly.com/checkout/)
 - [Speech-to-Text Demo](https://demos.speechly.com/speech-to-text/)
 - [Smart Home Demo](https://demos.speechly.com/smart-home/)
 
