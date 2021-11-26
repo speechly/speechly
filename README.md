@@ -40,11 +40,10 @@ This monorepository contains the source code of Speechly demos available at [htt
 
 | Folder | Description |
 | ------ | ------- |
-| [/demos/speech-to-text](/demos/speech-to-text) | [Speech to Text Demo](https://demos.speechly.com/speech-to-text) using Speechly. |
-| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking Demo](https://demos.speechly.com/booking) shows a trip booking view with text fields, dropdowns and checkboxes using both voice (VUI) and touch/type (GUI). |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store Demo](https://fashion.speechly.com) illustrates browsing thru inventory items with voice commands. |
-| [/demos/smart-home](/demos/smart-home) | [Smart Home Demo](https://smarthome.speechly.com) illustrates controlling smart devices with Speechly. |
-| [/demos/ecommerce-checkout](/demos/ecommerce-checkout) | [Ecommerce Checkout](https://demos.speechly.com/checkout) demonstrates filling customer information like name, address, email and telephone number using voice. |
+| [/demos/speech-to-text](/demos/speech-to-text) | [Speech-to-Text](https://demos.speechly.com/speech-to-text) app demonstrates Speechly API's automatic speech recognition (ASR). |
+| [/demos/smart-home](/demos/smart-home) | [Smart Home](https://smarthome.speechly.com) app demonstrates updating GUI in real-time by reacting to  intents and entities provided by Speechly API's streaming Natural Language Understanding (NLU). |
+| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking](https://demos.speechly.com/booking) app demonstrates use of [`react-voice-forms`](./libraries/react-voice-forms) library to create a voice-enabled interface with text input field, dropdown and checkbox components. |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store](https://fashion.speechly.com) app demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
 
 ## Examples
 
