@@ -2,7 +2,6 @@ import React from "react";
 import useIntersectionObserver from "hooks/useIntersectionObserver";
 import { IProduct } from "types";
 import useProgressiveImage from "hooks/useProgressiveImage";
-import Filters from "generated/filters.json";
 
 const USE_CDN_IMAGES = true;
 const FASHION_CDN_URL = process.env.REACT_APP__FASHION_CDN_URL || "https://demos.speechly.com/fashion"
@@ -34,7 +33,7 @@ const InventoryItem: React.FC<IImageContainer> = (props) => {
     <li className="InventoryItem" ref={ref}>
       <div className="InventoryItem__aspectRatio">
         <div className="InventoryItem__imageContainer">
-          {loadedImageUrl && <img className="InventoryItem__image" src={loadedImageUrl} alt="image" />}
+          {loadedImageUrl && <img className="InventoryItem__image" src={loadedImageUrl} alt="product" />}
         </div>
         {props.element.sizes.length > 0 && (
           <div className="HoverInfo">
