@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { BigTranscript, BigTranscriptContainer, PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import Inventory from "components/Inventory";
 import SmartFilter from "components/SmartFilters";
+import Navigation from "components/Navigation";
 import { AppContextProvider } from "AppContext";
 import "App.css";
 import "components/BigTransscript.css";
@@ -21,6 +22,7 @@ export default function App() {
     <AppContextProvider>
       <div className="App">
         <DemoNavigation />
+        <Navigation />
         <SmartFilter />
         <Inventory>
           <BigTranscriptContainer position="absolute">

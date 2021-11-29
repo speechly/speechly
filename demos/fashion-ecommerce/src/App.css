@@ -1,15 +1,9 @@
 .App {
-  width: 100vw;
-  height: 100vh;
-
-  user-select: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-}
-
-.Nav {
-  flex-basis: 2.8rem;
-  flex-grow: 0;
-  flex-shrink: 0;
-  background-color: #ffffff;
 }
