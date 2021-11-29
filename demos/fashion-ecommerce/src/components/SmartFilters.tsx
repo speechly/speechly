@@ -193,15 +193,12 @@ const SmartFilter: React.FC = (props) => {
       {FilterConfig.map((f, index) => (
         <div
           key={f.key}
-          style={{
-            position: "relative",
-            display: showFilterOptions === index ? "block" : "none",
-          }}
+          className={`Megamenu__outer ${showFilterOptions === index ? 'Megamenu__outer--open' : 'Megamenu__outer--closed' }`}
+          onClick={() => setShowFilterOptions(-1)}
         >
           <FilterMegaMenu
             filterConfig={f}
             filter={filters[f.key]}
-            onClose={() => setShowFilterOptions(-1)}
             changeFilter={changeFilter}
           ></FilterMegaMenu>
         </div>
@@ -213,11 +210,10 @@ const SmartFilter: React.FC = (props) => {
 const FilterMegaMenu: React.FC<{
   filterConfig: IFilterConfiguration;
   filter: IFilter;
-  onClose: () => void;
   changeFilter: (filter: string, value: string) => void;
 }> = (props) => {
   return (
-    <MegaMenu title={props.filterConfig.label} onClose={props.onClose}>
+    <MegaMenu title={props.filterConfig.label}>
       {props.filterConfig.data.options.map((item) => (
         <MegaMenuItem
           key={String(item[0])}

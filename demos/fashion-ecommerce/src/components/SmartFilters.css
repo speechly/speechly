@@ -1,10 +1,10 @@
 .SmartFilters {
-  padding: 16px;
+  padding: 16px 16px 0;
 }
 
 @media screen and (min-width: 960px) {
   .SmartFilters {
-    padding: 16px 32px;
+    padding: 16px 32px 0;
   }
 }
 
