@@ -46,7 +46,7 @@ const SmartFilter: React.FC = (props) => {
           );
           if (filterConfig) {
             if (!Object.keys(appliedFilters).includes(filterConfig.key)) {
-              appliedFilters[filterConfig.key] = 
+              appliedFilters[filterConfig.key] =
               {
                 value: entity.value.toLowerCase(),
                 optionFound: false
@@ -163,35 +163,32 @@ const SmartFilter: React.FC = (props) => {
   return (
     <>
       <div className="SmartFilters">
-        {FilterConfig.map((filterConfig, index) => (
-          <div key={filterConfig.key} className={`SmartFilter`}>
-            <div className="filterWidget" onClick={() => toggleMenu(index)}>
-              <div className="filterLabel">{filterConfig.label}</div>
-              <div className="filterValue">
-                <div className="filterValue1">
-                  {getOptionDisplayName(filterConfig)}
-                </div>
-                {filters[filterConfig.key] && (
-                  <div className="filterValue2">
-                    <RoundButton
-                      size="1rem"
-                      hitArea="1.5rem"
-                      onClick={(e: any) => {
-                        e.stopPropagation();
-                        clearFilter(filterConfig.key);
-                      }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
-                        <line x1="0" y1="0" x2="24" y2="24" />
-                        <line x1="24" y1="0" x2="0" y2="24" />
-                      </svg>
-                    </RoundButton>
-                  </div>
-                )}
+        <div className="SmartFilters__inner">
+          {FilterConfig.map((filterConfig, index) => (
+            <div key={filterConfig.key} className={`SmartFilter ${filters[filterConfig.key] && 'SmartFilter--hasValue'}`} onClick={() => toggleMenu(index)}>
+              <div className="SmartFilter__value">
+                {getOptionDisplayName(filterConfig) || filterConfig.label}
               </div>
+              {filters[filterConfig.key] && (
+                <div className="SmartFilter__close">
+                  <RoundButton
+                    size="1rem"
+                    hitArea="1.5rem"
+                    onClick={(e: any) => {
+                      e.stopPropagation();
+                      clearFilter(filterConfig.key);
+                    }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="8" height="8" overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+                      <line x1="0" y1="0" x2="24" y2="24" />
+                      <line x1="24" y1="0" x2="0" y2="24" />
+                    </svg>
+                  </RoundButton>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {FilterConfig.map((f, index) => (
         <div

@@ -1,13 +1,13 @@
 .Navigation {
   width: 100%;
-  padding: 16px;
+  padding: 24px 16px 16px;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 @media screen and (min-width: 960px) {
   .Navigation {
-    padding: 32px;
+    padding: 48px 32px 32px;
   }
 }
 
