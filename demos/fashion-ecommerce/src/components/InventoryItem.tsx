@@ -2,6 +2,7 @@ import React from "react";
 import useIntersectionObserver from "hooks/useIntersectionObserver";
 import { IProduct } from "types";
 import useProgressiveImage from "hooks/useProgressiveImage";
+import "./InventoryItem.css";
 
 const USE_CDN_IMAGES = true;
 const FASHION_CDN_URL = process.env.REACT_APP__FASHION_CDN_URL || "https://demos.speechly.com/fashion"
