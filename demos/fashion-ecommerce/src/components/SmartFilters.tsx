@@ -24,7 +24,7 @@ const SmartFilter: React.FC = (props) => {
 
   const toggleSticky = useCallback(
     ({ top, bottom }) => {
-      if (top <= 0 && bottom <= window.scrollY) {
+      if (top <= 0 && window.scrollY >= bottom) {
         !isSticky && setIsSticky(true);
       } else {
         isSticky && setIsSticky(false);
@@ -186,8 +186,8 @@ const SmartFilter: React.FC = (props) => {
   );
 
   return (
-    <div className={`SmartFilters__container ${isSticky && 'SmartFilters__container--sticky'}`} ref={divRef}>
-      <div className="SmartFilters">
+    <div className={`SmartFilters__outer`} style={{ height: divRef.current?.getBoundingClientRect().height }}>
+      <div className={`SmartFilters ${isSticky && 'SmartFilters--sticky'}`} ref={divRef}>
         <div className="SmartFilters__inner">
           {FilterConfig.map((filterConfig, index) => (
             <div key={filterConfig.key} className={`SmartFilter ${filters[filterConfig.key] && 'SmartFilter--hasValue'}`} onClick={() => toggleMenu(index)}>

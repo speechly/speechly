@@ -1,17 +1,18 @@
-.SmartFilters__container {
-  z-index: 10;
-  width: 100%;
-  top: 0;
-  position: static;
-}
-
-.SmartFilters__container--sticky {
-  position: fixed;
+.SmartFilters__outer {
+  position: relative;
 }
 
 .SmartFilters {
-  padding: 16px 16px 0;
   background-color: #fff;
+  padding: 16px 16px 0;
+  position: static;
+  z-index: 10;
+  width: 100%;
+  top: 0;
+}
+
+.SmartFilters--sticky {
+  position: fixed;
 }
 
 @media screen and (min-width: 960px) {
@@ -24,13 +25,19 @@
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
 @media screen and (min-width: 960px) {
   .SmartFilters__inner {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .SmartFilters__inner {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 
