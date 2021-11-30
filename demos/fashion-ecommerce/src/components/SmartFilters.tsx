@@ -187,8 +187,8 @@ const SmartFilter: React.FC = (props) => {
   );
 
   const containerClass = classNames({
-    SmartFilters: true,
-    'SmartFilters--sticky': isSticky
+    SmartFilters__outer: true,
+    'SmartFilters__outer--sticky': isSticky
   })
 
   const filterClass = (hasValue: boolean) => classNames({
@@ -203,48 +203,50 @@ const SmartFilter: React.FC = (props) => {
   })
 
   return (
-    <div className="SmartFilters__outer" style={{ height: divRef.current?.getBoundingClientRect().height }}>
+    <div style={{ height: divRef.current?.getBoundingClientRect().height }}>
       <div className={containerClass} ref={divRef}>
-        <div className="SmartFilters__inner">
-          {FilterConfig.map((filterConfig, index) => (
-            <div key={filterConfig.key} className={filterClass(!!filters[filterConfig.key])} onClick={() => toggleMenu(index)}>
-              <div className="SmartFilter__value">
-                {getOptionDisplayName(filterConfig) || filterConfig.label}
-              </div>
-              {filters[filterConfig.key] && (
-                <div className="SmartFilter__close">
-                  <RoundButton
-                    size="1rem"
-                    hitArea="1.5rem"
-                    onClick={(e: any) => {
-                      e.stopPropagation();
-                      clearFilter(filterConfig.key);
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="8" height="8" overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
-                      <line x1="0" y1="0" x2="24" y2="24" />
-                      <line x1="24" y1="0" x2="0" y2="24" />
-                    </svg>
-                  </RoundButton>
+        <div className="SmartFilters">
+          <div className="SmartFilters__inner">
+            {FilterConfig.map((filterConfig, index) => (
+              <div key={filterConfig.key} className={filterClass(!!filters[filterConfig.key])} onClick={() => toggleMenu(index)}>
+                <div className="SmartFilter__value">
+                  {getOptionDisplayName(filterConfig) || filterConfig.label}
                 </div>
-              )}
-            </div>
-          ))}
+                {filters[filterConfig.key] && (
+                  <div className="SmartFilter__close">
+                    <RoundButton
+                      size="1rem"
+                      hitArea="1.5rem"
+                      onClick={(e: any) => {
+                        e.stopPropagation();
+                        clearFilter(filterConfig.key);
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="8" height="8" overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+                        <line x1="0" y1="0" x2="24" y2="24" />
+                        <line x1="24" y1="0" x2="0" y2="24" />
+                      </svg>
+                    </RoundButton>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
+        {FilterConfig.map((f, index) => (
+          <div
+            key={f.key}
+            className={menuClass(showFilterOptions === index)}
+            onClick={() => setShowFilterOptions(-1)}
+          >
+            <FilterMegaMenu
+              filterConfig={f}
+              filter={filters[f.key]}
+              changeFilter={changeFilter}
+            ></FilterMegaMenu>
+          </div>
+        ))}
       </div>
-      {FilterConfig.map((f, index) => (
-        <div
-          key={f.key}
-          className={menuClass(showFilterOptions === index)}
-          onClick={() => setShowFilterOptions(-1)}
-        >
-          <FilterMegaMenu
-            filterConfig={f}
-            filter={filters[f.key]}
-            changeFilter={changeFilter}
-          ></FilterMegaMenu>
-        </div>
-      ))}
     </div>
   );
 };

@@ -1,18 +1,17 @@
 .SmartFilters__outer {
-  position: relative;
-}
-
-.SmartFilters {
-  background-color: #fff;
-  padding: 16px 16px 0;
   position: static;
   z-index: 10;
   width: 100%;
   top: 0;
 }
 
-.SmartFilters--sticky {
+.SmartFilters__outer--sticky {
   position: fixed;
+}
+
+.SmartFilters {
+  background-color: #fff;
+  padding: 16px 16px 0;
 }
 
 @media screen and (min-width: 960px) {
