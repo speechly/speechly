@@ -1,8 +1,6 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IFilter, IFilterConfiguration } from "types";
-// import CloseIcon from "@material-ui/icons/Close";
-// import { IconButton } from "@material-ui/core";
 import AppContext, { debugInfo, FilterConfig } from "AppContext";
 import MegaMenu, { MegaMenuItem } from "./MegaMenu";
 import PubSub from "pubsub-js";
@@ -14,6 +12,8 @@ const SmartFilter: React.FC = (props) => {
   const { segment } = useSpeechContext();
   const { filters, filterDispatch } = useContext(AppContext);
   const [showFilterOptions, setShowFilterOptions] = useState(-1);
+  const [isSticky, setIsSticky] = useState(false);
+  const divRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (segment) {
@@ -21,6 +21,23 @@ const SmartFilter: React.FC = (props) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
+
+  const toggleSticky = useCallback(
+    ({ top, bottom }) => {
+      if (top <= 0 && bottom <= window.scrollY) {
+        !isSticky && setIsSticky(true);
+      } else {
+        isSticky && setIsSticky(false);
+      }
+    },
+    [isSticky]
+  );
+
+  useEffect(() => {
+    const handleScroll = () => toggleSticky(divRef?.current?.getBoundingClientRect());
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [toggleSticky]);
 
   const intepretSegment = useCallback(
     (segment: SpeechSegment) => {
@@ -161,8 +178,8 @@ const SmartFilter: React.FC = (props) => {
   );
 
   return (
-    <>
-      <div className="SmartFilters">
+    <div className={`SmartFilters__container ${isSticky && 'SmartFilters__container--sticky'}`}>
+      <div className="SmartFilters" ref={divRef}>
         <div className="SmartFilters__inner">
           {FilterConfig.map((filterConfig, index) => (
             <div key={filterConfig.key} className={`SmartFilter ${filters[filterConfig.key] && 'SmartFilter--hasValue'}`} onClick={() => toggleMenu(index)}>
@@ -203,7 +220,7 @@ const SmartFilter: React.FC = (props) => {
           ></FilterMegaMenu>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
