@@ -199,7 +199,6 @@ const SmartFilter: React.FC = (props) => {
   const menuClass = (isOpen: boolean) => classNames({
     Megamenu__outer: true,
     'Megamenu__outer--open': isOpen,
-    'Megamenu__outer--closed': !isOpen
   })
 
   return (
