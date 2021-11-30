@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
 import { IFilters, IProduct } from "types";
 import AppContext from "AppContext";
 import InventoryItem from "./InventoryItem";
@@ -105,9 +106,14 @@ const Inventory: React.FC = (props) => {
   );
 };
 
+const divClass = (visible: boolean) => classNames({
+  NoResults: true,
+  'NoResults--hidden': !visible
+})
+
 const NoResults: React.FC<{visible: boolean}> = (props) => {
   return (
-    <div className={`NoResults ${!props.visible && "NoResults--hidden"}`}>
+    <div className={divClass(props.visible)}>
       <h3>Sorry, we couldn't find any results for your search</h3>
       <p>Say "clear" to clear filters and search again</p>
     </div>

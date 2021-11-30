@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import classNames from "classnames";
 import { IFilter, IFilterConfiguration } from "types";
 import AppContext, { debugInfo, FilterConfig } from "AppContext";
 import MegaMenu, { MegaMenuItem } from "./MegaMenu";
@@ -185,12 +186,28 @@ const SmartFilter: React.FC = (props) => {
     [filters]
   );
 
+  const containerClass = classNames({
+    SmartFilters: true,
+    'SmartFilters--sticky': isSticky
+  })
+
+  const filterClass = (hasValue: boolean) => classNames({
+    SmartFilter: true,
+    'SmartFilter--hasValue': hasValue
+  })
+
+  const menuClass = (isOpen: boolean) => classNames({
+    Megamenu__outer: true,
+    'Megamenu__outer--open': isOpen,
+    'Megamenu__outer--closed': !isOpen
+  })
+
   return (
-    <div className={`SmartFilters__outer`} style={{ height: divRef.current?.getBoundingClientRect().height }}>
-      <div className={`SmartFilters ${isSticky && 'SmartFilters--sticky'}`} ref={divRef}>
+    <div className="SmartFilters__outer" style={{ height: divRef.current?.getBoundingClientRect().height }}>
+      <div className={containerClass} ref={divRef}>
         <div className="SmartFilters__inner">
           {FilterConfig.map((filterConfig, index) => (
-            <div key={filterConfig.key} className={`SmartFilter ${filters[filterConfig.key] && 'SmartFilter--hasValue'}`} onClick={() => toggleMenu(index)}>
+            <div key={filterConfig.key} className={filterClass(!!filters[filterConfig.key])} onClick={() => toggleMenu(index)}>
               <div className="SmartFilter__value">
                 {getOptionDisplayName(filterConfig) || filterConfig.label}
               </div>
@@ -218,7 +235,7 @@ const SmartFilter: React.FC = (props) => {
       {FilterConfig.map((f, index) => (
         <div
           key={f.key}
-          className={`Megamenu__outer ${showFilterOptions === index ? 'Megamenu__outer--open' : 'Megamenu__outer--closed' }`}
+          className={menuClass(showFilterOptions === index)}
           onClick={() => setShowFilterOptions(-1)}
         >
           <FilterMegaMenu
