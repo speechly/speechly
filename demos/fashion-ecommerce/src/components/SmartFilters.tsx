@@ -178,8 +178,8 @@ const SmartFilter: React.FC = (props) => {
   );
 
   return (
-    <div className={`SmartFilters__container ${isSticky && 'SmartFilters__container--sticky'}`}>
-      <div className="SmartFilters" ref={divRef}>
+    <div className={`SmartFilters__container ${isSticky && 'SmartFilters__container--sticky'}`} ref={divRef}>
+      <div className="SmartFilters">
         <div className="SmartFilters__inner">
           {FilterConfig.map((filterConfig, index) => (
             <div key={filterConfig.key} className={`SmartFilter ${filters[filterConfig.key] && 'SmartFilter--hasValue'}`} onClick={() => toggleMenu(index)}>

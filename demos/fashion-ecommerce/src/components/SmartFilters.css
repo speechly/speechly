@@ -2,7 +2,7 @@
   z-index: 10;
   width: 100%;
   top: 0;
-  position: relative;
+  position: static;
 }
 
 .SmartFilters__container--sticky {
@@ -24,8 +24,14 @@
   max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
+}
+
+@media screen and (min-width: 960px) {
+  .SmartFilters__inner {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
 }
 
 .SmartFilter {
