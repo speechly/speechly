@@ -1,10 +1,10 @@
 {
   "name": "fashion-ecommerce",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "private": true,
   "homepage": "/fashion/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.29",
+    "@speechly/demo-navigation": "^0.1.33",
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
     "@speechly/logkit": ">=1.0.0",
@@ -13,7 +13,8 @@
     "react-spring": "^8.0.27",
     "react-device-detect": "^1.14.0",
     "pubsub-js": "^1.9.2",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "classnames": "~2.3.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",

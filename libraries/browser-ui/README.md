@@ -22,8 +22,6 @@
 
 Speechly UI components provide the visual interface to support voice functionality. This package contains Speechly UI as Web Components that can be used in most browsers via CDN or npm.
 
-See Web Component [documentation](https://docs.speechly.com/client-libraries/ui-components/) for details.
-
 ## Requirements
 
 * [Node](https://nodejs.org/) (tested with v14.16.1)
@@ -34,19 +32,46 @@ See Web Component [documentation](https://docs.speechly.com/client-libraries/ui-
 * [Svelte 3](https://svelte.dev/)
 * [Speechly Browser Client](https://www.npmjs.com/package/@speechly/react-voice-forms/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
+
+## Using Web Components provided by browser-ui from a CDN on a web page/app
+
+```
+<head>
+  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/push-to-talk-button.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/big-transcript.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/error-panel.js"></script>
+</head>
+
+<body>
+   <big-transcript placement="top"></big-transcript>
+   <push-to-talk-button placement="bottom" appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD"></push-to-talk-button>
+   <error-panel placement="bottom"></error-panel>
+</body>
+```
+
 ## Using browser-ui in React
 
-```
-import "browser-ui/push-to-talk-button";
-import "browser-ui/big-transcript";
-import "browser-ui/speechly-ui.css";
 
-<div className="BigTranscriptContainer">
-    <big-transcript></big-transcript>
-</div>
-<div className="PushToTalkContainer">
-    <push-to-talk-button appid="1234"></push-to-talk-button>
-</div>
+> This example illustrates using browser-ui Web Components with a JS framework. For actual React development, you'll probably want to use [react-client](../react-client) and [react-ui](../react-ui) libraries for a better developer experience.
+
+```
+npm i @speechly/browser-ui
 ```
 
-- Notes: Copying .js from browser-ui directly resulted in compile errors in React project, so using packages solves this problem.
+In App.js:
+```
+import "@speechly/browser-ui/core/push-to-talk-button";
+import "@speechly/browser-ui/core/big-transcript";
+import "@speechly/browser-ui/core/error-panel";
+
+...
+
+<big-transcript placement="top"></big-transcript>
+<push-to-talk-button placement="bottom" appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD"></push-to-talk-button>
+<error-panel placement="bottom"></error-panel>
+```
+
+## Learn more
+
+- For integrating Speechly to your app, please refer to the [Client libraries](https://docs.speechly.com/client-libraries/usage/) documentation.
+- Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/).

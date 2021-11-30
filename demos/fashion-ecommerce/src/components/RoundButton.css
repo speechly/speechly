@@ -27,5 +27,5 @@
 }
 
 .HitArea:hover {
-  background-color: #0002;
+  background-color: rgba(0, 0, 0, .05);
 }

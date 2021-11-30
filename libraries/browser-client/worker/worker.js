@@ -89,7 +89,7 @@ var WebsocketClient = /** @class */ (function () {
         }
         this.workerCtx.postMessage({ type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS' });
         if (isNaN(this.resampleRatio)) {
-            throw Error("resampleRatio is NaN source rate is " + this.sourceSampleRate + " and target rate is " + this.targetSampleRate);
+            throw Error("resampleRatio is NaN source rate is ".concat(this.sourceSampleRate, " and target rate is ").concat(this.targetSampleRate));
         }
     };
     WebsocketClient.prototype.setSharedArrayBuffers = function (controlSAB, dataSAB) {

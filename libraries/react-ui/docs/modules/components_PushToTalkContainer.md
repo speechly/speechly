@@ -27,10 +27,6 @@ Properties for BigTranscriptContainer component.
 | `size?` | `string` | Optional string (CSS). Defines the button frame width and height. Default: "6rem" |
 | `voffset?` | `string` | Optional CSS string. Vertical distance from viewport edge. Default: "3rem" |
 
-#### Defined in
-
-[components/PushToTalkContainer.tsx:9](https://github.com/speechly/react-ui/blob/e631dfa/src/components/PushToTalkContainer.tsx#L9)
-
 ## Variables
 
 ### PushToTalkButtonContainer
@@ -46,7 +42,3 @@ The intended usage is as follows:
 </PushToTalkButtonContainer>
 
 And then you can use CSS for styling the layout.
-
-#### Defined in
-
-[components/PushToTalkContainer.tsx:52](https://github.com/speechly/react-ui/blob/e631dfa/src/components/PushToTalkContainer.tsx#L52)

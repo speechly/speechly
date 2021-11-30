@@ -17,16 +17,8 @@
 
 • **info** = `"info"`
 
-#### Defined in
-
-[components/Notifications.tsx:8](https://github.com/speechly/react-ui/blob/e631dfa/src/components/Notifications.tsx#L8)
-
 ___
 
 ### warning
 
 • **warning** = `"warning"`
-
-#### Defined in
-
-[components/Notifications.tsx:9](https://github.com/speechly/react-ui/blob/e631dfa/src/components/Notifications.tsx#L9)

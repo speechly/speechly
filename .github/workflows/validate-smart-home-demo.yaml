@@ -1,0 +1,42 @@
+name: validate smart-home-demo
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "demos/smart-home/config**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: validate -a ${{ secrets.APPID_SMART_HOME_DEMO_EVAL }} demos/smart-home/config
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+  deploy-test:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_SMART_HOME_DEMO_EVAL }} demos/smart-home/config -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+  evaluate:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: annotate -a ${{ secrets.APPID_SMART_HOME_DEMO_EVAL }} --input demos/smart-home/config/test_utterances.txt --output /github/home/annotated_utterances.txt --reference-date 2021-11-25
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
+      - uses: docker://speechly/cli:latest
+        with:
+          args: evaluate --input /github/home/annotated_utterances.txt --ground-truth demos/smart-home/config/ground_truth.txt
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

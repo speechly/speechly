@@ -79,7 +79,21 @@ export enum Effect {
   Busy = "busy",
 }
 
-export const stateToAppearance: {[state: string]: IAppearance} = {
+export const stateToClientState = (speechState: string): ClientState => {
+  switch (speechState as string) {
+    case SpeechState.Idle: return ClientState.Disconnected; break;
+    case SpeechState.Connecting: return ClientState.Connecting; break;
+    case SpeechState.Ready: return ClientState.Connected; break;
+    case SpeechState.Recording: return ClientState.Recording; break;
+    case SpeechState.Loading: return ClientState.Stopping; break;
+    case SpeechState.Failed: return ClientState.Failed; break;
+    case SpeechState.NoBrowserSupport: return ClientState.NoBrowserSupport; break;
+    case SpeechState.NoAudioConsent: return ClientState.NoAudioConsent; break;
+    default: return speechState as undefined as ClientState; break;
+  }
+}
+
+export const clientStateToAppearance: {[state: string]: IAppearance} = {
   [ClientState.Disconnected]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
   [ClientState.Disconnecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [ClientState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
@@ -90,7 +104,7 @@ export const stateToAppearance: {[state: string]: IAppearance} = {
   [ClientState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [ClientState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
-
+/*
   [SpeechState.Idle]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
   [SpeechState.Connecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [SpeechState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
@@ -99,4 +113,5 @@ export const stateToAppearance: {[state: string]: IAppearance} = {
   [SpeechState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [SpeechState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [SpeechState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
+*/
 }

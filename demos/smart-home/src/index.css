@@ -18,10 +18,17 @@ code {
 .App {
   width: 100vw;
   height: 100vh;
-  overflow: "hidden";
-  position: "relative";
+  overflow: hidden;
+
+  user-select: none;
+  display: flex;
+  flex-direction: column;
 }
 
+.SmartHomeView {
+  position: relative;
+  flex-grow: 1;
+}
 
 .BigTranscript {
   color: #fff;

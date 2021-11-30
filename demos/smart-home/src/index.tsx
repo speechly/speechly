@@ -11,10 +11,8 @@ const appId = process.env.REACT_APP__SPEECHLY_APP_ID || "738ec39c-3a5c-435f-aa5a
 ReactDOM.render(
   <React.StrictMode>
     <HttpsRedirect>
-      <SpeechProvider
-        appId={appId}
-      >
-        <LogKit appName="smart-home" appVersion={104}>
+      <SpeechProvider appId={appId}>
+        <LogKit appName="smart-home" appVersion={105}>
           <App />
         </LogKit>
       </SpeechProvider>

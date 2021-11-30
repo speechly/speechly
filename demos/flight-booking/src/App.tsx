@@ -4,9 +4,9 @@ import { TranscriptDrawer } from '@speechly/react-ui/lib/components/TranscriptDr
 import BookingForm from './components/BookingForm';
 //import './voice-form-component-calendar.css';
 //import './voice-form-theme-capsule.css';
-import './App.css';
 import "@speechly/react-voice-forms/css/components/VoiceDatePicker.css";
 import "@speechly/react-voice-forms/css/theme/capsule.css";
+import './App.css';
 
 const UsageHints = [
   'Try: "Book a return flight from London to New York"',
@@ -24,9 +24,9 @@ function App() {
     <>
       <TranscriptDrawer
         height="4rem"
-        highlightColor="var(--color-active-bg)"
-        smallTextColor="var(--color-active-bg)"
-        backgroundColor="rgba(162, 213, 240, 1)"
+        highlightColor="var(--color-input-active-bg)"
+        smallTextColor="var(--color-input-active-bg)"
+        backgroundColor="rgba(162, 213, 240, 0.4)"
         hint={UsageHints}
       />
 

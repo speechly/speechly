@@ -8,7 +8,7 @@
   import { createDispatchUnbounded} from "./fixDispatch";
   import type { IHoldEvent } from "./types";
 
-  const SHORT_PRESS_TRESHOLD_MS = 600
+  const TAP_TRESHOLD_MS = 600
   const dispatchUnbounded = createDispatchUnbounded();
 
   export let projectid: string = undefined;
@@ -134,7 +134,7 @@
 
     if (initializedSuccessfully !== false) {
       // Detect short press
-      if (holdEventData.timeMs < SHORT_PRESS_TRESHOLD_MS) {
+      if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
         if (taptotalktime == 0) {
           tipCallOutText = hint;
           tipCalloutVisible = true;

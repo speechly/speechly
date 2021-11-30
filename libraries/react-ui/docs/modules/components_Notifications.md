@@ -26,22 +26,14 @@
 
 | Name | Type |
 | :------ | :------ |
-| `footnote?` | `string` |
-| `message` | `string` |
-| `notificationId` | `string` |
 | `type` | [`NotificationType`](../enums/components_Notifications.NotificationType.md) |
+| `notificationId` | `string` |
+| `message` | `string` |
 | `visible` | `boolean` |
-
-#### Defined in
-
-[components/Notifications.tsx:12](https://github.com/speechly/react-ui/blob/e631dfa/src/components/Notifications.tsx#L12)
+| `footnote?` | `string` |
 
 ## Variables
 
 ### Notifications
 
 • **Notifications**: `React.FC`
-
-#### Defined in
-
-[components/Notifications.tsx:22](https://github.com/speechly/react-ui/blob/e631dfa/src/components/Notifications.tsx#L22)

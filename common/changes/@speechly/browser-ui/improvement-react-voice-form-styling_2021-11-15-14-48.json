@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Exposed --widget-shadow variable. MUI theme improvements.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
