@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSpeechContext } from '@speechly/react-client'
-import {
-  PushToTalkButton,
-  PushToTalkButtonContainer,
-  ErrorPanel
-} from '@speechly/react-ui'
+import { PushToTalkButton, ErrorPanel } from '@speechly/react-ui'
 import './App.css'
 
 const App: React.FC = (): JSX.Element => {
@@ -22,7 +18,6 @@ type Message = {
 };
 
 const SpeechlyApp: React.FC = (): JSX.Element => {
-
   const [textContent, setTextContent] = useState<string>('')
   const [tentativeTextContent, setTentativeTextContent] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
@@ -42,6 +37,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         setTextContent(alteredTextContent)
       }
     }
+  // eslint-disable-next-line
   }, [segment])
 
   const sendMessage = () => {
