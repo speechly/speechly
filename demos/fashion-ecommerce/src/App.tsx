@@ -1,23 +1,13 @@
-import React, { useEffect } from "react";
 import { BigTranscript, BigTranscriptContainer, PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
+import { DemoNavigation } from "@speechly/demo-navigation";
 import Inventory from "components/Inventory";
 import SmartFilter from "components/SmartFilters";
 import Navigation from "components/Navigation";
 import { AppContextProvider } from "AppContext";
-import "App.css";
 import "components/BigTransscript.css";
-import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
-import { DemoNavigation } from "@speechly/demo-navigation";
+import "App.css";
 
 export default function App() {
-
-  useEffect(() => {
-    PubSub.publish(SpeechlyUiEvents.Notification, {
-      message: `Try "Show me blue jeans"`,
-      footnote: `Hold the mic button while talking`
-    });
-  }, [])
-
   return (
     <AppContextProvider>
       <div className="App">
@@ -30,7 +20,7 @@ export default function App() {
           </BigTranscriptContainer>
         </Inventory>
       </div>
-      <PushToTalkButton placement="bottom" size="88px" voffset="32px" intro=""/>
+      <PushToTalkButton placement="bottom" size="80px" showTime={3000} />
       <ErrorPanel placement="bottom"/>
     </AppContextProvider>
   );
