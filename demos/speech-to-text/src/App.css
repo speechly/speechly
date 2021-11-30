@@ -21,6 +21,7 @@
 @media screen and (min-width: 960px) {
   .ImApp {
     height: 80%;
+    overflow: visible;
   }
 }
 
@@ -100,7 +101,7 @@
   align-items: center;
   background: #eee;
   width: 100%;
-  padding: 24px;
+  padding: 16px 24px;
 }
 
 .Textarea {

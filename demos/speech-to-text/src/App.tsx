@@ -93,7 +93,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
           onKeyPress={e => handleKeyPress(e)}
           rows={textContent.split('\n').length}
         />
-        <PushToTalkButton size="56px" intro="" />
+        <PushToTalkButton size="60px" intro="" />
       </div>
     </div>
   )
