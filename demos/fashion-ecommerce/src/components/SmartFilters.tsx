@@ -3,10 +3,10 @@ import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import classNames from "classnames";
 import { IFilter, IFilterConfiguration } from "types";
 import AppContext, { debugInfo, FilterConfig } from "AppContext";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import MegaMenu, { MegaMenuItem } from "./MegaMenu";
 import PubSub from "pubsub-js";
 import "./SmartFilters.css";
-import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import RoundButton from "./RoundButton";
 
 const SmartFilter: React.FC = (props) => {

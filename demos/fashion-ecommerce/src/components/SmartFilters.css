@@ -5,8 +5,11 @@
   top: 0;
 }
 
-.SmartFilters__outer--sticky {
-  position: fixed;
+@supports not (-webkit-touch-callout: none) {
+  /* CSS for other than iOS devices */
+  .SmartFilters__outer--sticky {
+    position: fixed;
+  }
 }
 
 .SmartFilters {

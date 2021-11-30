@@ -92,17 +92,6 @@
   display: none;
 }
 
-.HoverInfo:after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 32px;
-  background-image: linear-gradient(90deg, transparent, #fff);
-  pointer-events: none;
-}
-
 .HoverInfo__detailSize {
   margin-right: 8px;
   border: 1px solid #D6DBE1;
