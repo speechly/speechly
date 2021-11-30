@@ -36,26 +36,28 @@ const InventoryItem: React.FC<IImageContainer> = (props) => {
     },
   });
 
+  const { sizes, brand, name, price } = props.element
+
   return (
     <li className="InventoryItem" ref={ref}>
       <div className="InventoryItem__aspectRatio">
         <div className="InventoryItem__imageContainer">
           {loadedImageUrl && <img className="InventoryItem__image" src={loadedImageUrl} alt="product" />}
         </div>
-        {props.element.sizes.length > 0 && (
+        {sizes.length > 0 && (
           <div className="HoverInfo">
             <div className="HoverInfo__detailSizes">
-              {props.element.sizes.map(s =>
-                <div className="HoverInfo__detailSize">{formatSize(s)}</div>
+              {sizes.map(size =>
+                <div key={size} className="HoverInfo__detailSize">{formatSize(size)}</div>
               )}
             </div>
           </div>
         )}
       </div>
       <div className="InventoryItem__details">
-        <span className="InventoryItem__brandName">{props.element.brand.name}</span>
-        <span className="InventoryItem__productName">{props.element.name}</span>
-        <span className="InventoryItem__productPrice">$&thinsp;{props.element.price.toFixed(2)}</span>
+        <span className="InventoryItem__brandName">{brand.name}</span>
+        <span className="InventoryItem__productName">{name}</span>
+        <span className="InventoryItem__productPrice">$&thinsp;{price.toFixed(2)}</span>
       </div>
     </li>
   );
