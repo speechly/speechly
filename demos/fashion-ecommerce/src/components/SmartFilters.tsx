@@ -39,6 +39,14 @@ const SmartFilter: React.FC = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [toggleSticky]);
 
+  useEffect(() => {
+    if (showFilterOptions > 0) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [showFilterOptions])
+
   const intepretSegment = useCallback(
     (segment: SpeechSegment) => {
       filterDispatch({ type: "segment", segment: segment });
