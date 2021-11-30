@@ -18,6 +18,12 @@ const InventoryItem: React.FC<IImageContainer> = (props) => {
     USE_CDN_IMAGES ? `${FASHION_CDN_URL}/${props.element.image_file}` : props.element.image_url
   );
 
+  const formatSize = (size: string) => {
+    const num = Number(size)
+    if (isNaN(num)) return size
+    return `EU ${num}`
+  }
+
   useIntersectionObserver({
     target: ref,
     onIntersect: ([{ isIntersecting }], observerElement) => {
@@ -40,7 +46,7 @@ const InventoryItem: React.FC<IImageContainer> = (props) => {
           <div className="HoverInfo">
             <div className="HoverInfo__detailSizes">
               {props.element.sizes.map(s =>
-                <div className="HoverInfo__detailSize">{s}</div>
+                <div className="HoverInfo__detailSize">{formatSize(s)}</div>
               )}
             </div>
           </div>
