@@ -1,19 +1,20 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState, useRef } from "react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import classNames from "classnames";
 import { IFilter, IFilterConfiguration } from "types";
-// import CloseIcon from "@material-ui/icons/Close";
-// import { IconButton } from "@material-ui/core";
 import AppContext, { debugInfo, FilterConfig } from "AppContext";
+import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import MegaMenu, { MegaMenuItem } from "./MegaMenu";
 import PubSub from "pubsub-js";
 import "./SmartFilters.css";
-import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import RoundButton from "./RoundButton";
 
 const SmartFilter: React.FC = (props) => {
   const { segment } = useSpeechContext();
   const { filters, filterDispatch } = useContext(AppContext);
   const [showFilterOptions, setShowFilterOptions] = useState(-1);
+  const [isSticky, setIsSticky] = useState(false);
+  const divRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (segment) {
@@ -21,6 +22,31 @@ const SmartFilter: React.FC = (props) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
+
+  const toggleSticky = useCallback(
+    ({ top, bottom }) => {
+      if (top <= 0 && window.scrollY >= bottom) {
+        !isSticky && setIsSticky(true);
+      } else {
+        isSticky && setIsSticky(false);
+      }
+    },
+    [isSticky]
+  );
+
+  useEffect(() => {
+    const handleScroll = () => toggleSticky(divRef?.current?.getBoundingClientRect());
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [toggleSticky]);
+
+  useEffect(() => {
+    if (showFilterOptions > 0) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+  }, [showFilterOptions])
 
   const intepretSegment = useCallback(
     (segment: SpeechSegment) => {
@@ -46,7 +72,7 @@ const SmartFilter: React.FC = (props) => {
           );
           if (filterConfig) {
             if (!Object.keys(appliedFilters).includes(filterConfig.key)) {
-              appliedFilters[filterConfig.key] = 
+              appliedFilters[filterConfig.key] =
               {
                 value: entity.value.toLowerCase(),
                 optionFound: false
@@ -160,19 +186,33 @@ const SmartFilter: React.FC = (props) => {
     [filters]
   );
 
+  const containerClass = classNames({
+    SmartFilters__outer: true,
+    'SmartFilters__outer--sticky': isSticky
+  })
+
+  const filterClass = (hasValue: boolean) => classNames({
+    SmartFilter: true,
+    'SmartFilter--hasValue': hasValue
+  })
+
+  const menuClass = (isOpen: boolean) => classNames({
+    Megamenu__outer: true,
+    'Megamenu__outer--open': isOpen,
+  })
+
   return (
-    <>
-      <div className="SmartFilters">
-        {FilterConfig.map((filterConfig, index) => (
-          <div key={filterConfig.key} className={`SmartFilter`}>
-            <div className="filterWidget" onClick={() => toggleMenu(index)}>
-              <div className="filterLabel">{filterConfig.label}</div>
-              <div className="filterValue">
-                <div className="filterValue1">
-                  {getOptionDisplayName(filterConfig)}
+    <div style={{ height: divRef.current?.getBoundingClientRect().height }}>
+      <div className={containerClass} ref={divRef}>
+        <div className="SmartFilters">
+          <div className="SmartFilters__inner">
+            {FilterConfig.map((filterConfig, index) => (
+              <div key={filterConfig.key} className={filterClass(!!filters[filterConfig.key])} onClick={() => toggleMenu(index)}>
+                <div className="SmartFilter__value">
+                  {getOptionDisplayName(filterConfig) || filterConfig.label}
                 </div>
                 {filters[filterConfig.key] && (
-                  <div className="filterValue2">
+                  <div className="SmartFilter__close">
                     <RoundButton
                       size="1rem"
                       hitArea="1.5rem"
@@ -181,7 +221,7 @@ const SmartFilter: React.FC = (props) => {
                         clearFilter(filterConfig.key);
                       }}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style={{width: "0.60rem", height: "0.60rem"}} overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="8" height="8" overflow="visible" stroke="currentColor" strokeWidth="5" strokeLinecap="butt">
                         <line x1="0" y1="0" x2="24" y2="24" />
                         <line x1="24" y1="0" x2="0" y2="24" />
                       </svg>
@@ -189,38 +229,34 @@ const SmartFilter: React.FC = (props) => {
                   </div>
                 )}
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
+        {FilterConfig.map((f, index) => (
+          <div
+            key={f.key}
+            className={menuClass(showFilterOptions === index)}
+            onClick={() => setShowFilterOptions(-1)}
+          >
+            <FilterMegaMenu
+              filterConfig={f}
+              filter={filters[f.key]}
+              changeFilter={changeFilter}
+            ></FilterMegaMenu>
           </div>
         ))}
       </div>
-      {FilterConfig.map((f, index) => (
-        <div
-          key={f.key}
-          style={{
-            position: "relative",
-            display: showFilterOptions === index ? "block" : "none",
-          }}
-        >
-          <FilterMegaMenu
-            filterConfig={f}
-            filter={filters[f.key]}
-            onClose={() => setShowFilterOptions(-1)}
-            changeFilter={changeFilter}
-          ></FilterMegaMenu>
-        </div>
-      ))}
-    </>
+    </div>
   );
 };
 
 const FilterMegaMenu: React.FC<{
   filterConfig: IFilterConfiguration;
   filter: IFilter;
-  onClose: () => void;
   changeFilter: (filter: string, value: string) => void;
 }> = (props) => {
   return (
-    <MegaMenu title={props.filterConfig.label} onClose={props.onClose}>
+    <MegaMenu title={props.filterConfig.label}>
       {props.filterConfig.data.options.map((item) => (
         <MegaMenuItem
           key={String(item[0])}

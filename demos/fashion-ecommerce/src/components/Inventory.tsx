@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import classNames from "classnames";
 import { IFilters, IProduct } from "types";
 import AppContext from "AppContext";
 import InventoryItem from "./InventoryItem";
@@ -93,40 +94,28 @@ const Inventory: React.FC = (props) => {
   return (
     <div className="InventoryContainer">
       {props.children}
-      <div className="InventoryViewport">
-        <NoResults visible={!loading && Products.length === 0}/>
-        {Products.length > 0 &&
-          <ul className="Inventory">
-            {(Products as IProduct[]).map((element) => (
-              <InventoryItem key={String(element.id)} element={element} />
-            ))}
-          </ul>
-        }
-      </div>
+      <NoResults visible={!loading && Products.length === 0}/>
+      {Products.length > 0 &&
+        <ul className="Inventory">
+          {(Products as IProduct[]).map((element) => (
+            <InventoryItem key={String(element.id)} element={element} />
+          ))}
+        </ul>
+      }
     </div>
   );
 };
 
+const divClass = (visible: boolean) => classNames({
+  NoResults: true,
+  'NoResults--hidden': !visible
+})
+
 const NoResults: React.FC<{visible: boolean}> = (props) => {
   return (
-    <div className={`NoResults ${!props.visible && "hidden"}`}>
-      <div className="flexspacer" style={{ flexGrow: 0.40 }} />
-      <h1>
-        Sorry, we're out of stock!
-      </h1>
-      <p>Say "clear" to search again</p>
-      <div className="logos">
-        <img className="logo" alt="" src="images_app/logos/adidas.svg" />
-        <img className="logo" alt="" src="images_app/logos/calvin-klein.svg" />
-        <img className="logo" alt="" src="images_app/logos/dc-shoe-co-usa.svg" />
-        <img className="logo" alt="" src="images_app/logos/dkny.svg" />
-        <img className="logo" alt="" src="images_app/logos/gant.svg" />
-        <img className="logo" alt="" src="images_app/logos/nike.svg" />
-        <img className="logo" alt="" src="images_app/logos/patagonia.svg" />
-        <img className="logo" alt="" src="images_app/logos/ray-ban.svg" />
-        <img className="logo" alt="" src="images_app/logos/the-north-face.svg" />
-      </div>
-      <div className="flexspacer" style={{ flexGrow: 0.60 }} />
+    <div className={divClass(props.visible)}>
+      <h3>Sorry, we couldn't find any results for your search</h3>
+      <p>Say "clear" to clear filters and search again</p>
     </div>
   );
 };

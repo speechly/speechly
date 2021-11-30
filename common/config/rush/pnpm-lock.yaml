@@ -4467,6 +4467,10 @@ packages:
       static-extend: 0.1.2
     dev: false
 
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
+
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
@@ -14113,7 +14117,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-+7XbCJi3fDnq9atOhRkD4F3tPn7Z7pLWrdteqtrs9p4QNKBpvWXgFPlgQ0CMVgyy8RjKDjmK9F8qvgxv46/6fg==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-4kr9G0JQRASeoxmp9TLBfXkpIhb2/zULwdEt5/ttxfA3oUsLcmSCR/fG+J/oU308hWeDevkfiQQmd0PqMdNitg==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -14128,6 +14132,7 @@ packages:
       '@types/react': 17.0.36
       '@types/react-dom': 17.0.11
       '@types/styled-components': 5.1.15
+      classnames: 2.3.1
       csvtojson: 2.0.10
       node-fetch: 2.6.6
       pubsub-js: 1.9.4
