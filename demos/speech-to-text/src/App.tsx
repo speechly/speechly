@@ -21,6 +21,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   const [textContent, setTextContent] = useState<string>('')
   const [tentativeTextContent, setTentativeTextContent] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
+  const [rows, setRows] = useState(1)
   const { segment } = useSpeechContext()
 
   const setText = (value: string) => {
@@ -48,6 +49,26 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     }
     setMessages([ ...messages, newMessage ])
     setText('')
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const maxRows = 6
+    const minRows = 1
+    const prevRows = e.target.rows
+    e.target.rows = minRows
+    const currentRows = ~~(e.target.scrollHeight / 28);
+
+    if (currentRows === prevRows) {
+    	e.target.rows = currentRows;
+    }
+
+    if (currentRows >= maxRows) {
+			e.target.rows = maxRows;
+			e.target.scrollTop = e.target.scrollHeight;
+		}
+
+    setRows(currentRows < maxRows ? currentRows : maxRows)
+    setText(e.target.value)
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -85,11 +106,11 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
           <textarea
             className="Textarea"
             placeholder="Speak or type a message…"
-            onChange={e => setText(e.target.value)}
+            onChange={handleChange}
             value={tentativeTextContent}
-            onKeyPress={e => handleKeyPress(e)}
-            rows={textContent.split('\n').length}
-            />
+            onKeyPress={handleKeyPress}
+            rows={rows}
+          />
           <button disabled={!textContent} className="SendButton" onClick={sendMessage}>
             Send
           </button>
