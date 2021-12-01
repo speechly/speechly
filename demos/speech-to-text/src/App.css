@@ -96,7 +96,7 @@
   margin-left: auto;
 }
 
-.Textarea__container {
+.Footer {
   display: flex;
   align-items: center;
   background: #eee;
@@ -104,7 +104,14 @@
   padding: 16px 24px;
 }
 
+.Textarea__container {
+  position: relative;
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
 .Textarea {
+  display: block;
   background-color: #fff;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
@@ -112,11 +119,11 @@
   line-height: 20px;
   color: #1d1c1d;
   resize: none;
-  padding: 1rem;
+  padding: 14px;
   flex-grow: 1;
   border: 0;
   width: 100%;
-  margin-right: 12px;
+  min-height: 48px;
 }
 
 .Textarea:focus {
@@ -127,4 +134,36 @@
   color: #999 !important;
 }
 
+.Textarea .SendButton {
 
+}
+
+.SendButton {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background-color: #4fa1f9;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  flex-grow: 0;
+  cursor: pointer;
+  transition: all .15s ease;
+  color: white;
+  padding: 0 8px;
+}
+
+.SendButton:hover {
+  background-color: #3882d1;
+}
+
+.SendButton[disabled] {
+  background-color: #fff;
+  color: #aaa;
+  cursor: auto;
+}

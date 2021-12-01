@@ -32,15 +32,16 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     if (segment) {
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
       const alteredTextContent = textContent ? [textContent, plainString].join(' ') : plainString
-      setTentativeTextContent(alteredTextContent)
+      setTentativeTextContent(alteredTextContent.toLowerCase())
       if (segment.isFinal) {
-        setTextContent(alteredTextContent)
+        setTextContent(alteredTextContent.toLowerCase())
       }
     }
   // eslint-disable-next-line
   }, [segment])
 
   const sendMessage = () => {
+    if (textContent.trim() === '') return
     const newMessage: Message = {
       content: textContent,
       date: new Date()
@@ -50,7 +51,6 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (textContent.trim() === '') return
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -80,17 +80,22 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
           </div>
         )}
       </div>
-      <div className="Textarea__container">
-        <textarea
-          className="Textarea"
-          placeholder="Speak or type a message…"
-          onChange={e => setText(e.target.value)}
-          value={tentativeTextContent}
-          onKeyPress={e => handleKeyPress(e)}
-          rows={textContent.split('\n').length}
-        />
-        <PushToTalkButton size="60px" intro="" />
-      </div>
+      <div className="Footer">
+        <div className="Textarea__container">
+          <textarea
+            className="Textarea"
+            placeholder="Speak or type a message…"
+            onChange={e => setText(e.target.value)}
+            value={tentativeTextContent}
+            onKeyPress={e => handleKeyPress(e)}
+            rows={textContent.split('\n').length}
+            />
+          <button disabled={!textContent} className="SendButton" onClick={sendMessage}>
+            Send
+          </button>
+        </div>
+        <PushToTalkButton size="56px" intro="" />
+        </div>
     </div>
   )
 }
