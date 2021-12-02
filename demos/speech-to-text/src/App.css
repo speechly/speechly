@@ -113,6 +113,7 @@
 }
 
 .Textarea__container {
+  display: grid;
   position: relative;
   flex-grow: 1;
   margin-right: 16px;
@@ -124,8 +125,14 @@
   bottom: 8px;
 }
 
-.Textarea {
-  display: block;
+.Textarea__container::after {
+  content: attr(data-replicated-value) " ";
+  white-space: pre-wrap;
+  visibility: hidden;
+}
+
+.Textarea,
+.Textarea__container::after {
   background-color: #fff;
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
@@ -134,10 +141,11 @@
   color: #1d1c1d;
   resize: none;
   padding: 14px 60px 14px 14px;
-  flex-grow: 1;
   border: 0;
   width: 100%;
   min-height: 48px;
+  overflow: hidden;
+  grid-area: 1 / 1 / 2 / 2;
 }
 
 .Textarea:focus {

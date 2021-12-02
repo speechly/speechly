@@ -21,7 +21,6 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   const [textContent, setTextContent] = useState<string>('')
   const [tentativeTextContent, setTentativeTextContent] = useState<string>('')
   const [messages, setMessages] = useState<Message[]>([])
-  const [rows, setRows] = useState(1)
   const { segment } = useSpeechContext()
 
   const setText = (value: string) => {
@@ -72,25 +71,9 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     }
     setMessages([ ...messages, newMessage ])
     setText('')
-    setRows(1)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const maxRows = 6
-    const minRows = 1
-    const lineHeight = 20
-    const padding = 14
-    const prevRows = e.target.rows
-    e.target.rows = minRows
-    const currentRows = Math.floor((e.target.scrollHeight - 2 * padding) / lineHeight);
-    if (currentRows === prevRows) {
-    	e.target.rows = currentRows;
-    }
-    if (currentRows >= maxRows) {
-			e.target.rows = maxRows;
-			e.target.scrollTop = e.target.scrollHeight;
-		}
-    setRows(currentRows < maxRows ? currentRows : maxRows)
     setText(e.target.value)
   }
 
@@ -125,14 +108,14 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         )}
       </div>
       <div className="Footer">
-        <div className="Textarea__container">
+        <div className="Textarea__container" data-replicated-value={tentativeTextContent}>
           <textarea
             className="Textarea"
             placeholder="Say or type a message"
             onChange={handleChange}
             value={tentativeTextContent}
             onKeyPress={handleKeyPress}
-            rows={rows}
+            rows={1}
           />
           <button disabled={!textContent} className="SendButton" onClick={sendMessage}>
             Send
