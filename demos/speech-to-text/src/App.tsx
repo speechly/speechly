@@ -31,11 +31,22 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (segment) {
+      console.log(segment)
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
       const alteredTextContent = textContent ? [textContent, plainString].join(' ') : plainString
-      setTentativeTextContent(alteredTextContent.toLowerCase())
+      const formattedTextContent = alteredTextContent
+        .replace(' COMMA', ',')
+        .replace(' PERIOD', '.')
+        .replace(' DOT', '.')
+        .replace(' QUESTION MARK', '?')
+        .replace(' EXCLAMATION MARK', '!')
+        .replace(' COLON', ':')
+        .replace(' SEMICOLON', ';')
+        .replace(' SEMI COLON', ';')
+        .toLowerCase()
+      setTentativeTextContent(formattedTextContent)
       if (segment.isFinal) {
-        setTextContent(alteredTextContent.toLowerCase())
+        setTextContent(formattedTextContent)
       }
     }
   // eslint-disable-next-line
