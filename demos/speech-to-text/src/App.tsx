@@ -29,9 +29,19 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     setTentativeTextContent(value)
   }
 
+  const toSentenceCase = (str: string) => {
+    const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    const punctuation = ['.','!','?']
+    alphabet.forEach(letter => {
+      punctuation.forEach(punc => {
+          str = str.replace(`${punc} ${letter.toLowerCase()}`,`${punc} ${letter}`)
+      })
+    })
+    return str.charAt(0).toUpperCase() + str.substr(1);
+  }
+
   useEffect(() => {
     if (segment) {
-      console.log(segment)
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
       const alteredTextContent = textContent ? [textContent, plainString].join(' ') : plainString
       const formattedTextContent = alteredTextContent
@@ -40,13 +50,15 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         .replace(' DOT', '.')
         .replace(' QUESTION MARK', '?')
         .replace(' EXCLAMATION MARK', '!')
+        .replace(' EXCLAMATION POINT', '!')
         .replace(' COLON', ':')
         .replace(' SEMICOLON', ';')
         .replace(' SEMI COLON', ';')
         .toLowerCase()
-      setTentativeTextContent(formattedTextContent)
+      const casedTextContent = toSentenceCase(formattedTextContent)
+      setTentativeTextContent(casedTextContent)
       if (segment.isFinal) {
-        setTextContent(formattedTextContent)
+        setTextContent(casedTextContent)
       }
     }
   // eslint-disable-next-line
