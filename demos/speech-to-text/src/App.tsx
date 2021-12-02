@@ -128,7 +128,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         <div className="Textarea__container">
           <textarea
             className="Textarea"
-            placeholder="Speak or type a message…"
+            placeholder="Say or type a message"
             onChange={handleChange}
             value={tentativeTextContent}
             onKeyPress={handleKeyPress}
