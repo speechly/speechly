@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSpeechContext, Word } from "@speechly/react-client";
+import { useSpeechContext } from "@speechly/react-client";
 import { Calendar } from "./Calendar"
 import { CalendarIcon } from "./CalendarIcon"
 import { formatEntities } from "../utils"
@@ -85,7 +85,7 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
   const [ _date, _setDate ] = useState(defaultValue)
   const [ _value, _setValue ] = useState(defaultValue ? dateToString(defaultValue) : '')
   const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ? dateToString(defaultValue) : '')
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
+  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -101,7 +101,7 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
   }
 
   function dateToString(date: Date): string {
-    return `${(date.getDate()).toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+    return `${(date.getUTCDate()).toString().padStart(2, '0')}/${(date.getUTCMonth() + 1).toString().padStart(2, '0')}/${date.getUTCFullYear()}`
   }
 
   function stringToDate(value: string): Date | null {
@@ -109,9 +109,10 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
     const matches = value.match(regex)
     if (!matches) return null
     const [all, day, month, year] = matches;
-    return new Date(`${month} ${day} ${year}`)
+    return new Date(Date.UTC(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10),
+        0, 0, 0, 0))
   }
-  
+
   const _onFocus = () => {
     _setFocused(true)
     // use callback only to change parent state
@@ -152,7 +153,7 @@ export const VoiceDatePicker = ({ label, value, defaultValue, changeOnIntent, ch
       const segmentId = `${segment.contextId}/${segment.id}`;
       if (segmentId !== lastSegmentId) {
         setLastSegmentId(segmentId)
-        lastGoodKnownValue = value ? dateToString(value) : _value
+        lastGoodKnownValue = value ? dateToString(value) : _value
         _setLastGoodKnownValue(lastGoodKnownValue)
       }
 
