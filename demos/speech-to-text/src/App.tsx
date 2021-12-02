@@ -72,24 +72,24 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     }
     setMessages([ ...messages, newMessage ])
     setText('')
+    setRows(1)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const maxRows = 6
     const minRows = 1
+    const lineHeight = 20
+    const padding = 14
     const prevRows = e.target.rows
     e.target.rows = minRows
-    const currentRows = ~~(e.target.scrollHeight / 28);
-
+    const currentRows = Math.floor((e.target.scrollHeight - 2 * padding) / lineHeight);
     if (currentRows === prevRows) {
     	e.target.rows = currentRows;
     }
-
     if (currentRows >= maxRows) {
 			e.target.rows = maxRows;
 			e.target.scrollTop = e.target.scrollHeight;
 		}
-
     setRows(currentRows < maxRows ? currentRows : maxRows)
     setText(e.target.value)
   }
@@ -118,7 +118,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
           <span className="Message__time">{formatTime(new Date())}</span>
         </div>
         {messages.map(m =>
-          <div className="Message Message--me">
+          <div key={m.content} className="Message Message--me">
             <span className="Message__content">{m.content}</span>
             <span className="Message__time">{formatTime(m.date)}</span>
           </div>
