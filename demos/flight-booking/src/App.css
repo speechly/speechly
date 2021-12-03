@@ -1,134 +1,40 @@
-body {
-  background-color: transparent !important;
-  padding: 0;
-  margin: 0;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  font-size: 1.0rem;
-  overflow-x: hidden;
-
-  --color-input-bg: #f2f7fa;
-  --color-input-active-bg: #316EAE;
-  --color-input-active-text: #ffffff;
-  --widget-shadow: 0px 6px 12px 0px #388de95e;
-}
-
-select, button, input, label {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-select, input, button {
-  font-size: 1.0rem;
-  line-height: 140%;
-}
-
-#root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-}
-
 .App {
   display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
   flex-direction: column;
-  background-image: linear-gradient(
-    150deg, 
-    rgb(83, 163, 249) 17.8%, 
-    rgb(117, 223, 255) 48.54%, 
-    rgb(219, 255, 246) 78.65%
-  );
-  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
-form {
-  box-sizing: border-box;
-  min-height: 100%;
-  padding: 8rem 0.4rem 10rem 0.4rem;
+.Hero {
+  background-color: skyblue;
+  padding: 10vh 20px;
+  height: 100%;
+}
 
+.Navigation {
+  background-color: #fff;
   display: flex;
-  flex-direction: column;
-  -webkit-box-align: center;
   align-items: center;
-  align-content: center;
+  height: 72px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .2);
+  padding: 0 8px;
+  position: relative;
 }
 
-.group {
-  box-sizing: border-box;
-  width: 100%;
-  display: flex;
-  justify-content: stretch;
-  align-items: stretch;
-  gap: 8px;
-  margin: 0.5rem 0;
-  min-height: 3.5rem;
+.Navigation__logo {
+  height: 20px;
+  margin: 16px;
 }
 
-label {
-  color: #4fa1f9 !important;
+.Navigation__item {
+  padding: 16px;
+  text-decoration: none;
+  color: #0F1923;
 }
 
-@media (max-width: 360px) {
-  html {
-    font-size: 80%;
-  }
-
-  form {
-    width: 100%;
-  }
-}
-
-@media (min-width: 360px) and (max-width: 400px) {
-  html {
-    font-size: 85%;
-  }
-
-  form {
-    width: 100%;
-  }
-}
-
-@media (min-width: 400px) and (max-width: 688px) {
-  html {
-    font-size: 90%;
-  }
-
-  form {
-    width: 100%;
-  }
-}
-
-@media (min-width: 688px) and (max-width: 992px) {
-  html {
-    font-size: 100%;
-  }
-
-  form {
-    width: 640px;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1312px) {
-  html {
-    font-size: 120%;
-  }
-
-  form {
-    width: 720px;
-  }
-}
-
-@media (min-width: 1312px) {
-  html {
-    font-size: 120%;
-  }
-
-  form {
-    width: 800px;
-  }
+.Navigation__item--right {
+  margin-left: auto;
 }

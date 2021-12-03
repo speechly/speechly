@@ -1,12 +1,12 @@
 import React from 'react';
 import { PushToTalkButton, ErrorPanel } from '@speechly/react-ui';
 import { TranscriptDrawer } from '@speechly/react-ui/lib/components/TranscriptDrawer';
+import { DemoNavigation } from '@speechly/demo-navigation';
 import BookingForm from './components/BookingForm';
-//import './voice-form-component-calendar.css';
-//import './voice-form-theme-capsule.css';
 import "@speechly/react-voice-forms/css/components/VoiceDatePicker.css";
 import "@speechly/react-voice-forms/css/theme/capsule.css";
 import './App.css';
+import logoPath from './logo.svg'
 
 const UsageHints = [
   'Try: "Book a return flight from London to New York"',
@@ -21,24 +21,24 @@ const UsageHints = [
 
 function App() {
   return (
-    <>
-      <TranscriptDrawer
-        height="4rem"
-        highlightColor="var(--color-input-active-bg)"
-        smallTextColor="var(--color-input-active-bg)"
-        backgroundColor="rgba(162, 213, 240, 0.4)"
-        hint={UsageHints}
-      />
-
-      <PushToTalkButton captureKey=" " placement="bottom" size="88px" voffset="32px" />
+    <div className="App">
+      <TranscriptDrawer hint={UsageHints} />
+      <PushToTalkButton captureKey=" " placement="bottom" size="80px" voffset="32px" />
       <ErrorPanel placement="bottom" />
-
-      <div className="App">
-        <div style={{flexGrow: 1}}></div>
-        <BookingForm />
-        <div style={{flexGrow: 1.618}}></div>
+      <DemoNavigation />
+      <div className="Navigation">
+        <img className="Navigation__logo" src={logoPath} alt="logo" />
+        <span className="Navigation__item">Explore</span>
+        <span className="Navigation__item">Help</span>
+        <span className="Navigation__item">Miles</span>
+        <span className="Navigation__item Navigation__item--right">Login</span>
+        <span className="Navigation__item">Register</span>
       </div>
-    </>
+      <div className="Hero">
+        <BookingForm />
+      </div>
+      <div className="Content"></div>
+    </div>
   );
 }
 
