@@ -22,7 +22,6 @@ function App() {
   return (
     <div className="App">
       <TranscriptDrawer hint={UsageHints} />
-      <PushToTalkButton captureKey=" " placement="bottom" size="80px" showTime={3000} />
       <ErrorPanel placement="bottom" />
       <DemoNavigation />
       <div className="Navigation">
@@ -37,6 +36,9 @@ function App() {
         <img src="hero.jpg" alt="city" />
         <h1>Where to next?</h1>
         <BookingForm />
+        <div className="PushToTalkContainer">
+          <PushToTalkButton captureKey=" " size="80px" showTime={3000} />
+        </div>
       </div>
       <div className="Content">
         <h2>Inspiration for your next trip</h2>
@@ -60,6 +62,40 @@ function App() {
             <img src="city-barcelona.jpg" alt="city" />
             <h3>Barcelona</h3>
             <p>Spain</p>
+          </div>
+        </div>
+      </div>
+      <div className="Footer">
+        <div className="Footer__inner">
+          <div className="Footer__col">
+            <strong>Customer care</strong>
+            <span>FAQs</span>
+            <span>Contact us</span>
+            <span>Contact forms</span>
+          </div>
+          <div className="Footer__col">
+            <strong>About Global Air</strong>
+            <span>Careers</span>
+            <span>About us</span>
+            <span>Our mission</span>
+          </div>
+          <div className="Footer__col">
+            <strong>Our website</strong>
+            <span>Terms & conditions</span>
+            <span>Privacy & cookies policy</span>
+            <span>Privacy centre</span>
+            <span>Site map</span>
+            <span>Accessibility</span>
+          </div>
+          <div className="Footer__col">
+            <strong>Follow us</strong>
+            <span>Newsletter</span>
+            <span>Mobile application</span>
+            <span>Blue Wings stories</span>
+            <span>Facebook</span>
+            <span>Instagram</span>
+            <span>Twitter</span>
+            <span>Youtube</span>
           </div>
         </div>
       </div>

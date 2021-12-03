@@ -47,6 +47,7 @@
   .BookingForm__form {
     padding: 16px;
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 
@@ -73,6 +74,21 @@
   background-color: #1F2D3B;
 }
 
+.BookingForm__button[disabled] {
+  background-color: #0F1923;
+  filter: grayscale(1);
+  opacity: 0.2;
+  cursor: auto;
+}
+
+
+@media screen and (max-width: 960px) {
+  .BookingForm__button {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
 .BookingForm .widgetGroup button,
 .BookingForm .widgetGroup select,
 .BookingForm .widgetGroup input,
@@ -81,6 +97,7 @@
   border-radius: 0;
   box-shadow: none;
   background-color: transparent;
+  color: #0F1923;
 }
 
 .BookingForm .widgetGroup input,
@@ -107,11 +124,13 @@
   flex-basis: auto;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 .BookingForm .widgetGroup.checkbox input {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .BookingForm .calendar {
@@ -149,6 +168,7 @@
 .BookingForm .toggle button.active {
   background-color: #7D8FA1;
   border-color: #7D8FA1;
+  color: #fff;
 }
 
 .BookingForm .toggle button:first-child {

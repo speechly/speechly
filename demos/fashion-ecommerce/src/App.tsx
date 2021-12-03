@@ -20,7 +20,7 @@ export default function App() {
           </BigTranscriptContainer>
         </Inventory>
       </div>
-      <PushToTalkButton placement="bottom" size="80px" showTime={3000} />
+      <PushToTalkButton captureKey=" " size="80px" showTime={3000} />
       <ErrorPanel placement="bottom"/>
     </AppContextProvider>
   );
