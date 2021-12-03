@@ -14,7 +14,7 @@ const SmartFilter: React.FC = (props) => {
   const { filters, filterDispatch } = useContext(AppContext);
   const [showFilterOptions, setShowFilterOptions] = useState(-1);
   const [isSticky, setIsSticky] = useState(false);
-  const divRef = useRef<HTMLInputElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (segment) {
