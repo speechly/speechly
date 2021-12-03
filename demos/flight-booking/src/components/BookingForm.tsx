@@ -10,6 +10,12 @@ const tripDisplayNames = ["Round trip", "One way"]
 const BookingForm = () => {
   const [fromValue, setFromValue] = useState<string>()
   const [toValue, setToValue] = useState<string>()
+  const [isReturn, setIsReturn] = useState(true)
+
+  const showEndAlert = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    window.alert('Well done! 🎉 \n\nGlobal Air isn’t a real airline, but there’s more demos in the top navigation. ☝️')
+  }
 
   return (
     <div className="BookingForm">
@@ -33,15 +39,20 @@ const BookingForm = () => {
           value={toValue}
         />
         <VoiceDatePicker label="Departure" changeOnEntityType="depart" />
-        <VoiceDatePicker label="Return" changeOnEntityType="return" />
+        {isReturn && <VoiceDatePicker label="Return" changeOnEntityType="return" />}
         <VoiceSelect label="Passengers" options={passengersOptions} changeOnEntityType="passengers" />
         <VoiceSelect label="Class" options={classOptions} changeOnEntityType="class" />
-        <VoiceToggle options={tripOptions} changeOnEntityType={tripOptions} displayNames={tripDisplayNames} />
+        <VoiceToggle
+          options={tripOptions}
+          changeOnEntityType={tripOptions}
+          displayNames={tripDisplayNames}
+          onChange={v => setIsReturn(v === tripOptions[0])}
+        />
         <div className="BookingForm__item--wrap">
-         <VoiceCheckbox label="Direct flights only" intent="book" clearIntent="clear" setOnEntityType="direct" clearOnEntityType="nondirect" defaultValue={false} />
-         <button className="BookingForm__button" onClick={e => e.preventDefault()}>
+          <VoiceCheckbox label="Direct flights only" intent="book" clearIntent="clear" setOnEntityType="direct" clearOnEntityType="nondirect" defaultValue={false} />
+          <button className="BookingForm__button" disabled={!fromValue || (isReturn && !toValue)} onClick={showEndAlert}>
           Search Flights
-        </button>
+          </button>
         </div>
       </div>
     </div>
