@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useSpeechContext } from '@speechly/react-client'
+import { DemoNavigation } from '@speechly/demo-navigation'
 import { PushToTalkButton, ErrorPanel } from '@speechly/react-ui'
 import './App.css'
 
 const App: React.FC = (): JSX.Element => {
   return (
     <div className="App">
+      <DemoNavigation />
       <ErrorPanel />
       <SpeechlyApp/>
     </div>
