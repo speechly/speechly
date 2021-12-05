@@ -1,0 +1,180 @@
+.BookingForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .4);
+  position: relative;
+  z-index: 10;
+}
+
+.BookingForm__tabs {
+  display: flex;
+  align-items: center;
+}
+
+.BookingForm__tab {
+  padding: 14px;
+  background-color: #EDF0F2;
+  color: #7D8FA1;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.BookingForm__tab--active {
+  background-color: #fff;
+  color: #0F1923;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 960px) {
+  .BookingForm__tab:nth-child(n + 2) {
+    display: none;
+  }
+}
+
+.BookingForm__form {
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media screen and (max-width: 960px) {
+  .BookingForm__form {
+    padding: 16px;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+.BookingForm__item--wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.BookingForm__button {
+  background-color: #0F1923;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  font-family: inherit;
+  border: none;
+  padding: 12px 20px;
+  transition: all .15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.BookingForm__button:hover {
+  background-color: #1F2D3B;
+}
+
+.BookingForm__button[disabled] {
+  background-color: #0F1923;
+  filter: grayscale(1);
+  opacity: 0.2;
+  cursor: auto;
+}
+
+
+@media screen and (max-width: 960px) {
+  .BookingForm__button {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
+.BookingForm .widgetGroup button,
+.BookingForm .widgetGroup select,
+.BookingForm .widgetGroup input,
+.BookingForm .widgetGroup label {
+  font-family: inherit;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+  color: #0F1923;
+}
+
+.BookingForm .widgetGroup input,
+.BookingForm .widgetGroup select {
+  padding: 1.5rem 0.5rem 0.6rem 1rem;
+  border: 1px solid #D6DBE1;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+.BookingForm .widgetGroup input:focus,
+.BookingForm .widgetGroup select:focus {
+  border-color: #7D8FA1;
+}
+
+.BookingForm .widgetGroup label {
+  left: 1rem;
+  color: #7D8FA1;
+  font-size: 12px;
+}
+
+.BookingForm .widgetGroup.checkbox {
+  width: auto;
+  flex-basis: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.BookingForm .widgetGroup.checkbox input {
+  width: 16px;
+  height: 16px;
+}
+
+.BookingForm .calendar {
+  z-index: 100;
+  top: 1rem;
+  font-size: 12px;
+}
+
+.BookingForm .calendar table {
+  border-radius: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .2);
+}
+
+.BookingForm .calendar td {
+  padding: 4px;
+}
+
+.BookingForm .calendar .header div {
+  text-align: center;
+}
+
+.BookingForm .toggle button {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #D6DBE1;
+  border-radius: 0 !important;
+  font-size: 16px;
+  transition: all .15s ease;
+}
+
+.BookingForm .toggle button:hover {
+  background-color: #EDF0F2;
+}
+
+.BookingForm .toggle button.active {
+  background-color: #7D8FA1;
+  border-color: #7D8FA1;
+  color: #fff;
+}
+
+.BookingForm .toggle button:first-child {
+  margin-right: 8px;
+}
+
+.BookingForm .toggle button:last-child {
+  margin-left: 8px;
+}

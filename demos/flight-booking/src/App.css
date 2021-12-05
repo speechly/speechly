@@ -1,134 +1,174 @@
-body {
-  background-color: transparent !important;
-  padding: 0;
-  margin: 0;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  font-size: 1.0rem;
-  overflow-x: hidden;
-
-  --color-input-bg: #f2f7fa;
-  --color-input-active-bg: #316EAE;
-  --color-input-active-text: #ffffff;
-  --widget-shadow: 0px 6px 12px 0px #388de95e;
-}
-
-select, button, input, label {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-select, input, button {
-  font-size: 1.0rem;
-  line-height: 140%;
-}
-
-#root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  min-height: 100vh;
-}
-
 .App {
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  justify-content: center;
-  flex-direction: column;
-  background-image: linear-gradient(
-    150deg, 
-    rgb(83, 163, 249) 17.8%, 
-    rgb(117, 223, 255) 48.54%, 
-    rgb(219, 255, 246) 78.65%
-  );
-  min-height: 100vh;
+  background-color: #fff;
 }
 
-form {
-  box-sizing: border-box;
-  min-height: 100%;
-  padding: 8rem 0.4rem 10rem 0.4rem;
-
-  display: flex;
-  flex-direction: column;
-  -webkit-box-align: center;
-  align-items: center;
-  align-content: center;
+.Hero {
+  position: relative;
+  padding: 48px 16px 72px;
+  overflow: hidden;
 }
 
-.group {
-  box-sizing: border-box;
+@media screen and (max-width: 960px) {
+  .Hero {
+    padding-top: 24px;
+  }
+}
+
+.Hero img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.75);
+}
+
+.Hero h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 32px;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 16px rgba(0, 0, 0, .4);
+  position: relative;
+}
+
+@media screen and (max-width: 960px) {
+  .Hero h1 {
+    display: none;
+  }
+}
+
+.Navigation {
+  background-color: #fff;
   display: flex;
-  justify-content: stretch;
-  align-items: stretch;
-  gap: 8px;
-  margin: 0.5rem 0;
-  min-height: 3.5rem;
+  align-items: center;
+  height: 72px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .2);
+  padding: 0 8px;
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
 }
 
-label {
-  color: #4fa1f9 !important;
+.Navigation__logo {
+  height: 20px;
+  margin: 16px;
 }
 
-@media (max-width: 360px) {
-  html {
-    font-size: 80%;
-  }
-
-  form {
-    width: 100%;
-  }
+.Navigation__item {
+  padding: 16px;
+  text-decoration: none;
+  color: #0F1923;
 }
 
-@media (min-width: 360px) and (max-width: 400px) {
-  html {
-    font-size: 85%;
-  }
 
-  form {
-    width: 100%;
+@media screen and (max-width: 960px) {
+  .Navigation__item {
+    display: none;
   }
 }
 
-@media (min-width: 400px) and (max-width: 688px) {
-  html {
-    font-size: 90%;
-  }
+.Navigation__item--right {
+  margin-left: auto;
+}
 
-  form {
-    width: 100%;
+.Content {
+  max-width: 1232px;
+  padding: 64px 16px 96px;
+  margin: 0 auto;
+}
+
+.Content h2 {
+  font-size: 32px;
+  margin-top: 0;
+  margin-bottom: 32px;
+}
+
+.Content__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+
+@media screen and (max-width: 960px) {
+  .Content__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 }
 
-@media (min-width: 688px) and (max-width: 992px) {
-  html {
-    font-size: 100%;
-  }
+.Content__block {
+  background-color: #fff;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, .2);
+}
 
-  form {
-    width: 640px;
+.Content__block img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.Content__block h3 {
+  font-size: 24px;
+  margin: 0;
+  padding: 20px 20px 0;
+}
+
+.Content__block p {
+  margin: 0;
+  padding: 10px 20px 60px;
+  color: #7D8FA1;
+}
+
+.Footer {
+  background-color: #EDF0F2;
+  padding: 48px 16px;
+  font-size: 14px;
+  color: #7D8FA1;
+}
+
+.Footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media screen and (max-width: 960px) {
+  .Footer__inner {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 992px) and (max-width: 1312px) {
-  html {
-    font-size: 120%;
-  }
-
-  form {
-    width: 720px;
-  }
+.Footer__col {
+  display: flex;
+  flex-direction: column;
 }
 
-@media (min-width: 1312px) {
-  html {
-    font-size: 120%;
-  }
+.Footer__col > * {
+  margin: 8px 0;
+}
 
-  form {
-    width: 800px;
+.PushToTalkContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 32px;
+  bottom: 32px;
+  left: 0;
+  z-index: 100;
+}
+
+@media screen and (max-width: 960px) {
+  .PushToTalkContainer {
+    position: fixed;
+    top: unset;
   }
 }
