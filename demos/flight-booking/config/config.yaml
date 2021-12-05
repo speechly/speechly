@@ -55,7 +55,7 @@ templates: >
   passengers_phrase = [
       $passengers(passengers) {[ticket|tickets|seat|seats]}
       {for} $passengers(passengers) {[people|passenger|passengers|person|persons]}
-      {for} {a} [party|group] of $passengers(passengers) {[people|passengers|persons]}
+      {for} {a} [party|group] of $passengers(passengers) {no $passengers(passengers)} {[people|passengers|persons]}
   ]
 
   class = $class_as_spoken(class)
