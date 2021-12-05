@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState, useRef } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import classNames from "classnames";
 import { IFilter, IFilterConfiguration } from "types";
@@ -13,8 +13,6 @@ const SmartFilter: React.FC = (props) => {
   const { segment } = useSpeechContext();
   const { filters, filterDispatch } = useContext(AppContext);
   const [showFilterOptions, setShowFilterOptions] = useState(-1);
-  const [isSticky, setIsSticky] = useState(false);
-  const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (segment) {
@@ -22,23 +20,6 @@ const SmartFilter: React.FC = (props) => {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment]);
-
-  const toggleSticky = useCallback(
-    ({ top, bottom }) => {
-      if (top <= 0 && window.scrollY >= bottom) {
-        !isSticky && setIsSticky(true);
-      } else {
-        isSticky && setIsSticky(false);
-      }
-    },
-    [isSticky]
-  );
-
-  useEffect(() => {
-    const handleScroll = () => toggleSticky(divRef?.current?.getBoundingClientRect());
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [toggleSticky]);
 
   useEffect(() => {
     if (showFilterOptions > 0) {
@@ -97,7 +78,6 @@ const SmartFilter: React.FC = (props) => {
                     value: String(option[0]),
                   });
                   PubSub.publish(SpeechlyUiEvents.DismissNotification);
-
                   // console.log(`Setting value ${entity.value} for `, filterConfig);
                 }
               }
@@ -186,11 +166,6 @@ const SmartFilter: React.FC = (props) => {
     [filters]
   );
 
-  const containerClass = classNames({
-    SmartFilters__outer: true,
-    'SmartFilters__outer--sticky': isSticky
-  })
-
   const filterClass = (hasValue: boolean) => classNames({
     SmartFilter: true,
     'SmartFilter--hasValue': hasValue
@@ -202,8 +177,7 @@ const SmartFilter: React.FC = (props) => {
   })
 
   return (
-    <div style={{ height: divRef.current?.getBoundingClientRect().height }}>
-      <div className={containerClass} ref={divRef}>
+      <div className="SmartFilters__outer">
         <div className="SmartFilters">
           <div className="SmartFilters__inner">
             {FilterConfig.map((filterConfig, index) => (
@@ -246,7 +220,6 @@ const SmartFilter: React.FC = (props) => {
           </div>
         ))}
       </div>
-    </div>
   );
 };
 

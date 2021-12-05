@@ -1,15 +1,8 @@
 .SmartFilters__outer {
-  position: static;
+  position: sticky;
   z-index: 10;
   width: 100%;
   top: 0;
-}
-
-@supports not (-webkit-touch-callout: none) {
-  /* CSS for other than iOS devices */
-  .SmartFilters__outer--sticky {
-    position: fixed;
-  }
 }
 
 .SmartFilters {
