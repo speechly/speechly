@@ -59,7 +59,6 @@
   .BookingForm__row {
     gap: 8px;
   }
-  .BookingForm__row:first-child,
   .BookingForm__row:last-child {
     grid-template-columns: 1fr;
   }
@@ -131,10 +130,26 @@
   flex-shrink: 0;
 }
 
+.BookingForm .widgetGroup .calendar-button {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 125%;
+  margin: 0;
+  padding: 8px;
+  outline: none;
+}
+
 .BookingForm .calendar {
-  z-index: 100;
-  top: 1rem;
+  top: unset;
+  right: 0;
   font-size: 12px;
+}
+
+@media screen and (max-width: 488px) {
+  .BookingForm .withCalendar:first-of-type .calendar {
+    left: 0;
+  }
 }
 
 .BookingForm .calendar table {
