@@ -15,7 +15,7 @@
 }
 
 .BookingForm__tab {
-  padding: 14px;
+  padding: 16px;
   background-color: #EDF0F2;
   color: #7D8FA1;
   width: 100%;
@@ -26,7 +26,7 @@
 .BookingForm__tab--active {
   background-color: #fff;
   color: #0F1923;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 @media screen and (max-width: 960px) {
@@ -44,7 +44,7 @@
 
 @media screen and (max-width: 960px) {
   .BookingForm__grid {
-    padding: 12px;
+    padding: 0 12px 12px;
     gap: 8px;
   }
 }
@@ -59,7 +59,6 @@
   .BookingForm__row {
     gap: 8px;
   }
-
   .BookingForm__row:first-child,
   .BookingForm__row:last-child {
     grid-template-columns: 1fr;
@@ -69,7 +68,7 @@
 .BookingForm__button {
   background-color: #0F1923;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 16px;
   font-family: inherit;
   border: none;
@@ -96,8 +95,6 @@
 .BookingForm .widgetGroup label {
   font-family: inherit;
   border-radius: 0;
-  /* box-shadow: none; */
-  /* background-color: transparent; */
   color: #0F1923;
 }
 

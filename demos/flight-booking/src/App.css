@@ -4,7 +4,6 @@
   --dropdown-handle-size: 4px;
   --dropdown-handle-right-margin: 12px;
   --widget-shadow: none;
-
   background-color: #fff;
 }
 
@@ -72,7 +71,6 @@
   .Navigation__item {
     display: none;
   }
-
   .Navigation__item--mobile {
     display: block;
   }
@@ -89,7 +87,8 @@
 }
 
 .Content h2 {
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 28px;
   margin-top: 0;
   margin-bottom: 32px;
 }
@@ -99,7 +98,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 32px;
 }
-
 
 @media screen and (max-width: 960px) {
   .Content__grid {
@@ -120,14 +118,15 @@
 }
 
 .Content__block h3 {
-  font-size: 24px;
+  font-size: 21px;
+  font-weight: 500;
   margin: 0;
   padding: 20px 20px 0;
 }
 
 .Content__block p {
   margin: 0;
-  padding: 10px 20px 60px;
+  padding: 6px 20px 60px;
   color: #7D8FA1;
 }
 
