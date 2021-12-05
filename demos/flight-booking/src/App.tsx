@@ -31,9 +31,11 @@ function App() {
         <span className="Navigation__item">Miles</span>
         <span className="Navigation__item Navigation__item--right">Login</span>
         <span className="Navigation__item">Register</span>
+        <span className="Navigation__item Navigation__item--right Navigation__item--mobile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </span>
       </div>
-      <div className="Hero">
-        <img src="hero.jpg" alt="city" />
+      <div className="Hero" style={{ backgroundImage: 'url(hero.jpg)' }}>
         <h1>Where to next?</h1>
         <BookingForm />
         <div className="PushToTalkContainer">

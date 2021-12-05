@@ -1,29 +1,17 @@
 .App {
+  --color-input-bg: #fff;
+  --color-input-active-bg: #fff;
+  --dropdown-handle-size: 4px;
+  --dropdown-handle-right-margin: 12px;
+  --widget-shadow: none;
+
   background-color: #fff;
 }
 
 .Hero {
-  position: relative;
-  padding: 48px 16px 72px;
-  overflow: hidden;
-}
-
-@media screen and (max-width: 960px) {
-  .Hero {
-    padding-top: 24px;
-  }
-}
-
-.Hero img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.75);
+  background-size: cover;
+  background-position: center;
+  padding: 4vw 12px;
 }
 
 .Hero h1 {
@@ -34,7 +22,6 @@
   color: #fff;
   text-align: center;
   text-shadow: 0 0 16px rgba(0, 0, 0, .4);
-  position: relative;
 }
 
 @media screen and (max-width: 960px) {
@@ -44,15 +31,21 @@
 }
 
 .Navigation {
+  position: relative;
   background-color: #fff;
   display: flex;
   align-items: center;
   height: 72px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .1), 0 2px 8px 0 rgba(0, 0, 0, .2);
   padding: 0 8px;
-  position: relative;
   overflow: hidden;
-  z-index: 10;
+}
+
+@media screen and (max-width: 960px) {
+  .Navigation {
+    height: 56px;
+    padding: 0;
+  }
 }
 
 .Navigation__logo {
@@ -61,20 +54,32 @@
 }
 
 .Navigation__item {
+  display: block;
   padding: 16px;
   text-decoration: none;
   color: #0F1923;
 }
 
+.Navigation__item--right {
+  margin-left: auto;
+}
+
+.Navigation__item--mobile {
+  display: none;
+}
 
 @media screen and (max-width: 960px) {
   .Navigation__item {
     display: none;
   }
+
+  .Navigation__item--mobile {
+    display: block;
+  }
 }
 
-.Navigation__item--right {
-  margin-left: auto;
+.Navigation__item svg {
+  display: block;
 }
 
 .Content {
@@ -156,19 +161,16 @@
 }
 
 .PushToTalkContainer {
-  position: relative;
+  position: sticky;
+  bottom: 32px;
   display: flex;
   justify-content: center;
+  margin-top: 4vw;
   width: 100%;
-  top: 32px;
-  bottom: 32px;
-  left: 0;
-  z-index: 100;
 }
 
 @media screen and (max-width: 960px) {
   .PushToTalkContainer {
-    position: fixed;
-    top: unset;
+    bottom: 16px;
   }
 }

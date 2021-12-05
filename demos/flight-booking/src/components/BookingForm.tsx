@@ -25,34 +25,44 @@ const BookingForm = () => {
         <div className="BookingForm__tab">Check in</div>
         <div className="BookingForm__tab">Flight status</div>
       </div>
-      <div className="BookingForm__form">
-        <VoiceInput
-          label="From"
-          changeOnEntityType="from"
-          onChange={v => setFromValue(v.toLowerCase())}
-          value={fromValue}
-        />
-        <VoiceInput
-          label="To"
-          changeOnEntityType="to"
-          onChange={v => setToValue(v.toLowerCase())}
-          value={toValue}
-        />
-        <VoiceDatePicker label="Departure" changeOnEntityType="depart" />
-        {isReturn && <VoiceDatePicker label="Return" changeOnEntityType="return" />}
-        <VoiceSelect label="Passengers" options={passengersOptions} changeOnEntityType="passengers" />
-        <VoiceSelect label="Class" options={classOptions} changeOnEntityType="class" />
-        <VoiceToggle
-          options={tripOptions}
-          changeOnEntityType={tripOptions}
-          displayNames={tripDisplayNames}
-          onChange={v => setIsReturn(v === tripOptions[0])}
-        />
-        <div className="BookingForm__item--wrap">
-          <VoiceCheckbox label="Direct flights only" intent="book" clearIntent="clear" setOnEntityType="direct" clearOnEntityType="nondirect" defaultValue={false} />
-          <button className="BookingForm__button" disabled={!fromValue || (isReturn && !toValue)} onClick={showEndAlert}>
-          Search Flights
-          </button>
+      <div className="BookingForm__grid">
+        <div className="BookingForm__row">
+          <VoiceInput
+            label="From"
+            changeOnEntityType="from"
+            onChange={v => setFromValue(v.toLowerCase())}
+            value={fromValue}
+          />
+          <VoiceInput
+            label="To"
+            changeOnEntityType="to"
+            onChange={v => setToValue(v.toLowerCase())}
+            value={toValue}
+          />
+        </div>
+        <div className="BookingForm__row">
+          <VoiceDatePicker label="Departure" changeOnEntityType="depart" />
+          {isReturn && <VoiceDatePicker label="Return" changeOnEntityType="return" />}
+        </div>
+        <div className="BookingForm__row">
+          <VoiceSelect label="Passengers" options={passengersOptions} changeOnEntityType="passengers" />
+          <VoiceSelect label="Class" options={classOptions} changeOnEntityType="class" />
+        </div>
+        <div className="BookingForm__row">
+          <div className="BookingForm__row">
+          <VoiceToggle
+            options={tripOptions}
+            changeOnEntityType={tripOptions}
+            displayNames={tripDisplayNames}
+            onChange={v => setIsReturn(v === tripOptions[0])}
+          />
+          </div>
+          <div className="BookingForm__row">
+            <VoiceCheckbox label="Direct flights only" intent="book" clearIntent="clear" setOnEntityType="direct" clearOnEntityType="nondirect" defaultValue={false} />
+            <button className="BookingForm__button" disabled={!fromValue || (isReturn && !toValue)} onClick={showEndAlert}>
+              Search Flights
+            </button>
+          </div>
         </div>
       </div>
     </div>
