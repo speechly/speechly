@@ -28,3 +28,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.intercom-lightweight-app {
+  display: none !important;
+}

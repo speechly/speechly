@@ -46,3 +46,7 @@ code {
 .BigTranscript .Entity.device {
   color: #1fd3f3;
 }
+
+.intercom-lightweight-app {
+  display: none !important;
+}
