@@ -74,7 +74,7 @@ setTimeout(async function() {
 
 You can find the detailed [browser-client API documentation](https://github.com/speechly/browser-client/blob/master/docs/classes/_index_d_.client.md) in the GitHub repository.
 
-You can also refer to [Speechly Docs](https://www.speechly.com/docs/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
+You can also refer to [Speechly Docs](https://docs.speechly.com//?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
 ## Contributing
 

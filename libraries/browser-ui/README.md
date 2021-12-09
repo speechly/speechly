@@ -30,7 +30,7 @@ Speechly UI components provide the visual interface to support voice functionali
 
 * [Typescript](https://www.typescriptlang.org/)
 * [Svelte 3](https://svelte.dev/)
-* [Speechly Browser Client](https://www.npmjs.com/package/@speechly/react-voice-forms/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
+* [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
 
 ## Using Web Components provided by browser-ui from a CDN on a web page/app
