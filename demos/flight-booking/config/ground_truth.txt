@@ -2,7 +2,7 @@
 *book for [seven|7](passengers) passengers
 *book [one way|one way](one_way) flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) for [two|2](passengers) people in [business|business](class) class
 *book departure date [tomorrow|2021-12-07](depart) and return [the day after tomorrow|2021-12-08](return)
-*book i'll be leaving [tomorrow|2021-12-07](return) and coming back in a [month|month](return)
+*book i'll be leaving [tomorrow|2021-12-07](depart) and coming back in a [month|2022-01-07](return)
 *book there will be [two|2](passengers) passengers
 *book please put me in the [business|business](class) class
 *book change the amount of passengers to [four|4](passengers)
@@ -13,7 +13,7 @@
 *book book a flight [from|from](from_prepo) [new york|new york](from) [to|to](to_prepo) [berlin|berlin](to) starting [tomorrow|2021-12-07](depart) and returning on [friday|2021-12-10](return)
 *book select [round trip|round trip](round_trip)
 *book return [thirty november twenty twenty two|2022-11-30](return)
-*book passengers [five|5](passengers) high class
+*book passengers [five|5](passengers) [high|high](class) class
 *book check [direct|direct](direct) only
 *book active [direct|direct](direct) only
 *book enable [direct|direct](direct) only

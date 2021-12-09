@@ -1,0 +1,40 @@
+*turn_off turn off [everything|everything](device)
+*turn_on put the [light|light](device) on in the [kitchen|kitchen](room)
+*turn_on turn on [radio|radio](device) in the [bedroom|bedroom](room)
+*turn_off turn off the [lights|lights](device) in [kitchen|kitchen](room)
+*turn_on turn on [bedroom|bedroom](room) [lights|lights](device)
+*turn_on [kitchen|kitchen](room) on
+*turn_off off [everything|everything](device)
+*turn_on open [garage|garage](room)
+*turn_on open [garage|garage](room) *turn_off off [garage|garage](room)
+*turn_on [bedroom|bedroom](room) [radio|radio](device) on
+*turn_on [living room|living room](room) [television|television](device) on *turn_off [television|television](device) off [living room|living room](room)
+*turn_off [radio|radio](device) off [living room|living room](room)
+*turn_off [living room|living room](room) [radio|radio](device) off
+*turn_off [terrace|terrace](room) off [light|light](device)
+*turn_off [light|light](device) off [bedroom|bedroom](room) [radio|radio](device)
+*turn_off [kitchen|kitchen](room) also off
+*turn_off [lights|lights](device) off [garage|garage](room) *turn_on [lights|lights](device) on [bedroom|bedroom](room) *turn_off [radio|radio](device) off [living room|living room](room)
+*turn_on on [everything|everything](device)
+*turn_on on [all lights|all lights](device)
+*turn_on turn on the [lights|lights](device) of [living room|living room](room)
+*turn_off [living room|living room](room) [radio|radio](device) off
+*turn_on turn on the [lights|lights](device) in the [living room|living room](room) *turn_off [radio|radio](device) off in the [bedroom|bedroom](room)
+*turn_off turn off [everything|everything](device) turn off [living room|living room](room) [lights|lights](device)
+*turn_on turn on [terrace|terrace](room)
+*turn_on turn on [living room|living room](room) [radio|radio](device)
+*turn_off turn off [garage|garage](room) [light|light](device) *turn_on turn on [terrace|terrace](room) [light|light](device)
+*turn_on turn on [lights|lights](device) and [radio|radio](device) in the [living room|living room](room)
+*turn_on turn on the [lights|lights](device) in the [bedroom|bedroom](room) and in the [living room|living room](room)
+*turn_off turn off the [lights|lights](device) in the [kitchen|kitchen](room) and *turn_on [radio|radio](device) on in the [terrace|terrace](room)
+*turn_off turn off [lights|lights](device) in [living room|living room](room)
+*turn_off switch off [kitchen|kitchen](room)
+*turn_on switch on [tv|tv](device)
+*turn_on open [television|television](device) in the [living room|living room](room)
+*turn_on turn all house [lights|lights](device) on
+*turn_on turn on [living room|living room](room) [television|television](device)
+*turn_on [all rooms|all rooms](device)
+*turn_on [bedroom|bedroom](room) [lights|lights](device) on
+*turn_on turn on the [living room|living room](room) [lights|lights](device) the [kitchen|kitchen](room) [lights|lights](device) and the [terrace|terrace](room) [lights|lights](device) and switch on the [television|television](device)
+*turn_on turn on the [bedroom|bedroom](room) [lights|lights](device) and [radio|radio](device) and *turn_off switch off the [television|television](device) and [lights|lights](device) in the [living room|living room](room) [kitchen|kitchen](room) and [terrace|terrace](room)
+*turn_off turn off [tv|tv](device)

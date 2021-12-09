@@ -1,0 +1,50 @@
+*filter [nike|1273](brand) [hats|millinery](category) and [red|red](colors) [pants|pants](category) size [medium|m](sizes)
+*filter show me the [blue|blue](colors) [jeans|jeans](category)
+*filter what brand do you have
+*filter show me [white|white](colors) [t shirts|t-shirts](category)
+*filter show me [red|red](colors) [shirt|collared shirts](category)
+*filter show [red|red](colors) [jacket|jackets](category) size [small|s](sizes) for [men's|male](sex) sort by [price|price_asc](sort)
+*filter show me [men's|male](sex) [shoes|shoes](category)
+*filter show me [red|red](colors) [striped t shirts|t-shirts](category)
+*filter [women|female](sex) [shoes|shoes](category) size [medium|m](sizes)
+*filter show me [red|red](colors) [sneakers|sneakers](category) for [men|male](sex) size [thirty eight|38](sizes)
+*filter show me only [blue|blue](colors) [t shirts|t-shirts](category) from [nike|1273](brand)
+*filter show me [men's|male](sex) [sneakers|sneakers](category) from [nike|1273](brand) in [black|black](colors) actually show them in [red|red](colors) no let's make them [white|white](colors) i like the [black|black](colors) ones and size [ten|41](sizes) and sort by [price|price_asc](sort)
+*filter show me [sneakers|sneakers](category) for [men|male](sex) by [nike|1273](brand) in [white|white](colors) no actually [black|black](colors) they have size [eleven|42](sizes) and can you sort by [price|price_asc](sort)
+*filter show me [men's|male](sex) [sneakers|sneakers](category) from [nike|1273](brand) in [white|white](colors) no actually [black|black](colors) and can you sort by [price|price_asc](sort) do you have anything in size [eleven|42](sizes)
+*filter show me [blue|blue](colors) [jeans|jeans](category) in size [thirty|thirty](sizes)
+*filter show me [blue|blue](colors) [jeans|jeans](category) size [fourteen|45](sizes)
+*filter show me [red|red](colors) [nike|1273](brand) [shoes|shoes](category) make them [white|white](colors) size [twelve|43](sizes) and so you'll see
+*filter [yellow|yellow](colors) [shirt|collared shirts](category)
+*filter no [dress|dresses](category)
+*filter size [xl|xl](sizes)
+*filter show [most exclusive|price_desc](sort)
+*clear clear and show
+*filter [beige|beige](colors) color
+*filter [black|black](colors) [jackets|jackets](category)
+*filter [cheapest|price_asc](sort)
+*filter show me [men's|male](sex) [blue|blue](colors) [jeans|jeans](category)
+*filter show me [blue|blue](colors) or [black|black](colors) [men's|men's](brand) [jeans|jeans](category)
+*filter show me [helly hansen|1476](brand) [jackets|jackets](category)
+*filter actually make them [black|black](colors)
+*filter i want to see [sweaters|sweaters](category)
+*filter i'd like to see [sweaters|sweaters](category) that are [black|black](colors)
+*filter show me some [shoes|shoes](category) i need a [dress|dresses](category)
+*filter show me [men's|male](sex) [jackets|jackets](category) [red|red](colors) under three hundred dollars
+*filter show me [nike|1273](brand) [shoes|shoes](category) under forty dollars
+*filter dark [green|green](colors) [jackets|jackets](category)
+*filter show me [red|red](colors) ones instead
+*filter show me [black|black](colors) or [grey|gray](colors) ones
+*filter show me [white|white](colors) [shoes|shoes](category) size [forty three|43](sizes)
+*filter show me clothes of [levis|441](brand)
+*clear clear research
+*filter [men's|male](sex) [clothing|clothing](category)
+*filter [most exclusive|price_desc](sort)
+*filter show me large [red|red](colors) [hats|millinery](category)
+*filter show me [men's|male](sex) [shoes|shoes](category) by [nike|1273](brand)
+*filter show me [white|white](colors) [nike|1273](brand) [sneakers|sneakers](category) *clear clear *filter show me [sneakers|sneakers](category) from [nike|1273](brand) in [white|white](colors)
+*filter show [jackets|jackets](category) in [m|m](sizes) and [blue|blue](colors) for [men|male](sex)
+*filter show me [green|green](colors) [winter jackets|winter jackets](category)
+*filter show me mobile phones
+*filter [sneakers|sneakers](category) from [nike|1273](brand) for [men|male](sex) in [black|black](colors) in size [ten|41](sizes) please
+*filter in size [eleven|42](sizes)
