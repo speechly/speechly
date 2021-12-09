@@ -94,7 +94,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         <img className="Header__image" src="https://avatars.githubusercontent.com/u/25465412?s=200&v=4" alt="profile" />
         <div>
           <h2 className="Header__title">Speechly demo chat</h2>
-          <div className="Header__meta">42 uses in the chat</div>
+          <div className="Header__meta">42 users in the chat</div>
         </div>
       </div>
       <div className="Messages">
