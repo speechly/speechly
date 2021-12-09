@@ -1,4 +1,4 @@
-templates: >-
+templates: |
   rooms = [kitchen|bedroom|living room|terrace|garage](room)
   room = [{in} {the} $rooms]
   list_of_rooms = [$room {{and} $room {{and} $room}}]
