@@ -13,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
-        run: |
-          npm install
-          npm run preprocess
-        working-directory: demos/fashion-ecommerce
       - name: Validate
         if: ${{ success() }}
         uses: docker://speechly/cli:latest
