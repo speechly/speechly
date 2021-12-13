@@ -1,0 +1,50 @@
+from new york to berlin
+for seven passengers
+one way flight from london to paris for two people in business class
+departure date tomorrow and return the day after tomorrow
+i'll be leaving tomorrow and coming back in a month
+there will be two passengers
+please put me in the business class
+change the amount of passengers to four
+i'll be travelling from colorado to india
+i'll be coming back the first of january
+book a ticket from boston to new york round trip i want to start from first of january and then i will return on fifth of january 
+departure sunday
+book a flight from new york to berlin starting tomorrow and returning on friday
+select round trip
+return thirty november twenty twenty two
+passengers five high class
+check direct only
+active direct only
+enable direct only
+tick direct only
+deselect direct only
+no direct flights
+direct flights only
+don’t book a direct ticket 
+change the class to first class
+i want to go from delhi to london
+six january is the return flight
+book a round trip flight from helsinki to new york no from stockholm
+can you book a flight from london to paris on the twenty fifth
+departing tomorrow and returning the first week of january
+need to fly from vienna to new york next week wednesday until the twenty first of december
+i want a one way ticket from san francisco to dallas texas on friday november twenty sixth one adult first class
+can you book it for tomorrow
+the class will be first four passengers
+i want to i want to book a ticket from mumbai to delhi on thirteenth of december and i'll be back on seventeenth february two other people will also be travelling with me total four passengers and please book business class
+i would like to order ticket from london to new york departure date second of january two thousand twenty one
+from patna to mumbai
+i would like to go from panama to helsinki next week monday
+i'd like the destination to be copenhagen
+find direct flights
+book a one way flight from helsinki to washington dc departing next saturday for two people in business class and show me the direct flights only
+i want to go to new york from istanbul on fifteenth november
+i want to go to new york tomorrow
+return today
+from helsinki to london one way trip two passengers and direct only
+from helsinki to malaga two persons one way
+departure next week
+one way flight from london to paris departure the first of august two thousand and twenty two and for one passenger only
+three passengers first class
+departing on tuesday next week

@@ -1,0 +1,32 @@
+templates: |
+  rooms = [kitchen|bedroom|living room|terrace|garage](room)
+  room = [{in} {the} $rooms]
+  list_of_rooms = [$room {{and} $room {{and} $room}}]
+  devices = [lights|television|radio|everything|all devices|every device](device)
+  device = [{the} {$rooms} $devices]
+  list_of_devices = [$device {0.3: and $device {0.3: and $device}}]
+  command = [turn|set|switch|put]
+  additions_beginning = [and|also]
+  additions_end = [too|also]
+
+  intent = [
+    *turn_on {$command} $list_of_devices on {$list_of_rooms}
+    *turn_on $command on $list_of_devices {$list_of_rooms}
+    *turn_off {$command} $list_of_devices off {$list_of_rooms}
+    *turn_off $command off $list_of_devices {$list_of_rooms}
+  ]
+  $intent {and $intent}
+
+  *select {$additions_beginning} {[on|at|in|by]} {the} $rooms {$additions_end}
+  *select {$additions_beginning} {the} $devices {$additions_end}
+  *select {$additions_beginning} $devices {[on|at|in|by]} {the} $rooms {$additions_end}
+  *select {$additions_beginning} {the} $rooms $devices {$additions_end}
+
+  *turn_on $command {[it|them]} on
+  *turn_off $command {[it|them]} off
+  
+  *turn_on $devices on
+  *turn_off $devices off
+
+  *turn_on on
+  *turn_off off
