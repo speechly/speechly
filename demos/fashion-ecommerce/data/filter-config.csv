@@ -1,7 +1,7 @@
 isActive	count	depth	tag	key	displayName	alias.[0]	alias.[1]	alias.[2]	alias.[3]	alias.[4]	alias.[5]	alias.[6]	alias.[7]	alias.[8]
 x	0	0	sex	child	Kids' clothing	kids	children’s	kids’	child	children	toddler	kits	toddlers	kid
 x	0	0	sex	female	Women's clothing	women	women’s	ladies	girls	woman’s	woman	female	female’s
-x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys
+x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys	gents
 x	0	0	sex	unisex	Unisex clothing	unisex	gender neutral	gender fluid
 x	0	0	colors	beige	Beige	beige	light brown	khaki	sand	fawn	cocky
 x	1	0	colors	black	Black	black	dark	pitch black
@@ -117,8 +117,8 @@ x	0	0	category	Outdoor jackets	Outdoor jackets	Outdoor jackets	Outdoor jacket
 x	0	0	category	Outdoor trousers	Outdoor trousers	Outdoor trousers	Outdoor pants
 x	0	0	category	Outerwear	Outerwear	Outerwear
 x	0	0	category	Overalls	Overalls	Overalls
-x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama
-x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants
+x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama	Pyjamas
+x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants	pant
 x	0	0	category	Parkasakit	Parkas	Parkas	Anoraks	Parka jackets	Parka	Anorak	Parka jacket
 x	0	0	category	Party dresses	Party dresses	Party dresses	Party dress	Evening dress	Evening gown	Dress for evening	Evening gowns	Dresses for evening	Evening dresses
 x	1	1	category	Pilot jackets	Pilot jackets	Pilot jackets	Pilot jacket
@@ -126,6 +126,8 @@ x	0	0	category	Playsuits overalls	Playsuits	Playsuits	Playsuit
 x	0	0	category	Pique shirts	Polo shirts	Polo shirts	Pique shirts	Tennis shirt	Polo shirt	Pique shirt	Tennis shirts
 x	0	0	category	Printed t-shirts	Printed t-shirts	Printed t-shirts	Printed t-shirt
 x	0	0	category	Rain pants	Rain pants	Rain pants	Waterproof pants	Water proof pants
+x	0	0	category	Corduroy pants	Corduroy pants	Corduroy pants
+x	0	0	category	Leather pants	Leather pants	Leather pants
 x	0	0	category	Raincoats	Raincoats	Raincoats	Raincoat	Rain jacket	Rain jackets	waterproof jacket	waterproof jackets	sailing jackets	sailing jacket
 x	0	0	category	Rainwear	Rainwear	Rainwear	Waterproof clothing	sailing clothes	Water proof clothing
 x	0	0	category	Rubber boots	Rubber boots	Rubber boots	Wellingtons	Rubber boot	Wellies	Wellington boots	Wellington boot	Gumboots	Gumboot
@@ -151,7 +153,7 @@ x	0	0	category	Sleeveless dresses	Sleeveless dresses	Sleeveless dresses	Sleevele
 x	0	0	category	Sleeveless tops	Sleeveless tops	Sleeveless tops	Sleeveless top	Top without sleeves
 x	0	0	category	Slippers	Slippers	Slippers
 x	0	0	category	Small bags	Small bags	Small bags	Small bag
-x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	basketball shoes	golf shoes
+x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	sneaker pairs	basketball shoes	golf shoes
 x	0	0	category	Snowboard clothing	Snowboard clothing	Snowboard clothing	Snowboard clothes	Snowboarding clothes	snowsuit	snow jacket	snow jackets
 x	0	0	category	Socks	Socks	Socks	Sock	Sox
 x	0	0	category	Softshell jackets	Softshell jackets	Softshell jackets	Softshell jacket
@@ -295,6 +297,7 @@ x	0	0	category	Running pants and leotards	Running pants and leotards	Running pan
 	0	0	category	Ski goggles	Ski goggles	Ski goggles
 x	0	0	category	Ski jackets	Ski jackets	Ski jackets	Ski jacket	Skiing jacket	Skiing jackets
 	0	0	category	Ski pants	Ski pants	Ski pants
+x	0	0	category	Ski boots	Ski boots	Ski boots
 	0	0	category	Sleeveless t-shirts	Sleeveless t-shirts	Sleeveless t-shirts	Sleeveless t-shirt
 	0	0	category	Snapback Caps	Snapback Caps	Snapback Caps
 	0	0	category	Snowboard pants	Snowboard pants	Snowboard pants
@@ -314,6 +317,8 @@ x	0	0	category	Soccer shoes	Soccer shoes	Soccer shoes	Football shoes	Soccer clea
 	0	0	category	Suspenders	Suspenders	Suspenders
 x	0	0	category	Sweat pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants	College pants
 	0	0	category	Swimming shoes	Swimming shoes	Swimming shoes
+x	0	0	category	Biking shoes	Biking shoes	Biking shoes
+x	0	0	category	Athletic shoes	Athletic shoes	Athletic shoes
 	0	0	category	Tankinit	Tankinis	Tankinis
 	0	0	category	Tankinis	Tankinis	Tankinis
 	0	0	category	Technical panties	Technical panties	Technical panties
@@ -370,7 +375,7 @@ x	0	0	brand	441	Levi's®	Levis	Levi's	Levi
 x	0	0	brand	18972	Michael Kors	Michael Kors
 x	0	0	brand	96	Molo	Molo
 x	0	0	brand	281	New Balance	New Balance	New Balances
-x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Jordan
+x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Air Jordans
 x	0	0	brand	746	O'Neill	O Neill	O'Neill
 x	0	0	brand	234	Oakley	Oakley	Oakleys
 	0	0	brand	Old Navy	Old Navy	Old Navy
@@ -1275,6 +1280,7 @@ x	0	0	brand	1059	Salomon	Salomon	Solomon
 	0	0	brand	4463	Victoria	Victoria
 x	0	0	brand	289	Viking	Viking
 x	0	0	brand	2652	Scarpe	Scarpe
+x	0	0	brand	7695	Zara	Zara	zara
 	0	0	brand	70	Vila	Vila
 	0	0	brand	1197	Vince Camuto	Vince Camuto
 	0	0	brand	18149	Vinson Polo Club	Vinson Polo Club
