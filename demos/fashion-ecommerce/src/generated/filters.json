@@ -54,6 +54,10 @@
         "Multicolored"
       ],
       [
+        "floral",
+        "floral"
+      ],
+      [
         "olive",
         "Olive"
       ],
@@ -218,8 +222,16 @@
         "Chinos"
       ],
       [
+        "Sea shoes",
+        "Sea shoes"
+      ],
+      [
         "Climbing shoes",
         "Climbing shoes"
+      ],
+      [
+        "Camping gear",
+        "Camping gear"
       ],
       [
         "Cloth pants",
@@ -284,6 +296,10 @@
       [
         "Dresses",
         "Dresses"
+      ],
+      [
+        "Dress with stripes",
+        "Dress with stripes"
       ],
       [
         "Earrings",
@@ -854,6 +870,10 @@
         "Sweat pants"
       ],
       [
+        "Umbrellas",
+        "Umbrellas"
+      ],
+      [
         "Winter boots",
         "Winter boots"
       ]
@@ -1100,6 +1120,10 @@
       [
         289,
         "Viking"
+      ],
+      [
+        2652,
+        "Scarpe"
       ]
     ]
   },
