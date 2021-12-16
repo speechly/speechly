@@ -4,20 +4,13 @@ on:
     branches:
       - main
     paths:
-      - "demos/fashion-ecommerce/data/filter-config.csv"
-      - "demos/fashion-ecommerce/voice-interface.yaml"
+      - "demos/fashion-ecommerce/config/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build
-        run: |
-          npm install
-          npm run preprocess
-        working-directory: demos/fashion-ecommerce
       - name: Deploy
-        if: ${{ success() }}
         uses: docker://speechly/cli:latest
         with:
           args: deploy -a ${{ secrets.APPID_FASHION }} demos/fashion-ecommerce/config -w
