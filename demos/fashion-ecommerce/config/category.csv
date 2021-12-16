@@ -243,10 +243,12 @@ Outerwear,Outerwear
 Overalls,Overalls
 Pajamas,Pajamas
 Pajama,Pajamas
+Pyjamas,Pajamas
 Pants,Pants
 Trousers,Pants
 trouser,Pants
 colored pants,Pants
+pant,Pants
 Parkas,Parkasakit
 Anoraks,Parkasakit
 Parka jackets,Parkasakit
@@ -276,6 +278,8 @@ Printed t-shirt,Printed t-shirts
 Rain pants,Rain pants
 Waterproof pants,Rain pants
 Water proof pants,Rain pants
+Corduroy pants,Corduroy pants
+Leather pants,Leather pants
 Raincoats,Raincoats
 Raincoat,Raincoats
 Rain jacket,Raincoats
@@ -366,6 +370,7 @@ Snickers,Sneakers
 Trainers,Sneakers
 sniker,Sneakers
 snikers,Sneakers
+sneaker pairs,Sneakers
 basketball shoes,Sneakers
 golf shoes,Sneakers
 Snowboard clothing,Snowboard clothing
@@ -561,6 +566,7 @@ Ski jackets,Ski jackets
 Ski jacket,Ski jackets
 Skiing jacket,Ski jackets
 Skiing jackets,Ski jackets
+Ski boots,Ski boots
 Soccer shoes,Soccer shoes
 Football shoes,Soccer shoes
 Soccer cleats,Soccer shoes
@@ -571,6 +577,8 @@ Joggers,Sweat pants
 Track pants,Sweat pants
 Sweatpants,Sweat pants
 College pants,Sweat pants
+Biking shoes,Biking shoes
+Athletic shoes,Athletic shoes
 Umbrellas,Umbrellas
 Winter boots,Winter boots
 Boots for winter,Winter boots
