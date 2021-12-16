@@ -2,6 +2,7 @@ isActive	count	depth	tag	key	displayName	alias.[0]	alias.[1]	alias.[2]	alias.[3]
 x	0	0	sex	child	Kids' clothing	kids	children’s	kids’	child	children	toddler	kits	toddlers	kid
 x	0	0	sex	female	Women's clothing	women	women’s	ladies	girls	woman’s	woman	female	female’s
 x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys	gents
+x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys
 x	0	0	sex	unisex	Unisex clothing	unisex	gender neutral	gender fluid
 x	0	0	colors	beige	Beige	beige	light brown	khaki	sand	fawn	cocky
 x	1	0	colors	black	Black	black	dark	pitch black
@@ -119,6 +120,8 @@ x	0	0	category	Outerwear	Outerwear	Outerwear
 x	0	0	category	Overalls	Overalls	Overalls
 x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama	Pyjamas
 x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants	pant
+x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama
+x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants
 x	0	0	category	Parkasakit	Parkas	Parkas	Anoraks	Parka jackets	Parka	Anorak	Parka jacket
 x	0	0	category	Party dresses	Party dresses	Party dresses	Party dress	Evening dress	Evening gown	Dress for evening	Evening gowns	Dresses for evening	Evening dresses
 x	1	1	category	Pilot jackets	Pilot jackets	Pilot jackets	Pilot jacket
@@ -154,6 +157,7 @@ x	0	0	category	Sleeveless tops	Sleeveless tops	Sleeveless tops	Sleeveless top	To
 x	0	0	category	Slippers	Slippers	Slippers
 x	0	0	category	Small bags	Small bags	Small bags	Small bag
 x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	sneaker pairs	basketball shoes	golf shoes
+x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	basketball shoes	golf shoes
 x	0	0	category	Snowboard clothing	Snowboard clothing	Snowboard clothing	Snowboard clothes	Snowboarding clothes	snowsuit	snow jacket	snow jackets
 x	0	0	category	Socks	Socks	Socks	Sock	Sox
 x	0	0	category	Softshell jackets	Softshell jackets	Softshell jackets	Softshell jacket
@@ -376,6 +380,7 @@ x	0	0	brand	18972	Michael Kors	Michael Kors
 x	0	0	brand	96	Molo	Molo
 x	0	0	brand	281	New Balance	New Balance	New Balances
 x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Air Jordans
+x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Jordan
 x	0	0	brand	746	O'Neill	O Neill	O'Neill
 x	0	0	brand	234	Oakley	Oakley	Oakleys
 	0	0	brand	Old Navy	Old Navy	Old Navy
