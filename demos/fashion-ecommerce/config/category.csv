@@ -78,9 +78,19 @@ Chinos,Chinot
 Khakis,Chinot
 ginos,Chinot
 she knows,Chinot
+Sea shoe,Sea shoes
+Aquatic shoes,Sea shoes
+Aquatic shoe,Sea shoes
+Aqua shoes,Sea shoes
+Aqua shoe,Sea shoes
+Water shoes,Sea shoes
+Water shoe,Sea shoes
 Climbing shoes,Climbing shoes
 mountaineering shoes,Climbing shoes
 mountaineering shoe,Climbing shoes
+Camping gear,Camping gear
+Camping equipment,Camping gear
+Camping supplies,Camping gear
 Cloth pants,Cloth pants
 Cotton pants,Cloth pants
 Linen pants,Cloth pants
@@ -127,6 +137,9 @@ Dresses,Dresses
 Dress,Dresses
 Frock,Dresses
 Frocks,Dresses
+Dresses with stripes,Dress with stripes
+Striped dress,Dress with stripes
+Striped dresses,Dress with stripes
 Earrings,Earrings
 Earring,Earrings
 Fitness shoes,Fitness shoes
@@ -326,6 +339,7 @@ Shoulder bag,Shoulder bags
 Ski clothing,Ski clothing
 Ski clothes,Ski clothing
 Ski wear,Ski clothing
+Ski jumper,Ski clothing
 Skinny jeans,Whistle jeans
 Skirts,Skirts
 Skirt,Skirts
@@ -557,5 +571,6 @@ Joggers,Sweat pants
 Track pants,Sweat pants
 Sweatpants,Sweat pants
 College pants,Sweat pants
+Umbrellas,Umbrellas
 Winter boots,Winter boots
 Boots for winter,Winter boots
