@@ -31,7 +31,7 @@ Speechly provides real-time text-to-speech transcription and can be optionally c
 - Navigate to your site in Wix Editor: https://editor.wix.com
 - Turn on Dev Mode to see Velo code window
 - Include the [PushToTalkButton component](#push-to-talk-button-component) and optionally a [BigTranscript component](#bigtranscript-component)
-- Include a script for [Handling speech input](#handling-speech-input)
+- Add a Speechly *app id* and include a script for handling speech input, e.g. [Example 1: Simple speech input to fill a text field](#example-1-simple-speech-input-to-fill-a-text-field)
 
 ## Push-to-Talk Button component
 
