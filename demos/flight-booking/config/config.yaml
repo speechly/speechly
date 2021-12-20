@@ -43,19 +43,16 @@ templates: >
 
   date = $SPEECHLY.DATE
 
-  return_phrase = [returning|that [return|returns]|return|that [get|gets] back]
-  {on} $date(return)
+  return_phrase = [returning|that [return|returns]|return|that [get|gets] back] {on} $date(return)
 
-  departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that}
-  [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|for]
-  $date(depart)
+  departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that} [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|for] $date(depart)
 
   passengers = [1..9]
 
   passengers_phrase = [
       $passengers(passengers) {[ticket|tickets|seat|seats]}
-      {for} $passengers(passengers) {[people|passenger|passengers|person|persons]}
-      {for} {a} [party|group] of $passengers(passengers) {[people|passengers|persons]}
+      {for} $passengers(passengers) {[people|passenger|passengers|person|persons|adult|adults]}
+      {for} {a} [party|group] of $passengers(passengers) {[people|passengers|persons|adults]}
   ]
 
   class = $class_as_spoken(class)
