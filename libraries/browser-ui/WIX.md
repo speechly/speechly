@@ -107,10 +107,10 @@ This example needs a text input field to put the spoken words into. In the examp
 > Remember to replace the `MY_APP_ID_FROM_SPEECHLY_DASHBOARD` with the *app id* you created.
 
 ```js
-$w.onReady(function () {
+$w.onReady(() => {
   $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
   $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
-});
+})
 
 const onSpeechSegment = (segment) => {   
   // Show speech input in browser console
@@ -141,12 +141,12 @@ To implement simple site navigation with voice, we'll just react to words in the
 ### Step 2/3: Add the following lines in the Wix site's HOME page's script (or masterPage.js)
 
 ```js
-import wixLocation from 'wix-location';
+import wixLocation from 'wix-location'
 
-$w.onReady(function () {
+$w.onReady(() => {
   $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
   $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
-});
+})
 
 const onSpeechSegment = (segment) => {   
   // Show speech input in browser console
@@ -186,12 +186,12 @@ To use best possible voice recognition accuracy it's recommended to customize th
 ### Step 2/3: Add the following lines in the Wix site's HOME page's script (or masterPage.js)
 
 ```js
-import wixLocation from 'wix-location';
+import wixLocation from 'wix-location'
 
-$w.onReady(function () {
+$w.onReady(() => {
   $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
   $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
-});
+})
 
 const onSpeechSegment = (segment) => {   
   // Show speech input in browser console
