@@ -6,25 +6,25 @@ This document describes how to use Speechly Web Components on Wix sites to creat
 
 Speechly provides real-time text-to-speech transcription and can be optionally configured to detect intents and tag keywords (entities).
 
-Speechly Web Components bundles Speechly's browser-client JS connectivity library with `<PushToTalkButton/>` element so you can start using Speechly on a web site without any build systems, using static resources served over-the-air static from a CDN.
-
 ## Contents
 
 - [Requirements](#requirements)
 - [Usage](#usage)
 - [PushToTalkButton component](#push-to-talk-button-component)
 - [BigTranscript component](#bigtranscript-component)
-- [Handling speech input](#handling-speech-input)
-
+- [Example 1: Simple speech input to fill a text field](#example-1-simple-speech-input-to-fill-a-text-field)
+- [Example 2: Simple voice site navigation](#example-2-simple-voice-site-navigation)
+- [Example 3: Improved voice site navigation using intents](#example-3-improved-voice-site-navigation-using-intents)
 ## Requirements
 
+- You need a free Speechly account from [Speechly Dashboard](https://api.speechly.com/dashboard)
 - You need to enable Wix Velo development tools to be able to follow the instructions here.
-- You'll need a Wix Premium plan for the site as Custom Elements are only available for paid plans.
+- Wix Premium plan is required to use Custom elements on a Wix site.
 
 #### Limitations
 
 - Use Wix Publish function to review the changes to speech related code. In Wix Preview you'll get a broken Mic symbol (due to unavailability of required Web APIs in Preview mode).
-- Usability of components on mobile sites is limited. "Pin to screen" feature is not available so it will be hard to place the components so that they are readily accessible.
+- "Pin to screen" feature is not available on mobile. It's recommended to add a `placement` attribute with value `bottom` to enable placement override of the Push-to-talk button element to have it accessible on a mobile Wix site.
 
 ## Usage
 
@@ -48,7 +48,9 @@ The Push-to-Talk button is intended to be placed as a floating button at the low
 
 Server URL:
 ```
-https://speechly.github.io/browser-ui/v1/push-to-talk-button.js
+https://speechly.github.io/browser-ui/latest/push-to-talk-button.js
+# or
+https://unpkg.com/@speechly/browser-ui/core/push-to-talk-button.js
 ```
 
 Tag Name:
@@ -56,13 +58,13 @@ Tag Name:
 push-to-talk-button
 ```
 
-See [Speechly Web Components help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
+Learn more about the attributes you can pass to `Push-to-talk button` component at [Speechly Web Components help](https://speechly.github.io/browser-ui/latest/).
 
 ## BigTranscript component
 
 `<BigTranscript/>` is an overlay-style component for displaying real-time speech-to-text transcript.
 
-It is intended to be placed as an overlay near top-left corner of the screen with `<BigTranscriptContainer>`. It is momentarily displayed and automatically hidden after the end of voice input.
+It is intended to be placed as an overlay near top-left corner of the screen. The component is momentarily displayed when the user is talking and automatically hidden after the end of voice input. Please note that in Wix editor the contents of the component is empty.
 
 `<BigTranscript/>` communicates with `<PushToTalkButton/>` using `window.postMessage`, so it works just by placing the component in same DOM - no event binding required.
 
@@ -73,7 +75,10 @@ It is intended to be placed as an overlay near top-left corner of the screen wit
 
 Server URL:
 ```
-https://speechly.github.io/browser-ui/v1/big-transcript.js
+https://speechly.github.io/browser-ui/latest/big-transcript.js
+# or
+https://unpkg.com/@speechly/browser-ui/core/big-transcript.js
+
 ```
 
 Tag Name:
@@ -81,32 +86,128 @@ Tag Name:
 big-transcript
 ```
 
-Please note that the contents of the component is empty by default.
+Learn more about the attributes you can pass to `Push-to-talk button` component at [Speechly Web Components help](https://speechly.github.io/browser-ui/latest/).
 
-See [Speechly Web Components help](https://speechly.github.io/browser-ui/v1/) for the description of the component's API.
+## Example 1: Simple speech input to fill a text field
 
-## Handling speech input
+The following example will all spoken words in a simple text box.
 
-Add the following lines in the Wix site's HOME script (or masterPage.js):
+### Step 1/4: Create an *empty configuration* in Speechly Dashboard
+
+- Go to [Speechly Dashboard](https://api.speechly.com/dashboard)
+- Create an application with an *empty configuration*. This will use plain speech-to-text, which is good for this example.
+- Make a note of the Speechly *app id* from the dashboard
+
+### Step 2/4: Add a Input > Text Input field to your Wix page.
+
+This example needs a text input field to put the spoken words into. In the example below we'll assume it's id is `#input1`.
+
+### Step 3/4: Add the following lines in the Wix site's HOME page's script (or masterPage.js)
+
+> Remember to replace the `MY_APP_ID_FROM_SPEECHLY_DASHBOARD` with the *app id* you created.
+
+```js
+$w.onReady(function () {
+  $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
+  $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
+});
+
+const onSpeechSegment = (segment) => {   
+  // Show speech input in browser console
+  console.log(segment)
+  // Replace the text box content with the spoken words
+  $w('#searchBox').value = segment.words.filter(w => w.value).map(w => w.value.toLowerCase()).join(" ")
+}
+```
+
+### Step 4/4: Try it out
+
+- Click *Publish* and view *View Site* to try voice in action.
+- Tap or hold the button and say something like *"Show me blue jeans"*
+- The text field should display the spoken words.
+
+## Example 2: Simple voice site navigation
+
+To implement simple site navigation with voice, we'll just react to words in the spoken transcript.
+
+### Step 1/3: Create an *empty configuration* in Speechly Dashboard
+
+> If you created a Speechy *app id* with an *empty configuration* earlier, you can skip this step and re-use that if you wish.
+
+- Go to [Speechly Dashboard](https://api.speechly.com/dashboard)
+- Create an application with an *empty configuration*. This will use plain speech-to-text, which is good for this example.
+- Make a note of the Speechly *app id* from the dashboard
+
+### Step 2/3: Add the following lines in the Wix site's HOME page's script (or masterPage.js)
 
 ```js
 import wixLocation from 'wix-location';
 
 $w.onReady(function () {
-    $w('#pushtotalk').setAttribute('appid', '28ab6277-903e-44aa-905d-0f00d240063a');
-    $w('#pushtotalk').on('segment-update', (event) => onSpeechSegment(event.detail))
+  $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
+  $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
 });
 
 const onSpeechSegment = (segment) => {   
-    // Show speech input in browser console
-    console.log(segment);
-    // Navigate to home page when "home" mentioned in the transcript.
-    segment.words.forEach(word => {
-      if (word.value.toLowerCase() === "home") wixLocation.to("/");
-    });
+  // Show speech input in browser console
+  console.log(segment)
+  // Navigate to home page when "home" mentioned in the transcript.
+  segment.words.forEach(word => {
+    if (word.value.toLowerCase() === "home") wixLocation.to("/")
+  })
 }
 ```
 
-The above example uses a simple voice configuration that only provides a raw speech transcript.
+### Step 3/3: Try it out
+
+- Click *Publish* and view *View Site* to try voice in action.
+- Tap or hold the button and say something like *"Go to the home page"*
+- The page should reload
+
+## Example 3: Improved voice site navigation using intents
+
+To use best possible voice recognition accuracy it's recommended to customize the voice configuration in the Speechly dashboard to recognize phrases and keywords that are relevant to your use case.
+
+### Step 1/3: Create an *empty configuration* in Speechly Dashboard
+
+- Go to [Speechly Dashboard](https://api.speechly.com/dashboard)
+- Start off with an *empty configuration* and edit it as shown below
+- Be sure to make a note of the Speechly *app id* from the dashboard
+
+```
+*home Home
+*home Home page
+*home Navigate home
+*home Go to {the} home page
+*about About
+*about {Tell me} about the site
+```
+
+### Step 2/3: Add the following lines in the Wix site's HOME page's script (or masterPage.js)
+
+```js
+import wixLocation from 'wix-location';
+
+$w.onReady(function () {
+  $w('#pushtotalk').setAttribute('appid', 'MY_APP_ID_FROM_SPEECHLY_DASHBOARD')
+  $w('#pushtotalk').on('speechsegment', (event) => onSpeechSegment(event.detail))
+});
+
+const onSpeechSegment = (segment) => {   
+  // Show speech input in browser console
+  console.log(segment)
+  // Navigate pages based on the intent of the utterance
+  if (segment.intent.intent === "home") wixLocation.to("/")
+  if (segment.intent.intent === "about") wixLocation.to("/about")
+}
+```
+
+### Step 3/3: Try it out
+
+- Click *Publish* and view *View Site* to try voice in action.
+- Tap or hold the button and say something like *"Go to the home page"*
+- The page should reload
+
+## Learn more
 
 See [docs.speechly.com](http://docs.speechly.com/) for description of the speech `segment` object and tips on how to configure Speechly to handle complex speech input with speech intents and entities.
