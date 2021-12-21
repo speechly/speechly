@@ -16,7 +16,7 @@ cd my-app
 npm install
 ```
 
-Add your `App ID` to `index.js`, you can get it from the [Speechly Dashboard](https://api.speechly.com/dashboard/)
+Add your `App ID` to `src/index.js`, you can get it from the [Speechly Dashboard](https://api.speechly.com/dashboard/)
 
 ```js
 // index.js
