@@ -26,7 +26,7 @@
 
 With the browser-client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
 
-Check out the [browser-client-example](https://github.com/speechly/browser-client-example) repository for a demo app built using this client.
+Check out the [browser-client-example](https://github.com/speechly/speechly/tree/main/examples/browser-client-example) repository for a demo app built using this client.
 
 NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
@@ -72,11 +72,11 @@ setTimeout(async function() {
 
 ## Documentation
 
-You can find the detailed [browser-client API documentation](https://github.com/speechly/browser-client/blob/master/docs/classes/_index_d_.client.md) in the GitHub repository.
+You can find the detailed [browser-client API documentation](docs/classes/_index_d_.client.md) in the GitHub repository.
 
-You can also refer to [Speechly Docs](https://docs.speechly.com//?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
+You can also refer to [Speechly Docs](https://docs.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
 ## Contributing
 
-See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/browser-client/blob/master/CONTRIBUTING.md).
+See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
 
