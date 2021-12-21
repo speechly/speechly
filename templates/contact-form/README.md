@@ -9,7 +9,7 @@ Create and deploy your application in the [Speechly Dashboard](https://api.speec
 Copy the template using [degit](https://github.com/Rich-Harris/degit) and install the dependencies
 
 ```bash
-npx degit speechly/speechly/templates/empty my-app
+npx degit speechly/speechly/templates/contact-form my-app
 cd my-app
 npm install
 ```
