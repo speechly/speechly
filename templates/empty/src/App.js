@@ -18,13 +18,13 @@ function App() {
 
   useEffect(() => {
     if (segment) {
-      const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
-      console.log(plainString)
+      const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ');
+      console.log(plainString);
       if (segment.isFinal) {
-        console.log("✅", plainString)
+        console.log("✅", plainString);
       }
     }
-  }, [segment])
+  }, [segment]);
 
   return (
     <div className="App">
@@ -32,7 +32,7 @@ function App() {
       <PushToTalkButton placement="bottom" captureKey=" "/>
       <ErrorPanel placement="bottom"/>
     </div>
-    );
+  );
 }
 
 export default App;

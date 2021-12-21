@@ -5,7 +5,7 @@ import {
   BigTranscript,
   ErrorPanel
 } from "@speechly/react-ui";
-import "./App.css"
+import "./App.css";
 
 /*
 1. Paste your App ID into index.js (get it from https://api.speechly.com/dashboard/)
@@ -22,28 +22,28 @@ function App() {
     email_address: "",
     phone_number: "",
     dob: ""
-  })
+  });
 
-  const handleChange = (e, key) => setData({ ...data, [key]: e.target.value})
+  const handleChange = (e, key) => setData({ ...data, [key]: e.target.value});
 
   useEffect(() => {
     if (segment) {
       if(segment.entities) {
         segment.entities.forEach(entity => {
-          console.log(entity.type, entity.value)
-          setData(data => ({ ...data, [entity.type]: entity.value}))
-        })
+          console.log(entity.type, entity.value);
+          setData(data => ({ ...data, [entity.type]: entity.value}));
+        });
       }
       if (segment.isFinal) {
         if(segment.entities) {
           segment.entities.forEach(entity => {
             console.log('✅', entity.type, entity.value)
             setData(data => ({ ...data, [entity.type]: entity.value}))
-          })
+          });
         }
       }
     }
-  }, [segment])
+  }, [segment]);
 
   return (
     <div className="App">
@@ -93,7 +93,7 @@ function App() {
         </div>
       </div>
     </div>
-    );
+  );
 }
 
 export default App;

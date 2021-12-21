@@ -7,11 +7,11 @@
   padding: 20px;
 }
 
-.App label {
+.Filter label {
   margin: 20px 0 10px 0;
 }
 
-.App select {
+.Filter select {
   font-size: inherit;
   font-family: inherit;
 }
@@ -39,9 +39,13 @@
   flex-direction: column;
 }
 
-.Product img {
+.Product_img {
+  position: relative;
   border-radius: 4px;
-  max-width: 100%;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
 .Product small {

@@ -28,7 +28,7 @@ const brands = [
   "Vans",
   "Yeezy",
   "Hoka"
-]
+];
 
 const colors = [
   "Black",
@@ -45,34 +45,33 @@ const colors = [
   "Teal",
   "White",
   "Yellow"
-]
+];
 
 function App() {
   const { segment } = useSpeechContext()
-  const [brand, setBrand] = useState('')
-  const [color, setColor] = useState('')
+  const [brand, setBrand] = useState('');
+  const [color, setColor] = useState('');
 
   useEffect(() => {
-    const findValue = (arr, value) => arr.find(v => v.toUpperCase() === value)
+    const findValue = (arr, value) => arr.find(v => v.toUpperCase() === value);
     if (segment) {
       if(segment.entities) {
         segment.entities.forEach(entity => {
-          if (entity.type === "brand") setBrand(findValue(brands, entity.value))
-          if (entity.type === "color") setColor(findValue(colors, entity.value))
+          if (entity.type === "brand") setBrand(findValue(brands, entity.value));
+          if (entity.type === "color") setColor(findValue(colors, entity.value));
         })
       }
       if (segment.isFinal) {
-        console.log(segment)
+        console.log(segment);
       }
     }
-  }, [segment])
+  }, [segment]);
 
   return (
     <div className="App">
       <BigTranscript placement="top"/>
       <PushToTalkButton placement="bottom" captureKey=" "/>
       <ErrorPanel placement="bottom"/>
-
       <div className="Filter">
         <div>
           <label>Color</label>
@@ -89,13 +88,12 @@ function App() {
           </select>
         </div>
       </div>
-
       <div className="Products">
         {brands
           .filter(b => brand === "" ? b : b === brand).map(b => colors
             .filter(c => color === "" ? c : c === color).map(c =>
-              <div className="Product">
-                <img src={`https://via.placeholder.com/300x200?text=${b}`} alt="product" />
+              <div key={b + c} className="Product">
+                <div style={{backgroundColor: c}} className="Product_img" />
                 <small>{b}</small>
                 <span>{c}</span>
               </div>
@@ -104,7 +102,7 @@ function App() {
         }
       </div>
     </div>
-    );
+  );
 }
 
 export default App;
