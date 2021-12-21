@@ -6,7 +6,9 @@ Templates provide a starting point for any application. They can be expanded fur
 
 ## Get started
 
-Create a new project based on a template using [degit](https://github.com/Rich-Harris/degit) and install the dependencies
+Create and deploy your application in the [Speechly Dashboard](https://api.speechly.com/dashboard/)
+
+Copy the template using [degit](https://github.com/Rich-Harris/degit) and install the dependencies
 
 ```bash
 npx degit speechly/speechly/templates/<template-name> my-app
@@ -48,3 +50,7 @@ This template provides a starting point for creating a contact form that can be 
 ### [Command and Control](command-control/)
 
 This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site.
+
+## Learn more
+
+Head over to [docs.speechly.com](https://docs.speechly.com/) for more info and ideas about how to expand your voice application.
