@@ -1,0 +1,50 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.App label {
+  margin: 20px 0 10px 0;
+}
+
+.App select {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.Filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.Filter div {
+  display: flex;
+  flex-direction: column;
+}
+
+.Products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.Product {
+  display: flex;
+  flex-direction: column;
+}
+
+.Product img {
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+.Product small {
+  color: gray;
+  margin: 8px 0 4px;
+}
