@@ -16,7 +16,6 @@ import {
 function App() {
   const { segment } = useSpeechContext()
 
-
   useEffect(() => {
     if (segment) {
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(' ')
