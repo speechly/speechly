@@ -29,6 +29,10 @@ npm start
 
 Navigate to [localhost:3000](http://localhost:3000). You should see your app running. Edit a file in `src`, save it, and reload the page to see your changes.
 
-## Learn more
+## Next steps
 
 Head over to [docs.speechly.com](https://docs.speechly.com/) for more info and ideas about how to expand your voice application.
+
+## Speechly CLI Tool 
+
+If you prefer the terminal, [Speechly’s Command Line Tool](https://docs.speechly.com/dev-tools/command-line-client/) will be your new best friend. Efficiently integrate Speechly to your development workflow while having access to any Speechly feature straight from your terminal. 
