@@ -75,9 +75,9 @@ Check out the [react-example-repo-filtering](https://github.com/speechly/react-e
 
 ## Documentation
 
-You can find the detailed API documentation in [GitHub repository](https://github.com/speechly/react-client/blob/master/docs/modules/_index_d_.md).
+You can find the detailed API documentation in [GitHub repository](docs/modules/_index_d_.md).
 
 ## Contributing
 
-See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/react-client/blob/master/CONTRIBUTING.md).
+See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
 
