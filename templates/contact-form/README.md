@@ -1,6 +1,6 @@
 # Empty template
 
-This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking.
+This template provides a starting point for creating a contact form that can be interacted with using voice.
 
 ## Get started
 

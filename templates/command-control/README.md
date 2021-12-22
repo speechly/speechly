@@ -1,6 +1,6 @@
 # Empty template
 
-This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking.
+This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site.
 
 ## Get started
 
