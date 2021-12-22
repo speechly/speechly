@@ -1,4 +1,4 @@
-# Empty template
+# Command and control template
 
 This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site.
 

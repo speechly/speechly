@@ -1,4 +1,4 @@
-# Empty template
+# Contact form template
 
 This template provides a starting point for creating a contact form that can be interacted with using voice.
 
