@@ -2,6 +2,13 @@
 
 This template provides a starting point for creating a product filtering experience.
 
+It's built on the standard [Create React App](https://create-react-app.dev/) template and comes with the following additional packages:
+
+- [Speechly React client](https://www.npmjs.com/package/@speechly/react-client)
+- [Speechly React UI](https://www.npmjs.com/package/@speechly/react-ui)
+
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
+
 ## Get started
 
 Create and deploy your application in the [Speechly Dashboard](https://api.speechly.com/dashboard/)
@@ -31,12 +38,18 @@ Navigate to [localhost:3000](http://localhost:3000). You should see your app run
 
 ## Next steps
 
-Once you have the applcation up and running, why not take it a step further by introducing a third parameter to filtering.
+Once you have the application up and running, take it a step further by introducing a third filtering parameter.
 
-You will need to:
+#### You will need to
 
-- Add a new Entity and update your SAL Configuration
-- Update the UI to react to the new SAL Configuration
+- Add a new Entity and update your Configuration
+- Update the UI to react to the new Configuration
+
+#### Bonus
+
+If you are feeling more adventurous, create a "clear" intent to easily reset the filters. 
+
+#### Learn more
 
 Head over to [docs.speechly.com](https://docs.speechly.com/) for more info and ideas about how to expand your voice application.
 

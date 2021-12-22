@@ -2,6 +2,13 @@
 
 This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking.
 
+It's built on the standard [Create React App](https://create-react-app.dev/) template and comes with the following additional packages:
+
+- [Speechly React client](https://www.npmjs.com/package/@speechly/react-client)
+- [Speechly React UI](https://www.npmjs.com/package/@speechly/react-ui)
+
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
+
 ## Get started
 
 Create and deploy your application in the [Speechly Dashboard](https://api.speechly.com/dashboard/)
