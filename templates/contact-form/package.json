@@ -6,8 +6,7 @@
     "@speechly/react-client": "^0.0.22",
     "@speechly/react-ui": "^2.2.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "web-vitals": "^1.0.1"
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "react-scripts": "4.0.3"
@@ -15,7 +14,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
