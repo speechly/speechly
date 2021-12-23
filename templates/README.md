@@ -1,6 +1,6 @@
 # Speechly templates
 
-This is a collection of simple React templates for [Speechly](https://www.speechly.com/) applications. Templates provide a starting point for any application. They can be expanded further to build more complex applications.
+Collection of simple React templates for [Speechly](https://www.speechly.com/) applications. Templates provide a starting point for any application. They can be expanded further to build more complex applications.
 
 All templates are built on the standard [Create React App](https://create-react-app.dev/) template and comes with the following additional packages:
 
@@ -45,14 +45,14 @@ There are four templates available:
 
 This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking.
 
-### [Product Filtering](product-filtering/)
+### [Product filtering](product-filtering/)
 
 This template provides a starting point for creating a product filtering experience.
 
-### [Contact From](contact-form/)
+### [Contact from](contact-form/)
 
 This template provides a starting point for creating a contact form that can be interacted with using voice.
 
-### [Command and Control](command-control/)
+### [Command and control](command-control/)
 
 This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site.
