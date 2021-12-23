@@ -1,0 +1,63 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding: 20px 20px 200px 20px;
+}
+
+.Filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.Filters_filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.Filters_filter label {
+  margin: 20px 0 10px 0;
+}
+
+.Filters_filter select {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.Products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.Product {
+  display: flex;
+  flex-direction: column;
+}
+
+.Product_img {
+  position: relative;
+  border-radius: 4px;
+  width: 100%;
+  height: 0;
+  padding-bottom: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.Product_brand {
+  color: gray;
+  margin: 8px 0 4px;
+}
+
+.openconsole {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #cef;
+  color: #345;
+  margin: 2em 0;
+}

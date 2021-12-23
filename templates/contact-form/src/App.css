@@ -1,0 +1,32 @@
+.Form {
+  margin: 10% auto;
+  max-width: 480px;
+  padding: 16px;
+}
+
+.Form_group {
+  display: flex;
+  flex-direction: column;
+}
+
+.Form label {
+  display: block;
+  margin: 16px 0 8px;
+}
+
+.Form input {
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.openconsole {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #cef;
+  color: #345;
+  margin: 2em 0;
+}

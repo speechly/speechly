@@ -56,6 +56,16 @@ Example applications can be used to validate correct behaviour of client and UI 
 | [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
 | [/examples/cra-template-speechly](/examples/cra-template-speechly) | A `create-react-app` template for setting up a Speechly application. |
 
+## Templates
+
+Collection of simple React templates for [Speechly](https://www.speechly.com/) applications. Templates provide a starting point for any application. They can be expanded further to build more complex applications.
+
+| Folder | Description |
+| ------ | ------- |
+| [/templates/empty](/templates/empty) | This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking. |
+| [/templates/product-filtering](/templates/product-filtering) | This template provides a starting point for creating a product filtering experience. |
+| [/templates/contact-form](/templates/contact-form) | This template provides a starting point for creating a contact form that can be interacted with using voice. |
+| [/templates/command-control](/templates/command-control) | This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site. |
 
 ## How to get help?
 
