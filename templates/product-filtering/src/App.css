@@ -4,27 +4,27 @@
   max-width: 720px;
   margin: 0 auto;
   min-height: 100vh;
-  padding: 20px;
+  padding: 20px 20px 200px 20px;
 }
 
-.Filter label {
-  margin: 20px 0 10px 0;
-}
-
-.Filter select {
-  font-size: inherit;
-  font-family: inherit;
-}
-
-.Filter {
+.Filters {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.Filter div {
+.Filters_filter {
   display: flex;
   flex-direction: column;
+}
+
+.Filters_filter label {
+  margin: 20px 0 10px 0;
+}
+
+.Filters_filter select {
+  font-size: inherit;
+  font-family: inherit;
 }
 
 .Products {
@@ -48,7 +48,16 @@
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-.Product small {
+.Product_brand {
   color: gray;
   margin: 8px 0 4px;
+}
+
+.openconsole {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #cef;
+  color: #345;
+  margin: 2em 0;
 }

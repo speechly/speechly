@@ -21,3 +21,12 @@
   font-size: inherit;
   font-family: inherit;
 }
+
+.openconsole {
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 2px;
+  background-color: #cef;
+  color: #345;
+  margin: 2em 0;
+}

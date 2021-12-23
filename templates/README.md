@@ -1,8 +1,14 @@
 # Speechly templates
 
-This is a collection of simple React templates for [Speechly](https://www.speechly.com/) applications. They are built on top of create react app
+This is a collection of simple React templates for [Speechly](https://www.speechly.com/) applications. Templates provide a starting point for any application. They can be expanded further to build more complex applications.
 
-Templates provide a starting point for any application. They can be expanded further to build more complex applications.
+All templates are built on the standard [Create React App](https://create-react-app.dev/) template and comes with the following additional packages:
+
+- [Speechly React client](https://www.npmjs.com/package/@speechly/react-client)
+- [Speechly React UI](https://www.npmjs.com/package/@speechly/react-ui)
+
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
+
 
 ## Get started
 
@@ -29,7 +35,7 @@ Start the development server
 npm start
 ```
 
-Navigate to [localhost:3000](http://localhost:3000). You should see your app running. Edit a file in `src`, save it, and reload the page to see your changes.
+Navigate to [localhost:3000](http://localhost:3000) and you should see your app running. Open the Developer Console to see speech segement outputs.
 
 ## Available templates
 
@@ -50,7 +56,3 @@ This template provides a starting point for creating a contact form that can be 
 ### [Command and Control](command-control/)
 
 This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site.
-
-## Learn more
-
-Head over to [docs.speechly.com](https://docs.speechly.com/) for more info and ideas about how to expand your voice application.

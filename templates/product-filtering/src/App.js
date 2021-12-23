@@ -10,8 +10,9 @@ import './App.css';
 /*
 1. Paste your App ID into index.js (get it from https://api.speechly.com/dashboard/)
 2. Run `npm start` to run the app in development mode
-3. Open http://localhost:3000 to view it in the browser
-4. Start developing with Speechly (see https://docs.speechly.com/quick-start/)
+3. Open http://localhost:3000 and you should see your app running
+4. Open the Developer Console to see speech segement outputs.
+5. Start developing with Speechly (see https://docs.speechly.com/quick-start/)
 */
 
 const brands = [
@@ -72,15 +73,15 @@ function App() {
       <BigTranscript placement="top"/>
       <PushToTalkButton placement="bottom" captureKey=" "/>
       <ErrorPanel placement="bottom"/>
-      <div className="Filter">
-        <div>
+      <div className="Filters">
+        <div className="Filters_filter">
           <label>Color</label>
           <select value={color} onChange={e => setColor(e.target.value)}>
             <option value="" disabled>Select color</option>
             {colors.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
-        <div>
+        <div className="Filters_filter">
           <label>Brand</label>
           <select value={brand} onChange={e => setBrand(e.target.value)}>
           <option value="" disabled>Select brand</option>
@@ -94,13 +95,14 @@ function App() {
             .filter(c => color === "" ? c : c === color).map(c =>
               <div key={b + c} className="Product">
                 <div style={{backgroundColor: c}} className="Product_img" />
-                <small>{b}</small>
-                <span>{c}</span>
+                <small className="Product_brand">{b}</small>
+                <span className="Product_title">{c}</span>
               </div>
             )
           )
         }
       </div>
+      <p className="openconsole">ℹ️ Open the Browser Console to see speech segment outputs</p>
     </div>
   );
 }

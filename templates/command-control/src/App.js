@@ -10,8 +10,9 @@ import "./App.css";
 /*
 1. Paste your App ID into index.js (get it from https://api.speechly.com/dashboard/)
 2. Run `npm start` to run the app in development mode
-3. Open http://localhost:3000 to view it in the browser
-4. Start developing with Speechly (see https://docs.speechly.com/quick-start/)
+3. Open http://localhost:3000 and you should see your app running
+4. Open the Developer Console to see speech segement outputs.
+5. Start developing with Speechly (see https://docs.speechly.com/quick-start/)
 */
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <div/><div/><div/><div/>
         <h1 id="about_us">About us</h1>
         <div/><div/><div/><div/>
+        <p className="openconsole">ℹ️ Open the Browser Console to see speech segment outputs</p>
       </div>
     </div>
     );

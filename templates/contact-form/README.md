@@ -34,7 +34,7 @@ Start the development server
 npm start
 ```
 
-Navigate to [localhost:3000](http://localhost:3000). You should see your app running. Edit a file in `src`, save it, and reload the page to see your changes.
+Navigate to [localhost:3000](http://localhost:3000) and you should see your app running. Open the Developer Console to see speech segement outputs.
 
 ## Next steps
 
