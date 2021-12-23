@@ -58,12 +58,13 @@ function App() {
     if (segment) {
       if(segment.entities) {
         segment.entities.forEach(entity => {
+          console.log(entity);
           if (entity.type === "brand") setBrand(findValue(brands, entity.value));
           if (entity.type === "color") setColor(findValue(colors, entity.value));
         })
       }
       if (segment.isFinal) {
-        console.log(segment);
+        console.log('✅', segment.entities);
       }
     }
   }, [segment]);
