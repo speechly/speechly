@@ -38,12 +38,13 @@ export const ErrorPanel: React.FC<ErrorPanelProps> = ({
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
       await import('@speechly/browser-ui/core/error-panel')
       setLoaded(true)
     })()
   }, [])
-  
+
   if (!loaded) return null
 
   return (

@@ -75,6 +75,7 @@ export const BigTranscript: React.FC<BigTranscriptProps> = ({
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
       await import('@speechly/browser-ui/core/big-transcript')
       setLoaded(true)

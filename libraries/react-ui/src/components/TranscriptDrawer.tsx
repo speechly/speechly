@@ -82,12 +82,13 @@ export const TranscriptDrawer: React.FC<TranscriptDrawerProps> = props => {
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
       await import('@speechly/browser-ui/core/transcript-drawer')
       setLoaded(true)
     })()
   }, [])
-  
+
   useEffect(() => {
     if (refElement?.current !== undefined) {
       refElement.current.speechstate(mapSpeechStateToClientState(speechState))

@@ -154,6 +154,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async () => {
       const import1 = import('@speechly/browser-ui/core/holdable-button')
       const import2 = import('@speechly/browser-ui/core/call-out')
