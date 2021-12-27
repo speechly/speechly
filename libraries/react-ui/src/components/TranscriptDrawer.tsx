@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SpeechSegment, useSpeechContext } from '@speechly/react-client'
 import { mapSpeechStateToClientState } from '../types'
-import '@speechly/browser-ui/core/transcript-drawer'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -78,8 +77,17 @@ export type TranscriptDrawerProps = {
 export const TranscriptDrawer: React.FC<TranscriptDrawerProps> = props => {
   const { segment, speechState } = useSpeechContext()
   const refElement = useRef<any>()
+  const [loaded, setLoaded] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
 
+  // Dynamic import of HTML custom element to play nice with Next.js SSR
+  useEffect(() => {
+    (async () => {
+      await import('@speechly/browser-ui/core/transcript-drawer')
+      setLoaded(true)
+    })()
+  }, [])
+  
   useEffect(() => {
     if (refElement?.current !== undefined) {
       refElement.current.speechstate(mapSpeechStateToClientState(speechState))
@@ -99,6 +107,8 @@ export const TranscriptDrawer: React.FC<TranscriptDrawerProps> = props => {
       refElement.current.speechsegment(props.mockSegment)
     }
   }, [props.mockSegment])
+
+  if (!loaded) return null
 
   return (
     <transcript-drawer

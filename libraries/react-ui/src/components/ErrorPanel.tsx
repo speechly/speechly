@@ -1,5 +1,4 @@
-import React from 'react'
-import '@speechly/browser-ui/core/error-panel'
+import React, { useEffect, useState } from 'react'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -35,6 +34,18 @@ export type ErrorPanelProps = {
 export const ErrorPanel: React.FC<ErrorPanelProps> = ({
   placement = 'bottom',
 }) => {
+  const [loaded, setLoaded] = useState(false)
+
+  // Dynamic import of HTML custom element to play nice with Next.js SSR
+  useEffect(() => {
+    (async () => {
+      await import('@speechly/browser-ui/core/error-panel')
+      setLoaded(true)
+    })()
+  }, [])
+  
+  if (!loaded) return null
+
   return (
     <error-panel placement={placement}></error-panel>
   )

@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SpeechState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import { mapSpeechStateToClientState, SpeechlyUiEvents } from '../types'
-import '@speechly/browser-ui/core/holdable-button'
-import '@speechly/browser-ui/core/call-out'
 import { PushToTalkButtonContainer } from '..'
 
 declare global {
@@ -134,6 +132,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   silenceToHangupTime = 1000,
 }) => {
   const { speechState, toggleRecording, initialise, segment } = useSpeechContext()
+  const [loaded, setLoaded] = useState(false)
   const [icon, setIcon] = useState<string>((powerOn ? SpeechState.Idle : SpeechState.Ready) as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
@@ -153,6 +152,16 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // but they *will* see the current value whenever they do run
   speechStateRef.current = speechState
 
+  // Dynamic import of HTML custom element to play nice with Next.js SSR
+  useEffect(() => {
+    (async () => {
+      const import1 = import('@speechly/browser-ui/core/holdable-button')
+      const import2 = import('@speechly/browser-ui/core/call-out')
+      await Promise.all([import1, import2])
+      setLoaded(true)
+    })()
+  }, [])
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     if (buttonRef?.current) {
@@ -167,7 +176,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     if (!powerOn && speechState === SpeechState.Idle) {
       setIcon(SpeechState.Ready as string)
     } else {
-      console.log(speechState as string)
       setIcon(speechState as string)
     }
 
@@ -257,6 +265,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   const isStoppable = (s?: SpeechState): boolean => {
     return (s === SpeechState.Recording)
   }
+
+  if (!loaded) return null
 
   return (
     <div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SpeechSegment, useSpeechContext } from '@speechly/react-client'
 import { mapSpeechStateToClientState } from '../types'
-import '@speechly/browser-ui/core/big-transcript'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -71,7 +70,16 @@ export const BigTranscript: React.FC<BigTranscriptProps> = ({
 }) => {
   const { segment, speechState } = useSpeechContext()
   const refElement = useRef<any>()
+  const [loaded, setLoaded] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
+
+  // Dynamic import of HTML custom element to play nice with Next.js SSR
+  useEffect(() => {
+    (async () => {
+      await import('@speechly/browser-ui/core/big-transcript')
+      setLoaded(true)
+    })()
+  }, [])
 
   // Change button face according to Speechly states
   useEffect(() => {
@@ -93,6 +101,8 @@ export const BigTranscript: React.FC<BigTranscriptProps> = ({
       refElement.current.speechsegment(mockSegment)
     }
   }, [mockSegment])
+
+  if (!loaded) return null
 
   return (
     <big-transcript ref={refElement} placement={placement} demomode={demoMode ? 'true' : 'false'} formattext={(formatText !== null && formatText === false) ? 'false' : 'true'} fontsize={fontSize} color={color} highlightcolor={highlightColor} backgroundcolor={backgroundColor} marginbottom={marginBottom}></big-transcript>
