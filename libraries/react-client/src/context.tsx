@@ -124,7 +124,7 @@ export interface SpeechProviderProps extends ClientOptions {
 }
 
 interface SpeechProviderState {
-  client: Client
+  client?: Client
   clientState: ClientState
   recordingState: SpeechState
   toggleIsOn: boolean
@@ -153,7 +153,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   constructor(props: SpeechProviderProps) {
     super(props)
     this.state = {
-      client: this.initialiseClient(props),
+      client: undefined,
       recordingState: SpeechState.Idle,
       clientState: ClientState.Disconnected,
       toggleIsOn: false,
@@ -162,11 +162,19 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     }
   }
 
+  // init at mount mount time for to play it nice with SSR
+  readonly componentDidMount = async (): Promise<void> => {
+    this.setState({
+      ...this.state,
+      client: this.initialiseClient(this.props),
+    })
+  }
+
   readonly initialiseAudio = async (): Promise<void> => {
     const { client, clientState } = this.state
 
     if (clientState === ClientState.Disconnected) {
-      await client.initialize()
+      await client?.initialize()
     }
 
     return Promise.resolve()
@@ -178,15 +186,15 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     let startedContextPromise
     switch (clientState) {
       case ClientState.Disconnected:
-        await client.initialize()
+        await client?.initialize()
         // falls through
       case ClientState.Connected:
         // falls through
       case ClientState.Stopping:
         if (appId !== undefined) {
-          startedContextPromise = client.startContext(appId)
+          startedContextPromise = client?.startContext(appId)
         } else {
-          startedContextPromise = client.startContext()
+          startedContextPromise = client?.startContext()
         }
         break
       default:
@@ -206,7 +214,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       await startedContextPromise
     }
 
-    await client.stopContext()
+    await client?.stopContext()
     return Promise.resolve()
   }
 
@@ -223,7 +231,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     const { client, clientState } = this.state
     this.setState({ appId })
     if (clientState === ClientState.Recording) {
-      return client.switchContext(appId)
+      return client?.switchContext(appId)
     }
   }
 
@@ -282,7 +290,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     const { client } = this.state
 
     try {
-      await client.close()
+      await client?.close()
     } catch (e) {
       console.error('Error closing Speechly client:', e)
     }
@@ -292,7 +300,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   async componentWillUnmount(): Promise<void> {
     try {
-      await this.state.client.close()
+      await this.state.client?.close()
     } catch {
       // Nothing to do with the error here, so ignoring it is fine.
     }
