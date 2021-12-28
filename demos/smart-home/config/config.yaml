@@ -2,10 +2,12 @@ templates: |
   rooms = [kitchen|bedroom|living room|terrace|garage](room)
   room = [{in} {the} $rooms]
   list_of_rooms = [$room {{and} $room {{and} $room}}]
-  devices = [lights|television|radio|everything|all devices|every device|all|all lights](device)
+  devices = [lights|television|tv|radio|everything|all devices|every device|all|all lights](device)
   device = [{the} {$rooms} $devices]
   list_of_devices = [$device {0.3: and $device {0.3: and $device}}]
-  command = [turn|set|switch|put|close]
+  command = [turn|set|switch|put]
+  command_on = [activate|enable|open]
+  command_off = [deactivate|disable|close]
   additions_beginning = [and|also]
   additions_end = [too|also]
 
@@ -18,7 +20,8 @@ templates: |
     *turn_on $command up $list_of_devices {$list_of_rooms}
     *turn_off {$command} $list_of_devices down {$list_of_rooms}
     *turn_off $command down $list_of_devices {$list_of_rooms}
-    *turn_off {$command} $list_of_devices
+    *turn_on {$command_on} $list_of_devices
+    *turn_off {$command_off} $list_of_devices
   ]
   $intent {and $intent}
 
