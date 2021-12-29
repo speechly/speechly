@@ -20,8 +20,8 @@ templates: |
     *turn_on $command up $list_of_devices {$list_of_rooms}
     *turn_off {$command} $list_of_devices down {$list_of_rooms}
     *turn_off $command down $list_of_devices {$list_of_rooms}
-    *turn_on {$command_on} $list_of_devices
-    *turn_off {$command_off} $list_of_devices
+    *turn_on {$command_on} $list_of_devices {$list_of_rooms}
+    *turn_off {$command_off} $list_of_devices {$list_of_rooms}
   ]
   $intent {and $intent}
 
