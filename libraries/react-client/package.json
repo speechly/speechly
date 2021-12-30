@@ -2,7 +2,6 @@
   "name": "@speechly/react-client",
   "version": "0.0.23",
   "description": "React client for Speechly SLU API",
-  "private": true,
   "keywords": [
     "react",
     "reactjs",
