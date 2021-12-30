@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Initialize Speechly on DOM mount instead of constructor to fix server-side rendering problems",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
