@@ -169,6 +169,7 @@ check it,Jackets
 Jacket with a hood,Jackets with a hood
 Hoodie jackets,Jackets with a hood
 Hoodie jacket,Jackets with a hood
+Hood jacket,Jackets with a hood
 Jewelry,Jewelry
 Jumpsuits,Jumpsuits overalls
 Jumpsuit,Jumpsuits overalls
@@ -303,6 +304,9 @@ Wellington boots,Rubber boots
 Wellington boot,Rubber boots
 Gumboots,Rubber boots
 Gumboot,Rubber boots
+Moss mid junior,Moss mid
+Moss mid jr,Moss mid
+Shoes for junior,Moss mid
 Running clothes,Running clothes
 Running shoes,Running shoes
 Runners,Running shoes
@@ -321,6 +325,7 @@ Shirt dresses,Shirt dresses
 Shirt dress,Shirt dresses
 Shirts,Collared shirts
 Shirt,Collared shirts
+Slim fit shirts,Collared shirts
 Shoes,Shoes
 Footwear,Shoes
 Shoe,Shoes
@@ -373,7 +378,7 @@ Snickers,Sneakers
 Trainers,Sneakers
 sniker,Sneakers
 snikers,Sneakers
-basketball shoes,Sneakers
+Low tops Low top sneakers basketball shoes,Sneakers
 golf shoes,Sneakers
 Snowboard clothing,Snowboard clothing
 Snowboard clothes,Snowboard clothing
@@ -525,6 +530,9 @@ Winter clothing,Winter jackets
 Coats for winter,Winter jackets
 Winter shoes,Winter shoes
 Shoes for winter,Winter shoes
+Outdoor,Waterproof, Windproof and Breathable
+Gore tex,Waterproof, Windproof and Breathable
+GTX,Waterproof, Windproof and Breathable
 Wrap dresses,Wrap dresses
 Wrap dress,Wrap dresses
 Wrapping skirts,Wrapping skirts

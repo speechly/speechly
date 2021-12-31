@@ -76,14 +76,15 @@ templates: |-
 
   clear_utterances = [
     clear {all}
-    clear {all} [filters|fields|search]
+    clear {all} [filters|filter|fields|search]
     reset {[my|the] search}
     restart
+    start over
     start a new search
     new search
     cancel {{the} search}
     {go} back
-    remove {{all} filters}
+    remove {all} [filters|filter|fields|search]
     claire
     delete
     [go|bring me] back {to} [home|the homepage]
