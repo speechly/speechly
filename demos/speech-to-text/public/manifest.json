@@ -1,21 +1,21 @@
 {
-  "short_name": "Speechly React App",
-  "name": "Create Speechly React App Sample",
+  "short_name": "Speech-to-Text",
+  "name": "Speechly Speech-to-Text Demo",
   "icons": [
     {
-      "src": "favicon-16x16.png",
-      "type": "image/png",
-      "sizes": "16x16"
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
     },
     {
-      "src": "favicon-32x32.png",
+      "src": "logo192.png",
       "type": "image/png",
-      "sizes": "32x32"
+      "sizes": "192x192"
     },
     {
-      "src": "favicon-96x96.png",
+      "src": "logo512.png",
       "type": "image/png",
-      "sizes": "96x96"
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",
