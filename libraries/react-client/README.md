@@ -1,6 +1,6 @@
 <div align="center" markdown="1">
 <a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header">
-   <img src="https://d33wubrfki0l68.cloudfront.net/1e70457a60b0627de6ab966f1e0a40cf56f465f5/b4144/img/logo-speechly-colors.svg" height="48">
+   <img src="https://d33wubrfki0l68.cloudfront.net/5bc9877403d30310311abacf99edc95e4d1c1b7e/5ba20/img/speechly-logo-duo-black.png" height="48">
 </a>
 
 ### Speechly is the Fast, Accurate, and Simple Voice Interface API for Web, Mobile and E‑commerce
