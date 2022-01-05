@@ -1,0 +1,58 @@
+*book [from|from](from_prepo) [new york|new york](from) [to|to](to_prepo) [berlin|berlin](to)
+*book for [seven|7](passengers) passengers
+*book [one way|one way](one_way) flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) for [two|2](passengers) people in [business|business](class) class
+*book departure date [tomorrow|2022-01-06](depart) and return the day after [tomorrow|2022-01-06](depart)
+*book i'll be leaving [tomorrow|2022-01-06](depart) and coming back in a [month|month](return)
+*book there will be two passengers
+*book please put me in the [business|business](class) class
+*book change the amount of passengers to [four|4](passengers)
+*book i'll be travelling [from|from](from_prepo) [colorado|colorado](from) [to|to](to_prepo) [india|india](to)
+*book i'll be coming back the [first of january|2023-01-01](return)
+*book book a ticket [from|from](to_prepo) [boston|boston](to) [to|to](from_prepo) [new york|new york](from) [round trip|round trip](round_trip) i want to start from [first of january|2023-01-01](depart) and then i will return on [fifth of january|2022-01-05](return)
+*book departure [sunday|2022-01-09](depart)
+*book book a flight [from|from](from_prepo) [new york|new york](from) [to|to](to_prepo) [berlin|berlin](to) starting [tomorrow|2022-01-06](depart) and returning on [friday|2022-01-07](return)
+*book select [round trip|round trip](round_trip)
+*book return [thirty november twenty twenty two|2022-11-30](return)
+*book passengers [five|5](passengers) high class
+*book [check direct only|check direct only](nondirect)
+*book [active direct only|active direct only](nondirect)
+*book [enable direct only|enable direct only](nondirect)
+*book [tick direct only|tick direct only](nondirect)
+*book [deselect direct only|deselect direct only](nondirect)
+*book [no direct flights|no direct flights](nondirect)
+*book [direct|direct](direct) flights only
+*book don't book a [direct|direct](direct) ticket
+*book change the class to [first|first](class) class
+*book i want to go [from|from](from_prepo) [delhi|delhi](from) [to|to](to_prepo) [london|london](to)
+*book [six|6](passengers) january is the [return|return](round_trip) flight
+*book book a [round trip|round trip](round_trip) flight [from|from](from_prepo) [helsinki|helsinki](from) [to|to](to_prepo) [new york|new york](to) no [from|from](from_prepo) [stockholm|stockholm](from)
+*book can you book a flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) on the [twenty fifth|2022-01-25](depart)
+*book departing [tomorrow|2022-01-06](depart) and returning the [first week of january|first week of january](depart)
+*book need to fly [from|from](from_prepo) [vienna|vienna](from) [to|to](to_prepo) [new york|new york](to) next week [wednesday|2022-01-12](depart) until the [twenty first of december|2022-12-21](depart)
+*book i want a [one way|one way](one_way) ticket [from|from](from_prepo) [san francisco|san francisco](from) [to|to](to_prepo) [dallas|dallas](to) texas on friday [november twenty sixth|2022-11-26](depart) [one|1](passengers) adult [first|first](class) class
+*book can you book it for tomorrow
+*book the class will be [first|first](class) [four|4](passengers) passengers
+*book i want to i want to book a ticket [from|from](from_prepo) [mumbai|mumbai](from) [to|to](to_prepo) [delhi|delhi](to) on [thirteenth of december|2022-12-13](depart) and i'll be back on [seventeenth february two other|seventeenth february two other](depart) people will also be travelling with me total [four|4](passengers) passengers and please book [business|business](class) class
+*book i would like to order ticket [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [new york|new york](to) departure date [second of january two thousand twenty one|2021-01-02](depart)
+*book [from|from](from_prepo) [patna|patna](from) [to|to](to_prepo) [mumbai|mumbai](to)
+*book i would like to go [from|from](from_prepo) [panama|panama](from) [to|to](to_prepo) [helsinki|helsinki](to) next week [monday|2022-01-10](depart)
+*book i'd like the destination to be copenhagen
+*book find [direct|direct](direct) flights
+*book book a [one way|one way](one_way) flight [from|from](from_prepo) [helsinki|helsinki](from) [to|to](to_prepo) [washington dc|washington dc](to) departing [next saturday|2022-01-08](depart) for [two|2](passengers) people in [business|business](class) class and show me the [direct|direct](direct) flights only
+*book i want to go [to|to](to_prepo) [new york|new york](to) [from|from](from_prepo) [istanbul|istanbul](from) on [fifteenth november|2022-11-15](depart)
+*book i want to go [to|to](to_prepo) [new york|new york](to) tomorrow
+*book return today
+*book [from|from](from_prepo) [helsinki|helsinki](from) [to|to](to_prepo) [london|london](to) [one way|one way](one_way) trip [two|2](passengers) passengers and [direct|direct](direct) only
+*book [from|from](from_prepo) [helsinki|helsinki](from) [to|to](to_prepo) [malaga|malaga](to) [two|2](passengers) persons [one way|one way](one_way)
+*book departure [next week|2022-01-12](depart)
+*book [one way|one way](one_way) flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) departure the [first of august two thousand and twenty two|2022-08-01](depart) and for [one|1](passengers) passenger only
+*book [three|3](passengers) passengers [first|first](class) class
+*book departing on tuesday [next week|2022-01-12](depart)
+*book i'd like the destination to be copenhagen
+*book search for flights
+*book i'd like to book a ticket for [three|3](passengers) adults [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) [without a transit|without a transit](direct) [in high|in high](round_trip) class
+*book i'd like to book a [one way|one way](one_way) [economy|economy](class) flex flight [between|between](from_prepo) [london|london](from) [and|and](to_prepo) [paris|paris](to)
+*book i want to search for a flight that departs [from|from](from_prepo) [london|london](from) on [july third|2022-07-03](depart) and comes back [to|to](to_prepo) [berlin|berlin](to) on [july tenth|2022-07-10](depart) for [two|2](passengers) adults in standard class
+*clear reset the search
+*book start over my search
+*book [uncheck direct flights|uncheck direct flights](nondirect)
