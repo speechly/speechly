@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/checkout/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.33",
+    "@speechly/demo-navigation": "^0.1.35",
     "@speechly/logkit": ">=1.0.0",
     "@speechly/react-client": ">=0.0.22",
     "@speechly/react-ui": ">=2.1.2",
