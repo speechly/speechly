@@ -1,0 +1,137 @@
+.TranscriptContainer {
+  padding: 32px;
+  position: relative;
+  z-index: 999;
+}
+
+.SearchApp {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Navigation {
+  padding: 24px 32px;
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px;
+}
+
+.Navigation__item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: .6;
+  padding: 8px 0;
+  transition: all .15s ease;
+}
+
+.Navigation__item:hover {
+  opacity: 1;
+}
+
+.Navigation__item--active {
+  font-weight: 600;
+  opacity: 1;
+  border-bottom: 2px solid #fff;
+}
+
+.Navigation__avatar img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+.Search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 32px;
+}
+
+.Search__logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.Search__logo h1 {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  margin: 0;
+}
+
+.Search__logo img {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+
+
+.Input {
+  position: relative;
+  height: 64px;
+  width: 100%;
+  min-width: 240px;
+  max-width: 640px;
+}
+
+.Input__textfield {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1F2D3B;
+  border: 1px solid #415F7D;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: 64px;
+  padding: 0 64px;
+  transition: all .15s ease;
+}
+
+.Input__textfield::placeholder {
+  color: #7D8FA1;
+}
+
+.Input__textfield:hover {
+  border-color: #4a6c8e;
+}
+
+.Input__textfield:active,
+.Input__textfield:focus {
+  outline: 0;
+  background-color: #21303e;
+  border-color: #4a6c8e;
+}
+
+.Input__icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
+
+.Input__button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.Footer {
+  color: #7D8FA1;
+  padding: 32px;
+}
