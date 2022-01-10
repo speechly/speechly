@@ -44,9 +44,9 @@ templates: >
 
   date = $SPEECHLY.DATE
 
-  return_phrase = [returning|coming|that [return|returns]|return|that [get|gets|comes] back] {on} $date(return)
+  return_phrase = [returning|coming|that [return|returns]|return|that [get|gets|comes] back] {on} {until} $date(return)
 
-  departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that} [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|for] $date(depart)
+  departing_phrase = [departing {on}|that [depart|departs] {on}|departure|{that} [leave|leaves|leaving] {on} {the}|{that} [take|takes] off {on} {the}|{for}] $date(depart)
 
   passengers = [1..9]
 
