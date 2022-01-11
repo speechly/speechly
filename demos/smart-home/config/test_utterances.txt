@@ -38,3 +38,17 @@ bedroom lights on
 turn on the living room lights the kitchen lights and the terrace lights and switch on the television 
 turn on the bedroom lights and radio and switch off the television and lights in the living room kitchen and terrace 
 turn off tv
+close all lights
+close all
+turn up the lights in the kitchen
+open the radio and close the tv
+turn down everything
+open the tv in the living room and turn down the lights in the terrace
+switch off all lights and turn up the radio in the bedroom 
+disable the tv in the living room
+activate the radio in the bedroom and open the lights in the garage
+lights up in the kitchen
+set radio off and put lights on in the bedroom
+television on in the living room 
+shut bedroom lights
+play living room radio
