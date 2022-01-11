@@ -45,7 +45,7 @@ open the radio and close the tv
 turn down everything
 open the tv in the living room and turn down the lights in the terrace
 switch off all lights and turn up the radio in the bedroom 
-disable the tv ion the living room
+disable the tv in the living room
 activate the radio in the bedroom and open the lights in the garage
 lights up in the kitchen
 set radio off and put lights on in the bedroom
