@@ -58,24 +58,10 @@
 }
 
 .Search__logo {
-  display: flex;
-  align-items: center;
+  display: block;
+  height: 48px;
   margin-bottom: 32px;
 }
-
-.Search__logo h1 {
-  font-size: 40px;
-  font-weight: 500;
-  line-height: 1;
-  margin: 0;
-}
-
-.Search__logo img {
-  width: 48px;
-  height: 48px;
-  margin-right: 12px;
-}
-
 
 .Input {
   position: relative;

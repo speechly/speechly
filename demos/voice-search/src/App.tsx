@@ -4,7 +4,7 @@ import { DemoNavigation } from '@speechly/demo-navigation'
 import { PushToTalkButton, ErrorPanel, BigTranscript } from '@speechly/react-ui'
 import './App.css'
 import avatar from './assets/avatar.png'
-import logo from './assets/search-blue.svg'
+import logo from './assets/logo.svg'
 import searchIcon from './assets/search.svg'
 import searchIconGray from './assets/search-gray.svg'
 import imageIcon from './assets/image.svg'
@@ -103,10 +103,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         </div>
       </div>
       <div className="Search">
-        <div className="Search__logo">
-          <img src={logo} alt="logo" />
-          <h1>Search</h1>
-        </div>
+        <img className="Search__logo" src={logo} alt="logo" />
         <div className="Input">
         <input
           className="Input__textfield"
