@@ -1,7 +1,8 @@
 .TranscriptContainer {
   position: absolute;
-  bottom: 32px;
+  bottom: 0;
   left: 32px;
+  z-index: 999;
 }
 
 .SearchApp {
@@ -65,7 +66,7 @@
 .Navigation__item--active {
   font-weight: 600;
   opacity: 1;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid #f8f9fa;
 }
 
 .Navigation__item img {
@@ -89,14 +90,57 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto 32px;
-  padding-bottom: 10vh;
+  margin: auto 0;
+  padding: 0 32px 10vh;
+  overflow: hidden;
 }
 
 .Search__logo {
   display: block;
   height: 48px;
   margin-bottom: 32px;
+}
+
+.Results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  padding: 32px;
+}
+
+@media (max-width: 720px) {
+  .Results {
+    padding: 24px;
+  }
+}
+
+.Result {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.Result__title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #4dbcfc;;
+}
+
+.Result__title:hover {
+  text-decoration: underline;
+}
+
+.Result__link {
+  color: #7D8FA1;
+}
+
+.Result__snippet {
+  color: #f8f9fa;
+  line-height: 1.5;
 }
 
 .Footer {
