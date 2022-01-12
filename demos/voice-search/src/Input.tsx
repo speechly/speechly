@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useSpeechContext } from "@speechly/react-client";
+import React from "react";
 import { PushToTalkButton } from "@speechly/react-ui";
 import "./Input.css";
 import searchIconGray from "./assets/search-gray.svg";
 import closeIconGray from "./assets/close-gray.svg";
-import { useSearchContext } from "./context";
 
 export const Input: React.FC <{
   value: string,

@@ -1,0 +1,146 @@
+.SearchView {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.Navigation {
+  padding: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+@media (max-width: 720px) {
+  .Navigation {
+    padding: 24px;
+  }
+}
+
+.Navigation__left {
+  flex-grow: 1;
+}
+
+.Navigation__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: auto;
+  gap: 8px 32px;
+}
+
+@media (max-width: 720px) {
+  .Navigation__right {
+    gap: 8px 16px;
+  }
+}
+
+.Navigation__item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: .6;
+  padding: 8px 0;
+  transition: all .15s ease;
+}
+
+.Navigation__item:hover {
+  opacity: 1;
+}
+
+.Navigation__item--active {
+  font-weight: 600;
+  opacity: 1;
+  border-bottom: 2px solid #f8f9fa;
+}
+
+.Navigation__item img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 720px) {
+  .Navigation__item img {
+    display: none;
+  }
+}
+
+.Navigation__avatar img {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.SearchBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0;
+  padding: 0 32px 10vh;
+}
+
+.SearchBox__logo {
+  display: block;
+  height: 48px;
+  margin-bottom: 32px;
+}
+
+.Results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  padding: 16px 32px;
+}
+
+@media (max-width: 720px) {
+  .Results {
+    padding: 8px 24px;
+  }
+}
+
+.Result {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.Result__title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #4dbcfc;;
+}
+
+.Result__title:hover {
+  text-decoration: underline;
+}
+
+.Result__link {
+  color: #7D8FA1;
+}
+
+.Result__snippet {
+  color: #f8f9fa;
+  line-height: 1.5;
+}
+
+.Footer {
+  color: #7D8FA1;
+  padding: 32px;
+}
+
+@media (max-width: 720px) {
+  .Footer {
+    padding: 24px;
+  }
+}
