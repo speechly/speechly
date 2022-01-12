@@ -54,6 +54,7 @@ Body,Bodyt
 bodies,Bodyt
 Boots,Boots
 Boot,Boots
+Leather boots,Boots
 Bracelets,Bracelets
 Bracelet,Bracelets
 Bras,Bra
@@ -145,6 +146,8 @@ Earring,Earrings
 Fitness shoes,Fitness shoes
 Fleece,Fleece
 Gloves,Gloves
+Gym clothes,Gym clothing
+Workout gear,Gym clothing
 Hair accessories,Hair accessories
 Handbags,Handbags
 Handbag,Handbags
@@ -334,6 +337,7 @@ Kicks,Shoes
 Shows,Shoes
 Short tops,Short tops
 Short top,Short tops
+Short trousers,Short trousers
 Short-sleeved shirts,Short sleeve shirts
 Short-sleeved shirt,Short sleeve shirts
 Short sleeve shirt,Short sleeve shirts
@@ -382,6 +386,8 @@ Low tops,Sneakers
 Low top sneakers,Sneakers
 Basketball shoes,Sneakers
 Golf shoes,Sneakers
+Jerseys,Jerseys for football and basketball
+basketball shorts,Basketball shorts
 Snowboard clothing,Snowboard clothing
 Snowboard clothes,Snowboard clothing
 Snowboarding clothes,Snowboard clothing
@@ -535,6 +541,7 @@ Shoes for winter,Winter shoes
 Outdoor,Waterproof, Windproof and Breathable
 Gore tex,Waterproof, Windproof and Breathable
 GTX,Waterproof, Windproof and Breathable
+Waterproof hiking shoes,Waterproof, Windproof and Breathable
 Wrap dresses,Wrap dresses
 Wrap dress,Wrap dresses
 Wrapping skirts,Wrapping skirts
@@ -559,6 +566,8 @@ Bomber jacket,Bomber jackets
 Business,Business
 Work,Business
 Professional,Business
+Clothing,Clothing
+Clothes,Clothing
 High heels,High heels
 Heels,High heels
 High heel shoes,High heels
@@ -574,16 +583,20 @@ Running pants,Running pants and leotards
 Running bottoms,Running pants and leotards
 jogging pants,Running pants and leotards
 jogging bottoms,Running pants and leotards
+Rubber bands,Rubber band
 Ski jackets,Ski jackets
 Ski jacket,Ski jackets
 Skiing jacket,Ski jackets
 Skiing jackets,Ski jackets
 Ski boots,Ski boots
+Ski shoes,Ski boots
+Shoes for ski,Ski boots
 Soccer shoes,Soccer shoes
 Football shoes,Soccer shoes
 Soccer cleats,Soccer shoes
 Football shoe,Soccer shoes
 Football boots,Soccer shoes
+Shoes for football,Soccer shoes
 Sweat pants,Sweat pants
 Joggers,Sweat pants
 Track pants,Sweat pants
@@ -591,6 +604,8 @@ Sweatpants,Sweat pants
 College pants,Sweat pants
 Biking shoes,Biking shoes
 Athletic shoes,Athletic shoes
+Training shoes,Training shoes
 Umbrellas,Umbrellas
 Winter boots,Winter boots
 Boots for winter,Winter boots
+Formal clothes,Formal clothing
