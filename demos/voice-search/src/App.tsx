@@ -31,6 +31,7 @@ const SearchApp: React.FC = (): JSX.Element => {
   const { segment } = useSpeechContext();
   const { query, setQuery, results, getResults } = useSearchContext();
   const [tentativeQuery, setTentativeQuery] = useState<string>("");
+  const [prevWordIndex, setPrevWordIndex] = useState(-1);
 
   const setText = (value: string) => {
     setQuery(value);
@@ -65,9 +66,17 @@ const SearchApp: React.FC = (): JSX.Element => {
         .toLowerCase()
       const casedTextContent = toSentenceCase(formattedTextContent)
       setTentativeQuery(casedTextContent);
+      segment.words.forEach((word, index) => {
+        const wordIndex = index - 1
+        if (prevWordIndex < wordIndex) {
+          setPrevWordIndex(wordIndex);
+          results && getResults(casedTextContent);
+        }
+      });
       if (segment.isFinal) {
         setText(casedTextContent);
-        getResults(casedTextContent);
+        setPrevWordIndex(-1);
+        !results && getResults(casedTextContent);
       }
     }
   // eslint-disable-next-line
