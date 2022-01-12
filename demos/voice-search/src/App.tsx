@@ -9,17 +9,20 @@ import searchIcon from "./assets/search.svg";
 import imageIcon from "./assets/image.svg";
 import videoIcon from "./assets/video.svg";
 import newsIcon from "./assets/news.svg";
+import { SearchContextProvider } from "./context";
 
 const App: React.FC = (): JSX.Element => {
   return (
-    <div className="App">
-      <DemoNavigation />
-      <div className="TranscriptContainer">
-        <BigTranscript highlightColor="#009FFA" backgroundColor="#1F2D3B" />
+    <SearchContextProvider>
+      <div className="App">
+        <DemoNavigation />
+        <div className="TranscriptContainer">
+          <BigTranscript highlightColor="#009FFA" backgroundColor="#1F2D3B" />
+        </div>
+        <ErrorPanel />
+        <SearchApp />
       </div>
-      <ErrorPanel />
-      <SearchApp />
-    </div>
+    </SearchContextProvider>
   )
 }
 
