@@ -25,7 +25,7 @@ export const Input: React.FC <{
       />
       <img className="Input__icon" src={value ? closeIconGray : searchIconGray} alt="icon" onClick={() => clearFn()} />
       <div className="Input__button">
-        <PushToTalkButton size={buttonSize} intro="" />
+        <PushToTalkButton gradientStops={["#508CFF", "#009FFA", "#00E48F"]} size={buttonSize} intro="" />
       </div>
     </div>
   )

@@ -141,7 +141,7 @@ const SearchView: React.FC = (): JSX.Element => {
         </div>
       )}
       <div className="Footer">
-        &copy; Speechly
+        Made with ♥ using Speechly
       </div>
     </div>
   )
