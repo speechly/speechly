@@ -17,11 +17,35 @@
 
 .Navigation {
   padding: 24px 32px;
-  margin-left: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+@media (max-width: 720px) {
+  .Navigation {
+    padding: 24px;
+  }
+}
+
+.Navigation__left {
+  flex-grow: 1;
+}
+
+.Navigation__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: auto;
   gap: 8px 32px;
+}
+
+@media (max-width: 720px) {
+  .Navigation__right {
+    gap: 8px 16px;
+  }
 }
 
 .Navigation__item {
@@ -44,10 +68,21 @@
   border-bottom: 2px solid #fff;
 }
 
+.Navigation__item img {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 720px) {
+  .Navigation__item img {
+    display: none;
+  }
+}
+
 .Navigation__avatar img {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
 }
 
 .Search {
@@ -55,66 +90,13 @@
   flex-direction: column;
   align-items: center;
   margin: auto 32px;
+  padding-bottom: 10vh;
 }
 
 .Search__logo {
   display: block;
   height: 48px;
   margin-bottom: 32px;
-}
-
-.Input {
-  position: relative;
-  height: 64px;
-  width: 100%;
-  min-width: 240px;
-  max-width: 640px;
-}
-
-.Input__textfield {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1F2D3B;
-  border: 1px solid #415F7D;
-  color: #fff;
-  font-family: inherit;
-  font-size: 16px;
-  border-radius: 64px;
-  padding: 0 64px;
-  transition: all .15s ease;
-}
-
-.Input__textfield::placeholder {
-  color: #7D8FA1;
-}
-
-.Input__textfield:hover {
-  border-color: #4a6c8e;
-}
-
-.Input__textfield:active,
-.Input__textfield:focus {
-  outline: 0;
-  background-color: #21303e;
-  border-color: #4a6c8e;
-}
-
-.Input__icon {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 20px;
-}
-
-.Input__button {
-  position: absolute;
-  top: 8px;
-  right: 8px;
 }
 
 .Footer {

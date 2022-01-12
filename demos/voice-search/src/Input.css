@@ -1,0 +1,77 @@
+.Input {
+  position: relative;
+  height: 64px;
+  width: 100%;
+  min-width: 200px;
+  max-width: 600px;
+}
+
+.Input__textfield {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1F2D3B;
+  border: 1px solid #415F7D;
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  border-radius: 64px;
+  padding: 0 64px;
+  transition: all .15s ease;
+}
+
+.Input__textfield::placeholder {
+  color: #7D8FA1;
+}
+
+.Input__textfield:hover {
+  border-color: #4a6c8e;
+}
+
+.Input__textfield:active,
+.Input__textfield:focus {
+  outline: 0;
+  background-color: #21303e;
+  border-color: #4a6c8e;
+}
+
+.Input__icon {
+  cursor: pointer;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 20px;
+  left: 20px;
+}
+
+.Input__button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.Input--small {
+  height: 40px;
+  max-width: 320px;
+}
+
+.Input--small .Input__textfield {
+  padding: 0 48px 0 36px;
+  font-size: 14px;
+}
+
+.Input--small .Input__icon {
+  width: 16px;
+  height: 16px;
+  top: 12px;
+  left: 12px;
+}
+
+.Input--small .Input__button {
+  top: 4px;
+  right: 4px;
+}
