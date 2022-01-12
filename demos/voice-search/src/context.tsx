@@ -25,10 +25,11 @@ export const SearchContext = createContext<QueryValue | undefined>(undefined);
 export const SearchContextProvider = ({ children }: Props) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ResultObject[]>();
+  const { REACT_APP_KEY, REACT_APP_ID } = process.env // todo: move these somewhere better
 
   const getResults = (string: string) => {
     const q = new URLSearchParams(string).toString()
-    fetch(`https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyB4zfG_YZKGmKnpyVDrg1rVvq4zfHQafvc&cx=c0aa278ed4ee84fac&safe=active&q=${q}`)
+    fetch(`https://customsearch.googleapis.com/customsearch/v1?key=${REACT_APP_KEY}&cx=${REACT_APP_ID}&safe=active&q=${q}`)
       .then(res => res.json())
       .then(res => {
         console.log('google:', string, res.items);

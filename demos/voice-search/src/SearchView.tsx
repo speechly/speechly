@@ -17,6 +17,7 @@ const SearchView: React.FC = (): JSX.Element => {
   const [prevWordIndex, setPrevWordIndex] = useState(-1);
 
   const setText = (value: string) => {
+    //todo: clearing the search jumps between result and search view
     setQuery(value);
     setTentativeQuery(value);
   }
