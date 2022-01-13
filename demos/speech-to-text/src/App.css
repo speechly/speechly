@@ -79,6 +79,12 @@
   word-break: break-word;
 }
 
+.Message__sender {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 2px;
+}
+
 .Message__time {
   display: block;
   font-size: 11px;
