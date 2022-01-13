@@ -17,7 +17,6 @@ const SearchView: React.FC = (): JSX.Element => {
   const [prevWordIndex, setPrevWordIndex] = useState(-1);
 
   const setText = (value: string) => {
-    //todo: clearing the search jumps between result and search view
     setQuery(value);
     setTentativeQuery(value);
   }
@@ -36,8 +35,7 @@ const SearchView: React.FC = (): JSX.Element => {
   useEffect(() => {
     if (segment) {
       const plainString = segment.words.filter(w => w.value).map(w => w.value).join(" ");
-      const alteredTextContent = query ? [query, plainString].join(" ") : plainString
-      const formattedTextContent = alteredTextContent
+      const formattedTextContent = plainString
         .replace(" COMMA", ",")
         .replace(" PERIOD", ".")
         .replace(" DOT", ".")
@@ -47,8 +45,8 @@ const SearchView: React.FC = (): JSX.Element => {
         .replace(" COLON", ":")
         .replace(" SEMICOLON", ";")
         .replace(" SEMI COLON", ";")
-        .toLowerCase()
-      const casedTextContent = toSentenceCase(formattedTextContent)
+        .toLowerCase();
+      const casedTextContent = toSentenceCase(formattedTextContent);
       setTentativeQuery(casedTextContent);
       segment.words.forEach((word, index) => {
         const wordIndex = index - 1

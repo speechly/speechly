@@ -11,7 +11,7 @@ type ResultObject = {
 
 type QueryValue = {
   query: string;
-  setQuery: (query: string) => void;
+  setQuery: (string: string) => void;
   results: ResultObject[] | undefined;
   getResults: (string: string) => void;
 };
@@ -28,13 +28,11 @@ export const SearchContextProvider = ({ children }: Props) => {
   const { REACT_APP_KEY, REACT_APP_ID } = process.env // todo: move these somewhere better
 
   const getResults = (string: string) => {
+    if (query === string) return
     const q = new URLSearchParams(string).toString()
     fetch(`https://customsearch.googleapis.com/customsearch/v1?key=${REACT_APP_KEY}&cx=${REACT_APP_ID}&safe=active&q=${q}`)
       .then(res => res.json())
-      .then(res => {
-        console.log('google:', string, res.items);
-        setResults(res.items);
-      })
+      .then(res => setResults(res.items))
       .catch(e => console.warn(e));
   }
 
