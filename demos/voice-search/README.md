@@ -1,6 +1,8 @@
 # Speechly voice search demo
 
-Demonstrates how to use Speechly and Google Custom Search API to create a voice-enabled search enginge. See below for [steps](#requirements) to build the demo yourself.
+https://demos.speechly.com/voice-search/
+
+Demonstrates how to use Speechlys speehc-to-text capabilities and Googles Custom Search API to create a voice-enabled search enginge. It supports continuous searching using voice as well as basic punctuation.
 
 ## Requirements
 
