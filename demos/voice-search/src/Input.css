@@ -68,7 +68,7 @@
 }
 
 .Input--small {
-  height: 40px;
+  height: 44px;
   max-width: 480px;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .Input--small .Input__textfield {
-  padding: 0 48px 0 36px;
+  padding: 0 48px 0 38px;
   font-size: 14px;
 }
 
@@ -87,8 +87,8 @@
 .Input--small .Input__handled {
   width: 16px;
   height: 16px;
-  top: 12px;
-  left: 12px;
+  top: 14px;
+  left: 14px;
 }
 
 .Input--small .Input__button {

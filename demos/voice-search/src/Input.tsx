@@ -36,7 +36,7 @@ export const Input: React.FC <{
 
   const containerClasses = small ? "Input Input--small" : "Input"
   const inputClasses = isActive ? "Input__textfield Input__textfield--active" : "Input__textfield"
-  const buttonSize = small ? "32px" : "48px"
+  const buttonSize = small ? "36px" : "48px"
 
   return (
     <div className={containerClasses}>
