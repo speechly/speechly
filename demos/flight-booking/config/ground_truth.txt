@@ -13,7 +13,7 @@
 *book book a flight [from|from](from_prepo) [new york|new york](from) [to|to](to_prepo) [berlin|berlin](to) starting [tomorrow|2021-11-26](depart) and returning on [friday|2021-11-26](return)
 *book select [round trip|round trip](round_trip)
 *book return [thirty november twenty twenty two|2022-11-30](return)
-*book passengers [five|5](passengers) [high|high](class) class
+*book passengers [five|5](passengers) [high|first](class) class
 *book check [direct|direct](direct) only
 *book active [direct|direct](direct) only
 *book enable [direct|direct](direct) only
@@ -48,3 +48,11 @@
 *book [one way|one way](one_way) flight [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) departure the [first of august two thousand and twenty two|2022-08-01](depart) and for [one|1](passengers) passenger only
 *book [three|3](passengers) passengers [first|first](class) class
 *book departing on [tuesday next week|2021-11-30](depart)
+*book i'd like the destination to be copenhagen
+*book search for flights
+*book i'd like to book a ticket for [three|3](passengers) adults [from|from](from_prepo) [london|london](from) [to|to](to_prepo) [paris|paris](to) [without a transit|without a transit](direct) in [high|first](class) class
+*book i'd like to book a [one way|one way](one_way) [economy flex|economy](class) flight [between|between](from_prepo) [london|london](from) [and|and](to_prepo) [paris|paris](to)
+*book i want to search for a flight that departs [from|from](from_prepo) [london|london](from) on [july third|2022-07-03](depart) and comes back [to|to](to_prepo) [berlin|berlin](to) on [july tenth|2022-07-10](depart) for [two|2](passengers) adults in [standard|economy](class) class
+*clear reset the search
+*book start over my search
+*book [uncheck direct flights|uncheck direct flights](nondirect)

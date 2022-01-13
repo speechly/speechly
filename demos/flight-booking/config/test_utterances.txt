@@ -1,4 +1,4 @@
-from new york to berlin
+                                                                                                                                                                                                           from new york to berlin
 for seven passengers
 one way flight from london to paris for two people in business class
 departure date tomorrow and return the day after tomorrow
@@ -48,3 +48,11 @@ departure next week
 one way flight from london to paris departure the first of august two thousand and twenty two and for one passenger only
 three passengers first class
 departing on tuesday next week
+i'd like the destination to be copenhagen
+search for flights
+i'd like to book a ticket for three adults from london to paris without a transit in high class
+i'd like to book a one way economy flex flight between london and paris 
+i want to search for a flight that departs from london on july third and comes back to berlin on july tenth for two adults in standard class
+reset the search
+start over my search
+uncheck direct flights
