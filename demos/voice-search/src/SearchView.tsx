@@ -59,6 +59,7 @@ const SearchView: React.FC = (): JSX.Element => {
       });
       if (segment.isFinal) {
         setText(casedTextContent);
+        window.postMessage({ type: "speechhandled", success: true }, "*");
         setPrevWordIndex(-1);
         !results && getResults(casedTextContent);
       }

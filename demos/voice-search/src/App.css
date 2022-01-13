@@ -7,10 +7,3 @@
   left: 0;
 }
 
-.TranscriptContainer {
-  position: absolute;
-  bottom: 20px;
-  left: 32px;
-  z-index: 999;
-  height: 32px;
-}

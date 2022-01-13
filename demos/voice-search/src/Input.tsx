@@ -1,5 +1,5 @@
 import React from "react";
-import { PushToTalkButton } from "@speechly/react-ui";
+import { BigTranscript, PushToTalkButton } from "@speechly/react-ui";
 import "./Input.css";
 import searchIconGray from "./assets/search-gray.svg";
 import closeIconGray from "./assets/close-gray.svg";
@@ -30,6 +30,13 @@ export const Input: React.FC <{
           size={buttonSize}
           showTime={2000}
           tapToTalkTime={0}
+        />
+      </div>
+      <div className="Input__transcript">
+        <BigTranscript
+          highlightColor="#009FFA"
+          backgroundColor="#30465c"
+          marginBottom="0px"
         />
       </div>
     </div>

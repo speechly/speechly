@@ -54,6 +54,13 @@
   right: 8px;
 }
 
+.Input__transcript {
+  position: absolute;
+  bottom: -40px;
+  left: 12px;
+  z-index: 999;
+}
+
 .Input--small {
   height: 40px;
   max-width: 480px;
