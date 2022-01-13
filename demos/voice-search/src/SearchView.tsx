@@ -80,8 +80,8 @@ const SearchView: React.FC = (): JSX.Element => {
   return (
     <div className="SearchView">
       <div className="Navigation">
-        {results && (
-          <div className="Navigation__left">
+        <div className="Navigation__left">
+          {results && (
             <Input
               small
               value={tentativeQuery}
@@ -89,8 +89,8 @@ const SearchView: React.FC = (): JSX.Element => {
               onChangeFn={handleChange}
               onKeyPressFn={handleKeyPress}
             />
-          </div>
-        )}
+          )}
+        </div>
         <div className="Navigation__right">
           <div className="Navigation__item Navigation__item--active">
             <img src={searchIcon} alt="icon" />
