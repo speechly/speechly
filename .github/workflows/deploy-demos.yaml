@@ -47,6 +47,9 @@ jobs:
         run: node common/scripts/install-run-rush.js link
       - name: Build Project
         run: node common/scripts/install-run-rush.js rebuild --verbose
+        env:
+          REACT_APP_VOICE_SEARCH_API_KEY: ${{ secrests.VOICE_SEARCH_API_KEY }}
+          REACT_APP_VOICE_SEARCH_ENGINE_ID: ${{ secrests.VOICE_SEARCH_ENGINE_ID }}
       - name: Prepare deployment directory
         run: mkdir -p tmp-upload-staging-area &&
             cp -r demos/ecommerce-checkout/build/ tmp-upload-staging-area/checkout &&
