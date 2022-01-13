@@ -33,10 +33,12 @@
 }
 
 .Input__textfield:active,
-.Input__textfield:focus {
+.Input__textfield:focus,
+.Input__textfield--active {
   outline: 0;
   background-color: #21303e;
-  border-color: #4a6c8e;
+  border-color: #0a79ba;
+  box-shadow: 0 0 0 1px #0a79ba;
 }
 
 .Input__icon {
@@ -54,11 +56,15 @@
   right: 8px;
 }
 
-.Input__transcript {
+.Input__handled {
+  background-color: #1F2D3B;
   position: absolute;
-  bottom: -40px;
-  left: 12px;
-  z-index: 999;
+  width: 24px;
+  height: 24px;
+  top: 20px;
+  left: 20px;
+  opacity: 1;
+  animation: fadeInOut ease 1.5s forwards;
 }
 
 .Input--small {
@@ -77,7 +83,8 @@
   font-size: 14px;
 }
 
-.Input--small .Input__icon {
+.Input--small .Input__icon,
+.Input--small .Input__handled {
   width: 16px;
   height: 16px;
   top: 12px;
@@ -87,4 +94,15 @@
 .Input--small .Input__button {
   top: 4px;
   right: 4px;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  15%, 65% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

@@ -1,8 +1,9 @@
-import React from "react";
-import { BigTranscript, PushToTalkButton } from "@speechly/react-ui";
+import React, { useCallback, useEffect, useState } from "react";
+import { PushToTalkButton } from "@speechly/react-ui";
 import "./Input.css";
 import searchIconGray from "./assets/search-gray.svg";
 import closeIconGray from "./assets/close-gray.svg";
+import checkIcon from "./assets/check.svg";
 
 export const Input: React.FC <{
   value: string,
@@ -11,32 +12,49 @@ export const Input: React.FC <{
   onChangeFn: (e: React.ChangeEvent<HTMLInputElement>) => void,
   onKeyPressFn: (e: React.KeyboardEvent<HTMLInputElement>) => void,
 }> = ({ value, small, clearFn, onChangeFn, onKeyPressFn }) => {
-  const classes = small ? "Input Input--small" : "Input"
+  const [isActive, setIsActive] = useState(false);
+  const [isHandled, setIsHandled] = useState(false);
+
+  const onMessageReceived = useCallback(
+    event => {
+      if (event.data?.type === "holdstart") setIsActive(true);
+      if (event.data?.type === "holdend") setIsActive(false);
+      if (event.data?.type === "speechhandled") setIsHandled(true);
+    }, []);
+
+  useEffect(() => {
+    window.addEventListener("message", onMessageReceived);
+    return () =>
+      window.removeEventListener("message", onMessageReceived);
+  }, [onMessageReceived]);
+
+  useEffect(() => {
+    if (!isHandled) return
+    const timer = setTimeout(() => setIsHandled(false), 1500);
+    return () => clearTimeout(timer);
+  }, [isHandled])
+
+  const containerClasses = small ? "Input Input--small" : "Input"
+  const inputClasses = isActive ? "Input__textfield Input__textfield--active" : "Input__textfield"
   const buttonSize = small ? "32px" : "48px"
 
   return (
-    <div className={classes}>
+    <div className={containerClasses}>
       <input
-        className="Input__textfield"
+        className={inputClasses}
         placeholder="Search the web"
         onChange={onChangeFn}
         value={value}
         onKeyPress={onKeyPressFn}
       />
       <img className="Input__icon" src={value ? closeIconGray : searchIconGray} alt="icon" onClick={() => clearFn()} />
+      {isHandled && <img className="Input__handled" src={checkIcon} alt="icon" />}
       <div className="Input__button">
         <PushToTalkButton
           gradientStops={["#508CFF", "#009FFA", "#00E48F"]}
           size={buttonSize}
           showTime={2000}
           tapToTalkTime={0}
-        />
-      </div>
-      <div className="Input__transcript">
-        <BigTranscript
-          highlightColor="#009FFA"
-          backgroundColor="#30465c"
-          marginBottom="0px"
         />
       </div>
     </div>
