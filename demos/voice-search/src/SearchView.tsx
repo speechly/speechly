@@ -52,7 +52,7 @@ const SearchView: React.FC = (): JSX.Element => {
       setTentativeQuery(casedTextContent);
       segment.words.forEach((word, index) => {
         const wordIndex = index - 1
-        if (prevWordIndex < wordIndex) {
+        if (word.isFinal && prevWordIndex < wordIndex) {
           setPrevWordIndex(wordIndex);
           results && getResults(casedTextContent);
         }
