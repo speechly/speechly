@@ -55,6 +55,7 @@ export const Input: React.FC <{
           size={buttonSize}
           showTime={2000}
           tapToTalkTime={0}
+          intro={small ? "" : "Hold to Talk"}
         />
       </div>
     </div>
