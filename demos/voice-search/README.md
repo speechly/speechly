@@ -2,11 +2,12 @@
 
 https://demos.speechly.com/voice-search/
 
-Demonstrates how to use Speechlys speehc-to-text capabilities and Googles Custom Search API to create a voice-enabled search enginge. It supports continuous searching using voice as well as basic punctuation.
+Demonstrates how to use Speechlys speech-to-text capabilities and [Google Programmable Search Engine](https://programmablesearchengine.google.com/)to create a voice-enabled search enginge. It supports continuous searching using voice as well as basic punctuation.
 
 ## Requirements
 
 * [Node](https://nodejs.org/) (tested with v16.13.0)
+* [Google Programmable Search Engine](https://programmablesearchengine.google.com/)
 
 ### Built With
 
@@ -15,6 +16,17 @@ Demonstrates how to use Speechlys speehc-to-text capabilities and Googles Custom
 * [Typescript](https://www.typescriptlang.org/)
 
 Speechly React Client wraps [Speechly Browser Client](https://www.npmjs.com/package/@speechly/react-voice-forms/browser-client) that provides websocket connectivity and audio handling.
+
+## Setting up Google Programmable Search Engine
+
+1. Create a new [programmable search engine](https://programmablesearchengine.google.com/)
+1. Obtain the `API Key` and `Search Engine ID`
+1. Store them in a `.env` file in the directory root, like this:
+
+```bash
+REACT_APP_VOICE_SEARCH_API_KEY=<your-api-key>
+REACT_APP_VOICE_SEARCH_ENGINE_ID=<your-search-engine-id>
+```
 
 ## Installation And Running (stand-alone)
 
