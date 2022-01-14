@@ -2,7 +2,7 @@
 
 https://demos.speechly.com/voice-search/
 
-Demonstrates how to use Speechlys speech-to-text capabilities and [Google Programmable Search Engine](https://programmablesearchengine.google.com/)to create a voice-enabled search enginge. It supports continuous searching using voice as well as basic punctuation.
+Demonstrates how to use Speechlys speech-to-text capabilities and [Google Programmable Search Engine](https://programmablesearchengine.google.com/) to create a voice-enabled search enginge. It supports continuous searching using voice as well as basic punctuation.
 
 ## Requirements
 
