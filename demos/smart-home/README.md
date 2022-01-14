@@ -1,5 +1,7 @@
 # Smart Home Demo
 
+https://demos.speechly.com/smart-home/
+
 Voice control for home smart devices with a web app.
 
 You can say...
