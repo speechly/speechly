@@ -1,10 +1,6 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@babel/plugin-proposal-class-properties': ~7.16.7
-  '@babel/preset-flow': ~7.16.7
-  '@rollup/plugin-babel': ~5.3.0
-  '@rollup/plugin-commonjs': ^17.0.0
   '@rollup/plugin-typescript': ^8.2.1
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:./projects/browser-client-example.tgz
@@ -74,10 +70,6 @@ specifiers:
   uuid: ^8.0.0
 
 dependencies:
-  '@babel/plugin-proposal-class-properties': 7.16.7
-  '@babel/preset-flow': 7.16.7
-  '@rollup/plugin-babel': 5.3.0
-  '@rollup/plugin-commonjs': 17.1.0
   '@rollup/plugin-typescript': 8.3.0_typescript@4.5.2
   '@rush-temp/browser-client': file:projects/browser-client.tgz_ts-node@10.4.0
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz_ts-node@10.4.0
@@ -2471,21 +2463,6 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
-  /@rollup/plugin-babel/5.3.0:
-    resolution: {integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==}
-    engines: {node: '>= 10.0.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/babel__core': ^7.1.9
-      rollup: ^1.20.0||^2.0.0
-    peerDependenciesMeta:
-      '@types/babel__core':
-        optional: true
-    dependencies:
-      '@babel/helper-module-imports': 7.16.0
-      '@rollup/pluginutils': 3.1.0
-    dev: false
-
   /@rollup/plugin-babel/5.3.0_rollup@2.63.0:
     resolution: {integrity: sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw==}
     engines: {node: '>= 10.0.0'}
@@ -2500,21 +2477,6 @@ packages:
       '@babel/helper-module-imports': 7.16.0
       '@rollup/pluginutils': 3.1.0_rollup@2.63.0
       rollup: 2.63.0
-    dev: false
-
-  /@rollup/plugin-commonjs/17.1.0:
-    resolution: {integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^2.30.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      glob: 7.2.0
-      is-reference: 1.2.1
-      magic-string: 0.25.7
-      resolve: 1.20.0
     dev: false
 
   /@rollup/plugin-commonjs/17.1.0_rollup@2.63.0:
@@ -14341,7 +14303,7 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-sMM8XJd0ECmY4HSAp+ybXuKbl7bvqgYgknnLbubzDuvRsz3x1mBiSc+krI9T28IjyP7WrLv1YtWWJrl8mjktoQ==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-csGf4qqlpLhpvgiFmHNQWmGLoi88EB0/yXNnCjeFcLZh5EyWVZkQ5zFg8wgXaooDH+Vhr4Zc2S/IMYjy5QC44w==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
@@ -14372,6 +14334,7 @@ packages:
       prettier: 2.4.1
       rimraf: 3.0.2
       rollup: 2.63.0
+      rollup-plugin-terser: 7.0.2_rollup@2.63.0
       ts-jest: 26.5.6_jest@26.6.0+typescript@4.5.2
       ts-loader: 9.2.6_typescript@4.5.2
       tsc-watch: 4.5.0_typescript@4.5.2
@@ -14381,8 +14344,7 @@ packages:
       typescript: 4.5.2
       uuid: 8.3.2
     transitivePeerDependencies:
-      - '@babel/core'
-      - '@types/babel__core'
+      - acorn
       - bufferutil
       - canvas
       - supports-color
