@@ -2,7 +2,6 @@
   "name": "@speechly/browser-client",
   "version": "1.1.0",
   "description": "Browser client for Speechly API",
-  "private": true,
   "keywords": [
     "client",
     "voice",
@@ -44,9 +43,12 @@
   "bugs": {
     "url": "https://github.com/speechly/speechly/issues"
   },
-  "main": "./dist/speechly.umd.js",
-  "module": "./dist/speechly.es.js",
-  "types": "./dist/types/index.d.ts",
+  "files": [
+    "core/**/*"
+  ],
+  "main": "./core/speechly.umd.min.js",
+  "module": "./core/speechly.es.js",
+  "types": "./core/types/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {

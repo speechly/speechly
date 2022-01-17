@@ -10,7 +10,7 @@ const esmBundle = {
     name: 'Speechly',
     format: 'esm', // ES Modules
     sourcemap: true,
-    file: 'dist/speechly.es.js',
+    file: 'core/speechly.es.js',
   },
   plugins: [
     commonjs(),
@@ -26,7 +26,7 @@ const umdMinBundle = {
     name: 'Speechly',
     format: 'umd',
     sourcemap: true,
-    file: 'dist/speechly.umd.min.js',
+    file: 'core/speechly.umd.min.js',
   },
   plugins: [
     commonjs(),

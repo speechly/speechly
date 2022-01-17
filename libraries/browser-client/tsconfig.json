@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "core",
     "target": "es6",
     "module": "ESNext",
     "moduleResolution": "node",
