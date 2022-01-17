@@ -1,9 +1,9 @@
 {
   "name": "@speechly/react-client-example",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@speechly/react-client": ">=0.0.22",
+    "@speechly/react-client": ">=1.0.0",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1"
   },
