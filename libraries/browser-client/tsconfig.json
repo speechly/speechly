@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "core",
-    "target": "es6",
-    "module": "ESNext",
+    "target": "ES2015",
+    "module": "ES2015",
     "moduleResolution": "node",
     "declaration": true,
     "declarationDir": "types",
