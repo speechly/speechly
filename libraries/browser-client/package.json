@@ -44,8 +44,9 @@
   "bugs": {
     "url": "https://github.com/speechly/speechly/issues"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/speechly.umd.js",
+  "module": "./dist/speechly.es.js",
+  "types": "./dist/types/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
