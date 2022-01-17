@@ -1,7 +1,7 @@
 {
   "name": "@speechly/browser-client-example",
   "homepage": "https://speechly.github.io/browser-client-example",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@speechly/browser-client": ">=1.1.0",
