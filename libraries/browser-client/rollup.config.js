@@ -1,5 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
+import babel from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 
 const typeScriptDefaults = {
   output: {
@@ -7,8 +9,13 @@ const typeScriptDefaults = {
     sourcemap: true,
   },
   plugins: [
+    commonjs(),
     typescript({ tsconfig: './tsconfig.json' }),
-    nodeResolve()
+    nodeResolve(),
+    babel({
+      plugins: ['@babel/plugin-proposal-class-properties'],
+      presets: ['@babel/preset-flow'],
+    }),
   ],
 };
 
