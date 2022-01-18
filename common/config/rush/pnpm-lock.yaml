@@ -1,8 +1,6 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@rollup/plugin-commonjs': ^17.0.0
-  '@rollup/plugin-node-resolve': ^11.0.0
   '@rollup/plugin-typescript': ^8.2.1
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:./projects/browser-client-example.tgz
@@ -56,12 +54,10 @@ specifiers:
   react-scripts: ^4.0.3
   react-spring: ^8.0.27
   rimraf: ^3.0.2
-  rollup: ^2.3.4
   rollup-plugin-copy-watch: '>=0.0.1'
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
   rollup-plugin-svelte: ^7.0.0
-  rollup-plugin-terser: ^7.0.0
   sirv-cli: ^1.0.0
   source-map-explorer: ^2.5.2
   styled-components: '>=5.3.3'
@@ -70,14 +66,11 @@ specifiers:
   svelte-preprocess: ^4.0.0
   ts-jest: 26.5.6
   ts-node: '>=9.0.0'
-  tslib: ^2.1.0
   typescript: ^4.3.5
   uuid: ^8.0.0
 
 dependencies:
-  '@rollup/plugin-commonjs': 17.1.0_rollup@2.60.0
-  '@rollup/plugin-node-resolve': 11.2.1_rollup@2.60.0
-  '@rollup/plugin-typescript': 8.3.0_8237b289b1560ac087923ea403810077
+  '@rollup/plugin-typescript': 8.3.0_typescript@4.5.2
   '@rush-temp/browser-client': file:projects/browser-client.tgz_ts-node@10.4.0
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz_ts-node@10.4.0
   '@rush-temp/browser-ui': file:projects/browser-ui.tgz
@@ -130,12 +123,10 @@ dependencies:
   react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
   rimraf: 3.0.2
-  rollup: 2.60.0
   rollup-plugin-copy-watch: 0.0.1
-  rollup-plugin-css-only: 3.1.0_rollup@2.60.0
+  rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
-  rollup-plugin-svelte: 7.1.0_rollup@2.60.0+svelte@3.44.2
-  rollup-plugin-terser: 7.0.2_rollup@2.60.0
+  rollup-plugin-svelte: 7.1.0_svelte@3.44.2
   sirv-cli: 1.0.14
   source-map-explorer: 2.5.2
   styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
@@ -144,7 +135,6 @@ dependencies:
   svelte-preprocess: 4.9.8_svelte@3.44.2+typescript@4.5.2
   ts-jest: 26.5.6_jest@26.6.0+typescript@4.5.2
   ts-node: 10.4.0_typescript@4.5.2
-  tslib: 2.3.1
   typescript: 4.5.2
   uuid: 8.3.2
 
@@ -2904,6 +2894,22 @@ packages:
       rollup: 2.60.0
     dev: false
 
+  /@rollup/plugin-commonjs/21.0.1_rollup@2.63.0:
+    resolution: {integrity: sha512-EA+g22lbNJ8p5kuZJUYyhhDK7WgJckW5g4pNN7n4mAFUM96VuwUnNT3xr2Db2iCZPI1pJPbGyfT5mS9T1dHfMg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^2.38.3
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.63.0
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 7.2.0
+      is-reference: 1.2.1
+      magic-string: 0.25.7
+      resolve: 1.20.0
+      rollup: 2.63.0
+    dev: false
+
   /@rollup/plugin-node-resolve/11.2.1_rollup@2.60.0:
     resolution: {integrity: sha512-yc2n43jcqVyGE2sqV5/YCmocy9ArjVAP/BeXyTtADTBBX6V0e5UMqwO8CdQ0kzjb6zu5P1qMzsScCMRvE9OlVg==}
     engines: {node: '>= 10.0.0'}
@@ -2917,6 +2923,21 @@ packages:
       is-module: 1.0.0
       resolve: 1.20.0
       rollup: 2.60.0
+    dev: false
+
+  /@rollup/plugin-node-resolve/13.1.3_rollup@2.63.0:
+    resolution: {integrity: sha512-BdxNk+LtmElRo5d06MGY4zoepyrXX1tkzX2hrnPEZ53k78GuOMWLqmJDGIIOPwVRIFZrLQOo+Yr6KtCuLIA0AQ==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      rollup: ^2.42.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.63.0
+      '@types/resolve': 1.17.1
+      builtin-modules: 3.2.0
+      deepmerge: 4.2.2
+      is-module: 1.0.0
+      resolve: 1.20.0
+      rollup: 2.63.0
     dev: false
 
   /@rollup/plugin-node-resolve/7.1.3_rollup@1.32.1:
@@ -2958,6 +2979,30 @@ packages:
       typescript: 4.5.2
     dev: false
 
+  /@rollup/plugin-typescript/8.3.0_typescript@4.5.2:
+    resolution: {integrity: sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    dependencies:
+      '@rollup/pluginutils': 3.1.0
+      resolve: 1.20.0
+      typescript: 4.5.2
+    dev: false
+
+  /@rollup/pluginutils/3.1.0:
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.0
+    dev: false
+
   /@rollup/pluginutils/3.1.0_rollup@1.32.1:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
@@ -2980,6 +3025,18 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.0
       rollup: 2.60.0
+    dev: false
+
+  /@rollup/pluginutils/3.1.0_rollup@2.63.0:
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.0
+      rollup: 2.63.0
     dev: false
 
   /@rollup/pluginutils/4.1.1:
@@ -12018,6 +12075,15 @@ packages:
       is-plain-object: 3.0.1
     dev: false
 
+  /rollup-plugin-css-only/3.1.0:
+    resolution: {integrity: sha512-TYMOE5uoD76vpj+RTkQLzC9cQtbnJNktHPB507FzRWBVaofg7KhIqq1kGbcVOadARSozWF883Ho9KpSPKH8gqA==}
+    engines: {node: '>=10.12.0'}
+    peerDependencies:
+      rollup: 1 || 2
+    dependencies:
+      '@rollup/pluginutils': 4.1.1
+    dev: false
+
   /rollup-plugin-css-only/3.1.0_rollup@2.60.0:
     resolution: {integrity: sha512-TYMOE5uoD76vpj+RTkQLzC9cQtbnJNktHPB507FzRWBVaofg7KhIqq1kGbcVOadARSozWF883Ho9KpSPKH8gqA==}
     engines: {node: '>=10.12.0'}
@@ -12051,6 +12117,18 @@ packages:
       svelte: 3.44.2
     dev: false
 
+  /rollup-plugin-svelte/7.1.0_svelte@3.44.2:
+    resolution: {integrity: sha512-vopCUq3G+25sKjwF5VilIbiY6KCuMNHP1PFvx2Vr3REBNMDllKHFZN2B9jwwC+MqNc3UPKkjXnceLPEjTjXGXg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      rollup: '>=2.0.0'
+      svelte: '>=3.5.0'
+    dependencies:
+      require-relative: 0.8.7
+      rollup-pluginutils: 2.8.2
+      svelte: 3.44.2
+    dev: false
+
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     peerDependencies:
@@ -12078,6 +12156,20 @@ packages:
       - acorn
     dev: false
 
+  /rollup-plugin-terser/7.0.2_rollup@2.63.0:
+    resolution: {integrity: sha512-w3iIaU4OxcF52UUXiZNsNeuXIMDvFrr+ZXK6bFZ0Q60qyVfq4uLptoS4bbq3paG3x216eQllFZX7zt6TIImguQ==}
+    peerDependencies:
+      rollup: ^2.0.0
+    dependencies:
+      '@babel/code-frame': 7.16.0
+      jest-worker: 26.6.2
+      rollup: 2.63.0
+      serialize-javascript: 4.0.0
+      terser: 5.10.0
+    transitivePeerDependencies:
+      - acorn
+    dev: false
+
   /rollup-pluginutils/2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
     dependencies:
@@ -12095,6 +12187,14 @@ packages:
 
   /rollup/2.60.0:
     resolution: {integrity: sha512-cHdv9GWd58v58rdseC8e8XIaPUo8a9cgZpnCMMDGZFDZKEODOiPPEQFXLriWr/TjXzhPPmG5bkAztPsOARIcGQ==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
+  /rollup/2.63.0:
+    resolution: {integrity: sha512-nps0idjmD+NXl6OREfyYXMn/dar3WGcyKn+KBzPdaLecub3x/LrId0wUcthcr8oZUAcZAR8NKcfGGFlNgGL1kQ==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -14595,7 +14695,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-ssE3gHsqr9GCJpZIFKdJ+fYItZTsmFj9X9agtwXfhdE7D/qORjo4x/UTK/JwC1Kjnf5sQCysuwrh239NfWQL/g==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-tMSe/cnGyv/iZG42dPjVXnAYQrWu0QsHXlOdwaxf7UHJSEZ0GdpE0e2s9CwNb9/5xRuLj9pac1Z+M8aORAgb0g==, tarball: file:projects/browser-client-example.tgz}
     id: file:projects/browser-client-example.tgz
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
@@ -14623,12 +14723,14 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-ezAh+tj1/BFDgFXHTEEgSt1QsOSZzqBHz/0HVntglktmjpKBZxdsx/qcCmOIHRg+jl7KBC29K9oCe1J21rHfTQ==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-baF8Ngoe68wcH9Y/gIJg0fTM9dNzOBjXATRW7lwAcYdgF6KtjhswABg4rb7ECv3h+ZNBvESukR3+iLGcebP5OA==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.63.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.63.0
       '@types/base-64': 0.1.3
       '@types/jest': 25.2.3
       '@types/uuid': 7.0.5
@@ -14648,14 +14750,18 @@ packages:
       minimist: 1.2.5
       prettier: 2.4.1
       rimraf: 3.0.2
+      rollup: 2.63.0
+      rollup-plugin-terser: 7.0.2_rollup@2.63.0
       ts-jest: 26.5.6_jest@26.6.0+typescript@4.5.2
       ts-loader: 9.2.6_typescript@4.5.2
       tsc-watch: 4.5.0_typescript@4.5.2
+      tslib: 2.3.1
       typedoc: 0.21.9_typescript@4.5.2
       typedoc-plugin-markdown: 3.11.7_typedoc@0.21.9
       typescript: 4.5.2
       uuid: 8.3.2
     transitivePeerDependencies:
+      - acorn
       - bufferutil
       - canvas
       - supports-color
@@ -14665,7 +14771,7 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-iv0LiRgPkdSxoamu4geW26E9aKb+FjNxQQxZzeL2DdJOwGs6WKDwXPCz0TokWf/1LLZPxJrjObSEsgJyjMvC9g==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-bKXhZfxvQk7ve5Yaw0xrFJWGZfHEwthOzbKfsCO/ESizvQiEdjWEMqJWQqGgH4G16tunQQc2jGiJ7Uk2wok8aQ==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
@@ -14708,7 +14814,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-F8szwDTYXS+8LSqf5l1pKhy+X2cs1WE0+YaxMgHw3yF54VbfICjcwkz0awsl15LTRxWiBLNdRxHhS5FKflv3Dw==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-nRGnurt5F+ChdQjVd2MwH5qoQf4ZVEfmK+hOy3guAslDqPqDPhv8+/RF3EEPIaxBX7DMUSTcPbVYKWJeJObdHg==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -14747,7 +14853,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-S2u5/hsePdz7lXNWrqftt7FZw4FPZGtkJZ39URz0ZiHX1NTnN+5L7UUSrHiSY0Ou3t7ONfh345baH5+c47o1wQ==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-OFOfpI0h8Lfd9GTQ0qbWgfe4fzhXzsaarlq7ezkYINqF+T3tWxMooAUwHrcJV0iaRc3SCieoJWyDhoNz9V8qdQ==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -14797,7 +14903,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-b1qIIgJUM/fdy/0HHg5EB99/22AYa41hHrFmBeGuE8bgnEoS3p58fG9PMIsnnWw9iWzVNKSUmsKzBtQLol3mhQ==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-/p5g9PBkEHSq4axNf4bp/qt2qeIyl7NFVhvONSD043HRQnW5omWw0RAUcDKqCUCa2qZmVjoq2QAZbAKbVxTZHA==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -14836,7 +14942,7 @@ packages:
     dev: false
 
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-XcoVkYjtBCgeHqiGyD0p0edUVkNBXNaupqNOuwlJFJEB8phS3Mwt8JE48erOe2cLTPIkr03Np9U8axfA0FC9dQ==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-sUOnvIHY/2cW5cpjxtLxBhvPr1TTBQffsdcdrFBhqY3/SWslCGOsMqRU0bAzlNRcVKaUxk1rYXkzSXqheTIedQ==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
@@ -14849,7 +14955,7 @@ packages:
     dev: false
 
   file:projects/react-client-example.tgz_ts-node@10.4.0+typescript@4.5.2:
-    resolution: {integrity: sha512-xb6nj9gXhlxnHFgyIi4vH3lNqd5CKxii6VH1LOxvEz2qWWU6jfoMSBUn05+e/o1AslZuZQx7plPvOiGzF2k+Jg==, tarball: file:projects/react-client-example.tgz}
+    resolution: {integrity: sha512-BCDwZBBs1ebQIPMQDsgruTNJN1n1JSjXyJ6/NXhF+dGp7wCGo44veXx98TDYtYy5iP0l2P/4okiYhB8v4m0PUQ==, tarball: file:projects/react-client-example.tgz}
     id: file:projects/react-client-example.tgz
     name: '@rush-temp/react-client-example'
     version: 0.0.0
@@ -14878,7 +14984,7 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-AK2plRRH+MfzWzV0XNxyyrnlNsWhTnTafNzoGu4NOdDVanzT5cf11Wk5xizF9b7lWC74qVfGASeWaFW/EPJMBg==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-2tqvd069hfubcjaPFQV+l9bm8vh5q9nYfJbjlhO6yftcqXYE3Jeiaw3AQhAkdpowlYM3GaaDmQ7kjwfihT3rOg==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
@@ -14907,7 +15013,7 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-9tuFD+T6q1YXTiUNxnEyRUrCv2HuB42wCofFRe93UVOcvuaxyOVmWmwdsb7M22TUf3Q+audnHKrrawmwE0DgzQ==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-dNgQmWRvjHaEIGDCZzQphfnWDvik2ouFuPEXx/jSoFiNFzkApymHyb9lCkHZIWANO4BQvc8FL8RWagezLMXOKA==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
@@ -14941,7 +15047,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-PDn0K5uO3a14R1s90lkwoUrU9DkCwLgNT1aOw8GdOYmhLM6c/HL2KoYC6snItEqyffNbOkQAGHObJFmjDZKvxw==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-upEZr+9LG0KxJ3GO2689z/3ZO0oYo3a+PBqBU7/cDt4h13KZRBXec3Zmi16oSHY9axGv9X1MXsbg5JSivE4cTA==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
@@ -14973,7 +15079,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms.tgz:
-    resolution: {integrity: sha512-6a+fVFvLYDRAf0i9x9VBeROzM6aZ5Se++aGzSiKGEYhZlLzwOjOnz47iSwmUvkKCXxNNlJRqU0V8fiYdO20aJA==, tarball: file:projects/react-voice-forms.tgz}
+    resolution: {integrity: sha512-zbPtPd92hfUq+hVOPtkFYIsAzXs6a3Fn1MkWjDJCgr14Yq3FfW+4M23HAiXd4mayZbIYCVFAfOtsUtk219yR2w==, tarball: file:projects/react-voice-forms.tgz}
     name: '@rush-temp/react-voice-forms'
     version: 0.0.0
     dependencies:
@@ -14989,7 +15095,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-NzvRqOjKyCoG9mdWkKm9Qcn90+Wreep1PAl7BIZidjjgv8Opd0ONt3pMWuXJn68zdzbOdxfAIoVj+bEWZdSMAw==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-WMEdctDrPGvEexFbxX+qMbiSKOgBW7bbRFI5FPE0XxpQe3I33kLS0Jt6hqVyNKAieaMoqHU+H/plsx3aG1J8Ew==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -15038,7 +15144,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-ivlVyUQl1IigSMoz+NHndhveWNl114J4IRu21x9BIKJWwz2mtNjFbD/ysDKSx4vMvsg+zYK+a44U20sRjIDMJA==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-XYt91XSJky5QzIDKJE2VaoLW4cKx552ZPPiynGgxcKAFn7GETb98lA92v1ijh7tZCCEGEqorsPKcxkRhEAyyTA==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0

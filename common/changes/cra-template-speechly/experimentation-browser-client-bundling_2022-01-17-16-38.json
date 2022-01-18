@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "cra-template-speechly",
+      "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "cra-template-speechly"
+}

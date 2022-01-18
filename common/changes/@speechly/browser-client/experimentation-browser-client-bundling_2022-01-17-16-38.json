@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "New browser-client package with two JS module bundles (ES & UMD) instead of CJS.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
