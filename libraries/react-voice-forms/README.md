@@ -1,9 +1,6 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com/#gh-light-mode-only">
+<a href="https://www.speechly.com">
    <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
-</a>
-<a href="https://www.speechly.com/#gh-dark-mode-only">
-   <img src="https://d33wubrfki0l68.cloudfront.net/5622420d87a4aad61e39418e6be5024c56d4cd1d/94452/img/speechly-logo-duo-white.svg" height="48" />
 </a>
 
 ### The Fast, Accurate, and Simple Voice Interface API
