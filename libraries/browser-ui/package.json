@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "scripts": {
     "build": "rollup -c --silent",
     "build:watch": "rollup -c --silent",
@@ -26,7 +26,7 @@
     "rollup-plugin-copy-watch": ">=0.0.1"
   },
   "dependencies": {
-    "@speechly/browser-client": ">=1.0.19"
+    "@speechly/browser-client": ">=1.1.0"
   },
   "files": [
     "core/**/*",

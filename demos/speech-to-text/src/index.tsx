@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 import { SpeechProvider } from "@speechly/react-client";
-import * as serviceWorker from './serviceWorker';
-import { LogKit } from "@speechly/logkit"
+import * as serviceWorker from "./serviceWorker";
+import { LogKit } from "@speechly/logkit";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +14,7 @@ ReactDOM.render(
       </LogKit>
     </SpeechProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

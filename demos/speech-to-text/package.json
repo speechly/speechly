@@ -4,8 +4,8 @@
   "private": true,
   "homepage": "/speech-to-text/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.35",
-    "@speechly/react-client": ">=0.0.22",
+    "@speechly/demo-navigation": "^0.1.36",
+    "@speechly/react-client": ">=1.1.0",
     "@speechly/react-ui": ">=2.1.2",
     "@speechly/logkit": ">=1.0.0",
     "react": ">=16.13.1",

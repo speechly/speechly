@@ -54,6 +54,7 @@ Body,Bodyt
 bodies,Bodyt
 Boots,Boots
 Boot,Boots
+Leather boots,Boots
 Bracelets,Bracelets
 Bracelet,Bracelets
 Bras,Bra
@@ -599,6 +600,8 @@ Flower shirts,Flower shirts
 Flower shirt,Flower shirts
 Shirts with flowers,Flower shirts
 Shirt with flowers,Flower shirts
+Clothing,Clothing
+Clothes,Clothing
 High heels,High heels
 Heels,High heels
 High heel shoes,High heels

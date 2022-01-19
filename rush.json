@@ -442,6 +442,10 @@
     {
       "packageName": "speech-to-text",
       "projectFolder": "demos/speech-to-text"
+    },
+    {
+      "packageName": "voice-search",
+      "projectFolder": "demos/voice-search"
     }
     // {
     //   /**

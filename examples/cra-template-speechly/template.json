@@ -4,7 +4,7 @@
       "analyze": "source-map-explorer 'build/static/js/*.js'"
     },
     "dependencies": {
-      "@speechly/react-client": ">=0.0.22",
+      "@speechly/react-client": ">=1.1.0",
       "@speechly/react-ui": ">=2.1.2",
       "@testing-library/react": "^9.3.2",
       "@testing-library/jest-dom": "^4.2.4",

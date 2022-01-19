@@ -3,6 +3,7 @@ node_modules/
 
 # Ignore distribution code.
 dist/
+core/
 
 # Ignore ESLint cache
 .eslintcache
