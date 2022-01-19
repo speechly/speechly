@@ -2,6 +2,7 @@ exclusive,price_desc
 most exclusive,price_desc
 exclusivity,price_desc
 luxurious,price_desc
+luxury,price_desc
 expensive,price_desc
 most expensive,price_desc
 price high to low,price_desc
@@ -23,5 +24,7 @@ popularity,popularity_desc
 best,popularity_desc
 top sellers,popularity_desc
 top seller,popularity_desc
+top selling,popularity_desc
 favorite,popularity_desc
-new,new_desc 
+new,new_desc
+latest,new_desc
