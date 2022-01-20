@@ -54,12 +54,14 @@ Body,Bodyt
 bodies,Bodyt
 Boots,Boots
 Boot,Boots
+Leather boots,Boots
 Bracelets,Bracelets
 Bracelet,Bracelets
 Bras,Bra
 Bra,Bra
 sports bra,Bra
 sports bras,Bra
+sport bras,Bra
 Caftans,Caftans
 Caftan,Caftans
 Caps,Caps
@@ -78,6 +80,8 @@ Chinos,Chinot
 Khakis,Chinot
 ginos,Chinot
 she knows,Chinot
+Christmas shirts,Christmas shirts
+Christmas shirt,Christmas shirts
 Sea shoe,Sea shoes
 Aquatic shoes,Sea shoes
 Aquatic shoe,Sea shoes
@@ -145,6 +149,13 @@ Earring,Earrings
 Fitness shoes,Fitness shoes
 Fleece,Fleece
 Gloves,Gloves
+Gym clothes,Gym clothing
+Workout gear,Gym clothing
+Workout,Gym clothing
+Yoga clothes,Gym clothing
+Yoga clothing,Gym clothing
+Yoga wear,Gym clothing
+Yoga accessories,Gym clothing
 Hair accessories,Hair accessories
 Handbags,Handbags
 Handbag,Handbags
@@ -192,11 +203,13 @@ leather insoles,Lace-up shoes
 ones with laces,Lace-up shoes
 Leather jackets,Leather jackets
 Leather jacket,Leather jackets
+Leather boots,Leather boots
 Leg warmers,Leg warmers
 Leggings,Leggings
 Leisurewear,Living clothes
 Leisure clothes,Living clothes
 Leisure clothing,Living clothes
+Long boots,Long boots
 Long skirts,Long skirts
 Long skirt,Long skirts
 Long sleeve dresses,Long sleeve dresses
@@ -234,8 +247,10 @@ Mini dresses,Minidresses
 Mini dress,Minidresses
 Short dress,Minidresses
 Short dresses,Minidresses
-Mini skirts,Miniskirts
-Mini skirt,Miniskirts
+Miniskirts,Minidresses
+Mini skirts,Minidresses
+Mini skirts,Minidresses
+Mini skirt,Minidresses
 Mittens,Mittens
 Necklaces,Necklaces
 Necklace,Necklaces
@@ -267,6 +282,8 @@ Dress for evening,Party dresses
 Evening gowns,Party dresses
 Dresses for evening,Party dresses
 Evening dresses,Party dresses
+Party clothes,Party clothes
+Party clothing,Party clothes
 Pilot jackets,Pilot jackets
 Pilot jacket,Pilot jackets
 Playsuits,Playsuits overalls
@@ -279,6 +296,9 @@ Pique shirt,Pique shirts
 Tennis shirts,Pique shirts
 Printed t-shirts,Printed t-shirts
 Printed t-shirt,Printed t-shirts
+Pocket shirts,Pocket shirts
+Shirts with pocket,Pocket shirts
+Shirt with pocket,Pocket shirts
 Rain pants,Rain pants
 Waterproof pants,Rain pants
 Water proof pants,Rain pants
@@ -292,6 +312,8 @@ waterproof jacket,Raincoats
 waterproof jackets,Raincoats
 sailing jackets,Raincoats
 sailing jacket,Raincoats
+Trenchcoat,Raincoats
+Trenchcoats,Raincoats
 Rainwear,Rainwear
 Waterproof clothing,Rainwear
 sailing clothes,Rainwear
@@ -334,6 +356,7 @@ Kicks,Shoes
 Shows,Shoes
 Short tops,Short tops
 Short top,Short tops
+Short trousers,Short trousers
 Short-sleeved shirts,Short sleeve shirts
 Short-sleeved shirt,Short sleeve shirts
 Short sleeve shirt,Short sleeve shirts
@@ -382,6 +405,8 @@ Low tops,Sneakers
 Low top sneakers,Sneakers
 Basketball shoes,Sneakers
 Golf shoes,Sneakers
+Jerseys,Jerseys for football and basketball
+basketball shorts,Basketball shorts
 Snowboard clothing,Snowboard clothing
 Snowboard clothes,Snowboard clothing
 Snowboarding clothes,Snowboard clothing
@@ -399,6 +424,8 @@ Gym bag,Sports bags
 Fitness bag,Sports bags
 Gym bags,Sports bags
 Fitness bags,Sports bags
+Sports clothes,Sports clothes
+Sport clothes,Sports clothes
 Sports glasses,Sports glasses
 Sports gloves,Sports gloves
 Sports jackets,Sports jackets
@@ -436,6 +463,8 @@ Coat for spring,Spring jackets
 Coats for spring,Spring jackets
 Jacket for spring,Spring jackets
 Jackets for spring,Spring jackets
+Strap shoes,Strap shoes
+Shoes with straps,Strap shoes
 Strings,Stringit
 Thongs,Stringit
 Thong,Stringit
@@ -447,6 +476,7 @@ Suit shoes,Costume shoes
 Dress shoes,Costume shoes
 Suit trousers,Suit trousers
 Suit pants,Suit trousers
+Slim fit pants,Suit trousers
 Suit vests,Suit vests
 Suit vest,Suit vests
 Suitcases,Suitcases
@@ -494,6 +524,7 @@ Knickers,Underpants
 Nickers,Underpants
 Undershirts,Undershirts
 Underwear,Underwear
+Underwears,Underwear
 Undies,Underwear
 Lingerie,Underwear
 Boxers,Underwear
@@ -509,6 +540,7 @@ Wallets,Wallets
 Wallet,Wallets
 Watches,Watches
 Watch,Watches
+Smart watch,Watches
 Weekend bags,Weekend bags
 Weekend bag,Weekend bags
 Wetsuits,Surf shirts and wetsuits
@@ -532,9 +564,11 @@ Winter clothing,Winter jackets
 Coats for winter,Winter jackets
 Winter shoes,Winter shoes
 Shoes for winter,Winter shoes
+Warmer shoes,Winter shoes
 Outdoor,Waterproof, Windproof and Breathable
 Gore tex,Waterproof, Windproof and Breathable
 GTX,Waterproof, Windproof and Breathable
+Waterproof hiking shoes,Waterproof, Windproof and Breathable
 Wrap dresses,Wrap dresses
 Wrap dress,Wrap dresses
 Wrapping skirts,Wrapping skirts
@@ -559,6 +593,15 @@ Bomber jacket,Bomber jackets
 Business,Business
 Work,Business
 Professional,Business
+Business casual,Business
+Clothing,Clothing
+Clothes,Clothing
+Flower shirts,Flower shirts
+Flower shirt,Flower shirts
+Shirts with flowers,Flower shirts
+Shirt with flowers,Flower shirts
+Clothing,Clothing
+Clothes,Clothing
 High heels,High heels
 Heels,High heels
 High heel shoes,High heels
@@ -574,16 +617,20 @@ Running pants,Running pants and leotards
 Running bottoms,Running pants and leotards
 jogging pants,Running pants and leotards
 jogging bottoms,Running pants and leotards
+Rubber bands,Rubber band
 Ski jackets,Ski jackets
 Ski jacket,Ski jackets
 Skiing jacket,Ski jackets
 Skiing jackets,Ski jackets
 Ski boots,Ski boots
+Ski shoes,Ski boots
+Shoes for ski,Ski boots
 Soccer shoes,Soccer shoes
 Football shoes,Soccer shoes
 Soccer cleats,Soccer shoes
 Football shoe,Soccer shoes
 Football boots,Soccer shoes
+Shoes for football,Soccer shoes
 Sweat pants,Sweat pants
 Joggers,Sweat pants
 Track pants,Sweat pants
@@ -591,6 +638,8 @@ Sweatpants,Sweat pants
 College pants,Sweat pants
 Biking shoes,Biking shoes
 Athletic shoes,Athletic shoes
+Training shoes,Training shoes
 Umbrellas,Umbrellas
 Winter boots,Winter boots
 Boots for winter,Winter boots
+Formal clothes,Formal clothing

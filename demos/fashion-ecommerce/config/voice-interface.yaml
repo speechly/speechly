@@ -1,4 +1,4 @@
-adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/fashion-demo-rnnt-adaptation-corpus-first-pass-5h47min.tar'
+adaptation_audio_package: '5B316F75-3A9B-4744-A8D9-80B4189F5B40'
 asr_biasing: moderate
 imports:
   - name: brand_alias

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}

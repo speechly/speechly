@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

@@ -1,17 +1,20 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header">
-   <img src="https://d33wubrfki0l68.cloudfront.net/5bc9877403d30310311abacf99edc95e4d1c1b7e/5ba20/img/speechly-logo-duo-black.png" height="48">
+<a href="https://www.speechly.com/#gh-light-mode-only">
+   <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
+</a>
+<a href="https://www.speechly.com/#gh-dark-mode-only">
+   <img src="https://d33wubrfki0l68.cloudfront.net/5622420d87a4aad61e39418e6be5024c56d4cd1d/94452/img/speechly-logo-duo-white.svg" height="48" />
 </a>
 
 ### The Fast, Accurate, and Simple Voice Interface API
 
-[Website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+[Website](https://www.speechly.com/)
 &ensp;|&ensp;
 [Docs](https://docs.speechly.com/)
 &ensp;|&ensp;
 [Discussions](https://github.com/speechly/speechly/discussions)
 &ensp;|&ensp;
-[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+[Blog](https://www.speechly.com/blog/)
 &ensp;|&ensp;
 [Podcast](https://anchor.fm/the-speechly-podcast)
 
@@ -40,6 +43,7 @@ This monorepository contains the source code of Speechly demos available at [htt
 
 | Folder | Description |
 | ------ | ------- |
+| [/demos/voice-search](/demos/voice-search) | [Voice Search](https://demos.speechly.com/voice-search) demonstrates how to use Speechly and Google Custom Search API to create a voice-enabled search enginge. |
 | [/demos/speech-to-text](/demos/speech-to-text) | [Speech-to-Text](https://demos.speechly.com/speech-to-text) app demonstrates Speechly API's automatic speech recognition (ASR). |
 | [/demos/smart-home](/demos/smart-home) | [Smart Home](https://smarthome.speechly.com) app demonstrates updating GUI in real-time by reacting to  intents and entities provided by Speechly API's streaming Natural Language Understanding (NLU). |
 | [/demos/flight-booking](/demos/flight-booking) | [Flight Booking](https://demos.speechly.com/booking) app demonstrates use of [`react-voice-forms`](./libraries/react-voice-forms) library to create a voice-enabled interface with text input field, dropdown and checkbox components. |

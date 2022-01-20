@@ -1,17 +1,17 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header">
-   <img src="https://d33wubrfki0l68.cloudfront.net/5bc9877403d30310311abacf99edc95e4d1c1b7e/5ba20/img/speechly-logo-duo-black.png" height="48">
+<a href="https://www.speechly.com">
+   <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
 </a>
 
 ### The Fast, Accurate, and Simple Voice Interface API
 
-[Website](https://www.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+[Website](https://www.speechly.com/)
 &ensp;|&ensp;
 [Docs](https://docs.speechly.com/)
 &ensp;|&ensp;
 [Discussions](https://github.com/speechly/speechly/discussions)
 &ensp;|&ensp;
-[Blog](https://www.speechly.com/blog/?utm_source=github&utm_medium=browser-client&utm_campaign=header)
+[Blog](https://www.speechly.com/blog/)
 &ensp;|&ensp;
 [Podcast](https://anchor.fm/the-speechly-podcast)
 
