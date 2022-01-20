@@ -1,4 +1,4 @@
-adaptation_audio_package: '5B316F75-3A9B-4744-A8D9-80B4189F5B40'
+adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/fashion-demo-rnnt-adaptation-corpus-first-pass-5h47min.tar'
 asr_biasing: moderate
 imports:
   - name: brand_alias
@@ -37,6 +37,12 @@ imports:
   - name: sort_key
     source: sort.csv
     field: 2
+  - name: filter_alias
+    source: filter.csv
+    field: 1
+  - name: filter_key
+    source: filter.csv
+    field: 2
 entities:
   - name: brand
     type: lookup
@@ -62,6 +68,10 @@ entities:
     type: lookup
     input_items: $sort_alias
     output_items: $sort_key
+  - name: filter
+    type: lookup
+    input_items: $filter_alias
+    output_items: $filter_key
 templates: |-
   color = $color_alias(colors)
   brand = $brand_alias(brand) 
@@ -69,10 +79,14 @@ templates: |-
   sex = $sex_alias(sex)
   size = $sizes_alias(sizes)
   sort = $sort_alias(sort)
+  filter = $filter_alias(filter)
   carrier_phrases = {0.1: now} [let's say|i'm interested in|i'm looking for|{[can you|will you]} show me|select|search {for}|display|filter by|find {me}|give me| [i want to | i'd like to | can i] [see|view|browse] | i want {to buy} | i need {to buy}]
-
+  open_carrier = [go to | navigate {to} | {[can you|will you]} [show|display] {me} | view | open | choose | take me to | direct me to | i want {to see} | i need {to see}]
+  what_carrier = [what's|what {[is|are]}]
+  search_carrier = [{that} {do} you have {please} | {have} you got {please}]
+  
   filter_first_part = ![{0.33: $color {[2: color | 1: colored]}} | {0.2: $sort} | {0.33: $sex} | {0.33: $brand} | {0.33: {size} $size}]
-  filter_second_part = ![{0.33: in $color} | {0.33: for $sex} | {0.33: [{made} by | from] $brand} | {0.33: [{that [are | is]} $sort | [{{and} can you} sort {it} | sorted] by $sort | {and} show {me} the {most} $sort {ones} first]} | {0.33: {[of | in]} size $size}]
+  filter_second_part = ![{0.33: in $color} | {0.33: for $sex} | {0.33: [{made} by | from] $brand} {only}| {0.33: [{that [are | is]} $sort | [{{and} can you} sort {it} | sorted] by $sort | {and} show {me} the {most} $sort {ones} first]} | {0.33: {[of | in]} size $size}]
 
   clear_utterances = [
     clear {all}
@@ -100,9 +114,9 @@ templates: |-
     10: *filter {$carrier_phrases {[a | some |new]}} {$filter_first_part} [0.9: $category | 0.1: [clothes | products | items]] $filter_second_part *clear $clear_utterances
     5: *clear {0.1: now} $clear_utterances *filter {$carrier_phrases} {[a | some |new]} $color $brand $category
     8: *filter {$carrier_phrases} {[a | some |new]} {$color} $brand $category *clear $clear_utterances
-    8: *filter {$carrier_phrases} {[a | some |new]} {$color} $brand $category *clear $clear_utterances *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand | $category | {for} $sex| {in} ![{size} | $size]]
-    7: *filter {$carrier_phrases} {[a | some |new]} $category {{[from|by]} $brand} *clear $clear_utterances
-    1: *hello [hello|hi|hey] {speechly} *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand | $category]
+    8: *filter {$carrier_phrases} {[a | some |new]} {$color} $brand $category *clear $clear_utterances *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand {only}| $category | {for} $sex| {in} ![{size} | $size]]
+    7: *filter {$carrier_phrases} {[a | some |new]} $category {{[from|by]} $brand {only}} *clear $clear_utterances
+    1: *hello [hello|hi|hey] {speechly} *filter {$carrier_phrases} ![{in} $color {color}| {[from|by]} $brand {only}| $category]
   ]
 
   filter_intents = [
@@ -111,13 +125,24 @@ templates: |-
     3: *filter {$carrier_phrases} $sex {designer} $category {please}
     6: *filter {$carrier_phrases {[a | some |new]}} {$filter_first_part} [0.9: $category | 0.1: [clothes | products | items]] $filter_second_part
     1: *filter $filter_second_part please
-    4: *filter {$carrier_phrases} {[a | some |new]} ![{in} $color {color}| {[from|by]} $brand | $category | {for} $sex | {in} ![{size} | $size]]
+    4: *filter {$carrier_phrases} {[a | some |new]} ![{in} $color {color}| {[from|by]} $brand {only}| $category | {for} $sex | {in} ![{size} | $size]]
     2: *filter [{for} $sex | {color} $color {ones} | $brand | $category | {size} $size]
   ]
 
+  open_intents = [
+    *open {$open_carrier} {$what_carrier} {[a | all {the}]} $filter {$search_carrier}
+    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier} 
+    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
+    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
+    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
+    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
+  ]
+  
   all_intents = [
     15: $filter_intents
     1: $hello_intents
     16: $multisegment_intents
+    15: $open_intents
   ]
+  
   $all_intents
