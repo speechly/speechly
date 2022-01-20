@@ -15,19 +15,19 @@ stuff,category
 brand,brand
 brands,brand
 brand options,brand
-colors,color
-color options,color
-color preferences,color
-color choices,color
-color alternatives,color
-color patterns,color
-sizes,size
-size options,size
-size preferences,size
-size choices,size
-size alternatives,size
-size range,size
-size ranges,size
+colors,colors
+color options,colors
+color preferences,colors
+color choices,colors
+color alternatives,colors
+color patterns,colors
+sizes,sizes
+size options,sizes
+size preferences,sizes
+size choices,sizes
+size alternatives,sizes
+size range,sizes
+size ranges,sizes
 sort options,sort
 sort preferences,sort
 sort choices,sort
