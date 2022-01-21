@@ -72,7 +72,7 @@ setTimeout(async function() {
 
 ## Usage with browsers
 
-This sample HTML displays a text field that you dictate text into. See browser's console log for raw segment data from Speechly.
+This sample HTML loads Speechly's `browser-client` ES modules via a CDN. It displays a text field that you dictate text into. See browser's console log for raw segment data from Speechly.
 
 Please use a HTML server to view the example. Running it as a file will not work due to browser's security restrictions. For example run `serve .` on command line and open `localhost:3000` in your browser.
 
