@@ -47,7 +47,7 @@ Start using the client:
 ```typescript
 import { Client, Segment } from '@speechly/browser-client'
 
-// Create a new Client. appId is configured in the dashboard.
+// Create a new Client. NOTE: Configure and get your appId from https://api.speechly.com/dashboard
 const client = new Client({appId: 'your-app-id'})
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -89,9 +89,9 @@ Please use a HTML server to view the example. Running it as a file will not work
       const widget = document.getElementById("textBox")
       let clientState = ClientState.Disconnected;
 
-      // Create a Speechly client instance and connect to a Speechly App ID
+      // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
       const client = new Client({
-        appId: "97225bcf-4968-4eed-a981-70b778ecf14c",
+        appId: "your-app-id",
         debug: true,
         logSegments: true,
       })
