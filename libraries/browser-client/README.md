@@ -30,7 +30,7 @@ Check out the [browser-client-example](https://github.com/speechly/speechly/tree
 
 NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
-## Usage
+## Usage with Node
 
 Install the package:
 
@@ -69,6 +69,73 @@ setTimeout(async function() {
   await client.stopContext()
 }, 3000)
 ```
+
+## Usage with browsers
+
+Here's a sample program that shows a text field. Tap and hold on the text field for Speechly to transcribe the speech and display it in browser console and the text field.
+
+Please use a simple HTML server (e.g. `serve .`) to view the example. Running it as a file will not work due to browser's security restrictions.
+
+```HTML
+<html>
+  <body>
+
+    <input id="textBox" type="text" placeholder="Hold to talk..." autofocus>
+
+		<script type="module">
+			// Load Speechly ES module from a CDN. Note script type="module"
+			import { Client, ClientState } from "https://unpkg.com/@speechly/browser-client/core/speechly.es.js"
+
+			const widget = document.getElementById("textBox")
+			let clientState = ClientState.Disconnected;
+
+			// Create a Speechly client instance and connect to a Speechly App ID
+			const client = new Client({
+			  appId: "97225bcf-4968-4eed-a981-70b778ecf14c",
+			  debug: true,
+			  logSegments: true,
+			})
+
+			client.onStateChange(state => {
+			  clientState = state;
+			});
+
+			client.onSegmentChange(segment => {
+			  // Clean up and concatenate words
+			  const transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
+			  // Set widget value to stranscript. Add trailing period upon segment end.
+			  widget.value = transcript + (segment.isFinal ? "." : "");
+			});
+
+			const startListening = async () => {
+			  switch (clientState) {
+			    case ClientState.Disconnected:
+			      await client.initialize();
+			      // fall through
+			    case ClientState.Connected:
+			      widget.value = "Listening..."
+			      client.startContext();
+			      break;
+			  }
+			}
+
+			const stopListening = () => {
+			  switch (clientState) {
+			    case ClientState.Starting:
+			    case ClientState.Recording:
+			      client.stopContext();
+			      break;
+			  }
+			}
+
+			// Bind start listening to a widget hold, release anywhere to stop
+			widget.addEventListener("mousedown", startListening)
+			document.addEventListener("mouseup", stopListening)
+		</script>
+  </body>
+  
+</html>
+
 
 ## Documentation
 
