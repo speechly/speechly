@@ -82,7 +82,7 @@ templates: |-
   filter = $filter_alias(filter)
   carrier_phrases = {0.1: now} [let's say|i'm interested in|i'm looking for|{[can you|will you]} show me|select|search {for}|display|filter by|find {me}|give me| [i want to | i'd like to | can i] [see|view|browse] | i want {to buy} | i need {to buy}]
   open_carrier = [go to | navigate {to} | {[can you|will you]} [show|display] {me} | view | open | choose | take me to | direct me to | i want {to see} | i need {to see}]
-  what_carrier = [what's|what {[is|are]}]
+  what_carrier = [what's| what | which {[is|are]}]
   search_carrier = [{that} {do} you have {please} | {have} you got {please}]
   
   filter_first_part = ![{0.33: $color {[2: color | 1: colored]}} | {0.2: $sort} | {0.33: $sex} | {0.33: $brand} | {0.33: {size} $size}]
@@ -131,11 +131,6 @@ templates: |-
 
   open_intents = [
     *open {$open_carrier} {$what_carrier} {[a | all {the}]} $filter {$search_carrier}
-    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier} 
-    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
-    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
-    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
-    *open {$open_carrier} {$what_carrier} {[all {the}]} $filter {$search_carrier}
   ]
   
   all_intents = [
