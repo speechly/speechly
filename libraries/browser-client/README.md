@@ -72,7 +72,7 @@ setTimeout(async function() {
 
 ## Usage with browsers
 
-This sample HTML loads Speechly's `browser-client` ES modules via a CDN. It displays a text field that you dictate text into. See browser's console log for raw segment data from Speechly.
+This sample HTML loads Speechly's `browser-client` ES modules via a CDN that mirrors npm packages. The page displays a text field that you dictate text into. See browser's console log for raw segment feed from Speechly.
 
 Please use a HTML server to view the example. Running it as a file will not work due to browser's security restrictions. For example run `serve .` on command line and open `localhost:3000` in your browser.
 
@@ -102,9 +102,10 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       client.onSegmentChange(segment => {
         // Clean up and concatenate words
-        const transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
-        // Set widget value to stranscript. Add trailing period upon segment end.
-        widget.value = transcript + (segment.isFinal ? "." : "");
+        let transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
+        // Add trailing period upon segment end.
+        if (segment.isFinal) transcript += ".";
+        widget.value = transcript;
       });
 
       const startListening = async () => {
