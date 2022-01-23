@@ -20,7 +20,7 @@
 
 # Speechly Browser UI components
 
-Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide a ready made UI to integrate Speechly API to a web site or app. Speechly UI is built as Web Components that can be used in most browsers via CDN or npm. Push-to-talk button component integrates [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so you don't need to include it separately.
+Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide a ready made UI to integrate Speechly API to a web site or app. Speechly UI is built as Web Components that can be used in most browsers via CDN or npm.
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API.
 
@@ -41,6 +41,8 @@ Include Web Components from a CDN that mirrors browser-ui npm package. The scrip
    <error-panel placement="bottom"></error-panel>
 </body>
 ```
+
+> Push-to-talk button component comes with built-in [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so you don't need to include it separately.
 
 ## Node Usage
 
