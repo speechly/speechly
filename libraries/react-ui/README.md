@@ -18,15 +18,15 @@
 ---
 </div>
 
-# Speechly React UI components
-
 ![Release build](https://github.com/speechly/react-ui/workflows/Release%20build/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-## Introduction
+# Speechly React UI components
 
-`@speechly/react-ui` package is an optional UI component library for speeding up voice-enabled web app development using React and Speechly.
+Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide ready made React components to integrate Speechly API to a web site or app.
+
+> If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
 
 ## Contents
 
