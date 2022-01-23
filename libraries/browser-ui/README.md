@@ -65,8 +65,8 @@ import "@speechly/browser-ui/core/error-panel";
 
 ## Documentation
 
-- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in <docs.speechly.com>.
-- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in <docs.speechly.com>.
+- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
+- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
 
 ## Building
 
@@ -84,4 +84,4 @@ These steps are only needed if you need to contibute to the development of the c
 
 ## Learn more
 
-- <speechly.com>
+- [speechly.com](https://speechly.com)
