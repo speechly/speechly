@@ -24,7 +24,7 @@
 
 # Speechly React UI components
 
-Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide ready made React components to integrate Speechly API to a web site or app.
+Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to integrate Speechly API to a React or Next.js app.
 
 > If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
 
