@@ -20,20 +20,13 @@
 
 # Speechly Browser UI components
 
-Speechly UI components provide the visual interface to support voice functionality. This package contains Speechly UI as Web Components that can be used in most browsers via CDN or npm.
+Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide a ready made UI to integrate Speechly API to a web site or app. Speechly UI is built as Web Components that can be used in most browsers via CDN or npm.
 
-## Requirements
+If you want to build a custom interface for you web app, you may want to check out (browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for low-level access to Speechly API.
 
-* [Node](https://nodejs.org/) (tested with v14.16.1)
+## Usage
 
-### Built With
-
-* [Typescript](https://www.typescriptlang.org/)
-* [Svelte 3](https://svelte.dev/)
-* [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
-
-
-## Using Web Components provided by browser-ui from a CDN on a web page/app
+Using Web Components provided by browser-ui from a CDN on a web page/app
 
 ```
 <head>
@@ -71,7 +64,22 @@ import "@speechly/browser-ui/core/error-panel";
 <error-panel placement="bottom"></error-panel>
 ```
 
+## Building
+
+These steps are only needed if you need to contibute to the development of the components or need to fork them for customization.
+
+### Requirements
+
+* [Node](https://nodejs.org/) (tested with v14.16.1)
+
+### Built With
+
+* [Typescript](https://www.typescriptlang.org/)
+* [Svelte 3](https://svelte.dev/)
+* [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
+
 ## Learn more
 
 - For integrating Speechly to your app, please refer to the [Client libraries](https://docs.speechly.com/client-libraries/usage/) documentation.
-- Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/).
+- Speechly Docs: [UI components](https://docs.speechly.com/client-libraries/ui-components/).
+- (browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for low-level access to Speechly API. Use it if you want to build a web app with a custom voice UI.
