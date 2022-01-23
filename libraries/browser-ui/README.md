@@ -26,7 +26,7 @@ Speechly [UI components](https://docs.speechly.com/client-libraries/ui-component
 
 ## Browser Usage
 
-Include the Web Components from a CDN that mirrors `@speechly/browser-ui` npm package. The scripts register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
+Include the Web Components from a CDN that mirrors `@speechly/browser-ui` npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
 
 ```
 <head>
