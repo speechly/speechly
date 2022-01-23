@@ -20,9 +20,9 @@
 
 # Speechly Browser UI components
 
-Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide a ready made UI to integrate Speechly API to a web site or app. Speechly UI is built as Web Components that can be used in most browsers via CDN or npm.
+Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide a ready made UI to integrate Speechly API to a web site or app. Speechly UI is built as Web Components that can be used in most browsers via CDN or npm. Push-to-talk button component integrates [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so you don't need to include it separately.
 
-If you want to build a custom interface for you web app, you may want to check out (browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for low-level access to Speechly API.
+If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API.
 
 ## Usage
 
@@ -76,10 +76,9 @@ These steps are only needed if you need to contibute to the development of the c
 
 * [Typescript](https://www.typescriptlang.org/)
 * [Svelte 3](https://svelte.dev/)
-* [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
+* [Speechly browser-client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
 ## Learn more
 
 - For integrating Speechly to your app, please refer to the [Client libraries](https://docs.speechly.com/client-libraries/usage/) documentation.
 - Speechly Docs: [UI components](https://docs.speechly.com/client-libraries/ui-components/).
-- (browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for low-level access to Speechly API. Use it if you want to build a web app with a custom voice UI.
