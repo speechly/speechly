@@ -24,6 +24,11 @@ Speechly [UI components](https://docs.speechly.com/client-libraries/ui-component
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API.
 
+## Documentation
+
+- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
+- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
+
 ## Browser Usage
 
 Include the Web Components from a CDN that mirrors `@speechly/browser-ui` npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
@@ -65,12 +70,7 @@ import "@speechly/browser-ui/core/error-panel";
 <error-panel placement="bottom"></error-panel>
 ```
 
-## Documentation
-
-- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
-- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
-
-## Building
+## Building the components from source
 
 These steps are only needed if you need to contibute to the development of the components or need to fork them for customization.
 
