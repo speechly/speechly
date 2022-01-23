@@ -24,7 +24,7 @@ Speechly [UI components](https://docs.speechly.com/client-libraries/ui-component
 
 If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API.
 
-## Usage
+## Browser Usage
 
 Using Web Components provided by browser-ui from a CDN on a web page/app
 
@@ -42,8 +42,7 @@ Using Web Components provided by browser-ui from a CDN on a web page/app
 </body>
 ```
 
-## Using browser-ui in React
-
+## Node Usage
 
 > This example illustrates using browser-ui Web Components with a JS framework. For actual React development, you'll probably want to use [react-client](../react-client) and [react-ui](../react-ui) libraries for a better developer experience.
 
