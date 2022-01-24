@@ -97,4 +97,7 @@ ls core/
 
 ## Learn more
 
-- [speechly.com](https://speechly.com)
+- [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API
+- [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API
+- [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-client) ready made components for building reactive voice interfaces
+- [speechly.com](https://speechly.com) 
