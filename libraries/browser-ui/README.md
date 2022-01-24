@@ -20,7 +20,7 @@
 
 # Speechly Browser UI components
 
-Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) provide ready made Web Components to integrate Speechly API to a web site or app.
+Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API.
 
@@ -99,5 +99,5 @@ ls core/
 
 - [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API
 - [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API
-- [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-client) ready made components for building reactive voice interfaces
+- [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-ui) ready made components for building reactive voice interfaces
 - [speechly.com](https://speechly.com) 
