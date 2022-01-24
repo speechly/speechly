@@ -22,10 +22,10 @@
 
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
-- [Speech-to-text example](https://codepen.io/speechly/pen/VwzoMrW)
-- [Sneaker Shop example](https://codepen.io/speechly/pen/dyzxVzv) featuring [preconfigured entity detection](https://docs.speechly.com/slu-examples/example-configuration/search-filters/#complete-sal-sources)
+- [Speech-to-text CodePen](https://codepen.io/speechly/pen/VwzoMrW)
+- [Sneaker Shop CodePen](https://codepen.io/speechly/pen/dyzxVzv)
 
-> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API. [See more options.](#learn-more)
+> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
 
 ## Documentation
 
