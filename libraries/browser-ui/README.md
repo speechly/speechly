@@ -25,13 +25,13 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 - [Speech-to-text example](https://codepen.io/speechly/pen/VwzoMrW)
 - [Sneaker Shop example](https://codepen.io/speechly/pen/dyzxVzv) featuring [preconfigured entity detection](https://docs.speechly.com/slu-examples/example-configuration/search-filters/#complete-sal-sources)
 
-> If you want to build a custom interface for you web app, you may want to check out [`@speechly/browser-client`](https://www.npmjs.com/package/@speechly/browser-client) npm package or [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) GitHub for direct access to Speechly API. [See more options.](#learn-more)
+> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API. [See more options.](#learn-more)
 
 ## Documentation
 
 - [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/)
 - [Basic usage documentation](https://docs.speechly.com/client-libraries/usage/)
-- [docs.speechly.com](https://docs.speechly.com).
+- [docs.speechly.com](https://docs.speechly.com)
 
 ## Browser Usage
 
@@ -104,6 +104,6 @@ ls core/
 - [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API
 - [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API
 - [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-ui) ready made components for building reactive voice interfaces
-- [Other integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
+- [More integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
 - [Speechly Dashboard](https://api.speechly.com/dashboard/) for creating and configuring a Speechly app id.
 - [speechly.com](https://speechly.com) 
