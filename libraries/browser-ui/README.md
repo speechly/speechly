@@ -100,4 +100,6 @@ ls core/
 - [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API
 - [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API
 - [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-ui) ready made components for building reactive voice interfaces
+- [Other integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
+- [Speechly Dashboard](https://api.speechly.com/dashboard/) for creating and configuring a Speechly app id.
 - [speechly.com](https://speechly.com) 
