@@ -22,6 +22,8 @@
 
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
+- [CodePen example](https://codepen.io/speechly/pen/vYJoePR)
+
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API. [See more options.](#learn-more)
 
 ## Documentation
