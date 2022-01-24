@@ -29,9 +29,8 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 
 ## Documentation
 
-- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/)
 - [Basic usage documentation](https://docs.speechly.com/client-libraries/usage/)
-- [docs.speechly.com](https://docs.speechly.com)
+- [UI component gallery and API](https://docs.speechly.com/client-libraries/ui-components/)
 
 ## Browser Usage
 
@@ -106,4 +105,5 @@ ls core/
 - [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-ui) ready made components for building reactive voice interfaces
 - [More integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
 - [Speechly Dashboard](https://api.speechly.com/dashboard/) for creating and configuring a Speechly app id.
+- [docs.speechly.com](https://docs.speechly.com)
 - [speechly.com](https://speechly.com) 
