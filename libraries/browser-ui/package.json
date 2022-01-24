@@ -4,7 +4,8 @@
   "scripts": {
     "build": "rollup -c --silent",
     "build:watch": "rollup -c --silent",
-    "start": "rollup -c -w",
+    "dev": "rollup -c -w",
+    "start": "sirv core --no-clear",
     "validate": "svelte-check"
   },
   "devDependencies": {

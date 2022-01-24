@@ -73,30 +73,44 @@ import "@speechly/browser-ui/core/error-panel";
 <error-panel placement="bottom"></error-panel>
 ```
 
-## Building the components from source
+## Building and developing
 
-The build steps may be needed if you need to contibute to the development of the components or need to fork them for customization.
+The build steps are needed if you want to contibute to the development of the components or need to fork them for customization.
 
 ### Requirements
 
-* [Node](https://nodejs.org/) (tested with v14.16.1)
+* [Node](https://nodejs.org/) (tested with v14.16.1+)
 
 ### Built With
 
 * [Typescript](https://www.typescriptlang.org/)
+* [Rush](https://rushjs.io/) We use Rush to build the dependencies from the monorepository.
 * [Svelte 3](https://svelte.dev/)
 * [Speechly browser-client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
-### Build steps
+### Install Rush (one-time only)
 
 ```
-pnpm install
-pnpm build
+npm install -g @microsoft/rush
+```
+
+### Running the development build
+
+```
+rush update
+rush build --to-except browser-ui
+# Run the library in watch mode. Open http://localhost:5000 to see the testbench page.
+rushx dev
+```
+
+### Building for production
+
+```
+rush update
+rush build --to browser-ui
 # Check build artefacts
 ls core/
 ```
-
-> This library is part of a Rush monorepository. See [libraries/README.md](https://github.com/speechly/speechly/tree/main/libraries) for steps to run browser-ui changes against a test application.
 
 ## Learn more
 

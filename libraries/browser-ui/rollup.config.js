@@ -85,9 +85,9 @@ const webComponentDefaults = {
     // the bundle has been generated
     !production && serve(),
     
-    // Watch the `public` directory and refresh the
+    // Watch the `core` directory and refresh the
     // browser on changes when not in production
-    !production && livereload('public'),
+    !production && livereload('core'),
     
     // If we're building for production (npm run build
     // instead of npm run dev), minify
