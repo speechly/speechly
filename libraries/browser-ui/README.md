@@ -20,7 +20,7 @@
 
 # Speechly Browser UI components
 
-Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app. [CodePen example](https://codepen.io/speechly/pen/vYJoePR)
+Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API. [See more options.](#learn-more)
 
@@ -28,6 +28,13 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 
 - [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
 - [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
+
+<p class="codepen" data-height="300" data-default-tab="result" data-slug-hash="VwzoMrW" data-editable="true" data-user="speechly" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/speechly/pen/VwzoMrW">
+  Speechly voice search field</a> by Speechly (<a href="https://codepen.io/speechly">@speechly</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 ## Browser Usage
 
