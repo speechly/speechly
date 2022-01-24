@@ -22,22 +22,19 @@
 
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
-> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API. [See more options.](#learn-more)
+> [Codepen example](https://codepen.io/speechly/pen/vYJoePR)
+
+> If you want to build a custom interface for you web app, you may want to check out [`@speechly/browser-client`](https://www.npmjs.com/package/@speechly/browser-client) npm package or [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) GitHub for direct access to Speechly API. [See more options.](#learn-more)
 
 ## Documentation
 
-- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
-- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
-
-<iframe height="300" style="width: 100%;" scrolling="no" title="Speechly voice search field" src="https://codepen.io/speechly/embed/VwzoMrW?default-tab=result&editable=true" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  See the Pen <a href="https://codepen.io/speechly/pen/VwzoMrW">
-  Speechly voice search field</a> by Speechly (<a href="https://codepen.io/speechly">@speechly</a>)
-  on <a href="https://codepen.io">CodePen</a>.
-</iframe>
+- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/)
+- [Basic usage documentation](https://docs.speechly.com/client-libraries/usage/)
+- [docs.speechly.com](https://docs.speechly.com).
 
 ## Browser Usage
 
-Include the Web Components from a CDN that mirrors `@speechly/browser-ui` npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
+Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
 
 ```
 <head>
@@ -78,7 +75,7 @@ import "@speechly/browser-ui/core/error-panel";
 
 ## Building the components from source
 
-These steps are only needed if you need to contibute to the development of the components or need to fork them for customization.
+The build steps may be needed if you need to contibute to the development of the components or need to fork them for customization.
 
 ### Requirements
 
