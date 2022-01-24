@@ -29,12 +29,11 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 - [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
 - [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
 
-<p class="codepen" data-height="300" data-default-tab="result" data-slug-hash="VwzoMrW" data-editable="true" data-user="speechly" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a href="https://codepen.io/speechly/pen/VwzoMrW">
+<iframe height="300" style="width: 100%;" scrolling="no" title="Speechly voice search field" src="https://codepen.io/speechly/embed/VwzoMrW?default-tab=result&editable=true" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/speechly/pen/VwzoMrW">
   Speechly voice search field</a> by Speechly (<a href="https://codepen.io/speechly">@speechly</a>)
-  on <a href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
 
 ## Browser Usage
 
