@@ -35,7 +35,7 @@ const webComponentDefaults = {
   output: {
     sourcemap: true,
     format: 'umd',
-    name: 'app',
+    name: 'SpeechlyUI',
     file: null,
   },
   plugins: [
@@ -76,6 +76,7 @@ const webComponentDefaults = {
     }),
     commonjs(),
     typescript({
+      tsconfig: './tsconfig.json',
       sourceMap: !production,
       inlineSources: !production,
       sourceMap: true,
@@ -152,15 +153,6 @@ export default [
   },
 
   {...webComponentDefaults, 
-    input: 'src/push-to-talk-button.svelte',
-    output: 
-      {
-        ...typeScriptDefaults.output,
-        file: 'lib/push-to-talk-button.js'
-      },
-  },
-
-  {...webComponentDefaults, 
     input: 'src/transcript-drawer.ts',
     output: {
       ...webComponentDefaults.output,
@@ -197,7 +189,7 @@ export default [
     output: [
       {
         ...typeScriptDefaults.output,
-        file: 'lib/demomode.js',
+        file: 'core/demomode.js',
       },
     ],
   },
