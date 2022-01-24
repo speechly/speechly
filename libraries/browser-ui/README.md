@@ -84,6 +84,17 @@ These steps are only needed if you need to contibute to the development of the c
 * [Svelte 3](https://svelte.dev/)
 * [Speechly browser-client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
+### Build steps
+
+```
+pnpm install
+pnpm build
+# Check build artefacts
+ls core/
+```
+
+> This library is part of a Rush monorepository. See [libraries/README.md](https://github.com/speechly/speechly/tree/main/libraries) for steps to run browser-ui changes against a test application.
+
 ## Learn more
 
 - [speechly.com](https://speechly.com)
