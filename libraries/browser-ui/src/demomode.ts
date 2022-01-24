@@ -1,3 +1,5 @@
+import type { Segment } from "@speechly/browser-client";
+
 var timeout = undefined;
 var contextId: string;
 
@@ -111,7 +113,9 @@ const generateSegment = (contextId, tokenizedSal, lastToken = undefined) => {
   };
 };
 
-export const startDemo = (demoStrings: string[], onSegmentCallback = undefined) => {
+export type SpeechSegmentCallback = (s: Segment) => void;
+
+export const startDemo = (demoStrings: string[], onSegmentCallback?: SpeechSegmentCallback) => {
   let utterancePlayhead = 0;
   let tokenizedSal = undefined;
   let playhead = 0;

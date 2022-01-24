@@ -1,9 +1,14 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  // "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
+    "outDir": "core",
+    "target": "ES2015",
+    "module": "ES2015",
+    "moduleResolution": "node",
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": ".",
+    "declarationDir": ".",
+    "sourceMap": true,
+    "esModuleInterop": true
   },
 
   "include": ["src/**/*"],
