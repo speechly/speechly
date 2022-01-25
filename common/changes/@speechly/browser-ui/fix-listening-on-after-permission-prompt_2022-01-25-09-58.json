@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "5.0.5 fixing listening auto-starting after permission consent",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}

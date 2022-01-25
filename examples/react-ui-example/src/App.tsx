@@ -7,7 +7,7 @@ import {
 } from "@speechly/react-ui";
 
 import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
-import { startDemo, stopDemo } from "@speechly/browser-ui/lib/demomode";
+import { startDemo, stopDemo } from "@speechly/browser-ui/core/demomode";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import PubSub from "pubsub-js";
 

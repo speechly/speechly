@@ -30,7 +30,7 @@ Check out the [browser-client-example](https://github.com/speechly/speechly/tree
 
 NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
-## Usage
+## Usage with Node
 
 Install the package:
 
@@ -47,7 +47,7 @@ Start using the client:
 ```typescript
 import { Client, Segment } from '@speechly/browser-client'
 
-// Create a new Client. appId is configured in the dashboard.
+// Create a new Client. NOTE: Configure and get your appId from https://api.speechly.com/dashboard
 const client = new Client({appId: 'your-app-id'})
 
 // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
@@ -68,6 +68,74 @@ await client.startContext()
 setTimeout(async function() {
   await client.stopContext()
 }, 3000)
+```
+
+## Usage with browsers
+
+This sample HTML loads Speechly's `browser-client` ES modules via a CDN that mirrors npm packages. The page displays a text field that you dictate text into. See browser's console log for raw segment feed from Speechly.
+
+Please use a HTML server to view the example. Running it as a file will not work due to browser's security restrictions. For example run `serve .` on command line and open `localhost:3000` in your browser.
+
+```HTML
+<html>
+  <body>
+
+    <input id="textBox" type="text" placeholder="Hold to talk..." autofocus>
+
+    <script type="module">
+      // Load Speechly ES module from a CDN. Note script type="module"
+      import { Client, ClientState } from "https://unpkg.com/@speechly/browser-client/core/speechly.es.js"
+
+      const widget = document.getElementById("textBox")
+      let clientState = ClientState.Disconnected;
+
+      // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
+      const client = new Client({
+        appId: "your-app-id",
+        debug: true,
+        logSegments: true,
+      })
+
+      client.onStateChange(state => {
+        clientState = state;
+      });
+
+      client.onSegmentChange(segment => {
+        // Clean up and concatenate words
+        let transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
+        // Add trailing period upon segment end.
+        if (segment.isFinal) transcript += ".";
+        widget.value = transcript;
+      });
+
+      const startListening = async () => {
+        switch (clientState) {
+          case ClientState.Disconnected:
+            await client.initialize();
+            // fall through
+          case ClientState.Connected:
+            widget.value = "Listening..."
+            client.startContext();
+            break;
+        }
+      }
+
+      const stopListening = () => {
+        switch (clientState) {
+          case ClientState.Starting:
+          case ClientState.Recording:
+            client.stopContext();
+            break;
+        }
+      }
+
+      // Bind start listening to a widget hold, release anywhere to stop
+      widget.addEventListener("mousedown", startListening)
+      document.addEventListener("mouseup", stopListening)
+    </script>
+  </body>
+  
+</html>
 ```
 
 ## Documentation
