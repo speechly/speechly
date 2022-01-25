@@ -62,8 +62,6 @@
         ...(loginurl && {loginUrl: loginurl}),
         ...(apiurl && {apiUrl: apiurl}),
       }
-      console.log("Creating client with ClientOptions", clientOptions);
-
       client = new Client(clientOptions);
 
       client.onStateChange(onStateChange);
@@ -88,12 +86,10 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
     (async () => {
       try {
-        console.log("Initializing...", client);
         dispatchUnbounded("starting");
         await client.initialize();
-        console.log("Initialized");
       } catch (e) {
-        console.log("Initialization failed", e);
+        console.error("Speechly initialization failed", e);
         client = null;
       }
     })();
@@ -109,7 +105,7 @@
           initializeSpeechly();
         } else {
           console.warn(
-            "No appid attribute specified. Speechly voice services are unavailable."
+            "No appid/projectid attribute specified. Speechly voice services are unavailable."
           );
         }
       } else {
@@ -156,14 +152,16 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    tapListenActive = true;
-    if (tapListenTimeout) {
-      window.clearTimeout(tapListenTimeout);
+    if (isStoppable(clientState)) {
+      tapListenActive = true;
+      if (tapListenTimeout) {
+        window.clearTimeout(tapListenTimeout);
+      }
+      tapListenTimeout = window.setTimeout(() => {
+        tapListenTimeout = null;
+        stopListening();
+      }, timeoutMs);
     }
-    tapListenTimeout = window.setTimeout(() => {
-      tapListenTimeout = null;
-      stopListening();
-    }, timeoutMs);
   }
 
   const stopListening = () => {
