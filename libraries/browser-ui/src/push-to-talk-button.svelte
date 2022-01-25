@@ -38,8 +38,8 @@
   let tipCalloutVisible = false;
   let mounted = false;
 
-  let stopContextTimeout = null;
-  let holdListening = false;
+  let tapListenTimeout = null;
+  let tapListenActive = false;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
@@ -70,7 +70,7 @@
 
       client.onSegmentChange((segment: Segment) => {
         // Refresh stopContext timeout if set
-        if (stopContextTimeout) setStopContextTimeout(silencetohanguptime);
+        if (tapListenTimeout) setStopContextTimeout(silencetohanguptime);
         // Pass on segment updates from Speechly API as events
         dispatchUnbounded("speechsegment", segment);
         // And as window.postMessages
@@ -105,7 +105,7 @@
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
-        if (appid || projectid) {
+        if (appid || projectid) {
           initializeSpeechly();
         } else {
           console.warn(
@@ -113,9 +113,9 @@
           );
         }
       } else {
-        if (stopContextTimeout) {
-          window.clearTimeout(stopContextTimeout);
-          stopContextTimeout = null;
+        if (tapListenTimeout) {
+          window.clearTimeout(tapListenTimeout);
+          tapListenTimeout = null;
         }
         if (isStartable(clientState)) {
           dispatchUnbounded("startcontext");
@@ -140,13 +140,13 @@
           tipCalloutVisible = true;
         } else {
           // Short press when not recording = schedule "silence based stop"
-          if (!holdListening) {
+          if (!tapListenActive) {
             setStopContextTimeout(taptotalktime);
           }
         }
       }
 
-      if (!stopContextTimeout) {
+      if (!tapListenTimeout) {
         stopListening();
       }
     }
@@ -156,18 +156,18 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    holdListening = true;
-    if (stopContextTimeout) {
-      window.clearTimeout(stopContextTimeout);
+    tapListenActive = true;
+    if (tapListenTimeout) {
+      window.clearTimeout(tapListenTimeout);
     }
-    stopContextTimeout = window.setTimeout(() => {
-      stopContextTimeout = null;
+    tapListenTimeout = window.setTimeout(() => {
+      tapListenTimeout = null;
       stopListening();
     }, timeoutMs);
   }
 
   const stopListening = () => {
-    holdListening = false;
+    tapListenActive = false;
     if (client) {
       if (isStoppable(clientState)) {
         client.stopContext();
@@ -216,7 +216,7 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
-        if (!showPowerOn && (buttonHeld || holdListening) && isStartable(clientState)) {
+        if (!showPowerOn && (buttonHeld || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
         }
