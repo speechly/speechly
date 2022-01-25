@@ -90,8 +90,8 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
   const [ matchesInUpperCase, setMatchesInUpperCase ] = useState<string[]>([]);
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue ?? '')
-  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ?? '')
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
+  const [ lastGoodKnownValue, setLastGoodKnownValue ] = useState(defaultValue ?? '')
+  const [ fieldTargeted, setFieldTargeted ] = useState(false)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -145,15 +145,6 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
   useEffect(() => {
     if (segment) {
       let newValue = null
-      let lastGoodKnownValue = _lastGoodKnownValue
-
-      // Update last good known value at new segment start
-      const segmentId = `${segment.contextId}/${segment.id}`;
-      if (segmentId !== lastSegmentId) {
-        setLastSegmentId(segmentId)
-        lastGoodKnownValue = value || _value
-        _setLastGoodKnownValue(lastGoodKnownValue)
-      }
 
       // Define newValue if the segment contains input targeted to this component
       let candidates;
@@ -171,20 +162,34 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
       }
 
       if (candidates && candidates.length > 0) {
-        // Match by each candidate against the match values
+        // Field is targeted – match each candidate against the match values
         candidates.forEach(candidateName => {
           const index = matchesInUpperCase.findIndex((option: string) => option === candidateName.toUpperCase())
           if (index >= 0) {
             newValue = options[index]
           }
         })
+
+        // Set value if match found
+        if (newValue !== null) {
+          // Update last good known when targeted the first time
+          if (!fieldTargeted) {
+            setLastGoodKnownValue(value !== undefined ? value : _value)
+          }
+          _onChange(newValue)
+          setFieldTargeted(true)
+        }
+      } else {
+        // Field is no longer targeted: tentative input may retarget to another component at any time
+        if (fieldTargeted) {
+          _onChange(lastGoodKnownValue)
+          setFieldTargeted(false)
+        }
       }
 
-      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
-      // otherwise reset to last good known value
-      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
-
       if (segment.isFinal) {
+        setFieldTargeted(false)
+
         if (inputEl != null && inputEl.current != null) {
           inputEl.current.blur()
         }
@@ -198,7 +203,7 @@ export const VoiceSelect = ({ label, options, displayNames, value, defaultValue,
   return (
     <div ref={inputEl} className="widgetGroup select">
       <label>{ label }</label>
-      <select value={value || _value}
+      <select value={value !== undefined ? value : _value}
         onChange={(event: any) => { _onChange(event.target.value) }}
         onBlur={_onBlur}
         onFocus={_onFocus}>

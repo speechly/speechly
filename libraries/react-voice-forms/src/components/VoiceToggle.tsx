@@ -75,9 +75,9 @@ export const VoiceToggle = ({ changeOnIntent, changeOnEntityType, changeOnEntity
 
   const [ matchesInUpperCase, setMatchesInUpperCase ] = useState<string[]>([]);
   const [ _focused, _setFocused ] = useState(focused)
-  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ?? options[0])
   const [ _value, _setValue ] = useState(defaultValue ?? options[0])
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
+  const [ lastGoodKnownValue, setLastGoodKnownValue ] = useState(defaultValue ?? '')
+  const [ fieldTargeted, setFieldTargeted ] = useState(false)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -131,15 +131,6 @@ export const VoiceToggle = ({ changeOnIntent, changeOnEntityType, changeOnEntity
   useEffect(() => {
     if (segment) {
       let newValue = null
-      let lastGoodKnownValue = _lastGoodKnownValue
-
-      // Update last good known value at new segment start
-      const segmentId = `${segment.contextId}/${segment.id}`;
-      if (segmentId !== lastSegmentId) {
-        setLastSegmentId(segmentId)
-        lastGoodKnownValue = value || _value
-        _setLastGoodKnownValue(lastGoodKnownValue)
-      }
 
       // Define newValue if the segment contains input targeted to this component
       let candidates;
@@ -157,20 +148,34 @@ export const VoiceToggle = ({ changeOnIntent, changeOnEntityType, changeOnEntity
       }
 
       if (candidates && candidates.length > 0) {
-        // Match by each candidate against the match values
+        // Field is targeted – match each candidate against the match values
         candidates.forEach(candidateName => {
           const index = matchesInUpperCase.findIndex((option: string) => option === candidateName.toUpperCase())
           if (index >= 0) {
             newValue = options[index]
           }
         })
+
+        // Set value if match found
+        if (newValue !== null) {
+          // Update last good known when targeted the first time
+          if (!fieldTargeted) {
+            setLastGoodKnownValue(value !== undefined ? value : _value)
+          }
+          _onChange(newValue)
+          setFieldTargeted(true)
+        }
+      } else {
+        // Field is no longer targeted: tentative input may retarget to another component at any time
+        if (fieldTargeted) {
+          _onChange(lastGoodKnownValue)
+          setFieldTargeted(false)
+        }
       }
 
-      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
-      // otherwise reset to last good known value
-      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
+      if (segment.isFinal) {
+        setFieldTargeted(false)
 
-      if (segment?.isFinal) {
         if (inputEl != null && inputEl.current != null) {
           inputEl.current.blur()
         }
@@ -185,8 +190,8 @@ export const VoiceToggle = ({ changeOnIntent, changeOnEntityType, changeOnEntity
     <div ref={inputEl} className="widgetGroup toggle">
       {
         options.map((optionValue: string, index: number): React.ReactNode =>
-          <button key={optionValue} type="button" className={(value || _value) === optionValue ? 'active' : ''} onClick={() => _onChange(optionValue)}>
-            {displayNames && displayNames[index] ? displayNames[index] : optionValue}
+          <button key={optionValue} type="button" className={(value !== undefined ? value : _value) === optionValue ? 'active' : ''} onClick={() => _onChange(optionValue)}>
+            {displayNames && displayNames[index] ? displayNames[index] : optionValue}
           </button>)
       }
     </div>
