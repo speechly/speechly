@@ -38,8 +38,8 @@
   let tipCalloutVisible = false;
   let mounted = false;
 
-  let stopContextTimeout = null;
-  let holdListening = false;
+  let tapListenTimeout = null;
+  let tapListenActive = false;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
@@ -62,15 +62,13 @@
         ...(loginurl && {loginUrl: loginurl}),
         ...(apiurl && {apiUrl: apiurl}),
       }
-      console.log("Creating client with ClientOptions", clientOptions);
-
       client = new Client(clientOptions);
 
       client.onStateChange(onStateChange);
 
       client.onSegmentChange((segment: Segment) => {
         // Refresh stopContext timeout if set
-        if (stopContextTimeout) setStopContextTimeout(silencetohanguptime);
+        if (tapListenTimeout) setStopContextTimeout(silencetohanguptime);
         // Pass on segment updates from Speechly API as events
         dispatchUnbounded("speechsegment", segment);
         // And as window.postMessages
@@ -88,12 +86,10 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
     (async () => {
       try {
-        console.log("Initializing...", client);
         dispatchUnbounded("starting");
         await client.initialize();
-        console.log("Initialized");
       } catch (e) {
-        console.log("Initialization failed", e);
+        console.error("Speechly initialization failed", e);
         client = null;
       }
     })();
@@ -105,17 +101,17 @@
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
-        if (appid || projectid) {
+        if (appid || projectid) {
           initializeSpeechly();
         } else {
           console.warn(
-            "No appid attribute specified. Speechly voice services are unavailable."
+            "No appid/projectid attribute specified. Speechly voice services are unavailable."
           );
         }
       } else {
-        if (stopContextTimeout) {
-          window.clearTimeout(stopContextTimeout);
-          stopContextTimeout = null;
+        if (tapListenTimeout) {
+          window.clearTimeout(tapListenTimeout);
+          tapListenTimeout = null;
         }
         if (isStartable(clientState)) {
           dispatchUnbounded("startcontext");
@@ -140,13 +136,13 @@
           tipCalloutVisible = true;
         } else {
           // Short press when not recording = schedule "silence based stop"
-          if (!holdListening) {
+          if (!tapListenActive) {
             setStopContextTimeout(taptotalktime);
           }
         }
       }
 
-      if (!stopContextTimeout) {
+      if (!tapListenTimeout) {
         stopListening();
       }
     }
@@ -156,18 +152,20 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    holdListening = true;
-    if (stopContextTimeout) {
-      window.clearTimeout(stopContextTimeout);
+    if (isStoppable(clientState)) {
+      tapListenActive = true;
+      if (tapListenTimeout) {
+        window.clearTimeout(tapListenTimeout);
+      }
+      tapListenTimeout = window.setTimeout(() => {
+        tapListenTimeout = null;
+        stopListening();
+      }, timeoutMs);
     }
-    stopContextTimeout = window.setTimeout(() => {
-      stopContextTimeout = null;
-      stopListening();
-    }, timeoutMs);
   }
 
   const stopListening = () => {
-    holdListening = false;
+    tapListenActive = false;
     if (client) {
       if (isStoppable(clientState)) {
         client.stopContext();
@@ -216,7 +214,7 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
-        if (!showPowerOn && (buttonHeld || holdListening) && isStartable(clientState)) {
+        if (!showPowerOn && (buttonHeld || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
         }

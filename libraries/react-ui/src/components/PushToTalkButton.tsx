@@ -110,8 +110,8 @@ export type PushToTalkButtonProps = {
  */
 
 type IButtonState = {
-  holdListening: boolean
-  stopContextTimeout: number | null
+  tapListenActive: boolean
+  tapListenTimeout: number | null
 }
 
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
@@ -137,8 +137,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const buttonStateRef = useRef<IButtonState>({
-    holdListening: false,
-    stopContextTimeout: null,
+    tapListenActive: false,
+    tapListenTimeout: null,
   })
   const buttonRef = useRef<any>()
   const speechStateRef = useRef<SpeechState>()
@@ -181,7 +181,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
 
     // Automatically start recording if button held
-    if (!powerOn && (buttonRef?.current?.isbuttonpressed() === true || buttonStateRef.current.holdListening) && speechState === SpeechState.Ready) {
+    if (!powerOn && (buttonRef?.current?.isbuttonpressed() === true || buttonStateRef.current.tapListenActive) && speechState === SpeechState.Ready) {
       toggleRecording().catch(err => console.error('Error while starting to record', err))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,9 +192,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     window.postMessage({ type: 'holdstart', state: mapSpeechStateToClientState(speechStateRef.current !== undefined ? speechStateRef.current : SpeechState.Idle) }, '*')
     setShowHint(false)
 
-    if (buttonStateRef.current.stopContextTimeout) {
-      window.clearTimeout(buttonStateRef.current.stopContextTimeout)
-      buttonStateRef.current.stopContextTimeout = null
+    if (buttonStateRef.current.tapListenTimeout) {
+      window.clearTimeout(buttonStateRef.current.tapListenTimeout)
+      buttonStateRef.current.tapListenTimeout = null
     }
 
     switch (speechStateRef.current) {
@@ -222,30 +222,32 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
         setShowHint(true)
       } else {
         // Short press when not recording = schedule "silence based stop"
-        if (!buttonStateRef.current.holdListening) {
+        if (!buttonStateRef.current.tapListenActive) {
           setStopContextTimeout(tapToTalkTime)
         }
       }
     }
 
-    if (!buttonStateRef.current.stopContextTimeout) {
+    if (!buttonStateRef.current.tapListenTimeout) {
       stopListening()
     }
   }
 
   const setStopContextTimeout = (timeoutMs: number): void => {
-    buttonStateRef.current.holdListening = true
-    if (buttonStateRef.current.stopContextTimeout) {
-      window.clearTimeout(buttonStateRef.current.stopContextTimeout)
+    if (isStoppable(speechState)) {
+      buttonStateRef.current.tapListenActive = true
+      if (buttonStateRef.current.tapListenTimeout) {
+        window.clearTimeout(buttonStateRef.current.tapListenTimeout)
+      }
+      buttonStateRef.current.tapListenTimeout = window.setTimeout(() => {
+        buttonStateRef.current.tapListenTimeout = null
+        stopListening()
+      }, timeoutMs)
     }
-    buttonStateRef.current.stopContextTimeout = window.setTimeout(() => {
-      buttonStateRef.current.stopContextTimeout = null
-      stopListening()
-    }, timeoutMs)
   }
 
   const stopListening = (): void => {
-    buttonStateRef.current.holdListening = false
+    buttonStateRef.current.tapListenActive = false
     if (isStoppable(speechStateRef.current)) {
       toggleRecording().catch(err => console.error('Error while stopping recording', err))
     }
@@ -256,7 +258,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
    */
   useEffect(() => {
     if (segment) {
-      if (buttonStateRef.current.stopContextTimeout) {
+      if (buttonStateRef.current.tapListenTimeout) {
         setStopContextTimeout(silenceToHangupTime)
       }
     }
