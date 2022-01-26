@@ -50,14 +50,13 @@ export type VoiceInputProps = {
   onFinal?: () => void
 }
 
-export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceInputProps) => {
+export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = false }: VoiceInputProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue ?? '')
   const [ lastGoodKnownValue, setLastGoodKnownValue ] = useState(defaultValue ?? '')
-  const [ fieldTargeted, setFieldTargeted ] = useState(false)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -86,12 +85,6 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
   }
 
   useEffect(() => {
-    if (focused && !_focused && inputEl != null && inputEl.current != null) {
-      inputEl.current.focus()
-    }
-  }, [focused])
-
-  useEffect(() => {
     if (segment) {
       let newValue: string | null = null
       
@@ -105,21 +98,21 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
 
       if (newValue !== null) {
         // Field is targeted
-        if (!fieldTargeted) {
+        if (!_focused) {
           setLastGoodKnownValue(value !== undefined ? value : _value)
         }
         _onChange(newValue)
-        setFieldTargeted(true)
+        _onFocus()
       } else {
         // Field is no longer targeted: tentative input may retarget to another component at any time
-        if (fieldTargeted) {
+        if (_focused) {
           _onChange(lastGoodKnownValue)
-          setFieldTargeted(false)
+          _onBlur()
         }
       }
 
       if (segment?.isFinal) {
-        setFieldTargeted(false)
+        _onBlur()
         if (inputEl != null && inputEl.current != null) {
           inputEl.current.blur()
         }
@@ -131,7 +124,7 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
   }, [segment])
 
   return (
-    <div className="widgetGroup inputText">
+    <div className={`widgetGroup inputText ${_focused ? "voicefocus": ""}`}>
       <label>{ label }</label>
       <input
         ref={inputEl}
