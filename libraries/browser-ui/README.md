@@ -20,18 +20,21 @@
 
 # Speechly Browser UI components
 
-Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app. [CodePen example](https://codepen.io/speechly/pen/vYJoePR)
+Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
 
-> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API. [See more options.](#learn-more)
+- [Speech-to-text CodePen](https://codepen.io/speechly/pen/VwzoMrW)
+- [Sneaker Shop CodePen](https://codepen.io/speechly/pen/dyzxVzv)
+
+> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
 
 ## Documentation
 
-- [UI components overview and API](https://docs.speechly.com/client-libraries/ui-components/) in [docs.speechly.com](https://docs.speechly.com).
-- [Basic Usage](https://docs.speechly.com/client-libraries/usage/) in [docs.speechly.com](https://docs.speechly.com).
+- [Basic usage documentation](https://docs.speechly.com/client-libraries/usage/)
+- [UI component gallery and API](https://docs.speechly.com/client-libraries/ui-components/)
 
 ## Browser Usage
 
-Include the Web Components from a CDN that mirrors `@speechly/browser-ui` npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
+Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
 
 ```
 <head>
@@ -70,36 +73,51 @@ import "@speechly/browser-ui/core/error-panel";
 <error-panel placement="bottom"></error-panel>
 ```
 
-## Building the components from source
+## Building and developing
 
-These steps are only needed if you need to contibute to the development of the components or need to fork them for customization.
+The build steps are needed if you want to contibute to the development of the components or need to fork them for customization.
 
 ### Requirements
 
-* [Node](https://nodejs.org/) (tested with v14.16.1)
+* [Node](https://nodejs.org/) (tested with v14.16.1+)
 
 ### Built With
 
 * [Typescript](https://www.typescriptlang.org/)
+* [Rush](https://rushjs.io/) We use Rush to build the dependencies from the monorepository.
 * [Svelte 3](https://svelte.dev/)
 * [Speechly browser-client](https://www.npmjs.com/package/@speechly/browser-client) that provides websocket connectivity and audio handling for Push-To-Talk Button component
 
-### Build steps
+### Install Rush (one-time only)
 
 ```
-pnpm install
-pnpm build
+npm install -g @microsoft/rush
+```
+
+### Running the development build
+
+```
+rush update
+rush build --to-except browser-ui
+# Run the library in watch mode. Open http://localhost:5000 to see the testbench page.
+rushx dev
+```
+
+### Building for production
+
+```
+rush update
+rush build --to browser-ui
 # Check build artefacts
 ls core/
 ```
-
-> This library is part of a Rush monorepository. See [libraries/README.md](https://github.com/speechly/speechly/tree/main/libraries) for steps to run browser-ui changes against a test application.
 
 ## Learn more
 
 - [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) library for direct access to Speechly API
 - [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API
 - [react-ui](https://github.com/speechly/speechly/tree/main/libraries/react-ui) ready made components for building reactive voice interfaces
-- [Other integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
+- [More integration options](https://docs.speechly.com/dev-tools/overview/) in Speechly docs
 - [Speechly Dashboard](https://api.speechly.com/dashboard/) for creating and configuring a Speechly app id.
+- [docs.speechly.com](https://docs.speechly.com)
 - [speechly.com](https://speechly.com) 
