@@ -84,31 +84,44 @@
 
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
-    (async () => {
-      try {
-        dispatchUnbounded("starting");
-        await client.initialize();
-      } catch (e) {
-        console.error("Speechly initialization failed", e);
-        client = null;
-      }
-    })();
+    try {
+      dispatchUnbounded("starting");
+      await client.initialize();
+    } catch (e) {
+      console.error("Speechly initialization failed", e);
+      client = null;
+    }
   };
 
-  const tangentStart = (event) => {
-    buttonHeld = true;
+  let initHandler = null;
+
+  const tangentStart = async(event) => {
+    console.log("tangentStart");
     tipCalloutVisible = false;
+    buttonHeld = true;
+    
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
+        buttonHeld = false;
         if (appid || projectid) {
-          initializeSpeechly();
+          console.log("pre-init");
+          const initStartTime = Date.now();
+          initHandler = initializeSpeechly();
+          await initHandler;
+          console.log("post-init", Date.now() - initStartTime);
+          if (Date.now() - initStartTime < 1500) {
+            console.log("short init. attempt start");
+            buttonHeld = true;
+          }
         } else {
           console.warn(
             "No appid/projectid attribute specified. Speechly voice services are unavailable."
           );
         }
-      } else {
+      }
+
+      if (buttonHeld) {
         if (tapListenTimeout) {
           window.clearTimeout(tapListenTimeout);
           tapListenTimeout = null;
@@ -121,10 +134,13 @@
     }
     // Send as window.postMessages
     window.postMessage({ type: "holdstart", state: clientState }, "*");
-
   };
 
-  const tangentEnd = (event) => {
+  const tangentEnd = async (event) => {
+    console.log("tangentEnd");
+    if (initHandler) await initHandler;
+    if (!buttonHeld) return;
+    console.log("tangentEnd 2");
     const holdEventData: IHoldEvent = event.detail;
     buttonHeld = false;
 
@@ -152,16 +168,15 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    if (isStoppable(clientState)) {
-      tapListenActive = true;
-      if (tapListenTimeout) {
-        window.clearTimeout(tapListenTimeout);
-      }
-      tapListenTimeout = window.setTimeout(() => {
-        tapListenTimeout = null;
-        stopListening();
-      }, timeoutMs);
+    console.log("setStopContextTimeout")
+    tapListenActive = true;
+    if (tapListenTimeout) {
+      window.clearTimeout(tapListenTimeout);
     }
+    tapListenTimeout = window.setTimeout(() => {
+      tapListenTimeout = null;
+      stopListening();
+    }, timeoutMs);
   }
 
   const stopListening = () => {
@@ -214,6 +229,9 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
+        console.log("isStartable", isStartable(clientState));
+        console.log("buttonHeld", buttonHeld);
+        console.log("tapListenActive", tapListenActive);
         if (!showPowerOn && (buttonHeld || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
