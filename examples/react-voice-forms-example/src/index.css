@@ -16,3 +16,12 @@ body {
   margin: 2em auto;
   max-width: 480px;
 }
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 16px;
+  margin: 2em auto;
+  max-width: 480px;
+}
