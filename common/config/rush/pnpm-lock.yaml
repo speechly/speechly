@@ -20,7 +20,7 @@ specifiers:
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
   '@speechly/demo-navigation': ^0.1.36
-  '@speechly/react-client': ^0.0.22
+  '@speechly/react-voice-forms': ~1.1.1
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -87,7 +87,7 @@ dependencies:
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.4.0
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.4.0
   '@speechly/demo-navigation': 0.1.36
-  '@speechly/react-client': 0.0.22
+  '@speechly/react-voice-forms': 1.1.1
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0
   '@testing-library/user-event': 7.2.1
@@ -3102,14 +3102,6 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
-  /@speechly/react-client/0.0.22:
-    resolution: {integrity: sha512-cGr26cOni4RvItRr2pgFEnBgPm8jAcDZeFdyxL4arSoIQQrEuMMQvjPX+k/RbzeohjtOOeVkGAOy0zl4cCNMpg==}
-    peerDependencies:
-      react: ^17.0.2
-    dependencies:
-      '@speechly/browser-client': 1.1.0
-    dev: false
-
   /@speechly/react-client/0.0.22_react@17.0.2:
     resolution: {integrity: sha512-cGr26cOni4RvItRr2pgFEnBgPm8jAcDZeFdyxL4arSoIQQrEuMMQvjPX+k/RbzeohjtOOeVkGAOy0zl4cCNMpg==}
     peerDependencies:
@@ -3117,6 +3109,12 @@ packages:
     dependencies:
       '@speechly/browser-client': 1.1.0
       react: 17.0.2
+    dev: false
+
+  /@speechly/react-voice-forms/1.1.1:
+    resolution: {integrity: sha512-a2YOTxu7uYXPdnp3bxAxIdUAAMiqSJx3acbGmyoKWb1d7apMfMzKYWT6ddXvnu9JAqsoP6fJIQ4v4W+WwS++Gg==}
+    peerDependencies:
+      '@speechly/react-client': ^0.0.21
     dev: false
 
   /@surma/rollup-plugin-off-main-thread/1.4.2:
@@ -15134,16 +15132,18 @@ packages:
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.4.0+typescript@4.5.2:
-    resolution: {integrity: sha512-llTp/1JJGzJD+qDR5GNcLZf4+as5UWrhzX2a4lyPN1ccLGnrTVhZuZpyUd67NTwAnjAPgAc8a3txxH3IezgFPQ==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-iCr9VMW1gSvuKEbIXgWvpsFx0EgX2jOflOYHVojqHkkQDuVqKQ6S5HjId4CsjNd0a6FNRI7j/KGESJFp24sgmQ==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
     dependencies:
       '@speechly/react-client': 0.0.22_react@17.0.2
+      '@speechly/react-voice-forms': 1.1.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
     transitivePeerDependencies:
+      - '@speechly/react-client'
       - '@types/webpack'
       - acorn
       - bufferutil
