@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SpeechSegment, useSpeechContext } from '@speechly/react-client'
-import { mapSpeechStateToClientState } from '../types'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -75,7 +74,7 @@ export type TranscriptDrawerProps = {
  * @public
  */
 export const TranscriptDrawer: React.FC<TranscriptDrawerProps> = props => {
-  const { segment, speechState } = useSpeechContext()
+  const { segment, clientState } = useSpeechContext()
   const refElement = useRef<any>()
   const [loaded, setLoaded] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
@@ -91,9 +90,9 @@ export const TranscriptDrawer: React.FC<TranscriptDrawerProps> = props => {
 
   useEffect(() => {
     if (refElement?.current !== undefined) {
-      refElement.current.speechstate(mapSpeechStateToClientState(speechState))
+      refElement.current.speechstate(clientState)
     }
-  }, [speechState])
+  }, [clientState])
 
   useEffect(() => {
     if (refElement?.current !== undefined && segment !== undefined) {
