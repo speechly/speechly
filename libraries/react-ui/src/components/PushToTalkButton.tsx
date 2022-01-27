@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { SpeechState, useSpeechContext } from '@speechly/react-client'
+import { ClientState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
-import { mapSpeechStateToClientState, SpeechlyUiEvents } from '../types'
+import { SpeechlyUiEvents } from '../types'
 import { PushToTalkButtonContainer } from '..'
 
 declare global {
@@ -111,7 +111,9 @@ export type PushToTalkButtonProps = {
 
 type IButtonState = {
   tapListenActive: boolean
+  holdListenActive: boolean
   tapListenTimeout: number | null
+  initPromise: Promise<any> | null
 }
 
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
@@ -131,26 +133,29 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   tapToTalkTime = 8000,
   silenceToHangupTime = 1000,
 }) => {
-  const { speechState, toggleRecording, initialise, segment } = useSpeechContext()
+  const { clientState, initialise, startContext, stopContext, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
-  const [icon, setIcon] = useState<string>((powerOn ? SpeechState.Idle : SpeechState.Ready) as string)
+  const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Connected) as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const buttonStateRef = useRef<IButtonState>({
     tapListenActive: false,
+    holdListenActive: false,
     tapListenTimeout: null,
+    initPromise: null,
   })
   const buttonRef = useRef<any>()
-  const speechStateRef = useRef<SpeechState>()
+  const clientStateRef = useRef<ClientState>()
 
   const TAP_TRESHOLD_MS = 600
+  const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
 
   // make stateRef always have the current count
   // your "fixed" callbacks can refer to this object whenever
   // they need the current value.  Note: the callbacks will not
   // be reactive - they will not re-run the instant state changes,
   // but they *will* see the current value whenever they do run
-  speechStateRef.current = speechState
+  clientStateRef.current = clientState
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
@@ -174,22 +179,22 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   useEffect(() => {
     // Change button face according to Speechly states
-    if (!powerOn && speechState === SpeechState.Idle) {
-      setIcon(SpeechState.Ready as string)
+    if (!powerOn && clientState === ClientState.Disconnected) {
+      setIcon(ClientState.Connected as unknown as string)
     } else {
-      setIcon(speechState as string)
+      setIcon(clientState as unknown as string)
     }
 
     // Automatically start recording if button held
-    if (!powerOn && (buttonRef?.current?.isbuttonpressed() === true || buttonStateRef.current.tapListenActive) && speechState === SpeechState.Ready) {
-      toggleRecording().catch(err => console.error('Error while starting to record', err))
+    if (!powerOn && (buttonStateRef.current.holdListenActive || buttonStateRef.current.tapListenActive) && clientStateRef.current === ClientState.Connected) {
+      startContext().catch(err => console.error('Error while starting to record', err))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [speechState])
+  }, [clientState])
 
-  const tangentPressAction = (): void => {
-    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: speechStateRef.current })
-    window.postMessage({ type: 'holdstart', state: mapSpeechStateToClientState(speechStateRef.current !== undefined ? speechStateRef.current : SpeechState.Idle) }, '*')
+  const tangentPressAction = async () => {
+    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
+    window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
     setShowHint(false)
 
     if (buttonStateRef.current.tapListenTimeout) {
@@ -197,59 +202,73 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       buttonStateRef.current.tapListenTimeout = null
     }
 
-    switch (speechStateRef.current) {
-      case SpeechState.Idle:
-      case SpeechState.Failed:
+    switch (clientStateRef.current) {
+      case ClientState.Disconnected:
+      case ClientState.Failed:
         // Speechly & Mic initialise needs to be in a function triggered by event handler
         // otherwise it won't work reliably on Safari iOS as of 11/2020
-        initialise().catch(err => console.error('Error initiasing Speechly', err))
-        break
-      case SpeechState.Ready:
-        toggleRecording().catch(err => console.error('Error while starting to record', err))
+        const initStartTime = Date.now();
+        buttonStateRef.current.initPromise = initialise().catch(err => console.error('Error initiasing Speechly', err))
+        await buttonStateRef.current.initPromise
+        // Long init time suggests permission dialog --> prevent listening start
+        buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
         break
       default:
+        buttonStateRef.current.holdListenActive = true;
         break
+    }
+
+    // Start listening
+    if (buttonStateRef.current.holdListenActive) {
+      if (clientStateRef.current === ClientState.Connected) {
+        startContext().catch(err => console.error('Error while starting to record', err))
+      }
     }
   }
 
-  const tangentReleaseAction = (event: any): void => {
-    PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: speechStateRef.current, timeMs: event.timeMs })
+  const tangentReleaseAction = async (event: any) => {
+    // Ensure async tangentPress and Release are run in appropriate order
+    await buttonStateRef.current.initPromise
+
+    PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: clientStateRef.current, timeMs: event.timeMs })
     window.postMessage({ type: 'holdend' }, '*')
 
-    if (event.timeMs < TAP_TRESHOLD_MS) {
-      if (tapToTalkTime === 0) {
-        setHintText(hint)
-        setShowHint(true)
-      } else {
-        // Short press when not recording = schedule "silence based stop"
-        if (!buttonStateRef.current.tapListenActive) {
-          setStopContextTimeout(tapToTalkTime)
+    if (buttonStateRef.current.holdListenActive) {
+      buttonStateRef.current.holdListenActive = false;
+
+      if (event.timeMs < TAP_TRESHOLD_MS) {
+        if (tapToTalkTime === 0) {
+          setHintText(hint)
+          setShowHint(true)
+        } else {
+          // Short press when not recording = schedule "silence based stop"
+          if (!buttonStateRef.current.tapListenActive) {
+            setStopContextTimeout(tapToTalkTime)
+          }
         }
       }
-    }
 
-    if (!buttonStateRef.current.tapListenTimeout) {
-      stopListening()
+      if (!buttonStateRef.current.tapListenTimeout) {
+        stopListening()
+      }
     }
   }
 
   const setStopContextTimeout = (timeoutMs: number): void => {
-    if (isStoppable(speechState)) {
-      buttonStateRef.current.tapListenActive = true
-      if (buttonStateRef.current.tapListenTimeout) {
-        window.clearTimeout(buttonStateRef.current.tapListenTimeout)
-      }
-      buttonStateRef.current.tapListenTimeout = window.setTimeout(() => {
-        buttonStateRef.current.tapListenTimeout = null
-        stopListening()
-      }, timeoutMs)
+    buttonStateRef.current.tapListenActive = true
+    if (buttonStateRef.current.tapListenTimeout) {
+      window.clearTimeout(buttonStateRef.current.tapListenTimeout)
     }
+    buttonStateRef.current.tapListenTimeout = window.setTimeout(() => {
+      buttonStateRef.current.tapListenTimeout = null
+      stopListening()
+    }, timeoutMs)
   }
 
   const stopListening = (): void => {
     buttonStateRef.current.tapListenActive = false
-    if (isStoppable(speechStateRef.current)) {
-      toggleRecording().catch(err => console.error('Error while stopping recording', err))
+    if (isStoppable(clientStateRef.current)) {
+      stopContext().catch(err => console.error('Error while stopping recording', err))
     }
   }
 
@@ -265,8 +284,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment])
 
-  const isStoppable = (s?: SpeechState): boolean => {
-    return (s === SpeechState.Recording)
+  const isStoppable = (s?: ClientState): boolean => {
+    return (s === ClientState.Recording)
   }
 
   if (!loaded) return null
