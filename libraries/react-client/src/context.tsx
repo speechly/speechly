@@ -131,7 +131,7 @@ export const SpeechContext = React.createContext<SpeechContextState>({
   stopContext: async (): Promise<void> => Promise.resolve(),
   switchApp: (): void => {},
   speechState: SpeechState.Idle,
-  clientState: ClientState.Disconnected
+  clientState: ClientState.Disconnected,
 })
 
 /**
