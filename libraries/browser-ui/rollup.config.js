@@ -11,11 +11,11 @@ const production = !process.env.ROLLUP_WATCH;
 
 function serve() {
   let server;
-  
+
   function toExit() {
     if (server) server.kill(0);
   }
-  
+
   return {
     writeBundle() {
       if (server) return;
@@ -23,7 +23,7 @@ function serve() {
         stdio: ['ignore', 'inherit', 'inherit'],
         shell: true
       });
-      
+
       process.on('SIGTERM', toExit);
       process.on('exit', toExit);
     }
@@ -45,7 +45,7 @@ const webComponentDefaults = {
       preprocess: sveltePreprocess({ sourceMap: !production }),
       compilerOptions: {
         customElement: true,
-        tag: null, 
+        tag: null,
         // enable run-time checks when not in production
         dev: !production,
       }
@@ -56,7 +56,7 @@ const webComponentDefaults = {
       preprocess: sveltePreprocess({ sourceMap: !production }),
       compilerOptions: {
         customElement: false,
-        tag: null, 
+        tag: null,
         // enable run-time checks when not in production
         dev: !production,
       }
@@ -64,7 +64,7 @@ const webComponentDefaults = {
     // we'll extract any component CSS out into
     // a separate file - better for performance
     // css({ output: 'push-to-talk-button.css' }),
-    
+
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
     // some cases you'll need additional configuration -
@@ -75,21 +75,16 @@ const webComponentDefaults = {
       dedupe: ['svelte']
     }),
     commonjs(),
-    typescript({
-      tsconfig: './tsconfig.json',
-      sourceMap: !production,
-      inlineSources: !production,
-      sourceMap: true,
-    }),
-    
+    typescript({ tsconfig: './tsconfig.json' }),
+
     // In dev mode, call `npm run start` once
     // the bundle has been generated
     !production && serve(),
-    
+
     // Watch the `core` directory and refresh the
     // browser on changes when not in production
     !production && livereload('core'),
-    
+
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser()
@@ -127,32 +122,32 @@ export default [
     ]
   },
 
-  {...webComponentDefaults, 
+  {...webComponentDefaults,
     input: 'src/holdable-button.ts',
     output: {
       ...webComponentDefaults.output,
       file: 'core/holdable-button.js'
     },
   },
-  
-  {...webComponentDefaults, 
+
+  {...webComponentDefaults,
     input: 'src/big-transcript.ts',
     output: {
       ...webComponentDefaults.output,
       file: 'core/big-transcript.js'
     },
   },
-  
-  {...webComponentDefaults, 
+
+  {...webComponentDefaults,
     input: 'src/push-to-talk-button.ts',
-    output: 
+    output:
       {
         ...webComponentDefaults.output,
         file: 'core/push-to-talk-button.js'
       },
   },
 
-  {...webComponentDefaults, 
+  {...webComponentDefaults,
     input: 'src/transcript-drawer.ts',
     output: {
       ...webComponentDefaults.output,
@@ -160,7 +155,7 @@ export default [
     },
   },
 
-  {...webComponentDefaults, 
+  {...webComponentDefaults,
     input: 'src/call-out.ts',
     output: {
       ...webComponentDefaults.output,
@@ -168,7 +163,7 @@ export default [
     },
   },
 
-  {...webComponentDefaults, 
+  {...webComponentDefaults,
     input: 'src/error-panel.ts',
     output: {
       ...webComponentDefaults.output,
@@ -176,7 +171,7 @@ export default [
     },
   },
 
-  {...webComponentDefaults, 
+  {...webComponentDefaults,
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,
@@ -193,5 +188,5 @@ export default [
       },
     ],
   },
-  
+
 ]
