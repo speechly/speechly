@@ -194,7 +194,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   const tangentPressAction = async (): Promise<void> => {
     buttonStateRef.current.tangentPressPromise = (async() => {
-
       PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
       window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
       setShowHint(false)
@@ -211,7 +210,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           // otherwise it won't work reliably on Safari iOS as of 11/2020
           const initStartTime = Date.now()
           await initialise().catch(err => console.error('Error initiasing Speechly', err))
-          //await buttonStateRef.current.initPromise
+          // await buttonStateRef.current.initPromise
           // Long init time suggests permission dialog --> prevent listening start
           buttonStateRef.current.holdListenActive = !powerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
           break
@@ -226,7 +225,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           await startContext().catch(err => console.error('Error while starting to record', err))
         }
       }
-    })();
+    })()
   }
 
   const tangentReleaseAction = async (event: any): Promise<void> => {
