@@ -38,9 +38,20 @@ export interface SpeechContextState {
   initialise: ContextFunc
 
   /**
-   * Toggles recording on or off. Automatically initialises the API connection and audio stack.
+   * @deprecated
+   * Toggles listening on or off. Automatically initialises the API connection and audio stack.
    */
   toggleRecording: ContextFunc
+
+  /**
+   * Turns listening on. Automatically initialises the API connection and audio stack.
+   */
+  startContext: ContextFunc
+
+  /**
+   * Turns listening off.
+   */
+  stopContext: ContextFunc
 
   /**
    * Switch appId in multi-app project.
@@ -53,6 +64,14 @@ export interface SpeechContextState {
   appId?: string
 
   /**
+   * Current state of the context, whether it's idle, recording or failed, etc.
+   * It's advised to react to this to enable / disable voice functionality in your app
+   * as well as inidicate to the user that recording is in progress or results are being fetched from the API.
+   */
+  clientState: ClientState
+
+  /**
+   * @deprecated
    * Current state of the context, whether it's idle, recording or failed, etc.
    * It's advised to react to this to enable / disable voice functionality in your app
    * as well as inidicate to the user that recording is in progress or results are being fetched from the API.
@@ -108,8 +127,11 @@ export type ContextFunc = () => Promise<void>
 export const SpeechContext = React.createContext<SpeechContextState>({
   initialise: async (): Promise<void> => Promise.resolve(),
   toggleRecording: async (): Promise<void> => Promise.resolve(),
+  startContext: async (): Promise<void> => Promise.resolve(),
+  stopContext: async (): Promise<void> => Promise.resolve(),
   switchApp: (): void => {},
   speechState: SpeechState.Idle,
+  clientState: ClientState.Disconnected
 })
 
 /**
@@ -182,6 +204,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   readonly startContext = async (): Promise<void> => {
     const { client, clientState, appId } = this.state
+    this.setState({ toggleIsOn: true })
 
     let startedContextPromise
     switch (clientState) {
@@ -197,8 +220,12 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
           startedContextPromise = client?.startContext()
         }
         break
+      case ClientState.Starting:
+        console.warn('Already starting')
+        break
       default:
         console.warn('Cannot start context - client is not connected')
+        break
     }
 
     this.setState({ startedContextPromise })
@@ -209,6 +236,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   readonly stopContext = async (): Promise<void> => {
     const { client, startedContextPromise } = this.state
+    this.setState({ toggleIsOn: false })
 
     if (startedContextPromise !== undefined) {
       await startedContextPromise
@@ -220,7 +248,6 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   readonly toggleRecording = async (): Promise<void> => {
     const { toggleIsOn } = this.state
-    this.setState({ toggleIsOn: !toggleIsOn })
     if (!toggleIsOn) {
       return this.startContext()
     }
@@ -238,6 +265,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   render(): JSX.Element {
     const {
       appId,
+      clientState,
       recordingState,
       segment,
       tentativeTranscript,
@@ -252,9 +280,12 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       <SpeechContext.Provider
         value={{
           initialise: this.initialiseAudio,
+          startContext: this.startContext,
+          stopContext: this.stopContext,
           toggleRecording: this.toggleRecording,
           switchApp: async(appId: string) => this.switchApp(appId),
           appId,
+          clientState,
           speechState: recordingState,
           segment,
           tentativeTranscript,

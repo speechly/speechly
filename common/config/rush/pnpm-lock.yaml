@@ -53,7 +53,6 @@ specifiers:
   react-refresh: ^0.9.0
   react-scripts: ^4.0.3
   react-spring: ^8.0.27
-  rimraf: ^3.0.2
   rollup-plugin-copy-watch: '>=0.0.1'
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
@@ -122,7 +121,6 @@ dependencies:
   react-refresh: 0.9.0
   react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
   react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
-  rimraf: 3.0.2
   rollup-plugin-copy-watch: 0.0.1
   rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
@@ -7682,10 +7680,6 @@ packages:
     resolution: {integrity: sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==}
     dev: false
 
-  /highlight.js/10.7.3:
-    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
-    dev: false
-
   /hmac-drbg/1.0.1:
     resolution: {integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=}
     dependencies:
@@ -8027,11 +8021,6 @@ packages:
       get-intrinsic: 1.1.1
       has: 1.0.3
       side-channel: 1.0.4
-    dev: false
-
-  /interpret/1.4.0:
-    resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
-    engines: {node: '>= 0.10'}
     dev: false
 
   /ip-regex/2.1.0:
@@ -9513,12 +9502,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       object-visit: 1.0.1
-    dev: false
-
-  /marked/1.2.9:
-    resolution: {integrity: sha512-H8lIX2SvyitGX+TRdtS06m1jHMijKN/XjfH6Ooii9fvxMlh8QdqBfBDkGUpMWH2kQNrtixjzYUa3SH8ROTgRRw==}
-    engines: {node: '>= 8.16.2'}
-    hasBin: true
     dev: false
 
   /marked/3.0.8:
@@ -11753,13 +11736,6 @@ packages:
       picomatch: 2.3.0
     dev: false
 
-  /rechoir/0.6.2:
-    resolution: {integrity: sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=}
-    engines: {node: '>= 0.10'}
-    dependencies:
-      resolve: 1.20.0
-    dev: false
-
   /recursive-readdir/2.2.2:
     resolution: {integrity: sha512-nRCcW9Sj7NuZwa2XvH9co8NPeXUBhZP7CRKJtU+cS6PW9FpCIFoI5ib0NT1ZrbNuPoRy0ylyCaUL8Gih4LSyFg==}
     engines: {node: '>=0.10.0'}
@@ -12477,16 +12453,6 @@ packages:
 
   /shell-quote/1.7.2:
     resolution: {integrity: sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==}
-    dev: false
-
-  /shelljs/0.8.4:
-    resolution: {integrity: sha512-7gk3UZ9kOfPLIAbslLzyWeGiEqx9e3rxwZM0KE6EL8GlGwjym9Mrlx5/p33bWTu9YG6vcS4MBxYZDHYr5lr8BQ==}
-    engines: {node: '>=4'}
-    hasBin: true
-    dependencies:
-      glob: 7.2.0
-      interpret: 1.4.0
-      rechoir: 0.6.2
     dev: false
 
   /shellwords/0.1.1:
@@ -13697,23 +13663,9 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: false
 
-  /typedoc-default-themes/0.11.4:
-    resolution: {integrity: sha512-Y4Lf+qIb9NTydrexlazAM46SSLrmrQRqWiD52593g53SsmUFioAsMWt8m834J6qsp+7wHRjxCXSZeiiW5cMUdw==}
-    engines: {node: '>= 8'}
-    dev: false
-
   /typedoc-default-themes/0.12.10:
     resolution: {integrity: sha512-fIS001cAYHkyQPidWXmHuhs8usjP5XVJjWB8oZGqkTowZaz3v7g3KDZeeqE82FBrmkAnIBOY3jgy7lnPnqATbA==}
     engines: {node: '>= 8'}
-    dev: false
-
-  /typedoc-plugin-markdown/3.11.7_typedoc@0.19.2:
-    resolution: {integrity: sha512-Wm3HP5gcBOGOOTeDA8GLgw+BY+GAI31RP9Lyog21BvTaSeWUcdXls5TG1MK+XDatS2/0dup9gFO+emoyoQJm9Q==}
-    peerDependencies:
-      typedoc: '>=0.22.0'
-    dependencies:
-      handlebars: 4.7.7
-      typedoc: 0.19.2_typescript@4.5.2
     dev: false
 
   /typedoc-plugin-markdown/3.11.7_typedoc@0.21.9:
@@ -13732,27 +13684,6 @@ packages:
     dependencies:
       handlebars: 4.7.7
       typedoc: 0.22.9_typescript@4.5.2
-    dev: false
-
-  /typedoc/0.19.2_typescript@4.5.2:
-    resolution: {integrity: sha512-oDEg1BLEzi1qvgdQXc658EYgJ5qJLVSeZ0hQ57Eq4JXy6Vj2VX4RVo18qYxRWz75ifAaYuYNBUCnbhjd37TfOg==}
-    engines: {node: '>= 10.0.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: 3.9.x || 4.0.x
-    dependencies:
-      fs-extra: 9.1.0
-      handlebars: 4.7.7
-      highlight.js: 10.7.3
-      lodash: 4.17.21
-      lunr: 2.3.9
-      marked: 1.2.9
-      minimatch: 3.0.4
-      progress: 2.0.3
-      semver: 7.3.5
-      shelljs: 0.8.4
-      typedoc-default-themes: 0.11.4
-      typescript: 4.5.2
     dev: false
 
   /typedoc/0.21.9_typescript@4.5.2:
@@ -14951,7 +14882,7 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-2tqvd069hfubcjaPFQV+l9bm8vh5q9nYfJbjlhO6yftcqXYE3Jeiaw3AQhAkdpowlYM3GaaDmQ7kjwfihT3rOg==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-HjGtaoXE7l2xO+v9QtWSW92cVWRUprv+U7FbkIiC+0hjwXJuItqWL2d4aDTd0w+7myBn8EeWf5sVkDtTjuw98g==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
@@ -14971,8 +14902,8 @@ packages:
       react: 17.0.2
       ts-loader: 8.3.0_typescript@4.5.2
       tsc-watch: 4.5.0_typescript@4.5.2
-      typedoc: 0.19.2_typescript@4.5.2
-      typedoc-plugin-markdown: 3.11.7_typedoc@0.19.2
+      typedoc: 0.22.9_typescript@4.5.2
+      typedoc-plugin-markdown: 3.11.7_typedoc@0.22.9
       typescript: 4.5.2
     transitivePeerDependencies:
       - supports-color
@@ -15014,7 +14945,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-upEZr+9LG0KxJ3GO2689z/3ZO0oYo3a+PBqBU7/cDt4h13KZRBXec3Zmi16oSHY9axGv9X1MXsbg5JSivE4cTA==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-v1mX8T3I/wLe2ABgD/qEPehBnfjoZhzz257uWyB0VuH6AcnYacAnNv3l0vR1kS4tDW9IiaGBzfTCJ4KTl/oMlQ==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
