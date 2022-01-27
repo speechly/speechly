@@ -9,6 +9,7 @@
   import type { IHoldEvent } from "./types";
 
   const TAP_TRESHOLD_MS = 600
+  const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
   const dispatchUnbounded = createDispatchUnbounded();
 
   export let projectid: string = undefined;
@@ -33,13 +34,14 @@
   export let apiurl = undefined;
 
   let icon: ClientState = ClientState.Disconnected;
-  let buttonHeld = false;
+  let holdListenActive = false;
   let initializedSuccessfully = undefined;
   let tipCalloutVisible = false;
   let mounted = false;
 
   let tapListenTimeout = null;
   let tapListenActive = false;
+  let tangentStartPromise = null;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
@@ -84,51 +86,60 @@
 
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
-    (async () => {
-      try {
-        dispatchUnbounded("starting");
-        await client.initialize();
-      } catch (e) {
-        console.error("Speechly initialization failed", e);
-        client = null;
-      }
-    })();
-  };
-
-  const tangentStart = (event) => {
-    buttonHeld = true;
-    tipCalloutVisible = false;
-    if (client) {
-      // Connect on 1st press
-      if (isConnectable(clientState)) {
-        if (appid || projectid) {
-          initializeSpeechly();
-        } else {
-          console.warn(
-            "No appid/projectid attribute specified. Speechly voice services are unavailable."
-          );
-        }
-      } else {
-        if (tapListenTimeout) {
-          window.clearTimeout(tapListenTimeout);
-          tapListenTimeout = null;
-        }
-        if (isStartable(clientState)) {
-          dispatchUnbounded("startcontext");
-          client.startContext(appid);
-        }
-      }
+    try {
+      dispatchUnbounded("starting");
+      await client.initialize();
+    } catch (e) {
+      console.error("Speechly initialization failed", e);
+      client = null;
     }
-    // Send as window.postMessages
-    window.postMessage({ type: "holdstart", state: clientState }, "*");
-
   };
 
-  const tangentEnd = (event) => {
-    const holdEventData: IHoldEvent = event.detail;
-    buttonHeld = false;
+  const tangentStart = async (event) => {
+    tangentStartPromise = (async () => {
+      tipCalloutVisible = false;
+      
+      if (client) {
+        // Connect on 1st press
+        if (isConnectable(clientState)) {
+          if (appid || projectid) {
+            const initStartTime = Date.now();
+            await initializeSpeechly();
+            // Long init time suggests permission dialog --> prevent listening start
+            holdListenActive = !showPowerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+          } else {
+            console.warn(
+              "No appid/projectid attribute specified. Speechly voice services are unavailable."
+            );
+          }
+        } else {
+          holdListenActive = true;
+        }
 
-    if (initializedSuccessfully !== false) {
+        if (holdListenActive) {
+          if (tapListenTimeout) {
+            window.clearTimeout(tapListenTimeout);
+            tapListenTimeout = null;
+          }
+          if (isStartable(clientState)) {
+            dispatchUnbounded("startcontext");
+            client.startContext(appid);
+          }
+        }
+      }
+      // Send as window.postMessages
+      window.postMessage({ type: "holdstart", state: clientState }, "*");
+    })()
+  };
+
+  const tangentEnd = async (event) => {
+    // Ensure async tangentStart and end are run in appropriate order
+    await tangentStartPromise;
+
+    if (client && holdListenActive) {
+      holdListenActive = false;
+      const holdEventData: IHoldEvent = event.detail;
+
       // Detect short press
       if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
         if (taptotalktime == 0) {
@@ -152,16 +163,14 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    if (isStoppable(clientState)) {
-      tapListenActive = true;
-      if (tapListenTimeout) {
-        window.clearTimeout(tapListenTimeout);
-      }
-      tapListenTimeout = window.setTimeout(() => {
-        tapListenTimeout = null;
-        stopListening();
-      }, timeoutMs);
+    tapListenActive = true;
+    if (tapListenTimeout) {
+      window.clearTimeout(tapListenTimeout);
     }
+    tapListenTimeout = window.setTimeout(() => {
+      tapListenTimeout = null;
+      stopListening();
+    }, timeoutMs);
   }
 
   const stopListening = () => {
@@ -214,7 +223,7 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
-        if (!showPowerOn && (buttonHeld || tapListenActive) && isStartable(clientState)) {
+        if (!showPowerOn && (holdListenActive || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
         }

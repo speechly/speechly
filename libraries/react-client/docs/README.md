@@ -1,11 +1,13 @@
-**[@speechly/react-client](README.md)**
-
-> Globals
+@speechly/react-client
 
 # @speechly/react-client
 
-## Index
+## Table of contents
 
 ### Modules
 
-* ["index.d"](modules/_index_d_.md)
+- [context](modules/context.md)
+- [hooks](modules/hooks.md)
+- [index](modules/index.md)
+- [state](modules/state.md)
+- [types](modules/types.md)
