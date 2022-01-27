@@ -113,7 +113,7 @@ type IButtonState = {
   tapListenActive: boolean
   holdListenActive: boolean
   tapListenTimeout: number | null
-  initPromise: Promise<any> | null
+  initPromise: Promise<void> | null
 }
 
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
@@ -192,7 +192,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientState])
 
-  const tangentPressAction = async () => {
+  const tangentPressAction = async (): Promise<void> => {
     PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
     window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
     setShowHint(false)
@@ -207,14 +207,14 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       case ClientState.Failed:
         // Speechly & Mic initialise needs to be in a function triggered by event handler
         // otherwise it won't work reliably on Safari iOS as of 11/2020
-        const initStartTime = Date.now();
+        const initStartTime = Date.now()
         buttonStateRef.current.initPromise = initialise().catch(err => console.error('Error initiasing Speechly', err))
         await buttonStateRef.current.initPromise
         // Long init time suggests permission dialog --> prevent listening start
-        buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+        buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
         break
       default:
-        buttonStateRef.current.holdListenActive = true;
+        buttonStateRef.current.holdListenActive = true
         break
     }
 
@@ -226,7 +226,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
   }
 
-  const tangentReleaseAction = async (event: any) => {
+  const tangentReleaseAction = async (event: any): Promise<void> => {
     // Ensure async tangentPress and Release are run in appropriate order
     await buttonStateRef.current.initPromise
 
@@ -234,7 +234,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     window.postMessage({ type: 'holdend' }, '*')
 
     if (buttonStateRef.current.holdListenActive) {
-      buttonStateRef.current.holdListenActive = false;
+      buttonStateRef.current.holdListenActive = false
 
       if (event.timeMs < TAP_TRESHOLD_MS) {
         if (tapToTalkTime === 0) {
