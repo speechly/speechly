@@ -105,7 +105,7 @@
           const initStartTime = Date.now();
           initPromise = initializeSpeechly();
           await initPromise;
-          // Long init time suggests permission dialog --> set buttonHeld false to prevent listening start
+          // Long init time suggests permission dialog --> prevent listening start
           holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
         } else {
           console.warn(
@@ -133,29 +133,27 @@
 
   const tangentEnd = async (event) => {
     // Ensure async tangentStart and end are run in appropriate order
-    if (initPromise) await initPromise;
+    await initPromise;
 
-    if (holdListenActive) {
+    if (client && holdListenActive) {
       holdListenActive = false;
       const holdEventData: IHoldEvent = event.detail;
 
-      if (initializedSuccessfully !== false) {
-        // Detect short press
-        if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
-          if (taptotalktime == 0) {
-            tipCallOutText = hint;
-            tipCalloutVisible = true;
-          } else {
-            // Short press when not recording = schedule "silence based stop"
-            if (!tapListenActive) {
-              setStopContextTimeout(taptotalktime);
-            }
+      // Detect short press
+      if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
+        if (taptotalktime == 0) {
+          tipCallOutText = hint;
+          tipCalloutVisible = true;
+        } else {
+          // Short press when not recording = schedule "silence based stop"
+          if (!tapListenActive) {
+            setStopContextTimeout(taptotalktime);
           }
         }
+      }
 
-        if (!tapListenTimeout) {
-          stopListening();
-        }
+      if (!tapListenTimeout) {
+        stopListening();
       }
     }
 
