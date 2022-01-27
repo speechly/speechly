@@ -98,6 +98,11 @@ This will build everything in the repository – This may take a while! After th
 ```
 rushx start
 ```
+Before doing a PR, remember to create a changelog entry with
+
+```
+rush change -b origin/main
+```
 
 ## Learn more
 - [Quick Start Guide](https://docs.speechly.com/quick-start/) – Get started on developing with Speechly for the web
