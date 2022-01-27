@@ -41,7 +41,7 @@
 
   let tapListenTimeout = null;
   let tapListenActive = false;
-  let initPromise = null;
+  let tangentStartPromise = null;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
@@ -96,44 +96,45 @@
   };
 
   const tangentStart = async (event) => {
-    tipCalloutVisible = false;
-    
-    if (client) {
-      // Connect on 1st press
-      if (isConnectable(clientState)) {
-        if (appid || projectid) {
-          const initStartTime = Date.now();
-          initPromise = initializeSpeechly();
-          await initPromise;
-          // Long init time suggests permission dialog --> prevent listening start
-          holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+    tangentStartPromise = (async () => {
+      tipCalloutVisible = false;
+      
+      if (client) {
+        // Connect on 1st press
+        if (isConnectable(clientState)) {
+          if (appid || projectid) {
+            const initStartTime = Date.now();
+            await initializeSpeechly();
+            // Long init time suggests permission dialog --> prevent listening start
+            holdListenActive = !showPowerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+          } else {
+            console.warn(
+              "No appid/projectid attribute specified. Speechly voice services are unavailable."
+            );
+          }
         } else {
-          console.warn(
-            "No appid/projectid attribute specified. Speechly voice services are unavailable."
-          );
+          holdListenActive = true;
         }
-      } else {
-        holdListenActive = true;
-      }
 
-      if (holdListenActive) {
-        if (tapListenTimeout) {
-          window.clearTimeout(tapListenTimeout);
-          tapListenTimeout = null;
-        }
-        if (isStartable(clientState)) {
-          dispatchUnbounded("startcontext");
-          client.startContext(appid);
+        if (holdListenActive) {
+          if (tapListenTimeout) {
+            window.clearTimeout(tapListenTimeout);
+            tapListenTimeout = null;
+          }
+          if (isStartable(clientState)) {
+            dispatchUnbounded("startcontext");
+            client.startContext(appid);
+          }
         }
       }
-    }
-    // Send as window.postMessages
-    window.postMessage({ type: "holdstart", state: clientState }, "*");
+      // Send as window.postMessages
+      window.postMessage({ type: "holdstart", state: clientState }, "*");
+    })()
   };
 
   const tangentEnd = async (event) => {
     // Ensure async tangentStart and end are run in appropriate order
-    await initPromise;
+    await tangentStartPromise;
 
     if (client && holdListenActive) {
       holdListenActive = false;

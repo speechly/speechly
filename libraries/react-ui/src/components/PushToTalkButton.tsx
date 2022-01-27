@@ -113,7 +113,7 @@ type IButtonState = {
   tapListenActive: boolean
   holdListenActive: boolean
   tapListenTimeout: number | null
-  initPromise: Promise<void> | null
+  tangentPressPromise: Promise<void> | null
 }
 
 export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
@@ -142,7 +142,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     tapListenActive: false,
     holdListenActive: false,
     tapListenTimeout: null,
-    initPromise: null,
+    tangentPressPromise: null,
   })
   const buttonRef = useRef<any>()
   const clientStateRef = useRef<ClientState>()
@@ -193,42 +193,45 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   }, [clientState])
 
   const tangentPressAction = async (): Promise<void> => {
-    PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
-    window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
-    setShowHint(false)
+    buttonStateRef.current.tangentPressPromise = (async() => {
 
-    if (buttonStateRef.current.tapListenTimeout) {
-      window.clearTimeout(buttonStateRef.current.tapListenTimeout)
-      buttonStateRef.current.tapListenTimeout = null
-    }
+      PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
+      window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
+      setShowHint(false)
 
-    switch (clientStateRef.current) {
-      case ClientState.Disconnected:
-      case ClientState.Failed:
-        // Speechly & Mic initialise needs to be in a function triggered by event handler
-        // otherwise it won't work reliably on Safari iOS as of 11/2020
-        const initStartTime = Date.now()
-        buttonStateRef.current.initPromise = initialise().catch(err => console.error('Error initiasing Speechly', err))
-        await buttonStateRef.current.initPromise
-        // Long init time suggests permission dialog --> prevent listening start
-        buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
-        break
-      default:
-        buttonStateRef.current.holdListenActive = true
-        break
-    }
-
-    // Start listening
-    if (buttonStateRef.current.holdListenActive) {
-      if (clientStateRef.current === ClientState.Connected) {
-        startContext().catch(err => console.error('Error while starting to record', err))
+      if (buttonStateRef.current.tapListenTimeout) {
+        window.clearTimeout(buttonStateRef.current.tapListenTimeout)
+        buttonStateRef.current.tapListenTimeout = null
       }
-    }
+
+      switch (clientStateRef.current) {
+        case ClientState.Disconnected:
+        case ClientState.Failed:
+          // Speechly & Mic initialise needs to be in a function triggered by event handler
+          // otherwise it won't work reliably on Safari iOS as of 11/2020
+          const initStartTime = Date.now()
+          await initialise().catch(err => console.error('Error initiasing Speechly', err))
+          //await buttonStateRef.current.initPromise
+          // Long init time suggests permission dialog --> prevent listening start
+          buttonStateRef.current.holdListenActive = !powerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
+          break
+        default:
+          buttonStateRef.current.holdListenActive = true
+          break
+      }
+
+      // Start listening
+      if (buttonStateRef.current.holdListenActive) {
+        if (clientStateRef.current === ClientState.Connected) {
+          await startContext().catch(err => console.error('Error while starting to record', err))
+        }
+      }
+    })();
   }
 
   const tangentReleaseAction = async (event: any): Promise<void> => {
     // Ensure async tangentPress and Release are run in appropriate order
-    await buttonStateRef.current.initPromise
+    await buttonStateRef.current.tangentPressPromise
 
     PubSub.publish(SpeechlyUiEvents.TangentRelease, { state: clientStateRef.current, timeMs: event.timeMs })
     window.postMessage({ type: 'holdend' }, '*')
