@@ -93,7 +93,19 @@ const SmartFilter: React.FC = (props) => {
 
       if (segment.isFinal) {
         filterDispatch({ type: "segment_finalized", segment: segment });
-        const changesMade = debugInfo.numFilterChanges.current - debugInfo.numFilterChanges.last;
+        let changesMade = debugInfo.numFilterChanges.current - debugInfo.numFilterChanges.last;
+
+        // Open a GUI menu if a "filter" entity type found, e.g. "What brands do you have"
+        const filterName = segment.entities.find(e => e.type === "filter")?.value;
+        if (filterName) {
+          changesMade++;
+          const filterIndex = FilterConfig.findIndex(f => f.key === filterName);
+          setShowFilterOptions(filterIndex);
+        } else {
+          setShowFilterOptions(-1);
+        }
+
+        // Show feedback if the app couldn't parse the request
         if (changesMade === 0) {
           // Feedback about a missing brand
           if (appliedFilters.brand?.optionFound === false) {
