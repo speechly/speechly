@@ -9,6 +9,7 @@
   import type { IHoldEvent } from "./types";
 
   const TAP_TRESHOLD_MS = 600
+  const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
   const dispatchUnbounded = createDispatchUnbounded();
 
   export let projectid: string = undefined;
@@ -33,13 +34,14 @@
   export let apiurl = undefined;
 
   let icon: ClientState = ClientState.Disconnected;
-  let buttonHeld = false;
+  let holdListenActive = false;
   let initializedSuccessfully = undefined;
   let tipCalloutVisible = false;
   let mounted = false;
 
   let tapListenTimeout = null;
   let tapListenActive = false;
+  let initPromise = null;
 
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
@@ -93,35 +95,28 @@
     }
   };
 
-  let initHandler = null;
-
-  const tangentStart = async(event) => {
-    console.log("tangentStart");
+  const tangentStart = async (event) => {
     tipCalloutVisible = false;
-    buttonHeld = true;
     
     if (client) {
       // Connect on 1st press
       if (isConnectable(clientState)) {
-        buttonHeld = false;
         if (appid || projectid) {
-          console.log("pre-init");
           const initStartTime = Date.now();
-          initHandler = initializeSpeechly();
-          await initHandler;
-          console.log("post-init", Date.now() - initStartTime);
-          if (Date.now() - initStartTime < 1500) {
-            console.log("short init. attempt start");
-            buttonHeld = true;
-          }
+          initPromise = initializeSpeechly();
+          await initPromise;
+          // Long init time suggests permission dialog --> set buttonHeld false to prevent listening start
+          holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
         } else {
           console.warn(
             "No appid/projectid attribute specified. Speechly voice services are unavailable."
           );
         }
+      } else {
+        holdListenActive = true;
       }
 
-      if (buttonHeld) {
+      if (holdListenActive) {
         if (tapListenTimeout) {
           window.clearTimeout(tapListenTimeout);
           tapListenTimeout = null;
@@ -137,29 +132,30 @@
   };
 
   const tangentEnd = async (event) => {
-    console.log("tangentEnd");
-    if (initHandler) await initHandler;
-    if (!buttonHeld) return;
-    console.log("tangentEnd 2");
-    const holdEventData: IHoldEvent = event.detail;
-    buttonHeld = false;
+    // Ensure async tangentStart and end are run in appropriate order
+    if (initPromise) await initPromise;
 
-    if (initializedSuccessfully !== false) {
-      // Detect short press
-      if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
-        if (taptotalktime == 0) {
-          tipCallOutText = hint;
-          tipCalloutVisible = true;
-        } else {
-          // Short press when not recording = schedule "silence based stop"
-          if (!tapListenActive) {
-            setStopContextTimeout(taptotalktime);
+    if (holdListenActive) {
+      holdListenActive = false;
+      const holdEventData: IHoldEvent = event.detail;
+
+      if (initializedSuccessfully !== false) {
+        // Detect short press
+        if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
+          if (taptotalktime == 0) {
+            tipCallOutText = hint;
+            tipCalloutVisible = true;
+          } else {
+            // Short press when not recording = schedule "silence based stop"
+            if (!tapListenActive) {
+              setStopContextTimeout(taptotalktime);
+            }
           }
         }
-      }
 
-      if (!tapListenTimeout) {
-        stopListening();
+        if (!tapListenTimeout) {
+          stopListening();
+        }
       }
     }
 
@@ -168,7 +164,6 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    console.log("setStopContextTimeout")
     tapListenActive = true;
     if (tapListenTimeout) {
       window.clearTimeout(tapListenTimeout);
@@ -229,10 +224,7 @@
       case ClientState.Connected:
         setInitialized(true, "Ready");
         // Automatically start recording if button held
-        console.log("isStartable", isStartable(clientState));
-        console.log("buttonHeld", buttonHeld);
-        console.log("tapListenActive", tapListenActive);
-        if (!showPowerOn && (buttonHeld || tapListenActive) && isStartable(clientState)) {
+        if (!showPowerOn && (holdListenActive || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
         }
