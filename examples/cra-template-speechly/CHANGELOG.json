@@ -1,0 +1,17 @@
+{
+  "name": "cra-template-speechly",
+  "entries": [
+    {
+      "version": "1.0.2",
+      "tag": "cra-template-speechly_v1.0.2",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS."
+          }
+        ]
+      }
+    }
+  ]
+}

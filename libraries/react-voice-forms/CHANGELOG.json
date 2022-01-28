@@ -2,6 +2,35 @@
   "name": "@speechly/react-voice-forms",
   "entries": [
     {
+      "version": "1.1.2",
+      "tag": "@speechly/react-voice-forms_v1.1.2",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS."
+          },
+          {
+            "comment": "Added theme and component css files to 'css' folder in package."
+          },
+          {
+            "comment": "Add sources to target build"
+          },
+          {
+            "comment": "Fixes an issue where the date is wrong due to timezones"
+          },
+          {
+            "comment": "Exposed --widget-shadow variable. M"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/react-client\" from `>=1.1.0` to `1.2.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.4",
       "tag": "@speechly/react-voice-forms_v1.0.4",
       "date": "Mon, 18 Oct 2021 21:09:13 GMT",

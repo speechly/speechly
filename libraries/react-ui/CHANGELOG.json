@@ -1,0 +1,63 @@
+{
+  "name": "@speechly/react-ui",
+  "entries": [
+    {
+      "version": "2.4.0",
+      "tag": "@speechly/react-ui_v2.4.0",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS."
+          },
+          {
+            "comment": "Suppressed console logging"
+          },
+          {
+            "comment": "removed legacy prepare_dist.js, fixed typedoc generation. Generated docs."
+          },
+          {
+            "comment": "Changed BigTranscript default placement from 'top' to undefined to fix problems with custom layouts like fashion-ecommerce"
+          },
+          {
+            "comment": "Add sources to target build"
+          },
+          {
+            "comment": "2.3.2 fixing first tap-to-talk attempt"
+          },
+          {
+            "comment": "2.3.1 fixing unwanted listening start after permission prompt"
+          },
+          {
+            "comment": "react-ui built against browser-ui 5.0.1"
+          },
+          {
+            "comment": "Updated internal @speechly/browser-ui dependency to >=5.0.1"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "Dynamic import of browser-ui custom elements to make react-ui play nice with Nextjs server side rendering (SSR)"
+          },
+          {
+            "comment": "2.2.0 with tap-to-talk support"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-ui\" from `>=5.0.2` to `5.0.7`"
+          },
+          {
+            "comment": "Updating dependency \"@speechly/react-client\" from `>=1.1.1` to `1.2.0`"
+          },
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `>=1.0.19` to `1.2.0`"
+          },
+          {
+            "comment": "Updating dependency \"@speechly/react-client\" from `>=1.1.1` to `1.2.0`"
+          }
+        ]
+      }
+    }
+  ]
+}
