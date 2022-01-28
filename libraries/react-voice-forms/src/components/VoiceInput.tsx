@@ -24,33 +24,39 @@ export type VoiceInputProps = {
   changeOnIntent?: string
 
   /**
-    * `string` (entity type) specifies the entity type that changes this component's value. The new value will be the entity's value.
-    */
+   * `string` (entity type) specifies the entity type that changes this component's value. The new value will be the entity's value.
+   */
+
   changeOnEntityType: string
   /**
    * @private
    */
+
   focused?: boolean
    /**
    * @param value The new value.
    * Triggered upon GUI or voice manipulation of the widget.
    */
+
   onChange?: (value: string) => void
-   /**
-    * @private
-    */
-  onBlur?: () => void
-   /**
-    * @private
-    */
-  onFocus?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
+  onVoiceBlur?: (el: HTMLInputElement) => void
+
+  /**
+   * @private
+   */
+  onVoiceFocus?: (el: HTMLInputElement) => void
+
+  /**
+   * @private
+   */
   onFinal?: () => void
 }
 
-export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = false }: VoiceInputProps) => {
+export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onVoiceBlur, onVoiceFocus, focused = false }: VoiceInputProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
@@ -66,20 +72,20 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
     }
   }
   
-  const _onFocus = () => {
-    _setFocused(true)
-    // use callback only to change parent state
-    if (!focused && onFocus) {
-      onFocus()
+  const _onVoiceFocus = () => {
+    if (!_focused) {
+      _setFocused(true)
+      if (onVoiceFocus && inputEl.current) {
+        onVoiceFocus(inputEl.current)
+      }
     }
   }
 
-  const _onBlur = () => {
-    // use callback only to change parent state
+  const _onVoiceBlur = () => {
     if (_focused) {
       _setFocused(false)
-      if (onBlur) {
-        onBlur()
+      if (onVoiceBlur && inputEl.current) {
+        onVoiceBlur(inputEl.current)
       }
     }
   }
@@ -100,26 +106,24 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
         // Field is targeted
         if (!_focused) {
           setLastGoodKnownValue(value !== undefined ? value : _value)
+          _onVoiceFocus()
         }
         _onChange(newValue)
-        _onFocus()
+
+        if (segment?.isFinal) {
+          _onVoiceBlur()
+          if (onFinal) {
+            onFinal()
+          }
+        }
       } else {
         // Field is no longer targeted: tentative input may retarget to another component at any time
         if (_focused) {
           _onChange(lastGoodKnownValue)
-          _onBlur()
+          _onVoiceBlur()
         }
       }
 
-      if (segment?.isFinal) {
-        _onBlur()
-        if (inputEl != null && inputEl.current != null) {
-          inputEl.current.blur()
-        }
-        if (onFinal) {
-          onFinal()
-        }
-      }
     }
   }, [segment])
 
@@ -132,8 +136,6 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
         name={changeOnEntityType}
         value={value !== undefined ? value : _value}
         onChange={(event: any) => { _onChange(event.target.value) }}
-        onBlur={_onBlur}
-        onFocus={_onFocus}
       />
     </div>
   );

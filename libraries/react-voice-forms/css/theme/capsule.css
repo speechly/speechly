@@ -49,6 +49,8 @@ label {
   border-radius: 4rem;
 
   box-shadow: var(--widget-shadow);
+
+  scroll-margin: 10rem; /* When voicefocused, allow berth to screen edges */
   transition: 0.3s;
 }
 
