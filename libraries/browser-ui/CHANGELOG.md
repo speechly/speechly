@@ -1,52 +1,20 @@
-## 5.0.2
+# Change Log - @speechly/browser-ui
 
-Fixed bugs to enable tap-to-talk for react-client 
-## 5.0.0
+This log was last generated on Fri, 28 Jan 2022 11:38:16 GMT and should not be manually modified.
 
-Moved to npm CDN repos
-## 4.1.2
+## 5.0.7
+Fri, 28 Jan 2022 11:38:16 GMT
 
-- Added two Custom Events to Push-To-Talk Button: startcontext (triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration and stopcontext (triggered on just after stopping listening)
+### Patches
 
-## 4.1.1
+- Changed url references to unpkg.com. rushx start will now start dev server in watch mode.
+- 5.0.1 published with production build.
+- 5.0.4 with leaner build, new README
+- Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS.
+- Added static asset (index.html) watch for better dev experience
+- Add sources to target build
+- 5.0.6 fixes first tap-to-talk press
+- 5.0.5 fixing listening auto-starting after permission consent
+- Exposed --widget-shadow variable. MUI theme improvements.
+- 5.0.2 with bug fixes for react-ui tap-to-talk feature
 
-- Optional loginurl and apiurl attributes to connect to non-default Speechly endpoints.
-## 4.1.0
-
-- projectid attribute - Optional Speechly Project id to connect to. Allows changing App id on the fly within the same project.
-- Tap-to-talk
-- taptotalktime and silencetohanguptime attributes
-
-## 4.0.3
-
-- Broadcasts initialized message with new app id param
-- ErrorPanel triggered upon Failed state; assumes that's due to invalid App Id.
-
-## 4.0.2
-
-- Fixed error-panel default placement and CSS
-
-## 4.0.0
-
-- Added error-panel component
-
-## 2.0
-
-- holdable-button component with no bundled browser-client; app id fix; reconnection fix; hold-to-talk prompt (using callout) and listening prompt, audio received and acknowledged indicators.
-- 2021/03: Svelte can't use nested components from customElements. Nested components need to be also customComponents, and thus create their own shadow doms and styles. Seems unnecessarily heavy e.g. with every child node having own <style>, but not sure. Parent's style won't affect the child. Using flat hierarchly in big-transcript for now. As workaround, build script can be tweaked to compile customElements based on file name, but styling issues remained.
-- 2021/03: Transitions on WebComponents not working https://github.com/sveltejs/svelte/issues/4735 > Using transFix.js to wrap transitions
-
-## 1.0
-
-- push-to-talk-button, big-transcript components
-
-## 0.5
-
-- Handles connection to @speechly/browser-client, send update-segment CustomEvent
-
-## 0.4
-
-- Deprecated `onholdstart` and `onholdend` attributes in favour of CustomEvents of similar names.
-- Tried using `<template>` for icon art, but removed it due to it making things difficult for Wix
-- Moved "custom" customElement method definitions like render() to constructor because Safari/iOS 12.5 did not work properly when they were defined as class methods
-- Used autonomous variant of customElement for Safari support. This way, our supported browser platforms should not change (not verified, though)

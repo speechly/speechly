@@ -47,6 +47,6 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          node common/scripts/install-run-rush.js publish --apply --publish --target-branch main --include-all --set-access-level=public
+          node common/scripts/install-run-rush.js publish --apply --publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

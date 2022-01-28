@@ -1,0 +1,33 @@
+{
+  "name": "@speechly/react-client",
+  "entries": [
+    {
+      "version": "1.2.0",
+      "tag": "@speechly/react-client_v1.2.0",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS."
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Add sources to target build"
+          },
+          {
+            "comment": "1.1.1 with startContext, stopContext and clientState exposed"
+          },
+          {
+            "comment": "Initialize Speechly on DOM mount instead of constructor to fix server-side rendering problems"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `>=1.1.0` to `1.2.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@speechly/browser-ui",
+  "entries": [
+    {
+      "version": "5.0.7",
+      "tag": "@speechly/browser-ui_v5.0.7",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Changed url references to unpkg.com. rushx start will now start dev server in watch mode."
+          },
+          {
+            "comment": "5.0.1 published with production build."
+          },
+          {
+            "comment": "5.0.4 with leaner build, new README"
+          },
+          {
+            "comment": "Using new browser-client v1.1.0 with two JS module bundles (ES & UMD) instead of CJS."
+          },
+          {
+            "comment": "Added static asset (index.html) watch for better dev experience"
+          },
+          {
+            "comment": "Add sources to target build"
+          },
+          {
+            "comment": "5.0.6 fixes first tap-to-talk press"
+          },
+          {
+            "comment": "5.0.5 fixing listening auto-starting after permission consent"
+          },
+          {
+            "comment": "Exposed --widget-shadow variable. MUI theme improvements."
+          },
+          {
+            "comment": "5.0.2 with bug fixes for react-ui tap-to-talk feature"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `>=1.1.0` to `1.2.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

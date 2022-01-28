@@ -1,0 +1,22 @@
+{
+  "name": "@speechly/browser-client",
+  "entries": [
+    {
+      "version": "1.2.0",
+      "tag": "@speechly/browser-client_v1.2.0",
+      "date": "Fri, 28 Jan 2022 11:38:16 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "New browser-client package with two JS module bundles (ES & UMD) instead of CJS."
+          }
+        ],
+        "patch": [
+          {
+            "comment": "Add sources to target build"
+          }
+        ]
+      }
+    }
+  ]
+}
