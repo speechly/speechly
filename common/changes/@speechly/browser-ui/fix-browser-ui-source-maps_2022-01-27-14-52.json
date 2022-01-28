@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Add sources to target build",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}

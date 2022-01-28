@@ -31,7 +31,7 @@
     "@speechly/browser-client": ">=1.1.0"
   },
   "files": [
-    "core/**/*"
+    "core/**/*","src/**/*"
   ],
   "publishConfig": {
     "access": "public"
