@@ -5,6 +5,8 @@ html, body, #root {
   padding: 0;
   width: 100%;
   min-height: 100vh;
+  --dropdown-handle-size: 0.35rem;
+  --color-input-voicefocus-bg: #d9edff;
 }
 
 body, textarea {
@@ -174,8 +176,10 @@ input, textarea, select {
   border-radius: 0.1rem;
   overflow: auto;
   resize: none;
-  transition: 0.3s;
   background-color: #ffffff;
+
+  scroll-margin: 10rem;
+  transition: 0.3s;
 }
 
 .CheckoutApp select
@@ -186,7 +190,6 @@ input, textarea, select {
   box-sizing: border-box;
   -webkit-appearance: none;
   -moz-appearance: none;
-  --dropdown-handle-size: 0.35rem;
 
   background-image:
     linear-gradient(45deg, transparent 50%, #00000080 50%),
@@ -207,6 +210,16 @@ textarea:hover,
 select:hover
 {
   background-color: #eee;
+}
+
+.voicefocus input,
+.voicefocus select,
+.voicefocus textarea,
+.toggle.voicefocus button:not(.active)
+{
+  background-color: var(--color-input-voicefocus-bg);
+  transition: 0.3s;
+  transition-delay: 0s;
 }
 
 button {
