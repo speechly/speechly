@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "2.3.2 fixing first tap-to-talk attempt",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

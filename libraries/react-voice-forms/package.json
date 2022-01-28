@@ -29,7 +29,8 @@
   },
   "files": [
     "dist/**/*",
-    "css/**/*"
+    "css/**/*",
+    "src/**/*"
   ],
   "publishConfig": {
     "access": "public"

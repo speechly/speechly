@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "scripts": {
     "build": "rimraf core && rollup -c --silent",
     "build:watch": "rollup -c --silent",
@@ -31,7 +31,7 @@
     "@speechly/browser-client": ">=1.1.0"
   },
   "files": [
-    "core/**/*"
+    "core/**/*","src/**/*"
   ],
   "publishConfig": {
     "access": "public"

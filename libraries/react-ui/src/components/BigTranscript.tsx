@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SpeechSegment, useSpeechContext } from '@speechly/react-client'
-import { mapSpeechStateToClientState } from '../types'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -68,7 +67,7 @@ export const BigTranscript: React.FC<BigTranscriptProps> = ({
   marginBottom = '2rem',
   mockSegment,
 }) => {
-  const { segment, speechState } = useSpeechContext()
+  const { segment, clientState } = useSpeechContext()
   const refElement = useRef<any>()
   const [loaded, setLoaded] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
@@ -84,10 +83,10 @@ export const BigTranscript: React.FC<BigTranscriptProps> = ({
 
   // Change button face according to Speechly states
   useEffect(() => {
-    if (refElement?.current !== undefined && speechState !== undefined) {
-      refElement.current.speechstate(mapSpeechStateToClientState(speechState))
+    if (refElement?.current !== undefined && clientState !== undefined) {
+      refElement.current.speechstate(clientState)
     }
-  }, [speechState])
+  }, [clientState])
 
   useEffect(() => {
     if (refElement?.current !== undefined && segment !== undefined) {
