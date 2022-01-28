@@ -1,6 +1,9 @@
-name: 'PR build'
+name: Rush build
 
 on:
+  push:
+    branches:
+      - 'main'
   pull_request:
     branches:
       - 'main'
@@ -8,7 +11,6 @@ on:
 
 env:
   WEBPACK_MODE: prd
-  CI: true
 
 jobs:
   build:
@@ -27,11 +29,11 @@ jobs:
             ${{ runner.os }}-
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.20.0
+          version: 6.28.0
       - name: Setup Node
-        uses: actions/setup-node@v2.4.1
+        uses: actions/setup-node@v2.5.1
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Check change log update
         run: node common/scripts/install-run-rush.js change --target-branch origin/main --verify
       - name: Install Dependencies
@@ -40,3 +42,11 @@ jobs:
         run: node common/scripts/install-run-rush.js link
       - name: Build Project
         run: node common/scripts/install-run-rush.js rebuild --verbose
+      - name: Publish Components
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          rush publish --apply --publish --target-branch main --include-all --set-access-level=public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
