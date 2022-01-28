@@ -15,6 +15,7 @@ specifiers:
   '@rush-temp/react-ui': file:./projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:./projects/react-ui-example.tgz
   '@rush-temp/react-voice-forms': file:./projects/react-voice-forms.tgz
+  '@rush-temp/react-voice-forms-example': file:./projects/react-voice-forms-example.tgz
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
@@ -45,13 +46,10 @@ specifiers:
   prop-types: ^15.7.2
   pubsub-js: ^1.9.2
   query-string: ^6.13.8
-  react: '>=16.13.1'
   react-device-detect: ^1.14.0
-  react-dom: '>=16.13.1'
   react-image-webp: ^0.7.0
   react-map-interaction: ^2.0.0
   react-refresh: ^0.9.0
-  react-scripts: ^4.0.3
   react-spring: ^8.0.27
   rollup-plugin-copy-watch: '>=0.0.1'
   rollup-plugin-css-only: ^3.1.0
@@ -83,12 +81,13 @@ dependencies:
   '@rush-temp/react-ui': file:projects/react-ui.tgz
   '@rush-temp/react-ui-example': file:projects/react-ui-example.tgz_ts-node@10.4.0
   '@rush-temp/react-voice-forms': file:projects/react-voice-forms.tgz
+  '@rush-temp/react-voice-forms-example': file:projects/react-voice-forms-example.tgz_ts-node@10.4.0+typescript@4.5.2
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.4.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.4.0
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.4.0
-  '@speechly/demo-navigation': 0.1.36_react-dom@17.0.2+react@17.0.2
+  '@speechly/demo-navigation': 0.1.36
   '@testing-library/jest-dom': 4.2.4
-  '@testing-library/react': 9.5.0_react-dom@17.0.2+react@17.0.2
+  '@testing-library/react': 9.5.0
   '@testing-library/user-event': 7.2.1
   '@tsconfig/svelte': 1.0.13
   '@types/base-64': 0.1.3
@@ -113,21 +112,18 @@ dependencies:
   prop-types: 15.7.2
   pubsub-js: 1.9.4
   query-string: 6.14.1
-  react: 17.0.2
-  react-device-detect: 1.17.0_react-dom@17.0.2+react@17.0.2
-  react-dom: 17.0.2_react@17.0.2
+  react-device-detect: 1.17.0
   react-image-webp: 0.7.0
-  react-map-interaction: 2.1.0_prop-types@15.7.2+react@17.0.2
+  react-map-interaction: 2.1.0_prop-types@15.7.2
   react-refresh: 0.9.0
-  react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
-  react-spring: 8.0.27_react-dom@17.0.2+react@17.0.2
+  react-spring: 8.0.27
   rollup-plugin-copy-watch: 0.0.1
   rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-svelte: 7.1.0_svelte@3.44.2
   sirv-cli: 1.0.14
   source-map-explorer: 2.5.2
-  styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
+  styled-components: 5.3.3
   svelte: 3.44.2
   svelte-check: 1.6.0_svelte@3.44.2
   svelte-preprocess: 4.9.8_svelte@3.44.2+typescript@4.5.2
@@ -179,7 +175,7 @@ packages:
       gensync: 1.0.0-beta.2
       json5: 2.2.0
       lodash: 4.17.21
-      resolve: 1.18.1
+      resolve: 1.20.0
       semver: 5.7.1
       source-map: 0.5.7
     transitivePeerDependencies:
@@ -3079,6 +3075,21 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: false
 
+  /@speechly/browser-client/1.1.0:
+    resolution: {integrity: sha512-8IC7kDQ14zeWoXqM+gLxdP4OiARPgGQx/KSF0M6osKQ65QF6T0ySIA8ZkI2hki7MQPwWBYBAnZU9pyMW74qptA==}
+    dependencies:
+      base-64: 0.1.0
+      locale-code: 2.0.2
+      uuid: 8.3.2
+    dev: false
+
+  /@speechly/demo-navigation/0.1.36:
+    resolution: {integrity: sha512-4l8nkg0K60EoO9yDJaTENqPMo1IBgiBbtpWNm8V0uw0SEhWH1vFRauDG7ewmFvZWoQOKgFM7589TZRPrINh2pA==}
+    peerDependencies:
+      react: '>=17.0.2'
+      react-dom: '>=17.0.2'
+    dev: false
+
   /@speechly/demo-navigation/0.1.36_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-4l8nkg0K60EoO9yDJaTENqPMo1IBgiBbtpWNm8V0uw0SEhWH1vFRauDG7ewmFvZWoQOKgFM7589TZRPrINh2pA==}
     peerDependencies:
@@ -3087,6 +3098,21 @@ packages:
     dependencies:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /@speechly/react-client/0.0.22_react@17.0.2:
+    resolution: {integrity: sha512-cGr26cOni4RvItRr2pgFEnBgPm8jAcDZeFdyxL4arSoIQQrEuMMQvjPX+k/RbzeohjtOOeVkGAOy0zl4cCNMpg==}
+    peerDependencies:
+      react: ^17.0.2
+    dependencies:
+      '@speechly/browser-client': 1.1.0
+      react: 17.0.2
+    dev: false
+
+  /@speechly/react-voice-forms/1.1.1:
+    resolution: {integrity: sha512-a2YOTxu7uYXPdnp3bxAxIdUAAMiqSJx3acbGmyoKWb1d7apMfMzKYWT6ddXvnu9JAqsoP6fJIQ4v4W+WwS++Gg==}
+    peerDependencies:
+      '@speechly/react-client': ^0.0.21
     dev: false
 
   /@surma/rollup-plugin-off-main-thread/1.4.2:
@@ -3231,6 +3257,18 @@ packages:
       lodash: 4.17.21
       pretty-format: 24.9.0
       redent: 3.0.0
+    dev: false
+
+  /@testing-library/react/9.5.0:
+    resolution: {integrity: sha512-di1b+D0p+rfeboHO5W7gTVeZDIK5+maEgstrZbWZSSvxDyfDRkkyBE1AJR5Psd6doNldluXlCWqXriUfqu/9Qg==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: '*'
+      react-dom: '*'
+    dependencies:
+      '@babel/runtime': 7.16.3
+      '@testing-library/dom': 6.16.0
+      '@types/testing-library__react': 9.1.3
     dev: false
 
   /@testing-library/react/9.5.0_react-dom@17.0.2+react@17.0.2:
@@ -4498,7 +4536,7 @@ packages:
       '@babel/helper-module-imports': 7.16.0
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
-      styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
+      styled-components: 5.3.3
     dev: false
 
   /babel-plugin-syntax-jsx/6.18.0:
@@ -5069,7 +5107,7 @@ packages:
 
   /chokidar/2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
-    deprecated: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+    deprecated: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
     dependencies:
       anymatch: 2.0.0
       async-each: 1.0.3
@@ -11486,6 +11524,15 @@ packages:
       text-table: 0.2.0
     dev: false
 
+  /react-device-detect/1.17.0:
+    resolution: {integrity: sha512-bBblIStwpHmoS281JFIVqeimcN3LhpoP5YKDWzxQdBIUP8S2xPvHDgizLDhUq2ScguLfVPmwfF5y268EEQR60w==}
+    peerDependencies:
+      react: '>= 0.14.0 < 18.0.0'
+      react-dom: '>= 0.14.0 < 18.0.0'
+    dependencies:
+      ua-parser-js: 0.7.31
+    dev: false
+
   /react-device-detect/1.17.0_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-bBblIStwpHmoS281JFIVqeimcN3LhpoP5YKDWzxQdBIUP8S2xPvHDgizLDhUq2ScguLfVPmwfF5y268EEQR60w==}
     peerDependencies:
@@ -11537,6 +11584,15 @@ packages:
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+    dev: false
+
+  /react-map-interaction/2.1.0_prop-types@15.7.2:
+    resolution: {integrity: sha512-bD6Gz2nuf60HF4WAYfBOjsqttrFlTd1u/TrCQSxdl3KITiTpTxr1vvLIr1k+NR2w3Jln+gux+oWDbjnh8Dhv7w==}
+    peerDependencies:
+      prop-types: '>=15.0.0'
+      react: '>=16.3.0'
+    dependencies:
+      prop-types: 15.7.2
     dev: false
 
   /react-map-interaction/2.1.0_prop-types@15.7.2+react@17.0.2:
@@ -11649,6 +11705,16 @@ packages:
       - webpack-command
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: false
+
+  /react-spring/8.0.27:
+    resolution: {integrity: sha512-nDpWBe3ZVezukNRandTeLSPcwwTMjNVu1IDq9qA/AMiUqHuRN4BeSWvKr3eIxxg1vtiYiOLy4FqdfCP5IoP77g==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+    dependencies:
+      '@babel/runtime': 7.16.3
+      prop-types: 15.7.2
     dev: false
 
   /react-spring/8.0.27_react-dom@17.0.2+react@17.0.2:
@@ -12989,6 +13055,26 @@ packages:
       loader-utils: 2.0.2
       schema-utils: 2.7.1
       webpack: 4.44.2
+    dev: false
+
+  /styled-components/5.3.3:
+    resolution: {integrity: sha512-++4iHwBM7ZN+x6DtPPWkCI4vdtwumQ+inA/DdAsqYd4SVgUKJie5vXyzotA00ttcFdQkCng7zc6grwlfIfw+lw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
+      react-is: '>= 16.8.0'
+    dependencies:
+      '@babel/helper-module-imports': 7.16.0
+      '@babel/traverse': 7.16.3_supports-color@5.5.0
+      '@emotion/is-prop-valid': 0.8.8
+      '@emotion/stylis': 0.8.5
+      '@emotion/unitless': 0.7.5
+      babel-plugin-styled-components: 2.0.1_styled-components@5.3.3
+      css-to-react-native: 3.0.0
+      hoist-non-react-statics: 3.3.2
+      shallowequal: 1.1.0
+      supports-color: 5.5.0
     dev: false
 
   /styled-components/5.3.3_react-dom@17.0.2+react@17.0.2:
@@ -14974,6 +15060,37 @@ packages:
     transitivePeerDependencies:
       - react-is
       - supports-color
+    dev: false
+
+  file:projects/react-voice-forms-example.tgz_ts-node@10.4.0+typescript@4.5.2:
+    resolution: {integrity: sha512-Dk19WBUAJulS7dF7yXcDoq+8CYMl3X+liAX8wY+la3vumXYZ8MH/NVpM/mKRux29YjlldzW6XPxQey1c7x/hEA==, tarball: file:projects/react-voice-forms-example.tgz}
+    id: file:projects/react-voice-forms-example.tgz
+    name: '@rush-temp/react-voice-forms-example'
+    version: 0.0.0
+    dependencies:
+      '@speechly/react-client': 0.0.22_react@17.0.2
+      '@speechly/react-voice-forms': 1.1.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - acorn
+      - bufferutil
+      - canvas
+      - fibers
+      - node-sass
+      - sass
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - typescript
+      - utf-8-validate
+      - webpack-cli
+      - webpack-command
+      - webpack-hot-middleware
+      - webpack-plugin-serve
     dev: false
 
   file:projects/react-voice-forms.tgz:

@@ -1,6 +1,7 @@
 body {
   --color-input-bg: #f2f7fa;
   --color-input-active-bg: #00a2ad;
+  --color-input-voicefocus-bg: #d9edff;
   --color-input-active-text: #ffffff;
   --dropdown-handle-size: 6px;
   --dropdown-handle-right-margin: 1rem;
@@ -48,6 +49,9 @@ label {
   border-radius: 4rem;
 
   box-shadow: var(--widget-shadow);
+
+  scroll-margin: 10rem; /* When voicefocused, allow berth to screen edges */
+  transition: 0.3s;
 }
 
 textarea {
@@ -149,4 +153,13 @@ select {
 
 button.calendar-button {
   right: 0.5rem;
+}
+
+.widgetGroup.voicefocus input,
+.widgetGroup.voicefocus select,
+.widgetGroup.voicefocus textarea,
+.toggle.voicefocus button:not(.active)
+{
+  background-color: var(--color-input-voicefocus-bg);
+  transition: 0.3s;
 }

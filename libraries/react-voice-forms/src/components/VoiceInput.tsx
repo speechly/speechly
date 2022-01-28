@@ -24,40 +24,45 @@ export type VoiceInputProps = {
   changeOnIntent?: string
 
   /**
-    * `string` (entity type) specifies the entity type that changes this component's value. The new value will be the entity's value.
-    */
+   * `string` (entity type) specifies the entity type that changes this component's value. The new value will be the entity's value.
+   */
+
   changeOnEntityType: string
   /**
    * @private
    */
+
   focused?: boolean
    /**
    * @param value The new value.
    * Triggered upon GUI or voice manipulation of the widget.
    */
+
   onChange?: (value: string) => void
-   /**
-    * @private
-    */
-  onBlur?: () => void
-   /**
-    * @private
-    */
-  onFocus?: () => void
-   /**
-    * @private
-    */
+
+  /**
+   * @private
+   */
+  onVoiceBlur?: (el: HTMLInputElement) => void
+
+  /**
+   * @private
+   */
+  onVoiceFocus?: (el: HTMLInputElement) => void
+
+  /**
+   * @private
+   */
   onFinal?: () => void
 }
 
-export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceInputProps) => {
+export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, defaultValue, onChange, onFinal, onVoiceBlur, onVoiceFocus, focused = false }: VoiceInputProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue ?? '')
-  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue ?? '')
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
+  const [ lastGoodKnownValue, setLastGoodKnownValue ] = useState(defaultValue ?? '')
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: string) => {
@@ -67,43 +72,28 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
     }
   }
   
-  const _onFocus = () => {
-    _setFocused(true)
-    // use callback only to change parent state
-    if (!focused && onFocus) {
-      onFocus()
-    }
-  }
-
-  const _onBlur = () => {
-    // use callback only to change parent state
-    if (_focused) {
-      _setFocused(false)
-      if (onBlur) {
-        onBlur()
+  const _onVoiceFocus = () => {
+    if (!_focused) {
+      _setFocused(true)
+      if (onVoiceFocus && inputEl.current) {
+        onVoiceFocus(inputEl.current)
       }
     }
   }
 
-  useEffect(() => {
-    if (focused && !_focused && inputEl != null && inputEl.current != null) {
-      inputEl.current.focus()
+  const _onVoiceBlur = () => {
+    if (_focused) {
+      _setFocused(false)
+      if (onVoiceBlur && inputEl.current) {
+        onVoiceBlur(inputEl.current)
+      }
     }
-  }, [focused])
+  }
 
   useEffect(() => {
     if (segment) {
-      let newValue = null
-      let lastGoodKnownValue = _lastGoodKnownValue
-
-      // Update last good known value at new segment start
-      const segmentId = `${segment.contextId}/${segment.id}`;
-      if (segmentId !== lastSegmentId) {
-        setLastSegmentId(segmentId)
-        lastGoodKnownValue = value || _value
-        _setLastGoodKnownValue(lastGoodKnownValue)
-      }
-
+      let newValue: string | null = null
+      
       // Define newValue if the segment contains input targeted to this component
       if (!changeOnIntent || segment.intent.intent === changeOnIntent) {
         let entities = formatEntities(segment.entities)
@@ -112,32 +102,40 @@ export const VoiceInput = ({ label, value, changeOnIntent, changeOnEntityType, d
         }
       }
 
-      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
-      // otherwise reset to last good known value
-      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
-
-      if (segment?.isFinal) {
-        if (inputEl != null && inputEl.current != null) {
-          inputEl.current.blur()
+      if (newValue !== null) {
+        // Field is targeted
+        if (!_focused) {
+          setLastGoodKnownValue(value !== undefined ? value : _value)
+          _onVoiceFocus()
         }
-        if (onFinal) {
-          onFinal()
+        _onChange(newValue)
+
+        if (segment?.isFinal) {
+          _onVoiceBlur()
+          if (onFinal) {
+            onFinal()
+          }
+        }
+      } else {
+        // Field is no longer targeted: tentative input may retarget to another component at any time
+        if (_focused) {
+          _onChange(lastGoodKnownValue)
+          _onVoiceBlur()
         }
       }
+
     }
   }, [segment])
 
   return (
-    <div className="widgetGroup inputText">
+    <div className={`widgetGroup inputText ${_focused ? "voicefocus": ""}`}>
       <label>{ label }</label>
       <input
         ref={inputEl}
         type="text"
         name={changeOnEntityType}
-        value={value || _value}
+        value={value !== undefined ? value : _value}
         onChange={(event: any) => { _onChange(event.target.value) }}
-        onBlur={_onBlur}
-        onFocus={_onFocus}
       />
     </div>
   );

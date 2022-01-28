@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "comment": "1.2.0 Fixed resetting VoiceInput to an empty string. VoiceSelect and VoiceToggle only emit onChange if the speech segment contains a value matching their options.\"",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-voice-forms"
+}

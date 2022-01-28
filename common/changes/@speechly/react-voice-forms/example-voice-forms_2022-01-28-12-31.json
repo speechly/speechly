@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "comment": "Fields that are being talked to receive 'voicefocus' class.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-voice-forms"
+}

@@ -52,12 +52,12 @@ export type VoiceCheckboxProps = {
   /**
    * @private
    */
-  onBlur?: () => void
+  onVoiceBlur?: (el: HTMLInputElement) => void
 
   /**
    * @private
    */
-  onFocus?: () => void
+  onVoiceFocus?: (el: HTMLInputElement) => void
 
   /**
    * @private
@@ -65,14 +65,13 @@ export type VoiceCheckboxProps = {
   onFinal?: () => void
 }
 
-export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent, setOnEntityType, clearOnEntityType, onChange, onFinal, onBlur, onFocus, focused = true }: VoiceCheckboxProps) => {
+export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent, setOnEntityType, clearOnEntityType, onChange, onFinal, onVoiceBlur, onVoiceFocus, focused = false }: VoiceCheckboxProps) => {
 
   const inputEl: React.RefObject<HTMLInputElement> = useRef(null)
 
   const [ _focused, _setFocused ] = useState(focused)
   const [ _value, _setValue ] = useState(defaultValue !== undefined ? defaultValue : false)
-  const [ _lastGoodKnownValue, _setLastGoodKnownValue ] = useState(defaultValue !== undefined ? defaultValue : false)
-  const [ lastSegmentId, setLastSegmentId ] = useState<string | undefined>(undefined)
+  const [ lastGoodKnownValue, setLastGoodKnownValue ] = useState(defaultValue ?? false)
   const { segment } = useSpeechContext()
 
   const _onChange = (newValue: boolean) => {
@@ -82,42 +81,27 @@ export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent,
     }
   }
   
-  const _onFocus = () => {
-    _setFocused(true)
-    // use callback only to change parent state
-    if (!focused && onFocus) {
-      onFocus()
-    }
-  }
-
-  const _onBlur = () => {
-    // use callback only to change parent state
-    if (_focused) {
-      _setFocused(false)
-      if (onBlur) {
-        onBlur()
+  const _onVoiceFocus = () => {
+    if (!_focused) {
+      _setFocused(true)
+      if (onVoiceFocus && inputEl.current) {
+        onVoiceFocus(inputEl.current)
       }
     }
   }
 
-  useEffect(() => {
-    if (focused && !_focused && inputEl != null && inputEl.current != null) {
-      inputEl.current.focus()
+  const _onVoiceBlur = () => {
+    if (_focused) {
+      _setFocused(false)
+      if (onVoiceBlur && inputEl.current) {
+        onVoiceBlur(inputEl.current)
+      }
     }
-  }, [focused])
+  }
 
   useEffect(() => {
     if (segment) {
       let newValue = null
-      let lastGoodKnownValue = _lastGoodKnownValue
-
-      // Update last good known value at new segment start
-      const segmentId = `${segment.contextId}/${segment.id}`;
-      if (segmentId !== lastSegmentId) {
-        setLastSegmentId(segmentId)
-        lastGoodKnownValue = value || _value
-        _setLastGoodKnownValue(lastGoodKnownValue)
-      }
 
       // Define newValue if the segment contains input targeted to this component
       const clear = clearIntent && segment.intent.intent === clearIntent
@@ -132,23 +116,32 @@ export const VoiceCheckbox = ({ label, value, defaultValue, intent, clearIntent,
         }
       }
 
-      // _onChange to newValue only only if defined: tentative input may retarget to another component at any time
-      // otherwise reset to last good known value
-      _onChange(newValue !== null ? newValue : lastGoodKnownValue)
-  
-      if (segment?.isFinal) {
-        if (inputEl != null && inputEl.current != null) {
-          inputEl.current.blur()
+      if (newValue !== null) {
+        // Field is targeted
+        if (!_focused) {
+          setLastGoodKnownValue(value !== undefined ? value : _value)
         }
-        if (onFinal) {
-          onFinal()
+        _onChange(newValue)
+        _onVoiceFocus()
+
+        if (segment?.isFinal) {
+          _onVoiceBlur()
+          if (onFinal) {
+            onFinal()
+          }
+        }
+      } else {
+        // Field is no longer targeted: tentative input may retarget to another component at any time
+        if (_focused) {
+          _onChange(lastGoodKnownValue)
+          _onVoiceBlur()
         }
       }
     }
   }, [segment])
 
   return (
-    <div className="widgetGroup checkbox">
+    <div className={`widgetGroup checkbox ${_focused ? "voicefocus": ""}`}>
       <input
           type="checkbox"
           checked={value !== undefined ? value : _value}
