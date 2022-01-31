@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <intro-popup hide="false" video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></intro-popup>
+  <intro-popup hide="true" video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></intro-popup>
 
   <transcript-drawer hint='["Try: Show me blue jeans", "Try: 2nd hint", "Try: 3rd hint"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
 
@@ -193,6 +193,7 @@
       ];
 
     const transcriptEl = document.getElementsByTagName("transcript-drawer")[0];
+    const introPopup = document.getElementsByTagName("intro-popup")[0];
 
     document.querySelector('#start-demo').addEventListener('click', ()=>{
       startDemo(demoStrings)
@@ -202,6 +203,28 @@
       stopDemo()
       transcriptEl.setAttribute("demomode", "false");
     });
+
+    let introTimeout = null;
+    
+		pushToTalkEl.addEventListener("starting", (e) => {
+      console.log(`starting message received: `, e.detail)
+      introTimeout = window.setTimeout(() => {
+        introTimeout = null;
+        introPopup.setAttribute("hide", "false")
+      }, 500)
+    });
+		pushToTalkEl.addEventListener("initialized", (e) => {
+      console.log(`initialized message received: `,e.detail)
+      if (introTimeout) {
+        window.clearTimeout(introTimeout);
+      }
+      // Auto-hide dialog if shown successfully
+      if (!introTimeout && e.detail.success === true) {
+        introPopup.setAttribute("hide", "true")
+      }
+      introTimeout = null;
+    });
+
   </script>
 
 </body>

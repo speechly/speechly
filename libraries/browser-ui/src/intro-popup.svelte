@@ -137,7 +137,7 @@
     z-index: 2000;
     pointer-events: auto;
 
-    background: linear-gradient(180deg, #413783f0, #302865c0 80%);
+    background-color: #000000c0;
   }
 
   modalcontent {
