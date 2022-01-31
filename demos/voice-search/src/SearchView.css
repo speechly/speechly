@@ -152,6 +152,10 @@
   padding: 32px;
 }
 
+.Footer__link {
+  color: #7D8FA1;
+}
+
 @media (max-width: 720px) {
   .Footer {
     padding: 24px;

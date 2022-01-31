@@ -9,7 +9,7 @@ const App: React.FC = (): JSX.Element => {
   return (
     <SearchContextProvider>
       <div className="App">
-        <DemoNavigation />
+        { process.env.REACT_APP_VOICE_SEARCH_DEPLOYMENT !== 'STANDALONE' && <DemoNavigation /> }
         <ErrorPanel />
         <SearchView />
       </div>
