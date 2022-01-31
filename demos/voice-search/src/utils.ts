@@ -1,0 +1,1 @@
+export const isStandalone = process.env.REACT_APP_VOICE_SEARCH_DEPLOYMENT === 'STANDALONE'

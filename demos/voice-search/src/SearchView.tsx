@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSpeechContext } from "@speechly/react-client";
 import { Input } from "./Input";
 import { useSearchContext } from "./context";
+import { isStandalone } from "./utils";
 import "./SearchView.css";
 import avatar from "./assets/avatar.png";
 import logo from "./assets/logo.svg";
@@ -76,8 +77,10 @@ const SearchView: React.FC = (): JSX.Element => {
     }
   }
 
+  const classes = isStandalone ? "SearchView SearchView--standalone" : "SearchView"
+
   return (
-    <div className="SearchView">
+    <div className={classes}>
       <div className="Navigation">
         <div className="Navigation__left">
           {results && (
@@ -141,7 +144,7 @@ const SearchView: React.FC = (): JSX.Element => {
         </div>
       )}
       <div className="Footer">
-        Made with ♥ using Speechly
+        Made with ♥ using <a className="Footer__link" href="https://speechly.com">Speechly</a>
       </div>
     </div>
   )
