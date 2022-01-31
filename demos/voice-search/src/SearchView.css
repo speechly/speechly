@@ -8,6 +8,10 @@
   flex-direction: column;
 }
 
+.SearchView--standalone {
+  top: 0;
+}
+
 .Navigation {
   padding: 32px;
   display: flex;
