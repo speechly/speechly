@@ -28,11 +28,12 @@ import { ClientState } from "@speechly/browser-client";
   export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
+  export let cssimport = undefined;
   export const isbuttonpressed = () => tangentHeld;
 
   $: visible = hide === undefined || hide === "false";
   $: frameStrokeWidth = `${46 * (borderscale as unknown as number)}`;
-  $: frameRadius = `${46 - 23 * (borderscale as unknown as number)}`;
+  $: frameRadius = 46 - 23 * (borderscale as unknown as number);
   $: buttonHeldScale = (holdscale as unknown as number);
 
   let tangentHeld = false;
@@ -225,6 +226,10 @@ import { ClientState } from "@speechly/browser-client";
   on:keyup={keyUpCallBack}
 />
 
+{#if cssimport !== undefined}
+  <link href="{cssimport}" rel="stylesheet">
+{/if}
+
 <main
   on:mousedown={tangentStart}
   on:touchstart={tangentStart}
@@ -232,6 +237,8 @@ import { ClientState } from "@speechly/browser-client";
   on:mouseup={tangentEnd}
   on:touchend={tangentEnd}
   on:dragend={tangentEnd}
+  class="HoldableButton"
+  class:pressed={tangentHeld}
   style="
     width:{size};
     height:{size};
@@ -244,23 +251,21 @@ import { ClientState } from "@speechly/browser-client";
     --icon-size: {iconsize};
     --icon-color: {iconcolor};
     --frame-stroke-width: {frameStrokeWidth};
-    --frame-radius: {frameRadius};
     --frame-background: {backgroundcolor};
+    transform: scale({scale[1]});
   "
 >
-  <div class="ButtonComponents" style="
-    transform: scale({scale[1]});
-  ">
-    <MicFx/>
-    <MicFrame/>
-    <MicIcon
-      icon={effectiveAppearance.icon}
-    />
-  </div>
+  <MicFx/>
+  <MicFrame frameRadius={frameRadius}/>
+  <MicIcon
+    icon={effectiveAppearance.icon}
+  />
   <slot></slot>
+
 </main>
 
 <style>
+
   main {
     text-align: left;
     position: relative;
@@ -272,8 +277,4 @@ import { ClientState } from "@speechly/browser-client";
     -webkit-user-select: none !important;
   }
 
-  .ButtonComponents {
-    width: 100%;
-    height: 100%;
-  }
 </style>

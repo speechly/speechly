@@ -28,7 +28,7 @@
   export let showtime = 10000;
 
   export let placement = undefined;
-  export let size = "88px";
+  export let size = "80px";
   export let voffset = "2.5rem";
 
   export let backgroundcolor = "#ffffff";
@@ -41,9 +41,10 @@
   export let hintbackgroundcolor = "#202020";
 
   export let holdscale = "1.35";
-  export let borderscale = "0.06";
+  export let borderscale = "0.075";
   export let iconsize = "60%";
   export let fxsize = "250%";
+  export let cssimport = undefined;
 
   let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
@@ -281,6 +282,7 @@
   {borderscale}
   {iconsize}
   {fxsize}
+  {cssimport}
 
   style="
     --voffset: {voffset};
