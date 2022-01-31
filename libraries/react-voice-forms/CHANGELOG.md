@@ -1,6 +1,14 @@
 # Change Log - @speechly/react-voice-forms
 
-This log was last generated on Fri, 28 Jan 2022 11:38:16 GMT and should not be manually modified.
+This log was last generated on Mon, 31 Jan 2022 11:01:42 GMT and should not be manually modified.
+
+## 1.3.0
+Mon, 31 Jan 2022 11:01:42 GMT
+
+### Minor changes
+
+- 1.2.0 Fixed resetting VoiceInput to an empty string. VoiceSelect and VoiceToggle only emit onChange if the speech segment contains a value matching their options."
+- Fields that are being talked to receive 'voicefocus' class.
 
 ## 1.1.2
 Fri, 28 Jan 2022 11:38:16 GMT
