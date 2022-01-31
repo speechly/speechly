@@ -8,7 +8,7 @@
     "@speechly/logkit": ">=1.0.0",
     "@speechly/react-client": "1.2.0",
     "@speechly/react-ui": "2.4.0",
-    "@speechly/react-voice-forms": ">=1.2.0",
+    "@speechly/react-voice-forms": "1.3.0",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1"
   },

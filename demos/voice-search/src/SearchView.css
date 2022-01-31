@@ -8,6 +8,10 @@
   flex-direction: column;
 }
 
+.SearchView--standalone {
+  top: 0;
+}
+
 .Navigation {
   padding: 32px;
   display: flex;
@@ -150,6 +154,10 @@
 .Footer {
   color: #7D8FA1;
   padding: 32px;
+}
+
+.Footer__link {
+  color: #7D8FA1;
 }
 
 @media (max-width: 720px) {
