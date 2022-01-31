@@ -17,14 +17,6 @@
     <stop stop-color="var(--gradient-stop2)" offset="100%" />
   </linearGradient>
   </defs>
-  <g fill="none" fillRule="nonzero">
-  <path
-      d="M46 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z"
-      fill="#FFF"
-  />
-  <path
-      d="M46 0C20.595 0 0 20.595 0 46s20.595 46 46 46 46-20.595 46-46S71.405 0 46 0zm0 3.119c23.683 0 42.881 19.198 42.881 42.881S69.683 88.881 46 88.881 3.119 69.683 3.119 46 22.317 3.119 46 3.119z"
-      fill="url(#a)"
-  />
-  </g>
+  <circle cx="46" cy="46" style="r: var(--frame-radius)" stroke="none" fill="var(--frame-background)"/>
+  <circle cx="46" cy="46" style="r: var(--frame-radius)" stroke="url(#a)" stroke-width="var(--frame-stroke-width)" fill="none"/>
 </svg>

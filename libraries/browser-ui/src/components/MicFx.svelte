@@ -2,14 +2,15 @@
   viewBox="0 0 246 246"
   xmlns="http://www.w3.org/2000/svg"
   style="
-    top: -75%;
-    left: -75%;
-    height: 250%;
-    width: 250%;
     position: absolute;
+    width: var(--fx-size);
+    height: var(--fx-size);
+    top: 50%;
+    left: 50%;
+    transform-origin: 50% 50%;
+    transform: translate(-50%, -50%) rotate(var(--fx-rotation));
     pointer-events: none;
     opacity: var(--fx-opacity);
-    transform: rotate(var(--fx-rotation));
   "
 >
   <defs>

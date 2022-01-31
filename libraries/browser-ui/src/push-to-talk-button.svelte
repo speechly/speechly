@@ -14,24 +14,36 @@
 
   export let projectid: string = undefined;
   export let appid: string = undefined;
-  export let size = "6rem";
-  export let capturekey = " ";
-  export let gradientstop1 = "#15e8b5";
-  export let gradientstop2 = "#4fa1f9";
-  export let poweron = undefined;
-  export let hide = undefined;
-  export let placement = undefined;
-  export let voffset = "3rem";
-  export let intro = "Hold to talk";
-  export let hint = "Hold to talk";
-  export let fontsize = "1.2rem";
-  export let showtime = 10000;
-  export let textcolor = "#ffffff";
-  export let backgroundcolor = "#202020";
-  export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
-  export let silencetohanguptime = 1000; // ms of silence to listen before hangup
   export let loginurl = undefined;
   export let apiurl = undefined;
+
+  export let capturekey = " ";
+  export let poweron = undefined;
+  export let hide = undefined;
+  export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
+  export let silencetohanguptime = 1000; // ms of silence to listen before hangup
+
+  export let intro = "Hold to talk";
+  export let hint = "Hold to talk";
+  export let showtime = 10000;
+
+  export let placement = undefined;
+  export let size = "88px";
+  export let voffset = "2.5rem";
+
+  export let backgroundcolor = "#ffffff";
+  export let iconcolor = "#000000";
+  export let gradientstop1 = "#15e8b5";
+  export let gradientstop2 = "#4fa1f9";
+
+  export let fontsize = "1.2rem";
+  export let textcolor = "#ffffff";
+  export let hintbackgroundcolor = "#202020";
+
+  export let holdscale = "1.35";
+  export let borderscale = "0.06";
+  export let iconsize = "60%";
+  export let fxsize = "250%";
 
   let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
@@ -262,11 +274,19 @@
   {gradientstop1}
   {gradientstop2}
   {hide}
+
+  {backgroundcolor}
+  {iconcolor}
+  {holdscale}
+  {borderscale}
+  {iconsize}
+  {fxsize}
+
   style="
     --voffset: {voffset};
     --size: {size};
   ">
-  <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={backgroundcolor}>{tipCallOutText}</call-out>
+  <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
 </holdable-button>
 
 <style>

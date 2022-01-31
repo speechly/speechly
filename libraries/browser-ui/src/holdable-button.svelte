@@ -18,13 +18,22 @@ import { ClientState } from "@speechly/browser-client";
 
   export let icon = ClientState.Disconnected as unknown as string;
   export let capturekey = " ";
-  export let size = "6rem";
+  export let hide = undefined;
+  export let size = "88px";
+  export let holdscale = "1.35";
+  export let borderscale = "0.06";
+  export let iconsize = "60%";
+  export let fxsize = "250%";
+  export let backgroundcolor = "#ffffff";
+  export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
-  export let hide = undefined;
   export const isbuttonpressed = () => tangentHeld;
 
   $: visible = hide === undefined || hide === "false";
+  $: frameStrokeWidth = `${46 * (borderscale as unknown as number)}`;
+  $: frameRadius = `${46 - 23 * (borderscale as unknown as number)}`;
+  $: buttonHeldScale = (holdscale as unknown as number);
 
   let tangentHeld = false;
   let holdStartTimestamp = 0;
@@ -197,7 +206,7 @@ import { ClientState } from "@speechly/browser-client";
   const updateSkin = (buttonHeld: boolean, clientState: ClientState) => {
     effectiveAppearance = clientStateToAppearance[clientState];
 
-    scale[0] = buttonHeld ? 1.35 : 1.0;
+    scale[0] = buttonHeld ? buttonHeldScale : 1.0;
     fxOpacity[0] = (buttonHeld || clientState == ClientState.Recording) ? 1.0 : 0.0;
 
     switch (effectiveAppearance.icon) {
@@ -230,7 +239,13 @@ import { ClientState } from "@speechly/browser-client";
     --gradient-stop2: {gradientstop2};
     --fx-rotation: {rotation[1]}deg;
     --fx-opacity: {fxOpacity[1]};
+    --fx-size: {fxsize};
     --icon-opacity: {iconOpacity[1]};
+    --icon-size: {iconsize};
+    --icon-color: {iconcolor};
+    --frame-stroke-width: {frameStrokeWidth};
+    --frame-radius: {frameRadius};
+    --frame-background: {backgroundcolor};
   "
 >
   <div class="ButtonComponents" style="
