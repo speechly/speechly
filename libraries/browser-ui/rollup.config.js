@@ -172,6 +172,14 @@ export default [
   },
 
   {...webComponentDefaults,
+    input: 'src/usage-overlay.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'core/usage-overlay.js'
+    },
+  },
+
+  {...webComponentDefaults,
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,
