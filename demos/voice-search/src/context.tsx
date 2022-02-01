@@ -25,13 +25,15 @@ export const SearchContext = createContext<QueryValue | undefined>(undefined);
 export const SearchContextProvider = ({ children }: Props) => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ResultObject[]>();
-  const apiKey = process.env.REACT_APP_VOICE_SEARCH_API_KEY
-  const engineId = process.env.REACT_APP_VOICE_SEARCH_ENGINE_ID
+  const apiKey = process.env.REACT_APP_VOICE_SEARCH_API_KEY || ""
+  const engineId = process.env.REACT_APP_VOICE_SEARCH_ENGINE_ID || ""
 
   const getResults = (string: string) => {
-    if (query === string) return
-    const q = new URLSearchParams(string).toString()
-    fetch(`https://customsearch.googleapis.com/customsearch/v1?key=${apiKey}&cx=${engineId}&safe=active&q=${q}`)
+    const searchUrl = new URL("https://customsearch.googleapis.com/customsearch/v1")
+    searchUrl.searchParams.append("key", apiKey)
+    searchUrl.searchParams.append("cx", engineId)
+    searchUrl.searchParams.append("q", string)
+    fetch(searchUrl.toString())
       .then(res => res.json())
       .then(res => setResults(res.items))
       .catch(e => console.warn(e));

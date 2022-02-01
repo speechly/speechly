@@ -71,7 +71,7 @@ const SearchView: React.FC = (): JSX.Element => {
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === "Enter") {
       e.preventDefault();
       getResults(query);
     }
