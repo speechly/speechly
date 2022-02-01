@@ -11,6 +11,8 @@ import imageIcon from "./assets/image.svg";
 import videoIcon from "./assets/video.svg";
 import newsIcon from "./assets/news.svg";
 
+const MadeWith = () => <div className="MadeWith">Made with ♥ using <a href="https://speechly.com">Speechly</a></div>
+
 const SearchView: React.FC = (): JSX.Element => {
   const { segment } = useSpeechContext();
   const { query, setQuery, results, getResults } = useSearchContext();
@@ -81,40 +83,6 @@ const SearchView: React.FC = (): JSX.Element => {
 
   return (
     <div className={classes}>
-      <div className="Navigation">
-        <div className="Navigation__left">
-          {results && (
-            <Input
-              small
-              value={tentativeQuery}
-              clearFn={() => setText("")}
-              onChangeFn={handleChange}
-              onKeyPressFn={handleKeyPress}
-            />
-          )}
-        </div>
-        <div className="Navigation__right">
-          <div className="Navigation__item Navigation__item--active">
-            <img src={searchIcon} alt="icon" />
-            <span>All</span>
-          </div>
-          <div className="Navigation__item">
-            <img src={imageIcon} alt="icon" />
-            <span>Images</span>
-          </div>
-          <div className="Navigation__item">
-            <img src={videoIcon} alt="icon" />
-            <span>Videos</span>
-          </div>
-          <div className="Navigation__item">
-            <img src={newsIcon} alt="icon" />
-            <span>News</span>
-          </div>
-          <div className="Navigation__avatar">
-            <img src={avatar} alt="profile" />
-          </div>
-        </div>
-      </div>
       {!results && (
         <div className="SearchBox">
           <img className="SearchBox__logo" src={logo} alt="logo" />
@@ -124,28 +92,41 @@ const SearchView: React.FC = (): JSX.Element => {
             onChangeFn={handleChange}
             onKeyPressFn={handleKeyPress}
           />
+          <MadeWith />
         </div>
       )}
       {results && (
-        <div className="Results">
-          {results.map(item => (
-            <a
-              key={item.link}
-              href={item.link}
-              className="Result"
-              target="_blank"
-              rel="noopener noreferrer"
-              >
-              <span className="Result__link">{item.displayLink}</span>
-              <span className="Result__title">{item.title}</span>
-              <span className="Result__snippet">{item.snippet}</span>
-            </a>
-          ))}
-        </div>
+        <>
+          <div className="Navigation">
+            <img className="Navigation__logo" src={logo} alt="logo" />
+            <Input
+              small
+              value={tentativeQuery}
+              clearFn={() => setText("")}
+              onChangeFn={handleChange}
+              onKeyPressFn={handleKeyPress}
+            />
+          </div>
+          <div className="Results">
+            {results.map(item => (
+              <a
+                key={item.link}
+                href={item.link}
+                className="Result"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                <span className="Result__link">{item.displayLink}</span>
+                <span className="Result__title">{item.title}</span>
+                <span className="Result__snippet">{item.snippet}</span>
+              </a>
+            ))}
+          </div>
+          <div className="Footer">
+            <MadeWith />
+          </div>
+        </>
       )}
-      <div className="Footer">
-        Made with ♥ using <a className="Footer__link" href="https://speechly.com">Speechly</a>
-      </div>
     </div>
   )
 }

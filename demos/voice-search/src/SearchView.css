@@ -13,94 +13,38 @@
 }
 
 .Navigation {
-  padding: 32px;
+  padding: 24px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px 32px;
+  gap: 16px 24px;
+  border-bottom: 1px solid #1f2d3b;
 }
 
 @media (max-width: 720px) {
   .Navigation {
-    padding: 24px 24px 16px;
-    border-bottom: 1px solid #1f2d3b;
+    flex-wrap: wrap;
   }
 }
 
-.Navigation__left {
-  flex-grow: 1;
-}
-
-.Navigation__right {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 32px;
-}
-
-@media (max-width: 720px) {
-  .Navigation__right {
-    gap: 8px 16px;
-  }
-}
-
-.Navigation__item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: .6;
-  padding: 8px 0;
-  transition: all .15s ease;
-}
-
-.Navigation__item:hover {
-  opacity: 1;
-}
-
-.Navigation__item--active {
-  font-weight: 600;
-  opacity: 1;
-  border-bottom: 2px solid #f8f9fa;
-}
-
-.Navigation__item img {
-  width: 20px;
-  height: 20px;
-}
-
-@media (max-width: 480px) {
-  .Navigation__item img {
-    display: none;
-  }
-}
-
-.Navigation__avatar img {
-  display: block;
-  width: 32px;
-  height: 32px;
+.Navigation__logo {
+  height: auto;
+  width: 128px;
+  flex-shrink: 0;
 }
 
 .SearchBox {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 32px 0;
   margin: auto 0;
-  padding: 0 32px 10vh;
-}
-
-@media (max-width: 720px) {
-  .SearchBox {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
+  padding: 24px 24px 10vh;
 }
 
 .SearchBox__logo {
   display: block;
   height: 48px;
-  margin-bottom: 32px;
 }
 
 @media (max-width: 720px) {
@@ -113,13 +57,13 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  max-width: 800px;
-  padding: 8px 32px;
+  max-width: 688px;
+  padding: 24px;
 }
 
-@media (max-width: 720px) {
+@media (min-width: 1200px) {
   .Results {
-    padding: 8px 24px;
+    margin-left: 152px;
   }
 }
 
@@ -143,7 +87,7 @@
 }
 
 .Result__link {
-  color: #7D8FA1;
+  color: #7d8fa1;
 }
 
 .Result__snippet {
@@ -152,16 +96,20 @@
 }
 
 .Footer {
-  color: #7D8FA1;
-  padding: 32px;
+  padding: 24px;
 }
 
-.Footer__link {
-  color: #7D8FA1;
-}
-
-@media (max-width: 720px) {
+@media (min-width: 1200px) {
   .Footer {
-    padding: 24px;
+    margin-left: 152px;
   }
+}
+
+.MadeWith {
+  font-size: 14px;
+  color: #7d8fa1;
+}
+
+.MadeWith a {
+  color: inherit;
 }
