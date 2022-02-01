@@ -6,7 +6,9 @@
     "build:watch": "rollup -c --silent",
     "dev": "rollup -c -w",
     "start": "sirv core --no-clear",
-    "validate": "svelte-check"
+    "validate": "svelte-check",
+    "staging": "set -o allexport;. ./.env.local;set +o allexport && test -n \"$REACT_APP__DEPLOY_STAGING_URI\" && rimraf core && rollup -c && rsync -avz --delete core/ $REACT_APP__DEPLOY_STAGING_URI"
+
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
