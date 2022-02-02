@@ -4,19 +4,29 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { ClientState } from "@speechly/browser-client";
+  import { Client, ClientState } from "@speechly/browser-client";
 
   export let hide = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
 
+  const HttpsRequired = 'HttpsRequired'
   const dispatchUnbounded = createDispatchUnbounded();
   const fade = fix(fade_orig);
+
   $: visibility = mounted && hide === "false";
 
   let mounted = false;
-  let clientState = null;
+  let errorState: ClientState | string | null = null;
+  let appId: null;
   let introTimeout = null;
+
+  const isLocalHost = (hostname: string): boolean =>
+    !!(
+      hostname === 'localhost' ||
+      hostname === '[::1]' ||
+      hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/) !== null
+    )
 
   onMount(() => {
     mounted = true;
@@ -28,10 +38,6 @@
     window.postMessage({ type: "speechlyintroclosed" }, "*");
   }
 
-  const ignore = (e) => {
-    e.stopPropagation();
-  }
-
   const handleKeydown = (event) => {
     if (mounted && event.key === 'Escape') {
       event.preventDefault();
@@ -40,7 +46,6 @@
   }
 
   const handleMessage = (e) => {
-    console.log(e);
     switch (e.data.type) {
       case "speechlystarting":
         introTimeout = window.setTimeout(() => {
@@ -54,13 +59,12 @@
           case ClientState.Failed:
           case ClientState.NoAudioConsent:
           case ClientState.NoBrowserSupport:
-            clientState = e.data.state;
-            visibility = true;
+            showError(e.data.state);
             break;
         }
         break;
       case "initialized":
-        console.log(e.data);
+        appId = e.data.appId;
         if (e.data.success) {
           if (introTimeout) {
             window.clearTimeout(introTimeout);
@@ -70,12 +74,22 @@
           }
           closeSelf();
         } else {
-          clientState = e.data.status;
+          showError(e.data.state);
         }
         break;
       default:
         break;
     }
+  }
+
+  const showError = (e: ClientState | string) => {
+    visibility = true;
+    // Provide special instructions for non-https access
+    if (window?.location?.protocol !== 'https:' && !isLocalHost(window.location.hostname)) {
+      errorState = HttpsRequired;
+      return;
+    }
+    errorState = e;
   }
 
 </script>
@@ -94,8 +108,8 @@
   <modalbg transition:fade on:click={closeSelf} />
 
   <modalcontent transition:fade class="{position}">
-    {#if clientState === null}
-      <main>
+    <main>
+      {#if errorState === null}
         <h2>↖ <slot name="mic-prompt-title">Allow searching with voice</slot></h2>
         <p>
           <slot name="mic-prompt-body">
@@ -107,10 +121,19 @@
         <options>
           <button on:click={closeSelf} class="wide">Got it</button>
         </options>
+      {:else if errorState === HttpsRequired}
+        <h2>HTTPS Required 😢</h2>
+        <p>
+          To use the voice interface, please visit this site using the secure
+          https:// protocol.
+        </p>
 
-      </main>
-    {:else if clientState === ClientState.NoAudioConsent}
-      <main>
+        <options>
+          <button on:click={() => {window.location.href.replace(/^http(?!s)/, 'https')}} class="wide">
+            Try with HTTPS
+          </button>
+        </options>
+      {:else if errorState === ClientState.NoAudioConsent}
         <h2>Voice unavailable 😢</h2>
         <p>
           Please reload the page to try again.
@@ -122,9 +145,7 @@
         <options>
           <button on:click={closeSelf} class="wide">Got it</button>
         </options>
-      </main>
-    {:else if clientState === ClientState.NoBrowserSupport}
-      <main>
+      {:else if errorState === ClientState.NoBrowserSupport}
         <h2>Unsupported Browser 😢</h2>
         <p>
           To use the voice interface, please visit this site using a supported
@@ -134,25 +155,20 @@
         <options>
           <button on:click={closeSelf} class="wide">Aww, bummer</button>
         </options>
-      </main>
-    {:else}
-      <main>
-        <h2>There was a problem initializing Speechly</h2>
+      {:else}
+        <h2>Failed to connect Speechly 😢</h2>
         <p>
-          Please click <b>Allow</b> to use the microphone.
-          We'll only listen to you when you press the <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button.
+          Please check that Speechly application id '{appId}' has been successfully deployed.
         </p>
 
         <options>
           <button on:click={closeSelf} class="wide">Aww, bummer</button>
         </options>
-
-      </main>
-
-    {/if}
+      {/if}
+    </main>
 
     <footer>
-      Voice input is automatically transcribed by Speechly and can be used to improve the quality of service under <a target="_new" href="https://www.speechly.com/privacy/terms-and-conditions">terms of use</a>.
+      Voice input is automatically transcribed by <a target="_new" href="https://speechly.com/">Speechly</a> and can be used to improve the quality of service under <a target="_new" href="https://www.speechly.com/privacy/terms-and-conditions">terms of use</a>.
     </footer>
 
   </modalcontent>
@@ -240,7 +256,7 @@
     box-sizing: border-box;
 
     font-size: 85%;
-    color: #fff8;
+    color: #aaa;
     margin: 0 1em;
   }
 
@@ -271,7 +287,7 @@
     min-width: 10rem;
     max-width: 100%;
     padding: 0.66rem;
-    background-color: #fff8;
+    background-color: #aaa;
     border: none;
     border-radius: 10rem;
     font-size: 100%;
@@ -288,11 +304,13 @@
   
   a,
   a:visited {
-    color: #fff;
+    color: #aaa;
+    transition: 0.3s;
   }
   
   a:hover {
     color: #fff;
+    transition: 0.3s;
   }
   
   .sidePanelLogo {
