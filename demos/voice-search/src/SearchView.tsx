@@ -93,7 +93,9 @@ const SearchView: React.FC = (): JSX.Element => {
       {results && (
         <>
           <div className="Navigation">
-            <img className="Navigation__logo" src={logo} alt="logo" />
+            <a href="/" className="Navigation__link">
+              <img className="Navigation__logo" src={logo} alt="logo" />
+            </a>
             <Input
               small
               value={tentativeQuery}

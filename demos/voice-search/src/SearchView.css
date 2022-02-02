@@ -1,3 +1,13 @@
+:root {
+  --pad: 24px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --pad: 16px;
+  }
+}
+
 .SearchView {
   position: absolute;
   top: 48px;
@@ -13,18 +23,22 @@
 }
 
 .Navigation {
-  padding: 24px;
+  padding: var(--pad);
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 16px 24px;
+  gap: 12px 24px;
   border-bottom: 1px solid #1f2d3b;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 560px) {
   .Navigation {
-    flex-wrap: wrap;
+    flex-direction: column;
   }
+}
+
+.Navigation__link {
+  text-decoration: none;
 }
 
 .Navigation__logo {
@@ -39,7 +53,7 @@
   align-items: center;
   gap: 32px 0;
   margin: auto 0;
-  padding: 24px 24px 10vh;
+  padding: var(--pad) var(--pad) 10vh;
 }
 
 .SearchBox__logo {
@@ -58,7 +72,7 @@
   flex-direction: column;
   gap: 24px;
   max-width: 688px;
-  padding: 24px;
+  padding: var(--pad);
 }
 
 @media (min-width: 1200px) {
@@ -96,7 +110,7 @@
 }
 
 .Footer {
-  padding: 24px;
+  padding: var(--pad);
 }
 
 @media (min-width: 1200px) {

@@ -54,7 +54,7 @@ export const Input: React.FC <{
           gradientStops={["#508CFF", "#009FFA", "#00E48F"]}
           size={buttonSize}
           showTime={2000}
-          intro={small ? "" : "Hold to Talk"}
+          intro=""
         />
       </div>
     </div>
