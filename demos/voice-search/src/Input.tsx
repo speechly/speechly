@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { PushToTalkButton } from "@speechly/react-ui";
 import "./Input.css";
-import searchIconGray from "./assets/search-gray.svg";
-import closeIconGray from "./assets/close-gray.svg";
+import searchIconGray from "./assets/search.svg";
+import closeIconGray from "./assets/close.svg";
 import checkIcon from "./assets/check.svg";
 
 export const Input: React.FC <{

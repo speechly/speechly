@@ -4,12 +4,7 @@ import { Input } from "./Input";
 import { useSearchContext } from "./context";
 import { isStandalone } from "./utils";
 import "./SearchView.css";
-import avatar from "./assets/avatar.png";
 import logo from "./assets/logo.svg";
-import searchIcon from "./assets/search.svg";
-import imageIcon from "./assets/image.svg";
-import videoIcon from "./assets/video.svg";
-import newsIcon from "./assets/news.svg";
 
 const MadeWith = () => <div className="MadeWith">Made with ♥ using <a href="https://speechly.com">Speechly</a></div>
 
