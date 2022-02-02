@@ -13,7 +13,7 @@
 
   const dispatchUnbounded = createDispatchUnbounded();
   const fade = fix(fade_orig);
-  $: visibility = mounted && (hide === undefined || hide !== "true");
+  $: visibility = mounted && hide === "false";
 
   let mounted = false;
 
