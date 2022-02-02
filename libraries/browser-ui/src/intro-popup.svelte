@@ -4,7 +4,7 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { Client, ClientState } from "@speechly/browser-client";
+  import { ClientState } from "@speechly/browser-client";
 
   export let hide = undefined;
   export let remsize = "1.0rem";
@@ -203,7 +203,7 @@
     box-sizing: border-box;
     width: 100%;
     min-height: 100%;
-    padding: 2.5rem 1rem;
+    padding: 2.5rem 2rem;
   
     display: flex;
     flex-direction: column;
@@ -257,7 +257,7 @@
 
     font-size: 85%;
     color: #aaa;
-    margin: 0 1em;
+    margin: 0;
   }
 
   h2
