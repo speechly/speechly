@@ -8,22 +8,25 @@
 
   <link rel='icon' type='image/png' href='../favicon.png'>
 	<link rel='stylesheet' href='../global.css'>
-  <link rel="stylesheet" href="speechly-ui.css">
 
 	<script src='push-to-talk-button.js'></script>
 	<script src='transcript-drawer.js'></script>
   <script src='intro-popup.js'></script>
+	<script src='usage-overlay.js'></script>
+  </style>
+
 </head>
 
 <body>
-  <intro-popup hide="true" video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></intro-popup>
+
+  <push-to-talk-button placement="bottom"></push-to-talk-button>
+
+  <intro-popup></intro-popup>
+
+  <usage-overlay video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></usage-overlay>
 
   <transcript-drawer hint='["Try: Show me blue jeans", "Try: 2nd hint", "Try: 3rd hint"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
-
-  <div class="PushToTalkContainer">
-    <push-to-talk-button></push-to-talk-button>
-  </div>
-
+  
   <main>
     <h1>Web Components Extras</h1>
     <h2>Contents</h2>
@@ -70,6 +73,8 @@
         <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
         <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
         <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
+        <li><code>customtypo</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>cssimport</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
 
       <h3>Properties</h3>
@@ -101,12 +106,18 @@
 <xmp><intro-popup></intro-popup> 
 </xmp>
 
+<xmp><intro-popup>
+  <span slot="mic-prompt-title">Allow booking with voice</span>
+  <span slot="mic-prompt-body">Please click <b>Allow</b> to use the microphone.</span>
+</intro-popup>
+</xmp>
+
     <component-api id="intro-popup">
 
       <h3>Attributes</h3>
       <ul>
         <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
-        <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
+        <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
         <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
       </ul>
 
@@ -120,6 +131,27 @@
         <li><code>{type: "speechlyintroclosed"}</code> - Broadcasted when popup is closed by user</li>
       </ul>
     </component-api>
+
+    <h2>Element &lt;usage-overlay/&gt;</h2>
+    <p>
+      Overlay voice usage video.
+    </p>
+    <p>
+      Include the following lines in your <code>&lt;body&gt;</code>:
+    </p>
+<xmp><usage-overlay></usage-overlay> 
+</xmp>
+
+    <component-api id="usage-overlay">
+
+      <h3>Attributes</h3>
+      <ul>
+        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
+        <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
+        <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
+      </ul>
+    </component-api>
+
 
     <h2>demomode</h2>
     <p>
@@ -194,6 +226,7 @@
 
     const transcriptEl = document.getElementsByTagName("transcript-drawer")[0];
     const introPopup = document.getElementsByTagName("intro-popup")[0];
+    const usageHelp = document.getElementsByTagName("usage-overlay")[0];
 
     document.querySelector('#start-demo').addEventListener('click', ()=>{
       startDemo(demoStrings)
@@ -204,25 +237,15 @@
       transcriptEl.setAttribute("demomode", "false");
     });
 
-    let introTimeout = null;
-    
-		pushToTalkEl.addEventListener("starting", (e) => {
-      console.log(`starting message received: `, e.detail)
-      introTimeout = window.setTimeout(() => {
-        introTimeout = null;
-        introPopup.setAttribute("hide", "false")
-      }, 500)
+    window.addEventListener("message", (e) => {
+      if (e.data.type === "runspeechlytutorial") {
+        window.postMessage({ type: "showhint", hint: 'Try "show me blue jeans"' }, "*");
+        usageHelp.setAttribute("hide", "false")
+      }
     });
-		pushToTalkEl.addEventListener("initialized", (e) => {
-      console.log(`initialized message received: `,e.detail)
-      if (introTimeout) {
-        window.clearTimeout(introTimeout);
-      }
-      // Auto-hide dialog if shown successfully
-      if (!introTimeout && e.detail.success === true) {
-        introPopup.setAttribute("hide", "true")
-      }
-      introTimeout = null;
+
+    pushToTalkEl.addEventListener("holdstart", (e) => {
+      usageHelp.setAttribute("hide", "true")
     });
 
   </script>
