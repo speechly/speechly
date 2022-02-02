@@ -42,7 +42,7 @@ export const Input: React.FC <{
     <div className={containerClasses}>
       <input
         className={inputClasses}
-        placeholder="Search the web"
+        placeholder="Search the web using voice"
         onChange={onChangeFn}
         value={value}
         onKeyPress={onKeyPressFn}
