@@ -79,13 +79,13 @@ export class Client {
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
   private initializeMicrophonePromise?: Promise<void>
-  private readonly initializeApiClientPromise: Promise<void>
-  private resolveInitialization?: (value?: void) => void
+  private connectPromise: Promise<void> | null
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
   private state: ClientState = ClientState.Disconnected
+  private apiUrl: string;
 
   private stateChangeCb: StateChangeCallback = () => {}
   private segmentChangeCb: SegmentChangeCallback = () => {}
@@ -123,8 +123,8 @@ export class Client {
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
-    const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController()
+    this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[SpeechlyClient] You cannot use both appId and projectId at the same time')
@@ -132,29 +132,6 @@ export class Client {
 
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-    const storedToken = this.storage.get(authTokenKey)
-
-    // 2. Fetch auth token. It doesn't matter if it's not present.
-    this.initializeApiClientPromise = new Promise(resolve => {
-      this.resolveInitialization = resolve
-    })
-
-    if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
-      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
-        .then(token => {
-          this.authToken = token
-          // Cache the auth token in local storage for future use.
-          this.storage.set(authTokenKey, this.authToken)
-          this.connect(apiUrl)
-        })
-        .catch(err => {
-          this.setState(ClientState.Failed)
-          throw err
-        })
-    } else {
-      this.authToken = storedToken
-      this.connect(apiUrl)
-    }
 
     if (window.AudioContext !== undefined) {
       this.isWebkit = false
@@ -168,27 +145,45 @@ export class Client {
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
+
+    this.connectPromise = null
+
     window.SpeechlyClient = this
   }
 
   /**
-   * Esteblish websocket connection
+   * Connect to Speechly
+   * This function will be called by initialize if connection hasn't been prewarmed before that
    */
-  private connect(apiUrl: string): void {
-    if (this.authToken != null) {
-      this.apiClient.initialize(
-        apiUrl,
-        this.authToken,
-        this.sampleRate,
-        this.debug,
-      ).then(() => {
-        if (this.resolveInitialization != null) {
-          this.resolveInitialization()
+   public async connect(): Promise<void> {
+    this.connectPromise = (async () => {
+      // Get auth token from cache or renew it 
+      const storedToken = this.storage.get(authTokenKey)
+      if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+        try {
+          this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+          // Cache the auth token in local storage for future use.
+          this.storage.set(authTokenKey, this.authToken)
+        } catch (err) {
+          this.setState(ClientState.Failed)
+          throw err
         }
-      }).catch(err => {
+      } else {
+        this.authToken = storedToken
+      }
+
+      // Establish websocket connection
+      try {
+        await this.apiClient.initialize(
+          this.apiUrl,
+          this.authToken,
+          this.sampleRate,
+          this.debug,
+        );
+      } catch(err) {
         throw err
-      })
-    }
+      }
+    })()
   }
 
   /**
@@ -201,7 +196,12 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
-    await this.initializeApiClientPromise
+    // Connect now, if connection is not manually "prewarmed" earlier (recommended)
+    if (this.connectPromise === null) {
+      this.connect()
+    }
+    await this.connectPromise
+
     if (this.state !== ClientState.Disconnected) {
       throw Error('Cannot initialize client - client is not in Disconnected state')
     }
