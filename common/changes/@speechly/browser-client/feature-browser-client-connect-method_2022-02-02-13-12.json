@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Exposed 'connect()' method. Constructor no longer auto-connects, but 'initialize()' calls 'connect()' if not manually called before.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
