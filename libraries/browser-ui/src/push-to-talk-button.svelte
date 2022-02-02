@@ -82,7 +82,6 @@
       client = new Client(clientOptions);
 
       client.onStateChange(onStateChange);
-
       client.onSegmentChange((segment: Segment) => {
         // Refresh stopContext timeout if set
         if (tapListenTimeout) setStopContextTimeout(silencetohanguptime);
@@ -91,7 +90,7 @@
         // And as window.postMessages
         window.postMessage({ type: "speechsegment", segment: segment }, "*");
       });
-
+      client.connect();
       tipCalloutVisible = true;
     }
   }
@@ -203,7 +202,7 @@
   }
 
   const updateSkin = () => {
-    if (clientState) icon = clientState;
+    if (clientState !== null) icon = clientState;
   };
 
   const isConnectable = (clientState?: ClientState) => {
@@ -230,16 +229,12 @@
     updateSkin();
     switch(s) {
       case ClientState.Failed:
-        setInitialized(false, "Failed");
-        break;
       case ClientState.NoBrowserSupport:
-        setInitialized(false, "NoBrowserSupport");
-        break;
       case ClientState.NoAudioConsent:
-        setInitialized(false, "NoAudioConsent");
+        setInitialized(false, s as unknown as string);
         break;
       case ClientState.Connected:
-        setInitialized(true, "Ready");
+        setInitialized(true, s as unknown as string);
         // Automatically start recording if button held
         if (!showPowerOn && (holdListenActive || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
@@ -251,7 +246,7 @@
     window.postMessage({ type: "speechstate", state: s }, "*");
   };
 
-  const setInitialized = (success: boolean, status: string) => {
+  const setInitialized = (success: boolean, state: string) => {
     if (initializedSuccessfully === undefined) {
       initializedSuccessfully = success;
       
@@ -259,13 +254,13 @@
         type: "initialized",
         success: initializedSuccessfully,
         appId: appid,
-        status
+        state
       }, "*");
 
       dispatchUnbounded("initialized", {
         success: initializedSuccessfully,
         appId: appid,
-        status
+        state
       });
 
     }
@@ -311,8 +306,10 @@
   style="
     --voffset: {voffset};
     --size: {size};
+    --textcolor: {textcolor};
+    --fontsize: {fontsize};
   ">
-  <call-out class:defaultTypography={defaultTypography} {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
+  <call-out class:defaultTypography={defaultTypography} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
 </holdable-button>
 
 <style>
