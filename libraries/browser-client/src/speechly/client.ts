@@ -85,7 +85,7 @@ export class Client {
   private authToken?: string
   private audioContext?: AudioContext
   private state: ClientState = ClientState.Disconnected
-  private apiUrl: string;
+  private readonly apiUrl: string
 
   private stateChangeCb: StateChangeCallback = () => {}
   private segmentChangeCb: SegmentChangeCallback = () => {}
@@ -152,12 +152,14 @@ export class Client {
   }
 
   /**
-   * Connect to Speechly
-   * This function will be called by initialize if connection hasn't been prewarmed before that
+   * Connect to Speechly backend.
+   * This function will be called by initialize if not manually called earlier.
+   * Calling connect() immediately after constructor and setting callbacks allows
+   * prewarming the connection, resulting in less noticeable waits for the user.
    */
-   public async connect(): Promise<void> {
+  public async connect(): Promise<void> {
     this.connectPromise = (async () => {
-      // Get auth token from cache or renew it 
+      // Get auth token from cache or renew it
       const storedToken = this.storage.get(authTokenKey)
       if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
         try {
@@ -179,8 +181,9 @@ export class Client {
           this.authToken,
           this.sampleRate,
           this.debug,
-        );
-      } catch(err) {
+        )
+      } catch (err) {
+        this.setState(ClientState.Failed)
         throw err
       }
     })()
@@ -198,9 +201,10 @@ export class Client {
   async initialize(): Promise<void> {
     // Connect now, if connection is not manually "prewarmed" earlier (recommended)
     if (this.connectPromise === null) {
-      this.connect()
+      await this.connect()
+    } else {
+      await this.connectPromise
     }
-    await this.connectPromise
 
     if (this.state !== ClientState.Disconnected) {
       throw Error('Cannot initialize client - client is not in Disconnected state')

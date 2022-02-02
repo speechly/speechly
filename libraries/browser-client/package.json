@@ -26,14 +26,10 @@
     "build:watch": "rm -rf ./dist/ && pnpm run buildworker && pnpx rollup -c --silent",
     "buildworker": "npx tsc ./worker/worker.ts && cat ./worker/templateOpen  > ./src/websocket/worker.ts && cat ./worker/worker.js >> ./src/websocket/worker.ts && cat ./worker/templateEnd  >> ./src/websocket/worker.ts",
     "check": "pnpm run build && npx api-extractor run --verbose",
-    "docs": "pnpm run prepdist && npx typedoc --readme none --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --excludeProtected --out ./docs/ --plugin typedoc-plugin-markdown ./dist/index.d.ts",
+    "docs": "rimraf docs && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/",
     "getdeps": "pnpm install --force --frozen-lockfile",
     "lint": "npx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
-    "precommit": "npx prettier --write src/**/*.ts && pnpm run build && npx api-extractor run --local && pnpm run docs",
-    "prepdist": "node ./config/prepare_dist.js",
-    "prerelease": "pnpm run check && pnpm run prepdist",
-    "test": "npx jest --config ./config/jest.config.js",
-    "watch": "rm -rf ./dist/ && mkdir dist && pnpm run prepdist && npx tsc-watch"
+    "test": "npx jest --config ./config/jest.config.js"
   },
   "repository": {
     "type": "git",
@@ -81,9 +77,9 @@
     "ts-loader": "^9.2.5",
     "tsc-watch": "^4.3.5",
     "tslib": "~2.3.1",
-    "typedoc": "^0.21.5",
-    "typedoc-plugin-markdown": "^3.10.4",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "typedoc": "^0.22.6",
+    "typedoc-plugin-markdown": "^3.11.3"
   },
   "publishConfig": {
     "access": "public"
