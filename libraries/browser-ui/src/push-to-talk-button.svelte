@@ -45,6 +45,7 @@
   export let iconsize = "60%";
   export let fxsize = "250%";
   export let cssimport = undefined;
+  export let customtypo = undefined;
 
   let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
@@ -60,6 +61,7 @@
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
   $: connectSpeechly(projectid, appid);
+  $: defaultTypography = customtypo === undefined || customtypo === "false";
 
   let client = null;
   let clientState: ClientState = undefined;
@@ -101,6 +103,9 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
     try {
       dispatchUnbounded("starting");
+      window.postMessage({
+        type: "speechlystarting"
+      }, "*");
       await client.initialize();
     } catch (e) {
       console.error("Speechly initialization failed", e);
@@ -262,9 +267,28 @@
         appId: appid,
         status
       });
+
     }
   }
+
+  const handleMessage = (e) => {
+    switch (e.data.type) {
+      case "showhint":
+        tipCallOutText = e.data.hint;
+        tipCalloutVisible = true;
+        break;
+    }
+  }
+
 </script>
+
+<svelte:window on:message={handleMessage}/>
+
+<svelte:head>
+  {#if defaultTypography}
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {/if}
+</svelte:head>
 
 <holdable-button class:placementBottom={placement === "bottom"}
   on:holdstart={tangentStart}
@@ -288,7 +312,7 @@
     --voffset: {voffset};
     --size: {size};
   ">
-  <call-out {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
+  <call-out class:defaultTypography={defaultTypography} {fontsize} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} textcolor={textcolor} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
 </holdable-button>
 
 <style>
@@ -306,4 +330,13 @@
     justify-content: center;
     z-index: 50;
   }
+
+  call-out.defaultTypography {
+    font-family: 'Saira Condensed', sans-serif;
+    color: var(--textcolor);
+    font-size: var(--fontsize);
+    line-height: 120%;
+    text-transform: uppercase;
+  }
+
 </style>
