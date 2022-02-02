@@ -6,13 +6,24 @@ import { isStandalone } from "./utils";
 import "./SearchView.css";
 import logo from "./assets/logo.svg";
 
+const exampleQueries = [
+  "Facebook login",
+  "What is the weather this week",
+  "Restaurants near me",
+  "What are NFTs",
+  "How to win the lottery",
+  "Is santa real",
+  "Men's fashion trends"
+];
+
 const MadeWith = () => <div className="MadeWith">Made with ♥ using <a href="https://speechly.com">Speechly</a></div>
 
 const SearchView: React.FC = (): JSX.Element => {
   const { segment } = useSpeechContext();
-  const { query, setQuery, results, getResults } = useSearchContext();
+  const { query, setQuery, results, getResults, searchInfo } = useSearchContext();
   const [tentativeQuery, setTentativeQuery] = useState<string>("");
   const [prevWordIndex, setPrevWordIndex] = useState(-1);
+  const [randomQuery] = useState(exampleQueries[Math.floor(Math.random()*exampleQueries.length)])
 
   const setText = (value: string) => {
     setQuery(value);
@@ -87,6 +98,10 @@ const SearchView: React.FC = (): JSX.Element => {
             onChangeFn={handleChange}
             onKeyPressFn={handleKeyPress}
           />
+          <div className="SearchBox__intro">
+            <h3>Tired of typing? Just say it.</h3>
+            <p>Try <em>“{randomQuery}”</em></p>
+          </div>
           <MadeWith />
         </div>
       )}
@@ -105,6 +120,10 @@ const SearchView: React.FC = (): JSX.Element => {
             />
           </div>
           <div className="Results">
+            <div className="Results__info">
+              {searchInfo?.correctedQuery && <>Showing results for <em>{searchInfo?.correctedQuery}</em>&ensp;&middot;&ensp;</>}
+              About {searchInfo?.formattedTotalResults} results ({searchInfo?.formattedSearchTime} seconds)
+            </div>
             {results.map(item => (
               <a
                 key={item.link}
