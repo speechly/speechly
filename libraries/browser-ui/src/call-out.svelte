@@ -97,10 +97,6 @@
   {/if}
 </main>
 
-<svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
-</svelte:head>
-
 <style>
   main {
     margin:0;
@@ -127,12 +123,6 @@
     text-align: center;
     user-select: none;
     z-index: 10;
-
-    color: var(--textcolor);
-    font-family: 'Saira Condensed', sans-serif;
-    font-size: var(--fontsize);
-    line-height: 120%;
-    text-transform: uppercase;
   }
 
   .useShadow {

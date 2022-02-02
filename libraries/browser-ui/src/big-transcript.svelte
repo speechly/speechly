@@ -27,14 +27,16 @@
   export let formattext = undefined;
   export let demomode = undefined;
   export let cssimport = undefined;
+  export let customtypo = undefined;
 
   $: showlistening = (words.length === 0);
   $: useTextBackground = backgroundcolor !== "none";
   $: useEntityFormatting = formattext === undefined || formattext !== "false";
   $: useDemoMode = demomode !== undefined && demomode !== "false";
+  $: defaultTypography = customtypo === undefined || customtypo === "false";
   $: wordTransitionInMs = useDemoMode ? 800 : 350;
   $: {
-    const newVisibility = clientState === ClientState.Recording || showingTranscript;
+    const newVisibility = clientState === ClientState.Recording || showingTranscript;
     if (newVisibility !== visibility) {
       dispatchUnbounded("visibilitychanged", newVisibility);
     }
@@ -203,6 +205,7 @@
 <main
   class="BigTranscript"
   class:placementTop={placement === "top"}
+  class:defaultTypography={defaultTypography}
   style="
     --voffset: {voffset};
     --hoffset: {hoffset};
@@ -255,7 +258,9 @@
 </main>
 
 <svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {#if defaultTypography}
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {/if}
 </svelte:head>
 
 {#if cssimport !== undefined}
@@ -266,11 +271,6 @@
   main {
     position: relative;
     user-select: none;
-    font-family: 'Saira Condensed', sans-serif;
-    text-transform: uppercase;
-    color: var(--color);
-    font-size: var(--fontsize);
-    line-height: 135%;
 
     display:flex;
     flex-direction: row;
@@ -278,6 +278,15 @@
     flex-wrap: wrap;
     margin-bottom: calc(var(--marginbottom) * var(--transition));
   }
+
+  .defaultTypography {
+    font-family: 'Saira Condensed', sans-serif;
+    text-transform: uppercase;
+    color: var(--color);
+    font-size: var(--fontsize);
+    line-height: 135%;
+  }
+
   .TranscriptItem {
     position: relative;
 

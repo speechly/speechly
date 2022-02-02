@@ -1,7 +1,7 @@
 <svelte:options tag={null} immutable={true}/>
 
 <script lang="ts">
-  import type { Segment } from '@speechly/browser-client/speechly/types';
+  import type { Segment } from '@speechly/browser-client';
   import type { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
@@ -19,6 +19,8 @@
   export let gradientstop2 = "#ffffffcc";
   export let formattext = undefined;
   export let demomode = undefined;
+  export let cssimport = undefined;
+  export let customtypo = undefined;
 
   let hints = [];
   let hintNumber = 0;
@@ -26,6 +28,7 @@
   let bigTranscript = undefined;
 
   $: sethint(hint);
+  $: defaultTypography = customtypo === undefined || customtypo === "false";
   
   export const speechhandled = (success: boolean) => {
     if (bigTranscript) bigTranscript.speechhandled(success);
@@ -111,6 +114,10 @@
   on:message={handleMessage}
 />
 
+{#if cssimport !== undefined}
+  <link href="{cssimport}" rel="stylesheet">
+{/if}
+
 <main class="placementTop" style="
   --height: {height};
   --smalltextcolor: {smalltextcolor};
@@ -122,8 +129,8 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2} demomode={demomode}></big-transcript>
-      <div class="hint" style="opacity: {$hintTransition.opacity};">
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} customtypo={customtypo} cssimport={cssimport} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2} demomode={demomode}></big-transcript>
+      <div class="hint" class:defaultTypography={defaultTypography} style="opacity: {$hintTransition.opacity};">
         {effectiveHint}
       </div>
     </div>
@@ -158,12 +165,15 @@
   }
 
   .hint {
+    margin-top: 0.15rem;
+  }
+
+  .defaultTypography {
     font-family: 'Saira Condensed', sans-serif;
     text-transform: uppercase;
     color: var(--smalltextcolor);
     font-size: var(--hintfontsize);
     line-height: 135%;
-    margin-top: 0.15rem;
   }
 
 </style>
