@@ -1,19 +1,9 @@
 import type { IAppearance } from "./types";
+import { ClientState } from "speechly/types";
 
 // Copy of ClientState. If used directly from browser-client, rollup includes the whole of
 // browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
-export enum ClientState {
-  Failed = 0,
-  NoBrowserSupport = 1,
-  NoAudioConsent = 2,
-  Disconnected = 3,
-  Disconnecting = 4,
-  Connecting = 5,
-  Connected = 6,
-  Starting = 7,
-  Stopping = 8,
-  Recording = 9
-}
+export { ClientState }
 
 export enum LocalStorageKeys {
   SpeechlyFirstConnect = "SpeechlyFirstConnect",
