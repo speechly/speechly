@@ -34,12 +34,13 @@
 
   onMount(() => {
     mounted = true;
+    window.postMessage({ type: MessageType.speechlyintroready }, "*");
   });
 
   const closeSelf = () => {
     visibility = false;
     dispatchUnbounded("speechlyintroclosed");
-    window.postMessage({ type: "speechlyintroclosed" }, "*");
+    window.postMessage({ type: MessageType.speechlyintroclosed }, "*");
   }
 
   const initialize = () => {

@@ -22,6 +22,10 @@ export type IHoldEvent = {
   timeMs: number;
 }
 
+export enum LocalStorageKeys {
+  SpeechlyFirstConnect = "SpeechlyFirstConnect",
+}
+
 export enum MessageType {
   speechlyrequestpriming = "speechlyrequestpriming",
   holdstart = "holdstart",
@@ -34,6 +38,8 @@ export enum MessageType {
   showhint = "showhint",
   transcriptdrawerhint = "hint",
   speechhandled = "speechhandled",
+  speechlyintroready = "speechlyintroready",
+  speechlyintroclosed = "speechlyintroclosed",
 }
 
 export enum SpeechState {

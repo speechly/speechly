@@ -1,12 +1,12 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import { Client, ClientState, Segment } from "@speechly/browser-client";
-  import { onMount } from "svelte";
   import "./holdable-button.ts";
   import "./call-out.ts";
+  import { Client, ClientState, Segment } from "@speechly/browser-client";
+  import { onMount } from "svelte";
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { IHoldEvent, MessageType } from "./types";
+  import { IHoldEvent, LocalStorageKeys, MessageType } from "./types";
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
@@ -47,7 +47,7 @@
   export let cssimport = undefined;
   export let customtypo = undefined;
 
-  let primingRequired = true && (localStorage.getItem("SpeechlyFirstConnect") === null);
+  let useFTUEPermissionPriming = false;
   let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
   let initializedSuccessfully = undefined;
@@ -61,7 +61,7 @@
   $: tipCallOutText = intro;
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
-  $: connectSpeechly(projectid, appid);
+  $: connect(projectid, appid);
   $: defaultTypography = customtypo === undefined || customtypo === "false";
 
   let client = null;
@@ -69,10 +69,11 @@
 
   onMount(() => {
     mounted = true;
-    connectSpeechly(projectid, appid);
+    useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
+    connect(projectid, appid);
   });
 
-  const connectSpeechly = (projectid: string, appid: string) => {
+  const connect = (projectid: string, appid: string) => {
     if (mounted && !client && (projectid || appid)) {
       const clientOptions = {
         ...(appid && !projectid && {appId: appid}),
@@ -101,7 +102,7 @@
     }
   }
 
-  const initializeSpeechly = async () => {
+  const initialize = async () => {
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
 
@@ -120,17 +121,16 @@
   const tangentStart = async (event) => {
     tangentStartPromise = (async () => {
       tipCalloutVisible = false;
-      
       if (client) {
         // Connect on 1st press
-        if (primingRequired) {
+        if (useFTUEPermissionPriming) {
           window.postMessage({
             type: MessageType.speechlyrequestpriming
           }, "*");
         } else if (isConnectable(clientState)) {
           if (appid || projectid) {
             const initStartTime = Date.now();
-            await initializeSpeechly();
+            await initialize();
             // Long init time suggests permission dialog --> prevent listening start
             holdListenActive = !showPowerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
           } else {
@@ -258,9 +258,9 @@
   const setInitialized = (success: boolean, state: string) => {
     if (initializedSuccessfully === undefined) {
       initializedSuccessfully = success;
-      primingRequired = false;
-      if (localStorage.getItem("SpeechlyFirstConnect") === null) {
-        localStorage.setItem("SpeechlyFirstConnect", String(Date.now()));
+      useFTUEPermissionPriming = false;
+      if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
+        localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
       }
       
       window.postMessage({
@@ -284,6 +284,9 @@
       case MessageType.showhint:
         tipCallOutText = e.data.hint;
         tipCalloutVisible = true;
+        break;
+      case MessageType.speechlyintroready:
+        useFTUEPermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
         break;
     }
   }
