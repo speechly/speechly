@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type { Segment } from "@speechly/browser-client";
-  import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+  import { ClientState, MessageType } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   import type { ITaggedWord } from "./types";
   import fix from './fixTransition'
   import { get_current_component } from "svelte/internal";
@@ -82,13 +82,13 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "speechsegment":
+      case MessageType.speechsegment:
         speechsegment(e.data.segment);
         break;
-      case "speechhandled":
+      case MessageType.speechhandled:
         speechhandled(e.data.success);
         break;
-      case "speechstate":
+      case MessageType.speechstate:
         speechstate(e.data.state);
         break;
       default:

@@ -2,7 +2,7 @@ import { ClientState } from "@speechly/browser-client";
 
 // Re-exporting ClientState. If used directly from browser-client, rollup includes the whole of
 // browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
-export { ClientState } from "@speechly/browser-client"; 
+export { ClientState }
 
 export type ITaggedWord = {
   word: string
@@ -20,6 +20,20 @@ export type IAppearance = {
 
 export type IHoldEvent = {
   timeMs: number;
+}
+
+export enum MessageType {
+  speechlyrequestpriming = "speechlyrequestpriming",
+  holdstart = "holdstart",
+  holdend = "holdend",
+  speechlystarting = "speechlystarting",
+  initialized = "initialized",
+  runspeechlytutorial = "runspeechlytutorial",
+  speechsegment = "speechsegment",
+  speechstate = "speechstate",
+  showhint = "showhint",
+  transcriptdrawerhint = "hint",
+  speechhandled = "speechhandled",
 }
 
 export enum SpeechState {

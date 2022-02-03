@@ -21,7 +21,9 @@
 
   <push-to-talk-button placement="bottom"></push-to-talk-button>
 
-  <intro-popup></intro-popup>
+  <intro-popup>
+    <span slot="welcome-body">You will be able to book faster with voice.</span>
+  </intro-popup>
 
   <usage-overlay video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></usage-overlay>
 
@@ -107,8 +109,10 @@
 </xmp>
 
 <xmp><intro-popup>
-  <span slot="mic-prompt-title">Allow booking with voice</span>
-  <span slot="mic-prompt-body">Please click <b>Allow</b> to use the microphone.</span>
+  <span slot="welcome-title">Allow booking with voice</span>
+  <span slot="welcome-body">You will be able to book faster with voice.</span>
+  <span slot="prompt-title">Allow booking with voice</span>
+  <span slot="prompt-body">Please click <b>Allow</b> to use the microphone.</span>
 </intro-popup>
 </xmp>
 

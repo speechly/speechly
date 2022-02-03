@@ -6,7 +6,7 @@
   import MicFrame from "./components/MicFrame.svelte";
   import MicIcon from "./components/MicIcon.svelte";
   import MicFx from "./components/MicFx.svelte";
-  import type { IAppearance, IHoldEvent } from "./types";
+  import { IAppearance, IHoldEvent, MessageType } from "./types";
   import {
     Icon,
     Effect,
@@ -136,7 +136,7 @@ import { ClientState } from "@speechly/browser-client";
       // Trigger callback defined as property
       if (thisComponent.onholdstart) thisComponent.onholdstart();
       // Also trigger an event
-      dispatchUnbounded("holdstart");
+      dispatchUnbounded(MessageType.holdstart);
     }
   };
 

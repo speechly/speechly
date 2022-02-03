@@ -1,4 +1,5 @@
 import type { Segment } from "@speechly/browser-client";
+import { MessageType } from "./types";
 
 var timeout = undefined;
 var contextId: string;
@@ -122,7 +123,7 @@ export const startDemo = (demoStrings: string[], onSegmentCallback?: SpeechSegme
 
   if (onSegmentCallback === undefined) {
     onSegmentCallback = (segment) => {
-      window.postMessage({ type: "speechsegment", segment: segment }, "*");
+      window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
     }
   }
 

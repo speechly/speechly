@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type { Segment } from '@speechly/browser-client';
-  import type { ClientState } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
+  import { ClientState, MessageType } from "./types";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
   import "./big-transcript.ts";
@@ -97,10 +97,10 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "speechsegment":
+      case MessageType.speechsegment:
         speechsegment(e.data.segment, false);
         break;
-      case "hint":
+      case MessageType.transcriptdrawerhint:
         sethint(e.data.hint)
         break;
       default:
