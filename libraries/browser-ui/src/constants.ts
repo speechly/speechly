@@ -1,15 +1,15 @@
 import type { IAppearance } from "./types";
-import { ClientState } from "speechly/types";
+import { ClientState } from "../node_modules/@speechly/browser-client/src/speechly/types";
 
 // Copy of ClientState. If used directly from browser-client, rollup includes the whole of
 // browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
 export { ClientState }
 
-export enum LocalStorageKeys {
+export const enum LocalStorageKeys {
   SpeechlyFirstConnect = "SpeechlyFirstConnect",
 }
 
-export enum MessageType {
+export const enum MessageType {
   speechlyrequestpriming = "speechlyrequestpriming",
   holdstart = "holdstart",
   holdend = "holdend",
@@ -25,58 +25,20 @@ export enum MessageType {
   speechlyintroclosed = "speechlyintroclosed",
 }
 
-export enum SpeechState {
-  /**
-   * The context is in a state of unrecoverable error.
-   * It is only possible to fix this by destroying and creating it from scratch.
-   */
-  Failed = "Failed",
-  /**
-   * Current browser is not supported by Speechly - it's not possible to use speech functionality.
-   */
-  NoBrowserSupport = "NoBrowserSupport",
-  /**
-   * The user did not provide permissions to use the microphone - it is not possible to use speech functionality.
-   */
-  NoAudioConsent = "NoAudioConsent",
-  /**
-   * The context has been created but not initialised. The audio and API connection are not enabled.
-   */
-  Idle = "Idle",
-  /**
-   * The context is connecting to the API.
-   */
-  Connecting = "Connecting",
-  /**
-   * The context is ready to use.
-   */
-  Ready = "Ready",
-  /**
-   * The context is current recording audio and sending it to the API for recognition.
-   * The results are also being fetched.
-   */
-  Recording = "Recording",
-  /**
-   * The context is waiting for the API to finish sending trailing responses.
-   * No audio is being sent anymore.
-   */
-  Loading = "Loading"
-}
-
-export enum Icon {
+export const enum Icon {
   Poweron = "poweron",
   Mic = "mic",
   Error = "error",
   Denied = "denied",
 }
 
-export enum Behaviour {
+export const enum Behaviour {
   Hold = "hold",
   Click = "click",
   Noninteractive = "noninteractive",
 }
 
-export enum Effect {
+export const enum Effect {
   None = "none",
   Connecting = "connecting",
   Busy = "busy",

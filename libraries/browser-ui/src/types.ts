@@ -1,5 +1,7 @@
 import type { Behaviour, Effect, Icon } from "./constants"
 
+export type { Segment, Intent, Word, Entity } from "../node_modules/@speechly/browser-client/src/speechly/types";
+
 export type ITaggedWord = {
   word: string
   serialNumber: number

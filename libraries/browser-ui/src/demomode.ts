@@ -1,4 +1,4 @@
-import type { Segment } from "./types-speechly";
+import type { Segment } from "./types";
 import { MessageType } from "./constants";
 
 var timeout = undefined;
