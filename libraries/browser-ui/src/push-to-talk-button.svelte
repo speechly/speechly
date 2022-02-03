@@ -6,7 +6,7 @@
   import "./holdable-button.ts";
   import "./call-out.ts";
   import { createDispatchUnbounded} from "./fixDispatch";
-  import type { IHoldEvent } from "./types";
+  import { IHoldEvent, MessageType } from "./types";
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
@@ -47,6 +47,7 @@
   export let cssimport = undefined;
   export let customtypo = undefined;
 
+  let primingRequired = true && (localStorage.getItem("SpeechlyFirstConnect") === null);
   let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
   let initializedSuccessfully = undefined;
@@ -86,24 +87,28 @@
         // Refresh stopContext timeout if set
         if (tapListenTimeout) setStopContextTimeout(silencetohanguptime);
         // Pass on segment updates from Speechly API as events
-        dispatchUnbounded("speechsegment", segment);
+        dispatchUnbounded(MessageType.speechsegment, segment);
         // And as window.postMessages
-        window.postMessage({ type: "speechsegment", segment: segment }, "*");
+        window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
       });
-      client.connect();
+
+      // Temporary check for client.connect function
+      if (typeof client.connect === "function") {
+        client.connect();
+      }
+
       tipCalloutVisible = true;
     }
   }
 
   const initializeSpeechly = async () => {
-    // Create a new Client. appid and language are configured in the dashboard.
-
     // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
+
     try {
       dispatchUnbounded("starting");
       window.postMessage({
-        type: "speechlystarting"
+        type: MessageType.speechlystarting
       }, "*");
       await client.initialize();
     } catch (e) {
@@ -118,7 +123,11 @@
       
       if (client) {
         // Connect on 1st press
-        if (isConnectable(clientState)) {
+        if (primingRequired) {
+          window.postMessage({
+            type: MessageType.speechlyrequestpriming
+          }, "*");
+        } else if (isConnectable(clientState)) {
           if (appid || projectid) {
             const initStartTime = Date.now();
             await initializeSpeechly();
@@ -145,7 +154,7 @@
         }
       }
       // Send as window.postMessages
-      window.postMessage({ type: "holdstart", state: clientState }, "*");
+      window.postMessage({ type: MessageType.holdstart, state: clientState }, "*");
     })()
   };
 
@@ -243,21 +252,25 @@
         break;
     }
     // Broadcast state changes
-    window.postMessage({ type: "speechstate", state: s }, "*");
+    window.postMessage({ type: MessageType.speechstate, state: s }, "*");
   };
 
   const setInitialized = (success: boolean, state: string) => {
     if (initializedSuccessfully === undefined) {
       initializedSuccessfully = success;
+      primingRequired = false;
+      if (localStorage.getItem("SpeechlyFirstConnect") === null) {
+        localStorage.setItem("SpeechlyFirstConnect", String(Date.now()));
+      }
       
       window.postMessage({
-        type: "initialized",
+        type: MessageType.initialized,
         success: initializedSuccessfully,
         appId: appid,
         state
       }, "*");
 
-      dispatchUnbounded("initialized", {
+      dispatchUnbounded(MessageType.initialized, {
         success: initializedSuccessfully,
         appId: appid,
         state
@@ -268,7 +281,7 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "showhint":
+      case MessageType.showhint:
         tipCallOutText = e.data.hint;
         tipCalloutVisible = true;
         break;

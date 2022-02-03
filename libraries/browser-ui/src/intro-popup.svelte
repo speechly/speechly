@@ -5,19 +5,23 @@
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
   import { ClientState } from "@speechly/browser-client";
+  import { MessageType } from "./types";
 
   export let hide = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
 
+  const PagePriming = 'PagePriming'
+  const PagePrompt = 'PagePrompt'
   const HttpsRequired = 'HttpsRequired'
+
   const dispatchUnbounded = createDispatchUnbounded();
   const fade = fix(fade_orig);
 
   $: visibility = mounted && hide === "false";
 
   let mounted = false;
-  let errorState: ClientState | string | null = null;
+  let page: ClientState | string = PagePriming;
   let appId: null;
   let introTimeout = null;
 
@@ -38,6 +42,11 @@
     window.postMessage({ type: "speechlyintroclosed" }, "*");
   }
 
+  const initialize = () => {
+    window.postMessage({ type: MessageType.speechlystarting }, "*");
+    window.SpeechlyClient.initialize();
+  }
+
   const handleKeydown = (event) => {
     if (mounted && event.key === 'Escape') {
       event.preventDefault();
@@ -47,14 +56,18 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "speechlystarting":
+      case MessageType.speechlyrequestpriming:
+        visibility = true;
+        break;
+      case MessageType.speechlystarting:
+        page = PagePrompt;
         introTimeout = window.setTimeout(() => {
           introTimeout = null;
           visibility = true;
         }, 500);
         break;
 
-      case "holdstart":
+      case MessageType.holdstart:
         switch (e.data.state) {
           case ClientState.Failed:
           case ClientState.NoAudioConsent:
@@ -63,14 +76,14 @@
             break;
         }
         break;
-      case "initialized":
+      case MessageType.initialized:
         appId = e.data.appId;
         if (e.data.success) {
           if (introTimeout) {
             window.clearTimeout(introTimeout);
             introTimeout = null;
           } else {
-            window.postMessage({ type: "runspeechlytutorial" }, "*");
+            window.postMessage({ type: MessageType.runspeechlytutorial }, "*");
           }
           closeSelf();
         } else {
@@ -86,10 +99,10 @@
     visibility = true;
     // Provide special instructions for non-https access
     if (window?.location?.protocol !== 'https:' && !isLocalHost(window.location.hostname)) {
-      errorState = HttpsRequired;
+      page = HttpsRequired;
       return;
     }
-    errorState = e;
+    page = e;
   }
 
 </script>
@@ -109,10 +122,23 @@
 
   <modalcontent transition:fade class="{position}">
     <main>
-      {#if errorState === null}
-        <h2>↖ <slot name="mic-prompt-title">Allow searching with voice</slot></h2>
+      {#if page === PagePriming}
+        <h2><slot name="prompt-title">Allow microphone</slot></h2>
         <p>
-          <slot name="mic-prompt-body">
+          <slot name="welcome-body">
+            Please click <b>Allow</b> to use the microphone.
+            We'll only listen to you when you press the <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button.
+          </slot>
+        </p>
+
+        <options>
+          <button on:click={closeSelf} class="wide">Later</button>
+          <button on:click={initialize} class="wide primary">Allow</button>
+        </options>
+      {:else if page === PagePrompt}
+        <h2>↖ <slot name="prompt-title">Allow microphone</slot></h2>
+        <p>
+          <slot name="prompt-body">
             Please click <b>Allow</b> to use the microphone.
             We'll only listen to you when you press the <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button.
           </slot>
@@ -121,7 +147,7 @@
         <options>
           <button on:click={closeSelf} class="wide">Got it</button>
         </options>
-      {:else if errorState === HttpsRequired}
+      {:else if page === HttpsRequired}
         <h2>HTTPS Required 😢</h2>
         <p>
           To use the voice interface, please visit this site using the secure
@@ -132,8 +158,9 @@
           <button on:click={() => {window.location.href.replace(/^http(?!s)/, 'https')}} class="wide">
             Try with HTTPS
           </button>
+          <button on:click={closeSelf} class="wide">Later</button>
         </options>
-      {:else if errorState === ClientState.NoAudioConsent}
+      {:else if page === ClientState.NoAudioConsent}
         <h2>Voice unavailable 😢</h2>
         <p>
           Please reload the page to try again.
@@ -143,9 +170,10 @@
         </p>
 
         <options>
-          <button on:click={closeSelf} class="wide">Got it</button>
+          <button on:click={closeSelf} class="wide">Later</button>
+          <button on:click={() => {window.location.reload()}} class="wide primary">Reload</button>
         </options>
-      {:else if errorState === ClientState.NoBrowserSupport}
+      {:else if page === ClientState.NoBrowserSupport}
         <h2>Unsupported Browser 😢</h2>
         <p>
           To use the voice interface, please visit this site using a supported
@@ -153,7 +181,7 @@
         </p>
 
         <options>
-          <button on:click={closeSelf} class="wide">Aww, bummer</button>
+          <button on:click={closeSelf} class="wide">Got it</button>
         </options>
       {:else}
         <h2>Failed to connect Speechly 😢</h2>
@@ -260,8 +288,7 @@
     margin: 0;
   }
 
-  h2
-  {
+  h2 {
     font-family: 'Saira Condensed', sans-serif;
     padding: 0;
     margin: 0;
@@ -279,29 +306,50 @@
 
   options {
     display: block;
-    margin-top: 2em;
+    margin-top: 2.5rem;
   }
-      
+
+  options > * {
+    margin-left: 4px;
+}
+
+  options > *:first-child {
+    margin-left: 0px;
+  }
   button.wide {
     box-sizing: border-box;
-    min-width: 10rem;
+    min-width: 9rem;
     max-width: 100%;
-    padding: 0.66rem;
-    background-color: #aaa;
-    border: none;
+    padding: 0.60rem;
     border-radius: 10rem;
     font-size: 100%;
-  
+    border: 1px solid #aaa;
+
+    background-color: #fff0;  
     transition: 0.3s;
-    color: #000;
+    color: #aaa;
     line-height: 120%;
   }
-  
+
   button.wide:hover {
+    transition: 0.3s;
+    border-color: #fff;
+    color: #fff;
+  }
+
+  button.primary {
+    background-color: #aaa;
+    border: 0;
+    color: #000;
+  }
+
+  button.primary:hover {
+    border: 0;
     background-color: #ffff;
     transition: 0.3s;
+    color: #000;
   }
-  
+
   a,
   a:visited {
     color: #aaa;
