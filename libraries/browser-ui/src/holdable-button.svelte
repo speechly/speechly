@@ -13,11 +13,10 @@
     Effect,
     Behaviour,
     MessageType,
-    stateToClientState,
     clientStateToAppearance,
   } from "./constants";
 
-  export let icon = ClientState.Disconnected as unknown as string;
+  export let icon = ClientState.Disconnected;
   export let capturekey = " ";
   export let hide = undefined;
   export let size = "88px";
@@ -50,7 +49,7 @@
 
   // Run this reactive statement whenever icon parameters (icon) changes
   $: {
-    updateSkin(tangentHeld, stateToClientState(icon));
+    updateSkin(tangentHeld, icon);
   }
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
