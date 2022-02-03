@@ -6,15 +6,16 @@
   import MicFrame from "./components/MicFrame.svelte";
   import MicIcon from "./components/MicIcon.svelte";
   import MicFx from "./components/MicFx.svelte";
-  import { IAppearance, IHoldEvent, MessageType } from "./types";
+  import type { IAppearance, IHoldEvent } from "./types";
   import {
+    ClientState,
     Icon,
     Effect,
     Behaviour,
+    MessageType,
     stateToClientState,
     clientStateToAppearance,
-  } from "./types";
-import { ClientState } from "@speechly/browser-client";
+  } from "./constants";
 
   export let icon = ClientState.Disconnected as unknown as string;
   export let capturekey = " ";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
     Icon
-  } from "../types";
+  } from "../constants";
 
   export let icon: Icon = Icon.Mic;
 </script>

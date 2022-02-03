@@ -1,5 +1,5 @@
-import type { Segment } from "@speechly/browser-client";
-import { MessageType } from "./types";
+import type { Segment } from "./types-speechly";
+import { MessageType } from "./constants";
 
 var timeout = undefined;
 var contextId: string;

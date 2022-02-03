@@ -1,12 +1,13 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
+  import type { Segment, IHoldEvent } from "./types";
   import "./holdable-button.ts";
   import "./call-out.ts";
-  import { Client, ClientState, Segment } from "@speechly/browser-client";
+  import { Client } from "@speechly/browser-client";
+  import { ClientState, LocalStorageKeys, MessageType } from "./constants";
   import { onMount } from "svelte";
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { IHoldEvent, LocalStorageKeys, MessageType } from "./types";
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500

@@ -4,8 +4,7 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { ClientState } from "@speechly/browser-client";
-  import { MessageType } from "./types";
+  import { ClientState, MessageType } from "./constants";
 
   export let hide = undefined;
   export let remsize = "1.0rem";

@@ -1,9 +1,9 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import type { Segment } from "@speechly/browser-client";
-  import { ClientState, MessageType } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+  import type { Segment } from "./types-speechly";
   import type { ITaggedWord } from "./types";
+  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   import fix from './fixTransition'
   import { get_current_component } from "svelte/internal";
   import { draw as draw_orig } from 'svelte/transition';
