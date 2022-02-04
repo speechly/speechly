@@ -172,10 +172,10 @@ export default [
   },
 
   {...webComponentDefaults,
-    input: 'src/usage-overlay.ts',
+    input: 'src/video-guide.ts',
     output: {
       ...webComponentDefaults.output,
-      file: 'core/usage-overlay.js'
+      file: 'core/video-guide.js'
     },
   },
 

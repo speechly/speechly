@@ -12,7 +12,7 @@
   <script src='push-to-talk-button.js'></script>
   <script src='transcript-drawer.js'></script>
   <script src='intro-popup.js'></script>
-  <script src='usage-overlay.js'></script>
+  <script src='video-guide.js'></script>
 
 </head>
 
@@ -33,7 +33,7 @@
     <span slot="welcome-body">You will be able to book faster with voice.</span>
   </intro-popup>
 
-  <usage-overlay video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></usage-overlay>
+  <video-guide video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></video-guide>
 
   <transcript-drawer
     hint='["Try: ``From Chicago to Paris´´", "Try: ``For 2 passengers´´", "Try: ``In business class´´"]'
@@ -61,9 +61,9 @@
 </head>
 </xmp>
     
-    <h2>Element &lt;transcript-drawer/&gt;</h2>
+    <h2>Transcript Drawer</h2>
     <p>
-      Transcript drawer is an drawer/sheet/shelf style component for displaying real-time speech-to-text transcript and hint texts.
+      Transcript Drawer is an drawer-style component for displaying real-time speech-to-text transcript and hint texts.
     </p>
     <p>
       It's an alternative to big-transcript (actually a wrapper). It is displayed at the top of the screen. It is momentarily displayed and automatically hidden after the end of voice input.
@@ -112,7 +112,7 @@
       </ul>
     </component-api>
 
-    <h2>Element &lt;intro-popup/&gt;</h2>
+    <h2>Intro Popup</h2>
     <p>
       Intro popup introduces the application and voice usage.
     </p>
@@ -153,17 +153,17 @@
       </ul>
     </component-api>
 
-    <h2>Element &lt;usage-overlay/&gt;</h2>
+    <h2>Video Guide</h2>
     <p>
       Overlay voice usage video.
     </p>
     <p>
       Include the following lines in your <code>&lt;body&gt;</code>:
     </p>
-<xmp><usage-overlay></usage-overlay> 
+<xmp><video-guide></video-guide> 
 </xmp>
 
-    <component-api id="usage-overlay">
+    <component-api id="video-guide">
 
       <h3>Attributes</h3>
       <ul>
@@ -174,7 +174,7 @@
     </component-api>
 
 
-    <h2>demomode</h2>
+    <h2>Demomode</h2>
     <p>
       Demomode utility can display instructions for the end user. It sends <code>segmentupdate</code> messages (postMessage) in a sequence and drives Big Transcript or Transcript Drawer components.
       Additionally, if your application is set up to listen to these messages, it will react to those as if they
@@ -247,7 +247,7 @@
 
     const transcriptEl = document.getElementsByTagName("transcript-drawer")[0];
     const introPopup = document.getElementsByTagName("intro-popup")[0];
-    const usageHelp = document.getElementsByTagName("usage-overlay")[0];
+    const usageHelp = document.getElementsByTagName("video-guide")[0];
 
     document.querySelector('#start-demo').addEventListener('click', ()=>{
       startDemo(demoStrings)
