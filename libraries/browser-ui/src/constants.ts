@@ -10,7 +10,7 @@ export const enum LocalStorageKeys {
 }
 
 export const enum MessageType {
-  speechlyrequestpriming = "speechlyrequestpriming",
+  speechlypoweron = "speechlypoweron",
   holdstart = "holdstart",
   holdend = "holdend",
   speechlystarting = "speechlystarting",
@@ -25,7 +25,6 @@ export const enum MessageType {
 }
 
 export const enum Icon {
-  Poweron = "poweron",
   Mic = "mic",
   Error = "error",
   Denied = "denied",
@@ -44,8 +43,8 @@ export const enum Effect {
 }
 
 export const clientStateToAppearance: {[state: string]: IAppearance} = {
-  [ClientState.Disconnected]: { icon: Icon.Poweron, behaviour: Behaviour.Click, effect: Effect.None},
-  [ClientState.Disconnecting]: { icon: Icon.Poweron, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Disconnected]: { icon: Icon.Mic, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.Disconnecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [ClientState.Connecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
   [ClientState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting},

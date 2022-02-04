@@ -19,7 +19,7 @@
   export let apiurl = undefined;
 
   export let capturekey = " ";
-  export let poweron = undefined;
+  export let poweron = "auto";
   export let hide = undefined;
   export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
   export let silencetohanguptime = 1000; // ms of silence to listen before hangup
@@ -51,7 +51,6 @@
   export let customtypography = undefined;
 
   let useFTUEPermissionPriming = false;
-  let icon: ClientState = ClientState.Disconnected;
   let holdListenActive = false;
   let initializedSuccessfully = undefined;
   let tipCalloutVisible = false;
@@ -60,10 +59,9 @@
   let tapListenTimeout = null;
   let tapListenActive = false;
   let tangentStartPromise = null;
+  let icon = ClientState.Disconnected;
 
   $: tipCallOutText = intro;
-  $: showPowerOn = poweron !== undefined && poweron !== "false";
-  $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
   $: connect(projectid, appid);
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
@@ -72,7 +70,16 @@
 
   onMount(() => {
     mounted = true;
-    useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
+    if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
+      switch (poweron) {
+        case "true":
+          useFTUEPermissionPriming = true;
+          break;
+        case "auto":
+          useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null);
+          break;
+      }
+    }
     connect(projectid, appid);
   });
 
@@ -135,7 +142,7 @@
             const initStartTime = Date.now();
             await initialize();
             // Long init time suggests permission dialog --> prevent listening start
-            holdListenActive = !showPowerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+            holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
           } else {
             console.warn(
               "No appid/projectid attribute specified. Speechly voice services are unavailable."
@@ -248,7 +255,7 @@
       case ClientState.Connected:
         setInitialized(true, s as unknown as string);
         // Automatically start recording if button held
-        if (!showPowerOn && (holdListenActive || tapListenActive) && isStartable(clientState)) {
+        if ((holdListenActive || tapListenActive) && isStartable(clientState)) {
           dispatchUnbounded("startcontext");
           client.startContext(appid);
         }
@@ -289,7 +296,9 @@
         tipCalloutVisible = true;
         break;
       case MessageType.speechlyintroready:
-        useFTUEPermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
+        if (poweron === "auto") {
+          useFTUEPermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
+        }
         break;
     }
   }

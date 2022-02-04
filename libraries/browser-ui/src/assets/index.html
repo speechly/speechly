@@ -95,7 +95,7 @@
         <li><code>loginurl</code> - Optional alternative url to use for Speechly login.
         <li><code>apiurl</code> - Optional alternative url for Speechly API.
         <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
-        <li><code>poweron</code> - Optional string "true" | "false". Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: "false" </li>
+        <li><code>poweron</code> - Optional string "auto"|"true"|"false". If "true", first button press sends a "poweron" message instead of initializing Speechly. This allows displaying a welcome screen using Intro Popup or a custom implementation. "auto" setting tries to detect presence of Intro Popup in DOM and use poweron if found. Default: "auto" </li>
         <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
       </ul>
       <h3>Attributes for styling</h3>
@@ -146,6 +146,7 @@
         <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
+        <li><code>{type: "poweron"}</code> - Broadcasted on button initial button press when poweron=true</li>
         <li><code>{type: "initialized", success: true | false, appId: string, state: ClientState.Connected|Failed|NoBrowserSupport|NoAudioConsent}</code> - Broadcasted on initialization end.</li>
       </ul>
       <h3>Window messages listened</h3>

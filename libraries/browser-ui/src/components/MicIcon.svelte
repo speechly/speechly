@@ -42,18 +42,6 @@
 </svg>
 {/if}
 
-{#if icon === Icon.Poweron}
-<svg class="Icon" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-  <g fill="var(--icon-color)" fill-rule="evenodd">
-    <path
-      d="M52 28c0 13.255-10.745 24-24 24S4 41.255 4 28c0-8.921 4.867-16.705 12.091-20.842l1.984 3.474C12.055 14.08 8 20.566 8 28c0 11.046 8.954 20 20 20s20-8.954 20-20c0-7.434-4.056-13.92-10.075-17.368L39.91 7.16C47.133 11.296 52 19.079 52 28z"
-      fill-rule="nonzero"
-    />
-    <rect x="24" y="1" width="8" height="23" rx="4" />
-  </g>
-</svg>
-{/if}
-
 <style>
   .Icon {
     position: absolute;
