@@ -8,9 +8,11 @@
   export let show = undefined;
   export let showtime = 10000;
   export let backgroundcolor = "#202020";
+  export let xalign = "50%"
+  export let width = "auto";
 
   let sourceAnchors = { x: '50%', y: '10%' };
-  let destAnchors = { x: '50%', y: '100%' };
+  $: destAnchors = { x: xalign, y: '100%' };
   let arrowSize = { value: 0.55, unit: 'rem' };
   let useShadow = false;
   let borderRadius = "0rem";
@@ -25,7 +27,7 @@
       duration,
       css: (t: number) => {
         return `
-          clip-path: circle(${t * 100}% at center);
+          clip-path: circle(${t * 100}% at ${destAnchors.x} 50%);
         `
       }
     }
@@ -80,10 +82,13 @@
       on:dragstart={onMouseDown}
       in:circlewipe
       out:circlewipe
+      style="
+        width: {width};
+      "
     >
       <div class="CalloutDiv" class:useShadow={useShadow}><slot></slot></div>
       <div class="ArrowDiv" style="
-        --ax: 50%;
+        --ax: {destAnchors.x};
         --ay: 100%;
       "/>
       {#if useShadow}

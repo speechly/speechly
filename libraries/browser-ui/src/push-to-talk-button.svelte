@@ -24,20 +24,22 @@
   export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
   export let silencetohanguptime = 1000; // ms of silence to listen before hangup
 
-  export let intro = "Hold to talk";
-  export let hint = "Hold to talk";
-  export let showtime = 10000;
-
   export let placement = undefined;
   export let size = "80px";
   export let voffset = "2.5rem";
+
+  export let intro = "Hold to talk";
+  export let hint = "Hold to talk";
+  export let showtime = 10000;
+  export let hintxalign = "50%"
+  export let hintwidth = "auto";
 
   export let backgroundcolor = "#ffffff";
   export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
 
-  export let fontsize = "1.2rem";
+  export let fontsize = "1.0rem";
   export let textcolor = "#ffffff";
   export let hintbackgroundcolor = "#202020";
 
@@ -326,7 +328,7 @@
     --textcolor: {textcolor};
     --fontsize: {fontsize};
   ">
-  <call-out class:defaultTypography={defaultTypography} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
+  <call-out class:defaultTypography={defaultTypography} width={hintwidth} xalign={hintxalign} show={tipCallOutText !== "" && tipCalloutVisible && !hide ? "true" : "false"} showtime={showtime} backgroundcolor={hintbackgroundcolor}>{tipCallOutText}</call-out>
 </holdable-button>
 
 <style>
