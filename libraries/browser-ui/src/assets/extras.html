@@ -18,14 +18,32 @@
 
 <body>
 
-  <push-to-talk-button borderscale="0" backgroundcolor="#4fa1f9" iconcolor="#fff" gradientstop1="#fff" gradientstop2="#fff" placement="bottom" intro='Try "From Chicago to Paris"' hintwidth="150px"></push-to-talk-button>
+  <push-to-talk-button
+    borderscale="0"
+    backgroundcolor="#4fa1f9"
+    iconcolor="#fff"
+    gradientstop1="#fff"
+    gradientstop2="#4fa1f960"
+    placement="bottom"
+    intro='Try "From Chicago to Paris"'
+    hintwidth="150px">
+  </push-to-talk-button>
 
   <intro-popup>
+    <span slot="welcome-body">You will be able to book faster with voice.</span>
   </intro-popup>
 
   <usage-overlay video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></usage-overlay>
 
-  <transcript-drawer hint='["Try: ``From Chicago to Paris´´", "Try: ``For 2 passengers´´", "Try: ``In business class´´"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
+  <transcript-drawer
+    hint='["Try: ``From Chicago to Paris´´", "Try: ``For 2 passengers´´", "Try: ``In business class´´"]'
+    backgroundcolor="#4fa1f9"
+    color="#fff"
+    smalltextcolor="#fffc"
+    highlightcolor="#fff6"
+    gradientstop1="#fff5"
+    gradientstop2="#fff8">
+  </transcript-drawer>
   
   <main>
     <h1>Web Components Extras</h1>

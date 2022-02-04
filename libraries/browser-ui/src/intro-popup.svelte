@@ -149,7 +149,7 @@
           <button on:click={closeSelf} class="wide">Got it</button>
         </options>
       {:else if page === HttpsRequired}
-        <h2>HTTPS Required 😢</h2>
+        <h2>HTTPS Required</h2>
         <p>
           To use the voice interface, please visit this site using the secure
           https:// protocol.
@@ -162,7 +162,7 @@
           <button on:click={closeSelf} class="wide">Later</button>
         </options>
       {:else if page === ClientState.NoAudioConsent}
-        <h2>Voice unavailable 😢</h2>
+        <h2>Voice unavailable</h2>
         <p>
           Please reload the page to try again.
         </p>
@@ -175,7 +175,7 @@
           <button on:click={() => {window.location.reload()}} class="wide primary">Reload</button>
         </options>
       {:else if page === ClientState.NoBrowserSupport}
-        <h2>Unsupported Browser 😢</h2>
+        <h2>Unsupported Browser</h2>
         <p>
           To use the voice interface, please visit this site using a supported
           browser.
@@ -185,7 +185,7 @@
           <button on:click={closeSelf} class="wide">Got it</button>
         </options>
       {:else}
-        <h2>Failed to connect Speechly 😢</h2>
+        <h2>Failed to connect Speechly</h2>
         <p>
           Please check that Speechly application id '{appId}' has been successfully deployed.
         </p>
@@ -232,7 +232,7 @@
     box-sizing: border-box;
     width: 100%;
     min-height: 100%;
-    padding: 2.5rem 2rem;
+    padding: 1.5rem 2rem;
   
     display: flex;
     flex-direction: column;
@@ -266,20 +266,12 @@
     width: 100%;
     max-width: 400px;
     margin: auto 0;
+    padding: 2rem 0;
   }
   
   b {
-    animation: pulse 1s alternate infinite;
-  }
-
-  @keyframes pulse {
-  0% {
-    color: #ffffff;
-  }
-  100% {
     color: #80bbff;
   }
-}
 
   footer {
     box-sizing: border-box;
