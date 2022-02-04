@@ -36,10 +36,10 @@
     window.postMessage({ type: MessageType.speechlyintroready }, "*");
   });
 
-  const closeSelf = () => {
+  const closeSelf = (params = {}) => {
     visibility = false;
-    dispatchUnbounded("speechlyintroclosed");
-    window.postMessage({ type: MessageType.speechlyintroclosed }, "*");
+    dispatchUnbounded("speechlyintroclosed", params);
+    window.postMessage({ type: MessageType.speechlyintroclosed, ...params }, "*");
   }
 
   const initialize = () => {
@@ -80,12 +80,13 @@
         appId = e.data.appId;
         if (e.data.success) {
           if (introTimeout) {
+            // Quick init indicates mic permission is cached. Cancel displaying intro popup.
             window.clearTimeout(introTimeout);
             introTimeout = null;
+            closeSelf();
           } else {
-            window.postMessage({ type: MessageType.runspeechlytutorial }, "*");
+            closeSelf({firstrun: true});
           }
-          closeSelf();
         } else {
           showError(e.data.state);
         }

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset='utf-8'>
-	<meta name='viewport' content='width=device-width,initial-scale=1'>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
 
-	<title>Speechly Web Component Extras</title>
+  <title>Speechly Web Component Extras</title>
 
   <link rel='icon' type='image/png' href='../favicon.png'>
-	<link rel='stylesheet' href='../global.css'>
+  <link rel='stylesheet' href='../global.css'>
 
   <script src='push-to-talk-button.js'></script>
   <script src='transcript-drawer.js'></script>
@@ -131,7 +131,8 @@
 
       <h3>Window messages emitted (postMessage)</h3>
       <ul>
-        <li><code>{type: "speechlyintroclosed"}</code> - Broadcasted when popup is closed by user</li>
+        <li><code>{type: "speechlyintroready"}</code> - Broadcasted upon mount</li>
+        <li><code>{type: "speechlyintroclosed", firstrun: undefined|true}</code> - Broadcasted when popup is closed by user</li>
       </ul>
     </component-api>
 
@@ -241,9 +242,11 @@
     });
 
     window.addEventListener("message", (e) => {
-      if (e.data.type === "runspeechlytutorial") {
-        window.postMessage({ type: "showhint", hint: 'Try "show me blue jeans"' }, "*");
-        usageHelp.setAttribute("hide", "false")
+      if (e.data.type === "speechlyintroclosed") {
+        if (e.data.firstrun) {
+          window.postMessage({ type: "showhint", hint: 'Try "show me blue jeans"' }, "*");
+          usageHelp.setAttribute("hide", "false")
+        }
       }
     });
 
