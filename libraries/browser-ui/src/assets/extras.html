@@ -18,7 +18,7 @@
 
 <body>
 
-  <push-to-talk-button placement="bottom" hintwidth="150px"></push-to-talk-button>
+  <push-to-talk-button borderscale="0" backgroundcolor="#4fa1f9" size="2.5em" iconcolor="#fff" placement="bottom" intro='Try "From Chicago to Paris"' hintwidth="150px"></push-to-talk-button>
 
   <intro-popup>
     <span slot="welcome-body">You will be able to book faster with voice.</span>
@@ -244,7 +244,7 @@
     window.addEventListener("message", (e) => {
       if (e.data.type === "speechlyintroclosed") {
         if (e.data.firstrun) {
-          window.postMessage({ type: "showhint", hint: 'Try "show me blue jeans"' }, "*");
+          window.postMessage({ type: "showhint", hint: 'Try "From Chicago to Paris"' }, "*");
           usageHelp.setAttribute("hide", "false")
         }
       }
