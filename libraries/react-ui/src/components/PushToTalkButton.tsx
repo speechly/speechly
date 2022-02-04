@@ -3,6 +3,7 @@ import { ClientState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import { SpeechlyUiEvents } from '../types'
 import { PushToTalkButtonContainer } from '..'
+import styled from 'styled-components'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -124,9 +125,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   gradientStops = ['#15e8b5', '#4fa1f9'],
   intro = 'Hold to talk',
   hint = 'Hold to talk',
-  fontSize,
+  fontSize = '120%',
   showTime,
-  textColor,
+  textColor = '#ffffff',
   backgroundColor,
   placement,
   voffset,
@@ -293,19 +294,27 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   if (!loaded) return null
 
   return (
-    <div>
+    <MicButtonDiv textColor={textColor} fontSize={fontSize}>
       { (placement === 'bottom') && (
         <PushToTalkButtonContainer size={size} voffset={voffset}>
           <holdable-button ref={buttonRef} poweron={powerOn} capturekey={captureKey} icon={icon} size={size} gradientstop1={gradientStops[0]} gradientstop2={gradientStops[1]} hide={hide ? 'true' : 'false'}></holdable-button>
-          <call-out show={showHint && hintText !== ''} fontsize={fontSize} textcolor={textColor} backgroundcolor={backgroundColor} showtime={showTime}>{hintText}</call-out>
+          <call-out show={showHint && hintText !== ''} backgroundcolor={backgroundColor} showtime={showTime}>{hintText}</call-out>
         </PushToTalkButtonContainer>
       )}
       { (placement !== 'bottom') && (
         <>
           <holdable-button ref={buttonRef} poweron={powerOn} capturekey={captureKey} icon={icon} size={size} gradientstop1={gradientStops[0]} gradientstop2={gradientStops[1]} hide={hide ? 'true' : 'false'}></holdable-button>
-          <call-out show={showHint && hintText !== ''} fontsize={fontSize} textcolor={textColor} backgroundcolor={backgroundColor} showtime={showTime}>{hintText}</call-out>
+          <call-out show={showHint && hintText !== ''} backgroundcolor={backgroundColor} showtime={showTime}>{hintText}</call-out>
         </>
       )}
-    </div>
+    </MicButtonDiv>
   )
 }
+
+const MicButtonDiv = styled.div<{textColor: string, fontSize: string}>`
+  font-family: 'Saira Condensed', sans-serif;
+  color: ${(props) => props.textColor};
+  font-size: ${(props) => props.fontSize};
+  line-height: 120%;
+  text-transform: uppercase;
+`
