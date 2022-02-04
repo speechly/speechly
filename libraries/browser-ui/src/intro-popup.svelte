@@ -223,6 +223,7 @@
     pointer-events: auto;
 
     background-color: #000000c0;
+    backdrop-filter: blur(3px);
   }
 
   modalcontent {
