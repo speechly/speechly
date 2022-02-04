@@ -28,7 +28,7 @@
   export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
-  export let cssimport = undefined;
+  export let customcssurl = undefined;
   export const isbuttonpressed = () => tangentHeld;
 
   $: visible = hide === undefined || hide === "false";
@@ -226,8 +226,8 @@
   on:keyup={keyUpCallBack}
 />
 
-{#if cssimport !== undefined}
-  <link href="{cssimport}" rel="stylesheet">
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
 {/if}
 
 <main

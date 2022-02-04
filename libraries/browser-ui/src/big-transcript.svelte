@@ -25,14 +25,14 @@
   export let marginbottom = "0rem";
   export let formattext = undefined;
   export let demomode = undefined;
-  export let cssimport = undefined;
-  export let customtypo = undefined;
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
 
   $: showlistening = (words.length === 0);
   $: useTextBackground = backgroundcolor !== "none";
   $: useEntityFormatting = formattext === undefined || formattext !== "false";
   $: useDemoMode = demomode !== undefined && demomode !== "false";
-  $: defaultTypography = customtypo === undefined || customtypo === "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
   $: wordTransitionInMs = useDemoMode ? 800 : 350;
   $: {
     const newVisibility = clientState === ClientState.Recording || showingTranscript;
@@ -262,8 +262,8 @@
   {/if}
 </svelte:head>
 
-{#if cssimport !== undefined}
-  <link href="{cssimport}" rel="stylesheet">
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
 {/if}
 
 <style>

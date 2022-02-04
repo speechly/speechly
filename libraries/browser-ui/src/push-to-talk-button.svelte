@@ -47,8 +47,8 @@
   export let borderscale = "0.075";
   export let iconsize = "60%";
   export let fxsize = "250%";
-  export let cssimport = undefined;
-  export let customtypo = undefined;
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
 
   let useFTUEPermissionPriming = false;
   let icon: ClientState = ClientState.Disconnected;
@@ -65,7 +65,7 @@
   $: showPowerOn = poweron !== undefined && poweron !== "false";
   $: icon = showPowerOn ? ClientState.Disconnected : ClientState.Connected;
   $: connect(projectid, appid);
-  $: defaultTypography = customtypo === undefined || customtypo === "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
   let clientState: ClientState = undefined;
@@ -320,7 +320,7 @@
   {borderscale}
   {iconsize}
   {fxsize}
-  {cssimport}
+  {customcssurl}
 
   style="
     --voffset: {voffset};

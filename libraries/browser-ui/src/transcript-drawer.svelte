@@ -19,8 +19,8 @@
   export let gradientstop2 = "#ffffffcc";
   export let formattext = undefined;
   export let demomode = undefined;
-  export let cssimport = undefined;
-  export let customtypo = undefined;
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
 
   let hints = [];
   let hintNumber = 0;
@@ -28,7 +28,7 @@
   let bigTranscript = undefined;
 
   $: sethint(hint);
-  $: defaultTypography = customtypo === undefined || customtypo === "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
   
   export const speechhandled = (success: boolean) => {
     if (bigTranscript) bigTranscript.speechhandled(success);
@@ -114,8 +114,8 @@
   on:message={handleMessage}
 />
 
-{#if cssimport !== undefined}
-  <link href="{cssimport}" rel="stylesheet">
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
 {/if}
 
 <main class="placementTop" style="
@@ -129,7 +129,7 @@
     transform: translate(0px, {$positionTransition.y}rem);
   ">
     <div class="pad">
-      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} customtypo={customtypo} cssimport={cssimport} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2} demomode={demomode}></big-transcript>
+      <big-transcript bind:this={bigTranscript} on:visibilitychanged={bigTranscriptVisibilityChanged} customtypography={customtypography} customcssurl={customcssurl} formattext={formattext} fontsize={fontsize} color={color} backgroundcolor="none" highlightcolor={highlightcolor} gradientstop1={gradientstop1} gradientstop2={gradientstop2} demomode={demomode}></big-transcript>
       <div class="hint" class:defaultTypography={defaultTypography} style="opacity: {$hintTransition.opacity};">
         {effectiveHint}
       </div>

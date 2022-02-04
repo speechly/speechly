@@ -18,15 +18,14 @@
 
 <body>
 
-  <push-to-talk-button borderscale="0" backgroundcolor="#4fa1f9" size="2.5em" iconcolor="#fff" placement="bottom" intro='Try "From Chicago to Paris"' hintwidth="150px"></push-to-talk-button>
+  <push-to-talk-button borderscale="0" backgroundcolor="#4fa1f9" iconcolor="#fff" gradientstop1="#fff" gradientstop2="#fff" placement="bottom" intro='Try "From Chicago to Paris"' hintwidth="150px"></push-to-talk-button>
 
   <intro-popup>
-    <span slot="welcome-body">You will be able to book faster with voice.</span>
   </intro-popup>
 
   <usage-overlay video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></usage-overlay>
 
-  <transcript-drawer hint='["Try: Show me blue jeans", "Try: 2nd hint", "Try: 3rd hint"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
+  <transcript-drawer hint='["Try: ``From Chicago to Paris´´", "Try: ``For 2 passengers´´", "Try: ``In business class´´"]' backgroundcolor="#f8f8f8" color="#333" smalltextcolor="#0006" highlightcolor="#15d8a5" gradientstop1="#0005" gradientstop2="#0008"></transcript-drawer>
   
   <main>
     <h1>Web Components Extras</h1>
@@ -74,8 +73,8 @@
         <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
         <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
         <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
-        <li><code>customtypo</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
-        <li><code>cssimport</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
 
       <h3>Properties</h3>
