@@ -10,7 +10,7 @@ const exampleQueries = [
   "Facebook login",
   "What is the weather this week",
   "Restaurants near me",
-  "What are NFTs",
+  "What are prime numbers",
   "How to win the lottery",
   "Is santa real",
   "Men's fashion trends"
