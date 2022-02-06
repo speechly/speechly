@@ -146,7 +146,7 @@
 {#if visibility}
   <modalbg transition:fade on:click={closeSelf} />
 
-  <modalcontent class:defaultTypography={defaultTypography} transition:fade class="{position}">
+  <modalcontent class:defaultTypography={defaultTypography} transition:fade="{{duration: 150}}" class="{position}">
     <main>
       {#if page === PagePriming}
         <h2><slot name="prompt-title">Allow microphone</slot></h2>
@@ -288,9 +288,9 @@
 
   .defaultTypography, .defaultTypography button {
     font-family: sans-serif;
-    line-height: 150%;
     color: #fff;
     font-size: 1rem;
+    line-height: 120%;
   }
 
   .defaultTypography h2 {
@@ -318,7 +318,6 @@
 
   footer {
     box-sizing: border-box;
-
     font-size: 85%;
     color: #aaa;
     margin: 0;
