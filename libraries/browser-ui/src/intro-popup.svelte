@@ -58,6 +58,7 @@
   }
 
   const handleMessage = (e) => {
+    console.log(e)
     switch (e.data.type) {
       case MessageType.speechlypoweron:
         if (hide === "auto") {
@@ -65,15 +66,19 @@
         }
         break;
       case MessageType.speechlystarting:
-        page = PagePrompt;
-        introTimeout = window.setTimeout(() => {
-          introTimeout = null;
-          if (hide === "auto") {
-            visibility = true;
-          }
-        }, 500);
+        // Allow only going forward in pages to prevent hiding an error
+        if (page === PagePriming) {
+          introTimeout = window.setTimeout(() => {
+            introTimeout = null;
+            page = PagePrompt;
+            if (hide === "auto") {
+              visibility = true;
+            }
+          }, 500);
+        } else {
+          visibility = true;
+        }
         break;
-
       case MessageType.holdstart:
         switch (e.data.state) {
           case ClientState.Failed:
@@ -106,6 +111,11 @@
   const showError = (e: ClientState | string) => {
     if (hide === "auto") {
       visibility = true;
+    }
+    // Cancel pending prompt
+    if (introTimeout) {
+      window.clearTimeout(introTimeout);
+      introTimeout = null;
     }
     // Provide special instructions for non-https access
     if (window?.location?.protocol !== 'https:' && !isLocalHost(window.location.hostname)) {
