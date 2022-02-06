@@ -70,15 +70,13 @@
 
   onMount(() => {
     mounted = true;
-    if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
-      switch (poweron) {
-        case "true":
-          useFTUEPermissionPriming = true;
-          break;
-        case "auto":
-          useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null);
-          break;
-      }
+    switch (poweron) {
+      case "true":
+        useFTUEPermissionPriming = true;
+        break;
+      case "auto":
+        useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
+        break;
     }
     connect(projectid, appid);
   });

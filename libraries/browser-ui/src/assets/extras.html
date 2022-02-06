@@ -19,6 +19,7 @@
 <body>
 
   <push-to-talk-button
+    poweron="true"
     borderscale="0"
     backgroundcolor="#4fa1f9"
     iconcolor="#fff"
@@ -134,6 +135,8 @@
         <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
         <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
         <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
       <h3>Child nodes</h3>
 <xmp>  <span slot="welcome-title">Allow booking with voice</span>
@@ -156,6 +159,8 @@
       <h3>Window messages listened</h3>
       <ul>
         <li><code>{type: "speechlypoweron"}</code> - Displays the intro popup's welcome screen. This message is automatically emitted by push-to-talk-button when poweron="true"|"auto".</li>
+        <li><code>{type: "speechlystarting"}</code> - Displays the intro popup's prompt screen. This message is automatically emitted by push-to-talk-button.</li>
+        <li><code>{type: "speechstate", state: ClientState}</code> - Displays the intro popup's error screens. This message is automatically emitted by push-to-talk-button.</li>
       </ul>
       
     </component-api>

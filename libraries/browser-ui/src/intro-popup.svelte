@@ -6,9 +6,11 @@
   import { createDispatchUnbounded} from "./fixDispatch";
   import { ClientState, MessageType } from "./constants";
 
-  export let hide = undefined;
+  export let hide = "auto";
   export let remsize = "1.0rem";
   export let position = "fixed";
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
 
   const PagePriming = 'PagePriming'
   const PagePrompt = 'PagePrompt'
@@ -18,6 +20,7 @@
   const fade = fix(fade_orig);
 
   $: visibility = mounted && hide === "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let mounted = false;
   let page: ClientState | string = PagePriming;
@@ -57,13 +60,17 @@
   const handleMessage = (e) => {
     switch (e.data.type) {
       case MessageType.speechlypoweron:
-        visibility = true;
+        if (hide === "auto") {
+          visibility = true;
+        }
         break;
       case MessageType.speechlystarting:
         page = PagePrompt;
         introTimeout = window.setTimeout(() => {
           introTimeout = null;
-          visibility = true;
+          if (hide === "auto") {
+            visibility = true;
+          }
         }, 500);
         break;
 
@@ -97,7 +104,9 @@
   }
 
   const showError = (e: ClientState | string) => {
-    visibility = true;
+    if (hide === "auto") {
+      visibility = true;
+    }
     // Provide special instructions for non-https access
     if (window?.location?.protocol !== 'https:' && !isLocalHost(window.location.hostname)) {
       page = HttpsRequired;
@@ -112,8 +121,14 @@
 <svelte:window on:keydown={handleKeydown} on:message={handleMessage}/>
 
 <svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {#if defaultTypography}
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {/if}
 </svelte:head>
+
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
+{/if}
 
 <modal style="
   --remsize: {remsize};
@@ -121,7 +136,7 @@
 {#if visibility}
   <modalbg transition:fade on:click={closeSelf} />
 
-  <modalcontent transition:fade class="{position}">
+  <modalcontent class:defaultTypography={defaultTypography} transition:fade class="{position}">
     <main>
       {#if page === PagePriming}
         <h2><slot name="prompt-title">Allow microphone</slot></h2>
@@ -261,6 +276,23 @@
     height: 100vh;
   }
 
+  .defaultTypography, .defaultTypography button {
+    font-family: sans-serif;
+    line-height: 150%;
+    color: #fff;
+    font-size: 1rem;
+  }
+
+  .defaultTypography h2 {
+    font-family: 'Saira Condensed', sans-serif;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 135%;
+    line-height: 120%;
+  }
+
   main {
     position: relative;
     box-sizing: border-box;
@@ -281,23 +313,7 @@
     color: #aaa;
     margin: 0;
   }
-
-  h2 {
-    font-family: 'Saira Condensed', sans-serif;
-    padding: 0;
-    margin: 0;
-    text-transform: uppercase;
-    color: #fff;
-    font-size: 135%;
-    line-height: 120%;
-  }
   
-  p {
-    line-height: 150%;
-    color: #fff;
-    font-size: 1rem;
-  }
-
   options {
     display: block;
     margin-top: 2.5rem;
