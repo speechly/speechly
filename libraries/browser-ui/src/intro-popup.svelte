@@ -56,7 +56,7 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case MessageType.speechlyrequestpriming:
+      case MessageType.speechlypoweron:
         visibility = true;
         break;
       case MessageType.speechlystarting:

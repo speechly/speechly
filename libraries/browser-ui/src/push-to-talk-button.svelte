@@ -135,7 +135,7 @@
         // Connect on 1st press
         if (useFTUEPermissionPriming) {
           window.postMessage({
-            type: MessageType.speechlyrequestpriming
+            type: MessageType.speechlypoweron
           }, "*");
         } else if (isConnectable(clientState)) {
           if (appid || projectid) {
