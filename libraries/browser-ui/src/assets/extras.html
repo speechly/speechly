@@ -51,6 +51,7 @@
     <ul>
       <li><a href="#">transcript-drawer component</a></li>
       <li><a href="#">intro-popup component</a></li>
+      <li><a href="#">video-guide component</a></li>
       <li><a href="#">demomode</a></li>
     </ul>
     <h2>Quick installation from CDN</h2>
@@ -121,15 +122,9 @@
     <p>
       Include the following lines in your <code>&lt;body&gt;</code>:
     </p>
-<xmp><intro-popup></intro-popup> 
-</xmp>
-
 <xmp><intro-popup>
-  <span slot="welcome-title">Allow booking with voice</span>
   <span slot="welcome-body">You will be able to book faster with voice.</span>
-  <span slot="prompt-title">Allow booking with voice</span>
-  <span slot="prompt-body">Please click <b>Allow</b> to use the microphone.</span>
-</intro-popup>
+</intro-popup> 
 </xmp>
 
     <component-api id="intro-popup">
@@ -140,6 +135,12 @@
         <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
         <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
       </ul>
+      <h3>Child nodes</h3>
+<xmp>  <span slot="welcome-title">Allow booking with voice</span>
+  <span slot="welcome-body">You will be able to book faster with voice.</span>
+  <span slot="prompt-title">Allow booking with voice</span>
+  <span slot="prompt-body">Please click <b>Allow</b> to use the microphone.</span>
+</xmp>
 
       <h3>Events emitted</h3>
       <ul>
@@ -160,7 +161,9 @@
     <p>
       Include the following lines in your <code>&lt;body&gt;</code>:
     </p>
-<xmp><video-guide></video-guide> 
+<xmp><video-guide>
+  video="https://mysite.com/usage.mp4">
+</video-guide> 
 </xmp>
 
     <component-api id="video-guide">
