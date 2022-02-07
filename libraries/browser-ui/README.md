@@ -111,10 +111,13 @@ npm install -g @microsoft/rush
 
 ```
 rush update
+# Build dependencies
 rush build --to-except browser-ui
-# Run the library in watch mode. Open http://localhost:5000 to see the testbench page.
+# Compile the library, serve the testbench pages and watch changes 
 rushx dev
 ```
+
+Open http://localhost:5000 or http://localhost:5000/extras to see the components on testbench pages.
 
 ### Building for production
 
