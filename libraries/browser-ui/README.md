@@ -20,20 +20,20 @@
 
 # Speechly Browser UI components
 
-Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app.
+Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app. See these CodePens for a preview:
 
 - [Speech-to-text CodePen](https://codepen.io/speechly/pen/VwzoMrW)
 - [Sneaker Shop CodePen](https://codepen.io/speechly/pen/dyzxVzv)
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
 
-## Component Introduction
+## Introduction To Components
 
-- [Push-To-Talk Button](https://docs.speechly.com/ui-components/push-to-talk-button/) provides a button to control listening on/off. It cames integrated with [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so there is no need to include it.
-- [Big Transcript](https://docs.speechly.com/ui-components/big-transcript/) (optional) is an overlay-style component that displays real-time speech-to-text transcript and feedback to the user. Recognized entities are highlighted.
-- [Transcript Drawer](https://docs.speechly.com/ui-components/big-transcript/) (optional) is an alternative for Big Transcript that slides down from the top of the viewport. It displays usage hints along with the real-time speech-to-text transcript and feedback.
-- [Error Panel](https://docs.speechly.com/ui-components/error-panel/) (optional) helps recover from common problems.
+- [Push-To-Talk Button](https://docs.speechly.com/ui-components/push-to-talk-button/) provides a button to control listening on/off. It comes integrated with [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client).
+- [Big Transcript](https://docs.speechly.com/ui-components/big-transcript/) is an overlay-style component that displays real-time speech-to-text transcript and feedback to the user. Recognized entities are highlighted.
+- [Transcript Drawer](https://docs.speechly.com/ui-components/big-transcript/) is an alternative to Big Transcript that slides down from the top of the viewport. It displays usage hints along with the real-time speech-to-text transcript and feedback.
 - Intro Popup (optional) provides a customizable introduction to voice features, guides the user through browser mic permission setup and helps recover from common problems.
+- [Error Panel](https://docs.speechly.com/ui-components/error-panel/) is an alternative to Intro Popup. It helps recover from common problems.
 
 ## Documentation
 
