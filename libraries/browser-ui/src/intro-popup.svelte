@@ -164,11 +164,7 @@
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
           {#if showAllowButton}
-            {#if page === PagePriming}
-              <button on:click={initialize} class="button button-primary">Allow</button>
-            {:else if page === PageStarting}
-              <button class="button button-starting">Allow</button>
-            {/if}
+            <button on:click={initialize} class="button button-primary" disabled={page === PageStarting}>Allow</button>
           {/if}
         </options>
       {:else if page === HttpsRequired}
@@ -323,6 +319,13 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  .button[disabled],
+  .button:disabled {
+    cursor: auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   .button-secondary {
     border-color: #fff;
     color: #fff;
@@ -362,16 +365,4 @@
   a:hover {
     color: #ccc;
   }
-
-  .button-starting {
-    animation: pulse 2s infinite alternate;
-    border-color: #888;
-    color: #888;
-  }
-
-  @keyframes pulse {
-    0% {color: #aaa;}
-    100% {color: #666;}
-  }
-
 </style>
