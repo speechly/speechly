@@ -52,7 +52,7 @@
   export let customcssurl = undefined;
   export let customtypography = undefined;
 
-  let useFTUEPermissionPriming = false;
+  let usePermissionPriming = false;
   let holdListenActive = false;
   let initializedSuccessfully = undefined;
   let tipCalloutVisible = false;
@@ -74,10 +74,10 @@
     mounted = true;
     switch (poweron) {
       case "true":
-        useFTUEPermissionPriming = true;
+        usePermissionPriming = true;
         break;
       case "auto":
-        useFTUEPermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
+        usePermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
         break;
     }
     connect(projectid, appid);
@@ -133,7 +133,7 @@
       tipCalloutVisible = false;
       if (client) {
         // Connect on 1st press
-        if (useFTUEPermissionPriming) {
+        if (usePermissionPriming) {
           window.postMessage({
             type: MessageType.speechlypoweron
           }, "*");
@@ -268,11 +268,12 @@
   const setInitialized = (success: boolean, state: string) => {
     if (initializedSuccessfully === undefined) {
       initializedSuccessfully = success;
-      useFTUEPermissionPriming = false;
-      if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
+      usePermissionPriming = false;
+
+      if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null && success) {
         localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
       }
-      
+
       window.postMessage({
         type: MessageType.initialized,
         success: initializedSuccessfully,
@@ -297,7 +298,7 @@
         break;
       case MessageType.speechlyintroready:
         if (poweron === "auto") {
-          useFTUEPermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
+          usePermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
         }
         break;
     }
