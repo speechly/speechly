@@ -156,7 +156,7 @@
         <h2><slot name="prompt-title">Allow microphone</slot></h2>
         <p>
           <slot name="welcome-body">
-            To use voice input, press <strong>Allow</strong> to give {window.location.host} access to your microphone.
+            To use voice input, press <strong>Allow</strong> to give {window.location.hostname} access to your microphone.
             Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
           </slot>
         </p>
@@ -168,7 +168,7 @@
         <h2><slot name="prompt-title">Allow microphone</slot></h2>
         <p>
           <slot name="prompt-body">
-            To use voice input, press <strong>Allow</strong> to give {window.location.host} access to your microphone.
+            To use voice input, press <strong>Allow</strong> to give {window.location.hostname} access to your microphone.
             Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
           </slot>
         </p>
