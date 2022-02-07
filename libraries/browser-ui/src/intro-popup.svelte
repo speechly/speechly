@@ -213,7 +213,7 @@
       {/if}
     </main>
     <footer>
-      Voice input is automatically transcribed by <a target="_new" href="https://speechly.com/">Speechly</a> and can be used to improve the quality of service under <a target="_new" href="https://www.speechly.com/privacy/terms-and-conditions">terms of use</a>.
+      Voice input is automatically transcribed by <a target="_blank" href="https://speechly.com/" rel="noopener noreferrer">Speechly</a> and can be used to improve the quality of service under <a target="_blank" href="https://www.speechly.com/privacy/terms-and-conditions" rel="noopener noreferrer">terms of use</a>.
     </footer>
   </modalcontent>
 {/if}
