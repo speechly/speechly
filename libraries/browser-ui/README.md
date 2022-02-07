@@ -34,19 +34,32 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 
 ## Browser Usage
 
-Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `error-panel` with the browser's customElement registry so you can use them like regular tags.
+Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `intro-popup` with the browser's customElement registry so you can use them like regular tags.
+
+A quick summary of the components:
+
+- Push-to-talk Button provides a button to control listening on/off
+- Big Transcript (optional) shows the speech-to-text transcription
+- Intro Popup (optional) provides a customizable introduction to voice features, guides the user through browser mic permission setup and helps recover from common problems.
 
 ```
 <head>
   <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/push-to-talk-button.js"></script>
   <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/big-transcript.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/error-panel.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/intro-popup.js"></script>
 </head>
 
 <body>
-   <big-transcript placement="top"></big-transcript>
-   <push-to-talk-button placement="bottom" appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD"></push-to-talk-button>
-   <error-panel placement="bottom"></error-panel>
+  <big-transcript
+    placement="top">
+  </big-transcript>
+  <push-to-talk-button
+    placement="bottom"
+    appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD">
+  </push-to-talk-button>
+  <intro-popup>
+    <span slot="welcome-body">You'll be able to control this web app faster with voice.</span>
+  </intro-popup>
 </body>
 ```
 
@@ -54,7 +67,7 @@ Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](http
 
 ## Node Usage
 
-> This example illustrates using browser-ui Web Components with a JS framework. For actual React development, you'll probably want to use [react-client](../react-client) and [react-ui](../react-ui) libraries for a better developer experience.
+> This example illustrates using browser-ui Web Components with a JS framework. For React development, [react-client](../react-client) and [react-ui](../react-ui) libraries offer a better developer experience.
 
 ```
 npm i @speechly/browser-ui
@@ -64,13 +77,13 @@ In App.js:
 ```
 import "@speechly/browser-ui/core/push-to-talk-button";
 import "@speechly/browser-ui/core/big-transcript";
-import "@speechly/browser-ui/core/error-panel";
+import "@speechly/browser-ui/core/intro-popup";
 
 ...
 
 <big-transcript placement="top"></big-transcript>
 <push-to-talk-button placement="bottom" appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD"></push-to-talk-button>
-<error-panel placement="bottom"></error-panel>
+<intro-popup></intro-popup>
 ```
 
 ## Building and developing
