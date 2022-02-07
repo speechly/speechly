@@ -60,7 +60,7 @@ Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](http
     appid="YOUR_APP_ID_FROM_SPEECHLY_DASHBOARD">
   </push-to-talk-button>
   <intro-popup>
-    <span slot="welcome-body">You'll be able to control this web app faster with voice.</span>
+    <span slot="priming-body">You'll be able to control this web app faster with voice.</span>
   </intro-popup>
 </body>
 ```

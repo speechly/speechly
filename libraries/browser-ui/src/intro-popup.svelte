@@ -13,7 +13,7 @@
   export let customtypography = undefined;
 
   const PagePriming = 'PagePriming'
-  const PagePrompt = 'PagePrompt'
+  const PageStarting = 'PageStarting'
   const HttpsRequired = 'HttpsRequired'
 
   const dispatchUnbounded = createDispatchUnbounded();
@@ -26,6 +26,7 @@
   let page: ClientState | string = PagePriming;
   let appId: null;
   let introTimeout = null;
+  let showAllowButton = false;
 
   const isLocalHost = (hostname: string): boolean =>
     !!(
@@ -58,19 +59,19 @@
   }
 
   const handleMessage = (e) => {
-    console.log(e)
     switch (e.data.type) {
       case MessageType.speechlypoweron:
         if (hide === "auto") {
           visibility = true;
         }
+        showAllowButton = true;
         break;
       case MessageType.speechlystarting:
         // Allow only going forward in pages to prevent hiding an error
         if (page === PagePriming) {
+          page = PageStarting;
           introTimeout = window.setTimeout(() => {
             introTimeout = null;
-            page = PagePrompt;
             if (hide === "auto") {
               visibility = true;
             }
@@ -152,28 +153,23 @@
   <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
-      {#if page === PagePriming}
-        <h2><slot name="prompt-title">Allow microphone</slot></h2>
+      {#if page === PagePriming || page === PageStarting}
+        <h2><slot name="priming-title">Allow microphone</slot></h2>
         <p>
-          <slot name="welcome-body">
+          <slot name="priming-body">
             To use voice input, press <strong>Allow</strong> to give {window.location.hostname} access to your microphone.
             Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
           </slot>
         </p>
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
-          <button on:click={initialize} class="button button-primary">Allow</button>
-        </options>
-      {:else if page === PagePrompt}
-        <h2><slot name="prompt-title">Allow microphone</slot></h2>
-        <p>
-          <slot name="prompt-body">
-            To use voice input, press <strong>Allow</strong> to give {window.location.hostname} access to your microphone.
-            Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
-          </slot>
-        </p>
-        <options>
-          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
+          {#if showAllowButton}
+            {#if page === PagePriming}
+              <button on:click={initialize} class="button button-primary">Allow</button>
+            {:else if page === PageStarting}
+              <button class="button button-starting">Allow</button>
+            {/if}
+          {/if}
         </options>
       {:else if page === HttpsRequired}
         <h2>HTTPS Required</h2>
@@ -367,4 +363,16 @@
   a:hover {
     color: #ccc;
   }
+
+  .button-starting {
+    animation: pulse 2s infinite alternate;
+    border-color: #888;
+    color: #888;
+  }
+
+  @keyframes pulse {
+    0% {color: #aaa;}
+    100% {color: #666;}
+  }
+
 </style>
