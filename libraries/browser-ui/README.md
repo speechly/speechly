@@ -27,20 +27,22 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 
 > If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
 
+## Component Introduction
+
+- [Push-To-Talk Button](https://docs.speechly.com/ui-components/push-to-talk-button/) provides a button to control listening on/off. It cames integrated with [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so there is no need to include it.
+- [Big Transcript](https://docs.speechly.com/ui-components/big-transcript/) (optional) is an overlay-style component that displays real-time speech-to-text transcript and feedback to the user. Recognized entities are highlighted.
+- [Transcript Drawer](https://docs.speechly.com/ui-components/big-transcript/) (optional) is an alternative for Big Transcript that slides down from the top of the viewport. It displays usage hints along with the real-time speech-to-text transcript and feedback.
+- [Error Panel](https://docs.speechly.com/ui-components/error-panel/) (optional) helps recover from common problems.
+- Intro Popup (optional) provides a customizable introduction to voice features, guides the user through browser mic permission setup and helps recover from common problems.
+
 ## Documentation
 
-- [Basic usage documentation](https://docs.speechly.com/client-libraries/usage/)
-- [UI component gallery and API](https://docs.speechly.com/client-libraries/ui-components/)
+- [UI component gallery and API](https://docs.speechly.com/ui-components/)
+- [Basic Speechly usage](https://docs.speechly.com/client-libraries/usage/)
 
 ## Browser Usage
 
 Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `intro-popup` with the browser's customElement registry so you can use them like regular tags.
-
-A quick summary of the components:
-
-- Push-to-talk Button provides a button to control listening on/off
-- Big Transcript (optional) shows the speech-to-text transcription
-- Intro Popup (optional) provides a customizable introduction to voice features, guides the user through browser mic permission setup and helps recover from common problems.
 
 ```
 <head>
@@ -62,8 +64,6 @@ A quick summary of the components:
   </intro-popup>
 </body>
 ```
-
-> Push-to-talk button component comes with built-in [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) so you don't need to include it separately.
 
 ## Node Usage
 
