@@ -276,6 +276,7 @@
     justify-content: start;
     flex-wrap: wrap;
     margin-bottom: calc(var(--marginbottom) * var(--transition));
+    height: fit-content;
   }
 
   .defaultTypography {
