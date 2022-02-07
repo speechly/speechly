@@ -125,6 +125,11 @@
     page = e;
   }
 
+  const replaceWithHttps = () => {
+    const url = window.location.href;
+    const newUrl = url.replace("http:", "https:");
+    window.location.replace(newUrl)
+  }
 </script>
 
 <svelte:options tag={null} immutable={true} />
@@ -181,7 +186,7 @@
         </p>
 
         <options>
-          <button on:click={() => {window.location.href.replace(/^http(?!s)/, 'https')}} class="wide">
+          <button on:click={replaceWithHttps} class="wide">
             Try with HTTPS
           </button>
           <button on:click={closeSelf} class="wide">Later</button>
