@@ -14,6 +14,7 @@
     Behaviour,
     MessageType,
     clientStateToAppearance,
+TriggerFx,
   } from "./constants";
 
   export let icon = ClientState.Disconnected;
@@ -28,6 +29,8 @@
   export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
+  export let fxgradientstop1 = undefined
+  export let fxgradientstop2 = undefined
   export let customcssurl = undefined;
   export const isbuttonpressed = () => tangentHeld;
 
@@ -118,10 +121,13 @@
       holdStartTimestamp = Date.now();
       vibrate();
 
+      // Play a rotation whirl
+      if (effectiveAppearance.triggerFx === TriggerFx.Whirl) {
+        rotation[0] += 720;
+      }
+
       // Connect on 1st press
       if (effectiveAppearance.behaviour === Behaviour.Click) {
-        // Play a rotation whirl
-        rotation[0] += 720;
         // Auto-release hold after some time
         if (timeout === null) {
           timeout = window.setTimeout(() => {
@@ -211,6 +217,7 @@
     fxOpacity[0] = (buttonHeld || clientState == ClientState.Recording) ? 1.0 : 0.0;
 
     switch (effectiveAppearance.icon) {
+      case Icon.MicActive:
       case Icon.Mic:
       case Icon.Denied:
       case Icon.Error:
@@ -244,6 +251,8 @@
     height:{size};
     --gradient-stop1: {gradientstop1};
     --gradient-stop2: {gradientstop2};
+    --fx-gradient-stop1: {fxgradientstop1 || gradientstop1};
+    --fx-gradient-stop2: {fxgradientstop2 || gradientstop2};
     --fx-rotation: {rotation[1]}deg;
     --fx-opacity: {fxOpacity[1]};
     --fx-size: {fxsize};
@@ -276,5 +285,4 @@
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
   }
-
 </style>

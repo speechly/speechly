@@ -5,8 +5,8 @@
 >
   <defs>
     <linearGradient x1="50%" y1="10%" x2="50%" y2="100%" id="a">
-      <stop stop-color="var(--gradient-stop1)" offset="0%" />
-      <stop stop-color="var(--gradient-stop2)" offset="100%" />
+      <stop stop-color="var(--fx-gradient-stop1)" offset="0%" />
+      <stop stop-color="var(--fx-gradient-stop2)" offset="100%" />
     </linearGradient>
     <filter
       x="-35%"

@@ -107,7 +107,9 @@
         <li><code>iconcolor</code> - Optional string (CSS color) for button icon. Default: "#000000".</li>
         <li><code>gradientstop1</code> - Optional string (CSS color) for border color. Default: "#15e8b5".</li>
         <li><code>gradientstop2</code> - Optional string (CSS color) for border color. Default: "#4fa1f9"</li>
-        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>fxgradientstop1</code> - Optional string (CSS color). Default: gradientstop1</li>
+        <li><code>fxgradientstop2</code> - Optional string (CSS color). Default: gradientstop2</li>
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"</li>
         <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
       <h3>Attributes for tap and hold behaviour</h3>
@@ -173,13 +175,13 @@
         <li><code>hoffset</code> - Optional CSS string. Horizontal distance from viewport edge. Only effective when using placement.</li>
         <li><code>voffset</code> - Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.</li>
         <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
-        <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"
-        <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
-        <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. "none" for no background. Default: "#202020"
-        <li><code>marginbottom</code> - Optional string (CSS dimension). Dynamic margin added when element is visible. Default: "0rem"
-        <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
-        <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
-        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"</li>
+        <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"</li>
+        <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. "none" for no background. Default: "#202020"</li>
+        <li><code>marginbottom</code> - Optional string (CSS dimension). Dynamic margin added when element is visible. Default: "0rem"</li>
+        <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"</li>
+        <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"</li>
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"</li>
         <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
 
@@ -212,11 +214,13 @@
     <component-api id="holdable-button-api">
       <h3>Attributes</h3>
       <ul>
-        <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client) or SpeechState (from react-client). SpeechState strings are: "Idle" | "Connecting" | "Ready" | "Recording" | "Loading" | "Failed" | "NoBrowserSupport" | "NoAudioConsent".</li>
+        <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client) or SpeechState (from react-client). SpeechState strings are: "Idle" | "Connecting" | "Ready" | "Recording" | "Loading" | "Failed" | "NoBrowserSupport" | "NoAudioConsent".</li>
         <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
         <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
-        <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"
-        <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"
+        <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"</li>
+        <li><code>gradientstop2</code> - Optional string (CSS color). Default: "#4fa1f9"</li>
+        <li><code>fxgradientstop1</code> - Optional string (CSS color). Default: gradientstop1</li>
+        <li><code>fxgradientstop2</code> - Optional string (CSS color). Default: gradientstop2</li>
       </ul>
       <h3>Properties</h3>
       <ul>

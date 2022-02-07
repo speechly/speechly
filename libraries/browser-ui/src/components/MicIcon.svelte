@@ -6,6 +6,30 @@
   export let icon: Icon = Icon.Mic;
 </script>
 
+{#if icon === Icon.MicActive}
+<svg
+  class="Icon"
+  viewBox="0 0 56 56"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <linearGradient id="gradient" x1="50%" y1="-200%" x2="50%" y2="200%">
+    <animate attributeName="y1" values="-200%; 0%;" dur="2s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="200%; 400%;" dur="2s" repeatCount="indefinite" />
+    <stop offset="0%" stop-color="var(--gradient-stop1)"></stop>
+    <stop offset="25%" stop-color="var(--gradient-stop2)"></stop>
+    <stop offset="50%" stop-color="var(--gradient-stop1)"></stop>
+    <stop offset="75%" stop-color="var(--gradient-stop2)"></stop>
+    <stop offset="100%" stop-color="var(--gradient-stop1)"></stop>
+  </linearGradient>>
+  <g fill="url(#gradient)" fill-rule="evenodd">
+    <path
+      d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"
+    />
+    <rect x="20" y="1" width="16" height="37" rx="8" />
+  </g>
+</svg>
+{/if}
+
 {#if icon === Icon.Mic}
 <svg
   class="Icon"
@@ -54,4 +78,5 @@
     transition: 0.25s;
     opacity: var(--icon-opacity);
   }
+
 </style>

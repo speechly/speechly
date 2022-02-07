@@ -38,6 +38,8 @@
   export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
+  export let fxgradientstop1 = undefined;
+  export let fxgradientstop2 = undefined;
 
   export let fontsize = "1.0rem";
   export let textcolor = "#ffffff";
@@ -319,8 +321,9 @@
   {capturekey}
   {gradientstop1}
   {gradientstop2}
+  {fxgradientstop1}
+  {fxgradientstop2}
   {hide}
-
   {backgroundcolor}
   {iconcolor}
   {holdscale}

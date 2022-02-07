@@ -26,6 +26,7 @@ export const enum MessageType {
 
 export const enum Icon {
   Mic = "mic",
+  MicActive = "micactive",
   Error = "error",
   Denied = "denied",
 }
@@ -42,13 +43,18 @@ export const enum Effect {
   Busy = "busy",
 }
 
+export const enum TriggerFx {
+  None = "none",
+  Whirl = "whirl",
+}
+
 export const clientStateToAppearance: {[state: string]: IAppearance} = {
-  [ClientState.Disconnected]: { icon: Icon.Mic, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.Disconnected]: { icon: Icon.Mic, behaviour: Behaviour.Click, effect: Effect.None, triggerFx: TriggerFx.Whirl},
   [ClientState.Disconnecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
   [ClientState.Connecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
-  [ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
   [ClientState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting},
-  [ClientState.Recording]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None},
+  [ClientState.Recording]: { icon: Icon.MicActive, behaviour: Behaviour.Hold, effect: Effect.None},
   [ClientState.Stopping]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
   [ClientState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
   [ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
