@@ -149,34 +149,31 @@
   --remsize: {remsize};
 ">
 {#if visibility}
-  <modalbg transition:fade on:click={closeSelf} />
-
-  <modalcontent class:defaultTypography={defaultTypography} transition:fade="{{duration: 150}}" class="{position}">
+  <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
+  <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
       {#if page === PagePriming}
         <h2><slot name="prompt-title">Allow microphone</slot></h2>
         <p>
           <slot name="welcome-body">
-            Please click <b>Allow</b> to use the microphone.
-            We'll only listen to you when you press the <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button.
+            To use voice input, press <strong>Allow</strong> to give {window.location.host} access to your microphone.
+            Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
           </slot>
         </p>
-
         <options>
-          <button on:click={closeSelf} class="wide">Later</button>
-          <button on:click={initialize} class="wide primary">Allow</button>
+          <button on:click={closeSelf} class="button button-secondary">Not now</button>
+          <button on:click={initialize} class="button button-primary">Allow</button>
         </options>
       {:else if page === PagePrompt}
-        <h2>↖ <slot name="prompt-title">Allow microphone</slot></h2>
+        <h2><slot name="prompt-title">Allow microphone</slot></h2>
         <p>
           <slot name="prompt-body">
-            Please click <b>Allow</b> to use the microphone.
-            We'll only listen to you when you press the <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button.
+            To use voice input, press <strong>Allow</strong> to give {window.location.host} access to your microphone.
+            Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
           </slot>
         </p>
-
         <options>
-          <button on:click={closeSelf} class="wide">Got it</button>
+          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
         </options>
       {:else if page === HttpsRequired}
         <h2>HTTPS Required</h2>
@@ -184,25 +181,21 @@
           To use the voice interface, please visit this site using the secure
           https:// protocol.
         </p>
-
         <options>
-          <button on:click={replaceWithHttps} class="wide">
+          <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
+          <button on:click={replaceWithHttps} class="button button-primary">
             Try with HTTPS
           </button>
-          <button on:click={closeSelf} class="wide">Later</button>
         </options>
       {:else if page === ClientState.NoAudioConsent}
         <h2>Voice unavailable</h2>
         <p>
-          Please reload the page to try again.
+          Please reload the page to try again. If that doesn't work, check your
+          browser preferences to re-allow microphone use.
         </p>
-        <p>
-          If that doesn't work, check your browser preferences to re-allow microphone use.
-        </p>
-
         <options>
-          <button on:click={closeSelf} class="wide">Later</button>
-          <button on:click={() => {window.location.reload()}} class="wide primary">Reload</button>
+          <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
+          <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
         </options>
       {:else if page === ClientState.NoBrowserSupport}
         <h2>Unsupported Browser</h2>
@@ -210,32 +203,27 @@
           To use the voice interface, please visit this site using a supported
           browser.
         </p>
-
         <options>
-          <button on:click={closeSelf} class="wide">Got it</button>
+          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
         </options>
       {:else}
         <h2>Failed to connect Speechly</h2>
         <p>
           Please check that Speechly application id '{appId}' has been successfully deployed.
         </p>
-
         <options>
-          <button on:click={closeSelf} class="wide">Aww, bummer</button>
+          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
         </options>
       {/if}
     </main>
-
     <footer>
       Voice input is automatically transcribed by <a target="_new" href="https://speechly.com/">Speechly</a> and can be used to improve the quality of service under <a target="_new" href="https://www.speechly.com/privacy/terms-and-conditions">terms of use</a>.
     </footer>
-
   </modalcontent>
 {/if}
 </modal>
 
 <style>
-
   modal {
     font-size: var(--remsize);
     pointer-events: none;
@@ -252,7 +240,7 @@
     z-index: 2000;
     pointer-events: auto;
 
-    background-color: #000000c0;
+    background-color: rgba(0,0,0,0.75);
     backdrop-filter: blur(3px);
   }
 
@@ -263,8 +251,8 @@
     box-sizing: border-box;
     width: 100%;
     min-height: 100%;
-    padding: 1.5rem 2rem;
-  
+    padding: 1.5rem;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -291,11 +279,11 @@
     height: 100vh;
   }
 
-  .defaultTypography, .defaultTypography button {
-    font-family: sans-serif;
+  .defaultTypography {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     color: #fff;
     font-size: 1rem;
-    line-height: 120%;
+    line-height: 1.5;
   }
 
   .defaultTypography h2 {
@@ -304,8 +292,8 @@
     margin: 0;
     text-transform: uppercase;
     color: #fff;
-    font-size: 135%;
-    line-height: 120%;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
 
   main {
@@ -314,94 +302,69 @@
     width: 100%;
     max-width: 400px;
     margin: auto 0;
-    padding: 2rem 0;
-  }
-  
-  b {
-    color: #80bbff;
+    padding: 1.5rem 0;
   }
 
-  footer {
-    box-sizing: border-box;
-    font-size: 85%;
-    color: #aaa;
-    margin: 0;
-  }
-  
   options {
-    display: block;
-    margin-top: 2.5rem;
+    display: flex;
+    margin-top: 2rem;
+    gap: 8px;
   }
 
-  options > * {
-    margin-left: 4px;
-}
-
-  options > *:first-child {
-    margin-left: 0px;
-  }
-  button.wide {
+  .button {
+    background-color: transparent;
     box-sizing: border-box;
-    min-width: 9rem;
-    max-width: 100%;
-    padding: 0.60rem;
-    border-radius: 10rem;
-    font-size: 100%;
-    border: 1px solid #aaa;
-
-    background-color: #fff0;  
-    transition: 0.3s;
-    color: #aaa;
-    line-height: 120%;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    min-width: 7rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  button.wide:hover {
-    transition: 0.3s;
+  .button-secondary {
     border-color: #fff;
     color: #fff;
   }
 
-  button.primary {
-    background-color: #aaa;
-    border: 0;
+  .button-secondary:hover {
+    border-color: #ccc;
+    color: #ccc;
+  }
+
+  .button-primary {
+    background-color: #fff;
+    border-color: #fff;
     color: #000;
   }
 
-  button.primary:hover {
-    border: 0;
-    background-color: #ffff;
-    transition: 0.3s;
+  .button-primary:hover {
+    border-color: #ccc;
+    background-color: #ccc;
     color: #000;
+  }
+
+  footer {
+    box-sizing: border-box;
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
   }
 
   a,
   a:visited {
-    color: #aaa;
-    transition: 0.3s;
+    color: #999;
+    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
   }
-  
+
   a:hover {
-    color: #fff;
-    transition: 0.3s;
-  }
-  
-  .sidePanelLogo {
-    width: 85%;
-    padding: 0.75rem 0 0.75rem 0;
-  }
-    
-  @media (max-width: 480px) {
-  }
-  
-  @media (min-width: 480px) and (max-width: 688px) {  
-    main {
-      width: 600px;
-    }
-  }
-  
-  @media (min-width: 688px) {
-    main {
-      width: 600px;
-    }
+    color: #ccc;
   }
 </style>
