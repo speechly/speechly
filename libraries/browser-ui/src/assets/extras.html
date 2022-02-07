@@ -86,15 +86,15 @@
       <ul>
         <li><code>hint</code> - Hint text to be shown when the app is listening for speech. Hint is hidden upon user speech is received. String or a JSON.stringify'ed string array, e.g. <code>hint='["Try: 1st hint", "Try: 2nd hint"]'</code>. Pay attention to use double quotes in JSON. If an array is provided, the next tip is automatically shown after an utterance. After all tips are shown, they will be shown again in random order. Default: ""</li>
         <li><code>height</code> - Optional minimum height as CSS string. Default: "8rem"</li>
-        <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"
-        <li><code>smalltextcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff70"
-        <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"
-        <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"
+        <li><code>color</code> - Optional string (CSS color) for text. Default: "#ffffff"</li>
+        <li><code>smalltextcolor</code> - Optional string (CSS color) for hint text. Default: "#ffffff70"</li>
+        <li><code>highlightcolor</code> - Optional string (CSS color) for entity highlighting, vu meter and acknowledged icon. Default: "#15e8b5"</li>
+        <li><code>backgroundcolor</code> - Optional string (CSS color) for hint text background. Default: "#202020"</li>
         <li><code>fontsize</code> - Optional CSS string for text size. Default: "1.5rem"</li>
         <li><code>hintfontsize</code> - Optional CSS string for hint text size. Default: "0.9rem"</li>
-        <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"
-        <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"
-        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>formattext</code> - Optional "true" | "false". If true, transcript is formatted with detected entities, e.g. numbers. Default: "true"</li>
+        <li><code>demomode</code> - Optional "true" | "false". If true, transitions are slowed down for better readablility. Default: "false"</li>
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"</li>
         <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
 
@@ -133,10 +133,10 @@
 
       <h3>Attributes</h3>
       <ul>
-        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
+        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.</li>
         <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
         <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
-        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"
+        <li><code>customtypography</code> - Optional "true" | "false". True inherits css typography settings. Default: "false"</li>
         <li><code>customcssurl</code> - Optional string (url to .css file). Allows for further customization of component's shadow root.</li>
       </ul>
       <h3>Child nodes</h3>
@@ -180,7 +180,7 @@
 
       <h3>Attributes</h3>
       <ul>
-        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.
+        <li><code>video</code> - Url for intro video in mp4 format. 640x400px 10fps recommended.</li>
         <li><code>hide</code> - Optional "false" | "true". Default: "true"</li>
         <li><code>remsize</code> - Optional rem override. "16px" recommended for Wix. Default: "1rem"</li>
       </ul>
@@ -223,10 +223,11 @@
     <component-api id="demo-mode">
       <h3>Methods</h3>
       <ul>
-        <li><code>startDemo(utterances[])</code> - Starts the demo mode. Utterances is an array of strings in simplified SAL format. Each utterance must start with an <code>*intent</code>, followed by any number of transcript words and entities coded like this: <code>[entity_value](entity_type)</code>.
+        <li><code>startDemo(utterances[])</code> - Starts the demo mode. Utterances is an array of strings in simplified SAL format. Each utterance must start with an <code>*intent</code>, followed by any number of transcript words and entities coded like this: <code>[entity_value](entity_type)</code>.</li>
         <li><code>stopDemo()</code> - Stops the demo mode.</li>
       </ul>
     </component-api>
+  </main>
 
 
 	<script type="text/javascript">
