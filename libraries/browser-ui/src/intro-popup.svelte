@@ -172,10 +172,10 @@
           {/if}
         </options>
       {:else if page === HttpsRequired}
-        <h2>HTTPS Required</h2>
+        <h2>HTTPS required</h2>
         <p>
           To use the voice interface, please visit this site using the secure
-          https:// protocol.
+          HTTPS protocol.
         </p>
         <options>
           <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
@@ -184,28 +184,27 @@
           </button>
         </options>
       {:else if page === ClientState.NoAudioConsent}
-        <h2>Voice unavailable</h2>
+        <h2>Microphone blocked</h2>
         <p>
-          Please reload the page to try again. If that doesn't work, check your
-          browser preferences to re-allow microphone use.
+          To use voice input, {window.location.hostname} needs access to your microphone. Check your
+          browser preferences to allow microphone access and reload the page.
         </p>
         <options>
           <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
           <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
         </options>
       {:else if page === ClientState.NoBrowserSupport}
-        <h2>Unsupported Browser</h2>
+        <h2>Unsupported browser</h2>
         <p>
-          To use the voice interface, please visit this site using a supported
-          browser.
+          To use voice input, please visit this site using a supported browser.
         </p>
         <options>
           <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
         </options>
       {:else}
-        <h2>Failed to connect Speechly</h2>
+        <h2>Failed to connect to Speechly</h2>
         <p>
-          Please check that Speechly application id '{appId}' has been successfully deployed.
+          Please check that your application (App ID: {appId}) has been successfully deployed.
         </p>
         <options>
           <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
