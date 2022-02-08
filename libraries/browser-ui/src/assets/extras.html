@@ -32,7 +32,8 @@
   </push-to-talk-button>
 
   <intro-popup>
-    <span slot="priming-body">You will be able to book faster with voice.</span>
+    <span slot="priming-title">Book tickets faster using voice</span>
+    <span slot="priming-body">To use voice input, press <strong>Allow</strong> to give TravelCompany access to your microphone.
   </intro-popup>
 
   <video-guide video="https://kampanisu.com/speechly/intro-popup/usage.mp4"></video-guide>
@@ -46,7 +47,7 @@
     gradientstop1="#fff5"
     gradientstop2="#fff8">
   </transcript-drawer>
-  
+
   <main>
     <h1>Web Components Extras</h1>
     <h2>Contents</h2>
@@ -63,7 +64,7 @@
   <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/intro-popup.js"></script>
 </head>
 </xmp>
-    
+
     <h2>Transcript Drawer</h2>
     <p>
       Transcript Drawer is an drawer-style component for displaying real-time speech-to-text transcript and hint texts.
@@ -78,7 +79,7 @@
     <p>
       Include the following lines in your <code>&lt;body&gt;</code>:
     </p>
-<xmp><transcript-drawer></transcript-drawer> 
+<xmp><transcript-drawer></transcript-drawer>
 </xmp>
 
     <component-api id="transcript-drawer-api">
@@ -126,7 +127,7 @@
     </p>
 <xmp><intro-popup>
   <span slot="priming-body">You will be able to book faster with voice.</span>
-</intro-popup> 
+</intro-popup>
 </xmp>
 
     <component-api id="intro-popup">
@@ -161,7 +162,7 @@
         <li><code>{type: "speechlystarting"}</code> - Displays the intro popup's prompt screen. This message is automatically emitted by push-to-talk-button.</li>
         <li><code>{type: "speechstate", state: ClientState}</code> - Displays the intro popup's error screens. This message is automatically emitted by push-to-talk-button.</li>
       </ul>
-      
+
     </component-api>
 
     <h2>Video Guide</h2>
@@ -173,7 +174,7 @@
     </p>
 <xmp><video-guide>
   video="https://mysite.com/usage.mp4">
-</video-guide> 
+</video-guide>
 </xmp>
 
     <component-api id="video-guide">
