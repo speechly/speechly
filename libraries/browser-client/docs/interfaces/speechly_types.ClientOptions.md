@@ -11,6 +11,7 @@ The options which can be used to configure the client.
 ### Properties
 
 - [appId](speechly_types.ClientOptions.md#appid)
+- [connect](speechly_types.ClientOptions.md#connect)
 - [projectId](speechly_types.ClientOptions.md#projectid)
 - [language](speechly_types.ClientOptions.md#language)
 - [loginUrl](speechly_types.ClientOptions.md#loginurl)
@@ -30,6 +31,14 @@ The options which can be used to configure the client.
 • `Optional` **appId**: `string`
 
 The unique identifier of an app in the dashboard.
+
+___
+
+### connect
+
+• `Optional` **connect**: `boolean`
+
+Connect to Speechly upon creating the client instance. Defaults to true.
 
 ___
 

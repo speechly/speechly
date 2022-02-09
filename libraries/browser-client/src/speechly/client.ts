@@ -97,7 +97,7 @@ export class Client {
   private entityCb: EntityCallback = () => {}
   private intentCb: IntentCallback = () => {}
 
-  constructor({ connect = true, ...options }: ClientOptions) {
+  constructor(options: ClientOptions) {
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
 
     try {
@@ -115,7 +115,12 @@ export class Client {
     }
 
     const language = options.language ?? defaultLanguage
-    if (!(localeCode.validate(language) || (localeCode.validateLanguageCode(`${language.substring(0, 2)}-XX`) && /^..-\d\d\d$/.test(language)))) {
+    if (
+      !(
+        localeCode.validate(language) ||
+        (localeCode.validateLanguageCode(`${language.substring(0, 2)}-XX`) && /^..-\d\d\d$/.test(language))
+      )
+    ) {
       throw Error(`[SpeechlyClient] Invalid language "${language}"`)
     }
 
@@ -142,7 +147,8 @@ export class Client {
       throw ErrDeviceNotSupported
     }
 
-    this.microphone = options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient, this.debug)
+    this.microphone =
+      options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient, this.debug)
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
@@ -153,7 +159,7 @@ export class Client {
     window.SpeechlyClient = this
 
     // Auto-connect
-    if (connect) {
+    if (options.connect !== false) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
     }
@@ -185,12 +191,7 @@ export class Client {
 
         // Establish websocket connection
         try {
-          await this.apiClient.initialize(
-            this.apiUrl,
-            this.authToken,
-            this.sampleRate,
-            this.debug,
-          )
+          await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
         } catch (err) {
           this.setState(ClientState.Failed)
           throw err
