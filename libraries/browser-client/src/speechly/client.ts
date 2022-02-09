@@ -196,8 +196,8 @@ export class Client {
           throw err
         }
       })()
-      await this.connectPromise
     }
+    await this.connectPromise
   }
 
   /**
@@ -210,11 +210,12 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
+    // Ensure we're connected. Returns immediately if we are
     await this.connect()
-    this.setState(ClientState.Connecting)
 
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
+        this.setState(ClientState.Connecting)
         try {
           // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
           // await this.storage.initialize()
@@ -283,8 +284,8 @@ export class Client {
 
         this.setState(ClientState.Connected)
       })()
-      await this.initializePromise
     }
+    await this.initializePromise
   }
 
   /**
@@ -308,6 +309,8 @@ export class Client {
     }
 
     this.activeContexts.clear()
+    this.connectPromise = null
+    this.initializePromise = null
     this.setState(ClientState.Disconnected)
 
     if (errs.length > 0) {
@@ -333,6 +336,9 @@ export class Client {
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
   async startContext(appId?: string): Promise<string> {
+    // Ensure we're initialized; returns immediately if we are
+    await this.initialize()
+
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise

@@ -72,11 +72,6 @@ class WebsocketClient {
   }
 
   init(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
-    if (this.initialized) {
-      console.log('[SpeechlyClient]', 'already initialized')
-      return 
-    }
-
     this.debug = debug
     if (this.debug) {
       console.log('[SpeechlyClient]', 'initialize worker')
