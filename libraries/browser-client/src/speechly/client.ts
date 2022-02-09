@@ -96,7 +96,7 @@ export class Client {
   private entityCb: EntityCallback = () => {}
   private intentCb: IntentCallback = () => {}
 
-  constructor(options: ClientOptions) {
+  constructor({ connect = true, ...options }: ClientOptions) {
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
 
     try {
@@ -149,6 +149,12 @@ export class Client {
     this.connectPromise = null
 
     window.SpeechlyClient = this
+
+    // Auto-connect
+    if (connect) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.connect()
+    }
   }
 
   /**
