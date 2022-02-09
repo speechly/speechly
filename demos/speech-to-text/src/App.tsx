@@ -3,6 +3,7 @@ import { useSpeechContext } from "@speechly/react-client";
 import { DemoNavigation } from "@speechly/demo-navigation";
 import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import "./App.css";
+import marvAvatar from "./assets/marv.png"
 
 const App: React.FC = (): JSX.Element => {
   return (
@@ -14,7 +15,7 @@ const App: React.FC = (): JSX.Element => {
   )
 }
 
-type Sender = "other" | "me";
+type Sender = "Marv" | "You";
 
 type Message = {
   sender: Sender;
@@ -52,7 +53,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
       date: new Date()
     }
     setMessages([ ...messages, newMessage ]);
-    if (sender === "me") setText("");
+    if (sender === "You") setText("");
   }, [messages])
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
       setTentativeTextContent(casedTextContent);
       if (segment.isFinal) {
         setText(casedTextContent);
-        sendMessage(casedTextContent, "me");
+        sendMessage(casedTextContent, "You");
       }
     }
   // eslint-disable-next-line
@@ -82,11 +83,11 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     if (!messages.length) {
-      const timer = setTimeout(() => sendMessage("Hey 👋 What are you up to?", "other"), 1500);
+      const timer = setTimeout(() => sendMessage("Hey 👋 What are you up to?", "Marv"), 1500);
       return () => clearTimeout(timer);
     }
     if (messages.length === 2) {
-      const timer = setTimeout(() => sendMessage("That sounds great! 👍", "other"), 1500);
+      const timer = setTimeout(() => sendMessage("That sounds great! 👍", "Marv"), 1500);
       return () => clearTimeout(timer);
     }
   }, [messages, sendMessage])
@@ -98,7 +99,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage(textContent, "me");
+      sendMessage(textContent, "You");
     }
   }
 
@@ -107,16 +108,15 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   return (
     <div className="ImApp">
       <div className="Header">
-        <img className="Header__image" src="https://avatars.githubusercontent.com/u/25465412?s=200&v=4" alt="profile" />
+        <img className="Header__image" src={marvAvatar} alt="profile" />
         <div>
-          <h2 className="Header__title">Speechly chat demo</h2>
-          <div className="Header__meta">42 users in the chat</div>
+          <h2 className="Header__title">Marv</h2>
+          <div className="Header__meta">Marv is a GPT3 powered chatbot that reluctantly answers your questions</div>
         </div>
       </div>
       <div className="Messages">
         {messages.map(message =>
-          <div key={message.date.valueOf()} className={`Message Message--${message.sender}`}>
-            {message.sender === "other" && <span className="Message__sender">bot</span>}
+          <div key={message.date.valueOf()} className={`Message Message--${message.sender === "You" ? "you" : "other"}`}>
             <span className="Message__content">{message.content}</span>
             <span className="Message__time">{formatTime(message.date)}</span>
           </div>

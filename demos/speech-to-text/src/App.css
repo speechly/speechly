@@ -49,8 +49,8 @@
 }
 
 .Header__meta {
-  color: #7D8FA1;
-  font-size: 12px;
+  color: #5a6b7c;
+  font-size: 13px;
   margin-top: 3px;
 }
 
@@ -99,7 +99,7 @@
   margin-right: auto;
 }
 
-.Message--me {
+.Message--you {
   background-color: #cef;
   margin-left: auto;
 }
