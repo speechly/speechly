@@ -1,9 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useSpeechContext } from "@speechly/react-client";
 import { DemoNavigation } from "@speechly/demo-navigation";
+import OpenAIAPI from "react-openai-api";
+import {
+  CompletionPayload,
+  CompletionResponse
+} from "react-openai-api/lib/esm/types";
 import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import "./App.css";
 import marvAvatar from "./assets/marv.png"
+
+const botPersona = [
+  "Marv is a chatbot that reluctantly answers questions.",
+  "Tell us who you are and what you can do?",
+]
 
 const App: React.FC = (): JSX.Element => {
   return (
@@ -24,15 +34,50 @@ type Message = {
 };
 
 const SpeechlyApp: React.FC = (): JSX.Element => {
+  const apiKey = process.env.REACT_APP_STT_OPENAI_API_KEY || ""
   const [textContent, setTextContent] = useState<string>("")
   const [tentativeTextContent, setTentativeTextContent] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
   const { segment } = useSpeechContext()
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const [payload, setPayload] = useState<CompletionPayload>({
+    engine: "davinci",
+    prompt: botPersona.join("\n"),
+    maxTokens: 50,
+    temperature: 0.8,
+    topP: 1,
+    presencePenalty: 0.3,
+    frequencyPenalty: 0,
+    bestOf: 1,
+    n: 1,
+    stream: false
+  });
 
   const setText = (value: string) => {
     setTextContent(value)
     setTentativeTextContent(value)
   }
+
+  const sendMessage = useCallback((content: string, sender: Sender) => {
+    if (content.trim() === "") return
+    const newMessage: Message = {
+      sender,
+      content,
+      date: new Date()
+    }
+    setMessages([ ...messages, newMessage ]);
+    if (sender === "You") {
+      const pl = { ...payload, prompt: content }
+      setPayload(pl);
+      setText("");
+    }
+  }, [messages, payload])
+
+  const responseHandler = (openAIResponse: CompletionResponse) => {
+    const response = openAIResponse.choices[0].text
+    sendMessage(response, "Marv");
+  };
 
   const toSentenceCase = (str: string) => {
     const alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -44,17 +89,6 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     })
     return str.charAt(0).toUpperCase() + str.substr(1);
   }
-
-  const sendMessage = useCallback((content: string, sender: Sender) => {
-    if (content.trim() === "") return
-    const newMessage: Message = {
-      sender,
-      content,
-      date: new Date()
-    }
-    setMessages([ ...messages, newMessage ]);
-    if (sender === "You") setText("");
-  }, [messages])
 
   useEffect(() => {
     if (segment) {
@@ -114,7 +148,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
           <div className="Header__meta">Marv is a GPT3 powered chatbot that reluctantly answers your questions</div>
         </div>
       </div>
-      <div className="Messages">
+      <div ref={scrollRef} className="Messages">
         {messages.map(message =>
           <div key={message.date.valueOf()} className={`Message Message--${message.sender === "You" ? "you" : "other"}`}>
             <span className="Message__content">{message.content}</span>
@@ -142,6 +176,13 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
             />
           </div>
         </div>
+        {!!apiKey && !!payload.prompt && (
+          <OpenAIAPI
+            apiKey={apiKey}
+            payload={payload}
+            responseHandler={responseHandler}
+          />
+        )}
     </div>
   )
 }
