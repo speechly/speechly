@@ -1,30 +1,42 @@
 <script lang="ts">
   import {
     Icon
-  } from "../types";
+  } from "../constants";
 
   export let icon: Icon = Icon.Mic;
 </script>
 
-<div style="
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: 0.25s;
-  opacity: var(--icon-opacity);
-">
-
-{#if icon === Icon.Mic}
+{#if icon === Icon.MicActive}
 <svg
-  class="buttonIconEl"
+  class="Icon"
   viewBox="0 0 56 56"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <g fill="#000" fill-rule="evenodd">
+  <linearGradient id="gradient" x1="50%" y1="-200%" x2="50%" y2="200%">
+    <animate attributeName="y1" values="-200%; 0%;" dur="2s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="200%; 400%;" dur="2s" repeatCount="indefinite" />
+    <stop offset="0%" stop-color="var(--gradient-stop1)"></stop>
+    <stop offset="25%" stop-color="var(--gradient-stop2)"></stop>
+    <stop offset="50%" stop-color="var(--gradient-stop1)"></stop>
+    <stop offset="75%" stop-color="var(--gradient-stop2)"></stop>
+    <stop offset="100%" stop-color="var(--gradient-stop1)"></stop>
+  </linearGradient>>
+  <g fill="url(#gradient)" fill-rule="evenodd">
+    <path
+      d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"
+    />
+    <rect x="20" y="1" width="16" height="37" rx="8" />
+  </g>
+</svg>
+{/if}
+
+{#if icon === Icon.Mic}
+<svg
+  class="Icon"
+  viewBox="0 0 56 56"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g fill="var(--icon-color)" fill-rule="evenodd">
     <path
       d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"
     />
@@ -34,8 +46,8 @@
 {/if}
 
 {#if icon === Icon.Error}
-<svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#000" fill-rule="evenodd">
+<svg class="Icon" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+  <g fill="var(--icon-color)" fill-rule="evenodd">
     <path
       d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z"
       fill-rule="nonzero"
@@ -46,23 +58,25 @@
 {/if}
 
 {#if icon === Icon.Denied}
-<svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#000" fill-rule="nonzero">
+<svg class="Icon" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+  <g fill="var(--icon-color)" fill-rule="nonzero">
     <path d="M36 14.828V30a8 8 0 01-15.961.79l15.96-15.962zM28 1a8 8 0 018 8v.172L20 25.173V9a8 8 0 018-8z" />
     <path d="M42 26h4v4c0 9.265-7 16.895-16 17.89V55h-4v-7.11c-8.892-.982-15.833-8.444-15.997-17.56L10 30v-4h4v4c0 7.732 6.268 14 14 14 7.628 0 13.83-6.1 13.997-13.687L42 30v-4z" />
   </g>
 </svg>
 {/if}
 
-{#if icon === Icon.Poweron}
-<svg class="buttonIconEl" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
-  <g fill="#000" fill-rule="evenodd">
-    <path
-      d="M52 28c0 13.255-10.745 24-24 24S4 41.255 4 28c0-8.921 4.867-16.705 12.091-20.842l1.984 3.474C12.055 14.08 8 20.566 8 28c0 11.046 8.954 20 20 20s20-8.954 20-20c0-7.434-4.056-13.92-10.075-17.368L39.91 7.16C47.133 11.296 52 19.079 52 28z"
-      fill-rule="nonzero"
-    />
-    <rect x="24" y="1" width="8" height="23" rx="4" />
-  </g>
-</svg>
-{/if}
-</div>
+<style>
+  .Icon {
+    position: absolute;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: 0.25s;
+    opacity: var(--icon-opacity);
+  }
+
+</style>

@@ -1,9 +1,8 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import type { Segment } from "@speechly/browser-client";
-  import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
-  import type { ITaggedWord } from "./types";
+  import type { Segment, ITaggedWord } from "./types";
+  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   import fix from './fixTransition'
   import { get_current_component } from "svelte/internal";
   import { draw as draw_orig } from 'svelte/transition';
@@ -26,14 +25,17 @@
   export let marginbottom = "0rem";
   export let formattext = undefined;
   export let demomode = undefined;
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
 
   $: showlistening = (words.length === 0);
   $: useTextBackground = backgroundcolor !== "none";
   $: useEntityFormatting = formattext === undefined || formattext !== "false";
   $: useDemoMode = demomode !== undefined && demomode !== "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
   $: wordTransitionInMs = useDemoMode ? 800 : 350;
   $: {
-    const newVisibility = clientState === ClientState.Recording || showingTranscript;
+    const newVisibility = clientState === ClientState.Recording || showingTranscript;
     if (newVisibility !== visibility) {
       dispatchUnbounded("visibilitychanged", newVisibility);
     }
@@ -79,13 +81,13 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "speechsegment":
+      case MessageType.speechsegment:
         speechsegment(e.data.segment);
         break;
-      case "speechhandled":
+      case MessageType.speechhandled:
         speechhandled(e.data.success);
         break;
-      case "speechstate":
+      case MessageType.speechstate:
         speechstate(e.data.state);
         break;
       default:
@@ -199,78 +201,92 @@
   on:message={handleMessage}
 />
 
-<main class:placementTop={placement === "top"} style="
-  --voffset: {voffset};
-  --hoffset: {hoffset};
-  --fontsize: {fontsize};
-  --color: {color};
-  --highlight-color: {highlightcolor};
-  --text-bg-color: {backgroundcolor};
-  --gradient-stop1: {gradientstop1};
-  --gradient-stop2: {gradientstop2};
-  --marginbottom: {marginbottom};
-  --transition: {$visibilityTransition.transition};
-  opacity: {$visibilityTransition.transition};
-  max-height: {interpolateLinearf(fadeIn, $visibilityTransition.transition, 0.0, 0.6) * 10}rem;
-  visibility: {$visibilityTransition.transition !== 0 ? "visible" : "hidden"};
-">
+<main
+  class="BigTranscript"
+  class:placementTop={placement === "top"}
+  class:defaultTypography={defaultTypography}
+  style="
+    --voffset: {voffset};
+    --hoffset: {hoffset};
+    --fontsize: {fontsize};
+    --color: {color};
+    --highlight-color: {highlightcolor};
+    --text-bg-color: {backgroundcolor};
+    --gradient-stop1: {gradientstop1};
+    --gradient-stop2: {gradientstop2};
+    --marginbottom: {marginbottom};
+    --transition: {$visibilityTransition.transition};
+    opacity: {$visibilityTransition.transition};
+    max-height: {interpolateLinearf(fadeIn, $visibilityTransition.transition, 0.0, 0.6) * 10}rem;
+    visibility: {$visibilityTransition.transition !== 0 ? "visible" : "hidden"};
+  "
+>
 
-    <div class="BigTranscript">
-      <div class="TranscriptItem">
-        {#if useTextBackground}
-          <div class="TransscriptItemBgDiv"/>
-        {/if}
-        <div class="TransscriptItemContent">
-          <VuMeter bind:this={vumeter} color={highlightcolor}></VuMeter>
-          {#if showlistening}
-            <div class="listening" in:slideTransition="{{duration: 400}}">Listening...</div>
-          {/if}
-        </div>
-      </div>
-      {#each words as word, index}
-        <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
-          {#if useTextBackground}
-            <div class="TransscriptItemBgDiv" in:slideTransition="{{duration: wordTransitionInMs}}"/>
-          {/if}
-          <div class="TransscriptItemContent" in:slideTransition="{{duration: wordTransitionInMs}}">
-            {word.word}
-            {#if index < words.length}
-              <span style={index < words.length - 1 ? "width:0.25em;" : acknowledged ? "width:1.2em;" : ""}></span>
-            {/if}
-          </div>
-        </div>
-      {/each}
-      {#if acknowledged}
-        <div class="TranscriptItem" in:slideTransition="{{duration: 200, maxWidth: 3}}">
-          <div class="TransscriptItemBgDiv" style="background-color: {highlightcolor};"/>
-          <div style="width:1.0rem; height: 1rem; position: relative;">
-            <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.6rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
-          </div>
-        </div>
+  <div class="TranscriptItem">
+    {#if useTextBackground}
+      <div class="TransscriptItemBgDiv"/>
+    {/if}
+    <div class="TransscriptItemContent">
+      <VuMeter bind:this={vumeter} color={highlightcolor}></VuMeter>
+      {#if showlistening}
+        <div class="listening" in:slideTransition="{{duration: 400}}">Listening...</div>
       {/if}
     </div>
+  </div>
+  {#each words as word, index}
+    <div class="TranscriptItem {entityClass(word)}" class:Entity={word.entityType !== null} class:Final={word.isFinal}>
+      {#if useTextBackground}
+        <div class="TransscriptItemBgDiv" in:slideTransition="{{duration: wordTransitionInMs}}"/>
+      {/if}
+      <div class="TransscriptItemContent" in:slideTransition="{{duration: wordTransitionInMs}}">
+        {word.word}
+        {#if index < words.length}
+          <span style={index < words.length - 1 ? "width:0.25em;" : acknowledged ? "width:1.2em;" : ""}></span>
+        {/if}
+      </div>
+    </div>
+  {/each}
+  {#if acknowledged}
+    <div class="TranscriptItem" in:slideTransition="{{duration: 200, maxWidth: 3}}">
+      <div class="TransscriptItemBgDiv" style="background-color: {highlightcolor};"/>
+      <div style="width:1.0rem; height: 1rem; position: relative;">
+        <svg style="width:2rem; height: 2rem; position: absolute; transform: translate(-0.6rem, -0.5rem); stroke: #eee" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path in:draw="{{duration: 500}}" stroke="currentColor" stroke-width="3" d="M7.191 11.444l4.059 6.107 7.376-12.949" fill="none" fill-rule="evenodd"/></svg>
+      </div>
+    </div>
+  {/if}
 </main>
 
 <svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {#if defaultTypography}
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {/if}
 </svelte:head>
 
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
+{/if}
+
 <style>
-  .BigTranscript {
+  main {
     position: relative;
     user-select: none;
-    font-family: 'Saira Condensed', sans-serif;
-    text-transform: uppercase;
-    color: var(--color);
-    font-size: var(--fontsize);
-    line-height: 135%;
 
     display:flex;
     flex-direction: row;
     justify-content: start;
     flex-wrap: wrap;
     margin-bottom: calc(var(--marginbottom) * var(--transition));
+    height: fit-content;
   }
+
+  .defaultTypography {
+    font-family: 'Saira Condensed', sans-serif;
+    text-transform: uppercase;
+    color: var(--color);
+    font-size: var(--fontsize);
+    line-height: 135%;
+  }
+
   .TranscriptItem {
     position: relative;
 

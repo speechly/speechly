@@ -2,34 +2,53 @@
   import { onMount } from "svelte";
   import { fade as fade_orig } from 'svelte/transition';
   import MicIcon from "./components/MicIcon.svelte";
-  import SpeechlyLogo from "./components/SpeechlyLogo.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
+  import { ClientState, MessageType } from "./constants";
 
-  export let video = "";
-  export let hide = undefined;
+  export let hide = "auto";
   export let remsize = "1.0rem";
   export let position = "fixed";
+  export let customcssurl = undefined;
+  export let customtypography = undefined;
+
+  const PagePriming = 'PagePriming'
+  const PageStarting = 'PageStarting'
+  const HttpsRequired = 'HttpsRequired'
 
   const dispatchUnbounded = createDispatchUnbounded();
   const fade = fix(fade_orig);
-  $: visibility = mounted && (hide === undefined || hide !== "true");
+
+  $: visibility = mounted && hide === "false";
+  $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let mounted = false;
-  let forceInfoVisibility = false;
+  let page: ClientState | string = PagePriming;
+  let appId: null;
+  let introTimeout = null;
+  let showAllowButton = false;
+
+  const isLocalHost = (hostname: string): boolean =>
+    !!(
+      hostname === 'localhost' ||
+      hostname === '[::1]' ||
+      hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/) !== null
+    )
 
   onMount(() => {
     mounted = true;
+    window.postMessage({ type: MessageType.speechlyintroready }, "*");
   });
 
-  const closeSelf = () => {
+  const closeSelf = (params = {}) => {
     visibility = false;
-    dispatchUnbounded("speechlyintroclosed");
-    window.postMessage({ type: "speechlyintroclosed" }, "*");
+    dispatchUnbounded("speechlyintroclosed", params);
+    window.postMessage({ type: MessageType.speechlyintroclosed, ...params }, "*");
   }
 
-  const ignore = (e) => {
-    e.stopPropagation();
+  const initialize = () => {
+    window.postMessage({ type: MessageType.speechlystarting }, "*");
+    window.SpeechlyClient.initialize();
   }
 
   const handleKeydown = (event) => {
@@ -38,89 +57,164 @@
       closeSelf();
     }
   }
+
+  const handleMessage = (e) => {
+    switch (e.data.type) {
+      case MessageType.speechlypoweron:
+        if (hide === "auto") {
+          visibility = true;
+        }
+        showAllowButton = true;
+        break;
+      case MessageType.speechlystarting:
+        // Allow only going forward in pages to prevent hiding an error
+        if (page === PagePriming) {
+          page = PageStarting;
+          introTimeout = window.setTimeout(() => {
+            introTimeout = null;
+            if (hide === "auto") {
+              visibility = true;
+            }
+          }, 500);
+        } else {
+          visibility = true;
+        }
+        break;
+      case MessageType.holdstart:
+        switch (e.data.state) {
+          case ClientState.Failed:
+          case ClientState.NoAudioConsent:
+          case ClientState.NoBrowserSupport:
+            showError(e.data.state);
+            break;
+        }
+        break;
+      case MessageType.initialized:
+        appId = e.data.appId;
+        if (e.data.success) {
+          if (introTimeout) {
+            // Quick init indicates mic permission is cached. Cancel displaying intro popup.
+            window.clearTimeout(introTimeout);
+            introTimeout = null;
+            closeSelf();
+          } else {
+            closeSelf({firstrun: true});
+          }
+        } else {
+          showError(e.data.state);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  const showError = (e: ClientState | string) => {
+    if (hide === "auto") {
+      visibility = true;
+    }
+    // Cancel pending prompt
+    if (introTimeout) {
+      window.clearTimeout(introTimeout);
+      introTimeout = null;
+    }
+    // Provide special instructions for non-https access
+    if (window?.location?.protocol !== 'https:' && !isLocalHost(window.location.hostname)) {
+      page = HttpsRequired;
+      return;
+    }
+    page = e;
+  }
+
+  const replaceWithHttps = () => {
+    const url = window.location.href;
+    const newUrl = url.replace("http:", "https:");
+    window.location.replace(newUrl)
+  }
 </script>
 
 <svelte:options tag={null} immutable={true} />
-<svelte:window on:keydown={handleKeydown}/>
+<svelte:window on:keydown={handleKeydown} on:message={handleMessage}/>
 
 <svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {#if defaultTypography}
+    <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
+  {/if}
 </svelte:head>
+
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
+{/if}
 
 <modal style="
   --remsize: {remsize};
 ">
 {#if visibility}
-  <modalbg transition:fade on:click={closeSelf} />
-
-  <modalcontent transition:fade class="{position}" on:click={closeSelf}>
-    <div class="page">
-      <div class="primaryLayout" on:click={ignore}>
-
-        <button class="close" on:click={closeSelf}/>
-
-        <div class="layout">
-          <main>
-            <div class="imageContainer">
-                <video class="usageImage" width="100%" height="auto" autoplay muted loop>
-                  <source src={video} type="video/mp4">
-                  Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="bodyTextContainer">
-              <h2>Find your favourites faster with&nbsp;voice&nbsp;search</h2>
-              <p>
-                Search Evolve Clothing Gallery's <b>categories</b>, <b>designers</b> and <b>colors</b> by pressing and holding the
-                <span style="width: 1.75rem; height: 1.75rem; vertical-align: middle; margin: -0.25rem -0.5rem 0 -0.5rem; position: relative; display: inline-block;">
-                  <MicIcon />
-                </span>
-                <b>push&#8209;to&#8209;talk button</b>.
-                <a class="more" href="#info" on:click={() => {forceInfoVisibility = !forceInfoVisibility}}>More info</a>
-              </p>
-            </div>
-
-          </main>
-
-          <div class="sidePanel" class:forceVisible={forceInfoVisibility}>
-            <div class="sidePanelText">
-              <div class="sidePanelLogo">
-                <SpeechlyLogo/>
-              </div>
-              <h3>Voice&nbsp;Search Quick&nbsp;Start</h3>
-              <ul class="mt-l mb-l">
-                <li>Press and hold the
-                  <span style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin: -0.20rem -0.35rem 0 -0.35rem; position: relative; display: inline-block;">
-                    <MicIcon />
-                  </span>
-                  push&#8209;to&#8209;talk button.
-                </li>
-                <li>Allow your browser to use the mic on the 1st time.</li>
-                <li>Make your first search, e.g. <i>"Show me new arrivals"</i></li>
-                <li>Release the
-                  <span style="width: 1.5rem; height: 1.5rem; vertical-align: middle; margin: -0.20rem -0.35rem 0 -0.35rem; position: relative; display: inline-block;">
-                  <MicIcon />
-                  </span>
-                  push&#8209;to&#8209;talk button to stop listening.</li>
-                <li>Speechly detects your voice command and your search results are shown.</li>
-              </ul>
-              Learn more at <a href="https://speechly.com/">speechly.com</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="buttonLayout">
-          <button on:click={closeSelf} class="wide">Got it!</button>
-        </div>
-
-      </div>
-
-    </div>
+  <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
+  <modalcontent class:defaultTypography={defaultTypography} class="{position}">
+    <main>
+      {#if page === PagePriming || page === PageStarting}
+        <h2><slot name="priming-title">Allow microphone</slot></h2>
+        <p>
+          <slot name="priming-body">
+            To use voice input, press <strong>Allow</strong> to give {window.location.hostname} access to your microphone.
+            Audio is only captured when <span style="display: inline-block; position: relative; color: white; width: 20px; height: 10px; --icon-color: white; --icon-size: 20px;"><MicIcon /></span> button is pressed.
+          </slot>
+        </p>
+        <options>
+          <button on:click={closeSelf} class="button button-secondary">Not now</button>
+          {#if showAllowButton}
+            <button on:click={initialize} class="button button-primary" disabled={page === PageStarting}>Allow</button>
+          {/if}
+        </options>
+      {:else if page === HttpsRequired}
+        <h2>HTTPS required</h2>
+        <p>
+          To use the voice interface, please visit this site using the secure
+          HTTPS protocol.
+        </p>
+        <options>
+          <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
+          <button on:click={replaceWithHttps} class="button button-primary">
+            Try with HTTPS
+          </button>
+        </options>
+      {:else if page === ClientState.NoAudioConsent}
+        <h2>Microphone blocked</h2>
+        <p>
+          To use voice input, {window.location.hostname} needs access to your microphone. Check your
+          browser preferences to allow microphone access and reload the page.
+        </p>
+        <options>
+          <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
+          <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
+        </options>
+      {:else if page === ClientState.NoBrowserSupport}
+        <h2>Unsupported browser</h2>
+        <p>
+          To use voice input, please visit this site using a supported browser.
+        </p>
+        <options>
+          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
+        </options>
+      {:else}
+        <h2>Failed to connect to Speechly</h2>
+        <p>
+          Please check that your application (App ID: {appId}) has been successfully deployed.
+        </p>
+        <options>
+          <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
+        </options>
+      {/if}
+    </main>
+    <footer>
+      Voice input is automatically transcribed by <a target="_blank" href="https://speechly.com/" rel="noopener noreferrer">Speechly</a> and can be used to improve the quality of service under <a target="_blank" href="https://www.speechly.com/privacy/terms-and-conditions" rel="noopener noreferrer">terms of use</a>.
+    </footer>
   </modalcontent>
 {/if}
 </modal>
 
 <style>
-
   modal {
     font-size: var(--remsize);
     pointer-events: none;
@@ -137,12 +231,25 @@
     z-index: 2000;
     pointer-events: auto;
 
-    background: linear-gradient(180deg, #413783f0, #302865c0 80%);
+    background-color: rgba(0,0,0,0.75);
+    backdrop-filter: blur(3px);
   }
 
   modalcontent {
     z-index: 2001;
     pointer-events: auto;
+
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100%;
+    padding: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
   }
 
   modalcontent.fixed {
@@ -162,368 +269,100 @@
     right: 0;
     height: 100vh;
   }
-  .page {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100%;
-    padding: 2rem 1rem;
-  
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+
+  .defaultTypography {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
-
-  h1,
-  h2,
-  h3
-  {
+  .defaultTypography h2 {
     font-family: 'Saira Condensed', sans-serif;
     padding: 0;
     margin: 0;
     text-transform: uppercase;
-    color: #302865;
-    line-height: 120%;
+    color: #fff;
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
-  
-  h2 {
-    font-size: 135%;
-  }
-  
-  p {
-    line-height: 150%;
-  }
-  
-  b {
-    color: #302865;
-  }
-  
-  ul {
-    min-width: 8rem;
-    padding: 0 1rem 0 0;
-    list-style-type: none;
-  }
-  
-  li {
-    border-left:2px solid #38E7B6;
-    margin: 0.75rem 0;
-    padding-left: 6px;
-    line-height: 135%;
-  }
-    
-  .primaryLayout {
-    position: relative;
-    box-sizing: border-box;
-    width: 100%;
-    background-color: #ffffff;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  
-    border-radius: 1rem;
-  
-    box-shadow: 0 0.25rem 1.25rem #0008;
-  }
-  
-  .layout {
-    box-sizing: border-box;
-    width: 100%;
-  
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-  
-  .buttonLayout {
-    box-sizing: border-box;
-    width: 100%;
-  
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0 0 1rem 1rem;
-  
-    background: linear-gradient(180deg, #d9e3eb, #F7FAFC 15%);
-  
-  }
-  
+
   main {
     position: relative;
     box-sizing: border-box;
     width: 100%;
-  
+    max-width: 400px;
+    margin: auto 0;
+    padding: 1.5rem 0;
+  }
+
+  options {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    flex-grow: 1;
+    margin-top: 2rem;
+    gap: 8px;
   }
-  
-  button.wide {
+
+  .button {
+    background-color: transparent;
     box-sizing: border-box;
-    min-width: 12rem;
-    max-width: 100%;
-    padding: 0.75rem;
-    margin: 1rem;
-    background-color: #302865;
-    border: none;
-    border-radius: 10rem;
-  
-    transition: 0.3s;
-    font-family: 'Saira Condensed', sans-serif;
-    font-size: 120%;
-    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+    min-width: 7rem;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .button[disabled],
+  .button:disabled {
+    cursor: auto;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .button-secondary {
+    border-color: #fff;
     color: #fff;
-    line-height: 120%;
   }
-  
-  button.wide:hover {
-    background-color: #6251a5;
-    transition: 0.3s;
+
+  .button-secondary:hover {
+    border-color: #ccc;
+    color: #ccc;
   }
-  
+
+  .button-primary {
+    background-color: #fff;
+    border-color: #fff;
+    color: #000;
+  }
+
+  .button-primary:hover {
+    border-color: #ccc;
+    background-color: #ccc;
+    color: #000;
+  }
+
+  footer {
+    box-sizing: border-box;
+    font-size: 0.75rem;
+    color: #999;
+    margin: 0;
+  }
+
   a,
   a:visited {
-    color: #302865;
+    color: #999;
+    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
   }
-  
+
   a:hover {
-    color: #6251a5;
-  }
-  
-  .sidePanel {
-    box-sizing: border-box;
-    width: 100%;
-    background: #F7FAFC;
-    color: #728195;
-    font-size: 85%;
-  
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-
-    max-height: 0rem;
-    transition: 0.5s;
-    overflow: hidden;
-  }
-
-  .sidePanelText {
-    padding: 0.75rem 0.75rem 1.5rem 0.75rem;
-  }
-
-  .more {
-    white-space: nowrap;
-  }
-
-  .forceVisible {
-    max-height: 50rem;
-    transition: 0.5s;
-  }
-  
-  .mt-m {
-    margin-top: 0.75em;
-  }
-  
-  .mb-m {
-    margin-bottom: 0.75em;
-  }
-  
-  .mx-m {
-    margin-left: 0.75em;
-    margin-right: 0.75em;
-  }
-  
-  .mt-l {
-    margin-top: 1.5em;
-  }
-  
-  .mb-l {
-    margin-bottom: 1.5em;
-  }
-  
-  .imageContainer {
-    box-sizing: border-box;
-    width: 100%;
-    padding:1.0rem;
-  }
-
-  .bodyTextContainer {
-    padding: 0 2.25rem;  
-  }
-
-  .sidePanelLogo {
-    width: 85%;
-    padding: 0.75rem 0 0.75rem 0;
-  }
-  
-  .usageImage {
-    box-sizing: border-box;
-    width: 100%;
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-  
-  @media (max-width: 480px) {
-    .page {
-      font-size: 88%;
-    }
-  
-    .imageContainer {
-      padding: 0 0 1rem 0;
-    }
-
-    .sidePanelText {
-      padding: 1.5rem 2.25rem;  
-    }
-
-    .sidePanelLogo {
-      display: none;
-    }
-    
-    .usageImage {
-      border-radius: 1rem 1rem 0 0;
-    }
-    
-  }
-  
-  @media (min-width: 480px) and (max-width: 688px) {
-    .page {
-      font-size: 100%;
-      padding: 2rem 2rem;
-    }
-  
-    .primaryLayout {
-      width: 600px;
-    }
-  
-    .layout {
-      flex-direction: row;
-      justify-content: flex-start;
-    }
-  
-    .more {
-      display: none;
-    }
-  
-    .sidePanel {
-      max-height: 50rem;
-      width: 11rem;
-      flex-shrink: 0;
-      min-height: 100%;
-      align-self: stretch;
-      flex-direction: column;
-      border-radius: 0 1rem 0 0;
-    }
-  
-  }
-  
-  @media (min-width: 688px) {
-    .page {
-      padding: 2rem 0;
-      font-size: 100%;
-    }
-  
-    .primaryLayout {
-      width: 600px;
-    }
-  
-    .layout {
-      flex-direction: row;
-      justify-content: flex-start;
-    }
-  
-    .more {
-      display: none;
-    }
-  
-    .sidePanel {
-      max-height: 50rem;
-      width: 12.5rem;
-      flex-shrink: 0;
-      min-height: 100%;
-      align-self: stretch;
-      flex-direction: column;
-      border-radius: 0 1rem 0 0;
-    }
-  }
-  
-  .close {
-    --button-size: 1.5rem;
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    z-index: 1000;
-    top: 0.25rem;
-    right: 0.25rem;
-    margin: 0;
-    padding: 0;
-    width: var(--button-size);
-    height: var(--button-size);
-    border: 0;
-    color: black;
-    border-radius: 1.5rem;
-    background: transparent;
-    box-shadow: 0 0 0 1px transparent;
-    transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-                background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-    -webkit-appearance: none;
-  }
-
-  .close:before, .close:after {
-    content: '';
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    width: calc(var(--button-size) - 0.5rem);
-    height: 1px;
-    background: #728195;
-    transform-origin: center;
-    transition: height 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
-                background 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-
-  .close:before {
-    -webkit-transform: translate(0, -50%) rotate(45deg);
-    -moz-transform: translate(0, -50%) rotate(45deg);
-    transform: translate(0, -50%) rotate(45deg);
-    left: 0.25rem;
-  }
-
-  .close:after {
-    -webkit-transform: translate(0, -50%) rotate(-45deg);
-    -moz-transform: translate(0, -50%) rotate(-45deg);
-    transform: translate(0, -50%) rotate(-45deg);
-    left: 0.25rem;
-  }
-
-  .close:hover {
-    background: #6251a5;
-  }
-
-  .close:hover:before, .close:hover:after {
-    height: 2px;
-    background: white;
-  }
-
-  .close:focus {
-    border-color: #3399ff;
-    box-shadow: 0 0 0 2px #3399ff;
-  }
-
-  .close:active {
-    transform: scale(0.9);
-  }
-
-  .close:hover, .close:focus, .close:active {
-    outline: none;
+    color: #ccc;
   }
 </style>

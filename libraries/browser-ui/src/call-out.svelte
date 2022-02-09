@@ -7,12 +7,12 @@
 
   export let show = undefined;
   export let showtime = 10000;
-  export let fontsize = "1.2rem";
-  export let textcolor = "#ffffff";
   export let backgroundcolor = "#202020";
+  export let xalign = "50%"
+  export let width = "auto";
 
   let sourceAnchors = { x: '50%', y: '10%' };
-  let destAnchors = { x: '50%', y: '100%' };
+  $: destAnchors = { x: xalign, y: '100%' };
   let arrowSize = { value: 0.55, unit: 'rem' };
   let useShadow = false;
   let borderRadius = "0rem";
@@ -27,7 +27,7 @@
       duration,
       css: (t: number) => {
         return `
-          clip-path: circle(${t * 100}% at center);
+          clip-path: circle(${t * 100}% at ${destAnchors.x} 50%);
         `
       }
     }
@@ -70,10 +70,8 @@
   --valign: {destAnchors.y};
   --borderradius: {borderRadius};
   --arrowpad: {`${arrowSize.value}${arrowSize.unit}`};
-  --textcolor: {textcolor};
   --backgroundcolor: {backgroundcolor};
   --size: {`${arrowSize.value * Math.sqrt(2)}${arrowSize.unit}`};
-  --fontsize: {fontsize};
   --offsetx: {"0rem"};
   --offsety: {`${arrowSize.value}${arrowSize.unit}`};
 ">
@@ -84,10 +82,13 @@
       on:dragstart={onMouseDown}
       in:circlewipe
       out:circlewipe
+      style="
+        width: {width};
+      "
     >
       <div class="CalloutDiv" class:useShadow={useShadow}><slot></slot></div>
       <div class="ArrowDiv" style="
-        --ax: 50%;
+        --ax: {destAnchors.x};
         --ay: 100%;
       "/>
       {#if useShadow}
@@ -96,10 +97,6 @@
     </div>
   {/if}
 </main>
-
-<svelte:head>
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@700&display=swap" rel="stylesheet">
-</svelte:head>
 
 <style>
   main {
@@ -127,12 +124,6 @@
     text-align: center;
     user-select: none;
     z-index: 10;
-
-    color: var(--textcolor);
-    font-family: 'Saira Condensed', sans-serif;
-    font-size: var(--fontsize);
-    line-height: 120%;
-    text-transform: uppercase;
   }
 
   .useShadow {

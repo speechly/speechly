@@ -1,0 +1,11 @@
+.pressed .Frame {
+  width: 135%;
+  height: 135%;
+  transition: width 0.1s, height 0.1s;
+}
+
+.Fx {
+}
+
+.Icon {
+}

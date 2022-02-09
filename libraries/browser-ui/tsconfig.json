@@ -5,12 +5,21 @@
     "target": "ES2015",
     "module": "ES2015",
     "moduleResolution": "node",
-    "declaration": true,
-    "declarationDir": ".",
     "sourceMap": true,
-    "esModuleInterop": true
+    "declaration": true,
+    "declarationDir": "types",
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "remove",
+    "isolatedModules": false,
+    "preserveConstEnums": true,
+    "removeComments": true,
   },
 
-  "include": ["src/**/*"],
-  "exclude": ["node_modules/*", "__sapper__/*", "public/*"]
+  "include": [
+    "node_modules/@speechly/browser-client/src/**/*",
+    "src/**/*",
+  ],
+  "exclude": ["node_modules/@speechly/browser-client/src/**/*.test.ts"],
 }

@@ -172,6 +172,14 @@ export default [
   },
 
   {...webComponentDefaults,
+    input: 'src/video-guide.ts',
+    output: {
+      ...webComponentDefaults.output,
+      file: 'core/video-guide.js'
+    },
+  },
+
+  {...webComponentDefaults,
     input: 'src/intro-popup.ts',
     output: {
       ...webComponentDefaults.output,

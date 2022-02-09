@@ -2,11 +2,13 @@
   "name": "@speechly/browser-ui",
   "version": "5.0.7",
   "scripts": {
-    "build": "rimraf core && rollup -c --silent",
-    "build:watch": "rollup -c --silent",
+    "build": "rimraf core && rollup -c --silent && mv core/types/src/* core && rimraf core/types",
+    "build:watch": "rollup -c --silent && mv core/types/src/* core",
     "dev": "rollup -c -w",
-    "start": "sirv core --no-clear",
-    "validate": "svelte-check"
+    "start": "sirv core --no-clear --host",
+    "validate": "svelte-check",
+    "staging": "set -o allexport;. ./.env.local;set +o allexport && test -n \"$REACT_APP__DEPLOY_STAGING_URI\" && pnpm run build && rsync -avz --delete core/ $REACT_APP__DEPLOY_STAGING_URI"
+
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",

@@ -1,7 +1,7 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import { ClientState } from "./types";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
 
   const InvaldAppId = 'InvaldAppId'
   const HttpsRequired = 'HttpsRequired'
@@ -28,12 +28,12 @@
 
   const handleMessage = (e) => {
     switch (e.data.type) {
-      case "holdstart":
+      case MessageType.holdstart:
         micButtonPressed(e.data.state);
         break;
-      case "initialized":
+      case MessageType.initialized:
         console.log(e.data);
-        initialized(e.data.status, e.data.appId);
+        initialized(e.data.state, e.data.appId);
         break;
       default:
         break;

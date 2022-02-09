@@ -8,23 +8,36 @@
   import MicFx from "./components/MicFx.svelte";
   import type { IAppearance, IHoldEvent } from "./types";
   import {
+    ClientState,
     Icon,
     Effect,
     Behaviour,
-    stateToClientState,
+    MessageType,
     clientStateToAppearance,
-  } from "./types";
-import { ClientState } from "@speechly/browser-client";
+TriggerFx,
+  } from "./constants";
 
-  export let icon = ClientState.Disconnected as unknown as string;
+  export let icon = ClientState.Disconnected;
   export let capturekey = " ";
-  export let size = "6rem";
+  export let hide = undefined;
+  export let size = "88px";
+  export let holdscale = "1.35";
+  export let borderscale = "0.06";
+  export let iconsize = "60%";
+  export let fxsize = "250%";
+  export let backgroundcolor = "#ffffff";
+  export let iconcolor = "#000000";
   export let gradientstop1 = "#15e8b5";
   export let gradientstop2 = "#4fa1f9";
-  export let hide = undefined;
+  export let fxgradientstop1 = undefined
+  export let fxgradientstop2 = undefined
+  export let customcssurl = undefined;
   export const isbuttonpressed = () => tangentHeld;
 
   $: visible = hide === undefined || hide === "false";
+  $: frameStrokeWidth = `${46 * (borderscale as unknown as number)}`;
+  $: frameRadius = 46 - 23 * (borderscale as unknown as number);
+  $: buttonHeldScale = (holdscale as unknown as number);
 
   let tangentHeld = false;
   let holdStartTimestamp = 0;
@@ -39,7 +52,7 @@ import { ClientState } from "@speechly/browser-client";
 
   // Run this reactive statement whenever icon parameters (icon) changes
   $: {
-    updateSkin(tangentHeld, stateToClientState(icon));
+    updateSkin(tangentHeld, icon);
   }
 
   // Prepare a dispatchUnbounded function to communicate outside shadow DOM box. Svelte native dispatchUnbounded won't do that.
@@ -108,10 +121,13 @@ import { ClientState } from "@speechly/browser-client";
       holdStartTimestamp = Date.now();
       vibrate();
 
+      // Play a rotation whirl
+      if (effectiveAppearance.triggerFx === TriggerFx.Whirl) {
+        rotation[0] += 720;
+      }
+
       // Connect on 1st press
       if (effectiveAppearance.behaviour === Behaviour.Click) {
-        // Play a rotation whirl
-        rotation[0] += 720;
         // Auto-release hold after some time
         if (timeout === null) {
           timeout = window.setTimeout(() => {
@@ -126,7 +142,7 @@ import { ClientState } from "@speechly/browser-client";
       // Trigger callback defined as property
       if (thisComponent.onholdstart) thisComponent.onholdstart();
       // Also trigger an event
-      dispatchUnbounded("holdstart");
+      dispatchUnbounded(MessageType.holdstart);
     }
   };
 
@@ -197,10 +213,11 @@ import { ClientState } from "@speechly/browser-client";
   const updateSkin = (buttonHeld: boolean, clientState: ClientState) => {
     effectiveAppearance = clientStateToAppearance[clientState];
 
-    scale[0] = buttonHeld ? 1.35 : 1.0;
+    scale[0] = buttonHeld ? buttonHeldScale : 1.0;
     fxOpacity[0] = (buttonHeld || clientState == ClientState.Recording) ? 1.0 : 0.0;
 
     switch (effectiveAppearance.icon) {
+      case Icon.MicActive:
       case Icon.Mic:
       case Icon.Denied:
       case Icon.Error:
@@ -216,6 +233,10 @@ import { ClientState } from "@speechly/browser-client";
   on:keyup={keyUpCallBack}
 />
 
+{#if customcssurl !== undefined}
+  <link href="{customcssurl}" rel="stylesheet">
+{/if}
+
 <main
   on:mousedown={tangentStart}
   on:touchstart={tangentStart}
@@ -223,29 +244,37 @@ import { ClientState } from "@speechly/browser-client";
   on:mouseup={tangentEnd}
   on:touchend={tangentEnd}
   on:dragend={tangentEnd}
+  class="HoldableButton"
+  class:pressed={tangentHeld}
   style="
     width:{size};
     height:{size};
     --gradient-stop1: {gradientstop1};
     --gradient-stop2: {gradientstop2};
+    --fx-gradient-stop1: {fxgradientstop1 || gradientstop1};
+    --fx-gradient-stop2: {fxgradientstop2 || gradientstop2};
     --fx-rotation: {rotation[1]}deg;
     --fx-opacity: {fxOpacity[1]};
+    --fx-size: {fxsize};
     --icon-opacity: {iconOpacity[1]};
+    --icon-size: {iconsize};
+    --icon-color: {iconcolor};
+    --frame-stroke-width: {frameStrokeWidth};
+    --frame-background: {backgroundcolor};
+    transform: scale({scale[1]});
   "
 >
-  <div class="ButtonComponents" style="
-    transform: scale({scale[1]});
-  ">
-    <MicFx/>
-    <MicFrame/>
-    <MicIcon
-      icon={effectiveAppearance.icon}
-    />
-  </div>
+  <MicFx/>
+  <MicFrame frameRadius={frameRadius}/>
+  <MicIcon
+    icon={effectiveAppearance.icon}
+  />
   <slot></slot>
+
 </main>
 
 <style>
+
   main {
     text-align: left;
     position: relative;
@@ -255,10 +284,5 @@ import { ClientState } from "@speechly/browser-client";
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
-  }
-
-  .ButtonComponents {
-    width: 100%;
-    height: 100%;
   }
 </style>
