@@ -1,4 +1,4 @@
-# Speech-to-Text Demo
+# Instant Messaging Demo
 
 https://demos.speechly.com/speech-to-text/
 
