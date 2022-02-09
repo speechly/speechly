@@ -8,7 +8,7 @@ import { LogKit } from "@speechly/logkit";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="6f1c7eaa-53fa-495e-9319-4ceacfa88cfe">
+    <SpeechProvider appId="a194bb09-dca0-451a-8f0f-d29b49a4c446">
       <LogKit appName="voice-search" appVersion={100} >
         <App />
       </LogKit>
