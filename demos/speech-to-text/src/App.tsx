@@ -116,15 +116,13 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
   }, [segment])
 
   useEffect(() => {
-    if (!messages.length) {
-      const timer = setTimeout(() => sendMessage("Hey 👋 What are you up to?", "Marv"), 1500);
-      return () => clearTimeout(timer);
+    if (scrollRef.current === null) return
+    const options: ScrollToOptions = {
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth"
     }
-    if (messages.length === 2) {
-      const timer = setTimeout(() => sendMessage("That sounds great! 👍", "Marv"), 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [messages, sendMessage])
+    scrollRef.current.scrollTo(options)
+  }, [messages])
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
