@@ -34,7 +34,7 @@ type Message = {
 };
 
 const SpeechlyApp: React.FC = (): JSX.Element => {
-  const apiKey = process.env.REACT_APP_STT_OPENAI_API_KEY || ""
+  const apiKey = process.env.REACT_APP_INSTANT_MESSAGING_OPENAI_API_KEY || ""
   const [textContent, setTextContent] = useState<string>("")
   const [tentativeTextContent, setTentativeTextContent] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>([])
