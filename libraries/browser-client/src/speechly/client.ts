@@ -78,8 +78,9 @@ export class Client {
   private readonly reconnectMinDelay = 1000
   private readonly contextStopDelay = 250
   private stoppedContextIdPromise?: Promise<string>
-  private initializeMicrophonePromise?: Promise<void>
   private connectPromise: Promise<void> | null
+  private initializePromise: Promise<void> | null
+
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
@@ -147,6 +148,7 @@ export class Client {
     this.apiClient.onClose(this.handleWebsocketClosure)
 
     this.connectPromise = null
+    this.initializePromise = null
 
     window.SpeechlyClient = this
 
@@ -164,35 +166,38 @@ export class Client {
    * prewarming the connection, resulting in less noticeable waits for the user.
    */
   public async connect(): Promise<void> {
-    this.connectPromise = (async () => {
-      // Get auth token from cache or renew it
-      const storedToken = this.storage.get(authTokenKey)
-      if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+    if (this.connectPromise === null) {
+      this.connectPromise = (async () => {
+        // Get auth token from cache or renew it
+        const storedToken = this.storage.get(authTokenKey)
+        if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+          try {
+            this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+            // Cache the auth token in local storage for future use.
+            this.storage.set(authTokenKey, this.authToken)
+          } catch (err) {
+            this.setState(ClientState.Failed)
+            throw err
+          }
+        } else {
+          this.authToken = storedToken
+        }
+
+        // Establish websocket connection
         try {
-          this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
-          // Cache the auth token in local storage for future use.
-          this.storage.set(authTokenKey, this.authToken)
+          await this.apiClient.initialize(
+            this.apiUrl,
+            this.authToken,
+            this.sampleRate,
+            this.debug,
+          )
         } catch (err) {
           this.setState(ClientState.Failed)
           throw err
         }
-      } else {
-        this.authToken = storedToken
-      }
-
-      // Establish websocket connection
-      try {
-        await this.apiClient.initialize(
-          this.apiUrl,
-          this.authToken,
-          this.sampleRate,
-          this.debug,
-        )
-      } catch (err) {
-        this.setState(ClientState.Failed)
-        throw err
-      }
-    })()
+      })()
+      await this.connectPromise
+    }
   }
 
   /**
@@ -205,87 +210,81 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
-    // Connect now, if connection is not manually "prewarmed" earlier (recommended)
-    if (this.connectPromise === null) {
-      await this.connect()
-    } else {
-      await this.connectPromise
-    }
-
-    if (this.state !== ClientState.Disconnected) {
-      throw Error('Cannot initialize client - client is not in Disconnected state')
-    }
-
+    await this.connect()
     this.setState(ClientState.Connecting)
 
-    try {
-      // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-      // await this.storage.initialize()
-      // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+    if (this.initializePromise === null) {
+      this.initializePromise = (async () => {
+        try {
+          // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
+          // await this.storage.initialize()
+          // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
 
-      // 2. Initialise the microphone stack.
-      if (this.isWebkit) {
-        if (window.webkitAudioContext !== undefined) {
-          // eslint-disable-next-line new-cap
-          this.audioContext = new window.webkitAudioContext()
+          // 2. Initialise the microphone stack.
+          if (this.isWebkit) {
+            if (window.webkitAudioContext !== undefined) {
+              // eslint-disable-next-line new-cap
+              this.audioContext = new window.webkitAudioContext()
+            }
+          } else {
+            const opts: AudioContextOptions = {}
+            if (this.nativeResamplingSupported) {
+              opts.sampleRate = this.sampleRate
+            }
+
+            this.audioContext = new window.AudioContext(opts)
+          }
+
+          const mediaStreamConstraints: MediaStreamConstraints = {
+            video: false,
+          }
+
+          if (this.nativeResamplingSupported || this.autoGainControl) {
+            mediaStreamConstraints.audio = {
+              sampleRate: this.sampleRate,
+              // @ts-ignore
+              autoGainControl: this.autoGainControl,
+            }
+          } else {
+            mediaStreamConstraints.audio = true
+          }
+
+          if (this.audioContext != null) {
+            // Start audio context if we are dealing with a WebKit browser.
+            //
+            // WebKit browsers (e.g. Safari) require to resume the context first,
+            // before obtaining user media by calling `mediaDevices.getUserMedia`.
+            //
+            // If done in a different order, the audio context will resume successfully,
+            // but will emit empty audio buffers.
+            if (this.isWebkit) {
+              await this.audioContext.resume()
+            }
+            // 3. Initialise websocket.
+            await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
+            await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
+          } else {
+            throw ErrDeviceNotSupported
+          }
+        } catch (err) {
+          switch (err) {
+            case ErrDeviceNotSupported:
+              this.setState(ClientState.NoBrowserSupport)
+              break
+            case ErrNoAudioConsent:
+              this.setState(ClientState.NoAudioConsent)
+              break
+            default:
+              this.setState(ClientState.Failed)
+          }
+
+          throw err
         }
-      } else {
-        const opts: AudioContextOptions = {}
-        if (this.nativeResamplingSupported) {
-          opts.sampleRate = this.sampleRate
-        }
 
-        this.audioContext = new window.AudioContext(opts)
-      }
-
-      const mediaStreamConstraints: MediaStreamConstraints = {
-        video: false,
-      }
-
-      if (this.nativeResamplingSupported || this.autoGainControl) {
-        mediaStreamConstraints.audio = {
-          sampleRate: this.sampleRate,
-          // @ts-ignore
-          autoGainControl: this.autoGainControl,
-        }
-      } else {
-        mediaStreamConstraints.audio = true
-      }
-
-      if (this.audioContext != null) {
-        // Start audio context if we are dealing with a WebKit browser.
-        //
-        // WebKit browsers (e.g. Safari) require to resume the context first,
-        // before obtaining user media by calling `mediaDevices.getUserMedia`.
-        //
-        // If done in a different order, the audio context will resume successfully,
-        // but will emit empty audio buffers.
-        if (this.isWebkit) {
-          await this.audioContext.resume()
-        }
-        // 3. Initialise websocket.
-        await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
-        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-        await this.initializeMicrophonePromise
-      } else {
-        throw ErrDeviceNotSupported
-      }
-    } catch (err) {
-      switch (err) {
-        case ErrDeviceNotSupported:
-          this.setState(ClientState.NoBrowserSupport)
-          break
-        case ErrNoAudioConsent:
-          this.setState(ClientState.NoAudioConsent)
-          break
-        default:
-          this.setState(ClientState.Failed)
-      }
-
-      throw err
+        this.setState(ClientState.Connected)
+      })()
+      await this.initializePromise
     }
-
-    this.setState(ClientState.Connected)
   }
 
   /**
