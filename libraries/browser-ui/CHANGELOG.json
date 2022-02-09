@@ -2,6 +2,21 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "5.1.0",
+      "tag": "@speechly/browser-ui_v5.1.0",
+      "date": "Wed, 09 Feb 2022 11:37:57 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added backgroundcolor, iconcolor, holdscale, borderscale, iconsize, fxsize attributes for push-to-talk-button styling. Renamed old backgroundcolor to hintbackgroundcolor."
+          },
+          {
+            "comment": "Introduced Intro Popup for a permission priming and for diagnosing problems with Speechly."
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.7",
       "tag": "@speechly/browser-ui_v5.0.7",
       "date": "Fri, 28 Jan 2022 11:38:16 GMT",
