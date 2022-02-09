@@ -1,6 +1,14 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Fri, 28 Jan 2022 11:38:16 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Feb 2022 06:11:03 GMT and should not be manually modified.
+
+## 5.1.0
+Wed, 09 Feb 2022 06:11:03 GMT
+
+### Minor changes
+
+- Added backgroundcolor, iconcolor, holdscale, borderscale, iconsize, fxsize attributes for push-to-talk-button styling. Renamed old backgroundcolor to hintbackgroundcolor.
+- Introduced Intro Popup for a permission priming and for diagnosing problems with Speechly.
 
 ## 5.0.7
 Fri, 28 Jan 2022 11:38:16 GMT

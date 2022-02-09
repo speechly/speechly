@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-ui
 
-This log was last generated on Fri, 28 Jan 2022 11:38:16 GMT and should not be manually modified.
+This log was last generated on Wed, 09 Feb 2022 06:11:03 GMT and should not be manually modified.
+
+## 2.4.1
+Wed, 09 Feb 2022 06:11:03 GMT
+
+### Patches
+
+- Call-out text color fix
 
 ## 2.4.0
 Fri, 28 Jan 2022 11:38:16 GMT

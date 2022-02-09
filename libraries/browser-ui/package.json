@@ -1,6 +1,6 @@
 {
   "name": "@speechly/browser-ui",
-  "version": "5.0.7",
+  "version": "5.1.0",
   "scripts": {
     "build": "rimraf core && rollup -c --silent && mv core/types/src/* core && rimraf core/types",
     "build:watch": "rollup -c --silent && mv core/types/src/* core",
