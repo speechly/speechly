@@ -153,17 +153,7 @@ export class Client {
   }
 
   private getReconnectDelayMs(attempt: number): number {
-    switch (attempt) {
-      case 0:
-      case 1:
-        return 0
-      case 2:
-      case 3:
-      case 4:
-        return 3000 // 3 secs
-      default:
-        return 10000 // 10 secs
-    }
+    return 2 ** attempt * 100
   }
 
   private async sleep(ms: number): Promise<void> {
