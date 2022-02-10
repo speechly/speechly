@@ -65,6 +65,8 @@ specifiers:
   svelte-preprocess: ^4.0.0
   ts-jest: 26.5.6
   ts-node: '>=9.0.0'
+  typedoc: ^0.22.6
+  typedoc-plugin-markdown: ^3.11.3
   typescript: ^4.3.5
   uuid: ^8.0.0
 
@@ -133,6 +135,8 @@ dependencies:
   svelte-preprocess: 4.9.8_svelte@3.44.2+typescript@4.5.2
   ts-jest: 26.5.6_jest@26.6.0+typescript@4.5.2
   ts-node: 10.4.0_typescript@4.5.2
+  typedoc: 0.22.9_typescript@4.5.2
+  typedoc-plugin-markdown: 3.11.7_typedoc@0.22.9
   typescript: 4.5.2
   uuid: 8.3.2
 
@@ -13793,20 +13797,6 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: false
 
-  /typedoc-default-themes/0.12.10:
-    resolution: {integrity: sha512-fIS001cAYHkyQPidWXmHuhs8usjP5XVJjWB8oZGqkTowZaz3v7g3KDZeeqE82FBrmkAnIBOY3jgy7lnPnqATbA==}
-    engines: {node: '>= 8'}
-    dev: false
-
-  /typedoc-plugin-markdown/3.11.7_typedoc@0.21.9:
-    resolution: {integrity: sha512-Wm3HP5gcBOGOOTeDA8GLgw+BY+GAI31RP9Lyog21BvTaSeWUcdXls5TG1MK+XDatS2/0dup9gFO+emoyoQJm9Q==}
-    peerDependencies:
-      typedoc: '>=0.22.0'
-    dependencies:
-      handlebars: 4.7.7
-      typedoc: 0.21.9_typescript@4.5.2
-    dev: false
-
   /typedoc-plugin-markdown/3.11.7_typedoc@0.22.9:
     resolution: {integrity: sha512-Wm3HP5gcBOGOOTeDA8GLgw+BY+GAI31RP9Lyog21BvTaSeWUcdXls5TG1MK+XDatS2/0dup9gFO+emoyoQJm9Q==}
     peerDependencies:
@@ -13814,24 +13804,6 @@ packages:
     dependencies:
       handlebars: 4.7.7
       typedoc: 0.22.9_typescript@4.5.2
-    dev: false
-
-  /typedoc/0.21.9_typescript@4.5.2:
-    resolution: {integrity: sha512-VRo7aII4bnYaBBM1lhw4bQFmUcDQV8m8tqgjtc7oXl87jc1Slbhfw2X5MccfcR2YnEClHDWgsiQGgNB8KJXocA==}
-    engines: {node: '>= 12.10.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x
-    dependencies:
-      glob: 7.2.0
-      handlebars: 4.7.7
-      lunr: 2.3.9
-      marked: 3.0.8
-      minimatch: 3.0.4
-      progress: 2.0.3
-      shiki: 0.9.12
-      typedoc-default-themes: 0.12.10
-      typescript: 4.5.2
     dev: false
 
   /typedoc/0.22.9_typescript@4.5.2:
@@ -14750,7 +14722,7 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-baF8Ngoe68wcH9Y/gIJg0fTM9dNzOBjXATRW7lwAcYdgF6KtjhswABg4rb7ECv3h+ZNBvESukR3+iLGcebP5OA==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-hgh5gPGHzUlBurFYDYNSjqweWmILnnYiHXf3mGVsokP72MI7EVa+CTZDk+8wAnZ/vmE+wyfFWjUYXctQoFn9Ug==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
@@ -14783,8 +14755,8 @@ packages:
       ts-loader: 9.2.6_typescript@4.5.2
       tsc-watch: 4.5.0_typescript@4.5.2
       tslib: 2.3.1
-      typedoc: 0.21.9_typescript@4.5.2
-      typedoc-plugin-markdown: 3.11.7_typedoc@0.21.9
+      typedoc: 0.22.9_typescript@4.5.2
+      typedoc-plugin-markdown: 3.11.7_typedoc@0.22.9
       typescript: 4.5.2
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -14842,7 +14814,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-ZRV8nSLi2/52E3AXOlQejldYaYJW8YOwced4go4f+mcz6+bCKm98dkiAACHnP3fhrx1+m4Obr7rbsdQMsCCUGA==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-1ybPmLZVrbEgacQ+xgzaIWUNMzv3OkLxEeFQ+V6913k7xmM5Rt6kylpwOGYCerPRnWIg9/NjFgm2XA1CG6b9Lg==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -14881,7 +14853,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-lYbueloV+WCSNGrvTXqFKdKkO1VvsxngKk1cdFf1726O/+iO455IsS4ZnwOI0J6s/LwhOEWTpaZDHFCZdN1fOA==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-QLoRW2ILXrCVjeofCu0YAV9eDnyyX2Xc4OHhWCsbaWaf3AMVwxjIBH1M4DNTunbSpbBGRRSZmY2jQxQb3sUcoQ==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -14931,7 +14903,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-dNRr0RDyY98ee4TAJwJ6Nvrxkemty9PzlcA8yGiH+2sZliqiG79raJr+9LKl7OyfNBTUr10dKU/UVgZj6QJ7aw==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-EwniLGa/ser9/dVClRc77tFKy9pI6yzbld60kD3bRxoAn2Bpg/SedVIhSSGolJATNi/rlxa9K98kaW3V+Tdm2g==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -15041,7 +15013,7 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-Z/cipFbF9AmM2M36gtRgP6RP4tcKCnZtXDzffUgA/W0A42qnL9eIYpF5+f5UJHCBYB8UAl6d7qxdjsA3FZj2SQ==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-Ar55GmlPoYnbjjsyejGzt7M1WzVJ55H9f/YBt0++kTITIkWOkW9KPOaRxLp8c2H11vecjtbM9+O+P5B6aZfnYQ==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
@@ -15075,7 +15047,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-qsbpTzlSyVckTDwvNVgqSdS+1fED5D5qIqp4GSN4PK42j1lOttBntHeANuG0VNyckY5zeK/gkcWANXrNC6iZAQ==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-xHt8BBcMzHWCo7sXSCyBNjjArxLzZbKzcmi8D6yIX0B296SnmBn9eB9lXePkCxal3SSaEY1I5aJz2I4Ph43toQ==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
@@ -15107,7 +15079,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.4.0+typescript@4.5.2:
-    resolution: {integrity: sha512-aubh077rL17abX2QxoR8QzaSE/lonFkBqvwTvh6TWtvk0ktu3srCsB+DsPPKopLvGJgSU6+udSEzyIY+WYLKKQ==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-PEwHO1Lp8R5hppfk+SBUbeSNMsC1uIUAqFDDmQ4FnULrzXpLaNOJbTE5tsyfnh83THEZMHsO6DUXpbmn7lQ2xw==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
@@ -15154,7 +15126,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-03ggeF4oWsgEQhkbDJqT4ryvBnVWCuq5fkY2ojGhJSOXRW8wzJCPIPtn63z0XHgOJrna5Ga9b+b4Z5iL8CyYrA==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-3kZiu1sr8RNyOiDDeNT/zAfhS5tfMeKvNxI3hmxG1Mf0PZUJotvsCdov5+QfBECG/N8ZhrV8DOy1+aD7bySbyw==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -15203,7 +15175,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-I78FGTWM0JYFRqpUepyfLPmZshxX5OKbysANLx+8n5cPrRewC+jGFV6HxztNqKvuWFnKxvbE6Q8wnP3Qtbdx/Q==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-Ayrvhrq92yC4yAz5X+l1mG31LBcl5J1osD0a1XLGrbn+1ZPKOvv36s52Qskt6E1GIsgdJbr5NC+4NRu9bI4zLQ==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
@@ -15244,7 +15216,7 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-1kh68n97Xz1+gVjhJDDbPE2ttfHVm19xgUYp9JE8WgQ36WD9HZeV3zmUQxY50kR5fFDEzK1i8Fhre/1nOBnPNw==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-haGULEnUIQj/gZuahpW9kACEb8P8LZsRyT7RI497Cri83uRccK3y5nWnXUUOfIss9sbVs41e1iiGhfxfj8Ycug==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0

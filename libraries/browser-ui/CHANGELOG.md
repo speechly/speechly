@@ -1,6 +1,11 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Wed, 09 Feb 2022 11:37:57 GMT and should not be manually modified.
+This log was last generated on Thu, 10 Feb 2022 14:03:08 GMT and should not be manually modified.
+
+## 5.1.1
+Thu, 10 Feb 2022 14:03:08 GMT
+
+_Version update only_
 
 ## 5.1.0
 Wed, 09 Feb 2022 11:37:57 GMT

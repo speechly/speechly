@@ -1,4 +1,3 @@
-import localeCode from 'locale-code'
 import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
@@ -45,7 +44,6 @@ const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
 const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
-const defaultLanguage = 'en-US'
 
 declare global {
   interface Window {
@@ -74,18 +72,19 @@ export class Client {
   private readonly autoGainControl: boolean
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
-  private readonly reconnectAttemptCount = 5
-  private readonly reconnectMinDelay = 1000
+  private readonly maxReconnectAttemptCount = 10
   private readonly contextStopDelay = 250
+  private connectAttempt: number = 0
   private stoppedContextIdPromise?: Promise<string>
-  private initializeMicrophonePromise?: Promise<void>
-  private readonly initializeApiClientPromise: Promise<void>
-  private resolveInitialization?: (value?: void) => void
+  private connectPromise: Promise<void> | null
+  private initializePromise: Promise<void> | null
+
   private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
   private state: ClientState = ClientState.Disconnected
+  private readonly apiUrl: string
 
   private stateChangeCb: StateChangeCallback = () => {}
   private segmentChangeCb: SegmentChangeCallback = () => {}
@@ -113,18 +112,13 @@ export class Client {
       this.autoGainControl = false
     }
 
-    const language = options.language ?? defaultLanguage
-    if (!(localeCode.validate(language) || (localeCode.validateLanguageCode(`${language.substring(0, 2)}-XX`) && /^..-\d\d\d$/.test(language)))) {
-      throw Error(`[SpeechlyClient] Invalid language "${language}"`)
-    }
-
     this.debug = options.debug ?? false
     this.logSegments = options.logSegments ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
-    const apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
     this.apiClient = options.apiClient ?? new WebWorkerController()
+    this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, options.sampleRate ?? DefaultSampleRate)
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[SpeechlyClient] You cannot use both appId and projectId at the same time')
@@ -132,29 +126,6 @@ export class Client {
 
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-    const storedToken = this.storage.get(authTokenKey)
-
-    // 2. Fetch auth token. It doesn't matter if it's not present.
-    this.initializeApiClientPromise = new Promise(resolve => {
-      this.resolveInitialization = resolve
-    })
-
-    if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
-      fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
-        .then(token => {
-          this.authToken = token
-          // Cache the auth token in local storage for future use.
-          this.storage.set(authTokenKey, this.authToken)
-          this.connect(apiUrl)
-        })
-        .catch(err => {
-          this.setState(ClientState.Failed)
-          throw err
-        })
-    } else {
-      this.authToken = storedToken
-      this.connect(apiUrl)
-    }
 
     if (window.AudioContext !== undefined) {
       this.isWebkit = false
@@ -164,31 +135,66 @@ export class Client {
       throw ErrDeviceNotSupported
     }
 
-    this.microphone = options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient, this.debug)
+    this.microphone =
+      options.microphone ?? new BrowserMicrophone(this.isWebkit, this.sampleRate, this.apiClient, this.debug)
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
+
+    this.connectPromise = null
+    this.initializePromise = null
+
     window.SpeechlyClient = this
+
+    if (options.connect !== false) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.connect()
+    }
+  }
+
+  private getReconnectDelayMs(attempt: number): number {
+    return 2 ** attempt * 100
+  }
+
+  private async sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   /**
-   * Esteblish websocket connection
+   * Connect to Speechly backend.
+   * This function will be called by initialize if not manually called earlier.
+   * Calling connect() immediately after constructor and setting callbacks allows
+   * prewarming the connection, resulting in less noticeable waits for the user.
    */
-  private connect(apiUrl: string): void {
-    if (this.authToken != null) {
-      this.apiClient.initialize(
-        apiUrl,
-        this.authToken,
-        this.sampleRate,
-        this.debug,
-      ).then(() => {
-        if (this.resolveInitialization != null) {
-          this.resolveInitialization()
+  public async connect(): Promise<void> {
+    if (this.connectPromise === null) {
+      this.connectPromise = (async () => {
+        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
+        // Get auth token from cache or renew it
+        const storedToken = this.storage.get(authTokenKey)
+        if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+          try {
+            this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+            // Cache the auth token in local storage for future use.
+            this.storage.set(authTokenKey, this.authToken)
+          } catch (err) {
+            this.setState(ClientState.Failed)
+            throw err
+          }
+        } else {
+          this.authToken = storedToken
         }
-      }).catch(err => {
-        throw err
-      })
+
+        // Establish websocket connection
+        try {
+          await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
+        } catch (err) {
+          this.setState(ClientState.Failed)
+          throw err
+        }
+      })()
     }
+    await this.connectPromise
   }
 
   /**
@@ -201,81 +207,77 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
-    await this.initializeApiClientPromise
-    if (this.state !== ClientState.Disconnected) {
-      throw Error('Cannot initialize client - client is not in Disconnected state')
+    // Ensure we're connected. Returns immediately if we are
+    await this.connect()
+
+    if (this.initializePromise === null) {
+      this.initializePromise = (async () => {
+        this.setState(ClientState.Connecting)
+        try {
+          if (this.isWebkit) {
+            if (window.webkitAudioContext !== undefined) {
+              // eslint-disable-next-line new-cap
+              this.audioContext = new window.webkitAudioContext()
+            }
+          } else {
+            const opts: AudioContextOptions = {}
+            if (this.nativeResamplingSupported) {
+              opts.sampleRate = this.sampleRate
+            }
+
+            this.audioContext = new window.AudioContext(opts)
+          }
+
+          const mediaStreamConstraints: MediaStreamConstraints = {
+            video: false,
+          }
+
+          if (this.nativeResamplingSupported || this.autoGainControl) {
+            mediaStreamConstraints.audio = {
+              sampleRate: this.sampleRate,
+              // @ts-ignore
+              autoGainControl: this.autoGainControl,
+            }
+          } else {
+            mediaStreamConstraints.audio = true
+          }
+
+          if (this.audioContext != null) {
+            // Start audio context if we are dealing with a WebKit browser.
+            //
+            // WebKit browsers (e.g. Safari) require to resume the context first,
+            // before obtaining user media by calling `mediaDevices.getUserMedia`.
+            //
+            // If done in a different order, the audio context will resume successfully,
+            // but will emit empty audio buffers.
+            if (this.isWebkit) {
+              await this.audioContext.resume()
+            }
+            // 3. Initialise websocket.
+            await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
+            await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
+          } else {
+            throw ErrDeviceNotSupported
+          }
+        } catch (err) {
+          switch (err) {
+            case ErrDeviceNotSupported:
+              this.setState(ClientState.NoBrowserSupport)
+              break
+            case ErrNoAudioConsent:
+              this.setState(ClientState.NoAudioConsent)
+              break
+            default:
+              this.setState(ClientState.Failed)
+          }
+
+          throw err
+        }
+
+        this.setState(ClientState.Connected)
+      })()
     }
-
-    this.setState(ClientState.Connecting)
-
-    try {
-      // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-      // await this.storage.initialize()
-      // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-
-      // 2. Initialise the microphone stack.
-      if (this.isWebkit) {
-        if (window.webkitAudioContext !== undefined) {
-          // eslint-disable-next-line new-cap
-          this.audioContext = new window.webkitAudioContext()
-        }
-      } else {
-        const opts: AudioContextOptions = {}
-        if (this.nativeResamplingSupported) {
-          opts.sampleRate = this.sampleRate
-        }
-
-        this.audioContext = new window.AudioContext(opts)
-      }
-
-      const mediaStreamConstraints: MediaStreamConstraints = {
-        video: false,
-      }
-
-      if (this.nativeResamplingSupported || this.autoGainControl) {
-        mediaStreamConstraints.audio = {
-          sampleRate: this.sampleRate,
-          // @ts-ignore
-          autoGainControl: this.autoGainControl,
-        }
-      } else {
-        mediaStreamConstraints.audio = true
-      }
-
-      if (this.audioContext != null) {
-        // Start audio context if we are dealing with a WebKit browser.
-        //
-        // WebKit browsers (e.g. Safari) require to resume the context first,
-        // before obtaining user media by calling `mediaDevices.getUserMedia`.
-        //
-        // If done in a different order, the audio context will resume successfully,
-        // but will emit empty audio buffers.
-        if (this.isWebkit) {
-          await this.audioContext.resume()
-        }
-        // 3. Initialise websocket.
-        await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
-        this.initializeMicrophonePromise = this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-        await this.initializeMicrophonePromise
-      } else {
-        throw ErrDeviceNotSupported
-      }
-    } catch (err) {
-      switch (err) {
-        case ErrDeviceNotSupported:
-          this.setState(ClientState.NoBrowserSupport)
-          break
-        case ErrNoAudioConsent:
-          this.setState(ClientState.NoAudioConsent)
-          break
-        default:
-          this.setState(ClientState.Failed)
-      }
-
-      throw err
-    }
-
-    this.setState(ClientState.Connected)
+    await this.initializePromise
   }
 
   /**
@@ -299,6 +301,8 @@ export class Client {
     }
 
     this.activeContexts.clear()
+    this.connectPromise = null
+    this.initializePromise = null
     this.setState(ClientState.Disconnected)
 
     if (errs.length > 0) {
@@ -324,6 +328,9 @@ export class Client {
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
   async startContext(appId?: string): Promise<string> {
+    // Ensure we're initialized; returns immediately if we are
+    await this.initialize()
+
     if (this.resolveStopContext != null) {
       this.resolveStopContext()
       await this.stoppedContextIdPromise
@@ -559,22 +566,38 @@ export class Client {
     this.segmentChangeCb(segmentState.toSegment())
   }
 
-  private readonly handleWebsocketClosure = (err: Error): void => {
+  private readonly handleWebsocketClosure = (err: { code: number, reason: string, wasClean: boolean }): void => {
+    if (err.code === 1000) {
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'Websocket closed', err)
+      }
+    } else {
+      if (this.debug) {
+        console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
+      }
+
+      // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
+      if (this.deviceId === undefined) {
+        this.setState(ClientState.Failed)
+        return
+      }
+
+      this.reconnect()
+    }
+  }
+
+  private reconnect(): void {
     if (this.debug) {
-      console.error('[SpeechlyClient]', 'Server connection closed', err)
+      console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
-
-    // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
-    if (this.deviceId === undefined) {
+    if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
+      this.connectPromise = null
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.connect()
+    } else {
+      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up.')
       this.setState(ClientState.Failed)
-      return
     }
-
-    // Make sure we don't have concurrent reconnection procedures or attempt to reconnect from a failed state.
-    if (this.state === ClientState.Connecting || this.state === ClientState.Failed) {
-      return
-    }
-    this.setState(ClientState.Connecting)
   }
 
   private setState(newState: ClientState): void {
@@ -598,9 +621,8 @@ export class Client {
   }
 }
 
-function generateWsUrl(baseUrl: string, languageCode: string, sampleRate: number): string {
+function generateWsUrl(baseUrl: string, sampleRate: number): string {
   const params = new URLSearchParams()
-  params.append('languageCode', languageCode)
   params.append('sampleRate', sampleRate.toString())
 
   return `${baseUrl}?${params.toString()}`

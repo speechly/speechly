@@ -5,9 +5,9 @@
   "homepage": "booking",
   "dependencies": {
     "@speechly/demo-navigation": "^0.1.36",
-    "@speechly/react-client": "1.2.0",
-    "@speechly/react-ui": "2.4.1",
-    "@speechly/react-voice-forms": "1.3.0",
+    "@speechly/react-client": "1.2.1",
+    "@speechly/react-ui": "2.4.2",
+    "@speechly/react-voice-forms": "1.3.1",
     "@speechly/logkit": ">=1.0.0",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1"

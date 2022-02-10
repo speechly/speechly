@@ -24,9 +24,20 @@ var WebsocketClient = /** @class */ (function () {
         this.lastFramesSent = new Int16Array(0); // to re-send after switch context
         this.debug = false;
         this.initialized = false;
+        // WebSocket's close handler, called e.g. when
+        // - normal close (code 1000)
+        // - network unreachable or unable to (re)connect (code 1006)
+        // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
         this.onWebsocketClose = function (event) {
+            if (_this.debug) {
+                console.log('[SpeechlyClient]', 'onWebsocketClose');
+            }
+            _this.websocket.removeEventListener('open', _this.onWebsocketOpen);
+            _this.websocket.removeEventListener('message', _this.onWebsocketMessage);
+            _this.websocket.removeEventListener('error', _this.onWebsocketError);
+            _this.websocket.removeEventListener('close', _this.onWebsocketClose);
             _this.websocket = undefined;
-            _this.connect(0);
+            _this.workerCtx.postMessage({ type: 'WEBSOCKET_CLOSED', code: event.code, reason: event.reason, wasClean: event.wasClean });
         };
         this.onWebsocketOpen = function (_event) {
             if (_this.debug) {
@@ -41,7 +52,6 @@ var WebsocketClient = /** @class */ (function () {
             if (_this.debug) {
                 console.log('[SpeechlyClient]', 'websocket error');
             }
-            _this.closeWebsocket();
         };
         this.onWebsocketMessage = function (event) {
             var response;
@@ -64,10 +74,6 @@ var WebsocketClient = /** @class */ (function () {
         this.workerCtx = ctx;
     }
     WebsocketClient.prototype.init = function (apiUrl, authToken, targetSampleRate, debug) {
-        if (this.initialized) {
-            console.log('[SpeechlyClient]', 'already initialized');
-            return;
-        }
         this.debug = debug;
         if (this.debug) {
             console.log('[SpeechlyClient]', 'initialize worker');
@@ -195,7 +201,7 @@ var WebsocketClient = /** @class */ (function () {
         this.send(this.outbox);
     };
     WebsocketClient.prototype.stopContext = function () {
-        if (this.websocket == undefined) {
+        if (!this.websocket) {
             throw Error('Cant start context: websocket is undefined');
         }
         if (!this.isContextStarted) {
@@ -208,7 +214,7 @@ var WebsocketClient = /** @class */ (function () {
         this.send(StopEventJSON);
     };
     WebsocketClient.prototype.switchContext = function (newAppId) {
-        if (this.websocket == undefined) {
+        if (!this.websocket) {
             throw Error('Cant switch context: websocket is undefined');
         }
         if (!this.isContextStarted) {
@@ -225,15 +231,16 @@ var WebsocketClient = /** @class */ (function () {
         this.shouldResendLastFramesSent = true;
         this.send(JSON.stringify({ event: 'start', appId: newAppId }));
     };
-    WebsocketClient.prototype.closeWebsocket = function () {
-        if (this.websocket == null) {
+    WebsocketClient.prototype.closeWebsocket = function (websocketCode, reason) {
+        if (websocketCode === void 0) { websocketCode = 1005; }
+        if (reason === void 0) { reason = "No Status Received"; }
+        if (this.debug) {
+            console.log('[SpeechlyClient]', 'Websocket closing');
+        }
+        if (!this.websocket) {
             throw Error('Websocket is not open');
         }
-        this.websocket.removeEventListener('open', this.onWebsocketOpen);
-        this.websocket.removeEventListener('message', this.onWebsocketMessage);
-        this.websocket.removeEventListener('error', this.onWebsocketError);
-        this.websocket.removeEventListener('close', this.onWebsocketClose);
-        this.websocket.close();
+        this.websocket.close(websocketCode, reason);
     };
     WebsocketClient.prototype.downsample = function (input) {
         var inputBuffer = new Float32Array(this.buffer.length + input.length);
@@ -285,7 +292,7 @@ ctx.onmessage = function (e) {
             websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB);
             break;
         case 'CLOSE':
-            websocketClient.closeWebsocket();
+            websocketClient.closeWebsocket(1000, "Close requested by client");
             break;
         case 'START_CONTEXT':
             websocketClient.startContext(e.data.appId);
