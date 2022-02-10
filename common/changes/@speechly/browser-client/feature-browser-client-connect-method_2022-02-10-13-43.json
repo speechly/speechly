@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Client.ts to govern reconnecting - using exponential reconnect delay.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}

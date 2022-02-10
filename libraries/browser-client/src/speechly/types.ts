@@ -13,11 +13,17 @@ export interface ClientOptions {
   appId?: string
 
   /**
+   * Connect to Speechly upon creating the client instance. Defaults to true.
+   */
+  connect?: boolean
+
+  /**
    * The unique identifier of a project in the dashboard.
    */
   projectId?: string
 
   /**
+   * @deprecated
    * The language which is used by the app.
    */
   language?: string

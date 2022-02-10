@@ -25,6 +25,7 @@ export type AudioCallback = (audioBuffer: Int16Array) => void;
 export class Client {
     constructor(options: ClientOptions);
     close(): Promise<void>;
+    connect(): Promise<void>;
     initialize(): Promise<void>;
     onEntity(cb: EntityCallback): void;
     onIntent(cb: IntentCallback): void;
@@ -38,7 +39,7 @@ export class Client {
     startContext(appId?: string): Promise<string>;
     stopContext(): Promise<string>;
     switchContext(appId: string): Promise<void>;
-    }
+}
 
 // @public
 export interface ClientOptions {
@@ -46,6 +47,7 @@ export interface ClientOptions {
     apiUrl?: string;
     appId?: string;
     autoGainControl?: boolean;
+    connect?: boolean;
     debug?: boolean;
     language?: string;
     loginUrl?: string;
@@ -108,6 +110,9 @@ export interface EntityResponse {
 
 // @public
 export const ErrAlreadyInitialized: Error;
+
+// @public
+export const ErrAppIdChangeWithoutProjectLogin: Error;
 
 // @public
 export const ErrDeviceNotSupported: Error;
@@ -175,7 +180,6 @@ interface Storage_2 {
     getOrSet(key: string, genFn: () => string): string;
     set(key: string, val: string): void;
 }
-
 export { Storage_2 as Storage }
 
 // @public
@@ -217,6 +221,8 @@ export interface WebsocketResponse {
 // @public
 export enum WebsocketResponseType {
     // (undocumented)
+    Closed = "WEBSOCKET_CLOSED",
+    // (undocumented)
     Entity = "entity",
     // (undocumented)
     Intent = "intent",
@@ -248,7 +254,6 @@ export interface Word {
     startTimestamp: number;
     value: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
