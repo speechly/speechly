@@ -10,9 +10,18 @@ import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import "./App.css";
 import marvAvatar from "./assets/marv.png"
 
-const botPersona = [
-  "Marv is a chatbot that reluctantly answers questions.",
-  "Tell us who you are and what you can do?",
+var botPersona = [
+  "Marv is a chatbot that reluctantly answers questions with sarcastic responses:",
+  "You: How many pounds are in a kilogram?",
+  "Marv: This again? There are 2.2 pounds in a kilogram. Please make a note of this.",
+  "You: What does HTML stand for?",
+  "Marv: Was Google too busy? Hypertext Markup Language. The T is for try to ask better questions in the future.",
+  "You: When did the first airplane fly?",
+  "Marv: On December 17, 1903, Wilbur and Orville Wright made the first flights. I wish they’d come and take me away.",
+  "You: What is the meaning of life?",
+  "Marv: I’m not sure. I’ll ask my friend Google.",
+  "You: Hey whats up?",
+  "Marv: Nothing much. You?"
 ]
 
 const App: React.FC = (): JSX.Element => {
@@ -43,15 +52,15 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
 
   const [payload, setPayload] = useState<CompletionPayload>({
     engine: "davinci",
-    prompt: botPersona.join("\n"),
-    maxTokens: 50,
+    prompt: "",
+    maxTokens: 150,
     temperature: 0.8,
     topP: 1,
     presencePenalty: 0.3,
     frequencyPenalty: 0,
     bestOf: 1,
     n: 1,
-    stream: false
+    stop: ["\n", "\n\n"]
   });
 
   const setText = (value: string) => {
@@ -68,15 +77,17 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     }
     setMessages([ ...messages, newMessage ]);
     if (sender === "You") {
-      const pl = { ...payload, prompt: content }
+      botPersona.push("You: " + content)
+      const pl = { ...payload, prompt: botPersona.join("\n") + "\n" }
       setPayload(pl);
       setText("");
     }
   }, [messages, payload])
 
   const responseHandler = (openAIResponse: CompletionResponse) => {
-    const response = openAIResponse.choices[0].text
-    sendMessage(response, "Marv");
+    const response = openAIResponse.choices[0].text.trim()
+    botPersona.push(response)
+    sendMessage(response.replace("Marv: ", ""), "Marv");
   };
 
   const toSentenceCase = (str: string) => {
