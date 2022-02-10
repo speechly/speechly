@@ -48,7 +48,6 @@
   "license": "MIT",
   "dependencies": {
     "base-64": "^0.1.0",
-    "locale-code": "^2.0.2",
     "uuid": "^8.0.0"
   },
   "devDependencies": {

@@ -23,6 +23,7 @@ export interface ClientOptions {
   projectId?: string
 
   /**
+   * @deprecated
    * The language which is used by the app.
    */
   language?: string

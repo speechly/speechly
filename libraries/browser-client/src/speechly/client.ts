@@ -1,4 +1,3 @@
-import localeCode from 'locale-code'
 import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
@@ -45,7 +44,6 @@ const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
 const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
 const defaultLoginUrl = 'https://api.speechly.com/login'
-const defaultLanguage = 'en-US'
 
 declare global {
   interface Window {
@@ -114,23 +112,13 @@ export class Client {
       this.autoGainControl = false
     }
 
-    const language = options.language ?? defaultLanguage
-    if (
-      !(
-        localeCode.validate(language) ||
-        (localeCode.validateLanguageCode(`${language.substring(0, 2)}-XX`) && /^..-\d\d\d$/.test(language))
-      )
-    ) {
-      throw Error(`[SpeechlyClient] Invalid language "${language}"`)
-    }
-
     this.debug = options.debug ?? false
     this.logSegments = options.logSegments ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
     this.apiClient = options.apiClient ?? new WebWorkerController()
-    this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, language, options.sampleRate ?? DefaultSampleRate)
+    this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, options.sampleRate ?? DefaultSampleRate)
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[SpeechlyClient] You cannot use both appId and projectId at the same time')
@@ -643,9 +631,8 @@ export class Client {
   }
 }
 
-function generateWsUrl(baseUrl: string, languageCode: string, sampleRate: number): string {
+function generateWsUrl(baseUrl: string, sampleRate: number): string {
   const params = new URLSearchParams()
-  params.append('languageCode', languageCode)
   params.append('sampleRate', sampleRate.toString())
 
   return `${baseUrl}?${params.toString()}`
