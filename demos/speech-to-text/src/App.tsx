@@ -164,7 +164,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         {messages.map(message =>
           <div key={message.date.valueOf()} className={`Message Message--${message.sender === "You" ? "you" : "other"}`}>
             <span className="Message__content">{message.content}</span>
-            <span className="Message__time">{formatTime(message.date)}</span>
+            <time dateTime={message.date.toISOString()} className="Message__time">{formatTime(message.date)}</time>
           </div>
         )}
       </div>
@@ -172,7 +172,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         <div className="Textarea__container" data-replicated-value={tentativeTextContent}>
           <textarea
             className="Textarea"
-            placeholder="Say or type a message"
+            placeholder="Message Marv"
             onChange={handleChange}
             value={tentativeTextContent}
             onKeyPress={handleKeyPress}
@@ -185,6 +185,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
             size="56px"
             showTime={2000}
             tapToTalkTime={0}
+            intro=""
             />
           </div>
         </div>
