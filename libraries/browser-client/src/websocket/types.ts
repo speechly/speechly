@@ -149,7 +149,7 @@ export type ResponseCallback = (response: WebsocketResponse) => void
  * A callback that is invoked whenever WebSocket connection is closed.
  * @public
  */
-export type CloseCallback = (err: Error) => void
+export type CloseCallback = (err: {code: number, reason: string, wasClean: boolean}) => void
 
 /**
  * The interface for a client for Speechly SLU WebSocket API.
