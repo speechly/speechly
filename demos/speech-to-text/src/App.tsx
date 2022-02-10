@@ -10,8 +10,8 @@ import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import "./App.css";
 import marvAvatar from "./assets/marv.png"
 
-var botPersona = [
-  "Marv is a chatbot that reluctantly answers questions with sarcastic responses:",
+var discussion = [
+  "Marv is a chatbot that reluctantly answers questions.",
   "You: How many pounds are in a kilogram?",
   "Marv: This again? There are 2.2 pounds in a kilogram. Please make a note of this.",
   "You: What does HTML stand for?",
@@ -75,19 +75,22 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
       content,
       date: new Date()
     }
-    setMessages([ ...messages, newMessage ]);
     if (sender === "You") {
-      botPersona.push("You: " + content)
-      const pl = { ...payload, prompt: botPersona.join("\n") + "\n" }
+      discussion.push("You: " + content)
+      const pl = { ...payload, prompt: discussion.join("\n") + "\n" }
       setPayload(pl);
+      setMessages([ ...messages, newMessage ]);
       setText("");
+    }
+    if (sender === "Marv") {
+      discussion.push("Marv: " + content)
+      setMessages([ ...messages, newMessage ]);
     }
   }, [messages, payload])
 
   const responseHandler = (openAIResponse: CompletionResponse) => {
-    const response = openAIResponse.choices[0].text.trim()
-    botPersona.push(response)
-    sendMessage(response.replace("Marv: ", ""), "Marv");
+    const response = openAIResponse.choices[0].text.trim().replace("Marv: ", "")
+    sendMessage(response, "Marv");
   };
 
   const toSentenceCase = (str: string) => {
