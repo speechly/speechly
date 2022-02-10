@@ -74,9 +74,9 @@ export class Client {
   private readonly autoGainControl: boolean
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
-  private readonly reconnectAttemptCount = 5
-  private readonly reconnectMinDelay = 1000
+  private readonly maxReconnectAttemptCount = 10
   private readonly contextStopDelay = 250
+  private connectAttempt: number = 0
   private stoppedContextIdPromise?: Promise<string>
   private connectPromise: Promise<void> | null
   private initializePromise: Promise<void> | null
@@ -158,11 +158,28 @@ export class Client {
 
     window.SpeechlyClient = this
 
-    // Auto-connect
     if (options.connect !== false) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
     }
+  }
+
+  private getReconnectDelayMs(attempt: number) {
+    switch (attempt) {
+      case 0:
+      case 1:
+        return 0;
+      case 2:
+      case 3:
+      case 4:
+        return 3000;            // 3 secs
+      default:
+        return 10000;           // 10 secs
+    }
+  }
+
+  private sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   /**
@@ -174,6 +191,7 @@ export class Client {
   public async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
+        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -218,11 +236,6 @@ export class Client {
       this.initializePromise = (async () => {
         this.setState(ClientState.Connecting)
         try {
-          // 1. Initialise the storage and fetch deviceId (or generate new one and store it).
-          // await this.storage.initialize()
-          // this.deviceId = await this.storage.getOrSet(deviceIdStorageKey, uuidv4)
-
-          // 2. Initialise the microphone stack.
           if (this.isWebkit) {
             if (window.webkitAudioContext !== undefined) {
               // eslint-disable-next-line new-cap
@@ -576,21 +589,36 @@ export class Client {
   }
 
   private readonly handleWebsocketClosure = (err: Error): void => {
+    if (err.code === 1000) {
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'Websocket closed', err)
+      }
+    } else {
+      if (this.debug) {
+        console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
+      }
+
+      // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
+      if (this.deviceId === undefined) {
+        this.setState(ClientState.Failed)
+        return
+      }
+
+      this.reconnect()
+    }
+  }
+
+  private reconnect() {
     if (this.debug) {
-      console.error('[SpeechlyClient]', 'Server connection closed', err)
+      console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
-
-    // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
-    if (this.deviceId === undefined) {
+    if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
+      this.connectPromise = null
+      this.connect()
+    } else {
+      console.error("[SpeechlyClient] Maximum reconnect count reached, giving up.")
       this.setState(ClientState.Failed)
-      return
     }
-
-    // Make sure we don't have concurrent reconnection procedures or attempt to reconnect from a failed state.
-    if (this.state === ClientState.Connecting || this.state === ClientState.Failed) {
-      return
-    }
-    this.setState(ClientState.Connecting)
   }
 
   private setState(newState: ClientState): void {

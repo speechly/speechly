@@ -34,6 +34,7 @@ export interface WebsocketResponse {
  */
 export enum WebsocketResponseType {
   Opened = 'WEBSOCKET_OPEN',
+  Closed = 'WEBSOCKET_CLOSED',
   SourceSampleRateSetSuccess = 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',

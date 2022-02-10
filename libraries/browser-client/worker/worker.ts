@@ -213,7 +213,7 @@ class WebsocketClient {
   }
 
   stopContext() {
-    if (this.websocket == undefined) {
+    if (!this.websocket) {
       throw Error('Cant start context: websocket is undefined')
     }
 
@@ -229,7 +229,7 @@ class WebsocketClient {
   }
 
   switchContext(newAppId: string) {
-    if (this.websocket == undefined) {
+    if (!this.websocket) {
       throw Error('Cant switch context: websocket is undefined')
     }
 
@@ -250,22 +250,34 @@ class WebsocketClient {
     this.send(JSON.stringify({ event: 'start', appId: newAppId }))
   }
 
-  closeWebsocket() {
-    if (this.websocket == null) {
+  closeWebsocket(websocketCode: number = 1005, reason: string = "No Status Received") {
+    if (this.debug) {
+      console.log('[SpeechlyClient]', 'Websocket closing')
+    }
+
+    if (!this.websocket) {
       throw Error('Websocket is not open')
     }
-  
+    
+    this.websocket.close(websocketCode, reason)
+  }
+
+  // WebSocket's close handler, called e.g. when
+  // - normal close (code 1000)
+  // - network unreachable or unable to (re)connect (code 1006)
+  // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
+  private readonly onWebsocketClose = (event: CloseEvent): void => {
+    if (this.debug) {
+      console.log('[SpeechlyClient]', 'onWebsocketClose')
+    }
+
     this.websocket.removeEventListener('open', this.onWebsocketOpen)
     this.websocket.removeEventListener('message', this.onWebsocketMessage)
     this.websocket.removeEventListener('error', this.onWebsocketError)
     this.websocket.removeEventListener('close', this.onWebsocketClose)
-  
-    this.websocket.close()
-  }
-
-  private readonly onWebsocketClose = (event: CloseEvent): void => {
     this.websocket = undefined
-    this.connect(0)
+
+    this.workerCtx.postMessage({ type: 'WEBSOCKET_CLOSED', code: event.code, reason: event.reason, wasClean: event.wasClean })
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {
@@ -284,7 +296,6 @@ class WebsocketClient {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'websocket error')
     }
-    this.closeWebsocket()
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
@@ -365,7 +376,7 @@ ctx.onmessage = function(e) {
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
       break
     case 'CLOSE':
-      websocketClient.closeWebsocket()
+      websocketClient.closeWebsocket(1000, "Close requested by client")
       break
     case 'START_CONTEXT':
       websocketClient.startContext(e.data.appId)
