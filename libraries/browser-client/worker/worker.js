@@ -24,7 +24,10 @@ var WebsocketClient = /** @class */ (function () {
         this.lastFramesSent = new Int16Array(0); // to re-send after switch context
         this.debug = false;
         this.initialized = false;
-        // Will catch broken pipes, problems reconnecting
+        // WebSocket's close handler, called e.g. when
+        // - normal close (code 1000)
+        // - network unreachable or unable to (re)connect (code 1006)
+        // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
         this.onWebsocketClose = function (event) {
             if (_this.debug) {
                 console.log('[SpeechlyClient]', 'onWebsocketClose');

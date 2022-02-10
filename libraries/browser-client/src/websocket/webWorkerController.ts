@@ -125,12 +125,11 @@ export class WebWorkerController implements APIClient {
         }
         break
       case WebsocketResponseType.Closed:
-        this.onCloseCb(
-          {
-            code: event.data.code,
-            message: event.data.reason,
-          }
-        )
+        this.onCloseCb({
+          code: event.data.code,
+          reason: event.data.reason,
+          wasClean: event.data.wasClean,
+        })
         break
       case WebsocketResponseType.SourceSampleRateSetSuccess:
         if (this.resolveSourceSampleRateSet != null) {

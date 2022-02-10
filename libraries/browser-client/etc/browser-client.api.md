@@ -221,6 +221,8 @@ export interface WebsocketResponse {
 // @public
 export enum WebsocketResponseType {
     // (undocumented)
+    Closed = "WEBSOCKET_CLOSED",
+    // (undocumented)
     Entity = "entity",
     // (undocumented)
     Intent = "intent",

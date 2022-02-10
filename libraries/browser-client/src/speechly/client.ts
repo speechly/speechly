@@ -164,21 +164,21 @@ export class Client {
     }
   }
 
-  private getReconnectDelayMs(attempt: number) {
+  private getReconnectDelayMs(attempt: number): number {
     switch (attempt) {
       case 0:
       case 1:
-        return 0;
+        return 0
       case 2:
       case 3:
       case 4:
-        return 3000;            // 3 secs
+        return 3000 // 3 secs
       default:
-        return 10000;           // 10 secs
+        return 10000 // 10 secs
     }
   }
 
-  private sleep(ms: number) {
+  private async sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
@@ -588,7 +588,7 @@ export class Client {
     this.segmentChangeCb(segmentState.toSegment())
   }
 
-  private readonly handleWebsocketClosure = (err: Error): void => {
+  private readonly handleWebsocketClosure = (err: { code: number, reason: string, wasClean: boolean }): void => {
     if (err.code === 1000) {
       if (this.debug) {
         console.log('[SpeechlyClient]', 'Websocket closed', err)
@@ -608,15 +608,16 @@ export class Client {
     }
   }
 
-  private reconnect() {
+  private reconnect(): void {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
     if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
       this.connectPromise = null
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
     } else {
-      console.error("[SpeechlyClient] Maximum reconnect count reached, giving up.")
+      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up.')
       this.setState(ClientState.Failed)
     }
   }
