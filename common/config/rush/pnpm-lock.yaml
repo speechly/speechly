@@ -31,6 +31,7 @@ specifiers:
   '@types/react-dom': '>=16.13.1'
   '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
+  axios: ^0.21.1
   base-64: ^0.1.0
   classnames: ~2.3.1
   csvtojson: ^2.0.10
@@ -49,6 +50,7 @@ specifiers:
   react-device-detect: ^1.14.0
   react-image-webp: ^0.7.0
   react-map-interaction: ^2.0.0
+  react-openai-api: ^1.0.2
   react-refresh: ^0.9.0
   react-spring: ^8.0.27
   rollup-plugin-copy-watch: '>=0.0.1'
@@ -99,6 +101,7 @@ dependencies:
   '@types/react-dom': 17.0.11
   '@types/styled-components': 5.1.15
   '@types/uuid': 7.0.5
+  axios: 0.21.4
   base-64: 0.1.0
   classnames: 2.3.1
   csvtojson: 2.0.10
@@ -117,6 +120,7 @@ dependencies:
   react-device-detect: 1.17.0
   react-image-webp: 0.7.0
   react-map-interaction: 2.1.0_prop-types@15.7.2
+  react-openai-api: 1.0.2_axios@0.21.4
   react-refresh: 0.9.0
   react-spring: 8.0.27
   rollup-plugin-copy-watch: 0.0.1
@@ -4367,6 +4371,14 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /axios/0.21.4:
+    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
+    dependencies:
+      follow-redirects: 1.14.5
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: false
@@ -7283,6 +7295,16 @@ packages:
     dependencies:
       inherits: 2.0.4
       readable-stream: 2.3.7
+    dev: false
+
+  /follow-redirects/1.14.5:
+    resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /follow-redirects/1.14.5_debug@4.3.2:
@@ -11609,6 +11631,28 @@ packages:
       react: 17.0.2
     dev: false
 
+  /react-openai-api/1.0.2_6fe1c9eea11b3b2093239ec72430a02f:
+    resolution: {integrity: sha512-jpyVrBmZryD3QbFLIW+6ltTRZ3En9m+ypppXS/selyKJ8URElP0Z/0YGqYHZ/X6oX9ryQdq/W435Mv1afsWbgQ==}
+    peerDependencies:
+      axios: ^0.21.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    dependencies:
+      axios: 0.21.4
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /react-openai-api/1.0.2_axios@0.21.4:
+    resolution: {integrity: sha512-jpyVrBmZryD3QbFLIW+6ltTRZ3En9m+ypppXS/selyKJ8URElP0Z/0YGqYHZ/X6oX9ryQdq/W435Mv1afsWbgQ==}
+    peerDependencies:
+      axios: ^0.21.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    dependencies:
+      axios: 0.21.4
+    dev: false
+
   /react-refresh/0.8.3:
     resolution: {integrity: sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==}
     engines: {node: '>=0.10.0'}
@@ -15144,8 +15188,10 @@ packages:
       '@types/node': 12.20.37
       '@types/react': 17.0.36
       '@types/react-dom': 17.0.11
+      axios: 0.21.4
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+      react-openai-api: 1.0.2_6fe1c9eea11b3b2093239ec72430a02f
       react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
       typescript: 4.5.2
     transitivePeerDependencies:
@@ -15154,6 +15200,7 @@ packages:
       - acorn
       - bufferutil
       - canvas
+      - debug
       - fibers
       - node-sass
       - sass
