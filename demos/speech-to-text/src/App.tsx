@@ -138,11 +138,11 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
     scrollRef.current.scrollTo(options)
   }, [messages])
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage(textContent, "You");
@@ -169,17 +169,15 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
         )}
       </div>
       <div className="Footer">
-        <div className="Textarea__container" data-replicated-value={tentativeTextContent}>
-          <textarea
-            className="Textarea"
-            placeholder="Message Marv"
-            onChange={handleChange}
-            value={tentativeTextContent}
-            onKeyPress={handleKeyPress}
-            rows={1}
-          />
-        </div>
-        <div className="Textarea__button">
+        <input
+          className="Input"
+          placeholder="Message Marv"
+          onChange={handleChange}
+          value={tentativeTextContent}
+          onKeyPress={handleKeyPress}
+          enterKeyHint="send"
+        />
+        <div className="Input__button">
           <PushToTalkButton
             gradientStops={["#508CFF", "#009FFA", "#00E48F"]}
             size="56px"
