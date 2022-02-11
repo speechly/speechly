@@ -166,7 +166,6 @@ export class Client {
   public async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
-        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -332,19 +331,17 @@ export class Client {
    */
   public async startContext(appId?: string): Promise<string> {
     if (!this.hasUnrecoverableError()) {
+      // Cache stop task at invoke time in case of quick presses during init
       const stopTaskAtInvokeTime = this.stopTask
       this.startTask = (async () => {
-        console.log("START 1")
         await this.initialize()
         await stopTaskAtInvokeTime
-        
-        console.log("START 2")
         if (this.state === ClientState.Connected) {
-          // Unmute
-          this.microphone.unmute()
-  
-          // Fetch context id
           this.setState(ClientState.Starting)
+
+          this.microphone.unmute()
+
+          // Fetch context id
           let contextId: string
           try {
             if (this.projectId != null) {
@@ -363,14 +360,10 @@ export class Client {
               default:
                 this.setState(ClientState.Connected)
             }
-      
             throw err
           }
-  
-          // Keep final state & clear promise at end
           this.activeContexts.set(contextId, new Map<number, SegmentState>())
           this.setState(ClientState.Recording)
-      
           return contextId
         } else {
           throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
@@ -387,41 +380,33 @@ export class Client {
    */
   async stopContext(): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      console.log("STOP 1")
-      const startTaskAtInvokeTime = this.startTask
-      await startTaskAtInvokeTime
-      console.log("STOP 2")
+      await this.startTask
       if (this.state === ClientState.Recording) {
-        return await this._stopContext()
+        this.stopTask = (async () => {
+          this.setState(ClientState.Stopping)
+          await this.sleep(this.contextStopDelay)
+          this.microphone.mute()
+          this.setState(ClientState.Connected)
+        })()
+        await this.stopTask
+    
+        let contextId
+        try {
+          contextId = await this.apiClient.stopContext()
+        } catch (err) {
+          this.setState(ClientState.Failed)
+          throw err
+        }
+        this.activeContexts.delete(contextId)
+    
+        return contextId
       } else {
         throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
       }
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
-    
-  private async _stopContext(): Promise<string> {
-    this.stopTask = (async () => {
-      console.log("Stopping...")
-      this.setState(ClientState.Stopping)
-      await this.sleep(this.contextStopDelay)
-      this.microphone.mute()
-      this.setState(ClientState.Connected)
-    })()
-    await this.stopTask
-
-    let contextId
-    try {
-      contextId = await this.apiClient.stopContext()
-    } catch (err) {
-      this.setState(ClientState.Failed)
-      throw err
-    }
-    this.activeContexts.delete(contextId)
-
-    return contextId
-  }
-  
+      
   /**
    * Adds a listener for client state change events.
    * @param cb - the callback to invoke on state change events.
@@ -587,8 +572,11 @@ export class Client {
     }
     this.connectPromise = null
     if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.connect()
+      (async () => {
+        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.connect()
+      })()
     } else {
       console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
       this.setState(ClientState.Disconnected)
