@@ -332,10 +332,11 @@ export class Client {
    */
   public async startContext(appId?: string): Promise<string> {
     if (!this.hasUnrecoverableError()) {
+      const stopTaskAtInvokeTime = this.stopTask
       this.startTask = (async () => {
         console.log("START 1")
         await this.initialize()
-        await this.stopTask
+        await stopTaskAtInvokeTime
         
         console.log("START 2")
         if (this.state === ClientState.Connected) {
@@ -387,8 +388,8 @@ export class Client {
   async stopContext(): Promise<string> {
     if (!this.hasUnrecoverableError()) {
       console.log("STOP 1")
-      await this.initializePromise
-      await this.startTask
+      const startTaskAtInvokeTime = this.startTask
+      await startTaskAtInvokeTime
       console.log("STOP 2")
       if (this.state === ClientState.Recording) {
         return await this._stopContext()
