@@ -2,20 +2,30 @@
 
 https://demos.speechly.com/speech-to-text/
 
-Demonstrates Speechly's speech-to-text capabilities. Users can use natural language to write their messages, supporting features such as sentence casing and punctation.
+Demonstrates how to use Speechlys speech-to-text capabilities and [Open AI] to create a voice-enabled chat experience. You can chat with Marv, a GPT3 powered chatbot that reluctantly answers your questions.
 
 ## Requirements
 
 * [Node](https://nodejs.org/) (tested with v14.16.1)
+* [Open AI API](https://openai.com/api/)
 
 ### Built With
 
 * [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client)
 * [Speechly React UI](https://www.npmjs.com/package/@speechly/react-ui)
-* [Speechly Voice Forms for React](https://www.npmjs.com/package/@speechly/react-voice-forms)
 * [Typescript](https://www.typescriptlang.org/)
 
 Speechly React Client wraps [Speechly Browser Client](https://www.npmjs.com/package/@speechly/react-voice-forms/browser-client) that provides websocket connectivity and audio handling.
+
+## Setting up Open AI API
+
+1. Create a new application and get it apporved
+1. Obtain the Open AI `API Key`
+1. Store it in a `.env` file in the directory root, like this:
+
+```bash
+REACT_APP_INSTANT_MESSAGING_OPENAI_API_KEY=<your-api-key>
+```
 
 ## Installation And Running (stand-alone)
 
