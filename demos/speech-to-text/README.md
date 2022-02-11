@@ -2,7 +2,7 @@
 
 https://demos.speechly.com/speech-to-text/
 
-Demonstrates how to use Speechlys speech-to-text capabilities and [Open AI] to create a voice-enabled chat experience. You can chat with Marv, a GPT3 powered chatbot that reluctantly answers your questions.
+Demonstrates how to use Speechlys speech-to-text capabilities and [Open AI](https://openai.com/) to create a voice-enabled chat experience. You can chat with Marv, a GPT3 powered chatbot that reluctantly answers your questions.
 
 ## Requirements
 
