@@ -51,10 +51,6 @@ declare global {
   }
 }
 
-type IContextOptions = null | {
-  appId?: string;
-}
-
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the microphone
  * and websocket connection to Speechly API, passing control events and audio stream to the API, reading the responses
@@ -82,6 +78,7 @@ export class Client {
   private connectPromise: Promise<void> | null = null
   private initializePromise: Promise<void> | null = null
   private startTask: Promise<string> | null = null
+  private stopTask: Promise<void> | null = null
 
   private readonly deviceId: string
   private authToken?: string
@@ -325,12 +322,6 @@ export class Client {
 */
   }
 
-  private isContextOptionsEqual(a: IContextOptions, b: IContextOptions) {
-    if (a === null && b === null) return true
-    if (a === null || b === null) return false
-    return (a.appId === b.appId)
-  }
-
   private hasUnrecoverableError() {
     return this.state === ClientState.Failed
   }
@@ -341,10 +332,50 @@ export class Client {
    */
   public async startContext(appId?: string): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      console.log("START")
+      this.startTask = (async () => {
+        console.log("START 1")
+        await this.initialize()
+        await this.stopTask
+        
+        console.log("START 2")
+        if (this.state === ClientState.Connected) {
+          // Unmute
+          this.microphone.unmute()
+  
+          // Fetch context id
+          this.setState(ClientState.Starting)
+          let contextId: string
+          try {
+            if (this.projectId != null) {
+              contextId = await this.apiClient.startContext(appId)
+            } else {
+              if (appId != null && this.appId !== appId) {
+                throw ErrAppIdChangeWithoutProjectLogin
+              }
+              contextId = await this.apiClient.startContext()
+            }
+          } catch (err) {
+            switch (err) {
+              case ErrAppIdChangeWithoutProjectLogin:
+                this.setState(ClientState.Failed)
+                break
+              default:
+                this.setState(ClientState.Connected)
+            }
       
-      await this.initialize()
-      return await this._startContext(appId)
+            throw err
+          }
+  
+          // Keep final state & clear promise at end
+          this.activeContexts.set(contextId, new Map<number, SegmentState>())
+          this.setState(ClientState.Recording)
+      
+          return contextId
+        } else {
+          throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
+        }
+      })()
+      return await this.startTask
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
@@ -355,55 +386,29 @@ export class Client {
    */
   async stopContext(): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      console.log("STOP")
+      console.log("STOP 1")
+      await this.initializePromise
       await this.startTask
-      return await this._stopContext()
+      console.log("STOP 2")
+      if (this.state === ClientState.Recording) {
+        return await this._stopContext()
+      } else {
+        throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
+      }
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
-  
-  private async _startContext(appId?: string): Promise<string> {
-    return this.startTask = (async () => {
-      // Unmute
-      this.microphone.unmute()
-
-      // Fetch context id
-      this.setState(ClientState.Starting)
-      let contextId: string
-      try {
-        if (this.projectId != null) {
-          contextId = await this.apiClient.startContext(appId)
-        } else {
-          if (appId != null && this.appId !== appId) {
-            throw ErrAppIdChangeWithoutProjectLogin
-          }
-          contextId = await this.apiClient.startContext()
-        }
-      } catch (err) {
-        switch (err) {
-          case ErrAppIdChangeWithoutProjectLogin:
-            this.setState(ClientState.Failed)
-            break
-          default:
-            this.setState(ClientState.Connected)
-        }
-  
-        throw err
-      }
-
-      // Keep final state & clear promise at end
-      this.activeContexts.set(contextId, new Map<number, SegmentState>())
-      this.setState(ClientState.Recording)
-  
-      return contextId
-    })()
-  }
-  
+    
   private async _stopContext(): Promise<string> {
-    console.log("Stopping...")
-    this.setState(ClientState.Stopping)
-    await this.sleep(this.contextStopDelay)
-    this.microphone.mute()
+    this.stopTask = (async () => {
+      console.log("Stopping...")
+      this.setState(ClientState.Stopping)
+      await this.sleep(this.contextStopDelay)
+      this.microphone.mute()
+      this.setState(ClientState.Connected)
+    })()
+    await this.stopTask
+
     let contextId
     try {
       contextId = await this.apiClient.stopContext()
@@ -413,8 +418,6 @@ export class Client {
     }
     this.activeContexts.delete(contextId)
 
-    // Keep final state & clear promise at end
-    this.setState(ClientState.Connected)
     return contextId
   }
   
@@ -581,13 +584,13 @@ export class Client {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
+    this.connectPromise = null
     if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
-      this.connectPromise = null
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
     } else {
-      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up.')
-      this.setState(ClientState.Failed)
+      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
+      this.setState(ClientState.Disconnected)
     }
   }
 
