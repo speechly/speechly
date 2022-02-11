@@ -50,6 +50,7 @@ jobs:
         env:
           REACT_APP_VOICE_SEARCH_API_KEY: ${{ secrets.VOICE_SEARCH_API_KEY }}
           REACT_APP_VOICE_SEARCH_ENGINE_ID: ${{ secrets.VOICE_SEARCH_ENGINE_ID }}
+          REACT_APP_INSTANT_MESSAGING_OPENAI_API_KEY: ${{ secrets.INSTANT_MESSAGING_OPENAI_API_KEY }}
       - name: Prepare deployment directory
         run: mkdir -p tmp-upload-staging-area &&
             cp -r demos/ecommerce-checkout/build/ tmp-upload-staging-area/checkout &&
