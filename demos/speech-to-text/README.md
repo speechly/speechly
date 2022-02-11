@@ -6,7 +6,7 @@ Demonstrates how to use Speechlys speech-to-text capabilities and [Open AI](http
 
 ## Requirements
 
-* [Node](https://nodejs.org/) (tested with v14.16.1)
+* [Node](https://nodejs.org/) (tested with v16.13.0)
 * [Open AI API](https://openai.com/api/)
 
 ### Built With
