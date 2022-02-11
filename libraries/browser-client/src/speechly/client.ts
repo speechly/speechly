@@ -79,8 +79,9 @@ export class Client {
   private readonly maxReconnectAttemptCount = 10
   private readonly contextStopDelay = 250
   private connectAttempt: number = 0
-  private connectPromise: Promise<void> | null
-  private initializePromise: Promise<void> | null
+  private connectPromise: Promise<void> | null = null
+  private initializePromise: Promise<void> | null = null
+  private startTask: Promise<string> | null = null
 
   private readonly deviceId: string
   private authToken?: string
@@ -142,9 +143,6 @@ export class Client {
 
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
-
-    this.connectPromise = null
-    this.initializePromise = null
 
     window.SpeechlyClient = this
 
@@ -333,47 +331,20 @@ export class Client {
     return (a.appId === b.appId)
   }
 
-  private currentContextOptions: IContextOptions = null
-  private nextContextOptions: IContextOptions = null
-  private startTask: Promise<string> | null = null
-  private stopTask: Promise<string> | null = null
-    
   private hasUnrecoverableError() {
     return this.state === ClientState.Failed
   }
-  
+
   /**
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
   public async startContext(appId?: string): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      let requestOptions = this.nextContextOptions = {
-        appId
-      };
-      console.log("START", requestOptions)
+      console.log("START")
       
       await this.initialize()
-  
-      // Are changes still go?
-      if (this.isContextOptionsEqual(requestOptions, this.nextContextOptions)) {
-        if (this.stopTask !== null) {
-          // Wait a running stop task to finish
-          await this.stopTask
-        } else {
-          // Stop if needed
-          await this.startTask
-          if (this.state === ClientState.Recording) {
-            await this._stopContext()
-          }
-        }
-      }
-  
-      // Final go decision
-      if (this.isContextOptionsEqual(requestOptions, this.nextContextOptions)) {
-        return await this._startContext()
-      }
-      throw Error('[SpeechlyClient] Fell thru')
+      return await this._startContext(appId)
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
@@ -385,86 +356,66 @@ export class Client {
   async stopContext(): Promise<string> {
     if (!this.hasUnrecoverableError()) {
       console.log("STOP")
-      this.nextContextOptions = null
       await this.startTask
-      // Final go decision
-      if (this.nextContextOptions === null) {
-        if (this.state === ClientState.Recording) {
-          return await this._stopContext()
-        }
-      }
+      return await this._stopContext()
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
   
   private async _startContext(appId?: string): Promise<string> {
-    if (this.startTask === null) {
-      if (this.state === ClientState.Connected) {
-        this.startTask = (async () => {
-          this.currentContextOptions = this.nextContextOptions
-          // Unmute
-          this.microphone.unmute()
+    return this.startTask = (async () => {
+      // Unmute
+      this.microphone.unmute()
 
-          // Fetch context id
-          this.setState(ClientState.Starting)
-          let contextId: string
-          try {
-            if (this.projectId != null) {
-              contextId = await this.apiClient.startContext(appId)
-            } else {
-              if (appId != null && this.appId !== appId) {
-                throw ErrAppIdChangeWithoutProjectLogin
-              }
-              contextId = await this.apiClient.startContext()
-            }
-          } catch (err) {
-            switch (err) {
-              case ErrAppIdChangeWithoutProjectLogin:
-                this.setState(ClientState.Failed)
-                break
-              default:
-                this.setState(ClientState.Connected)
-            }
-      
-            throw err
+      // Fetch context id
+      this.setState(ClientState.Starting)
+      let contextId: string
+      try {
+        if (this.projectId != null) {
+          contextId = await this.apiClient.startContext(appId)
+        } else {
+          if (appId != null && this.appId !== appId) {
+            throw ErrAppIdChangeWithoutProjectLogin
           }
-
-        // Keep final state & clear promise at end
-          this.startTask = null
-          this.activeContexts.set(contextId, new Map<number, SegmentState>())
-          this.setState(ClientState.Recording)
-      
-          return contextId
-        })()
+          contextId = await this.apiClient.startContext()
+        }
+      } catch (err) {
+        switch (err) {
+          case ErrAppIdChangeWithoutProjectLogin:
+            this.setState(ClientState.Failed)
+            break
+          default:
+            this.setState(ClientState.Connected)
+        }
+  
+        throw err
       }
-    }
-    return await this.startTask!
+
+      // Keep final state & clear promise at end
+      this.activeContexts.set(contextId, new Map<number, SegmentState>())
+      this.setState(ClientState.Recording)
+  
+      return contextId
+    })()
   }
   
   private async _stopContext(): Promise<string> {
-    if (this.stopTask === null) {
-        this.stopTask = (async () => {
-          console.log("Stopping...")
-          this.currentContextOptions = null
-          this.setState(ClientState.Stopping)
-          await this.sleep(this.contextStopDelay)
-          this.microphone.mute()
-          let contextId
-          try {
-            contextId = await this.apiClient.stopContext()
-          } catch (err) {
-            this.setState(ClientState.Failed)
-            throw err
-          }
-          this.activeContexts.delete(contextId)
-
-          // Keep final state & clear promise at end
-          this.stopTask = null
-          this.setState(ClientState.Connected)
-          return contextId
-        })()
+    console.log("Stopping...")
+    this.setState(ClientState.Stopping)
+    await this.sleep(this.contextStopDelay)
+    this.microphone.mute()
+    let contextId
+    try {
+      contextId = await this.apiClient.stopContext()
+    } catch (err) {
+      this.setState(ClientState.Failed)
+      throw err
     }
-    return await this.stopTask!
+    this.activeContexts.delete(contextId)
+
+    // Keep final state & clear promise at end
+    this.setState(ClientState.Connected)
+    return contextId
   }
   
   /**
