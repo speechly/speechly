@@ -310,13 +310,11 @@ export class Client {
    * @param appId - unique identifier of an app in the dashboard.
    */
   async switchContext(appId: string): Promise<void> {
-    /*
+    await this.startTask
     if (this.state === ClientState.Recording) {
-      this.resolveStopContext = undefined
       const contextId = await this.apiClient.switchContext(appId)
       this.activeContexts.set(contextId, new Map<number, SegmentState>())
     }
-*/
   }
 
   private hasUnrecoverableError(): boolean {
