@@ -358,7 +358,9 @@ export class Client {
             }
             contextId = await this.apiClient.startContext()
           }
-          console.log(contextId)
+          // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
+          // Due to startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
+          // @ts-ignore
           if (this.state === ClientState.Starting) {
             this.activeContexts.set(contextId, new Map<number, SegmentState>())
             this.setState(ClientState.Recording)
