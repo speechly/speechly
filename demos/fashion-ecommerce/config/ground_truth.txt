@@ -58,4 +58,3 @@
 *filter [large|l](sizes) or [medium|m](sizes)
 *filter [small|s](sizes) and [medium|m](sizes)
 *filter show me the [latest|new_desc](sort) and [cheapest|price_asc](sort) products
-
