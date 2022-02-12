@@ -80,6 +80,7 @@ class WebsocketClient {
     this.authToken = authToken
     this.targetSampleRate = targetSampleRate
     this.initialized = true
+    this.isContextStarted = false
     this.connect(0)
   }
 
@@ -348,17 +349,14 @@ class WebsocketClient {
   }
 
   send(data: string | Int16Array): void {
-    if (!this.isOpen()) {
-      throw Error('Cant send data: websocket is inactive')
-    }
-
-    try {
-      this.websocket.send(data)
-    } catch (error) {
-      console.log('[SpeechlyClient]', 'Server connection error', error)
+    if (this.isOpen()) {
+      try {
+        this.websocket.send(data)
+      } catch (error) {
+        console.log('[SpeechlyClient]', 'Server connection error', error)
+      }
     }
   }
-
 }
 
 const ctx: Worker = self as any

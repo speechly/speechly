@@ -82,6 +82,7 @@ var WebsocketClient = /** @class */ (function () {
         this.authToken = authToken;
         this.targetSampleRate = targetSampleRate;
         this.initialized = true;
+        this.isContextStarted = false;
         this.connect(0);
     };
     WebsocketClient.prototype.setSourceSampleRate = function (sourceSampleRate) {
@@ -266,14 +267,13 @@ var WebsocketClient = /** @class */ (function () {
         return outputBuffer;
     };
     WebsocketClient.prototype.send = function (data) {
-        if (!this.isOpen()) {
-            throw Error('Cant send data: websocket is inactive');
-        }
-        try {
-            this.websocket.send(data);
-        }
-        catch (error) {
-            console.log('[SpeechlyClient]', 'Server connection error', error);
+        if (this.isOpen()) {
+            try {
+                this.websocket.send(data);
+            }
+            catch (error) {
+                console.log('[SpeechlyClient]', 'Server connection error', error);
+            }
         }
     };
     return WebsocketClient;

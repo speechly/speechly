@@ -37,6 +37,11 @@ export class WebWorkerController implements APIClient {
       debug,
     })
 
+    // Reset
+    this.startCbs = []
+    this.stopCbs = []
+
+
     return new Promise(resolve => {
       this.resolveInitialization = resolve
     })

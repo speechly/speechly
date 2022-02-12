@@ -269,11 +269,17 @@ export class Client {
 
           throw err
         }
-
-        this.setState(ClientState.Connected)
       })()
     }
-    await this.initializePromise
+
+    try {
+      await this.initializePromise
+      if (this.state < ClientState.Connected) {
+        this.setState(ClientState.Connected)
+      }
+    } catch (err) {
+      throw err
+    }
   }
 
   /**
@@ -343,28 +349,23 @@ export class Client {
 
           // Fetch context id
           let contextId: string
-          try {
-            if (this.projectId != null) {
-              contextId = await this.apiClient.startContext(appId)
-            } else {
-              if (appId != null && this.appId !== appId) {
-                throw ErrAppIdChangeWithoutProjectLogin
-              }
-              contextId = await this.apiClient.startContext()
+          if (this.projectId != null) {
+            contextId = await this.apiClient.startContext(appId)
+          } else {
+            if (appId != null && this.appId !== appId) {
+              this.setState(ClientState.Failed)
+              throw ErrAppIdChangeWithoutProjectLogin
             }
-          } catch (err) {
-            switch (err) {
-              case ErrAppIdChangeWithoutProjectLogin:
-                this.setState(ClientState.Failed)
-                break
-              default:
-                this.setState(ClientState.Connected)
-            }
-            throw err
+            contextId = await this.apiClient.startContext()
           }
-          this.activeContexts.set(contextId, new Map<number, SegmentState>())
-          this.setState(ClientState.Recording)
-          return contextId
+          console.log(contextId)
+          if (this.state === ClientState.Starting) {
+            this.activeContexts.set(contextId, new Map<number, SegmentState>())
+            this.setState(ClientState.Recording)
+            return contextId
+          } else {
+            throw Error('[SpeechlyClient] Unable to start context. Problem acquiring contextId')
+          }
         } else {
           throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
         }
@@ -562,24 +563,22 @@ export class Client {
         return
       }
 
+      this.setState(ClientState.Disconnected)
       this.reconnect()
     }
   }
 
-  private reconnect(): void {
+  private async reconnect(): Promise<void> {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
     this.connectPromise = null
     if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
-      (async () => {
-        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.connect()
-      })()
+      await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      await this.connect()
     } else {
       console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
-      this.setState(ClientState.Disconnected)
     }
   }
 
