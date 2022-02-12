@@ -358,15 +358,15 @@ export class Client {
             this.setState(ClientState.Recording)
             return contextId
           } else {
-            throw Error('[SpeechlyClient] Unable to start context. Problem acquiring contextId')
+            throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
           }
         } else {
-          throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: ' + stateToString(this.state))
+          throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state))
         }
       })()
       return this.startTask
     }
-    throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
+    throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
   }
 
   /**
@@ -396,10 +396,10 @@ export class Client {
 
         return contextId
       } else {
-        throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: ' + stateToString(this.state))
+        throw Error('[SpeechlyClient] Unable to complete stopContext.')
       }
     }
-    throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
+    throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
   }
 
   /**
@@ -590,7 +590,7 @@ export class Client {
     }
 
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'State transition', stateToString(this.state), stateToString(newState))
+      console.log('[SpeechlyClient]', stateToString(this.state), '->', stateToString(newState))
     }
 
     this.state = newState
