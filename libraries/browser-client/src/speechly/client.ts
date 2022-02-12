@@ -205,10 +205,10 @@ export class Client {
   async initialize(): Promise<void> {
     // Ensure we're connected. Returns immediately if we are
     await this.connect()
+    this.advanceState(ClientState.Connecting)
 
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
-        this.setState(ClientState.Connecting)
         try {
           if (this.isWebkit) {
             if (window.webkitAudioContext !== undefined) {
@@ -270,11 +270,8 @@ export class Client {
         }
       })()
     }
-
     await this.initializePromise
-    if (this.state < ClientState.Connected) {
-      this.setState(ClientState.Connected)
-    }
+    this.advanceState(ClientState.Connected)
   }
 
   /**
@@ -578,6 +575,13 @@ export class Client {
     } else {
       console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
     }
+  }
+
+  private advanceState(newState: ClientState): void {
+    if (this.state >= newState) {
+      return
+    }
+    this.setState(newState)
   }
 
   private setState(newState: ClientState): void {
