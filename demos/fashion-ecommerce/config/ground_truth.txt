@@ -48,3 +48,13 @@
 *filter show me mobile phones
 *filter [sneakers|sneakers](category) from [nike|1273](brand) for [men|male](sex) in [black|black](colors) in size [ten|41](sizes) please
 *filter in size [eleven|42](sizes)
+*filter [red|red](colors) [blue|blue](colors)
+*filter [viking|289](brand) [viking|289](brand)
+*filter show me [yellow|yellow](colors) [blue|blue](colors) [boots|boots](category)
+*filter [zara|7695](brand) [zara|7695](brand)
+*filter [medium|m](sizes)
+*filter [popular|popularity_desc](sort)
+*filter [most expensive|price_desc](sort)
+*filter [large|l](sizes) or [medium|m](sizes)
+*filter [small|s](sizes) and [medium|m](sizes)
+*filter show me the [latest|new_desc](sort) and [cheapest|price_asc](sort) products
