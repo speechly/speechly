@@ -41,7 +41,6 @@ export class WebWorkerController implements APIClient {
     this.startCbs = []
     this.stopCbs = []
 
-
     return new Promise(resolve => {
       this.resolveInitialization = resolve
     })

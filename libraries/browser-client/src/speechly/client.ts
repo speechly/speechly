@@ -249,7 +249,6 @@ export class Client {
             if (this.isWebkit) {
               await this.audioContext.resume()
             }
-            // 3. Initialise websocket.
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
           } else {
@@ -272,13 +271,9 @@ export class Client {
       })()
     }
 
-    try {
-      await this.initializePromise
-      if (this.state < ClientState.Connected) {
-        this.setState(ClientState.Connected)
-      }
-    } catch (err) {
-      throw err
+    await this.initializePromise
+    if (this.state < ClientState.Connected) {
+      this.setState(ClientState.Connected)
     }
   }
 
@@ -318,7 +313,7 @@ export class Client {
    * @param appId - unique identifier of an app in the dashboard.
    */
   async switchContext(appId: string): Promise<void> {
-/*    
+    /*
     if (this.state === ClientState.Recording) {
       this.resolveStopContext = undefined
       const contextId = await this.apiClient.switchContext(appId)
@@ -327,7 +322,7 @@ export class Client {
 */
   }
 
-  private hasUnrecoverableError() {
+  private hasUnrecoverableError(): boolean {
     return this.state === ClientState.Failed
   }
 
@@ -369,10 +364,10 @@ export class Client {
             throw Error('[SpeechlyClient] Unable to start context. Problem acquiring contextId')
           }
         } else {
-          throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
+          throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: ' + stateToString(this.state))
         }
       })()
-      return await this.startTask
+      return this.startTask
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
@@ -392,7 +387,7 @@ export class Client {
           this.setState(ClientState.Connected)
         })()
         await this.stopTask
-    
+
         let contextId
         try {
           contextId = await this.apiClient.stopContext()
@@ -401,15 +396,15 @@ export class Client {
           throw err
         }
         this.activeContexts.delete(contextId)
-    
+
         return contextId
       } else {
-        throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: '+this.state)
+        throw Error('[SpeechlyClient] Unable to start context. The client was in an unexpected state: ' + stateToString(this.state))
       }
     }
     throw Error('[SpeechlyClient] Unable to start context due to an earlier error')
   }
-      
+
   /**
    * Adds a listener for client state change events.
    * @param cb - the callback to invoke on state change events.
@@ -566,6 +561,7 @@ export class Client {
       }
 
       this.setState(ClientState.Disconnected)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
   }
