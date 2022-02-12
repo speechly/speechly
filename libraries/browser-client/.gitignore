@@ -19,3 +19,7 @@ temp/
 
 # MACOS
 .DS_Store
+
+# Generated worker files
+src/websocket/worker.ts
+worker/worker.js
