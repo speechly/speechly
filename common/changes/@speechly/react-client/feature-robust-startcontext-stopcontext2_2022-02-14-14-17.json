@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Exposed connect() method and client instance from browser client. Added listening property as instant source of truth, telling the if startContext has been called. Attaching event listeners before connect. Removed initialization logic that has been relocated to browser client.",
+      "type": "major"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
