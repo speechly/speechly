@@ -362,6 +362,9 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   }
 
   private readonly onClientStateChange = (clientState: ClientState): void => {
+    if (clientState === ClientState.Disconnected || clientState === ClientState.Failed) {
+      this.setState({ listening: false })
+    }
     this.setState({ clientState, recordingState: mapClientState(clientState) })
   }
 
