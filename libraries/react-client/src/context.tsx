@@ -69,7 +69,7 @@ export interface SpeechContextState {
   appId?: string
 
   /**
-   * @return Is startContext called and listening will start.
+   * @returns true if startContext called and listening will start.
    * Speechly will normally be listening nearly instantly after startContext.
    * Check clientState for details about browser client's state.
    */
@@ -121,7 +121,7 @@ export interface SpeechContextState {
    * Last segment received from the API.
    */
   segment?: SpeechSegment
- 
+
   /**
    * Low-level access to underlying Speechly browser client.
    */
@@ -135,9 +135,9 @@ export interface SpeechContextState {
 export const SpeechContext = React.createContext<SpeechContextState>({
   connect: async () => Promise.resolve(),
   initialize: async () => Promise.resolve(),
-  toggleRecording: async () => Promise.resolve("Unknown contextId"),
-  startContext: async () => Promise.resolve("Unknown contextId"),
-  stopContext: async () => Promise.resolve("Unknown contextId"),
+  toggleRecording: async () => Promise.resolve('Unknown contextId'),
+  startContext: async () => Promise.resolve('Unknown contextId'),
+  stopContext: async () => Promise.resolve('Unknown contextId'),
   switchApp: (): void => {},
   speechState: SpeechState.Idle,
   clientState: ClientState.Disconnected,
@@ -202,16 +202,16 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   readonly connect = async (): Promise<void> => {
     const { client } = this.state
-    if (!client) {
-      throw Error("No Speechly client (are you calling connect in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling connect in non-browser environment)')
     }
     await client.connect()
   }
 
   readonly initialize = async (): Promise<void> => {
     const { client } = this.state
-    if (!client) {
-      throw Error("No Speechly client (are you calling initialize in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling initialize in non-browser environment)')
     }
     await client.initialize()
   }
@@ -219,42 +219,42 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   readonly startContext = async (): Promise<string> => {
     const { client, appId } = this.state
     this.setState({ listening: true })
-    if (!client) {
-      throw Error("No Speechly client (are you calling startContext in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling startContext in non-browser environment)')
     }
     if (appId !== undefined) {
-      return await client.startContext(appId)
+      return client.startContext(appId)
     }
-    return await client.startContext()
+    return client.startContext()
   }
 
   readonly stopContext = async (): Promise<string> => {
     const { client } = this.state
     this.setState({ listening: false })
-    if (!client) {
-      throw Error("No Speechly client (are you calling stopContext in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling stopContext in non-browser environment)')
     }
-    return await client.stopContext()
+    return client.stopContext()
   }
 
-  readonly toggleRecording = async () => {
+  readonly toggleRecording = async (): Promise<string> => {
     const { client } = this.state
-    if (!client) {
-      throw Error("No Speechly client (are you calling toggleRecording in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling toggleRecording in non-browser environment)')
     }
     if (!client.isListening()) {
-      return await this.startContext()
+      return this.startContext()
     } else {
-      return await this.stopContext()
+      return this.stopContext()
     }
   }
 
   readonly switchApp = async (appId: string): Promise<void> => {
     const { client } = this.state
-    if (!client) {
-      throw Error("No Speechly client (are you calling toggleRecording in non-browser environment)")
+    if (client == null) {
+      throw Error('No Speechly client (are you calling toggleRecording in non-browser environment)')
     }
-    return await client.switchContext(appId)
+    return client.switchContext(appId)
   }
 
   render(): JSX.Element {
@@ -338,7 +338,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   private readonly createClient = (clientOptions: SpeechProviderProps): Client => {
     // Postpone connect
-    const effectiveOpts = {...clientOptions, connect: false}
+    const effectiveOpts = { ...clientOptions, connect: false }
     const client = new Client(effectiveOpts)
 
     client.onStateChange(this.onClientStateChange)
@@ -356,6 +356,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
     // Connect now to pre-warm backend if not explicitely told not to
     if (clientOptions.connect !== false) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       client.connect()
     }
     return client
