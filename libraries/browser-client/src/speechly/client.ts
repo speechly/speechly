@@ -157,6 +157,9 @@ export class Client {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
 
+  /**
+   * @returns true if startContext is called and expecting stopContext next
+   */
   public isListening(): boolean {
     return this.listening
   }
@@ -569,9 +572,7 @@ export class Client {
         console.log('[SpeechlyClient]', 'Websocket closed', err)
       }
     } else {
-      if (this.debug) {
-        console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
-      }
+      console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
 
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
