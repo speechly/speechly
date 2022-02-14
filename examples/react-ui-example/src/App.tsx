@@ -60,7 +60,7 @@ function SpeechlyApp() {
     <>
       <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
-      <PushToTalkButton placement="bottom" size="88px" voffset="32px" intro="Hold to use voice commands"/>
+      <PushToTalkButton placement="bottom"/>
 
       <ErrorPanel placement="bottom" />
 
