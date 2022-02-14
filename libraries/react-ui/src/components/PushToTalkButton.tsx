@@ -209,7 +209,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           const initStartTime = Date.now()
           try {
             await initialize()
-          } catch(err) {
+          } catch (err) {
             console.error('Error initiasing Speechly', err)
           }
           // await buttonStateRef.current.initPromise
@@ -223,8 +223,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
       // Start listening
       if (buttonStateRef.current.holdListenActive) {
-        buttonStateRef.current.wasListening = client!.isListening()
-        if (!client!.isListening()) {
+        buttonStateRef.current.wasListening = client.isListening()
+        if (!client.isListening()) {
           try {
             await startContext()
           } catch (err) {
@@ -261,7 +261,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       } else {
         stopListening()
       }
-
     }
   }
 
@@ -278,8 +277,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   const stopListening = (): void => {
     buttonStateRef.current.tapListenActive = false
-    if (client!.isListening()) {
+    if (client.isListening()) {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
         stopContext()
       } catch (err) {
         console.error('Error while stopping recording', err)
