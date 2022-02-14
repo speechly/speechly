@@ -58,6 +58,7 @@ declare global {
  * @public
  */
 export class Client {
+  public listening: boolean = false
   private readonly debug: boolean
   private readonly logSegments: boolean
   private readonly projectId?: string
@@ -77,8 +78,7 @@ export class Client {
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
   private initializePromise: Promise<void> | null = null
-  private startTask: Promise<string> | null = null
-  private stopTask: Promise<void> | null = null
+  private listeningTasks: Array<Promise<any>> = []
 
   private readonly deviceId: string
   private authToken?: string
@@ -155,6 +155,10 @@ export class Client {
 
   private async sleep(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  public isListening(): boolean {
+    return this.listening
   }
 
   /**
@@ -251,6 +255,7 @@ export class Client {
             }
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
+            this.advanceState(ClientState.Connected)
           } else {
             throw ErrDeviceNotSupported
           }
@@ -310,7 +315,7 @@ export class Client {
    * @param appId - unique identifier of an app in the dashboard.
    */
   async switchContext(appId: string): Promise<void> {
-    await this.startTask
+    await Promise.all(this.listeningTasks)
     if (this.state === ClientState.Recording) {
       const contextId = await this.apiClient.switchContext(appId)
       this.activeContexts.set(contextId, new Map<number, SegmentState>())
@@ -327,42 +332,54 @@ export class Client {
    */
   public async startContext(appId?: string): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      // Cache stop task at invoke time in case of quick presses during init
-      const stopTaskAtInvokeTime = this.stopTask
-      this.startTask = (async () => {
+      if (this.listening) {
+        throw Error('Already listening')
+      }
+      this.listening = true
+      await Promise.all(this.listeningTasks)
+      let thisTask: Promise<string>
+      this.listeningTasks.push(thisTask = (async () => {
         await this.initialize()
-        await stopTaskAtInvokeTime
-        if (this.state === ClientState.Connected) {
-          this.setState(ClientState.Starting)
-
-          this.microphone.unmute()
-
-          // Fetch context id
-          let contextId: string
-          if (this.projectId != null) {
-            contextId = await this.apiClient.startContext(appId)
-          } else {
-            if (appId != null && this.appId !== appId) {
-              this.setState(ClientState.Failed)
-              throw ErrAppIdChangeWithoutProjectLogin
-            }
-            contextId = await this.apiClient.startContext()
-          }
-          // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
-          // Due to startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
-          // @ts-ignore
-          if (this.state === ClientState.Starting) {
-            this.activeContexts.set(contextId, new Map<number, SegmentState>())
-            this.setState(ClientState.Recording)
-            return contextId
-          } else {
-            throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
-          }
-        } else {
-          throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state))
+        // await stopTaskAtInvokeTime
+        if (this.state !== ClientState.Connected) {
+          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+          throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
-      })()
-      return this.startTask
+        this.setState(ClientState.Starting)
+
+        this.microphone.unmute()
+
+        // Fetch context id
+        let contextId: string
+        if (this.projectId != null) {
+          contextId = await this.apiClient.startContext(appId)
+        } else {
+          if (appId != null && this.appId !== appId) {
+            this.setState(ClientState.Failed)
+            this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+            throw ErrAppIdChangeWithoutProjectLogin
+          }
+          contextId = await this.apiClient.startContext()
+        }
+
+        // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
+        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
+        // @ts-ignore
+        if (this.state !== ClientState.Starting) {
+          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+          throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
+        }
+
+        this.activeContexts.set(contextId, new Map<number, SegmentState>())
+        this.setState(ClientState.Recording)
+        // this.startTask = null
+        this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+        return contextId
+      })())
+      await thisTask
+      // Remove task from pending tasks
+
+      return thisTask
     }
     throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
   }
@@ -373,29 +390,36 @@ export class Client {
    */
   async stopContext(): Promise<string> {
     if (!this.hasUnrecoverableError()) {
-      await this.startTask
-      if (this.state === ClientState.Recording) {
-        this.stopTask = (async () => {
-          this.setState(ClientState.Stopping)
-          await this.sleep(this.contextStopDelay)
-          this.microphone.mute()
-          this.setState(ClientState.Connected)
-        })()
-        await this.stopTask
-
-        let contextId
-        try {
-          contextId = await this.apiClient.stopContext()
-        } catch (err) {
-          this.setState(ClientState.Failed)
-          throw err
-        }
-        this.activeContexts.delete(contextId)
-
-        return contextId
-      } else {
-        throw Error('[SpeechlyClient] Unable to complete stopContext.')
+      if (!this.listening) {
+        throw Error('Already stopped listening')
       }
+      this.listening = false
+      await Promise.all(this.listeningTasks)
+      let thisTask: Promise<void>
+      this.listeningTasks.push(thisTask = (async () => {
+        if (this.state !== ClientState.Recording) {
+          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+          throw Error('[SpeechlyClient] Unable to complete stopContext: The client was in an unexpected state: ' + stateToString(this.state) + '.')
+        }
+        this.setState(ClientState.Stopping)
+        await this.sleep(this.contextStopDelay)
+        this.microphone.mute()
+        this.setState(ClientState.Connected)
+        this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
+      })())
+      await thisTask
+      // Remove task from pending tasks
+
+      let contextId
+      try {
+        contextId = await this.apiClient.stopContext()
+      } catch (err) {
+        this.setState(ClientState.Failed)
+        throw err
+      }
+      this.activeContexts.delete(contextId)
+
+      return contextId
     }
     throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
   }
@@ -554,6 +578,11 @@ export class Client {
         this.setState(ClientState.Failed)
         return
       }
+
+      // Reset
+      this.listening = false
+      this.listeningTasks = []
+      this.microphone.mute()
 
       this.setState(ClientState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
