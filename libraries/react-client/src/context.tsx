@@ -27,6 +27,11 @@ import { mapClientState } from './state'
  */
 export interface SpeechContextState {
   /**
+   * Connect to Speechly API.
+   */
+  connect: () => Promise<void>
+
+  /**
    * Function that initialises Speechly client, including both the API connection and the audio initialisation.
    *
    * It is optional and you don't have to call it manually,
@@ -35,23 +40,23 @@ export interface SpeechContextState {
    * The idea is that it provides a more fine-grained control over how the audio is initialised,
    * in case you want to give the user more control over your app.
    */
-  initialise: ContextFunc
+  initialize: () => Promise<void>
 
   /**
-   * @deprecated
+   * @deprecated Use client.isListening(), startContext() and stopContext() instead
    * Toggles listening on or off. Automatically initialises the API connection and audio stack.
    */
-  toggleRecording: ContextFunc
+  toggleRecording: () => Promise<string>
 
   /**
    * Turns listening on. Automatically initialises the API connection and audio stack.
    */
-  startContext: ContextFunc
+  startContext: () => Promise<string>
 
   /**
    * Turns listening off.
    */
-  stopContext: ContextFunc
+  stopContext: () => Promise<string>
 
   /**
    * Switch appId in multi-app project.
@@ -64,17 +69,21 @@ export interface SpeechContextState {
   appId?: string
 
   /**
+   * @return Is startContext called and listening will start.
+   * Speechly will normally be listening nearly instantly after startContext.
+   * Check clientState for details about browser client's state.
+   */
+  listening: boolean
+
+  /**
    * Current state of the context, whether it's idle, recording or failed, etc.
-   * It's advised to react to this to enable / disable voice functionality in your app
-   * as well as inidicate to the user that recording is in progress or results are being fetched from the API.
+   * Use this to indicate to the user that recording is in progress or results are being fetched from the API.
    */
   clientState: ClientState
 
   /**
-   * @deprecated
    * Current state of the context, whether it's idle, recording or failed, etc.
-   * It's advised to react to this to enable / disable voice functionality in your app
-   * as well as inidicate to the user that recording is in progress or results are being fetched from the API.
+   * @deprecated check clientState instead
    */
   speechState: SpeechState
 
@@ -112,26 +121,27 @@ export interface SpeechContextState {
    * Last segment received from the API.
    */
   segment?: SpeechSegment
+ 
+  /**
+   * Low-level access to underlying Speechly browser client.
+   */
+  client?: Client
 }
-
-/**
- * Signature for initialise and toggleRecording functions.
- * @public
- */
-export type ContextFunc = () => Promise<void>
 
 /**
  * A React context that holds the state of Speechly SLU API client.
  * @public
  */
 export const SpeechContext = React.createContext<SpeechContextState>({
-  initialise: async (): Promise<void> => Promise.resolve(),
-  toggleRecording: async (): Promise<void> => Promise.resolve(),
-  startContext: async (): Promise<void> => Promise.resolve(),
-  stopContext: async (): Promise<void> => Promise.resolve(),
+  connect: async () => Promise.resolve(),
+  initialize: async () => Promise.resolve(),
+  toggleRecording: async () => Promise.resolve("Unknown contextId"),
+  startContext: async () => Promise.resolve("Unknown contextId"),
+  stopContext: async () => Promise.resolve("Unknown contextId"),
   switchApp: (): void => {},
   speechState: SpeechState.Idle,
   clientState: ClientState.Disconnected,
+  listening: false,
 })
 
 /**
@@ -142,16 +152,15 @@ export interface SpeechProviderProps extends ClientOptions {
   /**
    * Whether to disable reacting to tentative items. Set this to true if you don't use them.
    */
-  disableTenative?: boolean
+  disableTentative?: boolean
 }
 
 interface SpeechProviderState {
   client?: Client
   clientState: ClientState
   recordingState: SpeechState
-  toggleIsOn: boolean
+  listening: boolean
   appId?: string
-  startedContextPromise?: Promise<string>
   segment?: SpeechSegment
   tentativeTranscript?: TentativeSpeechTranscript
   transcript?: SpeechTranscript
@@ -177,10 +186,9 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     this.state = {
       client: undefined,
       recordingState: SpeechState.Idle,
+      listening: false,
       clientState: ClientState.Disconnected,
-      toggleIsOn: false,
       appId: props.appId,
-      startedContextPromise: undefined,
     }
   }
 
@@ -188,78 +196,65 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   readonly componentDidMount = async (): Promise<void> => {
     this.setState({
       ...this.state,
-      client: this.initialiseClient(this.props),
+      client: this.createClient(this.props),
     })
   }
 
-  readonly initialiseAudio = async (): Promise<void> => {
-    const { client, clientState } = this.state
-
-    if (clientState === ClientState.Disconnected) {
-      await client?.initialize()
+  readonly connect = async (): Promise<void> => {
+    const { client } = this.state
+    if (!client) {
+      throw Error("No Speechly client (are you calling connect in non-browser environment)")
     }
-
-    return Promise.resolve()
+    await client.connect()
   }
 
-  readonly startContext = async (): Promise<void> => {
-    const { client, clientState, appId } = this.state
-    this.setState({ toggleIsOn: true })
-
-    let startedContextPromise
-    switch (clientState) {
-      case ClientState.Disconnected:
-        await client?.initialize()
-        // falls through
-      case ClientState.Connected:
-        // falls through
-      case ClientState.Stopping:
-        if (appId !== undefined) {
-          startedContextPromise = client?.startContext(appId)
-        } else {
-          startedContextPromise = client?.startContext()
-        }
-        break
-      case ClientState.Starting:
-        console.warn('Already starting')
-        break
-      default:
-        console.warn('Cannot start context - client is not connected')
-        break
+  readonly initialize = async (): Promise<void> => {
+    const { client } = this.state
+    if (!client) {
+      throw Error("No Speechly client (are you calling initialize in non-browser environment)")
     }
-
-    this.setState({ startedContextPromise })
-    if (startedContextPromise !== undefined) {
-      await startedContextPromise
-    }
+    await client.initialize()
   }
 
-  readonly stopContext = async (): Promise<void> => {
-    const { client, startedContextPromise } = this.state
-    this.setState({ toggleIsOn: false })
-
-    if (startedContextPromise !== undefined) {
-      await startedContextPromise
+  readonly startContext = async (): Promise<string> => {
+    const { client, appId } = this.state
+    this.setState({ listening: true })
+    if (!client) {
+      throw Error("No Speechly client (are you calling startContext in non-browser environment)")
     }
-
-    await client?.stopContext()
-    return Promise.resolve()
+    if (appId !== undefined) {
+      return await client.startContext(appId)
+    }
+    return await client.startContext()
   }
 
-  readonly toggleRecording = async (): Promise<void> => {
-    const { toggleIsOn } = this.state
-    if (!toggleIsOn) {
-      return this.startContext()
+  readonly stopContext = async (): Promise<string> => {
+    const { client } = this.state
+    this.setState({ listening: false })
+    if (!client) {
+      throw Error("No Speechly client (are you calling stopContext in non-browser environment)")
     }
-    return this.stopContext()
+    return await client.stopContext()
+  }
+
+  readonly toggleRecording = async () => {
+    const { client } = this.state
+    if (!client) {
+      throw Error("No Speechly client (are you calling toggleRecording in non-browser environment)")
+    }
+    if (!client.isListening()) {
+      return await this.startContext()
+    } else {
+      return await this.stopContext()
+    }
   }
 
   readonly switchApp = async (appId: string): Promise<void> => {
-    const { client, clientState } = this.state
-    this.setState({ appId })
-    if (clientState === ClientState.Recording) {
-      return client?.switchContext(appId)
+    const { client } = this.state
+    if (!client) {
+      throw Error("No Speechly client (are you calling toggleRecording in non-browser environment)")
     }
+    return await client.switchContext(appId)
   }
 
   render(): JSX.Element {
@@ -274,17 +269,21 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       entity,
       tentativeIntent,
       intent,
+      client,
+      listening,
     } = this.state
 
     return (
       <SpeechContext.Provider
         value={{
-          initialise: this.initialiseAudio,
+          connect: this.connect,
+          initialize: this.initialize,
           startContext: this.startContext,
           stopContext: this.stopContext,
           toggleRecording: this.toggleRecording,
           switchApp: async(appId: string) => this.switchApp(appId),
           appId,
+          listening,
           clientState,
           speechState: recordingState,
           segment,
@@ -294,6 +293,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
           entity,
           tentativeIntent,
           intent,
+          client,
         }}
       >
         {this.props.children}
@@ -309,7 +309,6 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     // A better approach for those would be to use separate contexts.
     if (
       props.appId === prevProps.appId &&
-      props.language === prevProps.language &&
       props.sampleRate === prevProps.sampleRate &&
       props.debug === prevProps.debug &&
       props.loginUrl === prevProps.loginUrl &&
@@ -326,7 +325,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       console.error('Error closing Speechly client:', e)
     }
 
-    this.setState({ client: this.initialiseClient(props) })
+    this.setState({ client: this.createClient(props) })
   }
 
   async componentWillUnmount(): Promise<void> {
@@ -337,8 +336,10 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     }
   }
 
-  private readonly initialiseClient = (opts: SpeechProviderProps): Client => {
-    const client = new Client(opts)
+  private readonly createClient = (clientOptions: SpeechProviderProps): Client => {
+    // Postpone connect
+    const effectiveOpts = {...clientOptions, connect: false}
+    const client = new Client(effectiveOpts)
 
     client.onStateChange(this.onClientStateChange)
     client.onSegmentChange(this.onSegmentChange)
@@ -347,12 +348,16 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     client.onEntity(this.onEntity)
     client.onIntent(this.onIntent)
 
-    if (!(opts.disableTenative ?? false)) {
+    if (!(clientOptions.disableTentative ?? false)) {
       client.onTentativeIntent(this.onTentativeIntent)
       client.onTentativeTranscript(this.onTentativeTranscript)
       client.onTentativeEntities(this.onTentativeEntities)
     }
 
+    // Connect now to pre-warm backend if not explicitely told not to
+    if (clientOptions.connect !== false) {
+      client.connect()
+    }
     return client
   }
 
