@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Using new browser-client. Removed startContext workaround from onStateChange which is no longer needed.\"",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
