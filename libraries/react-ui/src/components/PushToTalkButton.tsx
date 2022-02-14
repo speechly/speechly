@@ -112,6 +112,7 @@ export type PushToTalkButtonProps = {
 
 type IButtonState = {
   tapListenActive: boolean
+  wasListening: boolean
   holdListenActive: boolean
   tapListenTimeout: number | null
   tangentPressPromise: Promise<void> | null
@@ -121,11 +122,11 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   powerOn = false,
   hide = false,
   captureKey,
-  size = '6.0rem',
+  size,
   gradientStops = ['#15e8b5', '#4fa1f9'],
   intro = 'Hold to talk',
   hint = 'Hold to talk',
-  fontSize = '120%',
+  fontSize = '100%',
   showTime,
   textColor = '#ffffff',
   backgroundColor,
@@ -134,13 +135,14 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   tapToTalkTime = 8000,
   silenceToHangupTime = 1000,
 }) => {
-  const { clientState, initialise, startContext, stopContext, segment } = useSpeechContext()
+  const { client, clientState, initialize, startContext, stopContext, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
   const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Connected) as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const buttonStateRef = useRef<IButtonState>({
     tapListenActive: false,
+    wasListening: false,
     holdListenActive: false,
     tapListenTimeout: null,
     tangentPressPromise: null,
@@ -186,10 +188,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       setIcon(clientState as unknown as string)
     }
 
-    // Automatically start recording if button held
-    if (!powerOn && (buttonStateRef.current.holdListenActive || buttonStateRef.current.tapListenActive) && clientStateRef.current === ClientState.Connected) {
-      startContext().catch(err => console.error('Error while starting to record', err))
-    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clientState])
 
@@ -206,11 +204,14 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
       switch (clientStateRef.current) {
         case ClientState.Disconnected:
-        case ClientState.Failed:
           // Speechly & Mic initialise needs to be in a function triggered by event handler
           // otherwise it won't work reliably on Safari iOS as of 11/2020
           const initStartTime = Date.now()
-          await initialise().catch(err => console.error('Error initiasing Speechly', err))
+          try {
+            await initialize()
+          } catch(err) {
+            console.error('Error initiasing Speechly', err)
+          }
           // await buttonStateRef.current.initPromise
           // Long init time suggests permission dialog --> prevent listening start
           buttonStateRef.current.holdListenActive = !powerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
@@ -222,8 +223,13 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
       // Start listening
       if (buttonStateRef.current.holdListenActive) {
-        if (clientStateRef.current === ClientState.Connected) {
-          await startContext().catch(err => console.error('Error while starting to record', err))
+        buttonStateRef.current.wasListening = client!.isListening()
+        if (!client!.isListening()) {
+          try {
+            await startContext()
+          } catch (err) {
+            console.error('Error while starting to record', err)
+          }
         }
       }
     })()
@@ -244,16 +250,18 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           setHintText(hint)
           setShowHint(true)
         } else {
-          // Short press when not recording = schedule "silence based stop"
-          if (!buttonStateRef.current.tapListenActive) {
+          // Tap: toggle listening on/off
+          if (buttonStateRef.current.wasListening) {
+            stopListening()
+          } else {
+            // schedule "silence based stop"
             setStopContextTimeout(tapToTalkTime)
           }
         }
-      }
-
-      if (!buttonStateRef.current.tapListenTimeout) {
+      } else {
         stopListening()
       }
+
     }
   }
 
@@ -270,8 +278,12 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   const stopListening = (): void => {
     buttonStateRef.current.tapListenActive = false
-    if (isStoppable(clientStateRef.current)) {
-      stopContext().catch(err => console.error('Error while stopping recording', err))
+    if (client!.isListening()) {
+      try {
+        stopContext()
+      } catch (err) {
+        console.error('Error while stopping recording', err)
+      }
     }
   }
 
@@ -286,10 +298,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [segment])
-
-  const isStoppable = (s?: ClientState): boolean => {
-    return (s === ClientState.Recording)
-  }
 
   if (!loaded) return null
 
