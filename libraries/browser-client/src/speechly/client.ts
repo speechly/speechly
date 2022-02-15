@@ -404,10 +404,10 @@ export class Client {
         await this.sleep(this.contextStopDelay)
         this.microphone.mute()
         this.setState(ClientState.Connected)
+        // Remove task from pending tasks
         this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
       })())
       await thisTask
-      // Remove task from pending tasks
 
       let contextId
       try {
