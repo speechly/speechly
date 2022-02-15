@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ClientState, useSpeechContext } from '@speechly/react-client'
+import { SpeechlyState, useSpeechContext } from '@speechly/react-client'
 import PubSub from 'pubsub-js'
 import { SpeechlyUiEvents } from '../types'
 import { PushToTalkButtonContainer } from '..'
@@ -137,7 +137,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 }) => {
   const { client, clientState, initialize, startContext, stopContext, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
-  const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Connected) as unknown as string)
+  const [icon, setIcon] = useState<string>((powerOn ? SpeechlyState.Disconnected : SpeechlyState.Ready) as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const buttonStateRef = useRef<IButtonState>({
@@ -148,7 +148,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     tangentPressPromise: null,
   })
   const buttonRef = useRef<any>()
-  const clientStateRef = useRef<ClientState>()
+  const clientStateRef = useRef<SpeechlyState>()
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
@@ -182,8 +182,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   useEffect(() => {
     // Change button face according to Speechly states
-    if (!powerOn && clientState === ClientState.Disconnected) {
-      setIcon(ClientState.Connected as unknown as string)
+    if (!powerOn && clientState === SpeechlyState.Disconnected) {
+      setIcon(SpeechlyState.Ready as unknown as string)
     } else {
       setIcon(clientState as unknown as string)
     }
@@ -203,7 +203,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       }
 
       switch (clientStateRef.current) {
-        case ClientState.Disconnected:
+        case SpeechlyState.Disconnected:
           // Speechly & Mic initialise needs to be in a function triggered by event handler
           // otherwise it won't work reliably on Safari iOS as of 11/2020
           const initStartTime = Date.now()

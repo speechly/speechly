@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type { Segment } from '@speechly/browser-client';
-  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
+  import { SpeechlyState, MessageType } from "./constants";  // Re-exported from @speechly/browser-client. See types.ts for explanation.
   import { cubicIn, cubicOut, linear } from 'svelte/easing';
   import { tweened } from 'svelte/motion';
   import "./big-transcript.ts";
@@ -34,7 +34,7 @@
     if (bigTranscript) bigTranscript.speechhandled(success);
   }
 
-  export const speechstate = (state: ClientState) => {
+  export const speechstate = (state: SpeechlyState) => {
     if (bigTranscript) bigTranscript.speechstate(state);
   }
 

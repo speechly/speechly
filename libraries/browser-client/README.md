@@ -84,10 +84,10 @@ Please use a HTML server to view the example. Running it as a file will not work
 
     <script type="module">
       // Load Speechly ES module from a CDN. Note script type="module"
-      import { Client, ClientState } from "https://unpkg.com/@speechly/browser-client/core/speechly.es.js"
+      import { Client, SpeechlyState } from "https://unpkg.com/@speechly/browser-client/core/speechly.es.js"
 
       const widget = document.getElementById("textBox")
-      let clientState = ClientState.Disconnected;
+      let clientState = SpeechlyState.Disconnected;
 
       // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
       const client = new Client({
@@ -110,10 +110,10 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       const startListening = async () => {
         switch (clientState) {
-          case ClientState.Disconnected:
+          case SpeechlyState.Disconnected:
             await client.initialize();
             // fall through
-          case ClientState.Connected:
+          case SpeechlyState.Ready:
             widget.value = "Listening..."
             client.startContext();
             break;
@@ -122,8 +122,8 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       const stopListening = () => {
         switch (clientState) {
-          case ClientState.Starting:
-          case ClientState.Recording:
+          case SpeechlyState.Starting:
+          case SpeechlyState.Recording:
             client.stopContext();
             break;
         }

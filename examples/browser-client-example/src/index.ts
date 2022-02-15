@@ -1,6 +1,6 @@
 import {
   Client,
-  ClientState,
+  SpeechlyState,
   stateToString,
   Word,
   Entity,
@@ -9,7 +9,7 @@ import {
   Segment,
 } from "@speechly/browser-client";
 
-let clientState = ClientState.Disconnected;
+let clientState = SpeechlyState.Disconnected;
 
 window.onload = () => {
   let client: Client;
@@ -192,18 +192,18 @@ function bindListenButton(client: Client) {
   const connectButton = document.getElementById("connect") as HTMLButtonElement;
   const statusDiv = document.getElementById("status") as HTMLButtonElement;
 
-  client.onStateChange((state: ClientState) => {
+  client.onStateChange((state: SpeechlyState) => {
     clientState = state;
 
     connectButton.innerHTML =
-      state === ClientState.Disconnected ? "Connect" : "Disconnect";
+      state === SpeechlyState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
   });
 }
 
 function bindConnectButton(client: Client) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (clientState === ClientState.Disconnected) {
+    if (clientState === SpeechlyState.Disconnected) {
       try {
         await client.connect();
       } catch (err) {
@@ -221,7 +221,7 @@ function bindInitializeButton(client: Client) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    if (clientState >= ClientState.Connected) {
+    if (clientState >= SpeechlyState.Ready) {
       console.log(
         "Client is already initialized, but hey, it's still ok to call initialize(). Think of it as a social call."
       );

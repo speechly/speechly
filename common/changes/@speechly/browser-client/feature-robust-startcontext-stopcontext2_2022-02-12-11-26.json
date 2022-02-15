@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@speechly/browser-client",
-      "comment": "startContext and stopContext can be called regardless of ClientState, and they will bring the client to ClientState.Recording and ClientState.Connected unless there was an unrecoverable error (ClientState.Failed). More graceful websocket close handling.\"",
+      "comment": "startContext and stopContext can be called regardless of SpeechlyState, and they will bring the client to SpeechlyState.Recording and SpeechlyState.Ready unless there was an unrecoverable error (SpeechlyState.Failed). More graceful websocket close handling.\"",
       "type": "minor"
     }
   ],

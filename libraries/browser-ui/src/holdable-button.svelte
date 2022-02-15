@@ -8,7 +8,7 @@
   import MicFx from "./components/MicFx.svelte";
   import type { IAppearance, IHoldEvent } from "./types";
   import {
-    ClientState,
+    SpeechlyState,
     Icon,
     Effect,
     Behaviour,
@@ -17,7 +17,7 @@
 TriggerFx,
   } from "./constants";
 
-  export let icon = ClientState.Disconnected;
+  export let icon = SpeechlyState.Disconnected;
   export let capturekey = " ";
   export let hide = undefined;
   export let size = "80px";
@@ -210,11 +210,11 @@ TriggerFx,
     }
   };
 
-  const updateSkin = (buttonHeld: boolean, clientState: ClientState) => {
+  const updateSkin = (buttonHeld: boolean, clientState: SpeechlyState) => {
     effectiveAppearance = clientStateToAppearance[clientState];
 
     scale[0] = buttonHeld ? buttonHeldScale : 1.0;
-    fxOpacity[0] = (buttonHeld || clientState == ClientState.Recording) ? 1.0 : 0.0;
+    fxOpacity[0] = (buttonHeld || clientState == SpeechlyState.Recording) ? 1.0 : 0.0;
 
     switch (effectiveAppearance.icon) {
       case Icon.MicActive:

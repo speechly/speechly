@@ -4,7 +4,7 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { ClientState, MessageType } from "./constants";
+  import { SpeechlyState, MessageType } from "./constants";
 
   export let hide = "auto";
   export let remsize = "1.0rem";
@@ -23,7 +23,7 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let mounted = false;
-  let page: ClientState | string = PagePriming;
+  let page: SpeechlyState | string = PagePriming;
   let appId: null;
   let introTimeout = null;
   let showAllowButton = false;
@@ -82,9 +82,9 @@
         break;
       case MessageType.holdstart:
         switch (e.data.state) {
-          case ClientState.Failed:
-          case ClientState.NoAudioConsent:
-          case ClientState.NoBrowserSupport:
+          case SpeechlyState.Failed:
+          case SpeechlyState.NoAudioConsent:
+          case SpeechlyState.NoBrowserSupport:
             showError(e.data.state);
             break;
         }
@@ -109,7 +109,7 @@
     }
   }
 
-  const showError = (e: ClientState | string) => {
+  const showError = (e: SpeechlyState | string) => {
     if (hide === "auto") {
       visibility = true;
     }
@@ -179,7 +179,7 @@
             Try with HTTPS
           </button>
         </options>
-      {:else if page === ClientState.NoAudioConsent}
+      {:else if page === SpeechlyState.NoAudioConsent}
         <h2>Microphone blocked</h2>
         <p>
           To use voice input, {window.location.hostname} needs access to your microphone. Check your
@@ -189,7 +189,7 @@
           <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
           <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
         </options>
-      {:else if page === ClientState.NoBrowserSupport}
+      {:else if page === SpeechlyState.NoBrowserSupport}
         <h2>Unsupported browser</h2>
         <p>
           To use voice input, please visit this site using a supported browser.

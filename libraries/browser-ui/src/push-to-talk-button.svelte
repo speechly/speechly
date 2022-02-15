@@ -5,7 +5,7 @@
   import "./holdable-button.ts";
   import "./call-out.ts";
   import { Client } from "@speechly/browser-client";
-  import { ClientState, LocalStorageKeys, MessageType } from "./constants";
+  import { SpeechlyState, LocalStorageKeys, MessageType } from "./constants";
   import { onMount } from "svelte";
   import { createDispatchUnbounded} from "./fixDispatch";
 
@@ -61,14 +61,14 @@
 
   let tapListenTimeout = null;
   let tangentStartPromise = null;
-  let icon = ClientState.Disconnected;
+  let icon = SpeechlyState.Disconnected;
 
   $: tipCallOutText = intro;
   $: connect(projectid, appid);
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
-  let clientState: ClientState = undefined;
+  let clientState: SpeechlyState = undefined;
 
   onMount(() => {
     mounted = true;
@@ -222,21 +222,21 @@
     if (clientState !== null) icon = clientState;
   };
 
-  const isConnectable = (clientState?: ClientState) => {
+  const isConnectable = (clientState?: SpeechlyState) => {
     if (!clientState) return true;
-    return clientState === ClientState.Disconnected;
+    return clientState === SpeechlyState.Disconnected;
   };
 
-  const onStateChange = (s: ClientState) => {
+  const onStateChange = (s: SpeechlyState) => {
     clientState = s;
     updateSkin();
     switch(s) {
-      case ClientState.Failed:
-      case ClientState.NoBrowserSupport:
-      case ClientState.NoAudioConsent:
+      case SpeechlyState.Failed:
+      case SpeechlyState.NoBrowserSupport:
+      case SpeechlyState.NoAudioConsent:
         setInitialized(false, s as unknown as string);
         break;
-      case ClientState.Connected:
+      case SpeechlyState.Ready:
         setInitialized(true, s as unknown as string);
         break;
     }

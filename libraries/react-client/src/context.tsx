@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClientOptions, ClientState, Client } from '@speechly/browser-client'
+import { ClientOptions, SpeechlyState, Client } from '@speechly/browser-client'
 
 import {
   Word,
@@ -12,9 +12,7 @@ import {
   SpeechEntity,
   SpeechIntent,
   SpeechSegment,
-  SpeechState,
 } from './types'
-import { mapClientState } from './state'
 
 /**
  * The state of SpeechContext.
@@ -79,13 +77,7 @@ export interface SpeechContextState {
    * Current state of the context, whether it's idle, recording or failed, etc.
    * Use this to indicate to the user that recording is in progress or results are being fetched from the API.
    */
-  clientState: ClientState
-
-  /**
-   * Current state of the context, whether it's idle, recording or failed, etc.
-   * @deprecated check clientState instead
-   */
-  speechState: SpeechState
+  clientState: SpeechlyState
 
   /**
    * Last tentative transcript received from the API. Resets after current segment is finalised.
@@ -139,8 +131,7 @@ export const SpeechContext = React.createContext<SpeechContextState>({
   startContext: async () => Promise.resolve('Unknown contextId'),
   stopContext: async () => Promise.resolve('Unknown contextId'),
   switchApp: (): void => {},
-  speechState: SpeechState.Idle,
-  clientState: ClientState.Disconnected,
+  clientState: SpeechlyState.Disconnected,
   listening: false,
 })
 
@@ -157,8 +148,7 @@ export interface SpeechProviderProps extends ClientOptions {
 
 interface SpeechProviderState {
   client?: Client
-  clientState: ClientState
-  recordingState: SpeechState
+  clientState: SpeechlyState
   listening: boolean
   appId?: string
   segment?: SpeechSegment
@@ -185,9 +175,8 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     super(props)
     this.state = {
       client: undefined,
-      recordingState: SpeechState.Idle,
       listening: false,
-      clientState: ClientState.Disconnected,
+      clientState: SpeechlyState.Disconnected,
       appId: props.appId,
     }
   }
@@ -261,7 +250,6 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     const {
       appId,
       clientState,
-      recordingState,
       segment,
       tentativeTranscript,
       transcript,
@@ -285,7 +273,6 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
           appId,
           listening,
           clientState,
-          speechState: recordingState,
           segment,
           tentativeTranscript,
           transcript,
@@ -362,11 +349,11 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return client
   }
 
-  private readonly onClientStateChange = (clientState: ClientState): void => {
-    if (clientState === ClientState.Disconnected || clientState === ClientState.Failed) {
+  private readonly onClientStateChange = (clientState: SpeechlyState): void => {
+    if (clientState <= SpeechlyState.Disconnected) {
       this.setState({ listening: false })
     }
-    this.setState({ clientState, recordingState: mapClientState(clientState) })
+    this.setState({ clientState })
   }
 
   private readonly onSegmentChange = (segment: SpeechSegment): void => {

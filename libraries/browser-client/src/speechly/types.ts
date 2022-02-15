@@ -78,10 +78,10 @@ export interface ClientOptions {
 }
 
 /**
- * A callback that is invoked whenever the {@link ClientState | client state} changes.
+ * A callback that is invoked whenever the {@link SpeechlyState | client state} changes.
  * @public
  */
-export type StateChangeCallback = (state: ClientState) => void
+export type StateChangeCallback = (state: SpeechlyState) => void
 
 /**
  * A callback that is invoked whenever current {@link Segment | segment} changes.
@@ -123,20 +123,24 @@ export type IntentCallback = (contextId: string, segmentId: number, intent: Inte
  * All possible states of a Speechly API client. Failed, NoBrowserSupport and NoAudioConsent states are non-recoverable
  * erroneous states, which should be handled by the end user, according to the semantics of an application.
  * Other states can also be utilized for e.g. enabling and disabling recording buttons or showing the status in the app.
- * It is also possible to use arithmetics for state comparison, e.g. `if (state < speechly.ClientState.Disconnected)`,
+ * It is also possible to use arithmetics for state comparison, e.g. `if (state < speechly.SpeechlyState.Disconnected)`,
  * to react to non-recoverable states.
  * @public
  */
-export enum ClientState {
+export enum SpeechlyState {
   Failed = 0,
   NoBrowserSupport,
+  __NonRecovableErrors,
   NoAudioConsent,
+  __Errors,
   Disconnected,
   Disconnecting,
   Connecting,
   Connected,
-  Starting,
+  Initializing,
+  Ready,
   Stopping,
+  Starting,
   Recording,
 }
 

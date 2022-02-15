@@ -4,7 +4,7 @@ import {
   useSpeechContext,
   Entity,
   Intent,
-  SpeechState,
+  SpeechlyState,
 } from "@speechly/react-client";
 import { isWebpSupported } from "react-image-webp/dist/utils";
 import { animated, useSpring } from "react-spring";
@@ -83,7 +83,7 @@ const DefaultAppState = {
 };
 
 export default function FloorPlan() {
-  const { segment, speechState } = useSpeechContext();
+  const { segment, clientState } = useSpeechContext();
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(
     DefaultAppState
@@ -98,17 +98,17 @@ export default function FloorPlan() {
   });
 
   useEffect(() => {
-    switch(speechState) {
-      case SpeechState.Idle:
+    switch(clientState) {
+      case SpeechlyState.Disconnected:
         PubSub.publish(SpeechlyUiEvents.Notification, {message: `Press the button to start`});
         break;
-      case SpeechState.Ready:
+      case SpeechlyState.Ready:
         if (appState === DefaultAppState) {
           PubSub.publish(SpeechlyUiEvents.Notification, {message: `Say "Turn off everything"`, footnote: "Hold the button while talking"});
         }
         break;
     }
-  }, [speechState, appState]);
+  }, [clientState, appState]);
 
   // This effect is fired whenever there's a new speech segment available
   useEffect(() => {

@@ -27,7 +27,7 @@ import { Storage, LocalStorage } from '../storage'
 
 import {
   ClientOptions,
-  ClientState,
+  SpeechlyState,
   StateChangeCallback,
   SegmentChangeCallback,
   TentativeTranscriptCallback,
@@ -83,7 +83,7 @@ export class Client {
   private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
-  private state: ClientState = ClientState.Disconnected
+  private state: SpeechlyState = SpeechlyState.Disconnected
   private readonly apiUrl: string
 
   private stateChangeCb: StateChangeCallback = () => {}
@@ -171,6 +171,7 @@ export class Client {
    * prewarming the connection, resulting in less noticeable waits for the user.
    */
   public async connect(): Promise<void> {
+    this.advanceState(SpeechlyState.Connecting)
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
         // Get auth token from cache or renew it
@@ -181,7 +182,7 @@ export class Client {
             // Cache the auth token in local storage for future use.
             this.storage.set(authTokenKey, this.authToken)
           } catch (err) {
-            this.setState(ClientState.Failed)
+            this.setState(SpeechlyState.Failed)
             throw err
           }
         } else {
@@ -192,12 +193,13 @@ export class Client {
         try {
           await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
         } catch (err) {
-          this.setState(ClientState.Failed)
+          this.setState(SpeechlyState.Failed)
           throw err
         }
       })()
     }
     await this.connectPromise
+    this.advanceState(SpeechlyState.Connected)
   }
 
   /**
@@ -212,7 +214,7 @@ export class Client {
   async initialize(): Promise<void> {
     // Ensure we're connected. Returns immediately if we are
     await this.connect()
-    this.advanceState(ClientState.Connecting)
+    this.advanceState(SpeechlyState.Initializing)
 
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
@@ -258,20 +260,20 @@ export class Client {
             }
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-            this.advanceState(ClientState.Connected)
+            this.advanceState(SpeechlyState.Ready)
           } else {
             throw ErrDeviceNotSupported
           }
         } catch (err) {
           switch (err) {
             case ErrDeviceNotSupported:
-              this.setState(ClientState.NoBrowserSupport)
+              this.setState(SpeechlyState.NoBrowserSupport)
               break
             case ErrNoAudioConsent:
-              this.setState(ClientState.NoAudioConsent)
+              this.setState(SpeechlyState.NoAudioConsent)
               break
             default:
-              this.setState(ClientState.Failed)
+              this.setState(SpeechlyState.Failed)
           }
 
           throw err
@@ -279,7 +281,7 @@ export class Client {
       })()
     }
     await this.initializePromise
-    this.advanceState(ClientState.Connected)
+    this.advanceState(SpeechlyState.Ready)
   }
 
   /**
@@ -305,7 +307,7 @@ export class Client {
     this.activeContexts.clear()
     this.connectPromise = null
     this.initializePromise = null
-    this.setState(ClientState.Disconnected)
+    this.setState(SpeechlyState.Disconnected)
 
     if (errs.length > 0) {
       throw Error(errs.join(','))
@@ -319,14 +321,14 @@ export class Client {
    */
   async switchContext(appId: string): Promise<void> {
     await Promise.all(this.listeningTasks)
-    if (this.state === ClientState.Recording) {
+    if (this.state === SpeechlyState.Recording) {
       const contextId = await this.apiClient.switchContext(appId)
       this.activeContexts.set(contextId, new Map<number, SegmentState>())
     }
   }
 
   private hasUnrecoverableError(): boolean {
-    return this.state === ClientState.Failed
+    return this.state < SpeechlyState.__NonRecovableErrors
   }
 
   /**
@@ -343,11 +345,11 @@ export class Client {
       let thisTask: Promise<string>
       this.listeningTasks.push(thisTask = (async () => {
         await this.initialize()
-        if (this.state !== ClientState.Connected) {
+        if (this.state !== SpeechlyState.Ready) {
           this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
-        this.setState(ClientState.Starting)
+        this.setState(SpeechlyState.Starting)
 
         this.microphone.unmute()
 
@@ -357,7 +359,7 @@ export class Client {
           contextId = await this.apiClient.startContext(appId)
         } else {
           if (appId != null && this.appId !== appId) {
-            this.setState(ClientState.Failed)
+            this.setState(SpeechlyState.Failed)
             this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
             throw ErrAppIdChangeWithoutProjectLogin
           }
@@ -365,15 +367,15 @@ export class Client {
         }
 
         // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
-        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
+        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to SpeechlyState.Disconnected
         // @ts-ignore
-        if (this.state !== ClientState.Starting) {
+        if (this.state !== SpeechlyState.Starting) {
           this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
         }
 
         this.activeContexts.set(contextId, new Map<number, SegmentState>())
-        this.setState(ClientState.Recording)
+        this.setState(SpeechlyState.Recording)
         // Remove task from pending tasks
         this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
         return contextId
@@ -397,14 +399,14 @@ export class Client {
       await Promise.all(this.listeningTasks)
       let thisTask: Promise<void>
       this.listeningTasks.push(thisTask = (async () => {
-        if (this.state !== ClientState.Recording) {
+        if (this.state !== SpeechlyState.Recording) {
           this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete stopContext: The client was in an unexpected state: ' + stateToString(this.state) + '.')
         }
-        this.setState(ClientState.Stopping)
+        this.setState(SpeechlyState.Stopping)
         await this.sleep(this.contextStopDelay)
         this.microphone.mute()
-        this.setState(ClientState.Connected)
+        this.setState(SpeechlyState.Ready)
         // Remove task from pending tasks
         this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
       })())
@@ -414,7 +416,7 @@ export class Client {
       try {
         contextId = await this.apiClient.stopContext()
       } catch (err) {
-        this.setState(ClientState.Failed)
+        this.setState(SpeechlyState.Failed)
         throw err
       }
       this.activeContexts.delete(contextId)
@@ -573,7 +575,7 @@ export class Client {
 
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
-        this.setState(ClientState.Failed)
+        this.setState(SpeechlyState.Failed)
         return
       }
 
@@ -582,7 +584,7 @@ export class Client {
       this.listeningTasks = []
       this.microphone.mute()
 
-      this.setState(ClientState.Disconnected)
+      this.setState(SpeechlyState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
@@ -593,7 +595,7 @@ export class Client {
       console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
     this.connectPromise = null
-    if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
+    if (!this.hasUnrecoverableError() && this.connectAttempt < this.maxReconnectAttemptCount) {
       await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       await this.connect()
@@ -602,14 +604,14 @@ export class Client {
     }
   }
 
-  private advanceState(newState: ClientState): void {
+  private advanceState(newState: SpeechlyState): void {
     if (this.state >= newState) {
       return
     }
     this.setState(newState)
   }
 
-  private setState(newState: ClientState): void {
+  private setState(newState: SpeechlyState): void {
     if (this.state === newState) {
       return
     }

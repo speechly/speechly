@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SpeechProvider, SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import { SpeechProvider, SpeechSegment, useSpeechContext, stateToString } from "@speechly/react-client";
 import {
 //  BigTranscript,
   PushToTalkButton,
@@ -24,7 +24,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { speechState, segment, toggleRecording } = useSpeechContext();
+  const { clientState, segment, toggleRecording } = useSpeechContext();
   const [mockSegment, setMockSegment] = useState<SpeechSegment | undefined>();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function SpeechlyApp() {
 
       <ErrorPanel placement="bottom" />
 
-      <div className="status">{speechState}</div>
+      <div className="status">{stateToString(clientState)}</div>
 
       {segment ? (
         <div className="segment">
