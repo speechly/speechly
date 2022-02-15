@@ -343,7 +343,6 @@ export class Client {
       let thisTask: Promise<string>
       this.listeningTasks.push(thisTask = (async () => {
         await this.initialize()
-        // await stopTaskAtInvokeTime
         if (this.state !== ClientState.Connected) {
           this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
@@ -375,14 +374,11 @@ export class Client {
 
         this.activeContexts.set(contextId, new Map<number, SegmentState>())
         this.setState(ClientState.Recording)
-        // this.startTask = null
+        // Remove task from pending tasks
         this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
         return contextId
       })())
-      await thisTask
-      // Remove task from pending tasks
-
-      return thisTask
+      return await thisTask
     }
     throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
   }
