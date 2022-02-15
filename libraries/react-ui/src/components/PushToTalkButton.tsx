@@ -221,16 +221,20 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           break
       }
 
-      // Start listening
-      if (buttonStateRef.current.holdListenActive) {
-        buttonStateRef.current.wasListening = client.isListening()
-        if (!client.isListening()) {
-          try {
-            await startContext()
-          } catch (err) {
-            console.error('Error while starting to record', err)
+      if (client) {
+        // Start listening
+        if (buttonStateRef.current.holdListenActive) {
+          buttonStateRef.current.wasListening = client.isListening()
+          if (!client.isListening()) {
+            try {
+              await startContext()
+            } catch (err) {
+              console.error('Error while starting to record', err)
+            }
           }
         }
+      } else {
+        throw Error('No Speechly client (are you using Speechly in non-browser environment?)')
       }
     })()
   }
@@ -277,7 +281,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   const stopListening = (): void => {
     buttonStateRef.current.tapListenActive = false
-    if (client.isListening()) {
+    if (client?.isListening()) {
       try {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         stopContext()
