@@ -378,7 +378,8 @@ export class Client {
         this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
         return contextId
       })())
-      return await thisTask
+      const contextId = await thisTask
+      return contextId
     }
     throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
   }
