@@ -58,7 +58,7 @@ declare global {
  * @public
  */
 export class Client {
-  public listening: boolean = false
+  private listening: boolean = false
   private readonly debug: boolean
   private readonly logSegments: boolean
   private readonly projectId?: string
