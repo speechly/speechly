@@ -7,13 +7,18 @@
   import { ClientState, MessageType } from "./constants";
 
   export let hide = "auto";
+  export let clientstate: string = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
+  export let appid = undefined;
   export let customcssurl = undefined;
   export let customtypography = undefined;
 
+  $: if (clientstate) onClientStateChange(parseInt(clientstate) as ClientState)
+
+  let firstConnect = true;
+
   const PagePriming = 'PagePriming'
-  const PageStarting = 'PageStarting'
   const HttpsRequired = 'HttpsRequired'
 
   const dispatchUnbounded = createDispatchUnbounded();
@@ -24,7 +29,6 @@
 
   let mounted = false;
   let page: ClientState | string = PagePriming;
-  let appId: null;
   let introTimeout = null;
   let showAllowButton = false;
 
@@ -47,7 +51,6 @@
   }
 
   const initialize = () => {
-    window.postMessage({ type: MessageType.speechlystarting }, "*");
     window.SpeechlyClient.initialize();
   }
 
@@ -66,19 +69,8 @@
         }
         showAllowButton = true;
         break;
-      case MessageType.speechlystarting:
-        // Allow only going forward in pages to prevent hiding an error
-        if (page === PagePriming) {
-          page = PageStarting;
-          introTimeout = window.setTimeout(() => {
-            introTimeout = null;
-            if (hide === "auto") {
-              visibility = true;
-            }
-          }, 500);
-        } else {
-          visibility = true;
-        }
+      case MessageType.speechstate:
+        onClientStateChange(e.data.state)
         break;
       case MessageType.holdstart:
         switch (e.data.state) {
@@ -87,21 +79,6 @@
           case ClientState.NoBrowserSupport:
             showError(e.data.state);
             break;
-        }
-        break;
-      case MessageType.initialized:
-        appId = e.data.appId;
-        if (e.data.success) {
-          if (introTimeout) {
-            // Quick init indicates mic permission is cached. Cancel displaying intro popup.
-            window.clearTimeout(introTimeout);
-            introTimeout = null;
-            closeSelf();
-          } else {
-            closeSelf({firstrun: true});
-          }
-        } else {
-          showError(e.data.state);
         }
         break;
       default:
@@ -131,6 +108,45 @@
     const newUrl = url.replace("http:", "https:");
     window.location.replace(newUrl)
   }
+
+  const onClientStateChange = (state: ClientState) => {
+    switch (state) {
+      case ClientState.Connecting:
+        // Allow only going forward in pages to prevent hiding an error
+        if (page === PagePriming) {
+          page = state;
+          introTimeout = window.setTimeout(() => {
+            introTimeout = null;
+            if (hide === "auto") {
+              visibility = true;
+            }
+          }, 500);
+        } else {
+          visibility = true;
+        }
+        break;
+      case ClientState.Connected:
+        if (firstConnect) {
+          // All good, hide this popup
+          firstConnect = false;
+          if (introTimeout) {
+            // Quick init indicates mic permission is cached. Cancel displaying intro popup.
+            window.clearTimeout(introTimeout);
+            introTimeout = null;
+            closeSelf();
+          } else {
+            closeSelf({firstrun: true});
+          }
+        }
+        break;
+      case ClientState.Failed:
+      case ClientState.NoAudioConsent:
+      case ClientState.NoBrowserSupport:
+        showError(state);
+        break;
+    }
+  }
+
 </script>
 
 <svelte:options tag={null} immutable={true} />
@@ -153,7 +169,7 @@
   <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
-      {#if page === PagePriming || page === PageStarting}
+      {#if page === PagePriming || page === ClientState.Connecting}
         <h2><slot name="priming-title">Allow microphone</slot></h2>
         <p>
           <slot name="priming-body">
@@ -164,7 +180,7 @@
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
           {#if showAllowButton}
-            <button on:click={initialize} class="button button-primary" disabled={page === PageStarting}>Allow</button>
+            <button on:click={initialize} class="button button-primary" disabled={page === ClientState.Connecting}>Allow</button>
           {/if}
         </options>
       {:else if page === HttpsRequired}
@@ -200,7 +216,11 @@
       {:else}
         <h2>Failed to connect to Speechly</h2>
         <p>
-          Please check that your application (App ID: {appId}) has been successfully deployed.
+          {#if appid}
+            Please check that your application (App ID: {appid}) has been successfully deployed.
+          {:else}
+            Please check that your application has been successfully deployed.
+          {/if}
         </p>
         <options>
           <button on:click={closeSelf} class="button button-primary">Ok, got it</button>
