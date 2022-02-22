@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ClientState, useSpeechContext } from '@speechly/react-client'
+import { LocalStorageKeys, MessageType } from '@speechly/browser-ui/src/constants'
 import PubSub from 'pubsub-js'
 import { SpeechlyUiEvents } from '../types'
 import { PushToTalkButtonContainer } from '..'
@@ -83,7 +84,7 @@ export type PushToTalkButtonProps = {
   /**
    * Optional boolean. Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: false
    */
-  powerOn?: boolean
+  powerOn?: boolean | "auto"
 
   /**
    * Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.
@@ -136,9 +137,10 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 }) => {
   const { clientState, initialise, startContext, stopContext, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
-  const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Connected) as unknown as string)
+  const [icon, setIcon] = useState<string>(ClientState.Disconnected as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
+  const [usePermissionPriming, setUsePermissionPriming] = useState(powerOn === true ? true : false)
   const buttonStateRef = useRef<IButtonState>({
     tapListenActive: false,
     holdListenActive: false,
@@ -165,6 +167,11 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       const import1 = import('@speechly/browser-ui/core/holdable-button')
       const import2 = import('@speechly/browser-ui/core/call-out')
       await Promise.all([import1, import2])
+
+      if (powerOn === "auto") {
+        setUsePermissionPriming(localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null)
+      }
+
       setLoaded(true)
     })()
   }, [])
@@ -180,14 +187,18 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   useEffect(() => {
     // Change button face according to Speechly states
-    if (!powerOn && clientState === ClientState.Disconnected) {
-      setIcon(ClientState.Connected as unknown as string)
-    } else {
-      setIcon(clientState as unknown as string)
+    setIcon(clientState as unknown as string)
+
+    if (clientState >= ClientState.Connected) {
+      setUsePermissionPriming(false)
+      // Set connect made
+      if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
+        localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
+      }
     }
 
     // Automatically start recording if button held
-    if (!powerOn && (buttonStateRef.current.holdListenActive || buttonStateRef.current.tapListenActive) && clientStateRef.current === ClientState.Connected) {
+    if ((buttonStateRef.current.holdListenActive || buttonStateRef.current.tapListenActive) && clientStateRef.current === ClientState.Connected) {
       startContext().catch(err => console.error('Error while starting to record', err))
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,31 +210,40 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
       setShowHint(false)
 
-      if (buttonStateRef.current.tapListenTimeout) {
-        window.clearTimeout(buttonStateRef.current.tapListenTimeout)
-        buttonStateRef.current.tapListenTimeout = null
-      }
+      if (usePermissionPriming) {
+        window.postMessage({
+          type: MessageType.speechlypoweron,
+        }, '*')
+      } else {
+        if (buttonStateRef.current.tapListenTimeout) {
+          window.clearTimeout(buttonStateRef.current.tapListenTimeout)
+          buttonStateRef.current.tapListenTimeout = null
+        }
 
-      switch (clientStateRef.current) {
-        case ClientState.Disconnected:
-        case ClientState.Failed:
-          // Speechly & Mic initialise needs to be in a function triggered by event handler
-          // otherwise it won't work reliably on Safari iOS as of 11/2020
-          const initStartTime = Date.now()
-          await initialise().catch(err => console.error('Error initiasing Speechly', err))
-          // await buttonStateRef.current.initPromise
-          // Long init time suggests permission dialog --> prevent listening start
-          buttonStateRef.current.holdListenActive = !powerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
-          break
-        default:
-          buttonStateRef.current.holdListenActive = true
-          break
-      }
+        switch (clientStateRef.current) {
+          case ClientState.Disconnected:
+          case ClientState.Failed:
+            // Speechly & Mic initialise needs to be in a function triggered by event handler
+            // otherwise it won't work reliably on Safari iOS as of 11/2020
+            const initStartTime = Date.now()
+            window.postMessage({
+              type: 'speechlystarting',
+            }, '*')
+            await initialise().catch(err => console.error('Error initiasing Speechly', err))
+            // await buttonStateRef.current.initPromise
+            // Long init time suggests permission dialog --> prevent listening start
+            buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
+            break
+          default:
+            buttonStateRef.current.holdListenActive = true
+            break
+        }
 
-      // Start listening
-      if (buttonStateRef.current.holdListenActive) {
-        if (clientStateRef.current === ClientState.Connected) {
-          await startContext().catch(err => console.error('Error while starting to record', err))
+        // Start listening
+        if (buttonStateRef.current.holdListenActive) {
+          if (clientStateRef.current === ClientState.Connected) {
+            await startContext().catch(err => console.error('Error while starting to record', err))
+          }
         }
       }
     })()
