@@ -1,4 +1,4 @@
-import { BigTranscript, BigTranscriptContainer, PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
+import { BigTranscript, BigTranscriptContainer, PushToTalkButton, IntroPopup } from "@speechly/react-ui";
 import { DemoNavigation } from "@speechly/demo-navigation";
 import Inventory from "components/Inventory";
 import SmartFilter from "components/SmartFilters";
@@ -20,8 +20,8 @@ export default function App() {
           </BigTranscriptContainer>
         </Inventory>
       </div>
-      <PushToTalkButton captureKey=" " placement="bottom" size="80px" showTime={3000} />
-      <ErrorPanel placement="bottom"/>
+      <PushToTalkButton captureKey=" " placement="bottom" size="80px" showTime={3000} powerOn="auto" />
+      <IntroPopup></IntroPopup>
     </AppContextProvider>
   );
 }
