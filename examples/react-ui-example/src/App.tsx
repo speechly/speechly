@@ -3,7 +3,7 @@ import { SpeechProvider, SpeechSegment, useSpeechContext } from "@speechly/react
 import {
 //  BigTranscript,
   PushToTalkButton,
-  ErrorPanel,
+  IntroPopup,
 } from "@speechly/react-ui";
 
 import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
@@ -60,9 +60,11 @@ function SpeechlyApp() {
     <>
       <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
-      <PushToTalkButton placement="bottom" size="88px" voffset="32px" intro="Hold to use voice commands"/>
+      <PushToTalkButton powerOn="auto" placement="bottom" size="88px" voffset="32px" intro="Hold to use voice commands"/>
 
-      <ErrorPanel placement="bottom" />
+      <IntroPopup>
+        <span slot="priming-body">You will be able to book faster with voice.</span>
+      </IntroPopup>
 
       <div className="status">{speechState}</div>
 
