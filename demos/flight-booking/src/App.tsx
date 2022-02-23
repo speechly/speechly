@@ -1,4 +1,4 @@
-import { PushToTalkButton, ErrorPanel } from '@speechly/react-ui';
+import { PushToTalkButton, IntroPopup } from '@speechly/react-ui';
 import { TranscriptDrawer } from '@speechly/react-ui/lib/components/TranscriptDrawer';
 import { DemoNavigation } from '@speechly/demo-navigation';
 import BookingForm from './components/BookingForm';
@@ -22,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <TranscriptDrawer hint={UsageHints} />
-      <ErrorPanel placement="bottom" />
+      <IntroPopup></IntroPopup>
       <DemoNavigation />
       <div className="Navigation">
         <img className="Navigation__logo" src={logoPath} alt="logo" />
@@ -39,7 +39,7 @@ function App() {
         <h1>Where to next?</h1>
         <BookingForm />
         <div className="PushToTalkContainer">
-          <PushToTalkButton captureKey=" " size="80px" showTime={3000} />
+          <PushToTalkButton captureKey=" " size="80px" showTime={3000} powerOn="auto" />
         </div>
       </div>
       <div className="Content">
