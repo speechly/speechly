@@ -55,6 +55,7 @@ export const Input: React.FC <{
           size={buttonSize}
           showTime={2000}
           intro=""
+          powerOn="auto"
         />
       </div>
     </div>

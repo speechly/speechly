@@ -1,6 +1,6 @@
 import React from "react";
 import { DemoNavigation } from "@speechly/demo-navigation";
-import { ErrorPanel } from "@speechly/react-ui";
+import { IntroPopup } from "@speechly/react-ui";
 import { SearchContextProvider } from "./context";
 import SearchView from "./SearchView";
 import { isStandalone } from "./utils";
@@ -11,7 +11,7 @@ const App: React.FC = (): JSX.Element => {
     <SearchContextProvider>
       <div className="App">
         { !isStandalone && <DemoNavigation /> }
-        <ErrorPanel />
+        <IntroPopup />
         <SearchView />
       </div>
     </SearchContextProvider>
