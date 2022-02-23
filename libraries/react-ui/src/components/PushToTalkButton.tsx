@@ -84,7 +84,7 @@ export type PushToTalkButtonProps = {
   /**
    * Optional boolean. Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: false
    */
-  powerOn?: boolean | "auto"
+  powerOn?: boolean | 'auto'
 
   /**
    * Optional CSS string. Vertical distance from viewport edge. Only effective when using placement.
@@ -140,7 +140,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   const [icon, setIcon] = useState<string>(ClientState.Disconnected as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
-  const [usePermissionPriming, setUsePermissionPriming] = useState(powerOn === true ? true : false)
+  const [usePermissionPriming, setUsePermissionPriming] = useState(powerOn === true)
   const buttonStateRef = useRef<IButtonState>({
     tapListenActive: false,
     holdListenActive: false,
@@ -168,13 +168,16 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       const import2 = import('@speechly/browser-ui/core/call-out')
       await Promise.all([import1, import2])
 
-      if (powerOn === "auto") {
-        setUsePermissionPriming(localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null)
-      }
-
       setLoaded(true)
     })()
   }, [])
+
+  // Use browser API only after mount to play nice with Next.js SSR
+  useEffect(() => {
+    if (powerOn === 'auto') {
+      setUsePermissionPriming(localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null)
+    }
+  }, [powerOn])
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -193,7 +196,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       setUsePermissionPriming(false)
       // Set connect made
       if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
-        localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
+        localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()))
       }
     }
 
