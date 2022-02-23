@@ -3,7 +3,7 @@ import { useSpeechContext } from "@speechly/react-client";
 import {
   PushToTalkButton,
   BigTranscript,
-  ErrorPanel
+  IntroPopup
 } from "@speechly/react-ui";
 import "./App.css";
 
@@ -49,8 +49,8 @@ function App() {
   return (
     <div className="App">
       <BigTranscript placement="top"/>
-      <PushToTalkButton placement="bottom" captureKey=" "/>
-      <ErrorPanel placement="bottom"/>
+      <PushToTalkButton placement="bottom" captureKey=" " powerOn="auto" />
+      <IntroPopup />
       <div className="Form">
         <div className="Form_group">
           <label>Name</label>
