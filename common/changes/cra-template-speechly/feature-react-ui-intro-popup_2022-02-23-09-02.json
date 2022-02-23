@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "cra-template-speechly",
+      "comment": "Using IntroPopup instead of ErrorPanel",
+      "type": "minor"
+    }
+  ],
+  "packageName": "cra-template-speechly"
+}
