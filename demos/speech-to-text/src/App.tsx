@@ -6,7 +6,7 @@ import {
   CompletionPayload,
   CompletionResponse
 } from "react-openai-api/lib/esm/types";
-import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
+import { PushToTalkButton, IntroPopup } from "@speechly/react-ui";
 import "./App.css";
 import marvAvatar from "./assets/marv.png"
 
@@ -28,7 +28,7 @@ const App: React.FC = (): JSX.Element => {
   return (
     <div className="App">
       <DemoNavigation />
-      <ErrorPanel />
+      <IntroPopup />
       <SpeechlyApp/>
     </div>
   )
@@ -184,6 +184,7 @@ const SpeechlyApp: React.FC = (): JSX.Element => {
             showTime={2000}
             tapToTalkTime={0}
             intro=""
+            powerOn="auto"
             />
           </div>
         </div>
