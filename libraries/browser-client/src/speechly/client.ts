@@ -318,12 +318,12 @@ export class Client {
   }
 
   private async queue(task: () => Promise<any>): Promise<any> {
-    const prevTask = this.listeningPromise;
+    const prevTask = this.listeningPromise
     this.listeningPromise = (async () => {
       await prevTask
       return task()
     })()
-    return await this.listeningPromise
+    return this.listeningPromise
   }
 
   /**
@@ -399,7 +399,7 @@ export class Client {
           this.setState(SpeechlyState.Ready)
         })
         // Await stopContext to finish, but allow a new context to start at in parallel
-        if (stopContextTask) {
+        if (stopContextTask !== null) {
           const contextId = await stopContextTask
           this.activeContexts.delete(contextId)
           return contextId
@@ -417,7 +417,7 @@ export class Client {
    * by sending a start context event to the API and unmuting the microphone.
    * @param appId - unique identifier of an app in the dashboard.
    */
-   async switchContext(appId: string): Promise<void> {
+  async switchContext(appId: string): Promise<void> {
     await this.queue(async () => {
       if (this.state === SpeechlyState.Recording) {
         const contextId = await this.apiClient.switchContext(appId)
