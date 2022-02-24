@@ -1,7 +1,7 @@
-enable_strict_nlu: true
 fast_intent_detector: true
 adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/fashion-demo-rnnt-adaptation-corpus-first-pass-5h47min.tar'
 asr_biasing: moderate
+enable_strict_nlu: true
 imports:
   - name: brand_alias
     source: brand.csv
@@ -82,7 +82,7 @@ templates: |-
   size = $sizes_alias(sizes)
   sort = $sort_alias(sort)
   filter = $filter_alias(filter)
-  carrier_phrases = {0.1: now} [let's say|i'm interested in|i'm looking for|{[can you|will you]} show me|select|search {for}|display|filter by|find {me}|give me| [i want to | i'd like to | can i] [see|view|browse] | i want {to buy} | i need {to buy}]
+  carrier_phrases = {0.1: now} [let's say|i'm interested in|i'm looking for|{[can you|will you]} show me|select|search {for}|display|filter by|find {me}|give me| [i want to | i'd like to | can i] [see|view|browse] | i want {to [buy|purchase]} | i need {to [buy|purchase]}]
   open_carrier = [go to | navigate {to} | {[can you|will you]} [show|display] {me} | view | open | choose | take me to | direct me to | i want {to see} | i need {to see}]
   what_carrier = [what's| what | which {[is|are]}]
   search_carrier = [{that} {do} you have {please} | {have} you got {please}]
@@ -93,7 +93,7 @@ templates: |-
   clear_utterances = [
     clear {all}
     clear {all} [filters|filter|fields|search]
-    reset {[my|the] search}
+    reset {[my|the] search} {filters}
     restart
     start over
     start a new search
@@ -103,7 +103,7 @@ templates: |-
     remove {all} [filters|filter|fields|search]
     claire
     delete
-    [go|bring me] back {to} [home|the homepage]
+    [go|bring me] back {to} [home|{the} homepage]
     ![{please} | clear [my|the] search]
   ]
 
