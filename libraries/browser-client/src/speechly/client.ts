@@ -212,9 +212,9 @@ export class Client {
    * the microphone functionality will not work due to security restrictions by the browser.
    */
   async initialize(): Promise<void> {
-    // Ensure we're connected. Returns immediately if we are
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
+        // Ensure we're connected
         await this.connect()
         this.advanceState(SpeechlyState.Initializing)
         try {
@@ -317,15 +317,6 @@ export class Client {
     return this.state < SpeechlyState.__NonRecovableErrors
   }
 
-  private async queue(task: () => Promise<any>): Promise<any> {
-    const prevTask = this.listeningPromise
-    this.listeningPromise = (async () => {
-      await prevTask
-      return task()
-    })()
-    return this.listeningPromise
-  }
-
   /**
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
@@ -337,12 +328,15 @@ export class Client {
       }
       this.listening = true
 
-      const contextId = await this.queue(async () => {
+      const prevTask = this.listeningPromise
+      const startTask = this.listeningPromise = (async () => {
         if (this.state < SpeechlyState.Ready) {
           await this.initialize()
+        } else {
+          await prevTask
         }
         if (this.state !== SpeechlyState.Ready) {
-          throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
+          throw Error('[SpeechlyClient] Unable to complete startContext: Expected Ready state, but state was: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
         this.setState(SpeechlyState.Starting)
 
@@ -370,7 +364,8 @@ export class Client {
         this.activeContexts.set(contextId, new Map<number, SegmentState>())
         this.setState(SpeechlyState.Recording)
         return contextId
-      })
+      })()
+      const contextId = await startTask
       return contextId
     }
     throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
@@ -386,24 +381,26 @@ export class Client {
         throw Error('Already stopped listening')
       }
       this.listening = false
-      let stopContextTask: Promise<string> | null = null
+      const prevTask = this.listeningPromise
+      let stopContextTask: Promise<string> = Promise.resolve('')
       try {
-        await this.queue(async () => {
+        const stopRecordingTask = this.listeningPromise = (async () => {
+          await prevTask
           if (this.state !== SpeechlyState.Recording) {
-            throw Error('[SpeechlyClient] Unable to complete stopContext: The client was in an unexpected state: ' + stateToString(this.state) + '.')
+            throw Error('[SpeechlyClient] Unable to complete stopContext: Expected Recording state, but state was ' + stateToString(this.state) + '.')
           }
           this.setState(SpeechlyState.Stopping)
           await this.sleep(this.contextStopDelay)
           this.microphone.mute()
           stopContextTask = this.apiClient.stopContext()
           this.setState(SpeechlyState.Ready)
-        })
-        // Await stopContext to finish, but allow a new context to start at in parallel
-        if (stopContextTask !== null) {
-          const contextId = await stopContextTask
-          this.activeContexts.delete(contextId)
-          return contextId
-        }
+        })()
+        // wait for this.listeningPromise to resolve
+        await stopRecordingTask
+        // now new context is ready be started, but still waiting for stopContext to complete
+        const contextId = await stopContextTask
+        this.activeContexts.delete(contextId)
+        return contextId
       } catch (err) {
         this.setState(SpeechlyState.Failed)
         throw err
@@ -418,12 +415,16 @@ export class Client {
    * @param appId - unique identifier of an app in the dashboard.
    */
   async switchContext(appId: string): Promise<void> {
-    await this.queue(async () => {
-      if (this.state === SpeechlyState.Recording) {
-        const contextId = await this.apiClient.switchContext(appId)
-        this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    const prevTask = this.listeningPromise
+    const switchTask = this.listeningPromise = (async () => {
+      await prevTask
+      if (this.state !== SpeechlyState.Recording) {
+        throw Error('[SpeechlyClient] Unable to complete switchContext: Expected Recording state, but state was ' + stateToString(this.state) + '.')
       }
-    })
+      const contextId = await this.apiClient.switchContext(appId)
+      this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    })()
+    await switchTask
   }
 
   /**
