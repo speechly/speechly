@@ -78,7 +78,7 @@ export class Client {
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
   private initializePromise: Promise<void> | null = null
-  private listeningTasks: Array<Promise<any>> = []
+  private listeningPromise: Promise<any> | null = null
 
   private readonly deviceId: string
   private authToken?: string
@@ -171,9 +171,9 @@ export class Client {
    * prewarming the connection, resulting in less noticeable waits for the user.
    */
   public async connect(): Promise<void> {
-    this.advanceState(SpeechlyState.Connecting)
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
+        this.advanceState(SpeechlyState.Connecting)
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -213,11 +213,10 @@ export class Client {
    */
   async initialize(): Promise<void> {
     // Ensure we're connected. Returns immediately if we are
-    await this.connect()
-    this.advanceState(SpeechlyState.Initializing)
-
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
+        await this.connect()
+        this.advanceState(SpeechlyState.Initializing)
         try {
           if (this.isWebkit) {
             if (window.webkitAudioContext !== undefined) {
@@ -314,21 +313,17 @@ export class Client {
     }
   }
 
-  /**
-   * Stops current context and immediately starts a new SLU context
-   * by sending a start context event to the API and unmuting the microphone.
-   * @param appId - unique identifier of an app in the dashboard.
-   */
-  async switchContext(appId: string): Promise<void> {
-    await Promise.all(this.listeningTasks)
-    if (this.state === SpeechlyState.Recording) {
-      const contextId = await this.apiClient.switchContext(appId)
-      this.activeContexts.set(contextId, new Map<number, SegmentState>())
-    }
-  }
-
   private hasUnrecoverableError(): boolean {
     return this.state < SpeechlyState.__NonRecovableErrors
+  }
+
+  private async queue(task: () => Promise<any>): Promise<any> {
+    const prevTask = this.listeningPromise;
+    this.listeningPromise = (async () => {
+      await prevTask
+      return task()
+    })()
+    return await this.listeningPromise
   }
 
   /**
@@ -341,12 +336,12 @@ export class Client {
         throw Error('Already listening')
       }
       this.listening = true
-      await Promise.all(this.listeningTasks)
-      let thisTask: Promise<string>
-      this.listeningTasks.push(thisTask = (async () => {
-        await this.initialize()
+
+      const contextId = await this.queue(async () => {
+        if (this.state < SpeechlyState.Ready) {
+          await this.initialize()
+        }
         if (this.state !== SpeechlyState.Ready) {
-          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete startContext: The client was in an unexpected state: ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
         this.setState(SpeechlyState.Starting)
@@ -360,7 +355,6 @@ export class Client {
         } else {
           if (appId != null && this.appId !== appId) {
             this.setState(SpeechlyState.Failed)
-            this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
             throw ErrAppIdChangeWithoutProjectLogin
           }
           contextId = await this.apiClient.startContext()
@@ -370,17 +364,13 @@ export class Client {
         // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to SpeechlyState.Disconnected
         // @ts-ignore
         if (this.state !== SpeechlyState.Starting) {
-          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
           throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
         }
 
         this.activeContexts.set(contextId, new Map<number, SegmentState>())
         this.setState(SpeechlyState.Recording)
-        // Remove task from pending tasks
-        this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
         return contextId
-      })())
-      const contextId = await thisTask
+      })
       return contextId
     }
     throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
@@ -396,34 +386,44 @@ export class Client {
         throw Error('Already stopped listening')
       }
       this.listening = false
-      await Promise.all(this.listeningTasks)
-      let thisTask: Promise<void>
-      this.listeningTasks.push(thisTask = (async () => {
-        if (this.state !== SpeechlyState.Recording) {
-          this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
-          throw Error('[SpeechlyClient] Unable to complete stopContext: The client was in an unexpected state: ' + stateToString(this.state) + '.')
-        }
-        this.setState(SpeechlyState.Stopping)
-        await this.sleep(this.contextStopDelay)
-        this.microphone.mute()
-        this.setState(SpeechlyState.Ready)
-        // Remove task from pending tasks
-        this.listeningTasks = this.listeningTasks.filter(t => t !== thisTask)
-      })())
-      await thisTask
-
-      let contextId
+      let stopContextTask: Promise<string> | null = null
       try {
-        contextId = await this.apiClient.stopContext()
+        await this.queue(async () => {
+          if (this.state !== SpeechlyState.Recording) {
+            throw Error('[SpeechlyClient] Unable to complete stopContext: The client was in an unexpected state: ' + stateToString(this.state) + '.')
+          }
+          this.setState(SpeechlyState.Stopping)
+          await this.sleep(this.contextStopDelay)
+          this.microphone.mute()
+          stopContextTask = this.apiClient.stopContext()
+          this.setState(SpeechlyState.Ready)
+        })
+        // Await stopContext to finish, but allow a new context to start at in parallel
+        if (stopContextTask) {
+          const contextId = await stopContextTask
+          this.activeContexts.delete(contextId)
+          return contextId
+        }
       } catch (err) {
         this.setState(SpeechlyState.Failed)
         throw err
       }
-      this.activeContexts.delete(contextId)
-
-      return contextId
     }
     throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
+  }
+
+  /**
+   * Stops current context and immediately starts a new SLU context
+   * by sending a start context event to the API and unmuting the microphone.
+   * @param appId - unique identifier of an app in the dashboard.
+   */
+   async switchContext(appId: string): Promise<void> {
+    await this.queue(async () => {
+      if (this.state === SpeechlyState.Recording) {
+        const contextId = await this.apiClient.switchContext(appId)
+        this.activeContexts.set(contextId, new Map<number, SegmentState>())
+      }
+    })
   }
 
   /**
@@ -581,7 +581,7 @@ export class Client {
 
       // Reset
       this.listening = false
-      this.listeningTasks = []
+      this.listeningPromise = null
       this.microphone.mute()
 
       this.setState(SpeechlyState.Disconnected)
