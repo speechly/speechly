@@ -382,7 +382,6 @@ export class Client {
       }
       this.listening = false
       const prevTask = this.listeningPromise
-      let stopContextTask: Promise<string> = Promise.resolve('')
       try {
         const stopRecordingTask = this.listeningPromise = (async () => {
           await prevTask
@@ -392,14 +391,12 @@ export class Client {
           this.setState(SpeechlyState.Stopping)
           await this.sleep(this.contextStopDelay)
           this.microphone.mute()
-          stopContextTask = this.apiClient.stopContext()
+          const contextId = await this.apiClient.stopContext()
+          this.activeContexts.delete(contextId)
           this.setState(SpeechlyState.Ready)
+          return contextId
         })()
-        // wait for this.listeningPromise to resolve
-        await stopRecordingTask
-        // now new context is ready be started, but still waiting for stopContext to complete
-        const contextId = await stopContextTask
-        this.activeContexts.delete(contextId)
+        const contextId = await stopRecordingTask
         return contextId
       } catch (err) {
         this.setState(SpeechlyState.Failed)
