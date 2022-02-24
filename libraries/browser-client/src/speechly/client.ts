@@ -386,7 +386,7 @@ export class Client {
         throw Error('Already stopped listening')
       }
       this.listening = false
-      return await this.queueTask(async () => {
+      const contextId = await this.queueTask(async () => {
         if (this.state !== SpeechlyState.Recording) {
           throw Error('[SpeechlyClient] Unable to complete stopContext: Expected Recording state, but was in ' + stateToString(this.state) + '.')
         }
@@ -403,6 +403,7 @@ export class Client {
           throw err
         }
       })
+      return contextId
     }
     throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
   }
