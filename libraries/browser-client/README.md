@@ -113,7 +113,7 @@ Please use a HTML server to view the example. Running it as a file will not work
           case ClientState.Disconnected:
             await client.initialize();
             // fall through
-          case ClientState.Ready:
+          case ClientState.Connected:
             widget.value = "Listening..."
             client.startContext();
             break;

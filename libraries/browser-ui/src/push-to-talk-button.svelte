@@ -236,7 +236,7 @@
       case ClientState.NoAudioConsent:
         setInitialized(false, s as unknown as string);
         break;
-      case ClientState.Ready:
+      case ClientState.Connected:
         setInitialized(true, s as unknown as string);
         break;
     }

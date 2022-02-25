@@ -199,7 +199,7 @@ export class Client {
       })()
     }
     await this.connectPromise
-    this.advanceState(ClientState.Connected)
+    this.advanceState(ClientState.Preinitialized)
   }
 
   /**
@@ -259,7 +259,7 @@ export class Client {
             }
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-            this.advanceState(ClientState.Ready)
+            this.advanceState(ClientState.Connected)
           } else {
             throw ErrDeviceNotSupported
           }
@@ -280,7 +280,7 @@ export class Client {
       })()
     }
     await this.initializePromise
-    this.advanceState(ClientState.Ready)
+    this.advanceState(ClientState.Connected)
   }
 
   /**
@@ -338,11 +338,11 @@ export class Client {
       this.listening = true
 
       const contextId = await this.queueTask(async () => {
-        if (this.state < ClientState.Ready) {
+        if (this.state < ClientState.Connected) {
           await this.initialize()
         }
-        if (this.state !== ClientState.Ready) {
-          throw Error('[SpeechlyClient] Unable to complete startContext: Expected Ready state, but was in ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
+        if (this.state !== ClientState.Connected) {
+          throw Error('[SpeechlyClient] Unable to complete startContext: Expected Connected state, but was in ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
         this.setState(ClientState.Starting)
 
@@ -396,7 +396,7 @@ export class Client {
         try {
           const contextId = await this.apiClient.stopContext()
           this.activeContexts.delete(contextId)
-          this.setState(ClientState.Ready)
+          this.setState(ClientState.Connected)
           return contextId
         } catch (err) {
           this.setState(ClientState.Failed)

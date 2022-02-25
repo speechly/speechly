@@ -102,7 +102,7 @@ export default function FloorPlan() {
       case ClientState.Disconnected:
         PubSub.publish(SpeechlyUiEvents.Notification, {message: `Press the button to start`});
         break;
-      case ClientState.Ready:
+      case ClientState.Connected:
         if (appState === DefaultAppState) {
           PubSub.publish(SpeechlyUiEvents.Notification, {message: `Say "Turn off everything"`, footnote: "Hold the button while talking"});
         }

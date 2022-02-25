@@ -91,7 +91,7 @@ export enum SpeechState {
     Loading = "Loading",
     NoAudioConsent = "NoAudioConsent",
     NoBrowserSupport = "NoBrowserSupport",
-    Ready = "Ready",
+    Connected = "Connected",
     Recording = "Recording"
 }
 

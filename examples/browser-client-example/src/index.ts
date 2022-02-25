@@ -221,7 +221,7 @@ function bindInitializeButton(client: Client) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    if (clientState >= ClientState.Ready) {
+    if (clientState >= ClientState.Connected) {
       console.log(
         "Client is already initialized, but hey, it's still ok to call initialize(). Think of it as a social call."
       );

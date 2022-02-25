@@ -136,7 +136,7 @@
         <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
         <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.detail property.</li>
         <li><code>starting</code> - CustomEvent triggered on initialization start</li>
-        <li><code>initialized</code> - CustomEvent triggered on initialization end. event.detail: {success: true | false, appId: string, state: ClientState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</li>
+        <li><code>initialized</code> - CustomEvent triggered on initialization end. event.detail: {success: true | false, appId: string, state: ClientState.Connected|Failed|NoBrowserSupport|NoAudioConsent}</li>
         <li><code>startcontext</code> - CustomEvent triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration.</li>
         <li><code>stopcontext</code> - CustomEvent triggered on just after stopping listening.</li>
       </ul>
@@ -147,7 +147,7 @@
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
         <li><code>{type: "poweron"}</code> - Broadcasted on button initial button press when poweron=true</li>
-        <li><code>{type: "initialized", success: true | false, appId: string, state: ClientState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</code> - Broadcasted on initialization end.</li>
+        <li><code>{type: "initialized", success: true | false, appId: string, state: ClientState.Connected|Failed|NoBrowserSupport|NoAudioConsent}</code> - Broadcasted on initialization end.</li>
       </ul>
       <h3>Window messages listened</h3>
       <ul>

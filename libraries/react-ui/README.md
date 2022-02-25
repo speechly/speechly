@@ -116,7 +116,7 @@ The icon on the button displays the Speechly system state:
 
 1. **Offline** (Power-on icon): Pressing the button initialises the Speechly API and may trigger the browser's microphone permission prompt. Shown during `ClientState.Idle`
 
-2. **Ready** (Mic icon). Waiting for user to press and hold the button to start listening. Shown during `ClientState.Ready`
+2. **Connected** (Mic icon). Waiting for user to press and hold the button to start listening. Shown during `ClientState.Connected`
 
 3. **Listening** (Highlighted mic). This state is displayed when the component is being held down and Speechly listens for audio input. Shown during `ClientState.Recording`
 

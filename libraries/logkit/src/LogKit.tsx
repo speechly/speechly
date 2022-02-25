@@ -75,7 +75,7 @@ export const LogKit: React.FC<Props> = ({
           Logger.trackInitialized(false, stateToString(clientState), appName, appVersion)
           setInitializationAttempted(true)
           break
-        case ClientState.Ready:
+        case ClientState.Connected:
           Logger.trackInitialized(true, stateToString(clientState), appName, appVersion)
           setInitializationAttempted(true)
           break

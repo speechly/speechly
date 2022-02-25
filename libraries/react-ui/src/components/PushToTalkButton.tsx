@@ -137,7 +137,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 }) => {
   const { client, clientState, initialize, startContext, stopContext, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
-  const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Ready) as unknown as string)
+  const [icon, setIcon] = useState<string>((powerOn ? ClientState.Disconnected : ClientState.Connected) as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const buttonStateRef = useRef<IButtonState>({
@@ -183,7 +183,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   useEffect(() => {
     // Change button face according to Speechly states
     if (!powerOn && clientState === ClientState.Disconnected) {
-      setIcon(ClientState.Ready as unknown as string)
+      setIcon(ClientState.Connected as unknown as string)
     } else {
       setIcon(clientState as unknown as string)
     }
