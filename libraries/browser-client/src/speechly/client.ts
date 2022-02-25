@@ -27,7 +27,7 @@ import { Storage, LocalStorage } from '../storage'
 
 import {
   ClientOptions,
-  SpeechlyState,
+  ClientState,
   StateChangeCallback,
   SegmentChangeCallback,
   TentativeTranscriptCallback,
@@ -83,7 +83,7 @@ export class Client {
   private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
-  private state: SpeechlyState = SpeechlyState.Disconnected
+  private state: ClientState = ClientState.Disconnected
   private readonly apiUrl: string
 
   private stateChangeCb: StateChangeCallback = () => {}
@@ -173,7 +173,7 @@ export class Client {
   public async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
-        this.advanceState(SpeechlyState.Connecting)
+        this.advanceState(ClientState.Connecting)
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -182,7 +182,7 @@ export class Client {
             // Cache the auth token in local storage for future use.
             this.storage.set(authTokenKey, this.authToken)
           } catch (err) {
-            this.setState(SpeechlyState.Failed)
+            this.setState(ClientState.Failed)
             throw err
           }
         } else {
@@ -193,13 +193,13 @@ export class Client {
         try {
           await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
         } catch (err) {
-          this.setState(SpeechlyState.Failed)
+          this.setState(ClientState.Failed)
           throw err
         }
       })()
     }
     await this.connectPromise
-    this.advanceState(SpeechlyState.Connected)
+    this.advanceState(ClientState.Connected)
   }
 
   /**
@@ -216,7 +216,7 @@ export class Client {
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
         await this.connect()
-        this.advanceState(SpeechlyState.Initializing)
+        this.advanceState(ClientState.Initializing)
         try {
           if (this.isWebkit) {
             if (window.webkitAudioContext !== undefined) {
@@ -259,20 +259,20 @@ export class Client {
             }
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
-            this.advanceState(SpeechlyState.Ready)
+            this.advanceState(ClientState.Ready)
           } else {
             throw ErrDeviceNotSupported
           }
         } catch (err) {
           switch (err) {
             case ErrDeviceNotSupported:
-              this.setState(SpeechlyState.NoBrowserSupport)
+              this.setState(ClientState.NoBrowserSupport)
               break
             case ErrNoAudioConsent:
-              this.setState(SpeechlyState.NoAudioConsent)
+              this.setState(ClientState.NoAudioConsent)
               break
             default:
-              this.setState(SpeechlyState.Failed)
+              this.setState(ClientState.Failed)
           }
 
           throw err
@@ -280,7 +280,7 @@ export class Client {
       })()
     }
     await this.initializePromise
-    this.advanceState(SpeechlyState.Ready)
+    this.advanceState(ClientState.Ready)
   }
 
   /**
@@ -306,7 +306,7 @@ export class Client {
     this.activeContexts.clear()
     this.connectPromise = null
     this.initializePromise = null
-    this.setState(SpeechlyState.Disconnected)
+    this.setState(ClientState.Disconnected)
 
     if (errs.length > 0) {
       throw Error(errs.join(','))
@@ -314,7 +314,7 @@ export class Client {
   }
 
   private hasUnrecoverableError(): boolean {
-    return this.state < SpeechlyState.__NonRecovableErrors
+    return this.state < ClientState.__NonRecovableErrors
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {
@@ -338,13 +338,13 @@ export class Client {
       this.listening = true
 
       const contextId = await this.queueTask(async () => {
-        if (this.state < SpeechlyState.Ready) {
+        if (this.state < ClientState.Ready) {
           await this.initialize()
         }
-        if (this.state !== SpeechlyState.Ready) {
+        if (this.state !== ClientState.Ready) {
           throw Error('[SpeechlyClient] Unable to complete startContext: Expected Ready state, but was in ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
         }
-        this.setState(SpeechlyState.Starting)
+        this.setState(ClientState.Starting)
 
         this.microphone.unmute()
 
@@ -354,21 +354,21 @@ export class Client {
           contextId = await this.apiClient.startContext(appId)
         } else {
           if (appId != null && this.appId !== appId) {
-            this.setState(SpeechlyState.Failed)
+            this.setState(ClientState.Failed)
             throw ErrAppIdChangeWithoutProjectLogin
           }
           contextId = await this.apiClient.startContext()
         }
 
         // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
-        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to SpeechlyState.Disconnected
+        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
         // @ts-ignore
-        if (this.state !== SpeechlyState.Starting) {
+        if (this.state !== ClientState.Starting) {
           throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
         }
 
         this.activeContexts.set(contextId, new Map<number, SegmentState>())
-        this.setState(SpeechlyState.Recording)
+        this.setState(ClientState.Recording)
         return contextId
       })
       return contextId
@@ -387,19 +387,19 @@ export class Client {
       }
       this.listening = false
       const contextId = await this.queueTask(async () => {
-        if (this.state !== SpeechlyState.Recording) {
+        if (this.state !== ClientState.Recording) {
           throw Error('[SpeechlyClient] Unable to complete stopContext: Expected Recording state, but was in ' + stateToString(this.state) + '.')
         }
-        this.setState(SpeechlyState.Stopping)
+        this.setState(ClientState.Stopping)
         await this.sleep(this.contextStopDelay)
         this.microphone.mute()
         try {
           const contextId = await this.apiClient.stopContext()
           this.activeContexts.delete(contextId)
-          this.setState(SpeechlyState.Ready)
+          this.setState(ClientState.Ready)
           return contextId
         } catch (err) {
-          this.setState(SpeechlyState.Failed)
+          this.setState(ClientState.Failed)
           throw err
         }
       })
@@ -415,7 +415,7 @@ export class Client {
    */
   async switchContext(appId: string): Promise<void> {
     await this.queueTask(async () => {
-      if (this.state !== SpeechlyState.Recording) {
+      if (this.state !== ClientState.Recording) {
         throw Error('[SpeechlyClient] Unable to complete switchContext: Expected Recording state, but was in ' + stateToString(this.state) + '.')
       }
       const contextId = await this.apiClient.switchContext(appId)
@@ -572,7 +572,7 @@ export class Client {
 
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
-        this.setState(SpeechlyState.Failed)
+        this.setState(ClientState.Failed)
         return
       }
 
@@ -581,7 +581,7 @@ export class Client {
       this.listeningPromise = null
       this.microphone.mute()
 
-      this.setState(SpeechlyState.Disconnected)
+      this.setState(ClientState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
@@ -601,14 +601,14 @@ export class Client {
     }
   }
 
-  private advanceState(newState: SpeechlyState): void {
+  private advanceState(newState: ClientState): void {
     if (this.state >= newState) {
       return
     }
     this.setState(newState)
   }
 
-  private setState(newState: SpeechlyState): void {
+  private setState(newState: ClientState): void {
     if (this.state === newState) {
       return
     }

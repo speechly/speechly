@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from 'react'
-import { SpeechSegment, useSpeechContext, SpeechlyState, stateToString } from '@speechly/react-client'
+import { SpeechSegment, useSpeechContext, ClientState, stateToString } from '@speechly/react-client'
 import Logger from './logger'
 
 const search = window.location.search.substring(1)
@@ -69,13 +69,13 @@ export const LogKit: React.FC<Props> = ({
   useEffect(() => {
     if (!initializationAttempted) {
       switch(clientState) {
-        case SpeechlyState.NoBrowserSupport:
-        case SpeechlyState.NoAudioConsent:
-        case SpeechlyState.Failed:
+        case ClientState.NoBrowserSupport:
+        case ClientState.NoAudioConsent:
+        case ClientState.Failed:
           Logger.trackInitialized(false, stateToString(clientState), appName, appVersion)
           setInitializationAttempted(true)
           break
-        case SpeechlyState.Ready:
+        case ClientState.Ready:
           Logger.trackInitialized(true, stateToString(clientState), appName, appVersion)
           setInitializationAttempted(true)
           break

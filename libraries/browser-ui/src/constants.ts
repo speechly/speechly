@@ -1,9 +1,9 @@
 import type { IAppearance } from "./types";
-import { SpeechlyState } from "../node_modules/@speechly/browser-client/src/speechly/types";
+import { ClientState } from "../node_modules/@speechly/browser-client/src/speechly/types";
 
-// Copy of SpeechlyState. If used directly from browser-client, rollup includes the whole of
+// Copy of ClientState. If used directly from browser-client, rollup includes the whole of
 // browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
-export { SpeechlyState }
+export { ClientState }
 
 export const enum LocalStorageKeys {
   SpeechlyFirstConnect = "SpeechlyFirstConnect",
@@ -49,16 +49,16 @@ export const enum TriggerFx {
 }
 
 export const clientStateToAppearance: {[state: string]: IAppearance} = {
-  [SpeechlyState.Disconnected]: { icon: Icon.Mic, behaviour: Behaviour.Click, effect: Effect.None, triggerFx: TriggerFx.Whirl},
-  [SpeechlyState.Disconnecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
-  [SpeechlyState.Connecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
-  [SpeechlyState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
-  [SpeechlyState.Initializing]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
-  [SpeechlyState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
-  [SpeechlyState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting},
-  [SpeechlyState.Recording]: { icon: Icon.MicActive, behaviour: Behaviour.Hold, effect: Effect.None},
-  [SpeechlyState.Stopping]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
-  [SpeechlyState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
-  [SpeechlyState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
-  [SpeechlyState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.Disconnected]: { icon: Icon.Mic, behaviour: Behaviour.Click, effect: Effect.None, triggerFx: TriggerFx.Whirl},
+  [ClientState.Disconnecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Connecting]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
+  [ClientState.Initializing]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Connecting},
+  [ClientState.Ready]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
+  [ClientState.Starting]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.Connecting},
+  [ClientState.Recording]: { icon: Icon.MicActive, behaviour: Behaviour.Hold, effect: Effect.None},
+  [ClientState.Stopping]: { icon: Icon.Mic, behaviour: Behaviour.Noninteractive, effect: Effect.Busy},
+  [ClientState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [ClientState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
 }

@@ -4,7 +4,7 @@ import {
   useSpeechContext,
   Entity,
   Intent,
-  SpeechlyState,
+  ClientState,
 } from "@speechly/react-client";
 import { isWebpSupported } from "react-image-webp/dist/utils";
 import { animated, useSpring } from "react-spring";
@@ -99,10 +99,10 @@ export default function FloorPlan() {
 
   useEffect(() => {
     switch(clientState) {
-      case SpeechlyState.Disconnected:
+      case ClientState.Disconnected:
         PubSub.publish(SpeechlyUiEvents.Notification, {message: `Press the button to start`});
         break;
-      case SpeechlyState.Ready:
+      case ClientState.Ready:
         if (appState === DefaultAppState) {
           PubSub.publish(SpeechlyUiEvents.Notification, {message: `Say "Turn off everything"`, footnote: "Hold the button while talking"});
         }

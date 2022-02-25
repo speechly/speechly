@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SpeechlyState, useSpeechContext } from '@speechly/react-client'
+import { ClientState, useSpeechContext } from '@speechly/react-client'
 import styled from 'styled-components'
 import { Info } from './Info'
 import { SpeechlyUiEvents } from '../types'
@@ -51,7 +51,7 @@ export const Notifications: React.FC = props => {
   useEffect(() => {
     const subDismiss = PubSub.subscribe(
       SpeechlyUiEvents.DismissNotification,
-      (message: string, payload: { state: SpeechlyState }) => {
+      (message: string, payload: { state: ClientState }) => {
         hideHints()
       },
     )
@@ -88,7 +88,7 @@ export const Notifications: React.FC = props => {
 
   useEffect(() => {
     switch (clientState) {
-      case SpeechlyState.Recording: {
+      case ClientState.Recording: {
         hideHints()
       }
     }

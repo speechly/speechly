@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClientOptions, SpeechlyState, Client } from '@speechly/browser-client'
+import { ClientOptions, ClientState, Client } from '@speechly/browser-client'
 
 import {
   Word,
@@ -77,7 +77,7 @@ export interface SpeechContextState {
    * Current state of the context, whether it's idle, recording or failed, etc.
    * Use this to indicate to the user that recording is in progress or results are being fetched from the API.
    */
-  clientState: SpeechlyState
+  clientState: ClientState
 
   /**
    * Last tentative transcript received from the API. Resets after current segment is finalised.
@@ -131,7 +131,7 @@ export const SpeechContext = React.createContext<SpeechContextState>({
   startContext: async () => Promise.resolve('Unknown contextId'),
   stopContext: async () => Promise.resolve('Unknown contextId'),
   switchApp: (): void => {},
-  clientState: SpeechlyState.Disconnected,
+  clientState: ClientState.Disconnected,
   listening: false,
 })
 
@@ -148,7 +148,7 @@ export interface SpeechProviderProps extends ClientOptions {
 
 interface SpeechProviderState {
   client?: Client
-  clientState: SpeechlyState
+  clientState: ClientState
   listening: boolean
   appId?: string
   segment?: SpeechSegment
@@ -176,7 +176,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     this.state = {
       client: undefined,
       listening: false,
-      clientState: SpeechlyState.Disconnected,
+      clientState: ClientState.Disconnected,
       appId: props.appId,
     }
   }
@@ -349,8 +349,8 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return client
   }
 
-  private readonly onClientStateChange = (clientState: SpeechlyState): void => {
-    if (clientState <= SpeechlyState.Disconnected) {
+  private readonly onClientStateChange = (clientState: ClientState): void => {
+    if (clientState <= ClientState.Disconnected) {
       this.setState({ listening: false })
     }
     this.setState({ clientState })

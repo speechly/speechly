@@ -136,18 +136,18 @@
         <li><code>holdend</code> - CustomEvent triggered upon hold end. event.detail.timeMs contains hold time in ms.</li>
         <li><code>speechsegment</code> - CustomEvent triggered when speech-to-text segment changes. Segment available as the event.detail property.</li>
         <li><code>starting</code> - CustomEvent triggered on initialization start</li>
-        <li><code>initialized</code> - CustomEvent triggered on initialization end. event.detail: {success: true | false, appId: string, state: SpeechlyState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</li>
+        <li><code>initialized</code> - CustomEvent triggered on initialization end. event.detail: {success: true | false, appId: string, state: ClientState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</li>
         <li><code>startcontext</code> - CustomEvent triggered on just before starting listening. Allows changing <code>appid</code> to redirect audio to an alternative voice configuration.</li>
         <li><code>stopcontext</code> - CustomEvent triggered on just after stopping listening.</li>
       </ul>
       <h3>Window messages sent (postMessage)</h3>
       <ul>
         <li><code>{type: "speechsegment", segment: Segment}</code> - Broadcasts new segment when an update is available</li>
-        <li><code>{type: "speechstate", state: SpeechlyState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
+        <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
         <li><code>{type: "poweron"}</code> - Broadcasted on button initial button press when poweron=true</li>
-        <li><code>{type: "initialized", success: true | false, appId: string, state: SpeechlyState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</code> - Broadcasted on initialization end.</li>
+        <li><code>{type: "initialized", success: true | false, appId: string, state: ClientState.Ready|Failed|NoBrowserSupport|NoAudioConsent}</code> - Broadcasted on initialization end.</li>
       </ul>
       <h3>Window messages listened</h3>
       <ul>
@@ -186,7 +186,7 @@
       <h3>Properties</h3>
       <ul>
         <li><code>speechsegment(segment: Segment)</code> - Function. Call whenever a new segment update is available</li>
-        <li><code>speechstate(state: SpeechlyState)</code> - Function. Call whenever SpeechlyState changes. Needed to show/hide element.</li>
+        <li><code>speechstate(state: ClientState)</code> - Function. Call whenever ClientState changes. Needed to show/hide element.</li>
         <li><code>speechhandled(success: boolean)</code> - Function. Optionally call on segment.isFinal to show confirmation that speech was processed. An indication will be shown with big-transcript.</li>
       </ul>
       <h3>Events emitted</h3>
@@ -195,7 +195,7 @@
       </ul>
       <h3>Window messages listened</h3>
       <ul>
-        <li><code>{type: "speechstate", state: SpeechlyState}</code> - Required. Needed to show/hide element. This message is automatically emitted by push-to-talk-button.</li>
+        <li><code>{type: "speechstate", state: ClientState}</code> - Required. Needed to show/hide element. This message is automatically emitted by push-to-talk-button.</li>
         <li><code>{type: "speechsegment", segment: Segment}</code> - Required. Updates transcript content in component. This message is automatically emitted by push-to-talk-button.</li>
         <li><code>{type: "speechhandled", success: boolean}</code> - Optional. Shows an indication to the user that the voice command was successfully understood by the app. Use window.postMessage to send it on segment.isFinal.</li>
       </ul>
@@ -212,7 +212,7 @@
     <component-api id="holdable-button-api">
       <h3>Attributes</h3>
       <ul>
-        <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of SpeechlyState (from browser-client).</li>
+        <li><code>icon</code> - Defines the appearance and behaviour of the button. Accepts serialized enums of ClientState (from browser-client).</li>
         <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
         <li><code>size</code> - Optional string (CSS). Defines the button frame width and height. Default: "6rem"</li>
         <li><code>gradientstop1</code> - Optional string (CSS color). Default: "#15e8b5"</li>

@@ -1,27 +1,27 @@
-import { SpeechlyState } from './types'
+import { ClientState } from './types'
 
 /**
  * Converts client state value to a string, which could be useful for debugging or metrics.
  * @param state - the state of the client
  * @public
  */
-export function stateToString(state: SpeechlyState): string {
+export function stateToString(state: ClientState): string {
   return states.get(state) ?? unknown
 }
 
 // TODO: generate this from the enum.
 const unknown = 'Unknown'
-const states = new Map<SpeechlyState, string>([
-  [SpeechlyState.Failed, 'Failed'],
-  [SpeechlyState.NoBrowserSupport, 'NoBrowserSupport'],
-  [SpeechlyState.NoAudioConsent, 'NoAudioConsent'],
-  [SpeechlyState.Disconnecting, 'Disconnecting'],
-  [SpeechlyState.Disconnected, 'Disconnected'],
-  [SpeechlyState.Connecting, 'Connecting'],
-  [SpeechlyState.Connected, 'Connected'],
-  [SpeechlyState.Initializing, 'Initializing'],
-  [SpeechlyState.Ready, 'Ready'],
-  [SpeechlyState.Stopping, 'Stopping'],
-  [SpeechlyState.Starting, 'Starting'],
-  [SpeechlyState.Recording, 'Recording'],
+const states = new Map<ClientState, string>([
+  [ClientState.Failed, 'Failed'],
+  [ClientState.NoBrowserSupport, 'NoBrowserSupport'],
+  [ClientState.NoAudioConsent, 'NoAudioConsent'],
+  [ClientState.Disconnecting, 'Disconnecting'],
+  [ClientState.Disconnected, 'Disconnected'],
+  [ClientState.Connecting, 'Connecting'],
+  [ClientState.Connected, 'Connected'],
+  [ClientState.Initializing, 'Initializing'],
+  [ClientState.Ready, 'Ready'],
+  [ClientState.Stopping, 'Stopping'],
+  [ClientState.Starting, 'Starting'],
+  [ClientState.Recording, 'Recording'],
 ])

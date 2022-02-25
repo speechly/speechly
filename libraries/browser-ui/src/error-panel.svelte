@@ -1,7 +1,7 @@
 <svelte:options tag={null} immutable={true} />
 
 <script lang="ts">
-  import { SpeechlyState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
 
   const InvaldAppId = 'InvaldAppId'
   const HttpsRequired = 'HttpsRequired'
@@ -24,7 +24,7 @@
    * @public
    */
 
-  let visible: SpeechlyState | string = null;
+  let visible: ClientState | string = null;
 
   const handleMessage = (e) => {
     switch (e.data.type) {
@@ -40,17 +40,17 @@
     }
   }
 
-  const initialized = (state: SpeechlyState, appId: string) => {
+  const initialized = (state: ClientState, appId: string) => {
     errorParams = { appId: appId }
   }
 
-  const micButtonPressed = (state: SpeechlyState) => {
+  const micButtonPressed = (state: ClientState) => {
     switch (state) {
-      case SpeechlyState.Failed:
+      case ClientState.Failed:
         visible = InvaldAppId;
         break
-      case SpeechlyState.NoAudioConsent:
-      case SpeechlyState.NoBrowserSupport:
+      case ClientState.NoAudioConsent:
+      case ClientState.NoBrowserSupport:
         // Provide special instructions for non-https access
         if (
           window?.location?.protocol !== 'https:' &&
@@ -97,7 +97,7 @@
           </p>
         </errorRight>
       {/if}
-      {#if visible === SpeechlyState.NoAudioConsent}
+      {#if visible === ClientState.NoAudioConsent}
         <errorRight>
           <h1>No Mic Permission</h1>
           <p>
@@ -113,7 +113,7 @@
           </p>
         </errorRight>
       {/if}
-      {#if visible === SpeechlyState.NoBrowserSupport}
+      {#if visible === ClientState.NoBrowserSupport}
         <errorRight>
           <h1>Unsupported Browser</h1>
           <p>
