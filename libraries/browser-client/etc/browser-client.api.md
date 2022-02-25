@@ -64,33 +64,31 @@ export interface ClientOptions {
 // @public
 export enum ClientState {
     // (undocumented)
-    __Errors = 4,
+    __UnrecoverableErrors = 3,
     // (undocumented)
-    __NonRecovableErrors = 2,
+    Connected = 9,
     // (undocumented)
-    Connected = 10,
+    Connecting = 6,
     // (undocumented)
-    Connecting = 7,
+    Disconnected = 4,
     // (undocumented)
-    Disconnected = 5,
-    // (undocumented)
-    Disconnecting = 6,
+    Disconnecting = 5,
     // (undocumented)
     Failed = 0,
     // (undocumented)
-    Initializing = 9,
+    Initializing = 8,
     // (undocumented)
-    NoAudioConsent = 3,
+    NoAudioConsent = 2,
     // (undocumented)
     NoBrowserSupport = 1,
     // (undocumented)
-    Preinitialized = 8,
+    Preinitialized = 7,
     // (undocumented)
-    Recording = 13,
+    Recording = 12,
     // (undocumented)
-    Starting = 12,
+    Starting = 11,
     // (undocumented)
-    Stopping = 11
+    Stopping = 10
 }
 
 // @public
