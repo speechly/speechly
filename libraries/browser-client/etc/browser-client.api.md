@@ -27,6 +27,8 @@ export class Client {
     close(): Promise<void>;
     connect(): Promise<void>;
     initialize(): Promise<void>;
+    // (undocumented)
+    isListening(): boolean;
     onEntity(cb: EntityCallback): void;
     onIntent(cb: IntentCallback): void;
     onSegmentChange(cb: SegmentChangeCallback): void;
@@ -49,6 +51,7 @@ export interface ClientOptions {
     autoGainControl?: boolean;
     connect?: boolean;
     debug?: boolean;
+    // @deprecated (undocumented)
     language?: string;
     loginUrl?: string;
     logSegments?: boolean;
@@ -61,29 +64,41 @@ export interface ClientOptions {
 // @public
 export enum ClientState {
     // (undocumented)
-    Connected = 6,
+    __Errors = 4,
     // (undocumented)
-    Connecting = 5,
+    __NonRecovableErrors = 2,
     // (undocumented)
-    Disconnected = 3,
+    Connected = 10,
     // (undocumented)
-    Disconnecting = 4,
+    Connecting = 7,
+    // (undocumented)
+    Disconnected = 5,
+    // (undocumented)
+    Disconnecting = 6,
     // (undocumented)
     Failed = 0,
     // (undocumented)
-    NoAudioConsent = 2,
+    Initializing = 9,
+    // (undocumented)
+    NoAudioConsent = 3,
     // (undocumented)
     NoBrowserSupport = 1,
     // (undocumented)
-    Recording = 9,
+    Preinitialized = 8,
     // (undocumented)
-    Starting = 7,
+    Recording = 13,
     // (undocumented)
-    Stopping = 8
+    Starting = 12,
+    // (undocumented)
+    Stopping = 11
 }
 
 // @public
-export type CloseCallback = (err: Error) => void;
+export type CloseCallback = (err: {
+    code: number;
+    reason: string;
+    wasClean: boolean;
+}) => void;
 
 // @public
 export const DefaultSampleRate = 16000;
