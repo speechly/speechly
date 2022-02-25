@@ -314,7 +314,7 @@ export class Client {
   }
 
   private hasUnrecoverableError(): boolean {
-    return this.state < ClientState.__NonRecovableErrors
+    return this.state < ClientState.__UnrecoverableErrors
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {

@@ -130,9 +130,8 @@ export type IntentCallback = (contextId: string, segmentId: number, intent: Inte
 export enum ClientState {
   Failed = 0,
   NoBrowserSupport,
-  __NonRecovableErrors,
   NoAudioConsent,
-  __Errors,
+  __UnrecoverableErrors,
   Disconnected,
   Disconnecting,
   Connecting,
