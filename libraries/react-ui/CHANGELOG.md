@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-ui
 
-This log was last generated on Mon, 28 Feb 2022 08:02:56 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 08:48:12 GMT and should not be manually modified.
+
+## 2.5.1
+Mon, 28 Feb 2022 08:48:12 GMT
+
+### Patches
+
+- respect no tap-to-talk option
 
 ## 2.5.0
 Mon, 28 Feb 2022 08:02:56 GMT

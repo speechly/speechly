@@ -2,6 +2,18 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "5.2.1",
+      "tag": "@speechly/browser-ui_v5.2.1",
+      "date": "Mon, 28 Feb 2022 08:48:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "respect no tap-to-talk option"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.2.0",
       "tag": "@speechly/browser-ui_v5.2.0",
       "date": "Mon, 28 Feb 2022 08:02:56 GMT",
