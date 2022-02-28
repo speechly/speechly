@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Thu, 10 Feb 2022 14:03:08 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 08:02:56 GMT and should not be manually modified.
+
+## 5.2.0
+Mon, 28 Feb 2022 08:02:56 GMT
+
+### Minor changes
+
+- Using new browser-client. Removed startContext workaround from onStateChange which is no longer needed."
 
 ## 5.1.1
 Thu, 10 Feb 2022 14:03:08 GMT
