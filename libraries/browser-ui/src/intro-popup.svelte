@@ -111,7 +111,7 @@
 
   const onClientStateChange = (state: ClientState) => {
     switch (state) {
-      case ClientState.Connecting:
+      case ClientState.Initializing:
         // Allow only going forward in pages to prevent hiding an error
         if (page === PagePriming) {
           page = state;
@@ -169,7 +169,7 @@
   <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
-      {#if page === PagePriming || page === ClientState.Connecting}
+      {#if page === PagePriming || page === ClientState.Initializing}
         <h2><slot name="priming-title">Allow microphone</slot></h2>
         <p>
           <slot name="priming-body">
@@ -180,7 +180,7 @@
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
           {#if showAllowButton}
-            <button on:click={initialize} class="button button-primary" disabled={page === ClientState.Connecting}>Allow</button>
+            <button on:click={initialize} class="button button-primary" disabled={page === ClientState.Initializing}>Allow</button>
           {/if}
         </options>
       {:else if page === HttpsRequired}
