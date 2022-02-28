@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "respect no tap-to-talk option",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}
