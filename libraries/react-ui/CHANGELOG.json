@@ -2,6 +2,23 @@
   "name": "@speechly/react-ui",
   "entries": [
     {
+      "version": "2.6.0",
+      "tag": "@speechly/react-ui_v2.6.0",
+      "date": "Mon, 28 Feb 2022 12:08:42 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Introducing IntroPopup wrapper for intro-popup customElement"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-ui\" from `5.2.1` to `5.3.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.5.1",
       "tag": "@speechly/react-ui_v2.5.1",
       "date": "Mon, 28 Feb 2022 08:48:12 GMT",

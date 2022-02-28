@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Mon, 28 Feb 2022 08:48:12 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 12:08:42 GMT and should not be manually modified.
+
+## 5.3.0
+Mon, 28 Feb 2022 12:08:42 GMT
+
+### Minor changes
+
+- Removed initialized and speechlystarting postMessages in favour of using ClientState.Connecting and ClientState.Connected
 
 ## 5.2.1
 Mon, 28 Feb 2022 08:48:12 GMT

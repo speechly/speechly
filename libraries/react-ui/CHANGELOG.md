@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-ui
 
-This log was last generated on Mon, 28 Feb 2022 08:48:12 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 12:08:42 GMT and should not be manually modified.
+
+## 2.6.0
+Mon, 28 Feb 2022 12:08:42 GMT
+
+### Minor changes
+
+- Introducing IntroPopup wrapper for intro-popup customElement
 
 ## 2.5.1
 Mon, 28 Feb 2022 08:48:12 GMT

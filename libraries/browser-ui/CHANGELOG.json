@@ -2,6 +2,18 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "5.3.0",
+      "tag": "@speechly/browser-ui_v5.3.0",
+      "date": "Mon, 28 Feb 2022 12:08:42 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Removed initialized and speechlystarting postMessages in favour of using ClientState.Connecting and ClientState.Connected"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.2.1",
       "tag": "@speechly/browser-ui_v5.2.1",
       "date": "Mon, 28 Feb 2022 08:48:12 GMT",
