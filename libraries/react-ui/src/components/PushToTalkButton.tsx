@@ -251,6 +251,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
       if (event.timeMs < TAP_TRESHOLD_MS) {
         if (tapToTalkTime === 0) {
+          stopListening()
           setHintText(hint)
           setShowHint(true)
         } else {
