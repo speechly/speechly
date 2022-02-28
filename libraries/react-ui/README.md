@@ -30,6 +30,7 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 
 ## Contents
 
+- [Quick start](#quick-start)
 - [Installation](#installation)
 - [Usage](#usage)
 - [PushToTalkButton component](#push-to-talk-button-component)
@@ -37,6 +38,18 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 - [TranscriptDrawer component](#transcriptdrawer-component)
 - [ErrorPanel component](#errorpanel-component)
 - [Notifications](#notifications)
+
+## Quick start
+
+Bootstrap a simple Speechly React app
+
+```sh
+npx degit speechly/speechly/templates/empty my-app
+cd my-app
+// Add an app ID to index.js from https://api.speechly.com/dashboard
+npm install
+npm start
+```
 
 ## Installation
 
