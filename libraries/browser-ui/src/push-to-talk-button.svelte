@@ -181,6 +181,7 @@
       // Detect short press
       if (holdEventData.timeMs < TAP_TRESHOLD_MS) {
         if (taptotalktime == 0) {
+          stopListening();
           tipCallOutText = hint;
           tipCalloutVisible = true;
         } else {
