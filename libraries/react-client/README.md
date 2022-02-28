@@ -28,11 +28,23 @@ This repository contains source code for the React client for [Speechly](https:/
 
 Check out [Speechly documentation](https://docs.speechly.com//client-libraries/react-client/?utm_source=github&utm_medium=react-client&utm_campaign=text) for a tutorial on how to build a voice filtering app using this client.
 
+## Quick start
+
+Bootstrap a simple Speechly React app
+
+```sh
+npx degit speechly/speechly/templates/empty my-app
+cd my-app
+// Add an app ID to index.js from https://api.speechly.com/dashboard
+npm install
+npm start
+```
+
 ## Usage
 
 Install the package:
 
-```shell
+```sh
 # Create a new React app
 create-react-app .
 
