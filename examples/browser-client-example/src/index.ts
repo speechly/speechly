@@ -32,9 +32,9 @@ window.onload = () => {
       updateReady(segment.contextId, true);
     }
 
-    const cleanedWords = segment.words.filter((w: Word) => w.value).map(
-      (w: Word) => ({value:w.value, index:w.index})
-    )
+    const cleanedWords = segment.words
+      .filter((w: Word) => w.value)
+      .map((w: Word) => ({ value: w.value, index: w.index }));
 
     logResponse(
       segment.contextId,
@@ -42,31 +42,29 @@ window.onload = () => {
       segment.isFinal,
       cleanedWords,
       segment.intent,
-      segment.entities)
+      segment.entities
+    );
   });
 
-  bindStartStop(client);
-  bindInitialize(client);
+  bindConnectButton(client);
+  bindInitializeButton(client);
+  bindListenButton(client);
 };
 
 function newClient(): Client {
-  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+  const appId =
+    process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
-  const language = process.env.REACT_APP_LANGUAGE || 'en-US';
-  if (language === undefined) {
-    throw Error("Missing Speechly app language!");
-  }
-
   const opts: ClientOptions = {
     appId,
-    language,
     debug: process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: true
+    logSegments: true,
+    connect: false,
   };
 
   if (process.env.REACT_APP_LOGIN_URL !== undefined) {
@@ -137,19 +135,19 @@ function logResponse(
   isFinal: boolean,
   words: any,
   intents: any,
-  entities: any,
+  entities: any
 ) {
   const logDiv = document.getElementById("log-list") as HTMLElement;
 
   logDiv.innerHTML =
     `<tr>
-          <td>${contextId}</td>
-          <td>${segmentId}</td>
-          <td>${isFinal}</td>
-          <td>${JSON.stringify(words)}</td>
-          <td>${JSON.stringify(intents)}</td>
-          <td>${JSON.stringify(entities)}</td>
-        </tr>` + logDiv.innerHTML;
+      <td>${contextId}</td>
+      <td>${segmentId}</td>
+      <td>${isFinal}</td>
+      <td>${JSON.stringify(words)}</td>
+      <td>${JSON.stringify(intents)}</td>
+      <td>${JSON.stringify(entities)}</td>
+    </tr>` + logDiv.innerHTML;
 }
 
 function updateStatus(status: string): void {
@@ -161,12 +159,13 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
-function bindStartStop(client: Client) {
+function bindListenButton(client: Client) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
       const contextId = await client.startContext();
+      console.log("Started", contextId);
       resetState(contextId);
     } catch (err) {
       console.error("Could not start recording", err);
@@ -177,7 +176,8 @@ function bindStartStop(client: Client) {
     event.preventDefault();
 
     try {
-      await client.stopContext();
+      const contextId = await client.stopContext();
+      console.log("Stopped", contextId);
     } catch (err) {
       console.error("Could not stop recording", err);
     }
@@ -189,40 +189,46 @@ function bindStartStop(client: Client) {
   recordDiv.addEventListener("mouseup", stopRecording);
   recordDiv.addEventListener("touchend", stopRecording);
 
-  const initDiv = document.getElementById("initialize") as HTMLElement;
+  const connectButton = document.getElementById("connect") as HTMLButtonElement;
+  const statusDiv = document.getElementById("status") as HTMLButtonElement;
+
   client.onStateChange((state: ClientState) => {
     clientState = state;
 
-    if (state !== ClientState.Connected && state !== ClientState.Disconnected) {
-      initDiv.setAttribute("disabled", "disabled");
-    } else {
-      initDiv.removeAttribute("disabled");
-    }
-
-    if (state < ClientState.Connected || state === ClientState.Stopping) {
-      recordDiv.setAttribute("disabled", "disabled");
-    } else {
-      recordDiv.removeAttribute("disabled");
-    }
-
-    const statusDiv = document.getElementById("status") as HTMLElement;
+    connectButton.innerHTML =
+      state === ClientState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
   });
 }
 
-function bindInitialize(client: Client) {
+function bindConnectButton(client: Client) {
+  const connect = async (event: MouseEvent | TouchEvent) => {
+    if (clientState === ClientState.Disconnected) {
+      try {
+        await client.connect();
+      } catch (err) {
+        console.error("Error connecting Speechly:", err);
+      }
+    } else {
+      await client.close();
+    }
+  };
+  const connectButton = document.getElementById("connect") as HTMLElement;
+  connectButton.addEventListener("click", connect);
+}
+
+function bindInitializeButton(client: Client) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
-    const button = event.target as HTMLElement;
+
+    if (clientState >= ClientState.Connected) {
+      console.log(
+        "Client is already initialized, but hey, it's still ok to call initialize(). Think of it as a social call."
+      );
+    }
 
     try {
-      if (clientState === ClientState.Disconnected) {
-        await client.initialize();
-        button.innerHTML = "Disconnect";
-      } else if (clientState === ClientState.Connected) {
-        await client.close();
-        button.innerHTML = "Connect";
-      }
+      await client.initialize();
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
@@ -230,9 +236,8 @@ function bindInitialize(client: Client) {
     return;
   };
 
-  const initDiv = document.getElementById("initialize") as HTMLElement;
-  initDiv.addEventListener("mousedown", initialize);
-  initDiv.addEventListener("touchstart", initialize);
+  const initButton = document.getElementById("initialize") as HTMLElement;
+  initButton.addEventListener("click", initialize);
 }
 
 function resetState(contextId: string) {

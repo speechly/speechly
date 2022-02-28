@@ -1,6 +1,6 @@
 {
   "name": "@speechly/react-ui-example",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "@speechly/react-client": "1.2.1",

@@ -50,8 +50,8 @@ const PushToTalkContainerDiv = styled.div<{
  * @public
  */
 export const PushToTalkButtonContainer: React.FC<PushToTalkContainerProps> = ({
-  size = '6rem',
-  voffset = '3rem',
+  size = '80px',
+  voffset = '40px',
   children,
 }) => {
   return <PushToTalkContainerDiv size={size} voffset={voffset}>{children}</PushToTalkContainerDiv>

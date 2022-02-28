@@ -26,7 +26,7 @@
 
   export let placement = undefined;
   export let size = "80px";
-  export let voffset = "2.5rem";
+  export let voffset = "40px";
 
   export let intro = "Hold to talk";
   export let hint = "Hold to talk";
@@ -54,12 +54,12 @@
 
   let usePermissionPriming = false;
   let holdListenActive = false;
+  let wasListening = false;
   let initializedSuccessfully = undefined;
   let tipCalloutVisible = false;
   let mounted = false;
 
   let tapListenTimeout = null;
-  let tapListenActive = false;
   let tangentStartPromise = null;
   let icon = ClientState.Disconnected;
 
@@ -86,6 +86,7 @@
   const connect = (projectid: string, appid: string) => {
     if (mounted && !client && (projectid || appid)) {
       const clientOptions = {
+        connect: false,
         ...(appid && !projectid && {appId: appid}),
         ...(projectid && {projectId: projectid}),
         ...(loginurl && {loginUrl: loginurl}),
@@ -103,10 +104,7 @@
         window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
       });
 
-      // Temporary check for client.connect function
-      if (typeof client.connect === "function") {
-        client.connect();
-      }
+      client.connect();
 
       tipCalloutVisible = true;
     }
@@ -131,6 +129,13 @@
   const tangentStart = async (event) => {
     tangentStartPromise = (async () => {
       tipCalloutVisible = false;
+
+      // Cancel timeout when button down
+      if (tapListenTimeout) {
+        window.clearTimeout(tapListenTimeout);
+        tapListenTimeout = null;
+      }
+
       if (client) {
         // Connect on 1st press
         if (usePermissionPriming) {
@@ -153,11 +158,8 @@
         }
 
         if (holdListenActive) {
-          if (tapListenTimeout) {
-            window.clearTimeout(tapListenTimeout);
-            tapListenTimeout = null;
-          }
-          if (isStartable(clientState)) {
+          wasListening = client.isListening()
+          if (!client.isListening()) {
             dispatchUnbounded("startcontext");
             client.startContext(appid);
           }
@@ -182,14 +184,14 @@
           tipCallOutText = hint;
           tipCalloutVisible = true;
         } else {
-          // Short press when not recording = schedule "silence based stop"
-          if (!tapListenActive) {
+          if (wasListening) {
+            stopListening();
+          } else {
+            // schedule "silence based stop"
             setStopContextTimeout(taptotalktime);
           }
         }
-      }
-
-      if (!tapListenTimeout) {
+      } else {
         stopListening();
       }
     }
@@ -199,7 +201,6 @@
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
-    tapListenActive = true;
     if (tapListenTimeout) {
       window.clearTimeout(tapListenTimeout);
     }
@@ -210,12 +211,9 @@
   }
 
   const stopListening = () => {
-    tapListenActive = false;
     if (client) {
-      if (isStoppable(clientState)) {
-        client.stopContext();
-        dispatchUnbounded("stopcontext");
-      }
+      client.stopContext();
+      dispatchUnbounded("stopcontext");
     }
     updateSkin();
   }
@@ -229,20 +227,6 @@
     return clientState === ClientState.Disconnected;
   };
 
-  const isStartable = (clientState: ClientState) =>
-    clientState === ClientState.Connected;
-
-  const isStoppable = (s: ClientState) => {
-    switch (s) {
-      case ClientState.Starting:
-      case ClientState.Recording:
-      // case ClientState.Stopping:
-        return true;
-      default:
-        return false;
-    }
-  };
-
   const onStateChange = (s: ClientState) => {
     clientState = s;
     updateSkin();
@@ -254,11 +238,6 @@
         break;
       case ClientState.Connected:
         setInitialized(true, s as unknown as string);
-        // Automatically start recording if button held
-        if ((holdListenActive || tapListenActive) && isStartable(clientState)) {
-          dispatchUnbounded("startcontext");
-          client.startContext(appid);
-        }
         break;
     }
     // Broadcast state changes

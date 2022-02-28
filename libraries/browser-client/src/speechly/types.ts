@@ -131,12 +131,15 @@ export enum ClientState {
   Failed = 0,
   NoBrowserSupport,
   NoAudioConsent,
+  __UnrecoverableErrors,
   Disconnected,
   Disconnecting,
   Connecting,
+  Preinitialized,
+  Initializing,
   Connected,
-  Starting,
   Stopping,
+  Starting,
   Recording,
 }
 

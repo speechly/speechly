@@ -58,6 +58,7 @@ declare global {
  * @public
  */
 export class Client {
+  private listening: boolean = false
   private readonly debug: boolean
   private readonly logSegments: boolean
   private readonly projectId?: string
@@ -75,11 +76,10 @@ export class Client {
   private readonly maxReconnectAttemptCount = 10
   private readonly contextStopDelay = 250
   private connectAttempt: number = 0
-  private stoppedContextIdPromise?: Promise<string>
-  private connectPromise: Promise<void> | null
-  private initializePromise: Promise<void> | null
+  private connectPromise: Promise<void> | null = null
+  private initializePromise: Promise<void> | null = null
+  private listeningPromise: Promise<any> | null = null
 
-  private resolveStopContext?: (value?: unknown) => void
   private readonly deviceId: string
   private authToken?: string
   private audioContext?: AudioContext
@@ -141,9 +141,6 @@ export class Client {
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
 
-    this.connectPromise = null
-    this.initializePromise = null
-
     window.SpeechlyClient = this
 
     if (options.connect !== false) {
@@ -161,6 +158,13 @@ export class Client {
   }
 
   /**
+   * @returns true if startContext is called and expecting stopContext next
+   */
+  public isListening(): boolean {
+    return this.listening
+  }
+
+  /**
    * Connect to Speechly backend.
    * This function will be called by initialize if not manually called earlier.
    * Calling connect() immediately after constructor and setting callbacks allows
@@ -169,7 +173,7 @@ export class Client {
   public async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
-        await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
+        this.advanceState(ClientState.Connecting)
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -195,6 +199,7 @@ export class Client {
       })()
     }
     await this.connectPromise
+    this.advanceState(ClientState.Preinitialized)
   }
 
   /**
@@ -208,11 +213,10 @@ export class Client {
    */
   async initialize(): Promise<void> {
     // Ensure we're connected. Returns immediately if we are
-    await this.connect()
-
     if (this.initializePromise === null) {
       this.initializePromise = (async () => {
-        this.setState(ClientState.Connecting)
+        await this.connect()
+        this.advanceState(ClientState.Initializing)
         try {
           if (this.isWebkit) {
             if (window.webkitAudioContext !== undefined) {
@@ -253,9 +257,9 @@ export class Client {
             if (this.isWebkit) {
               await this.audioContext.resume()
             }
-            // 3. Initialise websocket.
             await this.apiClient.setSourceSampleRate(this.audioContext.sampleRate)
             await this.microphone.initialize(this.audioContext, mediaStreamConstraints)
+            this.advanceState(ClientState.Connected)
           } else {
             throw ErrDeviceNotSupported
           }
@@ -273,11 +277,10 @@ export class Client {
 
           throw err
         }
-
-        this.setState(ClientState.Connected)
       })()
     }
     await this.initializePromise
+    this.advanceState(ClientState.Connected)
   }
 
   /**
@@ -310,69 +313,67 @@ export class Client {
     }
   }
 
-  /**
-   * Stops current context and immediately starts a new SLU context
-   * by sending a start context event to the API and unmuting the microphone.
-   * @param appId - unique identifier of an app in the dashboard.
-   */
-  async switchContext(appId: string): Promise<void> {
-    if (this.state === ClientState.Recording) {
-      this.resolveStopContext = undefined
-      const contextId = await this.apiClient.switchContext(appId)
-      this.activeContexts.set(contextId, new Map<number, SegmentState>())
-    }
+  private hasUnrecoverableError(): boolean {
+    return this.state < ClientState.__UnrecoverableErrors
+  }
+
+  private async queueTask(task: () => Promise<any>): Promise<any> {
+    const prevTask = this.listeningPromise
+    this.listeningPromise = (async () => {
+      await prevTask
+      return task()
+    })()
+    return this.listeningPromise
   }
 
   /**
    * Starts a new SLU context by sending a start context event to the API and unmuting the microphone.
    * @param cb - the callback which is invoked when the context start was acknowledged by the API.
    */
-  async startContext(appId?: string): Promise<string> {
-    // Ensure we're initialized; returns immediately if we are
-    await this.initialize()
+  public async startContext(appId?: string): Promise<string> {
+    if (!this.hasUnrecoverableError()) {
+      if (this.listening) {
+        throw Error('Already listening')
+      }
+      this.listening = true
 
-    if (this.resolveStopContext != null) {
-      this.resolveStopContext()
-      await this.stoppedContextIdPromise
-    }
-
-    if (this.state === ClientState.Disconnected || this.state === ClientState.Connecting) {
-      throw Error('Cannot start context - client is not connected')
-    }
-
-    this.setState(ClientState.Starting)
-    const contextId: string = await this._startContext(appId)
-    return contextId
-  }
-
-  private async _startContext(appId?: string): Promise<string> {
-    let contextId: string
-    try {
-      if (this.projectId != null) {
-        contextId = await this.apiClient.startContext(appId)
-      } else {
-        if (appId != null && this.appId !== appId) {
-          throw ErrAppIdChangeWithoutProjectLogin
+      const contextId = await this.queueTask(async () => {
+        if (this.state < ClientState.Connected) {
+          await this.initialize()
         }
-        contextId = await this.apiClient.startContext()
-      }
-    } catch (err) {
-      switch (err) {
-        case ErrAppIdChangeWithoutProjectLogin:
-          this.setState(ClientState.Failed)
-          break
-        default:
-          this.setState(ClientState.Connected)
-      }
+        if (this.state !== ClientState.Connected) {
+          throw Error('[SpeechlyClient] Unable to complete startContext: Expected Connected state, but was in ' + stateToString(this.state) + '. Did you call startContext multiple times without stopContext?')
+        }
+        this.setState(ClientState.Starting)
 
-      throw err
+        this.microphone.unmute()
+
+        // Fetch context id
+        let contextId: string
+        if (this.projectId != null) {
+          contextId = await this.apiClient.startContext(appId)
+        } else {
+          if (appId != null && this.appId !== appId) {
+            this.setState(ClientState.Failed)
+            throw ErrAppIdChangeWithoutProjectLogin
+          }
+          contextId = await this.apiClient.startContext()
+        }
+
+        // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
+        // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
+        // @ts-ignore
+        if (this.state !== ClientState.Starting) {
+          throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
+        }
+
+        this.activeContexts.set(contextId, new Map<number, SegmentState>())
+        this.setState(ClientState.Recording)
+        return contextId
+      })
+      return contextId
     }
-
-    this.setState(ClientState.Recording)
-    this.microphone.unmute()
-    this.activeContexts.set(contextId, new Map<number, SegmentState>())
-
-    return contextId
+    throw Error('[SpeechlyClient] startContext cannot be run in unrecovable error state.')
   }
 
   /**
@@ -380,51 +381,46 @@ export class Client {
    * delayed by contextStopDelay = 250 ms
    */
   async stopContext(): Promise<string> {
-    if (this.state !== ClientState.Recording && this.state !== ClientState.Starting) {
-      throw Error('Cannot stop context - client is not recording')
-    }
-
-    this.setState(ClientState.Stopping)
-
-    this.stoppedContextIdPromise = new Promise(resolve => {
-      Promise.race([
-        new Promise(resolve => setTimeout(resolve, this.contextStopDelay)), // timeout
-        new Promise(resolve => {
-          this.resolveStopContext = resolve
-        }),
-      ])
-        .then(() => {
-          this._stopContext()
-            .then(id => {
-              resolve(id)
-            })
-            .catch(err => {
-              throw err
-            })
-        })
-        .catch(err => {
+    if (!this.hasUnrecoverableError()) {
+      if (!this.listening) {
+        throw Error('Already stopped listening')
+      }
+      this.listening = false
+      const contextId = await this.queueTask(async () => {
+        if (this.state !== ClientState.Recording) {
+          throw Error('[SpeechlyClient] Unable to complete stopContext: Expected Recording state, but was in ' + stateToString(this.state) + '.')
+        }
+        this.setState(ClientState.Stopping)
+        await this.sleep(this.contextStopDelay)
+        this.microphone.mute()
+        try {
+          const contextId = await this.apiClient.stopContext()
+          this.activeContexts.delete(contextId)
+          this.setState(ClientState.Connected)
+          return contextId
+        } catch (err) {
+          this.setState(ClientState.Failed)
           throw err
-        })
-    })
-
-    const contextId: string = await this.stoppedContextIdPromise
-
-    this.setState(ClientState.Connected)
-    this.activeContexts.delete(contextId)
-
-    return contextId
+        }
+      })
+      return contextId
+    }
+    throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
   }
 
-  private async _stopContext(): Promise<string> {
-    this.microphone.mute()
-    let contextId: string
-    try {
-      contextId = await this.apiClient.stopContext()
-    } catch (err) {
-      this.setState(ClientState.Failed)
-      throw err
-    }
-    return contextId
+  /**
+   * Stops current context and immediately starts a new SLU context
+   * by sending a start context event to the API and unmuting the microphone.
+   * @param appId - unique identifier of an app in the dashboard.
+   */
+  async switchContext(appId: string): Promise<void> {
+    await this.queueTask(async () => {
+      if (this.state !== ClientState.Recording) {
+        throw Error('[SpeechlyClient] Unable to complete switchContext: Expected Recording state, but was in ' + stateToString(this.state) + '.')
+      }
+      const contextId = await this.apiClient.switchContext(appId)
+      this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    })
   }
 
   /**
@@ -572,9 +568,7 @@ export class Client {
         console.log('[SpeechlyClient]', 'Websocket closed', err)
       }
     } else {
-      if (this.debug) {
-        console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
-      }
+      console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
 
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
@@ -582,22 +576,36 @@ export class Client {
         return
       }
 
+      // Reset
+      this.listening = false
+      this.listeningPromise = null
+      this.microphone.mute()
+
+      this.setState(ClientState.Disconnected)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
   }
 
-  private reconnect(): void {
+  private async reconnect(): Promise<void> {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
     }
-    if (this.state !== ClientState.Failed && this.connectAttempt < this.maxReconnectAttemptCount) {
-      this.connectPromise = null
+    this.connectPromise = null
+    if (!this.hasUnrecoverableError() && this.connectAttempt < this.maxReconnectAttemptCount) {
+      await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.connect()
+      await this.connect()
     } else {
-      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up.')
-      this.setState(ClientState.Failed)
+      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
     }
+  }
+
+  private advanceState(newState: ClientState): void {
+    if (this.state >= newState) {
+      return
+    }
+    this.setState(newState)
   }
 
   private setState(newState: ClientState): void {
@@ -606,7 +614,7 @@ export class Client {
     }
 
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'State transition', stateToString(this.state), stateToString(newState))
+      console.log('[SpeechlyClient]', stateToString(this.state), '->', stateToString(newState))
     }
 
     this.state = newState
