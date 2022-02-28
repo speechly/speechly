@@ -18,8 +18,10 @@ const states = new Map<ClientState, string>([
   [ClientState.Disconnecting, 'Disconnecting'],
   [ClientState.Disconnected, 'Disconnected'],
   [ClientState.Connecting, 'Connecting'],
+  [ClientState.Preinitialized, 'Preinitialized'],
+  [ClientState.Initializing, 'Initializing'],
   [ClientState.Connected, 'Connected'],
-  [ClientState.Starting, 'Starting'],
   [ClientState.Stopping, 'Stopping'],
+  [ClientState.Starting, 'Starting'],
   [ClientState.Recording, 'Recording'],
 ])

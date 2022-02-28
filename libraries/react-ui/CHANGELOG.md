@@ -1,6 +1,20 @@
 # Change Log - @speechly/react-ui
 
-This log was last generated on Thu, 10 Feb 2022 14:03:08 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 08:48:12 GMT and should not be manually modified.
+
+## 2.5.1
+Mon, 28 Feb 2022 08:48:12 GMT
+
+### Patches
+
+- respect no tap-to-talk option
+
+## 2.5.0
+Mon, 28 Feb 2022 08:02:56 GMT
+
+### Minor changes
+
+- Using new react-client. Removed startContext workaround from client state change which is no longer needed. Harmonized default component sizes with browser-ui.
 
 ## 2.4.2
 Thu, 10 Feb 2022 14:03:08 GMT

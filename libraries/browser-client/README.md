@@ -60,11 +60,11 @@ client.onSegmentChange((segment: Segment) => {
 })
 
 // Start recording.
-// Ideally this should be bound to e.g. a button press.
+// This can be bound to e.g. a button press.
 await client.startContext()
 
 // Stop recording after a timeout.
-// Ideally this should be bound to e.g. a button press.
+// This can be bound to e.g. a button press.
 setTimeout(async function() {
   await client.stopContext()
 }, 3000)
@@ -80,27 +80,22 @@ Please use a HTML server to view the example. Running it as a file will not work
 <html>
   <body>
 
-    <input id="textBox" type="text" placeholder="Hold to talk..." autofocus>
+    <input id="textBox" type="text" placeholder="Hold to talk..." autofocus />
 
     <script type="module">
       // Load Speechly ES module from a CDN. Note script type="module"
-      import { Client, ClientState } from "https://unpkg.com/@speechly/browser-client/core/speechly.es.js"
+      import { Client } from "../core/speechly.es.js"
 
       const widget = document.getElementById("textBox")
-      let clientState = ClientState.Disconnected;
 
       // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
-      const client = new Client({
+      const speechly = new Client({
         appId: "your-app-id",
         debug: true,
         logSegments: true,
       })
 
-      client.onStateChange(state => {
-        clientState = state;
-      });
-
-      client.onSegmentChange(segment => {
+      speechly.onSegmentChange(segment => {
         // Clean up and concatenate words
         let transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
         // Add trailing period upon segment end.
@@ -108,24 +103,14 @@ Please use a HTML server to view the example. Running it as a file will not work
         widget.value = transcript;
       });
 
+
       const startListening = async () => {
-        switch (clientState) {
-          case ClientState.Disconnected:
-            await client.initialize();
-            // fall through
-          case ClientState.Connected:
-            widget.value = "Listening..."
-            client.startContext();
-            break;
-        }
+        speechly.startContext();
       }
 
       const stopListening = () => {
-        switch (clientState) {
-          case ClientState.Starting:
-          case ClientState.Recording:
-            client.stopContext();
-            break;
+        if (speechly.isListening()) {
+          speechly.stopContext();
         }
       }
 

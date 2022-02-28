@@ -5,8 +5,8 @@
   "homepage": "/voice-search/",
   "dependencies": {
     "@speechly/demo-navigation": "^0.1.36",
-    "@speechly/react-client": "1.2.1",
-    "@speechly/react-ui": "2.4.2",
+    "@speechly/react-client": "2.0.0",
+    "@speechly/react-ui": "2.5.1",
     "@speechly/logkit": ">=1.0.0",
     "react": ">=16.13.1",
     "react-dom": ">=16.13.1",

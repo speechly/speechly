@@ -15,7 +15,7 @@ The state of SpeechContext.
 - [NoAudioConsent](types.SpeechState.md#noaudioconsent)
 - [Idle](types.SpeechState.md#idle)
 - [Connecting](types.SpeechState.md#connecting)
-- [Ready](types.SpeechState.md#ready)
+- [Connected](types.SpeechState.md#ready)
 - [Recording](types.SpeechState.md#recording)
 - [Loading](types.SpeechState.md#loading)
 
@@ -62,9 +62,9 @@ The context is connecting to the API.
 
 ___
 
-### Ready
+### Connected
 
-• **Ready** = `"Ready"`
+• **Connected** = `"Connected"`
 
 The context is ready to use.
 

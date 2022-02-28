@@ -20,9 +20,9 @@ TriggerFx,
   export let icon = ClientState.Disconnected;
   export let capturekey = " ";
   export let hide = undefined;
-  export let size = "88px";
+  export let size = "80px";
   export let holdscale = "1.35";
-  export let borderscale = "0.06";
+  export let borderscale = "0.075";
   export let iconsize = "60%";
   export let fxsize = "250%";
   export let backgroundcolor = "#ffffff";

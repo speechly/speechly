@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SpeechProvider, SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import { SpeechProvider, SpeechSegment, useSpeechContext, stateToString } from "@speechly/react-client";
 import {
 //  BigTranscript,
   PushToTalkButton,
@@ -24,7 +24,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { speechState, segment, toggleRecording } = useSpeechContext();
+  const { clientState, segment, toggleRecording } = useSpeechContext();
   const [mockSegment, setMockSegment] = useState<SpeechSegment | undefined>();
 
   useEffect(() => {
@@ -60,13 +60,13 @@ function SpeechlyApp() {
     <>
       <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
-      <PushToTalkButton powerOn="auto" placement="bottom" size="88px" voffset="32px" intro="Hold to use voice commands"/>
+      <PushToTalkButton placement="bottom"/>
 
       <IntroPopup>
         <span slot="priming-body">You will be able to book faster with voice.</span>
       </IntroPopup>
 
-      <div className="status">{speechState}</div>
+      <div className="status">{stateToString(clientState)}</div>
 
       {segment ? (
         <div className="segment">

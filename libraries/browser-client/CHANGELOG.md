@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Thu, 10 Feb 2022 14:03:08 GMT and should not be manually modified.
+This log was last generated on Mon, 28 Feb 2022 08:02:56 GMT and should not be manually modified.
+
+## 1.4.0
+Mon, 28 Feb 2022 08:02:56 GMT
+
+### Minor changes
+
+- startContext and stopContext can be called regardless of ClientState, and they will bring the client to ClientState.Recording and ClientState.Connected unless there was an unrecoverable error (ClientState.Failed). More graceful websocket close handling."
 
 ## 1.3.0
 Thu, 10 Feb 2022 14:03:08 GMT

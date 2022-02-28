@@ -7,13 +7,9 @@ export default function App() {
     throw Error("Missing Speechly app ID!");
   }
 
-  const language = process.env.REACT_APP_LANGUAGE ?? "en-US";
-  if (language === undefined) {
-    throw Error("Missing Speechly app language!");
-  }
   return (
     <div className="App">
-      <SpeechProvider appId={appId} language={language}>
+      <SpeechProvider appId={appId}>
         <SpeechlyApp/>
       </SpeechProvider>
     </div>
@@ -21,7 +17,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const {speechState, segment, toggleRecording, initialise} = useSpeechContext()
+  const {speechState, segment, listening, toggleRecording, initialize} = useSpeechContext()
 
   return (
     <div>
@@ -35,11 +31,11 @@ function SpeechlyApp() {
       <hr/>
 
 
-      <div className="status">State: {speechState}</div>
+      <div className="status">State: {speechState}. Listening: {listening.toString()}</div>
       <div className="mic-button">
-        <button onClick={initialise} disabled={speechState !== 'Idle'}>Connect</button>
-        <button onClick={toggleRecording} disabled={!(speechState === 'Ready' || speechState === 'Recording')}>
-          { speechState === 'Recording' ? 'Stop' : 'Record' }
+        <button onClick={initialize} disabled={speechState !== 'Idle'}>Connect</button>
+        <button onClick={toggleRecording}>
+          { listening ? 'Stop' : 'Listen' }
         </button>
       </div>
       <h3>Transcript</h3>
