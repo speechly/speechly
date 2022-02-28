@@ -115,10 +115,6 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
 
     try {
-      dispatchUnbounded("starting");
-      window.postMessage({
-        type: MessageType.speechlystarting
-      }, "*");
       await client.initialize();
     } catch (e) {
       console.error("Speechly initialization failed", e);
@@ -253,20 +249,6 @@
       if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null && success) {
         localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
       }
-
-      window.postMessage({
-        type: MessageType.initialized,
-        success: initializedSuccessfully,
-        appId: appid,
-        state
-      }, "*");
-
-      dispatchUnbounded(MessageType.initialized, {
-        success: initializedSuccessfully,
-        appId: appid,
-        state
-      });
-
     }
   }
 

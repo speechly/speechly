@@ -2,7 +2,7 @@ import {
   BigTranscript,
   BigTranscriptContainer,
   PushToTalkButton,
-  ErrorPanel,
+  IntroPopup,
 } from "@speechly/react-ui";
 import PanContainer from "./components/PanContainer";
 import QueryString from "query-string";
@@ -21,12 +21,12 @@ export default function App() {
   return (
     <div className="App" style={{ backgroundColor: queryParams.backgroundColor }}>
       <DemoNavigation />
+      <IntroPopup></IntroPopup>
       <div className="SmartHomeView">
         <BigTranscriptContainer position="absolute">
           <BigTranscript />
         </BigTranscriptContainer>
-        <ErrorPanel placement="bottom" />
-        <PushToTalkButton placement="bottom" captureKey=" " powerOn={true} intro="" />
+        <PushToTalkButton placement="bottom" captureKey=" " powerOn="auto" intro="" />
         <PanContainer
           minScale={0.5}
           maxScale={3.0}

@@ -65,7 +65,7 @@ import {
   PushToTalkButtonContainer,
   BigTranscript,
   BigTranscriptContainer,
-  ErrorPanel
+  IntroPopup
 } from "@speechly/react-ui";
 ```
 
@@ -79,10 +79,8 @@ function App() {
         <BigTranscript />
       </BigTranscriptContainer>
 
-      <PushToTalkButtonContainer>
-        <PushToTalkButton captureKey=" " />
-        <ErrorPanel/>
-      </PushToTalkButtonContainer>
+      <PushToTalkButton placement="bottom" captureKey=" " powerOn="auto" />
+      <IntroPopup />
     </SpeechProvider>
   );
 }
@@ -122,7 +120,7 @@ The icon on the button displays the Speechly system state:
 
 4. **Receiving transcript** (Pulsating mic). This state may be briefly displayed when the button is released and Speechly finalizes the stream of results. Shown during `ClientState.Loading`
 
-5. **Error** (Broken mic icon). In case of an error (usually during initialisation), the button turns into a broken mic symbol. If you have the optional `<ErrorPanel/>` component in your hierarchy, a description of the problem is displayed. Otherwise, you'll need to look into the browser console to discover the reason for the error. Shown in case of `ClientState.Failed`, `ClientState.NoAudioConsent`, `ClientState.NoBrowserSupport`
+5. **Error** (Broken mic icon). In case of an error (usually during initialisation), the button turns into a broken mic symbol. If you have the optional `IntroPopup` or `<ErrorPanel/>` component in your hierarchy, a description of the problem is displayed. Otherwise, you'll need to look into the browser console to discover the reason for the error. Shown in case of `ClientState.Failed`, `ClientState.NoAudioConsent`, `ClientState.NoBrowserSupport`
 
 ## BigTranscript component
 
@@ -175,7 +173,7 @@ Use the component instead of BigTranscript
 
   <PushToTalkButtonContainer>
     <PushToTalkButton captureKey=" " />
-    <ErrorPanel/>
+    <IntroPopup/>
   </PushToTalkButtonContainer>
 </SpeechProvider>
 ```
@@ -184,7 +182,7 @@ Use the component instead of BigTranscript
 
 - [Component properties in TypeDocs](./docs/modules/components_TranscriptDrawer.md)
 
-## ErrorPanel component
+## ErrorPanel component (deprecated in favour of IntroPopup)
 
 `<ErrorPanel/>` is a normally hidden panel for voice-related error messages and recovery instructions when there is a problem with voice functions, e.g. when accessing site via http or if microphone permission is denied or unsupported in browser. Use it to help users diagnose and recover from voice-related issues.
 

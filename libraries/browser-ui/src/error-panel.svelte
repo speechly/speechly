@@ -7,7 +7,6 @@
   const HttpsRequired = 'HttpsRequired'
 
   export let placement = null;
-  let errorParams: any = {};
 
   const isLocalHost = (hostname: string): boolean =>
     !!(
@@ -31,17 +30,9 @@
       case MessageType.holdstart:
         micButtonPressed(e.data.state);
         break;
-      case MessageType.initialized:
-        console.log(e.data);
-        initialized(e.data.state, e.data.appId);
-        break;
       default:
         break;
     }
-  }
-
-  const initialized = (state: ClientState, appId: string) => {
-    errorParams = { appId: appId }
   }
 
   const micButtonPressed = (state: ClientState) => {
@@ -86,7 +77,7 @@
         <errorRight>
           <h1>Failed to connect Speechly</h1>
           <p>
-            Please check that Speechly application id '{errorParams.appId}' has been successfully deployed.
+            Please check that Speechly application id has been successfully deployed.
           </p>
           <p>
             <a href="https://docs.speechly.com/faq/#error-invalid-app-id">
