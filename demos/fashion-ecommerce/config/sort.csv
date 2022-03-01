@@ -1,5 +1,7 @@
 exclusive,price_desc
+price descending,price_desc
 most exclusive,price_desc
+most pricey,price_desc
 exclusivity,price_desc
 luxurious,price_desc
 luxury,price_desc
@@ -10,6 +12,7 @@ highest price,price_desc
 highest,price_desc
 high price,price_desc
 price,price_asc
+price ascending,price_asc
 price low to high,price_asc
 lowest price,price_asc
 lowest,price_asc

@@ -52,3 +52,4 @@ set radio off and put lights on in the bedroom
 television on in the living room 
 shut bedroom lights
 play living room radio
+turn on all radios

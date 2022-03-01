@@ -52,3 +52,4 @@
 *turn_on [television|television](device) on in the [living room|living room](room)
 *turn_off shut [bedroom|bedroom](room) [lights|lights](device)
 *turn_on play [living room|living room](room) [radio|radio](device)
+*turn_on turn on [all radios|all radios](device)
