@@ -200,14 +200,23 @@ It's an alternative to big-transcript (actually a wrapper). It is displayed at t
 
 ## Intro Popup
 
-Intro popup introduces the application and voice usage.
+Intro Popup is a full screen overlay-style popup that is displayed when the user first interacts with Push-To-Talk Button. It displays a customizable introduction text that briefly explains voice features microphone permissions are needed for.
 
+The user will have a choice between allowing the microphone permissions or do that later. Allowing will display the system permission prompt.
+
+Intro Popup also automatically appears to help recover from a common problems.
+
+### Installation
+
+<xmp><head>
+<script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/intro-popup.js"></script>
+</head>
+</xmp>
 
 ### Usage
 
-<p>
-  Include the following lines in your `<body>`:
-</p>
+Include the following lines in your `<body>`:
+
 <xmp><intro-popup>
 <span slot="priming-body">You will be able to book faster with voice.</span>
 </intro-popup>
@@ -218,29 +227,24 @@ Intro popup introduces the application and voice usage.
 
 ### Attributes
 
-- `video` - Url for intro video in mp4 format. 640x400px 10fps recommended.
-- `hide` - Optional "false" | "true". Default: "true"
+- `hide` - Optional "auto" | "false" | "true". Default: "auto"
 - `remsize` - Optional rem override. "16px" recommended for Wix. Default: "1rem"
 - `customtypography` - Optional "true" | "false". True inherits css typography settings. Default: "false"
 - `customcssurl` - Optional string (url to .css file). Allows for further customization of component's shadow root.
 
 ### Child nodes
 
-<xmp>  <span slot="priming-title">Allow booking with voice</span>
-<span slot="priming-body">You will be able to book faster with voice.</span>
-</xmp>
-
+- The title can be customized with `<span slot="priming-title">Allow booking with voice</span>`
+- The body text can be customized with `<span slot="priming-body">You will be able to book faster with voice.</span>`
 
 ### Events emitted
 
 - `speechlyintroclosed` - CustomEvent emitted on closed by user
 
-
 ### Window messages emitted (postMessage)
 
 - `{type: "speechlyintroready"}` - Broadcasted upon mount
 - `{type: "speechlyintroclosed", firstrun: undefined|true}` - Broadcasted when popup is closed by user
-
 
 ### Window messages listened
 
