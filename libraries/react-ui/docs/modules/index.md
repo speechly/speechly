@@ -16,6 +16,8 @@
 - [BigTranscriptContainer](index.md#bigtranscriptcontainer)
 - [ErrorPanelProps](index.md#errorpanelprops)
 - [ErrorPanel](index.md#errorpanel)
+- [IntroPopupProps](index.md#intropopupprops)
+- [IntroPopup](index.md#intropopup)
 - [NotificationType](index.md#notificationtype)
 - [NotificationItem](index.md#notificationitem)
 - [Notifications](index.md#notifications)
@@ -81,6 +83,18 @@ ___
 ### ErrorPanel
 
 Re-exports [ErrorPanel](components_ErrorPanel.md#errorpanel)
+
+___
+
+### IntroPopupProps
+
+Re-exports [IntroPopupProps](components_IntroPopup.md#intropopupprops)
+
+___
+
+### IntroPopup
+
+Re-exports [IntroPopup](components_IntroPopup.md#intropopup)
 
 ___
 

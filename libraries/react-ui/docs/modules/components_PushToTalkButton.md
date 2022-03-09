@@ -35,7 +35,7 @@ Properties for PushToTalkButton component.
 | `showTime?` | `number` | Optional number in ms. Visibility duration for intro and hint callouts. Default: "5000" (ms) |
 | `textColor?` | `string` | Optional string (CSS color) for hint text. Default: "#ffffff" |
 | `backgroundColor?` | `string` | Optional string (CSS color) for hint text background. Default: "#202020" |
-| `powerOn?` | `boolean` | Optional boolean. Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: false |
+| `powerOn?` | `boolean` \| ``"auto"`` | Optional boolean. Shows poweron state. If false, recording can immediately start but will first press will cause a system permission prompt. Default: false |
 | `voffset?` | `string` | Optional CSS string. Vertical distance from viewport edge. Only effective when using placement. |
 | `tapToTalkTime?` | `number` | Optional time in milliseconds to listen after tap. Set to 0 to disable tap-to-talk. Default: "8000" (ms) |
 | `silenceToHangupTime?` | `number` | Optional milliseconds of silence to listen before hangup. Only used in tap-to-talk mode. Default: "1000" (ms) |
