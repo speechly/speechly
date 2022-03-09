@@ -227,7 +227,7 @@ Include the following lines in your `<body>`:
 
 ### Attributes
 
-- `hide` - Optional "auto" | "false" | "true". Default: "auto"
+- `hide` - Optional "auto" | "false" | "true". Auto setting displays the popup upon mic button interaction or in case a problem is detected. False and true allow manual visibility control. Default: "auto"
 - `remsize` - Optional rem override. "16px" recommended for Wix. Default: "1rem"
 - `customtypography` - Optional "true" | "false". True inherits css typography settings. Default: "false"
 - `customcssurl` - Optional string (url to .css file). Allows for further customization of component's shadow root.
