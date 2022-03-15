@@ -8,7 +8,7 @@ import "./App.css"
 const App = () => {
   const { segment } = useSpeechContext();
   const [text, setText] = useState("");
-  const highlights = ["meaning", "speechly"]
+  const highlights = ["meaning", "speechly"];
 
   useEffect(() => {
     if (segment) {
@@ -34,8 +34,6 @@ const App = () => {
       </div>
       <div className="ButtonContainer">
         <PushToTalkButton captureKey=" " tapToTalkTime={0} intro="" size="100px"/>
-      </div>
-      <div>
       </div>
     </div>
   );
