@@ -32,8 +32,10 @@ const App = () => {
           return <span key={w + i}>{w}</span>
         })}
       </div>
-      <div style={{display: "none"}}>
-        <PushToTalkButton captureKey=" " size="0px" />
+      <div className="ButtonContainer">
+        <PushToTalkButton captureKey=" " tapToTalkTime={0} intro="" size="100px"/>
+      </div>
+      <div>
       </div>
     </div>
   );

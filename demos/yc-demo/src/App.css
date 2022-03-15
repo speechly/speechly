@@ -42,3 +42,13 @@
   border-radius: 0.125em;
   padding: 0 0.125em;
 }
+
+.ButtonContainer {
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+}
