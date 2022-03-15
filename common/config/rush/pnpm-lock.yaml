@@ -56,6 +56,7 @@ specifiers:
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
   rollup-plugin-svelte: ^7.0.0
+  sentence-case: ~3.0.4
   sirv-cli: ^1.0.0
   source-map-explorer: ^2.5.2
   styled-components: '>=5.3.3'
@@ -125,6 +126,7 @@ dependencies:
   rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-svelte: 7.1.0_svelte@3.44.2
+  sentence-case: 3.0.4
   sirv-cli: 1.0.14
   source-map-explorer: 2.5.2
   styled-components: 5.3.3
@@ -11233,6 +11235,13 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
+  /react-string-replace/0.4.4:
+    resolution: {integrity: sha512-FAMkhxmDpCsGTwTZg7p/2v+/GTmxAp73so3fbSvlAcBBX36ujiGRNEaM/1u+jiYQrArhns+7eE92g2pi5E5FUA==}
+    engines: {node: '>=0.12.0'}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
   /react/16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
     engines: {node: '>=0.10.0'}
@@ -11931,6 +11940,14 @@ packages:
       on-finished: 2.3.0
       range-parser: 1.2.1
       statuses: 1.5.0
+    dev: false
+
+  /sentence-case/3.0.4:
+    resolution: {integrity: sha512-8LS0JInaQMCRoQ7YUytAo/xUu5W2XnQxV2HI/6uM6U7CITS1RqPElr30V6uIqyMKM9lJGRVFy5/4CuzcixNYSg==}
+    dependencies:
+      no-case: 3.0.4
+      tslib: 2.3.1
+      upper-case-first: 2.0.2
     dev: false
 
   /serialize-javascript/4.0.0:
@@ -13474,6 +13491,12 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /upper-case-first/2.0.2:
+    resolution: {integrity: sha512-514ppYHBaKwfJRK/pNC6c/OxfGa0obSnAl106u97Ed0I625Nin96KAjttZF6ZL3e1XLtphxnqrOi9iWgm+u+bg==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
@@ -14779,7 +14802,7 @@ packages:
     dev: false
 
   file:projects/yc-demo.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-CPQ7dal2C6IhOpnOBUxCC3YxBjv07hUUuW62guQa4nYgNaIJ3Sb463l1J3L3LN2htq4aozu9E/GwAASCAypxzQ==, tarball: file:projects/yc-demo.tgz}
+    resolution: {integrity: sha512-Wa4s7j/tSlovdPAoo/pkM74MmNohVuSlAYdyksKdOpnF7OvDuzpGcLoSZ9cjbWeTy2ryj9QFeKEU6/JFbK0MVQ==, tarball: file:projects/yc-demo.tgz}
     id: file:projects/yc-demo.tgz
     name: '@rush-temp/yc-demo'
     version: 0.0.0
@@ -14795,6 +14818,8 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scripts: 4.0.3_c0a48c59e3d113d5fa871cf818a325d6
+      react-string-replace: 0.4.4
+      sentence-case: 3.0.4
       typescript: 4.6.2
       web-vitals: 2.1.4
     transitivePeerDependencies:
@@ -14803,7 +14828,6 @@ packages:
       - acorn
       - bufferutil
       - canvas
-      - debug
       - fibers
       - node-sass
       - sass
