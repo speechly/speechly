@@ -445,6 +445,10 @@
     {
       "packageName": "voice-search",
       "projectFolder": "demos/voice-search"
+    },
+    {
+      "packageName": "moderation",
+      "projectFolder": "demos/moderation"
     }
     // {
     //   /**
