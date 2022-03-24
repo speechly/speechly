@@ -5,11 +5,13 @@ import App from "./App";
 import { SpeechProvider } from "@speechly/react-client";
 import * as serviceWorker from "./serviceWorker";
 import { LogKit } from "@speechly/logkit";
+import { DemoNavigation } from "@speechly/demo-navigation";
 
 ReactDOM.render(
   <React.StrictMode>
     <SpeechProvider appId="6f1c7eaa-53fa-495e-9319-4ceacfa88cfe">
-      <LogKit appName="moderation" appVersion={100} >
+      <LogKit appName="moderation" appVersion={100}>
+        <DemoNavigation />
         <App />
       </LogKit>
     </SpeechProvider>

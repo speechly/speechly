@@ -5469,6 +5469,11 @@ packages:
     requiresBuild: true
     dev: false
 
+  /core-js/3.21.1:
+    resolution: {integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==}
+    requiresBuild: true
+    dev: false
+
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: false
@@ -5829,6 +5834,10 @@ packages:
       bluebird: 3.7.2
       lodash: 4.17.21
       strip-bom: 2.0.0
+    dev: false
+
+  /custom-event-polyfill/1.0.7:
+    resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
     dev: false
 
   /cyclist/1.0.1:
@@ -9400,6 +9409,10 @@ packages:
       json5: 2.2.0
     dev: false
 
+  /loadjs/4.2.0:
+    resolution: {integrity: sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==}
+    dev: false
+
   /local-access/1.1.0:
     resolution: {integrity: sha512-XfegD5pyTAfb+GY6chk283Ox5z8WexG56OvM06RWLpAc/UHozO8X6xAxEkIitZOtsSMM1Yr3DkHgW5W+onLhCw==}
     engines: {node: '>=6'}
@@ -10554,6 +10567,28 @@ packages:
       find-up: 3.0.0
     dev: false
 
+  /plyr-react/3.2.1_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-ZXMA+d837mZCkb68oTXso6rH8O+B2+A7t8ux1fdU+kFSUh1NZa1/iuItItFgScmVC6FoO3DNj+FkZP2aikxoKg==}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: ^16.13.0  || ^17.0.0
+      react-dom: ^16.13.0  || ^17.0.0
+    dependencies:
+      plyr: 3.6.12
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /plyr/3.6.12:
+    resolution: {integrity: sha512-42WhYpMS/FEyX2unSEvhYtj1RvJgWvOsjZQFDongOQHA4eVzsyr7b06bzVpinMAOVC9e5H7RCbK+6CCAFIl2VQ==}
+    dependencies:
+      core-js: 3.21.1
+      custom-event-polyfill: 1.0.7
+      loadjs: 4.2.0
+      rangetouch: 2.0.1
+      url-polyfill: 1.1.12
+    dev: false
+
   /pnp-webpack-plugin/1.6.4_typescript@4.5.2:
     resolution: {integrity: sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==}
     engines: {node: '>=6'}
@@ -11494,6 +11529,10 @@ packages:
   /range-parser/1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /rangetouch/2.0.1:
+    resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
     dev: false
 
   /raw-body/2.4.0:
@@ -13980,6 +14019,10 @@ packages:
       requires-port: 1.0.0
     dev: false
 
+  /url-polyfill/1.1.12:
+    resolution: {integrity: sha512-mYFmBHCapZjtcNHW0MDq9967t+z4Dmg5CJ0KqysK3+ZbyoNOWQHksGCTWwDhxGXllkWlOc10Xfko6v4a3ucM6A==}
+    dev: false
+
   /url/0.11.0:
     resolution: {integrity: sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=}
     dependencies:
@@ -14949,7 +14992,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-FEUWIdTTJybF0iED5IgkM1X7iUt10qyGZ3bw/w+nJH45zmhvc1BPqIKHu6d8d0VjVpML4W9ZV3VTYKL3K+m7DQ==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-co/n1HyMCEtcJoAV5UkUmT5iGSO3YxZDfhKTrBdN0uf4+mGD9rb0SW4rXCxC9o5TRtx5mqwqMyQrYeOHvAHwIQ==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -14962,6 +15005,7 @@ packages:
       '@types/node': 12.20.37
       '@types/react': 17.0.36
       '@types/react-dom': 17.0.11
+      plyr-react: 3.2.1_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231

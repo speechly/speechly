@@ -1,9 +1,165 @@
 .App {
   display: flex;
   flex-direction: column;
+}
+
+.Header {
+  background-color: #00050A;
+  background-image: linear-gradient(#00050A, #0F1923);
+}
+
+.Header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 16px 2px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.Item {
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  transition: all .15s ease;
+}
+
+.Item:hover {
+  filter: brightness(1.1);
+}
+
+.Item__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.Item__info {
   position: absolute;
-  top: 0;
-  right: 0;
   bottom: 0;
   left: 0;
+  right: 0;
+  background-image: linear-gradient(transparent, #000c);
+  padding: 32px 16px 14px;
+}
+
+.Item__title,
+.Item__duration {
+  text-shadow: 0 0 8px #000;
+}
+
+.Item__title {
+  display: block;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.Item__duration {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.Item--selected {
+  outline: 2px solid #009FFA;
+  position: relative;
+}
+
+.Player {
+  --plyr-color-main: #009FFA;
+  --plyr-audio-controls-background: transparent;
+  --plyr-audio-control-color: #fff;
+  --plyr-control-spacing: 12px;
+  --plyr-control-radius: 999px;
+  --plyr-range-track-height: 4px;
+  --plyr-range-thumb-height: 12px;
+  --plyr-audio-progress-buffered-background: #30465C;
+
+  background-color: #0F1923;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.Player__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 4px 0;
+}
+
+.Content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 32px 16px;
+}
+
+.Transcripts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.Transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0 8px 20px;
+  position: relative;
+}
+
+.Transcript::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px;
+  background-color: #EDF0F2;
+}
+
+.Transcript__timestamp {
+  color: #5A6B7C;
+  font-size: 14px;
+}
+
+.Transcript__utterance {
+  line-height: 1.5;
+}
+
+.Transcript__labels {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.Label {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 16px;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.Label--green {
+  background-color: #D6FDE6;
+  color: #033517;
+}
+
+.Label--red {
+  background-color: #FCD9DD;
+  color: #35040a;
+}
+
+.Label--gray {
+  background-color: #EDF0F2;
+  color: #5A6B7C;
 }
