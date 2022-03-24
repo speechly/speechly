@@ -43,6 +43,7 @@ specifiers:
   jest: 26.6.0
   minimist: ^1.2.5
   node-fetch: ^2.6.1
+  plyr-react: ~3.2.1
   prop-types: ^15.7.2
   pubsub-js: ^1.9.2
   query-string: ^6.13.8
@@ -112,6 +113,7 @@ dependencies:
   jest: 26.6.0_ts-node@10.4.0
   minimist: 1.2.5
   node-fetch: 2.6.6
+  plyr-react: 3.2.1
   prop-types: 15.7.2
   pubsub-js: 1.9.4
   query-string: 6.14.1
@@ -5464,11 +5466,6 @@ packages:
     requiresBuild: true
     dev: false
 
-  /core-js/3.19.1:
-    resolution: {integrity: sha512-Tnc7E9iKd/b/ff7GFbhwPVzJzPztGrChB8X8GLqoYGdEOG8IpLnK1xPyo3ZoO3HsK6TodJS58VGPOxA+hLHQMg==}
-    requiresBuild: true
-    dev: false
-
   /core-js/3.21.1:
     resolution: {integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==}
     requiresBuild: true
@@ -10567,6 +10564,16 @@ packages:
       find-up: 3.0.0
     dev: false
 
+  /plyr-react/3.2.1:
+    resolution: {integrity: sha512-ZXMA+d837mZCkb68oTXso6rH8O+B2+A7t8ux1fdU+kFSUh1NZa1/iuItItFgScmVC6FoO3DNj+FkZP2aikxoKg==}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: ^16.13.0  || ^17.0.0
+      react-dom: ^16.13.0  || ^17.0.0
+    dependencies:
+      plyr: 3.6.12
+    dev: false
+
   /plyr-react/3.2.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-ZXMA+d837mZCkb68oTXso6rH8O+B2+A7t8ux1fdU+kFSUh1NZa1/iuItItFgScmVC6FoO3DNj+FkZP2aikxoKg==}
     engines: {node: '>=10', npm: '>=6'}
@@ -11549,7 +11556,7 @@ packages:
     resolution: {integrity: sha512-0sF4ny9v/B7s6aoehwze9vJNWcmCemAUYBVasscVr92+UYiEqDXOxfKjXN685mDaMRNF3WdhHQs76oTODMocFA==}
     engines: {node: '>=10'}
     dependencies:
-      core-js: 3.19.1
+      core-js: 3.21.1
       object-assign: 4.1.1
       promise: 8.1.0
       raf: 3.4.1
@@ -14992,7 +14999,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-co/n1HyMCEtcJoAV5UkUmT5iGSO3YxZDfhKTrBdN0uf4+mGD9rb0SW4rXCxC9o5TRtx5mqwqMyQrYeOHvAHwIQ==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-PGdbNOq4dqdy2ktCO2Qtxh1P6kV0WejJK3VGDV80i+nAa+z1FEWP97mIsoR+uEyWTPOBotDAK9KxyiU7+V93tQ==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -15005,6 +15012,7 @@ packages:
       '@types/node': 12.20.37
       '@types/react': 17.0.36
       '@types/react-dom': 17.0.11
+      classnames: 2.3.1
       plyr-react: 3.2.1_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
