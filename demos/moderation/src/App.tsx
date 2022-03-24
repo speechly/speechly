@@ -78,6 +78,33 @@ const Cover = ({ title, duration, thumbnail, isSelected, onClick } : CoverProps)
   )
 }
 
+type TranscriptProps = {
+  timestamp: string;
+  utterance: string;
+  labels: [
+    {
+      text: string,
+      variant: "success" | "danger" | "undefined";
+    }
+  ]
+}
+
+const Transcript = ({ timestamp, utterance, labels } : TranscriptProps) => {
+  return (
+    <div className="Transcript">
+      <div className="Transcript__timestamp">{timestamp}</div>
+      <div className="Transcript__utterance">{utterance}</div>
+      {labels?.length > 0 && (
+        <div className="Transcript__labels">
+          {labels?.map((label, index) =>
+            <div key={label.text + index} className={`Label Label--${label.variant}`}>offensive</div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 const App= () => {
   const [currentItem, setCurrentItem] = useState(0);
 
@@ -87,7 +114,7 @@ const App= () => {
         <div className="Header__inner">
           {items.map((item, index) =>
             <Cover
-              key={index}
+              key={item.title + index}
               title={item.title}
               duration={item.duration}
               thumbnail={item.thumbnail}
@@ -104,87 +131,21 @@ const App= () => {
       </div>
       <div className="Content">
         <div className="Transcripts">
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--red">offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--green">not offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--gray">undefined</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--red">offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--green">not offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--gray">undefined</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--red">offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--green">not offensive</div>
-            </div>
-          </div>
-          <div className="Transcript">
-            <div className="Transcript__timestamp">00:00</div>
-            <div className="Transcript__utterance">
-              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.
-            </div>
-            <div className="Transcript__labels">
-              <div className="Label Label--gray">undefined</div>
-            </div>
-          </div>
+          <Transcript
+            timestamp="0:00"
+            utterance="The quick brown fox jumps over the lazy dog"
+            labels={[{ text: "not offensive", variant: "success" }]}
+          />
+          <Transcript
+            timestamp="0:00"
+            utterance="The quick brown fox jumps over the lazy dog"
+            labels={[{ text: "offensive", variant: "danger" }]}
+          />
+          <Transcript
+            timestamp="0:00"
+            utterance="The quick brown fox jumps over the lazy dog"
+            labels={[{ text: "unknown", variant: "undefined" }]}
+          />
         </div>
       </div>
     </div>

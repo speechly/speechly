@@ -149,17 +149,17 @@
   border-radius: 3px;
 }
 
-.Label--green {
+.Label--success {
   background-color: #D6FDE6;
   color: #033517;
 }
 
-.Label--red {
+.Label--danger {
   background-color: #FCD9DD;
   color: #35040a;
 }
 
-.Label--gray {
+.Label--undefined {
   background-color: #EDF0F2;
   color: #5A6B7C;
 }
