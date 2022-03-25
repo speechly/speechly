@@ -12,7 +12,7 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 32px 16px 2px;
+  padding: 36px 16px 2px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
   gap: 16px;
@@ -22,11 +22,13 @@
   --plyr-color-main: #009FFA;
   --plyr-audio-controls-background: transparent;
   --plyr-audio-control-color: #fff;
-  --plyr-control-spacing: 12px;
+  --plyr-control-spacing: 14px;
   --plyr-control-radius: 999px;
   --plyr-range-track-height: 4px;
   --plyr-range-thumb-height: 12px;
   --plyr-audio-progress-buffered-background: #30465C;
+  --plyr-font-family: sans-serif;
+  --plyr-font-size-small: 14px;
 
   background-color: #0F1923;
   position: sticky;
@@ -38,7 +40,6 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 4px 0;
 }
 
 .Content {
