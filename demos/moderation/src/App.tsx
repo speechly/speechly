@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Plyr from "plyr-react";
-import classNames from "classnames";
-import { sentenceCase } from "sentence-case";
+import { Transcript } from "./Transcript";
+import { Cover } from "./Cover";
 import 'plyr-react/dist/plyr.css';
 import "./App.css";
 
@@ -53,62 +53,6 @@ const playerOptions: Plyr.Options = {
   controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
 };
 
-
-type CoverProps = {
-  title: string;
-  duration: string;
-  thumbnail: string;
-  isSelected: boolean;
-  onClick: () => void;
-};
-
-const Cover = ({ title, duration, thumbnail, isSelected, onClick } : CoverProps) => {
-  const classes = classNames({
-    Item: true,
-    "Item--selected": isSelected
-  });
-
-  return (
-    <div className={classes} onClick={onClick}>
-      <img className="Item__image" src={thumbnail} alt={title} />
-      <div className="Item__info">
-        <span className="Item__title">{title}</span>
-        <span className="Item__duration">{duration}</span>
-      </div>
-    </div>
-  )
-}
-
-type TranscriptProps = {
-  timestamp: string;
-  utterance: string[];
-  labels: [
-    {
-      text: string,
-      variant: "success" | "danger" | "undefined";
-    }
-  ]
-}
-
-const Transcript = ({ timestamp, utterance, labels } : TranscriptProps) => {
-  return (
-    <div className="Transcript">
-      <div className="Transcript__timestamp">{timestamp}</div>
-      <div className="Transcript__utterance">
-        {utterance.map((word, i) =>
-          <span key={word + i}>{i === 0 ? sentenceCase(word) : word.toLowerCase()}</span>
-        )}
-      </div>
-      {labels?.length > 0 && (
-        <div className="Transcript__labels">
-          {labels?.map((label, i) =>
-            <div key={label.text + i} className={`Label Label--${label.variant}`}>offensive</div>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
 
 const App= () => {
   const [currentItem, setCurrentItem] = useState(0);

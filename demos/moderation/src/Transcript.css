@@ -1,0 +1,63 @@
+.Transcript {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 0 8px 20px;
+  position: relative;
+}
+
+.Transcript::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px;
+  background-color: #EDF0F2;
+}
+
+.Transcript__timestamp {
+  color: #5A6B7C;
+  font-size: 14px;
+}
+
+.Transcript__utterance {
+  line-height: 1.5;
+}
+
+.Transcript__utterance span {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.Transcript__labels {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.Label {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  line-height: 16px;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.Label--success {
+  background-color: #D6FDE6;
+  color: #033517;
+}
+
+.Label--danger {
+  background-color: #FCD9DD;
+  color: #35040a;
+}
+
+.Label--undefined {
+  background-color: #EDF0F2;
+  color: #5A6B7C;
+}
