@@ -12,43 +12,43 @@ const mockCovers: {
   duration: number;
   thumbnail: string;
 }[] = [
-  {
-    audioSrc: {
-      type: "audio",
-      sources: [{ src: "audio/sample-3s.mp3" }]
+    {
+      audioSrc: {
+        type: "audio",
+        sources: [{ src: "audio/sample-3s.mp3" }]
+      },
+      title: "Title goes here",
+      duration: 3000,
+      thumbnail: "https://picsum.photos/seed/1/640/360"
     },
-    title: "Title goes here",
-    duration: 3000,
-    thumbnail: "https://picsum.photos/seed/1/640/360"
-  },
-  {
-    audioSrc: {
-      type: "audio",
-      sources: [{ src: "audio/sample-15s.mp3" }]
+    {
+      audioSrc: {
+        type: "audio",
+        sources: [{ src: "audio/sample-15s.mp3" }]
+      },
+      title: "Title goes here",
+      duration: 19000,
+      thumbnail: "https://picsum.photos/seed/2/640/360"
     },
-    title: "Title goes here",
-    duration: 19000,
-    thumbnail: "https://picsum.photos/seed/2/640/360"
-  },
-  {
-    audioSrc: {
-      type: "audio",
-      sources: [{ src: "audio/sample-9s.mp3" }]
+    {
+      audioSrc: {
+        type: "audio",
+        sources: [{ src: "audio/sample-9s.mp3" }]
+      },
+      title: "Title goes here",
+      duration: 9000,
+      thumbnail: "https://picsum.photos/seed/3/640/360"
     },
-    title: "Title goes here",
-    duration: 9000,
-    thumbnail: "https://picsum.photos/seed/3/640/360"
-  },
-  {
-    audioSrc: {
-      type: "audio",
-      sources: [{ src: "audio/sample-12s.mp3" }]
+    {
+      audioSrc: {
+        type: "audio",
+        sources: [{ src: "audio/sample-12s.mp3" }]
+      },
+      title: "Title goes here",
+      duration: 12000,
+      thumbnail: "https://picsum.photos/seed/4/640/360"
     },
-    title: "Title goes here",
-    duration: 12000,
-    thumbnail: "https://picsum.photos/seed/4/640/360"
-  },
-]
+  ]
 
 const mockSegment: SpeechSegment[] = [
   {
@@ -194,7 +194,7 @@ const playerOptions: Plyr.Options = {
   invertTime: true
 };
 
-const App= () => {
+const App = () => {
   const [currentItem, setCurrentItem] = useState(0);
   const [segments, setSegments] = useState<SpeechSegment[]>(mockSegment);
   const currentAudioSrc = mockCovers[currentItem].audioSrc;
