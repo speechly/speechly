@@ -22,11 +22,11 @@
   font-size: 14px;
 }
 
-.Segment__transcript {
+.Segment__words {
   line-height: 1.5;
 }
 
-.Segment__transcript span {
+.Segment__words span {
   display: inline-block;
   margin-right: 0.3em;
 }
@@ -38,13 +38,13 @@
 }
 
 .Label {
-  text-transform: uppercase;
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.05em;
+  font-size: 14px;
   line-height: 16px;
+  letter-spacing: 0.01em;
   padding: 3px 6px;
   border-radius: 3px;
+  transition: all .25s ease;
 }
 
 .Label--success {
@@ -57,7 +57,7 @@
   color: #35040a;
 }
 
-.Label--undefined {
+.Label--tentative {
   background-color: #EDF0F2;
   color: #5A6B7C;
 }

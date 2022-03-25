@@ -1,29 +1,41 @@
 import React from "react";
+import { Intent, Word } from "@speechly/react-client";
 import { sentenceCase } from "sentence-case";
+import classNames from "classnames";
+import formatDuration from "format-duration";
 import "./Segment.css";
 
 type SegmentProps = {
-  timestamp: string;
-  transcript: string[];
-  labels: [
-    {
-      text: string;
-      variant: "success" | "danger" | "undefined";
-    }
-  ];
+  isFinal: boolean;
+  words: Word[];
+  intent: Intent;
 };
-export const Segment = ({ timestamp, transcript, labels }: SegmentProps) => {
+
+export const Segment = ({ words, intent }: SegmentProps) => {
+  const intentClasses = classNames({
+    Label: true,
+    "Label--danger": intent.intent === "offensive",
+    "Label--success": intent.intent !== "offensive",
+    "Label--tentative": !intent.isFinal
+  });
+
   return (
     <div className="Segment">
-      <div className="Segment__timestamp">{timestamp}</div>
-      <div className="Segment__transcript">
-        {transcript.map((word, i) => <span key={word + i}>{i === 0 ? sentenceCase(word) : word.toLowerCase()}</span>
+      <div title={`${words[words.length - 1].endTimestamp}`} className="Segment__timestamp">
+        {formatDuration(words[words.length - 1].endTimestamp, { leading: true })}
+      </div>
+      <div className="Segment__words">
+        {words.map((word, i) =>
+          <span key={word.index}>
+            {i === 0 ? sentenceCase(word.value) : word.value.toLowerCase()}
+          </span>
         )}
       </div>
-      {labels?.length > 0 && (
+      {intent.intent && (
         <div className="Segment__labels">
-          {labels?.map((label, i) => <div key={label.text + i} className={`Label Label--${label.variant}`}>offensive</div>
-          )}
+          <div title={intent.intent} className={intentClasses}>
+            {sentenceCase(intent.intent)}
+            </div>
         </div>
       )}
     </div>

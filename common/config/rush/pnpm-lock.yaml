@@ -57,12 +57,14 @@ specifiers:
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
   rollup-plugin-svelte: ^7.0.0
+  sentence-case: ~3.0.4
   sirv-cli: ^1.0.0
   source-map-explorer: ^2.5.2
   styled-components: '>=5.3.3'
   svelte: ^3.37.0
   svelte-check: ^1.0.0
   svelte-preprocess: ^4.0.0
+  tinytime: ~0.2.6
   ts-jest: 26.5.6
   ts-node: '>=9.0.0'
   typedoc: ^0.22.6
@@ -127,12 +129,14 @@ dependencies:
   rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-svelte: 7.1.0_svelte@3.44.2
+  sentence-case: 3.0.4
   sirv-cli: 1.0.14
   source-map-explorer: 2.5.2
   styled-components: 5.3.3
   svelte: 3.44.2
   svelte-check: 1.6.0_svelte@3.44.2
   svelte-preprocess: 4.9.8_svelte@3.44.2+typescript@4.5.2
+  tinytime: 0.2.6
   ts-jest: 26.5.6_jest@26.6.0+typescript@4.5.2
   ts-node: 10.4.0_typescript@4.5.2
   typedoc: 0.22.9_typescript@4.5.2
@@ -7350,6 +7354,10 @@ packages:
       mime-types: 2.1.34
     dev: false
 
+  /format-duration/2.0.0:
+    resolution: {integrity: sha512-ARqJ9qXm71pw3SGAY7bibf8lRLvltOXLjWjzzR3UrUjHu1zdeYpA/Z+u+ltdhrfRa440OjEsHNzdmuZViqqQWQ==}
+    dev: false
+
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
     engines: {node: '>= 0.6'}
@@ -13534,6 +13542,10 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /tinytime/0.2.6:
+    resolution: {integrity: sha512-FdiVbzssIGxpi9tuDWcMnDb4dUeoYIA4rpsdx1wVzvCaGMk5pt4WyFg2G+MFZ08HGyWB/CM/ajQfLKp6CYiD3w==}
+    dev: false
+
   /tmpl/1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
     dev: false
@@ -15013,7 +15025,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-awamBpOePT9v/TWqtEM/jvspeKHE+xSyhZ/+mG/wyfh4dh67BRJXoa6I03MOyppdGnLXO/ylC7HHCMwSMzyozw==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-uR8INhu+ZhCi4SytpvLArrk39vBQX71FCCyJATVsCVgJ/eOP4/d4TkTTKHJ7w7gOay1avGReNsM2/iz0exbvmw==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -15027,11 +15039,13 @@ packages:
       '@types/react': 17.0.36
       '@types/react-dom': 17.0.11
       classnames: 2.3.1
+      format-duration: 2.0.0
       plyr-react: 3.2.1_react-dom@17.0.2+react@17.0.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
       sentence-case: 3.0.4
+      tinytime: 0.2.6
       typescript: 4.5.2
     transitivePeerDependencies:
       - '@testing-library/dom'
