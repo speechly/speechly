@@ -17,7 +17,7 @@ const items: {
     },
     title: "Title goes here",
     duration: "0:03",
-    thumbnail: "https://i.ytimg.com/vi/pyTHNeRAFwo/mqdefault.jpg"
+    thumbnail: "https://picsum.photos/seed/1/640/360"
   },
   {
     audioSrc: {
@@ -26,7 +26,7 @@ const items: {
     },
     title: "Title goes here",
     duration: "0:19",
-    thumbnail: "https://i.ytimg.com/vi/pyTHNeRAFwo/mqdefault.jpg"
+    thumbnail: "https://picsum.photos/seed/2/640/360"
   },
   {
     audioSrc: {
@@ -35,7 +35,7 @@ const items: {
     },
     title: "Title goes here",
     duration: "0:09",
-    thumbnail: "https://i.ytimg.com/vi/pyTHNeRAFwo/mqdefault.jpg"
+    thumbnail: "https://picsum.photos/seed/3/640/360"
   },
   {
     audioSrc: {
@@ -44,7 +44,7 @@ const items: {
     },
     title: "Title goes here",
     duration: "0:12",
-    thumbnail: "https://i.ytimg.com/vi/pyTHNeRAFwo/mqdefault.jpg"
+    thumbnail: "https://picsum.photos/seed/4/640/360"
   },
 ]
 
