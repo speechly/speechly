@@ -14,8 +14,8 @@
   width: 100%;
   padding: 32px 16px 2px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  gap: 16px;
 }
 
 .Item {
