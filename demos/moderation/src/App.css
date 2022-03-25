@@ -133,6 +133,11 @@
   line-height: 1.5;
 }
 
+.Transcript__utterance span {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
 .Transcript__labels {
   display: flex;
   gap: 8px;

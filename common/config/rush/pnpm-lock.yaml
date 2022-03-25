@@ -12512,6 +12512,14 @@ packages:
       statuses: 1.5.0
     dev: false
 
+  /sentence-case/3.0.4:
+    resolution: {integrity: sha512-8LS0JInaQMCRoQ7YUytAo/xUu5W2XnQxV2HI/6uM6U7CITS1RqPElr30V6uIqyMKM9lJGRVFy5/4CuzcixNYSg==}
+    dependencies:
+      no-case: 3.0.4
+      tslib: 2.3.1
+      upper-case-first: 2.0.2
+    dev: false
+
   /serialize-javascript/4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
     dependencies:
@@ -13991,6 +13999,12 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /upper-case-first/2.0.2:
+    resolution: {integrity: sha512-514ppYHBaKwfJRK/pNC6c/OxfGa0obSnAl106u97Ed0I625Nin96KAjttZF6ZL3e1XLtphxnqrOi9iWgm+u+bg==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /uri-js/4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
@@ -14999,7 +15013,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-PGdbNOq4dqdy2ktCO2Qtxh1P6kV0WejJK3VGDV80i+nAa+z1FEWP97mIsoR+uEyWTPOBotDAK9KxyiU7+V93tQ==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-awamBpOePT9v/TWqtEM/jvspeKHE+xSyhZ/+mG/wyfh4dh67BRJXoa6I03MOyppdGnLXO/ylC7HHCMwSMzyozw==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -15017,6 +15031,7 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-scripts: 4.0.3_96aa1e21580199deb639650b4dfe8231
+      sentence-case: 3.0.4
       typescript: 4.5.2
     transitivePeerDependencies:
       - '@testing-library/dom'

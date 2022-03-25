@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Plyr from "plyr-react";
 import classNames from "classnames";
+import { sentenceCase } from "sentence-case";
 import 'plyr-react/dist/plyr.css';
 import "./App.css";
 
@@ -80,7 +81,7 @@ const Cover = ({ title, duration, thumbnail, isSelected, onClick } : CoverProps)
 
 type TranscriptProps = {
   timestamp: string;
-  utterance: string;
+  utterance: string[];
   labels: [
     {
       text: string,
@@ -93,11 +94,15 @@ const Transcript = ({ timestamp, utterance, labels } : TranscriptProps) => {
   return (
     <div className="Transcript">
       <div className="Transcript__timestamp">{timestamp}</div>
-      <div className="Transcript__utterance">{utterance}</div>
+      <div className="Transcript__utterance">
+        {utterance.map((word, i) =>
+          <span key={word + i}>{i === 0 ? sentenceCase(word) : word.toLowerCase()}</span>
+        )}
+      </div>
       {labels?.length > 0 && (
         <div className="Transcript__labels">
-          {labels?.map((label, index) =>
-            <div key={label.text + index} className={`Label Label--${label.variant}`}>offensive</div>
+          {labels?.map((label, i) =>
+            <div key={label.text + i} className={`Label Label--${label.variant}`}>offensive</div>
           )}
         </div>
       )}
@@ -112,14 +117,14 @@ const App= () => {
     <div className="App">
       <div className="Header">
         <div className="Header__inner">
-          {items.map((item, index) =>
+          {items.map((item, i) =>
             <Cover
-              key={item.title + index}
+              key={item.title + i}
               title={item.title}
               duration={item.duration}
               thumbnail={item.thumbnail}
-              isSelected={index === currentItem}
-              onClick={() => setCurrentItem(index)}
+              isSelected={i === currentItem}
+              onClick={() => setCurrentItem(i)}
             />
           )}
         </div>
@@ -133,17 +138,17 @@ const App= () => {
         <div className="Transcripts">
           <Transcript
             timestamp="0:00"
-            utterance="The quick brown fox jumps over the lazy dog"
+            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "not offensive", variant: "success" }]}
           />
           <Transcript
             timestamp="0:00"
-            utterance="The quick brown fox jumps over the lazy dog"
+            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "offensive", variant: "danger" }]}
           />
           <Transcript
             timestamp="0:00"
-            utterance="The quick brown fox jumps over the lazy dog"
+            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "unknown", variant: "undefined" }]}
           />
         </div>
