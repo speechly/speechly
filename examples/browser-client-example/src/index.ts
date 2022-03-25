@@ -23,47 +23,52 @@ window.onload = () => {
   }
 
   // High-level API, that you can use to react to segment changes.
-  client.onSegmentChange((segment: Segment) => {
-    updateWords(segment.words);
-    updateEntities(segment.entities);
-    updateIntent(segment.intent);
+  // client.onSegmentChange((segment: Segment) => {
+  //   updateWords(segment.words);
+  //   updateEntities(segment.entities);
+  //   updateIntent(segment.intent);
 
-    if (segment.isFinal) {
-      updateReady(segment.contextId, true);
-    }
+  //   if (segment.isFinal) {
+  //     updateReady(segment.contextId, true);
+  //   }
 
-    const cleanedWords = segment.words
-      .filter((w: Word) => w.value)
-      .map((w: Word) => ({ value: w.value, index: w.index }));
+  //   const cleanedWords = segment.words
+  //     .filter((w: Word) => w.value)
+  //     .map((w: Word) => ({ value: w.value, index: w.index }));
 
-    logResponse(
-      segment.contextId,
-      segment.id,
-      segment.isFinal,
-      cleanedWords,
-      segment.intent,
-      segment.entities
-    );
+  //   logResponse(
+  //     segment.contextId,
+  //     segment.id,
+  //     segment.isFinal,
+  //     cleanedWords,
+  //     segment.intent,
+  //     segment.entities
+  //   );
+  // });
+  client.onTranscript((contextId: string, segmentId: number, word: Word) => {
+    console.log('got word', word.value, word.startTimestamp, word.endTimestamp);
   });
 
   bindConnectButton(client);
   bindInitializeButton(client);
   bindListenButton(client);
+  bindUploadButton();
+  bindFileSelector(client);
 };
 
 function newClient(): Client {
   const appId =
-    process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+    process.env.REACT_APP_APP_ID || "b15823b6-46f1-4ed9-a2e8-1347b4f4c439";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
   const opts: ClientOptions = {
     appId,
-    debug: process.env.REACT_APP_DEBUG === "true",
+    debug: false, // process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: true,
+    logSegments: false,
     connect: false,
   };
 
@@ -238,6 +243,33 @@ function bindInitializeButton(client: Client) {
 
   const initButton = document.getElementById("initialize") as HTMLElement;
   initButton.addEventListener("click", initialize);
+}
+
+function bindUploadButton() {
+    const openFileInput = async (event: MouseEvent | TouchEvent) => {
+        event.preventDefault();
+        const fileElem = document.getElementById("fileElem");
+        fileElem?.click();
+    }
+    const uploadButton = document.getElementById("upload") as HTMLElement;
+    uploadButton.addEventListener("click", openFileInput);
+}
+
+function bindFileSelector(client: Client) {
+    const transcribe = async (event: Event) => {
+        const f: FileList | null = (event.target as HTMLInputElement).files;
+        if (f === null) {
+            return
+        }
+        console.log('selected file = ', f[0]);
+        try {
+          client.sendAudioData(await f[0].arrayBuffer());
+        } catch (err) {
+            console.error("Error when transcribing file:", err);
+        }
+    }
+    const fileElem = document.getElementById("fileElem");
+    fileElem?.addEventListener("change", transcribe, false);
 }
 
 function resetState(contextId: string) {
