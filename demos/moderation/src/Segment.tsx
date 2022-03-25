@@ -6,23 +6,24 @@ import formatDuration from "format-duration";
 import "./Segment.css";
 
 type SegmentProps = {
-  isFinal: boolean;
   words: Word[];
   intent: Intent;
+  onClick: (ms: number) => void;
 };
 
-export const Segment = ({ words, intent }: SegmentProps) => {
+export const Segment = ({ words, intent, onClick }: SegmentProps) => {
   const intentClasses = classNames({
     Label: true,
     "Label--danger": intent.intent === "offensive",
     "Label--success": intent.intent !== "offensive",
     "Label--tentative": !intent.isFinal
   });
+  const firstTimestamp = words && words[0].startTimestamp;
 
   return (
-    <div className="Segment">
-      <div title={`${words[words.length - 1].endTimestamp}`} className="Segment__timestamp">
-        {formatDuration(words[words.length - 1].endTimestamp, { leading: true })}
+    <div className="Segment" onClick={() => onClick(firstTimestamp)}>
+      <div title={`${firstTimestamp}`} className="Segment__timestamp">
+        {formatDuration(firstTimestamp, { leading: true })}
       </div>
       <div className="Segment__words">
         {words.map((word, i) =>

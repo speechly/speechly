@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import Plyr from "plyr-react";
+import React, { useRef, useState } from "react";
+import Plyr, { APITypes } from "plyr-react";
+import { SpeechSegment } from "@speechly/react-client";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import 'plyr-react/dist/plyr.css';
 import "./App.css";
-import { SpeechSegment } from "@speechly/react-client";
 
 const mockCovers: {
   audioSrc: Plyr.SourceInfo;
@@ -120,7 +120,7 @@ const mockSegment: SpeechSegment[] = [
     }
   },
   {
-    id: 0,
+    id: 1,
     contextId: "345a08bf-c9ae-4979-953a-dc01e29b05f8",
     isFinal: true,
     words: [
@@ -197,13 +197,19 @@ const playerOptions: Plyr.Options = {
 const App= () => {
   const [currentItem, setCurrentItem] = useState(0);
   const [segments, setSegments] = useState<SpeechSegment[]>(mockSegment);
-  const currentAudioSrc = mockCovers[currentItem].audioSrc
+  const currentAudioSrc = mockCovers[currentItem].audioSrc;
+  const ref = useRef<APITypes>(null);
 
-  const handleClick = (i: number) => {
+  const handleCoverClick = (i: number) => {
     // TODO
     // send currentAudioSrc.sources[0].src to speechly
     // listen for changes and populate the transcript
     setCurrentItem(i)
+  }
+
+  const handleSegmentClick = (ms: number) => {
+    const player = (ref?.current?.plyr as Plyr)
+    player.currentTime = ms / 1000
   }
 
   return (
@@ -217,23 +223,24 @@ const App= () => {
               duration={item.duration}
               thumbnail={item.thumbnail}
               isSelected={i === currentItem}
-              onClick={() => handleClick(i)}
+              onClick={() => handleCoverClick(i)}
             />
           )}
         </div>
       </div>
       <div className="Player">
         <div className="Player__inner">
-          <Plyr source={currentAudioSrc} options={playerOptions} />
+          <Plyr source={currentAudioSrc} options={playerOptions} ref={ref} />
         </div>
       </div>
       <div className="Content">
         <div className="Transcripts">
           {segments.map(segment =>
             <Segment
-              isFinal={segment.isFinal}
+              key={segment.id}
               words={segment.words}
               intent={segment.intent}
+              onClick={handleSegmentClick}
             />
           )}
         </div>
