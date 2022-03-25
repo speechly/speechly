@@ -6,10 +6,10 @@ import 'plyr-react/dist/plyr.css';
 import "./App.css";
 import { SpeechSegment } from "@speechly/react-client";
 
-const items: {
+const mockCovers: {
   audioSrc: Plyr.SourceInfo;
   title: string;
-  duration: string;
+  duration: number;
   thumbnail: string;
 }[] = [
   {
@@ -18,7 +18,7 @@ const items: {
       sources: [{ src: "audio/sample-3s.mp3" }]
     },
     title: "Title goes here",
-    duration: "0:03",
+    duration: 3000,
     thumbnail: "https://picsum.photos/seed/1/640/360"
   },
   {
@@ -27,7 +27,7 @@ const items: {
       sources: [{ src: "audio/sample-15s.mp3" }]
     },
     title: "Title goes here",
-    duration: "0:19",
+    duration: 19000,
     thumbnail: "https://picsum.photos/seed/2/640/360"
   },
   {
@@ -36,7 +36,7 @@ const items: {
       sources: [{ src: "audio/sample-9s.mp3" }]
     },
     title: "Title goes here",
-    duration: "0:09",
+    duration: 9000,
     thumbnail: "https://picsum.photos/seed/3/640/360"
   },
   {
@@ -45,7 +45,7 @@ const items: {
       sources: [{ src: "audio/sample-12s.mp3" }]
     },
     title: "Title goes here",
-    duration: "0:12",
+    duration: 12000,
     thumbnail: "https://picsum.photos/seed/4/640/360"
   },
 ]
@@ -191,31 +191,40 @@ const mockSegment: SpeechSegment[] = [
 
 const playerOptions: Plyr.Options = {
   controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
+  invertTime: true
 };
-
 
 const App= () => {
   const [currentItem, setCurrentItem] = useState(0);
+  const [segments, setSegments] = useState<SpeechSegment[]>(mockSegment);
+  const currentAudioSrc = mockCovers[currentItem].audioSrc
+
+  const handleClick = (i: number) => {
+    // TODO
+    // send currentAudioSrc.sources[0].src to speechly
+    // listen for changes and populate the transcript
+    setCurrentItem(i)
+  }
 
   return (
     <div className="App">
       <div className="Header">
         <div className="Header__inner">
-          {items.map((item, i) =>
+          {mockCovers.map((item, i) =>
             <Cover
               key={item.title + i}
               title={item.title}
               duration={item.duration}
               thumbnail={item.thumbnail}
               isSelected={i === currentItem}
-              onClick={() => setCurrentItem(i)}
+              onClick={() => handleClick(i)}
             />
           )}
         </div>
       </div>
       <div className="Player">
         <div className="Player__inner">
-          <Plyr source={items[currentItem].audioSrc} options={playerOptions} />
+          <Plyr source={currentAudioSrc} options={playerOptions} />
         </div>
       </div>
       <div className="Content">

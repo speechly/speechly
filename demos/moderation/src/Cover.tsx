@@ -1,10 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 import "./Cover.css";
+import formatDuration from "format-duration";
 
 type CoverProps = {
   title: string;
-  duration: string;
+  duration: number;
   thumbnail: string;
   isSelected: boolean;
   onClick: () => void;
@@ -21,7 +22,7 @@ export const Cover = ({ title, duration, thumbnail, isSelected, onClick }: Cover
       <img className="Cover__image" src={thumbnail} alt={title} />
       <div className="Cover__info">
         <span className="Cover__title">{title}</span>
-        <span className="Cover__duration">{duration}</span>
+        <span className="Cover__duration">{formatDuration(duration, { leading: true })}</span>
       </div>
     </div>
   );
