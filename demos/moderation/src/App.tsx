@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Plyr from "plyr-react";
-import { Transcript } from "./Transcript";
+import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import 'plyr-react/dist/plyr.css';
 import "./App.css";
@@ -80,19 +80,19 @@ const App= () => {
       </div>
       <div className="Content">
         <div className="Transcripts">
-          <Transcript
+          <Segment
             timestamp="0:00"
-            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
+            transcript={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "not offensive", variant: "success" }]}
           />
-          <Transcript
+          <Segment
             timestamp="0:00"
-            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
+            transcript={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "offensive", variant: "danger" }]}
           />
-          <Transcript
+          <Segment
             timestamp="0:00"
-            utterance={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
+            transcript={"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG".split(" ")}
             labels={[{ text: "unknown", variant: "undefined" }]}
           />
         </div>

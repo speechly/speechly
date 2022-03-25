@@ -1,4 +1,4 @@
-.Transcript {
+.Segment {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -6,7 +6,7 @@
   position: relative;
 }
 
-.Transcript::before {
+.Segment::before {
   content: '';
   position: absolute;
   left: 0;
@@ -17,21 +17,21 @@
   background-color: #EDF0F2;
 }
 
-.Transcript__timestamp {
+.Segment__timestamp {
   color: #5A6B7C;
   font-size: 14px;
 }
 
-.Transcript__utterance {
+.Segment__transcript {
   line-height: 1.5;
 }
 
-.Transcript__utterance span {
+.Segment__transcript span {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-.Transcript__labels {
+.Segment__labels {
   display: flex;
   gap: 8px;
   margin-top: 4px;
