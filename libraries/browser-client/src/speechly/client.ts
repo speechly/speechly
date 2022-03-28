@@ -628,17 +628,22 @@ export class Client {
     this.microphone.printStats()
   }
 
-  public sendAudioData(audioData: ArrayBuffer): void {
-    console.log('this.audioContext = ', this.audioContext)
-    console.log(audioData)
+  public async sendAudioData(audioData: ArrayBuffer): void {
     const audioBuffer = await this.audioContext.decodeAudioData(audioData)
     const samples = audioBuffer.getChannelData(0)
+
+    // convert 2-channel audio to 1-channel if need be
+    if (audioBuffer.numberOfChannels > 1) {
+      const chan1samples = audioBuffer.getChannelData(1)
+      for (let i = 0; i < samples.length; i++) {
+        samples[i] = (samples[i] + chan1samples[i]) / 2.0
+      }
+    }
 
     this.listening = true
 
     this.setState(ClientState.Starting)
     const contextId = await this.apiClient.startContext()
-    console.log('contextid =', contextId)
     this.activeContexts.set(contextId, new Map<number, SegmentState>())
     this.setState(ClientState.Recording)
 
