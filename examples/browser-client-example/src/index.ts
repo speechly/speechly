@@ -23,30 +23,27 @@ window.onload = () => {
   }
 
   // High-level API, that you can use to react to segment changes.
-  // client.onSegmentChange((segment: Segment) => {
-  //   updateWords(segment.words);
-  //   updateEntities(segment.entities);
-  //   updateIntent(segment.intent);
+  client.onSegmentChange((segment: Segment) => {
+    updateWords(segment.words);
+    updateEntities(segment.entities);
+    updateIntent(segment.intent);
 
-  //   if (segment.isFinal) {
-  //     updateReady(segment.contextId, true);
-  //   }
+    if (segment.isFinal) {
+      updateReady(segment.contextId, true);
+    }
 
-  //   const cleanedWords = segment.words
-  //     .filter((w: Word) => w.value)
-  //     .map((w: Word) => ({ value: w.value, index: w.index }));
+    const cleanedWords = segment.words
+      .filter((w: Word) => w.value)
+      .map((w: Word) => ({ value: w.value, index: w.index }));
 
-  //   logResponse(
-  //     segment.contextId,
-  //     segment.id,
-  //     segment.isFinal,
-  //     cleanedWords,
-  //     segment.intent,
-  //     segment.entities
-  //   );
-  // });
-  client.onTranscript((contextId: string, segmentId: number, word: Word) => {
-    console.log('got word', word.value, word.startTimestamp, word.endTimestamp);
+    logResponse(
+      segment.contextId,
+      segment.id,
+      segment.isFinal,
+      cleanedWords,
+      segment.intent,
+      segment.entities
+    );
   });
 
   bindConnectButton(client);
@@ -58,17 +55,17 @@ window.onload = () => {
 
 function newClient(): Client {
   const appId =
-    process.env.REACT_APP_APP_ID || "b15823b6-46f1-4ed9-a2e8-1347b4f4c439";
+    process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
   const opts: ClientOptions = {
     appId,
-    debug: false, // process.env.REACT_APP_DEBUG === "true",
+    debug: process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: false,
+    logSegments: true,
     connect: false,
   };
 
