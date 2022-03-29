@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Plyr, { APITypes } from "plyr-react";
-import { SpeechSegment } from "@speechly/react-client";
+import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import { PushToTalkButton } from "@speechly/react-ui";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import './plyr.css';
@@ -196,16 +197,21 @@ const playerOptions: Plyr.Options = {
 };
 
 const App = () => {
+  const { segment, client } = useSpeechContext()
   const [currentItem, setCurrentItem] = useState(0);
-  const [segments, setSegments] = useState<SpeechSegment[]>(mockSegment);
+  const [segments, setSegments] = useState<SpeechSegment[]>([]);
   const currentAudioSrc = mockCovers[currentItem].audioSrc;
   const ref = useRef<APITypes>(null);
 
-  const handleCoverClick = (i: number) => {
-    // TODO
-    // send currentAudioSrc.sources[0].src to speechly
-    // listen for changes and populate the transcript
-    setCurrentItem(i)
+  useEffect(() => {
+    if (segment) {
+      console.log(segment)
+      if (segment.isFinal) {
+        setSegments(oldSegments => [...oldSegments, segment])
+        console.log("💚", segment)
+      }
+    }
+  }, [segment])
   }
 
   const handleSegmentClick = (ms: number) => {
@@ -236,9 +242,9 @@ const App = () => {
       </div>
       <div className="Content">
         <div className="Transcripts">
-          {segments.map(segment =>
+          {segments.map((segment, i) =>
             <Segment
-              key={segment.id}
+              key={segment.id + i}
               words={segment.words}
               intent={segment.intent}
               onClick={handleSegmentClick}
@@ -246,6 +252,7 @@ const App = () => {
           )}
         </div>
       </div>
+      <PushToTalkButton placement="bottom" captureKey=" "/>
     </div>
   )
 }

@@ -9,7 +9,7 @@ import { DemoNavigation } from "@speechly/demo-navigation";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="6f1c7eaa-53fa-495e-9319-4ceacfa88cfe">
+    <SpeechProvider appId="a55bc719-5e17-4281-8987-91f0ab2fa4dc">
       <LogKit appName="moderation" appVersion={100}>
         <DemoNavigation />
         <App />
