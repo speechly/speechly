@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "1.5.0",
+      "tag": "@speechly/browser-client_v1.5.0",
+      "date": "Tue, 29 Mar 2022 11:27:59 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add sendAudioData function for uploading an audio file to be transcribed."
+          }
+        ]
+      }
+    },
+    {
       "version": "1.4.0",
       "tag": "@speechly/browser-client_v1.4.0",
       "date": "Mon, 28 Feb 2022 08:02:56 GMT",
