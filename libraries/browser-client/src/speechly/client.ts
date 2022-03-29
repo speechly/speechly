@@ -627,6 +627,44 @@ export class Client {
   public printStats(): void {
     this.microphone.printStats()
   }
+
+  public async sendAudioData(audioData: ArrayBuffer): void {
+    const audioBuffer = await this.audioContext.decodeAudioData(audioData)
+    const samples = audioBuffer.getChannelData(0)
+
+    // convert 2-channel audio to 1-channel if need be
+    if (audioBuffer.numberOfChannels > 1) {
+      const chan1samples = audioBuffer.getChannelData(1)
+      for (let i = 0; i < samples.length; i++) {
+        samples[i] = (samples[i] + chan1samples[i]) / 2.0
+      }
+    }
+
+    this.listening = true
+
+    this.setState(ClientState.Starting)
+    const contextId = await this.apiClient.startContext()
+    this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    this.setState(ClientState.Recording)
+
+    let sendBuffer: Float32Array
+    for (let b = 0; b < samples.length; b += 16000) {
+      const e = b + 16000
+      if (e > samples.length) {
+        sendBuffer = samples.slice(b)
+      } else {
+        sendBuffer = samples.slice(b, e)
+      }
+      this.apiClient.sendAudio(sendBuffer)
+    }
+
+    this.listening = false
+
+    this.setState(ClientState.Stopping)
+    await this.apiClient.stopContext()
+    this.activeContexts.delete(contextId)
+    this.setState(ClientState.Connected)
+  }
 }
 
 function generateWsUrl(baseUrl: string, sampleRate: number): string {

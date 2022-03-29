@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Add sendAudioData function for uploading an audio file to be transcribed.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}

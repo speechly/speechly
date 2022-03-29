@@ -49,6 +49,8 @@ window.onload = () => {
   bindConnectButton(client);
   bindInitializeButton(client);
   bindListenButton(client);
+  bindUploadButton();
+  bindFileSelector(client);
 };
 
 function newClient(): Client {
@@ -238,6 +240,33 @@ function bindInitializeButton(client: Client) {
 
   const initButton = document.getElementById("initialize") as HTMLElement;
   initButton.addEventListener("click", initialize);
+}
+
+function bindUploadButton() {
+    const openFileInput = async (event: MouseEvent | TouchEvent) => {
+        event.preventDefault();
+        const fileElem = document.getElementById("fileElem");
+        fileElem?.click();
+    }
+    const uploadButton = document.getElementById("upload") as HTMLElement;
+    uploadButton.addEventListener("click", openFileInput);
+}
+
+function bindFileSelector(client: Client) {
+    const transcribe = async (event: Event) => {
+        const f: FileList | null = (event.target as HTMLInputElement).files;
+        if (f === null) {
+            return
+        }
+        console.log('selected file = ', f[0]);
+        try {
+          client.sendAudioData(await f[0].arrayBuffer());
+        } catch (err) {
+            console.error("Error when transcribing file:", err);
+        }
+    }
+    const fileElem = document.getElementById("fileElem");
+    fileElem?.addEventListener("change", transcribe, false);
 }
 
 function resetState(contextId: string) {
