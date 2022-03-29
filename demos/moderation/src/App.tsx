@@ -3,7 +3,7 @@ import Plyr, { APITypes } from "plyr-react";
 import { SpeechSegment } from "@speechly/react-client";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
-import 'plyr-react/dist/plyr.css';
+import './plyr.css';
 import "./App.css";
 
 const mockCovers: {
@@ -191,7 +191,8 @@ const mockSegment: SpeechSegment[] = [
 
 const playerOptions: Plyr.Options = {
   controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
-  invertTime: true
+  invertTime: false,
+  keyboard: { focused: false, global: false }
 };
 
 const App = () => {
