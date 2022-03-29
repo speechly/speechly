@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Mon, 28 Feb 2022 08:02:56 GMT and should not be manually modified.
+This log was last generated on Tue, 29 Mar 2022 11:27:59 GMT and should not be manually modified.
+
+## 1.5.0
+Tue, 29 Mar 2022 11:27:59 GMT
+
+### Minor changes
+
+- Add sendAudioData function for uploading an audio file to be transcribed.
 
 ## 1.4.0
 Mon, 28 Feb 2022 08:02:56 GMT

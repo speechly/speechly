@@ -2,6 +2,18 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "5.3.1",
+      "tag": "@speechly/browser-ui_v5.3.1",
+      "date": "Tue, 29 Mar 2022 11:27:59 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `1.4.0` to `1.5.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.3.0",
       "tag": "@speechly/browser-ui_v5.3.0",
       "date": "Mon, 28 Feb 2022 12:08:42 GMT",

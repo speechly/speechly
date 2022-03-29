@@ -6,7 +6,7 @@
    <img src="https://d33wubrfki0l68.cloudfront.net/5622420d87a4aad61e39418e6be5024c56d4cd1d/94452/img/speechly-logo-duo-white.svg" height="48" />
 </a>
 
-### The Fast, Accurate, and Simple Voice Interface API
+### Real-time automatic speech recognition and natural language understanding tools in one flexible API
 
 [Website](https://www.speechly.com/)
 &ensp;|&ensp;
