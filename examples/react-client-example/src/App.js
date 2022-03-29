@@ -1,5 +1,5 @@
 import React from 'react'
-import {ClientState, SpeechProvider, useSpeechContext} from '@speechly/react-client'
+import {ClientState, SpeechProvider, useSpeechContext, stateToString} from '@speechly/react-client'
 
 export default function App() {
   const appId = process.env.REACT_APP_APP_ID ?? "be3bfb17-ee36-4050-8830-743aa85065ab";
@@ -31,7 +31,7 @@ function SpeechlyApp() {
       <hr/>
 
 
-      <div className="status">ClientState: {clientState}. Listening: {listening.toString()}</div>
+      <div className="status">State: {stateToString(clientState)}. Listening: {listening.toString()}</div>
       <div className="mic-button">
         <button onClick={connect} disabled={clientState !== ClientState.Disconnected}>Connect</button>
         <button onClick={initialize} disabled={clientState >= ClientState.Connected}>Initialize mic</button>
