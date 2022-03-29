@@ -16,10 +16,10 @@ const mockCovers: {
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/sample-3s.mp3" }]
+        sources: [{ src: "audio/restaurant.wav" }]
       },
       title: "Title goes here",
-      duration: 3000,
+      duration: 5000,
       thumbnail: "https://picsum.photos/seed/1/640/360"
     },
     {
@@ -212,6 +212,16 @@ const App = () => {
       }
     }
   }, [segment])
+
+  const handleCoverClick = async (i: number) => {
+    setCurrentItem(i);
+    setSegments([]);
+
+    const request = new Request(currentAudioSrc.sources[0].src);
+    const response = await fetch(request);
+    const buffer =  await response.arrayBuffer();
+
+    client?.sendAudioData(buffer);
   }
 
   const handleSegmentClick = (ms: number) => {
