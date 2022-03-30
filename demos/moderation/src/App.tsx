@@ -142,7 +142,12 @@ const App = () => {
           )}
         </div>
         <div className="Empty">
-          {currentItem === undefined && segments.length === 0 && <p>Choose an audio source to get started</p>}
+          {currentItem === undefined && segments.length === 0 && (
+            <div>
+              <h3>Choose an audio source to get started</h3>
+              <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
+            </div>
+          )}
           {currentItem !== undefined && segments.length === 0 && <Spinner />}
         </div>
       </div>
