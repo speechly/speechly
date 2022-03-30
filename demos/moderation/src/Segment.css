@@ -1,21 +1,27 @@
 .Segment {
   cursor: pointer;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 4px 0 8px 20px;
+  padding: 4px 0 4px 20px;
   position: relative;
+  transition: all .15s ease;
+
+  padding: 16px;
+  background-color: #F3F5F6;
 }
 
-.Segment::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  border-radius: 4px;
-  background-color: #EDF0F2;
+.Segment:hover {
+  background-color: #EEF0F2;
+}
+
+.Segment--active {
+  background-color: #E0F3FF;
+}
+
+.Segment--active:hover {
+  background-color: #D6EFFF;
 }
 
 .Segment__timestamp {
@@ -35,7 +41,7 @@
 .Segment__labels {
   display: flex;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .Label {
@@ -49,16 +55,15 @@
 }
 
 .Label--success {
-  background-color: #D6FDE6;
-  color: #033517;
+  background-color: #C2F0C7;
+  color: #1F4723;
 }
 
 .Label--danger {
-  background-color: #FCD9DD;
-  color: #35040a;
+  background-color: #F7D4D8;
+  color: #471F23;
 }
 
 .Label--tentative {
-  background-color: #EDF0F2;
-  color: #5A6B7C;
+  background-color: #D6DBE1;
 }

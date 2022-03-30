@@ -8,20 +8,27 @@ import "./Segment.css";
 type SegmentProps = {
   words: Word[];
   intent: Intent;
+  currentTime?: number;
   onClick: (ms: number) => void;
 };
 
-export const Segment = ({ words, intent, onClick }: SegmentProps) => {
+export const Segment = ({ words, intent, currentTime = 0, onClick }: SegmentProps) => {
+  const firstTimestamp = words && words[0].startTimestamp;
+  const lastTimestamp = words && words[words.length - 1].endTimestamp;
+
+  const segmentClasses = classNames({
+    Segment: true,
+    "Segment--active": currentTime >= firstTimestamp && currentTime <= lastTimestamp
+  });
   const intentClasses = classNames({
     Label: true,
     "Label--danger": intent.intent === "offensive",
     "Label--success": intent.intent !== "offensive",
     "Label--tentative": !intent.isFinal
   });
-  const firstTimestamp = words && words[0].startTimestamp;
 
   return (
-    <div className="Segment" onClick={() => onClick(firstTimestamp)}>
+    <div className={segmentClasses} onClick={() => onClick(firstTimestamp)}>
       <div title={`${firstTimestamp}`} className="Segment__timestamp">
         {formatDuration(firstTimestamp, { leading: true })}
       </div>
