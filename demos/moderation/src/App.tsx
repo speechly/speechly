@@ -115,7 +115,6 @@ const App = () => {
               duration={item.duration}
               thumbnail={item.thumbnail}
               isSelected={i === currentItem}
-              isLoading={currentItem !== undefined && segments.length === 0}
               onClick={() => handleCoverClick(i)}
             />
           )}
@@ -149,7 +148,7 @@ const App = () => {
               <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
             </div>
           )}
-          {currentItem !== undefined && segments.length === 0 && <Spinner />}
+          {clientState > 9 && <Spinner />}
         </div>
       </div>
     </div>
