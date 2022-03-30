@@ -28,7 +28,7 @@
   --plyr-range-track-height: 4px;
   --plyr-range-thumb-height: 12px;
   --plyr-audio-progress-buffered-background: #30465C;
-  --plyr-font-family: sans-serif;
+  --plyr-font-family: 'Inter', sans-serif;
   --plyr-font-size-small: 14px;
 
   background-color: #0F1923;
