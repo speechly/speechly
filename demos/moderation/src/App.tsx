@@ -23,39 +23,39 @@ const demoAudios: {
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/restaurant.wav" }]
+        sources: [{ src: "audio/kick.wav" }]
       },
-      title: "Title goes here",
-      duration: 5000,
+      title: "Kick",
+      duration: 0,
       thumbnail: "https://picsum.photos/seed/1/640/360"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/sample-15s.mp3" }]
+        sources: [{ src: "audio/nice.wav" }]
       },
-      title: "Title goes here",
-      duration: 19000,
+      title: "Nice",
+      duration: 0,
       thumbnail: "https://picsum.photos/seed/2/640/360"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/sample-9s.mp3" }]
+        sources: [{ src: "audio/kick.wav" }]
       },
-      title: "Title goes here",
-      duration: 9000,
-      thumbnail: "https://picsum.photos/seed/3/640/360"
+      title: "Kick",
+      duration: 0,
+      thumbnail: "https://picsum.photos/seed/1/640/360"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/sample-12s.mp3" }]
+        sources: [{ src: "audio/nice.wav" }]
       },
-      title: "Title goes here",
-      duration: 12000,
-      thumbnail: "https://picsum.photos/seed/4/640/360"
-    },
+      title: "Nice",
+      duration: 0,
+      thumbnail: "https://picsum.photos/seed/2/640/360"
+    }
   ]
 
 const playerOptions: Plyr.Options = {
