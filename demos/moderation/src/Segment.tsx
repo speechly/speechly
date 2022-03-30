@@ -29,7 +29,7 @@ export const Segment = ({ words, intent, currentTime = 0, onClick }: SegmentProp
 
   return (
     <div className={segmentClasses} onClick={() => onClick(firstTimestamp)}>
-      <div title={`${firstTimestamp}`} className="Segment__timestamp">
+      <div className="Segment__timestamp">
         {formatDuration(firstTimestamp, { leading: true })}
       </div>
       <div className="Segment__words">
@@ -41,7 +41,7 @@ export const Segment = ({ words, intent, currentTime = 0, onClick }: SegmentProp
       </div>
       {intent.intent && (
         <div className="Segment__labels">
-          <div title={intent.intent} className={intentClasses}>
+          <div className={intentClasses}>
             {sentenceCase(intent.intent)}
           </div>
         </div>
