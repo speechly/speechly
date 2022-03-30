@@ -16,13 +16,9 @@ export const CustomPlyrInstance = forwardRef<APITypes, PlyrProps>(
        * you can create the ref inside the component by yourself
        */
       const { current } = ref as React.MutableRefObject<APITypes>;
-      if (current.plyr.source === null)
-        return;
+      if (current.plyr.source === null) return
       const api = current as { plyr: PlyrInstance; };
-      api.plyr.on("timeupdate", () => {
-        console.log("timeupdate", api.plyr.currentTime);
-        setCurrentTime(api.plyr.currentTime * 1000);
-      });
+      api.plyr.on("timeupdate", () => setCurrentTime(api.plyr.currentTime * 1000));
     });
 
     return (
