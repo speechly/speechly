@@ -115,6 +115,7 @@ const App = () => {
               duration={item.duration}
               thumbnail={item.thumbnail}
               isSelected={i === currentItem}
+              isLoading={currentItem !== undefined && segments.length === 0}
               onClick={() => handleCoverClick(i)}
             />
           )}
