@@ -1,6 +1,7 @@
 .App {
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 48px);
 }
 
 .Header {
@@ -42,7 +43,15 @@
   width: 100%;
 }
 
+.Player__inner--disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .Content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -53,4 +62,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.Empty {
+  margin: auto;
+  color: #5A6B7C;
 }

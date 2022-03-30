@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
-import "./Cover.css";
 import formatDuration from "format-duration";
+import "./Cover.css";
 
 type CoverProps = {
   title: string;

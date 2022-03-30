@@ -1,11 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr, { APITypes } from "plyr-react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import classNames from "classnames";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
-import './plyr.css';
+import { Spinner } from "./Spinner";
+import "./plyr.css";
 import "./App.css";
 
+const blankAudio: Plyr.SourceInfo = {
+  type: "audio",
+  sources: [{ src: "audio/blank.mp3" }]
+}
 
 const demoAudios: {
   audioSrc: Plyr.SourceInfo;
@@ -58,8 +64,8 @@ const playerOptions: Plyr.Options = {
 };
 
 const App = () => {
-  const { segment, client, initialize } = useSpeechContext()
-  const [currentItem, setCurrentItem] = useState<number>(0);
+  const { segment, client, initialize } = useSpeechContext();
+  const [currentItem, setCurrentItem] = useState<number>();
   const [segments, setSegments] = useState<SpeechSegment[]>([]);
   const ref = useRef<APITypes>(null);
 
@@ -90,6 +96,11 @@ const App = () => {
     player.currentTime = ms / 1000
   }
 
+  const classes = classNames({
+    "Player__inner": true,
+    "Player__inner--disabled": currentItem === undefined
+  })
+
   return (
     <div className="App">
       <div className="Header">
@@ -107,8 +118,8 @@ const App = () => {
         </div>
       </div>
       <div className="Player">
-        <div className="Player__inner">
           <Plyr source={demoAudios[currentItem].audioSrc} options={playerOptions} ref={ref} />
+        <div className={classes}>
         </div>
       </div>
       <div className="Content">
@@ -121,6 +132,10 @@ const App = () => {
               onClick={handleSegmentClick}
             />
           )}
+        </div>
+        <div className="Empty">
+          {currentItem === undefined && segments.length === 0 && <p>Choose an audio source to get started</p>}
+          {currentItem !== undefined && segments.length === 0 && <Spinner />}
         </div>
       </div>
     </div>
