@@ -73,7 +73,7 @@ const App = () => {
 
   useEffect(() => {
     if (client) initialize();
-  }, [client])
+  }, [client, initialize])
 
   useEffect(() => {
     if (segment && segment.isFinal) {
