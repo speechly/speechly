@@ -66,7 +66,7 @@ const playerOptions: Plyr.Options = {
 
 const App = () => {
   const { currentTime } = useAppContext();
-  const { segment, client, initialize } = useSpeechContext();
+  const { segment, client, clientState, initialize } = useSpeechContext();
   const [currentItem, setCurrentItem] = useState<number>();
   const [segments, setSegments] = useState<SpeechSegment[]>([]);
   const ref = useRef<APITypes>(null);
@@ -88,7 +88,7 @@ const App = () => {
   }
 
   const handleCoverClick = (i: number) => {
-    if (i === currentItem) return
+    if (i === currentItem || clientState > 9) return
     setCurrentItem(i);
     setSegments([]);
     sendAudioToSpeechly(i);
