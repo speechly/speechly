@@ -23,38 +23,38 @@ const demoAudios: {
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/kick.wav" }]
+        sources: [{ src: "audio/koth.mp3" }]
       },
-      title: "Kick",
+      title: "I'm Gonna Kick Your Ass",
       duration: 0,
-      thumbnail: "https://picsum.photos/seed/1/640/360"
+      thumbnail: "https://i.ytimg.com/vi/_BQcFjA2sDA/hqdefault.jpg"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/nice.wav" }]
+        sources: [{ src: "audio/tiktok.mp3" }]
       },
-      title: "Nice",
+      title: "TikTok Angyr Mom",
       duration: 0,
-      thumbnail: "https://picsum.photos/seed/2/640/360"
+      thumbnail: "https://p77-sign-va.tiktokcdn.com/obj/tos-maliva-p-0068/63dcd4e6ca094dc18619efd6d8adff3a?x-expires=1648674000&x-signature=XD9dQIxHYgyPmTUTOG7GEXF6rHo%3D"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/kick.wav" }]
+        sources: [{ src: "audio/pewdiepie.mp3" }]
       },
-      title: "Kick",
+      title: "Pewdiepie Uses the N-word",
       duration: 0,
-      thumbnail: "https://picsum.photos/seed/1/640/360"
+      thumbnail: "https://i.ytimg.com/vi/J_bMArMJ-f8/hq720.jpg"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/nice.wav" }]
+        sources: [{ src: "audio/stepbrothers.mp3" }]
       },
-      title: "Nice",
+      title: "Catalina Wine Mixer",
       duration: 0,
-      thumbnail: "https://picsum.photos/seed/2/640/360"
+      thumbnail: "https://i.ytimg.com/vi/lJ9HcYuGVgU/hq720.jpg"
     }
   ]
 
