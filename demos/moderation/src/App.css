@@ -69,3 +69,14 @@
   color: #5A6B7C;
   text-align: center;
 }
+
+.Empty h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.Empty p {
+  font-size: 16px;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
