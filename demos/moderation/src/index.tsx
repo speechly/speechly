@@ -7,9 +7,17 @@ import * as serviceWorker from "./serviceWorker";
 import { LogKit } from "@speechly/logkit";
 import { DemoNavigation } from "@speechly/demo-navigation";
 
+const noMic = {
+  initialize: function() {return new Promise<void>(function() {})},
+  close: function() {return new Promise<void>(function() {})},
+  mute: function() {},
+  unmute: function() {},
+  printStats: function() {}
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="a55bc719-5e17-4281-8987-91f0ab2fa4dc">
+    <SpeechProvider appId="a55bc719-5e17-4281-8987-91f0ab2fa4dc" microphone={noMic}>
       <LogKit appName="moderation" appVersion={100}>
         <DemoNavigation />
         <App />
