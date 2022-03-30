@@ -6,6 +6,7 @@ import { SpeechProvider } from "@speechly/react-client";
 import * as serviceWorker from "./serviceWorker";
 import { LogKit } from "@speechly/logkit";
 import { DemoNavigation } from "@speechly/demo-navigation";
+import { AppContextProvider } from "./AppContext";
 
 const noMic = {
   initialize: function() {return new Promise<void>(function() {})},
@@ -20,7 +21,9 @@ ReactDOM.render(
     <SpeechProvider appId="a55bc719-5e17-4281-8987-91f0ab2fa4dc" microphone={noMic}>
       <LogKit appName="moderation" appVersion={100}>
         <DemoNavigation />
-        <App />
+        <AppContextProvider>
+          <App />
+        </AppContextProvider>
       </LogKit>
     </SpeechProvider>
   </React.StrictMode>,
