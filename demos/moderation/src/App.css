@@ -15,8 +15,14 @@
   width: 100%;
   padding: 36px 16px 2px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .Header__inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .Player {
@@ -55,7 +61,13 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 32px 16px;
+  padding: 16px;
+}
+
+@media (min-width: 960px) {
+  .Content {
+    padding-top: 32px;
+  }
 }
 
 .Transcripts {
@@ -68,6 +80,7 @@
   margin: auto;
   color: #5A6B7C;
   text-align: center;
+  padding: 16px;
 }
 
 .Empty h3 {

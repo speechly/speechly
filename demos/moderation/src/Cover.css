@@ -29,7 +29,13 @@
   left: 0;
   right: 0;
   background-image: linear-gradient(transparent, #000c);
-  padding: 32px 16px 14px;
+  padding: 24px 12px 10px;
+}
+
+@media (min-width: 960px) {
+  .Cover__info {
+    padding: 32px 16px 14px;
+  }
 }
 
 .Cover__title,

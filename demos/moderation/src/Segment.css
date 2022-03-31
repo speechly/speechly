@@ -1,15 +1,13 @@
 .Segment {
-  cursor: pointer;
-  border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 4px 0 4px 20px;
+  cursor: pointer;
   position: relative;
-  transition: all .15s ease;
-
+  border-radius: 6px;
   padding: 16px;
   background-color: #F3F5F6;
+  transition: all .15s ease;
 }
 
 .Segment:hover {
@@ -74,6 +72,7 @@
 }
 
 .Label small {
+  font-size: 12px;
   opacity: 0.6;
   margin-left: 0.25em;
 }
