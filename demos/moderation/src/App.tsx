@@ -7,6 +7,7 @@ import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import { Spinner } from "./Spinner";
 import { CustomPlyrInstance } from "./CustomPlyrInstance";
+import emptyIcon from "./arrow-up-circle.svg";
 import "./App.css";
 
 const blankAudio: Plyr.SourceInfo = {
@@ -144,6 +145,7 @@ const App = () => {
         <div className="Empty">
           {currentItem === undefined && segments.length === 0 && (
             <div>
+              <img src={emptyIcon} alt="icon" />
               <h3>Choose an audio source to get started</h3>
               <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
             </div>
