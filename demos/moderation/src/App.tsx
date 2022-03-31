@@ -27,16 +27,16 @@ const demoAudios: {
         sources: [{ src: "audio/koth.mp3" }]
       },
       title: "I'm Gonna Kick Your Ass",
-      duration: 9142,
+      duration: 20000,
       thumbnail: "audio/koth.jpg"
     },
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/tiktok.mp3" }]
+        sources: [{ src: "audio/tiktok.m4a" }]
       },
       title: "Angyr TikTok Mom",
-      duration: 14733,
+      duration: 13000,
       thumbnail: "audio/tiktok.jpg"
     },
     {
@@ -45,7 +45,7 @@ const demoAudios: {
         sources: [{ src: "audio/stepbrothers.mp3" }]
       },
       title: "Catalina Wine Mixer",
-      duration: 36597,
+      duration: 36000,
       thumbnail: "audio/stepbrothers.jpg"
     },
     {
@@ -54,7 +54,7 @@ const demoAudios: {
         sources: [{ src: "audio/pewdiepie.mp3" }]
       },
       title: "PewDiePie Uses the N-word",
-      duration: 12591,
+      duration: 12000,
       thumbnail: "audio/pewdiepie.jpg"
     }
   ]
