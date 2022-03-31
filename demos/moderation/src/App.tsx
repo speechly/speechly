@@ -100,7 +100,7 @@ const App = () => {
     player.currentTime = ms / 1000
   }
 
-  const classes = classNames({
+  const playerClasses = classNames({
     "Player__inner": true,
     "Player__inner--disabled": currentItem === undefined
   })
@@ -122,7 +122,7 @@ const App = () => {
         </div>
       </div>
       <div className="Player">
-        <div className={classes}>
+        <div className={playerClasses}>
           <CustomPlyrInstance
             ref={ref}
             source={currentItem === undefined ? blankAudio : demoAudios[currentItem].audioSrc}
@@ -137,6 +137,7 @@ const App = () => {
               key={segment.id + i}
               words={segment.words}
               intent={segment.intent}
+              entities={segment.entities}
               currentTime={currentTime}
               onClick={handleSegmentClick}
             />

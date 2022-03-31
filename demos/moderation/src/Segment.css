@@ -54,6 +54,11 @@
   transition: all .25s ease;
 }
 
+.Label--info {
+  background-color: #009FFA33;
+  color: #1f3747;
+}
+
 .Label--success {
   background-color: #C2F0C7;
   color: #1F4723;
@@ -66,4 +71,9 @@
 
 .Label--tentative {
   background-color: #D6DBE1;
+}
+
+.Label small {
+  opacity: 0.6;
+  margin-left: 0.25em;
 }
