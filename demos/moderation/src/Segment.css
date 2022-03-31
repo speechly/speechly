@@ -54,17 +54,17 @@
 
 .Label--info {
   background-color: #009FFA33;
-  color: #1f3747;
+  color: #143b52;
 }
 
 .Label--success {
   background-color: #C2F0C7;
-  color: #1F4723;
+  color: #14521c;
 }
 
 .Label--danger {
   background-color: #F7D4D8;
-  color: #471F23;
+  color: #52141c;
 }
 
 .Label--tentative {
