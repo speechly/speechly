@@ -78,7 +78,9 @@ const App = () => {
 
   useEffect(() => {
     if (segment && segment.isFinal) {
-      setSegments(oldSegments => [...oldSegments, segment])
+      setSegments(oldSegments => [...oldSegments, segment]);
+      const player = (ref?.current?.plyr as Plyr);
+      player.play();
     }
   }, [segment])
 
@@ -96,8 +98,9 @@ const App = () => {
   }
 
   const handleSegmentClick = (ms: number) => {
-    const player = (ref?.current?.plyr as Plyr)
+    const player = (ref?.current?.plyr as Plyr);
     player.currentTime = ms / 1000
+    player.play();
   }
 
   const playerClasses = classNames({
