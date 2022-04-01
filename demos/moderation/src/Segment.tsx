@@ -43,7 +43,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
       </div>
       <div className="Segment__words">
         {wordsWithEntities.map(({ word, entity }, i) =>
-          <>
+          <React.Fragment key={i}>
             {!entity && (
               <span key={word.index}>
                 {i === 0 ? sentenceCase(word.value) : word.value.toLowerCase()}
@@ -55,7 +55,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
                 <small>{entity.type}</small>
               </span>
             )}
-          </>
+          </React.Fragment>
         )}
       </div>
       {intent.intent && (
