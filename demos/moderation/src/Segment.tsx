@@ -3,6 +3,7 @@ import { Entity, Intent, Word } from "@speechly/react-client";
 import { sentenceCase } from "sentence-case";
 import classNames from "classnames";
 import formatDuration from "format-duration";
+import { Label } from "./Label";
 import "./Segment.css";
 
 const findEntity = (word: Word, entities: Entity[]) =>
@@ -29,11 +30,6 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
     "Segment--active": currentTime >= firstTimestamp && currentTime <= lastTimestamp
   });
 
-  const intentClasses = classNames({
-    Label: true,
-    "Label--danger": intent.intent === "offensive",
-    "Label--success": intent.intent !== "offensive",
-    "Label--tentative": !intent.isFinal
   });
 
   return (
@@ -50,9 +46,9 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
               </span>
             )}
             {entity && (
-              <span className="Label Label--info" key={word.index}>
-                {i === 0 ? sentenceCase(entity.value) : entity.value.toLowerCase()}
-                <small>{entity.type}</small>
+                <Label variant="entity" type={entity.type}>
+                  {i === 0 ? sentenceCase(entity.value) : entity.value.toLowerCase()}
+                </Label>
               </span>
             )}
           </React.Fragment>
@@ -60,9 +56,9 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
       </div>
       {intent.intent && (
         <div className="Segment__labels">
-          <div className={intentClasses}>
+          <Label variant="intent" intent={intent.intent}>
             {sentenceCase(intent.intent)}
-          </div>
+          </Label>
         </div>
       )}
     </div>

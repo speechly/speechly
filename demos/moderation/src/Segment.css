@@ -42,37 +42,3 @@
   margin-top: 2px;
 }
 
-.Label {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: 0.01em;
-  padding: 3px 6px;
-  border-radius: 3px;
-  transition: all .25s ease;
-}
-
-.Label--info {
-  background-color: #009FFA33;
-  color: #143b52;
-}
-
-.Label--success {
-  background-color: #C2F0C7;
-  color: #14521c;
-}
-
-.Label--danger {
-  background-color: #F7D4D8;
-  color: #52141c;
-}
-
-.Label--tentative {
-  background-color: #D6DBE1;
-}
-
-.Label small {
-  font-size: 12px;
-  opacity: 0.6;
-  margin-left: 0.25em;
-}
