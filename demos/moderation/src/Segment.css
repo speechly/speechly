@@ -7,7 +7,7 @@
   border-radius: 6px;
   padding: 16px;
   background-color: #EDF0F2;
-  transition: all .15s ease;
+  transition: all .25s ease;
   opacity: 0.5;
 }
 
@@ -27,7 +27,6 @@
 .Segment__words > span {
   display: inline-block;
   padding-right: 0.3em;
-  opacity: 1;
 }
 
 .Segment__labels {
