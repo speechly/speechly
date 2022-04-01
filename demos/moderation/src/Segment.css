@@ -6,13 +6,13 @@
   position: relative;
   border-radius: 6px;
   padding: 16px;
-  background-color: #EDF0F2;
+  background-color: #E7EBEE;
   transition: all .25s ease;
   opacity: 0.5;
 }
 
 .Segment:hover {
-  box-shadow: 0 0 0 2px #EDF0F2;
+  box-shadow: 0 0 0 2px #E7EBEE;
 }
 
 .Segment__timestamp {

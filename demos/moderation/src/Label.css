@@ -9,22 +9,23 @@
 }
 
 .Label--info {
-  background-color: #c2e7ff;
+  background-color: #b6e0fb;
   color: #143b52;
 }
 
 .Label--success {
-  background-color: #C2F0C7;
-  color: #14521c;
+  background-color: #b6edbf;
+  color: #14521f;
 }
 
 .Label--danger {
-  background-color: #F7D4D8;
+  background-color: #f7d4d8;
   color: #52141c;
 }
 
 .Label--tentative {
-  background-color: #D6DBE1;
+  background-color: #bec7d0;
+  color: #0F1923
 }
 
 .Label small {
