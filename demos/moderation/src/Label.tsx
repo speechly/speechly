@@ -22,5 +22,5 @@ export const Label = ({ children, variant, type, intent }: LabelProps) => {
       {children}
       {type && <small>{type}</small>}
     </span>
-  )
-}
+  );
+};

@@ -74,7 +74,7 @@ const App = () => {
 
   useEffect(() => {
     if (client) initialize();
-  }, [client, initialize])
+  }, [client, initialize]);
 
   useEffect(() => {
     if (segment && segment.isFinal) {
@@ -82,7 +82,7 @@ const App = () => {
       const player = (ref?.current?.plyr as Plyr);
       player.play();
     }
-  }, [segment])
+  }, [segment]);
 
   const sendAudioToSpeechly = async (i: number) => {
     const response = await fetch(demoAudios[i].audioSrc.sources[0].src);
@@ -106,7 +106,7 @@ const App = () => {
   const playerClasses = classNames({
     "Player__inner": true,
     "Player__inner--disabled": currentItem === undefined
-  })
+  });
 
   return (
     <div className="App">
@@ -158,6 +158,7 @@ const App = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
 export default App
