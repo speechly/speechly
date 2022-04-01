@@ -24,9 +24,10 @@
   line-height: 1.5;
 }
 
-.Segment__words span {
+.Segment__words > span {
   display: inline-block;
-  margin-right: 0.3em;
+  padding-right: 0.3em;
+  opacity: 1;
 }
 
 .Segment__labels {
@@ -35,3 +36,14 @@
   margin-top: 2px;
 }
 
+.Segment--active {
+  opacity: 1;
+}
+
+.Segment--active .Segment__words > span {
+  opacity: 0.5;
+}
+
+.Segment--active .Segment__words > span.highlighted {
+  opacity: 1;
+}

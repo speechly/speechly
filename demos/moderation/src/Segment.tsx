@@ -30,6 +30,8 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
     "Segment--active": currentTime >= firstTimestamp && currentTime <= lastTimestamp
   });
 
+  const wordClasses = (startTimestamp: number) => classNames({
+    "highlighted": currentTime > startTimestamp
   });
 
   return (
@@ -41,11 +43,12 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
         {wordsWithEntities.map(({ word, entity }, i) =>
           <React.Fragment key={i}>
             {!entity && (
-              <span key={word.index}>
+              <span className={wordClasses(word.startTimestamp)} key={word.index}>
                 {i === 0 ? sentenceCase(word.value) : word.value.toLowerCase()}
               </span>
             )}
             {entity && (
+              <span className={wordClasses(word.startTimestamp)} key={word.index}>
                 <Label variant="entity" type={entity.type}>
                   {i === 0 ? sentenceCase(entity.value) : entity.value.toLowerCase()}
                 </Label>
