@@ -18,7 +18,7 @@ const noMic = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="a55bc719-5e17-4281-8987-91f0ab2fa4dc" microphone={noMic}>
+    <SpeechProvider appId="aeca6691-2a4c-4f80-af93-4c8396216a62" microphone={noMic}>
       <LogKit appName="moderation" appVersion={100}>
         <DemoNavigation />
         <AppContextProvider>
