@@ -2,7 +2,7 @@
 
 https://demos.speechly.com/moderation/
 
-Demonstrates how to use Speechly for profanity moderation purooses.
+Demonstrates how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature.
 
 ## Requirements
 
