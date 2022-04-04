@@ -1,0 +1,17 @@
+name: deploy moderation
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "demos/moderation/config/**"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://speechly/cli:latest
+        with:
+          args: deploy -a ${{ secrets.APPID_MODERATION }} demos/moderation/config -w
+        env:
+          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

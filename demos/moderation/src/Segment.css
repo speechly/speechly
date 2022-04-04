@@ -1,0 +1,48 @@
+.Segment {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 6px;
+  padding: 16px;
+  background-color: #E7EBEE;
+  transition: all .25s ease;
+  opacity: 0.5;
+}
+
+.Segment:hover {
+  box-shadow: 0 0 0 2px #E7EBEE;
+}
+
+.Segment__timestamp {
+  color: #5A6B7C;
+  font-size: 14px;
+}
+
+.Segment__words {
+  line-height: 1.5;
+}
+
+.Segment__words > span {
+  display: inline-block;
+  padding-right: 0.3em;
+}
+
+.Segment__labels {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.Segment--active {
+  opacity: 1;
+}
+
+.Segment--active .Segment__words > span {
+  opacity: 0.5;
+}
+
+.Segment--active .Segment__words > span.highlighted {
+  opacity: 1;
+}

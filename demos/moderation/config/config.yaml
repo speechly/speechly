@@ -1,0 +1,18 @@
+lang: en-US
+templates: |
+
+  intent = [
+    *offensive $offensive
+    *non_offensive $non_offensive
+  ]
+  $intent {$intent {$intent}}
+intents: []
+entities: []
+imports:
+  - name: offensive
+    source: offensive.csv
+    field: 1
+  - name: non_offensive
+    source: non_offensive.csv
+    field: 1
+silence_triggered_segmentation: 60

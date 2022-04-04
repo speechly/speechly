@@ -1,0 +1,63 @@
+.Cover {
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  transition: all .15s ease;
+  height: 0;
+  padding-bottom: 56%;
+}
+
+.Cover:hover {
+  filter: brightness(1.1);
+}
+
+.Cover__image {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.Cover__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(transparent, #000c);
+  padding: 24px 12px 10px;
+}
+
+@media (min-width: 960px) {
+  .Cover__info {
+    padding: 32px 16px 14px;
+  }
+}
+
+.Cover__title,
+.Cover__duration {
+  text-shadow: 0 0 8px #000;
+}
+
+.Cover__title {
+  display: block;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.Cover__duration {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.Cover--selected {
+  outline: 2px solid #009FFA;
+  position: relative;
+}

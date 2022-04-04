@@ -43,6 +43,7 @@ This monorepository contains the source code of Speechly demos available at [htt
 
 | Folder | Description |
 | ------ | ------- |
+| [/demos/moderation](/demos/moderation) | [Moderation](https://demos.speechly.com/moderation) how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature. |
 | [/demos/voice-search](/demos/voice-search) | [Voice Search](https://demos.speechly.com/voice-search) demonstrates how to use Speechly and Google Custom Search API to create a voice-enabled search enginge. |
 | [/demos/speech-to-text](/demos/speech-to-text) | [Speech-to-Text](https://demos.speechly.com/speech-to-text) app demonstrates Speechly API's automatic speech recognition (ASR). |
 | [/demos/smart-home](/demos/smart-home) | [Smart Home](https://smarthome.speechly.com) app demonstrates updating GUI in real-time by reacting to  intents and entities provided by Speechly API's streaming Natural Language Understanding (NLU). |

@@ -1,0 +1,35 @@
+.Label {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  padding: 3px 6px;
+  border-radius: 3px;
+  transition: all .25s ease;
+}
+
+.Label--info {
+  background-color: #b6e0fb;
+  color: #143b52;
+}
+
+.Label--success {
+  background-color: #b6edbf;
+  color: #14521f;
+}
+
+.Label--danger {
+  background-color: #f7d4d8;
+  color: #52141c;
+}
+
+.Label--tentative {
+  background-color: #bec7d0;
+  color: #0F1923
+}
+
+.Label small {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-left: 0.25em;
+}
