@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Entity, Intent, Word } from "@speechly/react-client";
 import { sentenceCase } from "sentence-case";
 import classNames from "classnames";
@@ -21,9 +21,16 @@ type SegmentProps = {
 };
 
 export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: SegmentProps) => {
+  const ref = useRef<HTMLDivElement>(null);
   const firstTimestamp = words && words[0].startTimestamp;
   const lastTimestamp = words && words[words.length - 1].endTimestamp;
   const wordsWithEntities = mapWordsWithEntities(words, entities);
+
+  useEffect(() => {
+    if (currentTime >= firstTimestamp && currentTime <= lastTimestamp) {
+      ref.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentTime, firstTimestamp, lastTimestamp]);
 
   const segmentClasses = classNames({
     Segment: true,
@@ -35,7 +42,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
   });
 
   return (
-    <div className={segmentClasses} onClick={() => onClick(firstTimestamp)}>
+    <div className={segmentClasses} onClick={() => onClick(firstTimestamp)} ref={ref}>
       <div className="Segment__timestamp">
         {formatDuration(firstTimestamp, { leading: true })}
       </div>
