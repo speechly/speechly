@@ -31,10 +31,10 @@ const demoAudios: {
     {
       audioSrc: {
         type: "audio",
-        sources: [{ src: "audio/tiktok.m4a" }]
+        sources: [{ src: "audio/tiktok.mp3" }]
       },
-      title: "Angyr TikTok Mom",
-      duration: 13000,
+      title: "Reaction to Assault on TikTok",
+      duration: 31000,
       thumbnail: "audio/tiktok.jpg"
     },
     {
