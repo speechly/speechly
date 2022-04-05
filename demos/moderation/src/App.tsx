@@ -84,34 +84,38 @@ const App = () => {
   })
 
   useEffect(() => {
+    const sendAudioToSpeechly = async (i: number) => {
+      const response = await fetch(demoAudios[i].audioSrc.sources[0].src, {
+        headers: {
+          "Content-Type": "audio/mpeg;audio/wav;audio/m4a",
+          "Accept": "audio/mpeg;audio/wav;audio/m4a"
+        },
+      });
+      if (!response.ok) {
+        console.error("Could't find file");
+        setCurrentItem(undefined);
+      };
+      const buffer =  await response.arrayBuffer();
+      client?.sendAudioData(buffer);
+    }
+    if (client && currentItem !== undefined) {
+      sendAudioToSpeechly(currentItem);
+    }
+  }, [currentItem, client])
+
+  useEffect(() => {
     if (segment && segment.isFinal) {
       setSegments(oldSegments => [...oldSegments, segment]);
       const player = (ref?.current?.plyr as Plyr);
-      player.play();
+      if (player.paused) player.play();
     }
   }, [segment]);
-
-  const sendAudioToSpeechly = async (i: number) => {
-    const response = await fetch(demoAudios[i].audioSrc.sources[0].src, {
-      headers: {
-        "Content-Type": "audio/mpeg;audio/wav;audio/m4a",
-        "Accept": "audio/mpeg;audio/wav;audio/m4a"
-      },
-    });
-    if (!response.ok) {
-      console.error("Could't find file");
-      setCurrentItem(undefined);
-    };
-    const buffer =  await response.arrayBuffer();
-    client?.sendAudioData(buffer);
-  }
 
   const handleCoverClick = (i: number) => {
     if (client) initialize();
     if (i === currentItem || clientState > 9) return
     setCurrentItem(i);
     setSegments([]);
-    sendAudioToSpeechly(i);
   }
 
   const handleSegmentClick = (ms: number) => {
