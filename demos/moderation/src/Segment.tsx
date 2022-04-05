@@ -28,7 +28,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
 
   useEffect(() => {
     if (currentTime >= firstTimestamp && currentTime <= lastTimestamp) {
-      ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [currentTime, firstTimestamp, lastTimestamp]);
 

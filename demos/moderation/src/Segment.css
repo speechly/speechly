@@ -9,6 +9,7 @@
   background-color: #E7EBEE;
   transition: all .25s ease;
   opacity: 0.5;
+  scroll-margin-top: 80px;
 }
 
 .Segment:hover {
