@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
 import { SpeechProvider } from "@speechly/react-client";
-import * as serviceWorker from "./serviceWorker";
 import { LogKit } from "@speechly/logkit";
 import { DemoNavigation } from "@speechly/demo-navigation";
-import { AppContextProvider } from "./AppContext";
+import * as serviceWorker from "./serviceWorker";
+import App from "./App";
+import "./index.css";
 
 const noMic = {
   initialize: function() {return new Promise<void>(function() {})},
@@ -21,9 +20,7 @@ ReactDOM.render(
     <SpeechProvider appId="aeca6691-2a4c-4f80-af93-4c8396216a62" microphone={noMic}>
       <LogKit appName="moderation" appVersion={100}>
         <DemoNavigation />
-        <AppContextProvider>
-          <App />
-        </AppContextProvider>
+        <App />
       </LogKit>
     </SpeechProvider>
   </React.StrictMode>,

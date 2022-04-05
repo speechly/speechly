@@ -1,14 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { APITypes } from "plyr-react";
+import Plyr, { APITypes } from "plyr-react";
 import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import classNames from "classnames";
-import { useAppContext } from "./AppContext";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import { Spinner } from "./Spinner";
-import { CustomPlyrInstance } from "./CustomPlyrInstance";
-import emptyIcon from "./arrow-up-circle.svg";
 import "./App.css";
+import "./plyr.css";
 
 const blankAudio: Plyr.SourceInfo = {
   type: "audio",
@@ -66,11 +64,24 @@ const playerOptions: Plyr.Options = {
 };
 
 const App = () => {
-  const { currentTime } = useAppContext();
   const { segment, client, clientState, initialize } = useSpeechContext();
+  const [currentTime, setCurrentTime] = useState<number>(0);
   const [currentItem, setCurrentItem] = useState<number>();
   const [segments, setSegments] = useState<SpeechSegment[]>([]);
   const ref = useRef<APITypes>(null);
+
+  const handleTimeUpdate = (event: any) => {
+    const player = event?.detail?.plyr as Plyr
+    if (player.source === null) return
+    setCurrentTime(player?.currentTime * 1000)
+  }
+
+  useEffect(() => {
+    window.addEventListener("timeupdate", handleTimeUpdate);
+    return () => {
+      window.removeEventListener("timeupdate", handleTimeUpdate)
+    }
+  })
 
   useEffect(() => {
     if (segment && segment.isFinal) {
@@ -132,7 +143,7 @@ const App = () => {
       </div>
       <div className="Player">
         <div className={playerClasses}>
-          <CustomPlyrInstance
+          <Plyr
             ref={ref}
             source={currentItem === undefined ? blankAudio : demoAudios[currentItem].audioSrc}
             options={playerOptions}
@@ -155,7 +166,7 @@ const App = () => {
         <div className="Empty">
           {currentItem === undefined && segments.length === 0 && (
             <div>
-              <img src={emptyIcon} alt="icon" />
+              <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx={12} cy={12} r={10} /><polyline points="16 12 12 8 8 12" /><line x1={12} y1={16} x2={12} y2={8} /></svg>
               <h3>Choose an audio source to get started</h3>
               <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
             </div>
