@@ -29,6 +29,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.intercom-app,
 .intercom-lightweight-app {
   display: none !important;
 }

@@ -48,6 +48,7 @@ code {
   color: #1fd3f3;
 }
 
+.intercom-app,
 .intercom-lightweight-app {
   display: none !important;
 }
