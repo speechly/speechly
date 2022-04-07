@@ -106,8 +106,6 @@ const App = () => {
   useEffect(() => {
     if (segment && segment.isFinal) {
       setSegments(oldSegments => [...oldSegments, segment]);
-      const player = (ref?.current?.plyr as Plyr);
-      if (player.paused) player.play();
     }
   }, [segment]);
 
