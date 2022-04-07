@@ -9,23 +9,24 @@
 }
 
 .Label--info {
-  background-color: #b6e0fb;
-  color: #143b52;
+  background-color: var(--label-info);
+  color: var(--label-info-text);
 }
 
 .Label--success {
-  background-color: #b6edbf;
-  color: #14521f;
+  background-color: var(--label-success);
+  color: var(--label-success-text);
 }
 
 .Label--danger {
-  background-color: #f7d4d8;
-  color: #52141c;
+  background-color: var(--label-danger);
+  color: var(--label-danger-text);
 }
 
-.Label--tentative {
-  background-color: #bec7d0;
-  color: #0F1923
+.Label--secondary {
+  background-color: var(--label-secondary);
+  color: var(--label-secondary-text);
+  font-size: 13.5px;
 }
 
 .Label small {

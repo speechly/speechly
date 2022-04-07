@@ -4,7 +4,7 @@ import "./Label.css";
 
 type LabelProps = {
   children: React.ReactNode;
-  variant: "intent" | "entity";
+  variant: "intent" | "entity" | "time";
   type?: string;
   intent?: string;
 }
@@ -14,7 +14,8 @@ export const Label = ({ children, variant, type, intent }: LabelProps) => {
     Label: true,
     "Label--danger": variant === "intent" && intent === "offensive",
     "Label--success": variant === "intent" && intent !== "offensive",
-    "Label--info": variant === "entity"
+    "Label--info": variant === "entity",
+    "Label--secondary": variant === "time"
   })
 
   return (

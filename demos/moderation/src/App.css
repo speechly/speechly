@@ -6,7 +6,6 @@
 
 .Header {
   background-color: #00050A;
-  background-image: linear-gradient(#00050A, #0F1923);
 }
 
 .Header__inner {
@@ -37,7 +36,7 @@
   --plyr-font-family: 'Inter', sans-serif;
   --plyr-font-size-small: 14px;
 
-  background-color: #0F1923;
+  background-color: #00050A;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -55,6 +54,7 @@
 }
 
 .Content {
+  background-color: var(--bg);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -78,7 +78,7 @@
 
 .Empty {
   margin: auto;
-  color: #5A6B7C;
+  color: var(--text-secondary);
   text-align: center;
   padding: 16px;
 }

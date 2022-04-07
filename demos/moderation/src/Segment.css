@@ -6,19 +6,15 @@
   position: relative;
   border-radius: 6px;
   padding: 16px;
-  background-color: #E7EBEE;
-  transition: all .25s ease;
+  background-color: var(--segment);
+  color: var(--text-primary);
   opacity: 0.5;
+  transition: all .25s ease;
   scroll-margin-top: 80px;
 }
 
 .Segment:hover {
-  box-shadow: 0 0 0 2px #E7EBEE;
-}
-
-.Segment__timestamp {
-  color: #5A6B7C;
-  font-size: 14px;
+  box-shadow: 0 0 0 2px var(--segment);
 }
 
 .Segment__words {
@@ -27,7 +23,7 @@
 
 .Segment__words > span {
   display: inline-block;
-  padding-right: 0.3em;
+  margin-right: 0.3em;
 }
 
 .Segment__labels {
@@ -38,10 +34,12 @@
 
 .Segment--active {
   opacity: 1;
+  background-color: var(--segment-active);
+  box-shadow: 0 0 0 2px var(--segment-active) !important;
 }
 
 .Segment--active .Segment__words > span {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .Segment--active .Segment__words > span.highlighted {

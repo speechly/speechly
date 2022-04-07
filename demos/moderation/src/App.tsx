@@ -31,6 +31,15 @@ const demoAudios: {
     {
       audioSrc: {
         type: "audio",
+        sources: [{ src: "audio/pewdiepie.mp3" }]
+      },
+      title: "PewDiePie Uses the N-word",
+      duration: 12000,
+      thumbnail: "audio/pewdiepie.jpg"
+    },
+    {
+      audioSrc: {
+        type: "audio",
         sources: [{ src: "audio/tiktok.mp3" }]
       },
       title: "Reaction to Assault on TikTok",
@@ -45,15 +54,6 @@ const demoAudios: {
       title: "Catalina Wine Mixer",
       duration: 36000,
       thumbnail: "audio/stepbrothers.jpg"
-    },
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{ src: "audio/pewdiepie.mp3" }]
-      },
-      title: "PewDiePie Uses the N-word",
-      duration: 12000,
-      thumbnail: "audio/pewdiepie.jpg"
     }
   ]
 
