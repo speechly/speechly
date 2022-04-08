@@ -26,18 +26,6 @@ export const demoAudios: {
       audioSrc: {
         type: "audio",
         sources: [{
-          src: audioDemo1,
-          type: "audio/mpeg"
-      }]
-      },
-      title: "I'm Gonna Kick Your Ass",
-      duration: 20000,
-      thumbnail: coverDemo1
-    },
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{
           src: audioDemo2,
           type: "audio/mpeg"
       }]
@@ -45,6 +33,18 @@ export const demoAudios: {
       title: "PewDiePie Uses the N-word",
       duration: 12000,
       thumbnail: coverDemo2
+    },
+    {
+      audioSrc: {
+        type: "audio",
+        sources: [{
+          src: audioDemo1,
+          type: "audio/mpeg"
+      }]
+      },
+      title: "I'm Gonna Kick Your Ass",
+      duration: 20000,
+      thumbnail: coverDemo1
     },
     {
       audioSrc: {

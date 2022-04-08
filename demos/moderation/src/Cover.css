@@ -47,14 +47,24 @@
   display: block;
   color: #fff;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .Cover__duration {
   display: block;
-  color: #fff;
-  font-size: 14px;
+  color: #fffc;
+  font-size: 12px;
   margin-top: 4px;
+}
+
+@media (min-width: 960px) {
+  .Cover__title {
+    font-size: 16px;
+  }
+
+  .Cover__duration {
+    font-size: 14px;
+  }
 }
 
 .Cover--selected {

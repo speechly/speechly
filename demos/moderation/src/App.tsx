@@ -60,7 +60,7 @@ const App = () => {
     if (segment && segment.isFinal) {
       setSegments(oldSegments => [...oldSegments, segment]);
       const player = (ref?.current?.plyr as Plyr);
-      if (player.paused) player.play();
+      if (player.paused && segments.length === 1) player.play();
     }
   }, [segment]);
 
@@ -108,18 +108,20 @@ const App = () => {
         </div>
       </div>
       <div className="Content">
-        <div className="Transcripts">
-          {segments.map((segment, i) =>
-            <Segment
-              key={segment.id + i}
-              words={segment.words}
-              intent={segment.intent}
-              entities={segment.entities}
-              currentTime={currentTime}
-              onClick={handleSegmentClick}
-            />
-          )}
-        </div>
+        {segments.length > 0 && (
+          <div className="Transcripts">
+            {segments.map((segment, i) =>
+              <Segment
+                key={segment.id + i}
+                words={segment.words}
+                intent={segment.intent}
+                entities={segment.entities}
+                currentTime={currentTime}
+                onClick={handleSegmentClick}
+              />
+            )}
+          </div>
+        )}
         <div className="Empty">
           {currentItem === undefined && segments.length === 0 && (
             <div>
