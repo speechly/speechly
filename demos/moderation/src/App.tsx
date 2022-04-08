@@ -62,6 +62,7 @@ const App = () => {
       const player = (ref?.current?.plyr as Plyr);
       if (player.paused && segments.length === 1) player.play();
     }
+  // eslint-disable-next-line
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
