@@ -5,57 +5,9 @@ import classNames from "classnames";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
 import { Spinner } from "./Spinner";
+import { blankAudio, demoAudios } from "./demoContent";
 import "./App.css";
 import "./plyr.css";
-
-const blankAudio: Plyr.SourceInfo = {
-  type: "audio",
-  sources: [{ src: "audio/blank.mp3" }]
-}
-
-const demoAudios: {
-  audioSrc: Plyr.SourceInfo;
-  title: string;
-  duration: number;
-  thumbnail: string;
-}[] = [
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{ src: "audio/koth.mp3" }]
-      },
-      title: "I'm Gonna Kick Your Ass",
-      duration: 20000,
-      thumbnail: "audio/koth.jpg"
-    },
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{ src: "audio/pewdiepie.mp3" }]
-      },
-      title: "PewDiePie Uses the N-word",
-      duration: 12000,
-      thumbnail: "audio/pewdiepie.jpg"
-    },
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{ src: "audio/tiktok.mp3" }]
-      },
-      title: "Reaction to Assault on TikTok",
-      duration: 31000,
-      thumbnail: "audio/tiktok.jpg"
-    },
-    {
-      audioSrc: {
-        type: "audio",
-        sources: [{ src: "audio/stepbrothers.mp3" }]
-      },
-      title: "Catalina Wine Mixer",
-      duration: 36000,
-      thumbnail: "audio/stepbrothers.jpg"
-    }
-  ]
 
 const playerOptions: Plyr.Options = {
   controls: ["play", "progress", "current-time", "mute", "volume"],
@@ -90,6 +42,7 @@ const App = () => {
           "Content-Type": "audio/mpeg;audio/wav;audio/m4a",
           "Accept": "audio/mpeg;audio/wav;audio/m4a"
         },
+        cache: "no-store"
       });
       if (!response.ok) {
         console.error("Could't find file");
@@ -106,6 +59,8 @@ const App = () => {
   useEffect(() => {
     if (segment && segment.isFinal) {
       setSegments(oldSegments => [...oldSegments, segment]);
+      const player = (ref?.current?.plyr as Plyr);
+      if (player.paused) player.play();
     }
   }, [segment]);
 
