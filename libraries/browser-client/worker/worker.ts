@@ -34,7 +34,7 @@ interface WebsocketResponse {
  */
 enum WebsocketResponseType {
   Opened = 'WEBSOCKET_OPEN',
-  SourceSampleRateSetSuccess = 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
+  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
 }
@@ -93,10 +93,12 @@ class WebsocketClient {
     if (this.resampleRatio > 1) {
       this.filter = generateFilter(this.sourceSampleRate, this.targetSampleRate, 127)
     }
-    this.workerCtx.postMessage({ type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS' })
+    this.workerCtx.postMessage({ type: 'SOURCE_SAMPLE_RATE_SET_SUCCESS' })
 
     if (isNaN(this.resampleRatio)) {
-      throw Error(`resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`)
+      throw Error(
+        `resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`,
+      )
     }
   }
 
@@ -180,7 +182,7 @@ class WebsocketClient {
           frames = float32ToInt16(data)
         }
         this.send(frames)
-  
+
         // 16000 per second, 1000 in 100 ms
         // save last 250 ms
         if (this.lastFramesSent.length > 1024 * 4) {
@@ -203,7 +205,7 @@ class WebsocketClient {
 
     this.isContextStarted = true
     this.isStartContextConfirmed = false
-     
+
     if (appId !== undefined) {
       this.outbox = JSON.stringify({ event: 'start', appId })
     } else {
@@ -251,7 +253,7 @@ class WebsocketClient {
     this.send(JSON.stringify({ event: 'start', appId: newAppId }))
   }
 
-  closeWebsocket(websocketCode: number = 1005, reason: string = "No Status Received") {
+  closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received') {
     if (this.debug) {
       console.log('[SpeechlyClient]', 'Websocket closing')
     }
@@ -259,7 +261,7 @@ class WebsocketClient {
     if (!this.websocket) {
       throw Error('Websocket is not open')
     }
-    
+
     this.websocket.close(websocketCode, reason)
   }
 
@@ -278,7 +280,12 @@ class WebsocketClient {
     this.websocket.removeEventListener('close', this.onWebsocketClose)
     this.websocket = undefined
 
-    this.workerCtx.postMessage({ type: 'WEBSOCKET_CLOSED', code: event.code, reason: event.reason, wasClean: event.wasClean })
+    this.workerCtx.postMessage({
+      type: 'WEBSOCKET_CLOSED',
+      code: event.code,
+      reason: event.reason,
+      wasClean: event.wasClean,
+    })
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {
@@ -289,7 +296,7 @@ class WebsocketClient {
     if (this.isContextStarted && !this.isStartContextConfirmed) {
       this.send(this.outbox)
     }
-    
+
     this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' })
   }
 
@@ -315,7 +322,7 @@ class WebsocketClient {
         this.shouldResendLastFramesSent = false
       }
     }
-  
+
     this.workerCtx.postMessage(response)
   }
 
@@ -323,28 +330,28 @@ class WebsocketClient {
     const inputBuffer = new Float32Array(this.buffer.length + input.length)
     inputBuffer.set(this.buffer, 0)
     inputBuffer.set(input, this.buffer.length)
-  
+
     const outputLength = Math.ceil((inputBuffer.length - this.filter.length) / this.resampleRatio)
     const outputBuffer = new Int16Array(outputLength)
-  
+
     for (let i = 0; i < outputLength; i++) {
       const offset = Math.round(this.resampleRatio * i)
       let val = 0.0
-  
+
       for (let j = 0; j < this.filter.length; j++) {
         val += inputBuffer[offset + j] * this.filter[j]
       }
-  
+
       outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)
     }
-  
+
     const remainingOffset = Math.round(this.resampleRatio * outputLength)
     if (remainingOffset < inputBuffer.length) {
       this.buffer = inputBuffer.subarray(remainingOffset)
     } else {
       this.buffer = new Float32Array(0)
     }
-  
+
     return outputBuffer
   }
 
@@ -362,19 +369,19 @@ class WebsocketClient {
 const ctx: Worker = self as any
 const websocketClient = new WebsocketClient(ctx)
 
-ctx.onmessage = function(e) {
+ctx.onmessage = function (e) {
   switch (e.data.type) {
     case 'INIT':
       websocketClient.init(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
-    case 'SET_SOURSE_SAMPLE_RATE':
+    case 'SET_SOURCE_SAMPLE_RATE':
       websocketClient.setSourceSampleRate(e.data.sourceSampleRate)
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
       break
     case 'CLOSE':
-      websocketClient.closeWebsocket(1000, "Close requested by client")
+      websocketClient.closeWebsocket(1000, 'Close requested by client')
       break
     case 'START_CONTEXT':
       websocketClient.startContext(e.data.appId)

@@ -1,3 +1,4 @@
+import { ClientOptions } from '../client'
 /**
  * Default sample rate for microphone streams.
  * @public
@@ -34,47 +35,10 @@ export const ErrNoAudioConsent = new Error('Microphone consent is no given')
  */
 export const ErrAppIdChangeWithoutProjectLogin = new Error('AppId changed without project login')
 
-/**
- * A callback that receives an ArrayBuffer representing a frame of audio.
- * @public
- */
-export type AudioCallback = (audioBuffer: Int16Array) => void
-
-/**
- * The interface for a microphone.
- * @public
- */
-export interface Microphone {
+export interface MicrophoneOptions extends ClientOptions {
   /**
-   * Initialises the microphone.
-   *
-   * This should prepare the microphone infrastructure for receiving audio chunks,
-   * but the microphone should remain muted after the call.
-   * This method will be called by the Client as part of client initialisation process.
+   * Whether to use auto gain control.
+   * True by default.
    */
-  initialize(audioContext: AudioContext, mediaStreamConstraints: MediaStreamConstraints): Promise<void>
-
-  /**
-   * Closes the microphone, tearing down all the infrastructure.
-   *
-   * The microphone should stop emitting audio after this is called.
-   * Calling `initialize` again after calling `close` should succeed and make microphone ready to use again.
-   * This method will be called by the Client as part of client closure process.
-   */
-  close(): Promise<void>
-
-  /**
-   * Mutes the microphone. If the microphone is muted, the `onAudio` callbacks should not be called.
-   */
-  mute(): void
-
-  /**
-   * Unmutes the microphone.
-   */
-  unmute(): void
-
-  /**
-   * Print usage stats to console in debug mode.
-   */
-  printStats(): void
+  autoGainControl?: boolean
 }

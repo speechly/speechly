@@ -48,7 +48,7 @@ export class WebWorkerController implements APIClient {
 
   async setSourceSampleRate(sourceSampleRate: number): Promise<void> {
     this.worker.postMessage({
-      type: 'SET_SOURSE_SAMPLE_RATE',
+      type: 'SET_SOURCE_SAMPLE_RATE',
       sourceSampleRate,
     })
 
