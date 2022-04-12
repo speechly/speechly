@@ -1,17 +1,19 @@
 import {
-  Client,
-  ClientState,
   stateToString,
   Word,
   Entity,
   Intent,
+  Client,
+  ClientState,
   ClientOptions,
   Segment,
+  AudioUploader,
+  BrowserMicrophone,
 } from "@speechly/browser-client";
 
-let clientState = ClientState.Disconnected;
-
 window.onload = () => {
+  let mic: BrowserMicrophone;
+  let uploader: AudioUploader;
   let client: Client;
 
   try {
@@ -21,9 +23,11 @@ window.onload = () => {
     updateStatus(e.message);
     return;
   }
+  mic = new BrowserMicrophone({client})
+  uploader = new AudioUploader({client})
 
   // High-level API, that you can use to react to segment changes.
-  client.onSegmentChange((segment: Segment) => {
+  let handler = function (segment: Segment) {
     updateWords(segment.words);
     updateEntities(segment.entities);
     updateIntent(segment.intent);
@@ -44,28 +48,42 @@ window.onload = () => {
       segment.intent,
       segment.entities
     );
+  };
+
+  mic.onSegmentChange(handler);
+  uploader.onSegmentChange(handler);
+
+  uploader.onStateChange((state: ClientState) => {
+    const connectButton = document.getElementById("connect") as HTMLButtonElement;
+    const statusDiv = document.getElementById("status") as HTMLButtonElement;
+    connectButton.innerHTML =
+      state === ClientState.Disconnected ? "Connect" : "Disconnect";
+    statusDiv.innerHTML = stateToString(state);
   });
 
   bindConnectButton(client);
-  bindInitializeButton(client);
-  bindListenButton(client);
+  bindInitializeButton(uploader, mic);
+  bindListenButton(mic);
   bindUploadButton();
-  bindFileSelector(client);
+  bindFileSelector(uploader);
+  bindCloseButton(uploader, mic);
 };
 
 function newClient(): Client {
-  const appId =
-    process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+  const appId = "d9abea67-18e5-4c4e-b7fc-51f66d3219e2";
+    // process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
   const opts: ClientOptions = {
     appId,
-    debug: process.env.REACT_APP_DEBUG === "true",
+    apiUrl: 'wss://staging.speechly.com/ws/v1',
+    loginUrl: 'https://staging.speechly.com/login',
+    debug: true, // process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: true,
+    logSegments: false,
     connect: false,
   };
 
@@ -161,12 +179,12 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
-function bindListenButton(client: Client) {
+function bindListenButton(mic: BrowserMicrophone) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      const contextId = await client.startContext();
+      const contextId = await mic.startRecording();
       console.log("Started", contextId);
       resetState(contextId);
     } catch (err) {
@@ -178,7 +196,7 @@ function bindListenButton(client: Client) {
     event.preventDefault();
 
     try {
-      const contextId = await client.stopContext();
+      const contextId = await mic.stopRecording();
       console.log("Stopped", contextId);
     } catch (err) {
       console.error("Could not stop recording", err);
@@ -190,22 +208,11 @@ function bindListenButton(client: Client) {
   recordDiv.addEventListener("touchstart", startRecording);
   recordDiv.addEventListener("mouseup", stopRecording);
   recordDiv.addEventListener("touchend", stopRecording);
-
-  const connectButton = document.getElementById("connect") as HTMLButtonElement;
-  const statusDiv = document.getElementById("status") as HTMLButtonElement;
-
-  client.onStateChange((state: ClientState) => {
-    clientState = state;
-
-    connectButton.innerHTML =
-      state === ClientState.Disconnected ? "Connect" : "Disconnect";
-    statusDiv.innerHTML = stateToString(state);
-  });
 }
 
 function bindConnectButton(client: Client) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (clientState === ClientState.Disconnected) {
+    if (client.state === ClientState.Disconnected) {
       try {
         await client.connect();
       } catch (err) {
@@ -219,27 +226,36 @@ function bindConnectButton(client: Client) {
   connectButton.addEventListener("click", connect);
 }
 
-function bindInitializeButton(client: Client) {
+function bindInitializeButton(uploader: AudioUploader, mic: BrowserMicrophone) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    if (clientState >= ClientState.Connected) {
-      console.log(
-        "Client is already initialized, but hey, it's still ok to call initialize(). Think of it as a social call."
-      );
-    }
-
     try {
-      await client.initialize();
+      await uploader.initialize();
+      await mic.initialize();
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
-
-    return;
   };
 
   const initButton = document.getElementById("initialize") as HTMLElement;
   initButton.addEventListener("click", initialize);
+}
+
+function bindCloseButton(uploader: AudioUploader, mic: BrowserMicrophone) {
+  const close = async (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+
+    try {
+      await uploader.close();
+      await mic.close();
+    } catch (err) {
+      console.error("Error closing Speechly clients:", err);
+    }
+  };
+
+  const closeButton = document.getElementById("close") as HTMLElement;
+  closeButton.addEventListener("click", close);
 }
 
 function bindUploadButton() {
@@ -252,7 +268,7 @@ function bindUploadButton() {
     uploadButton.addEventListener("click", openFileInput);
 }
 
-function bindFileSelector(client: Client) {
+function bindFileSelector(uploader: AudioUploader) {
     const transcribe = async (event: Event) => {
         const f: FileList | null = (event.target as HTMLInputElement).files;
         if (f === null) {
@@ -260,7 +276,7 @@ function bindFileSelector(client: Client) {
         }
         console.log('selected file = ', f[0]);
         try {
-          client.sendAudioData(await f[0].arrayBuffer());
+          uploader.sendAudioData(await f[0].arrayBuffer());
         } catch (err) {
             console.error("Error when transcribing file:", err);
         }
