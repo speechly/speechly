@@ -6,6 +6,10 @@ import formatDuration from "format-duration";
 import { Label } from "./Label";
 import "./Segment.css";
 
+const scOptions = {
+  stripRegexp: /[^A-Z0-9@'"]+/gi
+}
+
 const findEntity = (word: Word, entities: Entity[]) =>
   entities.find(entity => word.index >= entity.startPosition && word.index < entity.endPosition);
 
@@ -48,13 +52,13 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
           <React.Fragment key={i}>
             {!entity && (
               <span className={wordClasses(word.startTimestamp)} key={word.index}>
-                {i === 0 ? sentenceCase(word.value) : word.value.toLowerCase()}
+                {i === 0 ? sentenceCase(word.value, scOptions) : word.value.toLowerCase()}
               </span>
             )}
             {entity && (
               <span className={wordClasses(word.startTimestamp)} key={word.index}>
                 <Label variant="entity" type={entity.type}>
-                  {i === 0 ? sentenceCase(entity.value) : entity.value.toLowerCase()}
+                  {i === 0 ? sentenceCase(entity.value, scOptions) : entity.value.toLowerCase()}
                 </Label>
               </span>
             )}
@@ -67,7 +71,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: S
         </Label>
         {intent.intent && (
           <Label variant="intent" intent={intent.intent}>
-            {sentenceCase(intent.intent)}
+            {sentenceCase(intent.intent, scOptions)}
           </Label>
         )}
       </div>
