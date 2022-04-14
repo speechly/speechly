@@ -149,6 +149,7 @@ export type ResponseCallback = (response: WebsocketResponse) => void
  * A callback that is invoked whenever WebSocket connection is closed.
  * @public
  */
+// eslint-disable-next-line @typescript-eslint/member-delimiter-style
 export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean }) => void
 
 /**

@@ -1,12 +1,12 @@
 import { Segment, Word, Entity, Intent } from '../speechly'
 import { Storage } from '../storage'
-import { Client } from './client'
+import { CloudDecoder } from './decoder'
 
 /**
  * The options which can be used to configure the client.
  * @public
  */
-export interface ClientOptions {
+export interface DecoderOptions {
   /**
    * Connect to Speechly upon creating the client instance. Defaults to true.
    */
@@ -56,7 +56,7 @@ export interface ClientOptions {
    * Custom API client implementation.
    * If not provided, an implementation based on Speechly SLU WebSocket API is used.
    */
-  client?: Client
+  decoder?: CloudDecoder
 
   /**
    * Custom storage implementation.
@@ -71,7 +71,7 @@ export interface ClientOptions {
  * to react to non-recoverable states.
  * @public
  */
-export enum ClientState {
+export enum DecoderState {
   Failed = 0,
   Disconnected,
   Connected,
@@ -82,7 +82,7 @@ export enum ClientState {
  * All possible callbacks for the decoder.
  */
 export class EventCallbacks {
-  stateChangeCbs: Array<(state: ClientState) => void> = []
+  stateChangeCbs: Array<(state: DecoderState) => void> = []
   transcriptCbs: Array<(contextId: string, segmentId: number, word: Word) => void> = []
   entityCbs: Array<(contextId: string, segmentId: number, entity: Entity) => void> = []
   intentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Rename SpeechlyClient to BrowserClient, add support for external MediaStreams and AudioBuffers",
+      "type": "major"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin } from '../microphone'
+import { SegmentState, DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin } from '../speechly'
 
 import {
   APIClient,
@@ -16,11 +16,9 @@ import {
   IntentResponse,
 } from '../websocket'
 
-import { SegmentState, EventSource } from '../speechly'
-
 import { Storage, LocalStorage } from '../storage'
 
-import { ClientOptions, ClientState, EventCallbacks } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -36,7 +34,7 @@ const defaultLoginUrl = 'https://api.speechly.com/login'
  * through a high-level API for interacting with so-called speech segments.
  * @public
  */
-export class Client {
+export class CloudDecoder {
   private readonly debug: boolean
   private readonly logSegments: boolean
   private readonly projectId?: string
@@ -56,12 +54,12 @@ export class Client {
   private listeningPromise: Promise<any> | null = null
 
   private authToken?: string
-  private cbs: Array<EventCallbacks> = []
+  private readonly cbs: EventCallbacks[] = []
 
   private sampleRate: number
-  state: ClientState = ClientState.Disconnected
+  state: DecoderState = DecoderState.Disconnected
 
-  constructor(options: ClientOptions) {
+  constructor(options: DecoderOptions) {
     this.logSegments = options.logSegments ?? false
     this.loginUrl = options.loginUrl ?? defaultLoginUrl
     this.appId = options.appId ?? undefined
@@ -70,9 +68,9 @@ export class Client {
     this.debug = options.debug ?? false
 
     if (this.appId !== undefined && this.projectId !== undefined) {
-      throw Error('[SpeechlyClient] You cannot use both appId and projectId at the same time')
+      throw Error('[Decoder] You cannot use both appId and projectId at the same time')
     } else if (this.appId === undefined && this.projectId === undefined) {
-      throw Error('[SpeechlyClient] Either an appId or a projectId is required')
+      throw Error('[Decoder] Either an appId or a projectId is required')
     }
 
     this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, this.sampleRate)
@@ -83,7 +81,7 @@ export class Client {
     this.apiClient.onResponse(this.handleWebsocketResponse)
     this.apiClient.onClose(this.handleWebsocketClosure)
 
-    if (options.connect) {
+    if (options.connect ?? true) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
     }
@@ -114,7 +112,7 @@ export class Client {
             // Cache the auth token in local storage for future use.
             this.storage.set(authTokenKey, this.authToken)
           } catch (err) {
-            this.setState(ClientState.Failed)
+            this.setState(DecoderState.Failed)
             throw err
           }
         } else {
@@ -123,7 +121,7 @@ export class Client {
 
         // Establish websocket connection
         await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
-        this.advanceState(ClientState.Connected)
+        this.advanceState(DecoderState.Connected)
       })()
     }
     await this.connectPromise
@@ -144,9 +142,9 @@ export class Client {
 
     this.activeContexts.clear()
     this.connectPromise = null
-    this.setState(ClientState.Disconnected)
+    this.setState(DecoderState.Disconnected)
 
-    if (error) {
+    if (error !== undefined) {
       throw Error(error)
     }
   }
@@ -164,35 +162,35 @@ export class Client {
    * Starts a new SLU context by sending a start context event to the API.
    */
   async startContext(appId?: string): Promise<string> {
-    if (this.state === ClientState.Failed) {
-      throw Error('[SpeechlyClient] startContext cannot be run in Failed state.')
-    } else if (this.state < ClientState.Connected) {
+    if (this.state === DecoderState.Failed) {
+      throw Error('[Decoder] startContext cannot be run in Failed state.')
+    } else if (this.state < DecoderState.Connected) {
       await this.connect()
-    } else if (this.state > ClientState.Connected) {
+    } else if (this.state > DecoderState.Connected) {
       throw Error(
-        '[SpeechlyClient] Unable to complete startContext: Expected Connected state, but was in ' +
+        '[Decoder] Unable to complete startContext: Expected Connected state, but was in ' +
           stateToString(this.state) +
           '.',
       )
     }
-    this.setState(ClientState.Active)
+    this.setState(DecoderState.Active)
 
-    return await this.queueTask(async () => {
+    return this.queueTask(async () => {
       let contextId: string
       if (this.projectId != null) {
         contextId = await this.apiClient.startContext(appId)
       } else {
         if (appId != null && this.appId !== appId) {
-          this.setState(ClientState.Failed)
+          this.setState(DecoderState.Failed)
           throw ErrAppIdChangeWithoutProjectLogin
         }
         contextId = await this.apiClient.startContext()
       }
 
       // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
-      // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to ClientState.Disconnected
-      if (this.state < ClientState.Active) {
-        throw Error('[SpeechlyClient] Unable to complete startContext: Problem acquiring contextId')
+      // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to DecoderState.Disconnected
+      if (this.state < DecoderState.Active) {
+        throw Error('[Decoder] Unable to complete startContext: Problem acquiring contextId')
       }
 
       this.activeContexts.set(contextId, new Map<number, SegmentState>())
@@ -201,11 +199,12 @@ export class Client {
   }
 
   /**
-   * Send audio*/
+   * Send audio array.
+   */
   sendAudio(audio: Float32Array): void {
-    if (this.state !== ClientState.Active) {
+    if (this.state !== DecoderState.Active) {
       throw Error(
-        '[SpeechlyClient] Unable to complete startContext: Expected Active state, but was in ' +
+        '[Decoder] Unable to complete startContext: Expected Active state, but was in ' +
           stateToString(this.state) +
           '.',
       )
@@ -218,16 +217,16 @@ export class Client {
    * delayed by contextStopDelay = 250 ms
    */
   async stopContext(): Promise<string> {
-    if (this.state === ClientState.Failed) {
-      throw Error('[SpeechlyClient] stopContext cannot be run in unrecovable error state.')
-    } else if (this.state !== ClientState.Active) {
+    if (this.state === DecoderState.Failed) {
+      throw Error('[Decoder] stopContext cannot be run in unrecovable error state.')
+    } else if (this.state !== DecoderState.Active) {
       throw Error(
-        '[SpeechlyClient] Unable to complete stopContext: Expected Active state, but was in ' +
+        '[Decoder] Unable to complete stopContext: Expected Active state, but was in ' +
           stateToString(this.state) +
           '.',
       )
     }
-    this.setState(ClientState.Connected)
+    this.setState(DecoderState.Connected)
 
     const contextId = await this.queueTask(async () => {
       await this.sleep(this.contextStopDelay)
@@ -236,7 +235,7 @@ export class Client {
         this.activeContexts.delete(contextId)
         return contextId
       } catch (err) {
-        this.setState(ClientState.Failed)
+        this.setState(DecoderState.Failed)
         throw err
       }
     })
@@ -249,9 +248,9 @@ export class Client {
    * @param appId - unique identifier of an app in the dashboard.
    */
   async switchContext(appId: string): Promise<void> {
-    if (this.state !== ClientState.Active) {
+    if (this.state !== DecoderState.Active) {
       throw Error(
-        '[SpeechlyClient] Unable to complete switchContext: Expected Active state, but was in ' +
+        '[Decoder] Unable to complete switchContext: Expected Active state, but was in ' +
           stateToString(this.state) +
           '.',
       )
@@ -262,16 +261,16 @@ export class Client {
     })
   }
 
-  registerListener(listener: EventCallbacks) {
+  registerListener(listener: EventCallbacks): void {
     this.cbs.push(listener)
   }
 
-  async setSampleRate(sr: number) {
+  async setSampleRate(sr: number): Promise<void> {
     this.sampleRate = sr
     await this.apiClient.setSourceSampleRate(sr)
   }
 
-  useSharedArrayBuffers(controlSAB: any, dataSAB: any) {
+  useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {
     this.apiClient.postMessage({
       type: 'SET_SHARED_ARRAY_BUFFERS',
       controlSAB,
@@ -281,7 +280,7 @@ export class Client {
 
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'Received response', response)
+      console.log('[Decoder]', 'Received response', response)
     }
 
     const { audio_context, segment_id, type } = response
@@ -289,7 +288,7 @@ export class Client {
 
     const context = this.activeContexts.get(audio_context)
     if (context === undefined) {
-      console.warn('[SpeechlyClient]', 'Received response for non-existent context', audio_context)
+      console.warn('[Decoder]', 'Received response for non-existent context', audio_context)
       return
     }
 
@@ -356,24 +355,25 @@ export class Client {
     this.cbs.forEach(cb => cb.segmentChangeCbs.forEach(f => f(segmentState.toSegment())))
   }
 
+  // eslint-disable-next-line @typescript-eslint/member-delimiter-style
   private readonly handleWebsocketClosure = (err: { code: number; reason: string; wasClean: boolean }): void => {
     if (err.code === 1000) {
       if (this.debug) {
-        console.log('[SpeechlyClient]', 'Websocket closed', err)
+        console.log('[Decoder]', 'Websocket closed', err)
       }
     } else {
-      console.error('[SpeechlyClient]', 'Websocket closed due to error', err)
+      console.error('[Decoder]', 'Websocket closed due to error', err)
 
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
-        this.setState(ClientState.Failed)
+        this.setState(DecoderState.Failed)
         return
       }
 
       // Reset
       this.listeningPromise = null
 
-      this.setState(ClientState.Disconnected)
+      this.setState(DecoderState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
@@ -381,7 +381,7 @@ export class Client {
 
   private async reconnect(): Promise<void> {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'Reconnecting...', this.connectAttempt)
+      console.log('[Decoder]', 'Reconnecting...', this.connectAttempt)
     }
     this.connectPromise = null
     if (this.connectAttempt < this.maxReconnectAttemptCount) {
@@ -389,24 +389,24 @@ export class Client {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       await this.connect()
     } else {
-      console.error('[SpeechlyClient] Maximum reconnect count reached, giving up automatic reconnect.')
+      console.error('[Decoder] Maximum reconnect count reached, giving up automatic reconnect.')
     }
   }
 
-  private advanceState(newState: ClientState): void {
+  private advanceState(newState: DecoderState): void {
     if (this.state >= newState) {
       return
     }
     this.setState(newState)
   }
 
-  private setState(newState: ClientState): void {
+  private setState(newState: DecoderState): void {
     if (this.state === newState) {
       return
     }
 
     if (this.debug) {
-      console.log('[SpeechlyClient]', stateToString(this.state), '->', stateToString(newState))
+      console.log('[Decoder]', stateToString(this.state), '->', stateToString(newState))
     }
 
     this.state = newState
