@@ -3,28 +3,28 @@ import {
   Word,
   Entity,
   Intent,
-  Client,
-  ClientState,
-  ClientOptions,
+  CloudDecoder,
+  DecoderState,
+  DecoderOptions,
   Segment,
-  AudioUploader,
   BrowserMicrophone,
+  BrowserClient,
 } from "@speechly/browser-client";
 
 window.onload = () => {
   let mic: BrowserMicrophone;
-  let uploader: AudioUploader;
-  let client: Client;
+  let browserClient: BrowserClient;
+  let decoder: CloudDecoder;
 
   try {
-    client = newClient();
+    decoder = newDecoder();
   } catch (e) {
     // @ts-ignore
     updateStatus(e.message);
     return;
   }
-  mic = new BrowserMicrophone({client})
-  uploader = new AudioUploader({client})
+  mic = new BrowserMicrophone()
+  browserClient = new BrowserClient({decoder, debug: true})
 
   // High-level API, that you can use to react to segment changes.
   let handler = function (segment: Segment) {
@@ -50,33 +50,32 @@ window.onload = () => {
     );
   };
 
-  mic.onSegmentChange(handler);
-  uploader.onSegmentChange(handler);
+  browserClient.onSegmentChange(handler);
 
-  uploader.onStateChange((state: ClientState) => {
+  browserClient.onStateChange((state: DecoderState) => {
     const connectButton = document.getElementById("connect") as HTMLButtonElement;
     const statusDiv = document.getElementById("status") as HTMLButtonElement;
     connectButton.innerHTML =
-      state === ClientState.Disconnected ? "Connect" : "Disconnect";
+      state === DecoderState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
   });
 
-  bindConnectButton(client);
-  bindInitializeButton(uploader, mic);
-  bindListenButton(mic);
+  bindConnectButton(decoder);
+  bindInitializeButton(browserClient, mic);
+  bindListenButton(browserClient);
   bindUploadButton();
-  bindFileSelector(uploader);
-  bindCloseButton(uploader, mic);
+  bindFileSelector(browserClient);
+  bindCloseButton(browserClient, mic);
 };
 
-function newClient(): Client {
+function newDecoder(): CloudDecoder {
   const appId = "d9abea67-18e5-4c4e-b7fc-51f66d3219e2";
     // process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
-  const opts: ClientOptions = {
+  const opts: DecoderOptions = {
     appId,
     apiUrl: 'wss://staging.speechly.com/ws/v1',
     loginUrl: 'https://staging.speechly.com/login',
@@ -95,7 +94,7 @@ function newClient(): Client {
     opts.apiUrl = process.env.REACT_APP_API_URL;
   }
 
-  return new Client(opts);
+  return new CloudDecoder(opts);
 }
 
 function updateWords(words: Word[]) {
@@ -179,12 +178,12 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
-function bindListenButton(mic: BrowserMicrophone) {
+function bindListenButton(bc: BrowserClient) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      const contextId = await mic.startRecording();
+      const contextId = await bc.start();
       console.log("Started", contextId);
       resetState(contextId);
     } catch (err) {
@@ -196,7 +195,7 @@ function bindListenButton(mic: BrowserMicrophone) {
     event.preventDefault();
 
     try {
-      const contextId = await mic.stopRecording();
+      const contextId = await bc.stop();
       console.log("Stopped", contextId);
     } catch (err) {
       console.error("Could not stop recording", err);
@@ -210,29 +209,30 @@ function bindListenButton(mic: BrowserMicrophone) {
   recordDiv.addEventListener("touchend", stopRecording);
 }
 
-function bindConnectButton(client: Client) {
+function bindConnectButton(decoder: CloudDecoder) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (client.state === ClientState.Disconnected) {
+    if (decoder.state === DecoderState.Disconnected) {
       try {
-        await client.connect();
+        await decoder.connect();
       } catch (err) {
         console.error("Error connecting Speechly:", err);
       }
     } else {
-      await client.close();
+      await decoder.close();
     }
   };
   const connectButton = document.getElementById("connect") as HTMLElement;
   connectButton.addEventListener("click", connect);
 }
 
-function bindInitializeButton(uploader: AudioUploader, mic: BrowserMicrophone) {
+function bindInitializeButton(bc: BrowserClient, mic: BrowserMicrophone) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      await uploader.initialize();
+      await bc.initialize();
       await mic.initialize();
+      await bc.attach(mic.mediaStream!);
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
@@ -242,13 +242,13 @@ function bindInitializeButton(uploader: AudioUploader, mic: BrowserMicrophone) {
   initButton.addEventListener("click", initialize);
 }
 
-function bindCloseButton(uploader: AudioUploader, mic: BrowserMicrophone) {
+function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
   const close = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      await uploader.close();
       await mic.close();
+      await bc.close();
     } catch (err) {
       console.error("Error closing Speechly clients:", err);
     }
@@ -268,7 +268,7 @@ function bindUploadButton() {
     uploadButton.addEventListener("click", openFileInput);
 }
 
-function bindFileSelector(uploader: AudioUploader) {
+function bindFileSelector(bc: BrowserClient) {
     const transcribe = async (event: Event) => {
         const f: FileList | null = (event.target as HTMLInputElement).files;
         if (f === null) {
@@ -276,7 +276,7 @@ function bindFileSelector(uploader: AudioUploader) {
         }
         console.log('selected file = ', f[0]);
         try {
-          uploader.sendAudioData(await f[0].arrayBuffer());
+          bc.uploadAudioData(await f[0].arrayBuffer());
         } catch (err) {
             console.error("Error when transcribing file:", err);
         }
