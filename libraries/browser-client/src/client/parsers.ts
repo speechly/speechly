@@ -5,7 +5,7 @@ import {
   EntityResponse,
   IntentResponse,
 } from '../websocket'
-import { Word, Entity, Intent } from './types'
+import { Word, Entity, Intent } from '../speechly'
 
 export function parseTentativeTranscript(data: TentativeTranscriptResponse): Word[] {
   return data.words.map(({ word, index, start_timestamp, end_timestamp }) => {
