@@ -40,7 +40,9 @@ export class BrowserClient {
     if (this.initialized) {
       return
     }
-    console.log('initialize BrowserClient')
+    if (this.debug) {
+      console.log('initialize BrowserClient')
+    }
     await this.decoder.connect()
     try {
       if (this.isWebkit) {
@@ -93,7 +95,9 @@ export class BrowserClient {
       this.speechlyNode.port.onmessage = (event: MessageEvent) => {
         switch (event.data.type) {
           case 'STATS':
-            console.log('received stats from port')
+            if (this.debug) {
+              console.log('received stats from port')
+            }
             if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
               this.stats.maxSignalEnergy = event.data.signalEnergy
             }
@@ -196,13 +200,17 @@ export class BrowserClient {
 
   async start(): Promise<string> {
     await this.initialize()
-    console.log('start context')
+    if (this.debug) {
+      console.log('start context')
+    }
     this.active = true
     return this.decoder.startContext()
   }
 
   async stop(): Promise<string> {
-    console.log('stop context')
+    if (this.debug) {
+      console.log('stop context')
+    }
     this.active = false
     return this.decoder.stopContext()
   }
