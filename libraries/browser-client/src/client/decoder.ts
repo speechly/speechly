@@ -298,9 +298,8 @@ export class CloudDecoder {
       case WebsocketResponseType.TentativeTranscript:
         data = data as TentativeTranscriptResponse
         const words = parseTentativeTranscript(data)
-        this.cbs.forEach(cb =>
-          cb.tentativeTranscriptCbs.forEach(f => f(audio_context, segment_id, words, data.transcript)),
-        )
+        const transcript = data.transcript
+        this.cbs.forEach(cb => cb.tentativeTranscriptCbs.forEach(f => f(audio_context, segment_id, words, transcript)))
         segmentState = segmentState.updateTranscript(words)
         break
       case WebsocketResponseType.Transcript:
