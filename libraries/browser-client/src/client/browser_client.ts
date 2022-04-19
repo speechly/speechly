@@ -2,8 +2,6 @@ import { CloudDecoder, DecoderState, EventCallbacks, DecoderOptions } from '../c
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
-// const audioProcessEvent = 'audioprocess'
-// const baseBufferSize = 4096
 
 export class BrowserClient {
   private audioContext?: AudioContext
@@ -16,6 +14,7 @@ export class BrowserClient {
   private initialized: boolean = false
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
+  private audioProcessor?: ScriptProcessorNode
   private stream?: MediaStreamAudioSourceNode
 
   private stats = {
@@ -109,22 +108,20 @@ export class BrowserClient {
       if (this.debug) {
         console.log('[BrowserClient]', 'using ScriptProcessorNode')
       }
-      throw Error('no support yet')
       // Safari, iOS Safari and Internet Explorer
-      // if (this.isWebkit) {
-      //   // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
-      //   // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
-      //   const resampleRatio = this.audioContext.sampleRate / this.sampleRate
-      //   const bufSize = baseBufferSize * Math.pow(2, Math.ceil(Math.log(this.resampleRatio) / Math.log(2)))
-      //   this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1)
-      // } else {
-      //   this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
-      // }
-      // this.audioContext.createMediaStreamSource(this.mediaStream).connect(this.audioProcessor)
-      // this.audioProcessor.connect(this.audioContext.destination)
-      // this.audioProcessor.addEventListener(audioProcessEvent, (event: AudioProcessingEvent) => {
-      //   this.handleAudio(event.inputBuffer.getChannelData(0))
-      // })
+      if (this.isWebkit) {
+        // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
+        // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
+        const resampleRatio = this.audioContext.sampleRate / DefaultSampleRate
+        const bufSize = 4096 * Math.pow(2, Math.ceil(Math.log(resampleRatio) / Math.log(2)))
+        this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1)
+      } else {
+        this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
+      }
+      this.audioProcessor.connect(this.audioContext.destination)
+      this.audioProcessor.addEventListener('audioprocess', (event: AudioProcessingEvent) => {
+        this.handleAudio(event.inputBuffer.getChannelData(0))
+      })
     }
     await this.decoder.setSampleRate(this.audioContext?.sampleRate)
     this.initialized = true
@@ -132,14 +129,15 @@ export class BrowserClient {
 
   async close(): Promise<void> {
     await this.detach()
-    this.speechlyNode?.port.close()
-    this.speechlyNode?.disconnect()
-    await this.decoder.close()
+    if (this.speechlyNode !== null) {
+      this.speechlyNode?.port.close()
+      this.speechlyNode?.disconnect()
+    }
     // Disconnect and stop ScriptProcessorNode
-    // if (this.audioProcessor != null) {
-    //   const proc = this.audioProcessor
-    //   proc.disconnect()
-    // }
+    if (this.audioProcessor !== undefined) {
+      this.audioProcessor?.disconnect()
+    }
+    await this.decoder.close()
   }
 
   async attach(mediaStream: MediaStream): Promise<void> {
@@ -147,11 +145,14 @@ export class BrowserClient {
     // ensure audioContext is active
     await this.audioContext?.resume()
 
-    if (!this.speechlyNode) {
-      throw Error('cannot attach to stream, no available node')
-    }
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
-    this.stream?.connect(this.speechlyNode)
+    if (this.speechlyNode) {
+      this.stream?.connect(this.speechlyNode)
+    } else if (this.audioProcessor) {
+      this.stream?.connect(this.audioProcessor)
+    } else {
+      throw Error('[BrowserClient] cannot attach to mediaStream, not initialized')
+    }
   }
 
   async detach(): Promise<void> {
