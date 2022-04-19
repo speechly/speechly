@@ -41,7 +41,7 @@ export class BrowserClient {
       return
     }
     if (this.debug) {
-      console.log('initialize BrowserClient')
+      console.log('[BrowserClient]', 'initializing')
     }
     await this.decoder.connect()
     try {
@@ -61,7 +61,7 @@ export class BrowserClient {
 
     if (window.AudioWorkletNode !== undefined) {
       if (this.debug) {
-        console.log('[SpeechlyClient]', 'using AudioWorkletNode')
+        console.log('[BrowserClient]', 'using AudioWorkletNode')
       }
       const blob = new Blob([audioworklet], { type: 'text/javascript' })
       const blobURL = window.URL.createObjectURL(blob)
@@ -72,7 +72,7 @@ export class BrowserClient {
       if (window.SharedArrayBuffer !== undefined) {
         // Chrome, Edge, Firefox, Firefox Android
         if (this.debug) {
-          console.log('[SpeechlyClient]', 'using SharedArrayBuffer')
+          console.log('[BrowserClient]', 'using SharedArrayBuffer')
         }
         // @ts-ignore
         const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
@@ -88,16 +88,13 @@ export class BrowserClient {
       } else {
         // Opera, Chrome Android, Webview Android
         if (this.debug) {
-          console.log('[SpeechlyClient]', 'can not use SharedArrayBuffer')
+          console.log('[BrowserClient]', 'can not use SharedArrayBuffer')
         }
       }
 
       this.speechlyNode.port.onmessage = (event: MessageEvent) => {
         switch (event.data.type) {
           case 'STATS':
-            if (this.debug) {
-              console.log('received stats from port')
-            }
             if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
               this.stats.maxSignalEnergy = event.data.signalEnergy
             }
@@ -110,7 +107,7 @@ export class BrowserClient {
       }
     } else {
       if (this.debug) {
-        console.log('[SpeechlyClient]', 'using ScriptProcessorNode')
+        console.log('[BrowserClient]', 'using ScriptProcessorNode')
       }
       throw Error('no support yet')
       // Safari, iOS Safari and Internet Explorer
@@ -147,10 +144,11 @@ export class BrowserClient {
 
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
+    // ensure audioContext is active
     await this.audioContext?.resume()
 
     if (!this.speechlyNode) {
-      throw Error('cannot attach to stream, no node')
+      throw Error('cannot attach to stream, no available node')
     }
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
     this.stream?.connect(this.speechlyNode)
