@@ -2,6 +2,7 @@ import { CloudDecoder, DecoderState, EventCallbacks, DecoderOptions } from '../c
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
+import { ContextOptions } from './types'
 
 export class BrowserClient {
   private audioContext?: AudioContext
@@ -152,6 +153,7 @@ export class BrowserClient {
 
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
+    await this.detach()
     // ensure audioContext is active
     await this.audioContext?.resume()
 
@@ -175,7 +177,7 @@ export class BrowserClient {
     }
   }
 
-  async uploadAudioData(audioData: ArrayBuffer): Promise<void> {
+  async uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<string> {
     await this.initialize()
     const audioBuffer = await this.audioContext?.decodeAudioData(audioData)
     if (audioBuffer === undefined) {
@@ -191,7 +193,7 @@ export class BrowserClient {
       }
     }
 
-    await this.start()
+    const contextId = await this.start(options)
 
     let sendBuffer: Float32Array
     for (let b = 0; b < samples.length; b += 16000) {
@@ -205,11 +207,12 @@ export class BrowserClient {
     }
 
     await this.stop()
+    return contextId
   }
 
-  async start(appId?: string): Promise<string> {
+  async start(options?: ContextOptions): Promise<string> {
     await this.initialize()
-    const contextId = await this.decoder.startContext(appId)
+    const contextId = await this.decoder.startContext(options)
     this.active = true
     return contextId
   }
