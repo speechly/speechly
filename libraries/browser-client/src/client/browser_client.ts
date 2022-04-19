@@ -196,19 +196,14 @@ export class BrowserClient {
     await this.stop()
   }
 
-  async start(): Promise<string> {
+  async start(appId?: string): Promise<string> {
     await this.initialize()
-    if (this.debug) {
-      console.log('start context')
-    }
+    const contextId = await this.decoder.startContext(appId)
     this.active = true
-    return this.decoder.startContext()
+    return contextId
   }
 
   async stop(): Promise<string> {
-    if (this.debug) {
-      console.log('stop context')
-    }
     this.active = false
     return this.decoder.stopContext()
   }
