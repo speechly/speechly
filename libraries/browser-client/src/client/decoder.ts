@@ -18,7 +18,7 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -161,7 +161,7 @@ export class CloudDecoder {
   /**
    * Starts a new SLU context by sending a start context event to the API.
    */
-  async startContext(appId?: string): Promise<string> {
+  async startContext(options?: ContextOptions): Promise<string> {
     if (this.state === DecoderState.Failed) {
       throw Error('[Decoder] startContext cannot be run in Failed state.')
     } else if (this.state < DecoderState.Connected) {
@@ -178,9 +178,9 @@ export class CloudDecoder {
     return this.queueTask(async () => {
       let contextId: string
       if (this.projectId != null) {
-        contextId = await this.apiClient.startContext(appId)
+        contextId = await this.apiClient.startContext(options?.appId)
       } else {
-        if (appId != null && this.appId !== appId) {
+        if (options?.appId != null && this.appId !== options?.appId) {
           this.setState(DecoderState.Failed)
           throw ErrAppIdChangeWithoutProjectLogin
         }
