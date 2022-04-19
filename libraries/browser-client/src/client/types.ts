@@ -92,3 +92,10 @@ export class EventCallbacks {
   tentativeEntityCbs: Array<(contextId: string, segmentId: number, entities: Entity[]) => void> = []
   tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
 }
+
+/**
+ * Valid options for a new audioContext. All options are optional.
+ */
+export interface ContextOptions {
+  appId?: string
+}

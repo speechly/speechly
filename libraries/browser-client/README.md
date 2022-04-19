@@ -16,6 +16,7 @@
 [Podcast](https://anchor.fm/the-speechly-podcast)
 
 ---
+
 </div>
 
 # Speechly browser client
@@ -45,14 +46,19 @@ npm install --save @speechly/browser-client
 Start using the client:
 
 ```typescript
-import { Client, Segment } from '@speechly/browser-client'
+import { BrowserCliemt, BrowserMicrophone, Segment } from '@speechly/browser-client'
 
 // Create a new Client. NOTE: Configure and get your appId from https://api.speechly.com/dashboard
-const client = new Client({appId: 'your-app-id'})
+const client = new BrowserClient({ appId: 'your-app-id' })
 
-// Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
+// Create a microphone
+const microphone = new BrowserMicrophone()
+// Initialize the microphone - this will ask the user for microphone permissions and establish the connection to Speechly API.
 // Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
-await client.initialize()
+await microphone.initialize()
+
+// bind the microphone to the client
+await client.attach(microphone.mediaStream)
 
 // React to the updates from the API.
 client.onSegmentChange((segment: Segment) => {
@@ -65,7 +71,7 @@ await client.startContext()
 
 // Stop recording after a timeout.
 // This can be bound to e.g. a button press.
-setTimeout(async function() {
+setTimeout(async function () {
   await client.stopContext()
 }, 3000)
 ```
@@ -84,16 +90,17 @@ Please use a HTML server to view the example. Running it as a file will not work
 
     <script type="module">
       // Load Speechly ES module from a CDN. Note script type="module"
-      import { Client } from "../core/speechly.es.js"
+      import { BrowserClient, BrowserMicrophone } from "../core/speechly.es.js"
 
       const widget = document.getElementById("textBox")
 
       // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
-      const speechly = new Client({
+      const speechly = new BrowserClient({
         appId: "your-app-id",
         debug: true,
         logSegments: true,
       })
+      const microphone = new BrowserMicrophone()
 
       speechly.onSegmentChange(segment => {
         // Clean up and concatenate words
@@ -105,6 +112,10 @@ Please use a HTML server to view the example. Running it as a file will not work
 
 
       const startListening = async () => {
+        if (microphone.mediaStream === undefined) {
+          await microphone.initialize()
+          speechly.attach(microphone.mediaStream)
+        }
         speechly.startContext();
       }
 
@@ -119,7 +130,7 @@ Please use a HTML server to view the example. Running it as a file will not work
       document.addEventListener("mouseup", stopListening)
     </script>
   </body>
-  
+
 </html>
 ```
 
@@ -132,4 +143,3 @@ You can also refer to [Speechly Docs](https://docs.speechly.com/?utm_source=gith
 ## Contributing
 
 See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
-
