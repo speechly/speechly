@@ -35,23 +35,31 @@ export class BrowserClient {
 
   /**
    * Create an AudioContext for resampling audio. */
-  async initialize(): Promise<void> {
+  async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
     if (this.initialized) {
       return
     }
+    this.initialized = true
+
     if (this.debug) {
       console.log('[BrowserClient]', 'initializing')
     }
     await this.decoder.connect()
     try {
+      const opts: AudioContextOptions = {}
+      if (this.nativeResamplingSupported) {
+        opts.sampleRate = DefaultSampleRate
+      }
       if (this.isWebkit) {
-        // eslint-disable-next-line new-cap
-        this.audioContext = new window.webkitAudioContext()
-      } else {
-        const opts: AudioContextOptions = {}
-        if (this.nativeResamplingSupported) {
-          opts.sampleRate = DefaultSampleRate
+        try {
+          // eslint-disable-next-line new-cap
+          this.audioContext = new window.webkitAudioContext(opts)
+        } catch {
+          // older webkit without constructor options
+          // eslint-disable-next-line new-cap
+          this.audioContext = new window.webkitAudioContext()
         }
+      } else {
         this.audioContext = new window.AudioContext(opts)
       }
     } catch {
@@ -124,7 +132,9 @@ export class BrowserClient {
       })
     }
     await this.decoder.setSampleRate(this.audioContext?.sampleRate)
-    this.initialized = true
+    if (options?.mediaStream) {
+      await this.attach(options?.mediaStream)
+    }
   }
 
   async close(): Promise<void> {
