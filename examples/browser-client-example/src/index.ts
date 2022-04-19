@@ -230,9 +230,8 @@ function bindInitializeButton(bc: BrowserClient, mic: BrowserMicrophone) {
     event.preventDefault();
 
     try {
-      await bc.initialize();
       await mic.initialize();
-      await bc.attach(mic.mediaStream!);
+      await bc.initialize({mediaStream: mic.mediaStream});
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
