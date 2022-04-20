@@ -194,6 +194,7 @@ export class CloudDecoder {
       }
 
       this.activeContexts.set(contextId, new Map<number, SegmentState>())
+      this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(contextId)))
       return contextId
     })
   }
@@ -239,6 +240,8 @@ export class CloudDecoder {
         throw err
       }
     })
+
+    this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(contextId)))
     return contextId
   }
 
