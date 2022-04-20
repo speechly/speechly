@@ -173,9 +173,9 @@ export class CloudDecoder {
           '.',
       )
     }
-    this.setState(DecoderState.Active)
 
     return this.queueTask(async () => {
+      this.setState(DecoderState.Active)
       let contextId: string
       if (this.projectId != null) {
         contextId = await this.apiClient.startContext(options?.appId)
