@@ -91,6 +91,8 @@ export class EventCallbacks {
   tentativeTranscriptCbs: Array<(contextId: string, segmentId: number, words: Word[], text: string) => void> = []
   tentativeEntityCbs: Array<(contextId: string, segmentId: number, entities: Entity[]) => void> = []
   tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
+  contextStartedCbs: Array<(contextId: string) => void> = []
+  contextStoppedCbs: Array<(contextId: string) => void> = []
 }
 
 /**
