@@ -155,9 +155,8 @@ export class BrowserClient {
     await this.initialize()
     await this.detach()
     // ensure audioContext is active
-    await this.audioContext?.resume()
-
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
+    await this.audioContext?.resume()
     if (this.speechlyNode) {
       this.stream?.connect(this.speechlyNode)
     } else if (this.audioProcessor) {
