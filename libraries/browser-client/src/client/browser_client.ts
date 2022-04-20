@@ -211,14 +211,15 @@ export class BrowserClient {
 
   async start(options?: ContextOptions): Promise<string> {
     await this.initialize()
-    const contextId = await this.decoder.startContext(options)
+    const startPromise = this.decoder.startContext(options)
     this.active = true
-    return contextId
+    return startPromise
   }
 
   async stop(): Promise<string> {
+    const stopPromise = this.decoder.stopContext()
     this.active = false
-    return this.decoder.stopContext()
+    return stopPromise
   }
 
   private handleAudio(array: Float32Array): void {
