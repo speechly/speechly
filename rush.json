@@ -419,6 +419,10 @@
       "projectFolder": "examples/react-ui-example"
     },
     {
+      "packageName": "@speechly/next-js-example",
+      "projectFolder": "examples/next-js-example"
+    },
+    {
       "packageName": "@speechly/react-voice-forms-example",
       "projectFolder": "examples/react-voice-forms-example"
     },
