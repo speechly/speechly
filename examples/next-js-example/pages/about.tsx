@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
         <p className={styles.description}>
           This page:{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          <code className={styles.code}>pages/about.tsx</code>
         </p>
 
         <div className={styles.grid}>
