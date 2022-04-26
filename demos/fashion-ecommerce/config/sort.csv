@@ -31,5 +31,8 @@ top sellers,popularity_desc
 top seller,popularity_desc
 top selling,popularity_desc
 favorite,popularity_desc
+fanciest,popularity_desc 
+fancy,popularity_desc
+most sold,popularity_desc
 new,new_desc
 latest,new_desc
