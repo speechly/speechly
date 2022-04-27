@@ -144,6 +144,7 @@ export interface SpeechProviderProps extends ClientOptions {
    * Whether to disable reacting to tentative items. Set this to true if you don't use them.
    */
   disableTentative?: boolean
+  children?: React.ReactNode
 }
 
 interface SpeechProviderState {

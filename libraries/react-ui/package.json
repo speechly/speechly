@@ -58,7 +58,7 @@
   "dependencies": {
     "@speechly/browser-ui": "5.3.1",
     "pubsub-js": "^1.9.2",
-    "react-spring": "^8.0.27",
+    "react-spring": "~9.4.4",
     "styled-components": ">=5.3.3"
   },
   "files": [

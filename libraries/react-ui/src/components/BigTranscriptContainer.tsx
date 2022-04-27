@@ -17,6 +17,7 @@ export type BigTranscriptContainerProps = {
    * The override value for CSS margin(default: `"3rem 2rem 0 2rem"`).
    */
   margin?: string
+  children?: React.ReactNode
 }
 
 const BigTranscriptContainerDiv = styled.div<{

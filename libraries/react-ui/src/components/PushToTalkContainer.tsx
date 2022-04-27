@@ -16,6 +16,7 @@ export type PushToTalkContainerProps = {
    * Optional CSS string. Vertical distance from viewport edge. Default: "3rem"
    */
   voffset?: string
+  children?: React.ReactNode
 }
 
 const PushToTalkContainerDiv = styled.div<{
