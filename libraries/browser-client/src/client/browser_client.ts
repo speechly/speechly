@@ -20,6 +20,7 @@ export class BrowserClient {
 
   private stats = {
     maxSignalEnergy: 0.0,
+    sentSamples: 0,
   }
 
   constructor(options: DecoderOptions) {
@@ -132,6 +133,9 @@ export class BrowserClient {
         this.handleAudio(event.inputBuffer.getChannelData(0))
       })
     }
+    if (this.debug) {
+      console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
+    }
     await this.decoder.setSampleRate(this.audioContext?.sampleRate)
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
@@ -154,9 +158,14 @@ export class BrowserClient {
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
     await this.detach()
-    // ensure audioContext is active
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
-    await this.audioContext?.resume()
+    // ensure audioContext is active
+    if (this.audioContext?.state !== 'running') {
+      if (this.debug) {
+        console.log('[BrowserClient]', 'audioContext.resume() needed on attach()')
+      }
+      await this.audioContext?.resume()
+    }
     if (this.speechlyNode) {
       this.stream?.connect(this.speechlyNode)
     } else if (this.audioProcessor) {
@@ -219,6 +228,10 @@ export class BrowserClient {
   async stop(): Promise<string> {
     const stopPromise = this.decoder.stopContext()
     this.active = false
+    if (this.stats.sentSamples === 0) {
+      console.warn('[BrowserClient]', 'audioContext contained no audio data')
+    }
+    this.stats.sentSamples = 0
     return stopPromise
   }
 
@@ -227,6 +240,7 @@ export class BrowserClient {
       return
     }
     if (array.length > 0) {
+      this.stats.sentSamples += array.length
       this.decoder.sendAudio(array)
     }
   }
