@@ -9,6 +9,7 @@ export class BrowserClient {
   private readonly nativeResamplingSupported: boolean
   private readonly debug: boolean = false
   private readonly useSAB: boolean
+  private readonly isMobileSafari: boolean
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
 
@@ -27,8 +28,9 @@ export class BrowserClient {
     const constraints = window.navigator.mediaDevices.getSupportedConstraints()
     this.nativeResamplingSupported = constraints.sampleRate === true
 
+    this.isMobileSafari = iOS()
     // @ts-ignore
-    this.useSAB = window.safari === undefined && !iOS()
+    this.useSAB = window.safari === undefined && !this.isMobileSafari
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
@@ -84,7 +86,7 @@ export class BrowserClient {
       throw ErrDeviceNotSupported
     }
 
-    if (window.AudioWorkletNode !== undefined) {
+    if (!this.isMobileSafari && window.AudioWorkletNode !== undefined) {
       if (this.debug) {
         console.log('[BrowserClient]', 'using AudioWorkletNode')
       }
