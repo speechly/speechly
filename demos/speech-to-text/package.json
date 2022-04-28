@@ -8,8 +8,8 @@
     "@speechly/react-client": "2.0.1",
     "@speechly/react-ui": "2.6.1",
     "@speechly/logkit": ">=1.0.0",
-    "react": ">=16.13.1",
-    "react-dom": ">=16.13.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "typescript": "^4.3.5",
     "react-openai-api": "^1.0.2"
   },
@@ -19,8 +19,8 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
-    "@types/react": ">=16.13.1",
-    "@types/react-dom": ">=16.13.1",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
     "react-scripts": "^4.0.3"
   },
   "scripts": {

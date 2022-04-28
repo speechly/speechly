@@ -44,16 +44,16 @@
     "eslint-plugin-tsdoc": "^0.2.7",
     "typescript": "^4.3.5",
     "@types/pubsub-js": "^1.8.1",
-    "@types/react": ">=16.13.1",
-    "@types/react-dom": ">=16.13.1",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
     "@types/styled-components": "^5.1.7",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3"
   },
   "peerDependencies": {
     "@speechly/react-client": "2.0.1",
-    "react": ">=16.13.1",
-    "react-dom": ">=16.13.1"
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
   },
   "dependencies": {
     "@speechly/browser-ui": "5.3.1",

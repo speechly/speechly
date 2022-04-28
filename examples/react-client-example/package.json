@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@speechly/react-client": "2.0.1",
-    "react": ">=16.13.1",
-    "react-dom": ">=16.13.1"
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
   },
   "devDependencies": {
     "react-scripts": "^4.0.3"

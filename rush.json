@@ -120,7 +120,7 @@
    * LTS schedule: https://nodejs.org/en/about/releases/
    * LTS versions: https://nodejs.org/en/download/releases/
    */
-  "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.9.0 <17.0.0",
+  "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || ^16.9.0 <17.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -339,17 +339,14 @@
    * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
    */
   "variants": [
-    // {
-    //   /**
-    //    * The folder name for this variant.
-    //    */
-    //   "variantName": "old-sdk",
-    //
-    //   /**
-    //    * An informative description
-    //    */
-    //   "description": "Build this repo using the previous release of the SDK"
-    // }
+		{
+			"variantName": "react16",
+			"description": "Build this repo using the React 16"
+		},
+		{
+			"variantName": "react18",
+			"description": "Build this repo using the React 18"
+		}
   ],
   /**
    * Rush can collect anonymous telemetry about everyday developer activity such as
