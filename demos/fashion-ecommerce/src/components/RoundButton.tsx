@@ -5,6 +5,7 @@ type IRoundButton = {
   hitArea?: string;
   rootClass?: string;
   onClick?: (e: any) => void;
+  children?: React.ReactNode;
 }
 
 const RoundButton: React.FC<IRoundButton> = ({

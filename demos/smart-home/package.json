@@ -11,8 +11,8 @@
     "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
     "query-string": "^6.13.8",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.9.0 || ^18",
+    "react-dom": "^16.9.0 || ^18",
     "react-image-webp": "^0.7.0",
     "react-map-interaction": "^2.0.0",
     "react-refresh": "^0.9.0",
@@ -28,8 +28,8 @@
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
     "@types/pubsub-js": "^1.8.1",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
+    "@types/react": "^16.9.0 || ^18",
+    "@types/react-dom": "^16.9.0 || ^18",
     "@types/styled-components": "^5.1.7"
   },
   "scripts": {

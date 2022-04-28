@@ -156,7 +156,7 @@ const SmartFilter: React.FC = (props) => {
   };
 
   const toggleMenu = useCallback(
-    (menuIndex) => {
+    (menuIndex: number) => {
       if (menuIndex !== showFilterOptions) {
         setShowFilterOptions(menuIndex);
       } else {

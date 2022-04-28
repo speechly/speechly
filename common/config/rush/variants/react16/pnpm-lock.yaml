@@ -28,8 +28,8 @@ specifiers:
   '@types/base-64': ^0.1.3
   '@types/node-fetch': ^2.5.7
   '@types/pubsub-js': ^1.8.1
-  '@types/react': ^16.9.0
-  '@types/react-dom': ^16.9.0
+  '@types/react': ^16.9.0 || ^18
+  '@types/react-dom': ^16.9.0 || ^18
   '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
   axios: ^0.21.1
@@ -59,7 +59,6 @@ specifiers:
   react-openai-api: ^1.0.2
   react-refresh: ^0.9.0
   react-scripts: ^4.0.3
-  react-spring: ^8.0.27
   rollup-plugin-copy-watch: '>=0.0.1'
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
@@ -105,8 +104,8 @@ dependencies:
   '@types/base-64': 0.1.3
   '@types/node-fetch': 2.6.1
   '@types/pubsub-js': 1.8.3
-  '@types/react': 16.14.25
-  '@types/react-dom': 16.9.15
+  '@types/react': 18.0.8
+  '@types/react-dom': 18.0.0
   '@types/styled-components': 5.1.25
   '@types/uuid': 7.0.5
   axios: 0.21.4
@@ -136,7 +135,6 @@ dependencies:
   react-openai-api: 1.0.2_be8acbfc234715268c2937d9078bf591
   react-refresh: 0.9.0
   react-scripts: 4.0.3_react@16.14.0+ts-node@10.7.0
-  react-spring: 8.0.27_react-dom@16.14.0+react@16.14.0
   rollup-plugin-copy-watch: 0.0.1
   rollup-plugin-css-only: 3.1.0
   rollup-plugin-livereload: 2.0.5
@@ -3105,6 +3103,117 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
+  /@react-spring/animated/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-e9xnuBaUTD+NolKikUmrGWjX8AVCPyj1GcEgjgq9E+0sXKv46UY7cm2EmB6mUDTxWIDVKebARY++xT4nGDraBQ==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/core/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-llgb0ljFyjMB0JhWsaFHOi9XFT8n1jBMVs1IFY2ipIBerWIRWrgUmIpakLPHTa4c4jwqTaDSwX90s2a0iN7dxQ==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/rafz': 9.4.4
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/konva/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-ZHwsf4l/W5YzK8TwlvGXL9SYiHxxC6iEOAKStRs8WV6VuBvTFgIoGK5RNOTbsRC2N/spNWnN6JViz1PNbgrB+A==}
+    peerDependencies:
+      konva: '>=2.6'
+      react: ^16.8.0  || ^17.0.0
+      react-konva: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/native/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-p0/JI59JVkgVjnoLvu+cpEgEkE0B3RDvzT1oNaCAx0ePaGQo4ICAS8PyOgPvN5IHUOy59CBLSMNnFyHV+IgaGQ==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+      react-native: '>=0.58'
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/rafz/9.4.4:
+    resolution: {integrity: sha512-5ki/sQ06Mdf8AuFstSt5zbNNicRT4LZogiJttDAww1ozhuvemafNWEHxhzcULgCPCDu2s7HsroaISV7+GQWrhw==}
+    dev: false
+
+  /@react-spring/shared/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-ySVgScDZlhm/+Iy2smY9i/DDrShArY0j6zjTS/Re1lasKnhq8qigoGiAxe8xMPJNlCaj3uczCqHy3TY9bKRtfQ==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@react-spring/rafz': 9.4.4
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/three/9.4.4_react@16.14.0:
+    resolution: {integrity: sha512-z77ohxg8zG0CcZJojzfoJTTrjSbIyefNz2RlId68/4IypnOs1p8kB2Q1p+wX4KyWORpLg8ivsPcjtwBjGwfDtg==}
+    peerDependencies:
+      '@react-three/fiber': '>=6.0'
+      react: '>=16.11'
+      three: '>=0.126'
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+    dev: false
+
+  /@react-spring/types/9.4.4:
+    resolution: {integrity: sha512-KpxKt/D//q/t/6FBcde/RE36LKp8PpWu7kFEMLwpzMGl9RpcexunmYOQJWwmJWtkQjgE1YRr7DzBMryz6La1cQ==}
+    dev: false
+
+  /@react-spring/web/9.4.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-iJmOLdhcuizriUlu/xqBc5y8KaFts+UI+iC+GxyTwBtzxA9czKiSAZW2ESuhG8stafa3jncwjfTQQp84KN36cw==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+      react-dom: ^16.8.0  || ^17.0.0
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
+  /@react-spring/zdog/9.4.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-qmD8zRcodbQKTAFVMdgW2pYIZP1KttDnz2S2JEc7kx8I8F5ljn9czgRl5c4w9HJ0dpO8VTfPq4sKa4tlUL23yg==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+      react-dom: ^16.8.0  || ^17.0.0
+      react-zdog: '>=1.0'
+      zdog: '>=1.0'
+    dependencies:
+      '@react-spring/animated': 9.4.4_react@16.14.0
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/shared': 9.4.4_react@16.14.0
+      '@react-spring/types': 9.4.4
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+
   /@rollup/plugin-commonjs/17.1.0_rollup@2.70.2:
     resolution: {integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==}
     engines: {node: '>= 8.0.0'}
@@ -3600,7 +3709,7 @@ packages:
   /@types/hoist-non-react-statics/3.3.1:
     resolution: {integrity: sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA==}
     dependencies:
-      '@types/react': 16.14.25
+      '@types/react': 18.0.8
       hoist-non-react-statics: 3.3.2
     dev: false
 
@@ -3703,14 +3812,14 @@ packages:
     resolution: {integrity: sha512-L28j2FcJfSZOnL1WBjDYp2vUHCeIFlyYI/53EwD/rKUBQ7MtUUfbQWiyKJGpcnv4/WgrhWsFKrcPstcAt/J0tQ==}
     dev: false
 
-  /@types/react-dom/16.9.15:
-    resolution: {integrity: sha512-PjWhZj54ACucQX2hDmnHyqHz+N2On5g3Lt5BeNn+wy067qvOokVSQw1nEog1XGfvLYrSl3cyrdebEfjQQNXD3A==}
+  /@types/react-dom/18.0.0:
+    resolution: {integrity: sha512-49897Y0UiCGmxZqpC8Blrf6meL8QUla6eb+BBhn69dTXlmuOlzkfr7HHY/O8J25e1lTUMs+YYxSlVDAaGHCOLg==}
     dependencies:
-      '@types/react': 16.14.25
+      '@types/react': 18.0.8
     dev: false
 
-  /@types/react/16.14.25:
-    resolution: {integrity: sha512-cXRVHd7vBT5v1is72mmvmsg9stZrbJO04DJqFeh3Yj2tVKO6vmxg5BI+ybI6Ls7ROXRG3aFbZj9x0WA3ZAoDQw==}
+  /@types/react/18.0.8:
+    resolution: {integrity: sha512-+j2hk9BzCOrrOSJASi5XiOyBbERk9jG5O73Ya4M0env5Ixi6vUNli4qy994AINcEF+1IEHISYFfIT4zwr++LKw==}
     dependencies:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
@@ -3751,7 +3860,7 @@ packages:
     resolution: {integrity: sha512-fgwl+0Pa8pdkwXRoVPP9JbqF0Ivo9llnmsm+7TCI330kbPIFd9qv1Lrhr37shf4tnxCOSu+/IgqM7uJXLWZZNQ==}
     dependencies:
       '@types/hoist-non-react-statics': 3.3.1
-      '@types/react': 16.14.25
+      '@types/react': 18.0.8
       csstype: 3.0.11
     dev: false
 
@@ -3775,7 +3884,7 @@ packages:
   /@types/testing-library__react/9.1.3:
     resolution: {integrity: sha512-iCdNPKU3IsYwRK9JieSYAiX0+aYDXOGAmrC/3/M7AqqSDKnWWVv07X+Zk1uFSL7cMTUYzv4lQRfohucEocn5/w==}
     dependencies:
-      '@types/react-dom': 16.9.15
+      '@types/react-dom': 18.0.0
       '@types/testing-library__dom': 7.5.0
       pretty-format: 25.5.0
     dev: false
@@ -12765,6 +12874,27 @@ packages:
       react-dom: 16.14.0_react@16.14.0
     dev: false
 
+  /react-spring/9.4.4_react-dom@16.14.0+react@16.14.0:
+    resolution: {integrity: sha512-VOqilh9DJBsS6Pf550YLhdReS3j9a2AQVh7NcsNtWoxTYIeuErWi6ym0++6bBhQp4yT5xvVvUDaJ8ez8vrFgaw==}
+    dependencies:
+      '@react-spring/core': 9.4.4_react@16.14.0
+      '@react-spring/konva': 9.4.4_react@16.14.0
+      '@react-spring/native': 9.4.4_react@16.14.0
+      '@react-spring/three': 9.4.4_react@16.14.0
+      '@react-spring/web': 9.4.4_react-dom@16.14.0+react@16.14.0
+      '@react-spring/zdog': 9.4.4_react-dom@16.14.0+react@16.14.0
+    transitivePeerDependencies:
+      - '@react-three/fiber'
+      - konva
+      - react
+      - react-dom
+      - react-konva
+      - react-native
+      - react-zdog
+      - three
+      - zdog
+    dev: false
+
   /react/16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
     engines: {node: '>=0.10.0'}
@@ -15853,7 +15983,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-VxbdLNl/mqFic7aMXaJE9XelDSBGqOFqvI45VzTWoiqlJ6bjHKv+WHlsdga8c6mMYWcmaKFnijDeQE/STmnRsA==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-k1mVbAvGH1PVP3djqnRIUqX/w6UFs7P5x8G9rlIZbO3IgpOuYkygFO5kCvLIiQnye3dD6DbDiAY3PkHYTAIjgQ==, tarball: file:projects/browser-client-example.tgz}
     id: file:projects/browser-client-example.tgz
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
@@ -15963,7 +16093,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-3C9NBZqwJdDqAfuBrvyJS6CXpd791NzJuq+wiycVTw15c3kjxBidt6PnYDmv+1YMNKxcVLXljMlT9A8Gz1K2kQ==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-36K5Xj8NTn3ZGUkMHQ5fFmDDeUkp6KZUxMn7Jbf1Fw3rdHrX54otiqGVokT9n175YJy/EhErepOjafliOAZ+Qg==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -15974,8 +16104,8 @@ packages:
       '@testing-library/user-event': 7.2.1
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       react-scripts: 4.0.3_1425c25dc7f6012a79c71d9222c55b18
@@ -16001,7 +16131,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-SnjyDa3Fe8USJfQ3qwHvOhleWtj23snObHKgBjkV4M+hwUj+QXdjipw0853R2PXbJmBrdtrJnqnqrh/wu+PEUQ==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-SnT5w2cEQWN9g59zqfI8EwoaO9crAjkD7cnfRyhdRpOs0H+Ri04ieHJJCCn4rgULTPFod/D8iklldHtlGgk7xw==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -16013,8 +16143,8 @@ packages:
       '@types/node': 12.20.50
       '@types/node-fetch': 2.6.1
       '@types/pubsub-js': 1.8.3
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       '@types/styled-components': 5.1.25
       classnames: 2.3.1
       csvtojson: 2.0.10
@@ -16051,7 +16181,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-t0BH9GKk/tgYs4IuecyBNXTjC4VU3TS75fgM1B7ru8Mo/YAma4h1swXdcs3tTljPN6niTDSFS0xMNo9H2nEzyA==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-YKo1hVtnGlne8QTPk+si/nkmzzx8Q+TjtR2TSq3zWkhuby1nqqG+IUjWHeBuDfmpenkktP2UFFsGPeDQzPzbvw==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -16062,8 +16192,8 @@ packages:
       '@testing-library/user-event': 7.2.1
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       react-scripts: 4.0.3_1425c25dc7f6012a79c71d9222c55b18
@@ -16089,20 +16219,20 @@ packages:
     dev: false
 
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-x75ZRq7Pj9BG8wryoV0fJWT5acuA44Bwb0Bxr2ejl1lvl/G0XU0Clj49eHxXFt3ekPFtuaVkDtX7x9PdcCLpqg==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-Pwq+wRFzoX+hsn31mD6h8F92AR0bu7lxb7tYmRHBGvN3521IG9tt97s6+l76MqQm0mXymUMsQDdqKnMEg69dJA==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       typescript: 4.6.3
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-/3qPhJE8mTxWJg1EA3WW6nKBtWGINcKm3OAT1+TxOFj240VD58U/JkogTW7CYBRMZa1j7c6zbEAU6ZW/Bnq/GQ==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-vph7lWgIQ4XV/jxJmFg01ukdE58cdPpsuBSGgn7KcyAQ7N2ueUot5JEOoq7uWBK0M2VXR2snJXbmP3KZGWRpxg==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -16113,8 +16243,8 @@ packages:
       '@testing-library/user-event': 7.2.1
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       classnames: 2.3.1
       format-duration: 2.0.0
       plyr-react: 4.0.0-alpha.1_react-dom@16.14.0+react@16.14.0
@@ -16143,13 +16273,13 @@ packages:
     dev: false
 
   file:projects/next-js-example.tgz:
-    resolution: {integrity: sha512-20JMdj0iw8r3woS7pkJDqcQ1cLeW7OHAPiHIO0PT5vZfnRBKEeuGjFETpg9tj4W5hDod8SMkxyp5FclZJ6632w==, tarball: file:projects/next-js-example.tgz}
+    resolution: {integrity: sha512-C3azT2GnTNhG1Q1VExL00uYyY/VK5LfkiFm3eItKinoczYWynymeQKMcj5CcTneJdcN0ZIvzyt59SIWsn0t+6w==, tarball: file:projects/next-js-example.tgz}
     name: '@rush-temp/next-js-example'
     version: 0.0.0
     dependencies:
       '@types/node': 17.0.29
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       eslint: 8.12.0
       eslint-config-next: 12.1.4_fab470334d1cc33786399cd971ce0917
       next: 12.1.4_react-dom@16.14.0+react@16.14.0
@@ -16166,7 +16296,7 @@ packages:
     dev: false
 
   file:projects/react-client-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-vU2NJ0A3KWY3MNXJ8n6YcbzzWKWeerwE/n102VM0i/OqNvZbmbkQP0sVMPl0+cFRTUXK/wcVRtsJIeV1+I6VrQ==, tarball: file:projects/react-client-example.tgz}
+    resolution: {integrity: sha512-EwdW9kaab+n/+bbFmDz2ohd+byxdXjXEruJa6VKefuaLXO0ZvcOLElpLQSN1is3UsLR91O8KgjEkC29oRVBysw==, tarball: file:projects/react-client-example.tgz}
     id: file:projects/react-client-example.tgz
     name: '@rush-temp/react-client-example'
     version: 0.0.0
@@ -16194,12 +16324,12 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-t6kY+xWnMIW/qMaZ0aJPIdaw6v+COd0CtjvBdH1lbvoMjS3BLJPvDYUtye2rJMyIzxgQMllo+jfo07hltXsqcQ==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-uZeSAaher0BIeGqhwdc80e9ApitiY0EMSKD47fSAvtNV4s8SZ4QLI1N9MPj1xx4wJKj9/qsz/WhvmqTV02sryg==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.23.0
-      '@types/react': 16.14.25
+      '@types/react': 18.0.8
       '@typescript-eslint/eslint-plugin': 4.33.0_0c49e12669280545a7ea3f36dba6eb0a
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.3
       eslint: 7.32.0
@@ -16223,14 +16353,14 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-GQyhzCIahrahza0Udt1Dx9tcbJrvokmLXB5layvvFkowciETU0eTRO8cxfVusHwwDhAHSEr0c8CDRRCUF/nuuA==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-b6lCtA/zK7xX6L2eABOPxmquYH5COBkl5DRicMt/+DBy+N2G+5+mBIAFWmEc3Oswnzwf1zFKXJsL0w81B7AS9A==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
     dependencies:
       '@types/pubsub-js': 1.8.3
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       '@types/styled-components': 5.1.25
       pubsub-js: 1.9.4
       react: 16.14.0
@@ -16256,13 +16386,13 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-FXSUA2Us59/iFOMJZG6uFTo8ggMWBPx4fxLQ+csIK8iWoGYsYXV6lw9r/hck9pWv5rtyPh4DYC2S5x8So1MEoQ==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-nmdqH3uI160bL4/q4fNzgOOR+aS+eCVFefXOwaPoPFWaXeHnAzhrvMJqyep3cSZdYXCmcW7U9c9aKxdNpPc6nA==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
       '@types/pubsub-js': 1.8.3
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       '@types/styled-components': 5.1.25
       '@typescript-eslint/eslint-plugin': 4.33.0_0c49e12669280545a7ea3f36dba6eb0a
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.3
@@ -16277,18 +16407,25 @@ packages:
       pubsub-js: 1.9.4
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-spring: 8.0.27_react-dom@16.14.0+react@16.14.0
+      react-spring: 9.4.4_react-dom@16.14.0+react@16.14.0
       styled-components: 5.3.5_react-dom@16.14.0+react@16.14.0
       typedoc: 0.22.15_typescript@4.6.3
       typedoc-plugin-markdown: 3.12.1_typedoc@0.22.15
       typescript: 4.6.3
     transitivePeerDependencies:
+      - '@react-three/fiber'
+      - konva
       - react-is
+      - react-konva
+      - react-native
+      - react-zdog
       - supports-color
+      - three
+      - zdog
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-t3OSN/b9AYgcNMjjbiVgc7SG4Fx2BKHByanqgO+njWl64OLc0pcSHYc9Xf+k33VqfyAvRUm4uXpUtx70tDx6Tg==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-DORE1xQ+JodNsjvDn/fuqzwOYyaYPhIt4O4e1KGxtbArxl9YwSb3R6Es6jdVQ49/oNsz/vyhgF/UIwPqlWrVkg==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
@@ -16316,11 +16453,11 @@ packages:
     dev: false
 
   file:projects/react-voice-forms.tgz:
-    resolution: {integrity: sha512-bLl9O+J+XYiDJ2sj4vQA/ZWXKgZSAtBwIz3EV4DxsNmG9b2UYJlL6lI+p4q+DhrdZ6OHi9pza41yTrUtrzJIAg==, tarball: file:projects/react-voice-forms.tgz}
+    resolution: {integrity: sha512-Agpm0TE9q9ck0G4BfVuqCfIhlJde9BVWa/4fyFyzYI4uvuqVcuo02QOcPIvG6aH7E4s3iBXgG9NkFrO36+MWcA==, tarball: file:projects/react-voice-forms.tgz}
     name: '@rush-temp/react-voice-forms'
     version: 0.0.0
     dependencies:
-      '@types/react': 16.14.25
+      '@types/react': 18.0.8
       react: 16.14.0
       ts-loader: 8.4.0_typescript@4.6.3
       tsc-watch: 4.6.2_typescript@4.6.3
@@ -16332,7 +16469,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-+ZMnv2op+SdZpDvW7Y4GrtQqkargsvX7I556RUQ/RclU2yC5CSAJr3K6SyJ/WKfK2MLyEzBUDfTpEgjEIZ/ioA==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-5bvttl96FiOnel53tr6IQzlcpvPZ4fp5NXFKN4AhMg5qWwB4bhKHALdM1AQzSa0cOJgsyvQIhRBR6FAAnT4HsQ==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -16344,8 +16481,8 @@ packages:
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
       '@types/pubsub-js': 1.8.3
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       '@types/styled-components': 5.1.25
       prop-types: 15.8.1
       pubsub-js: 1.9.4
@@ -16380,7 +16517,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-zT7TPc6veM3tGCOHLnZuVHJEvJzXmmhayosymPNjA272kCPRmCxnxdZPL1WKkKPdMOjuTEjG69/P3fisOBePGQ==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-eHSA7LdxnbdW4MjTPimbcDIK2yKgJef3z9eHZ9grV3bqg8M4HsFZu6QszVev3ZZ3/xVKGpKTjVZCi1/OikhaOw==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
@@ -16391,8 +16528,8 @@ packages:
       '@testing-library/user-event': 7.2.1
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       axios: 0.21.4
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
@@ -16420,7 +16557,7 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-zVSzKtupTJc6tyC7OUkAQm209wV/70ndRV7wMNtmCj6+u267YgB4z+YYHapRS1do9Bp8XI+P1/f3pkI2O/7iBw==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-dJkur+kgWCSOejo86DUjRZozw6omwv40jHorXLMAANOrUOR39YQ3ZaWcKnxxzQgQ7r951a8VIbBiCioDBl2NlA==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0
@@ -16431,8 +16568,8 @@ packages:
       '@testing-library/user-event': 7.2.1
       '@types/jest': 24.9.1
       '@types/node': 12.20.50
-      '@types/react': 16.14.25
-      '@types/react-dom': 16.9.15
+      '@types/react': 18.0.8
+      '@types/react-dom': 18.0.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
       react-scripts: 4.0.3_1425c25dc7f6012a79c71d9222c55b18

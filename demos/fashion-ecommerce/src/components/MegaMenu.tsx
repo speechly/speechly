@@ -17,7 +17,7 @@ const MegaMenu: React.FC<{
   );
 };
 
-export const MegaMenuItem: React.FC<{ key: string; onChange: () => void }> = (
+export const MegaMenuItem: React.FC<{ key: string; onChange: () => void; children?: React.ReactNode }> = (
   props
 ) => {
   return (
