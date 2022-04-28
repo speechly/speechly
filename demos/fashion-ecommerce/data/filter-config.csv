@@ -1,7 +1,6 @@
 isActive	count	depth	tag	key	displayName	alias.[0]	alias.[1]	alias.[2]	alias.[3]	alias.[4]	alias.[5]	alias.[6]	alias.[7]	alias.[8]
 x	0	0	sex	child	Kids' clothing	kids	children’s	kids’	child	children	toddler	kits	toddlers	kid
 x	0	0	sex	female	Women's clothing	women	women’s	ladies	girls	woman’s	woman	female	female’s
-x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys	gents
 x	2	0	sex	male	Men's clothing	men	man’s	mens	men's	man	menswear	male	boys
 x	0	0	sex	unisex	Unisex clothing	unisex	gender neutral	gender fluid
 x	0	0	colors	beige	Beige	beige	light brown	khaki	sand	fawn	cocky
@@ -11,7 +10,7 @@ x	0	0	colors	brown	Brown	brown	chestnut	terra-cotta	sepia
 x	0	0	colors	gold	Gold	gold	golden	amber
 x	0	0	colors	gray	Gray	gray	grey	ash	smokey
 x	1	0	colors	green	Green	green
-x	0	0	colors	multicolored	Multicolored	multicolored	polychrome	colorful	multicolor	multi color	multi colored	rainbow	bright colors
+x	0	0	colors	multicolored	Multicolored	multicolored	polychrome	colorful	multicolor	multi color	multi colored	rainbow	bright colors	bright
 x	0	0	colors	floral	floral	floral
 x	0	0	colors	olive	Olive	olive
 x	0	0	colors	orange	Orange	orange
@@ -24,7 +23,10 @@ x	0	0	colors	violet	Violet	violet	purple	lavender	lilac	plum	mauve
 x	0	0	colors	white	White	white	light	ivory	snow	off-white	cream	creamy	why
 x	0	0	colors	yellow	Yellow	yellow	mustard	honey
 x	0	0	category	Accessories	Accessories	Accessories
-x	0	0	category	Kick suits	Baby coveralls	Baby coveralls	Baby rompers	Baby one piece	Baby footie	Baby footies	baby clothes	babies	baby
+x	0	0	category	Kick suits	Baby coveralls	Baby coveralls	Baby rompers	Baby one piece	Baby footie	Baby footies	baby clothes	babies	baby	baby outfit
+x	0	0	category	Baby pants	Baby pants	Baby pants
+x	0	0	category	Baby shirts	Baby shirts	Baby shirts
+x	0	0	category	Baby shoes	Baby shoes	Baby shoes
 x	0	0	category	Reput	Backpacks	Backpacks	Rucksacks	Backpack	Rucksack	Schoolbag	Schoolbags	Back pack	Back packs
 x	0	0	category	Bags	Bags	Bags	Bag
 x	0	0	category	Underlays	Base layers	Base layers	Underlays
@@ -37,6 +39,7 @@ x	0	0	category	Belts	Belts	Belts	Belt	Leather belts	Leather belt
 x	0	0	category	Bicycle bags	Bicycle bags	Bicycle bags	Bicycle bag
 x	0	0	category	Biker jackets	Biker jackets	Biker jackets	Biker jacket
 x	0	0	category	Bikini	Bikini	Bikini	Bikinis
+x	0	0	category	Bikini bra	Bikini bra	Bikini bra	Bikini bras
 x	0	0	category	Blazers	Blazers	Blazers	Blazer
 x	0	0	category	Blouses	Blouses	Blouses	Blouse
 x	0	0	category	Bodyt	Bodys	Bodys	Body	bodies
@@ -58,11 +61,13 @@ x	0	0	category	Climbing shoes	Climbing shoes	Climbing shoes	mountaineering shoes
 x	0	0	category	Camping gear	Camping gear	Camping gear	Camping equipment	Camping supplies
 x	0	0	category	Cloth pants	Cloth pants	Cloth pants	Cotton pants	Linen pants	cotton trousers
 x	0	0	category	Coats	Coats	Coats	Coat
+x	0	0	category	Comfy pants	Comfy pants	Comfy pants
 x	0	0	category	Compression shirts	Compression shirts	Compression shirts	Compression shirt
 x	0	0	category	Court shoes	Court shoes	Court shoes
 x	0	0	category	Cross-country running shoes	Cross-country running shoes	Cross-country running shoes	Trail running shoes	Trail running trainers	Cross-country running trainers	Off-road running shoes	Off-road running trainers
 x	0	0	category	Cycling backpacks	Cycling backpacks	Cycling backpacks	Cycling backpack
-x	0	0	category	Cycling clothing	Cycling clothing	Cycling clothing	Cycling clothes	Cycling wear	Cycling
+x	0	0	category	Cycling clothing	Cycling clothing	Cycling clothing	Cycling clothes	Cycling wear	Cycling	Cycling cloth
+x	0	0	category	Cycling pants	Cycling pants	Cycling pants
 x	0	0	category	Cycling shoes	Cycling shoes	Cycling shoes
 x	0	0	category	Daypacks	Daypacks	Daypacks
 x	0	0	category	Jeans	Denim	Denim	Jeans	Chains	James	Genes	denim jeans	jean
@@ -92,9 +97,10 @@ x	0	0	category	Knitted skirts	Knitted skirts	Knitted skirts	Knitted skirt
 x	0	0	category	Knitwear	Knitwear	Knitwear
 x	0	0	category	Lace dresses	Lace dresses	Lace dresses	Lace dress
 x	0	0	category	Lace-up shoes	Lace-up shoes	Lace-up shoes	shoes with laces	shoelaces	leather shoes	leather insoles	ones with laces
+x	0	0	category	Leather boots	Leather boots	Leather boots	Leather boot
 x	0	0	category	Leather jackets	Leather jackets	Leather jackets	Leather jacket
 x	0	0	category	Leg warmers	Leg warmers	Leg warmers
-x	0	0	category	Leggings	Leggings	Leggings
+x	0	0	category	Leggings	Leggings	Leggings	Oversized leggings
 x	0	0	category	Living clothes	Leisurewear	Leisurewear	Leisure clothes	Leisure clothing
 	0	0	category	Clothes	clothes
 x	0	0	category	Long skirts	Long skirts	Long skirts	Long skirt
@@ -118,8 +124,6 @@ x	0	0	category	Outdoor jackets	Outdoor jackets	Outdoor jackets	Outdoor jacket
 x	0	0	category	Outdoor trousers	Outdoor trousers	Outdoor trousers	Outdoor pants
 x	0	0	category	Outerwear	Outerwear	Outerwear
 x	0	0	category	Overalls	Overalls	Overalls
-x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama	Pyjamas
-x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants	pant
 x	0	0	category	Pajamas	Pajamas	Pajamas	Pajama
 x	0	0	category	Pants	Pants	Pants	Trousers	trouser	colored pants
 x	0	0	category	Parkasakit	Parkas	Parkas	Anoraks	Parka jackets	Parka	Anorak	Parka jacket
@@ -131,12 +135,12 @@ x	0	0	category	Printed t-shirts	Printed t-shirts	Printed t-shirts	Printed t-shir
 x	0	0	category	Rain pants	Rain pants	Rain pants	Waterproof pants	Water proof pants
 x	0	0	category	Corduroy pants	Corduroy pants	Corduroy pants
 x	0	0	category	Leather pants	Leather pants	Leather pants
-x	0	0	category	Raincoats	Raincoats	Raincoats	Raincoat	Rain jacket	Rain jackets	waterproof jacket	waterproof jackets	sailing jackets	sailing jacket
+x	0	0	category	Raincoats	Raincoats	Raincoats	Raincoat	Rain jacket	Rain jackets	waterproof jacket	waterproof jackets	sailing jackets	sailing jacket	rain clothes
 x	0	0	category	Rainwear	Rainwear	Rainwear	Waterproof clothing	sailing clothes	Water proof clothing
 x	0	0	category	Rubber boots	Rubber boots	Rubber boots	Wellingtons	Rubber boot	Wellies	Wellington boots	Wellington boot	Gumboots	Gumboot
 x	0	0	category	Running clothes	Running clothes	Running clothes
 x	0	0	category	Running shoes	Running shoes	Running shoes	Runners	Jogging shoes	Running shoe	Running trainers	Running sneakers
-x	0	0	category	Sandals	Sandals	Sandals	Flip flops
+x	0	0	category	Sandals	Sandals	Sandals	Flip flops	Summer sandals
 x	0	0	category	Scarves	Scarves	Scarves	Scarf
 x	0	0	category	Shell jackets	Shell jackets	Shell jackets	Shell jacket
 x	0	0	category	Shell pants	Shell pants	Shell pants
@@ -154,11 +158,10 @@ x	0	0	category	Skirts	Skirts	Skirts	Skirt
 x	0	0	category	Sleepwear	Sleepwear	Sleepwear	Sleeping clothes	Nightwear	Sleep clothes	Nightclothes	Nightgown	Nightie	Sleeping bag
 x	0	0	category	Sleeveless dresses	Sleeveless dresses	Sleeveless dresses	Sleeveless dress	Dress without sleeves
 x	0	0	category	Sleeveless tops	Sleeveless tops	Sleeveless tops	Sleeveless top	Top without sleeves
-x	0	0	category	Slippers	Slippers	Slippers
+x	0	0	category	Slippers	Slippers	Slippers	Slipper
 x	0	0	category	Small bags	Small bags	Small bags	Small bag
-x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	sneaker pairs	basketball shoes	golf shoes
 x	0	0	category	Sneakers	Sneakers	Sneakers	Sneaker	Snickers	Trainers	sniker	snikers	basketball shoes	golf shoes
-x	0	0	category	Snowboard clothing	Snowboard clothing	Snowboard clothing	Snowboard clothes	Snowboarding clothes	snowsuit	snow jacket	snow jackets
+x	0	0	category	Snowboard clothing	Snowboard clothing	Snowboard clothing	Snowboard clothes	Snowboarding clothes	snowsuit	snow jacket	snow jackets	Snowboarding jacket
 x	0	0	category	Socks	Socks	Socks	Sock	Sox
 x	0	0	category	Softshell jackets	Softshell jackets	Softshell jackets	Softshell jacket
 x	0	0	category	Sports bags	Sports bags	Sports bags	Sports bag	Gym bag	Fitness bag	Gym bags	Fitness bags
@@ -167,7 +170,7 @@ x	0	0	category	Sports gloves	Sports gloves	Sports gloves
 x	0	0	category	Sports jackets	Sports jackets	Sports jackets	Sports jacket	Sports coat	Sports coats
 x	1	1	category	Sports pants	Sports pants	Sports pants
 x	0	0	category	Sports shirts	Sports shirts	Sports shirts	Sports shirt	Training shirt	Training shirts
-x	0	0	category	Sports shoes	Sports shoes	Sports shoes	Sports shoe
+x	0	0	category	Sports shoes	Sports shoes	Sports shoes	Sports shoe	Gym shoes	Gym shoe
 x	0	0	category	Sports shorts	Sports shorts	Sports shorts	Biking pants	Biking shorts	Training shorts	Bicycle pants	Bicycle shorts
 x	0	0	category	Sports tops	Sports tops	Sports tops	Sports top
 x	0	0	category	Sports underwear	Sports underwear	Sports underwear	Sports undergarments
@@ -234,7 +237,7 @@ x	0	0	category	Business	Business	Business	Work	Professional
 	0	0	category	Capri pants	Capri pants	Capri pants
 	0	0	category	Classic Ankle Boots	Classic Ankle Boots	Classic Ankle Boots
 	0	0	category	Clogs	Clogs	Clogs	Clog shoes
-	0	0	category	Clothing	Clothing	Clothing	Clothes
+x	0	0	category	Clothing	Clothing	Clothing	Clothes
 	0	0	category	Takit	Coats	Coats	Coat
 	0	0	category	College	College	College
 	0	0	category	College jacket	College jackets	College jackets	College jacket
@@ -251,12 +254,13 @@ x	0	0	category	Business	Business	Business	Work	Professional
 	0	0	category	Flared trousers	Flared trousers	Flared trousers
 	0	0	category	Fleece blouses	Fleece blouses	Fleece blouses	Fleece blouse
 	0	0	category	Fleece jackets	Fleece jackets	Fleece jackets	Fleece jacket
+x	0	0	category	Formal clothing	Formal clothing	Formal clothing
 	0	0	category	Free time	Free time	Free time
 	0	0	category	Goalkeeper gloves	Goalkeeper gloves	Goalkeeper gloves
 	0	0	category	Hair ornaments	Hair ornaments	Hair ornaments	Hair ornament
 	0	0	category	Hall shoes	Hall shoes	Hall shoes
 	0	0	category	Handball shoes	Handball shoes	Handball shoes
-x	0	0	category	High heels	High heels	High heels	Heels	High heel shoes	Shoes with high heels	Shoes with heels	pumps
+x	0	0	category	High heels	High heels	High heels	Heels	High heel shoes	Shoes with high heels	Shoes with heels and pumps	Shoes with heels	Shoe with heels
 	0	0	category	Hiking backpacks	Hiking backpacks	Hiking backpacks	Hiking backpack
 	0	0	category	Hiking pants and shorts	Hiking pants and shorts	Hiking pants and shorts
 x	0	0	category	Hiking shoes	Hiking shoes	Hiking shoes	Hiking shoe	Hiking boots
@@ -277,12 +281,13 @@ x	0	0	category	Hiking shoes	Hiking shoes	Hiking shoes	Hiking shoe	Hiking boots
 	0	0	category	Pencil skirts	Pencil skirts	Pencil skirts	Pencil skirt
 x	0	0	category	Polo shirts	Turtlenecks	Turtlenecks
 	0	0	category	Ponchot	Ponchot	Ponchot	Poncho	Ponchos
+x	0	0	category	Puffer jackets	Puffer jackets	Puffer jackets	Puffer jacket	Puffer	Puffers
 	0	0	category	Pumps	Pumps	Pumps
 	0	0	category	Push-up bra	Push-up bra	Push-up bra	Push-up bras
 	0	0	category	Quilted jackets	Quilted jackets	Quilted jackets	Quilted jacket
 	0	0	category	Quilted vest	Quilted vest	Quilted vest	Quilted vests
 	0	0	category	Regular fit jeans	Regular fit jeans	Regular fit jeans
-	0	0	category	Rings	Rings	Rings	Ring
+x	0	0	category	Rings	Rings	Rings	Ring
 	0	0	category	Ripped jeans	Ripped jeans	Ripped jeans
 	0	0	category	Running backpacks	Running backpacks	Running backpacks	Running backpack
 	0	0	category	Running jackets	Running jackets	Running jackets	Running jacket
@@ -320,6 +325,7 @@ x	0	0	category	Soccer shoes	Soccer shoes	Soccer shoes	Football shoes	Soccer clea
 	0	0	category	Support stockings	Support stockings	Support stockings
 	0	0	category	Suspenders	Suspenders	Suspenders
 x	0	0	category	Sweat pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants	College pants
+x	0	0	category	Sweat clothes	Sweat clothes	Sweat clothes
 	0	0	category	Swimming shoes	Swimming shoes	Swimming shoes
 x	0	0	category	Biking shoes	Biking shoes	Biking shoes
 x	0	0	category	Athletic shoes	Athletic shoes	Athletic shoes
@@ -344,7 +350,7 @@ x	0	0	category	Winter boots	Winter boots	Winter boots	Boots for winter
 	0	0	category	Woolen jackets	Woolen jackets	Woolen jackets	Woolen jacket
 	0	0	category	You are referring	You are referring	You are referring
 	0	0	category	Zip hoodies	Zip hoodies	Zip hoodies	Zip hoodie
-x	0	0	brand	1289	adidas	adidas
+x	0	0	brand	1289	adidas	adidas	x tango	x tango adidas
 x	0	0	brand	831	Arena	Arena
 x	0	0	brand	694	ASICS	ASICS	essex	a six
 x	0	0	brand	20804	Better Bodies	Better Bodies
@@ -379,16 +385,15 @@ x	0	0	brand	441	Levi's®	Levis	Levi's	Levi
 x	0	0	brand	18972	Michael Kors	Michael Kors
 x	0	0	brand	96	Molo	Molo
 x	0	0	brand	281	New Balance	New Balance	New Balances
-x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Air Jordans
 x	0	0	brand	1273	Nike	Nike	Nikes	Air Max	Air Maxes	Air Force Ones	Air Force One	Air Force	Air Jordan	Jordan
 x	0	0	brand	746	O'Neill	O Neill	O'Neill
 x	0	0	brand	234	Oakley	Oakley	Oakleys
-	0	0	brand	Old Navy	Old Navy	Old Navy
+x	0	0	brand	1896	Old Navy	Old Navy
 x	0	0	brand	745	Patagonia	Patagonia
-x	0	0	brand	4146	Peak Performance	Peak Performance	Big Performance
+x	0	0	brand	4146	Peak Performance	Peak Performance	Big Performance	junior frost down	jr frost down
 x	0	0	brand	267	Puma	Puma
 x	0	0	brand	21503	Quicksilver	Quicksilver
-x	0	0	brand	1778	RALPH LAUREN	RALPH LAUREN
+x	0	0	brand	1778	RALPH LAUREN	RALPH LAUREN	Polo RALPH LAUREN
 x	0	0	brand	4355	Ray-Ban	Ray-Ban	Ray-Bans
 x	0	0	brand	881	Reebok	Reebok
 x	0	0	brand	12	Skechers	Skechers
@@ -575,7 +580,7 @@ x	0	0	brand	868	Versace	Versace
 	0	0	brand	19830	Costa Del Mar	Costa Del Mar
 	0	0	brand	3675	CR7	CR7
 	0	0	brand	22674	Crab Grab	Crab Grab
-	0	0	brand	507	Craft	Craft
+x	0	0	brand	507	Craft	Craft
 	0	0	brand	1383	Craghoppers	Craghoppers
 	0	0	brand	200	Cream	Cream
 	0	0	brand	21255	Creature	Creature
@@ -858,9 +863,7 @@ x	0	0	brand	4315	Happy Socks	Happy Socks	Happy sox
 	0	0	brand	13341	level	level
 	0	0	brand	19931	Lifeventure	Lifeventure
 	0	0	brand	13160	Light	Light
-	0	0	brand	1327	Lindberg	Lindberg
-	0	0	brand	24909	Lindberg Sweden	Lindberg Sweden
-	0	0	brand	1511	Lindbergh	Lindbergh
+x	0	0	brand	1327	Lindberg	Lindberg	Lindberg Sweden
 	0	0	brand	20282	Ljung by Marcus Larsson	Ljung by Marcus Larsson
 	0	0	brand	3736	Lloyd	Lloyd
 	0	0	brand	8688	LOIS	LOIS
@@ -1247,7 +1250,7 @@ x	0	0	brand	1059	Salomon	Salomon	Solomon
 	0	0	brand	6520	Thrasher	Thrasher
 	0	0	brand	17292	Thug Life	Thug Life
 	0	0	brand	21627	Thug Life Basic	Thug Life Basic
-	0	0	brand	470	Tiger of Sweden	Tiger of Sweden
+x	0	0	brand	1566	Tiger of Sweden	Tiger of Sweden
 	0	0	brand	21740	Tiima	Tiima
 	0	0	brand	20256	Tjejmilen	Tjejmilen
 	0	0	brand	4992	TOMS	TOMS
@@ -1283,7 +1286,7 @@ x	0	0	brand	1059	Salomon	Salomon	Solomon
 	0	0	brand	364	Vaude	Vaude
 	0	0	brand	632	Vero Moda	Vero Moda
 	0	0	brand	4463	Victoria	Victoria
-x	0	0	brand	289	Viking	Viking
+x	0	0	brand	289	Viking	Viking	Viking cascade	Viking Toasty	Viking cascade two	Viking cascade ii
 x	0	0	brand	2652	Scarpe	Scarpe
 x	0	0	brand	7695	Zara	Zara	zara
 	0	0	brand	70	Vila	Vila
@@ -1351,7 +1354,7 @@ x	0	0	sizes	XS	XS	X S	extra small
 x	1	2	sizes	S	S	S	small
 x	1	1	sizes	M	M	M	medium
 x	1	0	sizes	L	L	L	large	big
-x	1	3	sizes	XL	XL	X L	extra large	excel
+x	1	3	sizes	XL	XL	X L	extra large	x large	excel
 x	1	4	sizes	XXL	XXL	X X L	extra extra large	double X L	double XL	XXL	two XL	two X L
 x	0	0	sizes	3XL	3XL	X X X L	extra extra extra large	three X L	three extra large	triple X L	triple XL	three XL	XXXL
 	0	0	sizes	4XL	4XL	4XL	four extra large	four X L

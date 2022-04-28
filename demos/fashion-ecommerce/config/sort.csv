@@ -12,6 +12,7 @@ highest price,price_desc
 highest,price_desc
 high price,price_desc
 price,price_asc
+pricing,price_asc
 price ascending,price_asc
 price low to high,price_asc
 lowest price,price_asc
@@ -31,5 +32,8 @@ top sellers,popularity_desc
 top seller,popularity_desc
 top selling,popularity_desc
 favorite,popularity_desc
+fanciest,popularity_desc 
+fancy,popularity_desc
+most sold,popularity_desc
 new,new_desc
 latest,new_desc

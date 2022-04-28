@@ -8,6 +8,8 @@ baby clothes,Kick suits
 babies,Kick suits
 baby,Kick suits
 baby outfit,Kick suits
+Baby pants,Baby pants
+Baby shirts,Baby shirts
 Baby shoes,Baby shoes
 Backpacks,Reput
 Rucksacks,Reput
@@ -47,6 +49,8 @@ Biker jackets,Biker jackets
 Biker jacket,Biker jackets
 Bikini,Bikini
 Bikinis,Bikini
+Bikini bra,Bikini bra
+Bikini bras,Bikini bra
 Blazers,Blazers
 Blazer,Blazers
 Blouses,Blouses
@@ -116,6 +120,7 @@ Cycling clothes,Cycling clothing
 Cycling wear,Cycling clothing
 Cycling,Cycling clothing
 Cycling cloth,Cycling clothing
+Cycling pants,Cycling pants
 Cycling shoes,Cycling shoes
 Daypacks,Daypacks
 Denim,Jeans
@@ -188,6 +193,8 @@ shoelaces,Lace-up shoes
 leather shoes,Lace-up shoes
 leather insoles,Lace-up shoes
 ones with laces,Lace-up shoes
+Leather boots,Leather boots
+Leather boot,Leather boots
 Leather jackets,Leather jackets
 Leather jacket,Leather jackets
 Leg warmers,Leg warmers
@@ -409,6 +416,8 @@ Training shirt,Sports shirts
 Training shirts,Sports shirts
 Sports shoes,Sports shoes
 Sports shoe,Sports shoes
+Gym shoes,Sports shoes
+Gym shoe,Sports shoes
 Sports shorts,Sports shorts
 Biking pants,Sports shorts
 Biking shorts,Sports shorts
@@ -553,17 +562,26 @@ Bomber jacket,Bomber jackets
 Business,Business
 Work,Business
 Professional,Business
+Clothing,Clothing
+Clothes,Clothing
+Formal clothing,Formal clothing
 High heels,High heels
 Heels,High heels
 High heel shoes,High heels
 Shoes with high heels,High heels
+Shoes with heels and pumps,High heels
 Shoes with heels,High heels
-pumps,High heels
+Shoe with heels,High heels
 Hiking shoes,Hiking shoes
 Hiking shoe,Hiking shoes
 Hiking boots,Hiking shoes
 Turtlenecks,Polo shirts
 Puffer jackets,Puffer jackets
+Puffer jacket,Puffer jackets
+Puffer,Puffer jackets
+Puffers,Puffer jackets
+Rings,Rings
+Ring,Rings
 Running pants and leotards,Running pants and leotards
 Running pants,Running pants and leotards
 Running bottoms,Running pants and leotards
