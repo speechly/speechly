@@ -8,7 +8,7 @@ export class BrowserClient {
   private audioContext?: AudioContext
   private readonly nativeResamplingSupported: boolean
   private readonly debug: boolean = false
-  private readonly isWebkit: boolean
+  private readonly useSAB: boolean
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
 
@@ -27,7 +27,8 @@ export class BrowserClient {
     const constraints = window.navigator.mediaDevices.getSupportedConstraints()
     this.nativeResamplingSupported = constraints.sampleRate === true
 
-    this.isWebkit = window.webkitAudioContext !== undefined
+    // @ts-ignore
+    this.useSAB = window.safari === undefined && !iOS()
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
@@ -36,7 +37,8 @@ export class BrowserClient {
   }
 
   /**
-   * Create an AudioContext for resampling audio. */
+   * Create an AudioContext for resampling audio.
+   */
   async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
     if (this.initialized) {
       return
@@ -52,17 +54,31 @@ export class BrowserClient {
       if (this.nativeResamplingSupported) {
         opts.sampleRate = DefaultSampleRate
       }
-      if (this.isWebkit) {
+      if (window.webkitAudioContext !== undefined) {
+        // create webkit flavor of audiocontext
         try {
           // eslint-disable-next-line new-cap
           this.audioContext = new window.webkitAudioContext(opts)
-        } catch {
+        } catch (err) {
+          if (this.debug) {
+            console.log('[BrowserClient]', 'creating audioContext without samplerate conversion', err)
+          }
           // older webkit without constructor options
           // eslint-disable-next-line new-cap
           this.audioContext = new window.webkitAudioContext()
         }
       } else {
         this.audioContext = new window.AudioContext(opts)
+        // Start audio context if we are dealing with a WebKit browser.
+        //
+        // WebKit browsers (e.g. Safari) require to resume the context first,
+        // before obtaining user media by calling `mediaDevices.getUserMedia`.
+        //
+        // If done in a different order, the audio context will resume successfully,
+        // but will emit empty audio buffers.
+        if (window.webkitAudioContext !== undefined) {
+          await this.audioContext.resume()
+        }
       }
     } catch {
       throw ErrDeviceNotSupported
@@ -78,7 +94,7 @@ export class BrowserClient {
       this.speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
       this.speechlyNode.connect(this.audioContext.destination)
       // @ts-ignore
-      if (window.SharedArrayBuffer !== undefined) {
+      if (this.useSAB && window.SharedArrayBuffer !== undefined) {
         // Chrome, Edge, Firefox, Firefox Android
         if (this.debug) {
           console.log('[BrowserClient]', 'using SharedArrayBuffer')
@@ -95,7 +111,8 @@ export class BrowserClient {
           debug: this.debug,
         })
       } else {
-        // Opera, Chrome Android, Webview Android
+        // Safari, Opera, Chrome Android, Webview Android
+        // or if site CORS headers do not allow SharedArrayBuffer
         if (this.debug) {
           console.log('[BrowserClient]', 'can not use SharedArrayBuffer')
         }
@@ -107,8 +124,10 @@ export class BrowserClient {
             if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
               this.stats.maxSignalEnergy = event.data.signalEnergy
             }
+            this.stats.sentSamples += parseInt(event.data.samples)
             break
           case 'DATA':
+            // this is not called if SAB is used, the buffers are sent immediately
             this.handleAudio(event.data.frames)
             break
           default:
@@ -118,8 +137,7 @@ export class BrowserClient {
       if (this.debug) {
         console.log('[BrowserClient]', 'using ScriptProcessorNode')
       }
-      // Safari, iOS Safari and Internet Explorer
-      if (this.isWebkit) {
+      if (window.webkitAudioContext !== undefined) {
         // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
         // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
         const resampleRatio = this.audioContext.sampleRate / DefaultSampleRate
@@ -162,7 +180,7 @@ export class BrowserClient {
     // ensure audioContext is active
     if (this.audioContext?.state !== 'running') {
       if (this.debug) {
-        console.log('[BrowserClient]', 'audioContext.resume() needed on attach()')
+        console.log('[BrowserClient]', 'audioContext resume required, state is', this.audioContext?.state)
       }
       await this.audioContext?.resume()
     }
@@ -304,4 +322,13 @@ export class BrowserClient {
   onStateChange(cb: (state: DecoderState) => void): void {
     this.callbacks.stateChangeCbs.push(cb)
   }
+}
+
+function iOS(): boolean {
+  const iosPlatforms = ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod']
+  return (
+    iosPlatforms.indexOf(navigator.platform) >= 0 ||
+    // iPad on iOS 13 detection
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+  )
 }
