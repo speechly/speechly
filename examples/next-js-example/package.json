@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "12.1.4",
+    "next": "~12.1.5",
     "react": "^16.9.0 || ^18",
     "react-dom": "^16.9.0 || ^18",
     "@speechly/react-client": "2.0.1",
