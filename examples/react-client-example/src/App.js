@@ -1,5 +1,5 @@
 import React from 'react'
-import {SpeechProvider, useSpeechContext} from '@speechly/react-client'
+import {ClientState, SpeechProvider, useSpeechContext, stateToString} from '@speechly/react-client'
 
 export default function App() {
   const appId = process.env.REACT_APP_APP_ID ?? "be3bfb17-ee36-4050-8830-743aa85065ab";
@@ -17,7 +17,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const {speechState, segment, listening, toggleRecording, initialize} = useSpeechContext()
+  const {clientState, segment, listening, startContext, stopContext, connect, initialize} = useSpeechContext()
 
   return (
     <div>
@@ -31,11 +31,12 @@ function SpeechlyApp() {
       <hr/>
 
 
-      <div className="status">State: {speechState}. Listening: {listening.toString()}</div>
+      <div className="status">State: {stateToString(clientState)}. Listening: {listening.toString()}</div>
       <div className="mic-button">
-        <button onClick={initialize} disabled={speechState !== 'Idle'}>Connect</button>
-        <button onClick={toggleRecording}>
-          { listening ? 'Stop' : 'Listen' }
+        <button onClick={connect} disabled={clientState !== ClientState.Disconnected}>Connect</button>
+        <button onClick={initialize} disabled={clientState >= ClientState.Connected}>Initialize mic</button>
+        <button onMouseDown={startContext} onMouseUp={stopContext}>
+          { listening ? 'Listening...' : 'Hold to listen' }
         </button>
       </div>
       <h3>Transcript</h3>
