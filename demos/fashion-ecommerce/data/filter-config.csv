@@ -10,7 +10,7 @@ x	0	0	colors	brown	Brown	brown	chestnut	terra-cotta	sepia
 x	0	0	colors	gold	Gold	gold	golden	amber
 x	0	0	colors	gray	Gray	gray	grey	ash	smokey
 x	1	0	colors	green	Green	green
-x	0	0	colors	multicolored	Multicolored	multicolored	polychrome	colorful	multicolor	multi color	multi colored	rainbow	bright colors
+x	0	0	colors	multicolored	Multicolored	multicolored	polychrome	colorful	multicolor	multi color	multi colored	rainbow	bright colors	bright
 x	0	0	colors	floral	floral	floral
 x	0	0	colors	olive	Olive	olive
 x	0	0	colors	orange	Orange	orange
@@ -39,6 +39,7 @@ x	0	0	category	Belts	Belts	Belts	Belt	Leather belts	Leather belt
 x	0	0	category	Bicycle bags	Bicycle bags	Bicycle bags	Bicycle bag
 x	0	0	category	Biker jackets	Biker jackets	Biker jackets	Biker jacket
 x	0	0	category	Bikini	Bikini	Bikini	Bikinis
+x	0	0	category	Bikini bra	Bikini bra	Bikini bra	Bikini bras
 x	0	0	category	Blazers	Blazers	Blazers	Blazer
 x	0	0	category	Blouses	Blouses	Blouses	Blouse
 x	0	0	category	Bodyt	Bodys	Bodys	Body	bodies
@@ -286,7 +287,7 @@ x	0	0	category	Puffer jackets	Puffer jackets	Puffer jackets	Puffer jacket	Puffer
 	0	0	category	Quilted jackets	Quilted jackets	Quilted jackets	Quilted jacket
 	0	0	category	Quilted vest	Quilted vest	Quilted vest	Quilted vests
 	0	0	category	Regular fit jeans	Regular fit jeans	Regular fit jeans
-	0	0	category	Rings	Rings	Rings	Ring
+x	0	0	category	Rings	Rings	Rings	Ring
 	0	0	category	Ripped jeans	Ripped jeans	Ripped jeans
 	0	0	category	Running backpacks	Running backpacks	Running backpacks	Running backpack
 	0	0	category	Running jackets	Running jackets	Running jackets	Running jacket
