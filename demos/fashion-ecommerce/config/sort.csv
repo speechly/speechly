@@ -12,6 +12,7 @@ highest price,price_desc
 highest,price_desc
 high price,price_desc
 price,price_asc
+pricing,price_asc
 price ascending,price_asc
 price low to high,price_asc
 lowest price,price_asc
