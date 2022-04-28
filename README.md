@@ -59,7 +59,7 @@ Example applications can be used to validate correct behaviour of client and UI 
 | [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
 | [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client) |
 | [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
-| [examples/next-js-example](examples/next-js-example) | A two-page Next.js site with Speechly UI components on them. |
+| [/examples/next-js-example](/examples/next-js-example) | A two-page Next.js site with Speechly UI components on them. |
 
 ## Templates
 
