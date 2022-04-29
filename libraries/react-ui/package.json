@@ -44,8 +44,8 @@
     "eslint-plugin-tsdoc": "^0.2.7",
     "typescript": "^4.3.5",
     "@types/pubsub-js": "^1.8.1",
-    "@types/react": "^16.9.0 || ^18",
-    "@types/react-dom": "^16.9.0 || ^18",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@types/styled-components": "^5.1.7",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3"
