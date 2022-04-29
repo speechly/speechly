@@ -46,15 +46,18 @@ npm install --save @speechly/browser-client
 Start using the client:
 
 ```typescript
-import { BrowserCliemt, BrowserMicrophone, Segment } from '@speechly/browser-client'
+import { BrowserClient, BrowserMicrophone, Segment } from '@speechly/browser-client'
 
-// Create a new Client. NOTE: Configure and get your appId from https://api.speechly.com/dashboard
+// Create a new client.
+// NOTE: Configure and get your appId from https://api.speechly.com/dashboard
 const client = new BrowserClient({ appId: 'your-app-id' })
 
 // Create a microphone
 const microphone = new BrowserMicrophone()
-// Initialize the microphone - this will ask the user for microphone permissions and establish the connection to Speechly API.
-// Make sure you call `initlialize` from a user action handler (e.g. from a button press handler).
+// Initialize the microphone - this will ask the user for microphone permissions
+// and establish the connection to Speechly API.
+// Make sure you call `initialize` from a user action handler
+// (e.g. from a button press handler).
 await microphone.initialize()
 
 // bind the microphone to the client
@@ -62,7 +65,12 @@ await client.attach(microphone.mediaStream)
 
 // React to the updates from the API.
 client.onSegmentChange((segment: Segment) => {
-  console.log('Received new segment from the API:', segment.intent, segment.entities, segment.words, segment.isFinal)
+  console.log('Received new segment from the API:',
+    segment.intent,
+    segment.entities,
+    segment.words,
+    segment.isFinal
+  )
 })
 
 // Start recording.
@@ -94,7 +102,8 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       const widget = document.getElementById("textBox")
 
-      // Create a Speechly client instance.  NOTE: Configure and get your appId from https://api.speechly.com/dashboard
+      // Create a Speechly client instance.
+      // NOTE: Configure and get your appId from https://api.speechly.com/dashboard
       const speechly = new BrowserClient({
         appId: "your-app-id",
         debug: true,
@@ -104,24 +113,25 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       speechly.onSegmentChange(segment => {
         // Clean up and concatenate words
-        let transcript = segment.words.map(w => w.value.toLowerCase()).filter(w => w !== "").join(" ");
+        let transcript = segment.words
+          .map(w => w.value.toLowerCase())
+          .join(" ");
         // Add trailing period upon segment end.
         if (segment.isFinal) transcript += ".";
         widget.value = transcript;
       });
-
 
       const startListening = async () => {
         if (microphone.mediaStream === undefined) {
           await microphone.initialize()
           speechly.attach(microphone.mediaStream)
         }
-        speechly.startContext();
+        return speechly.startContext();
       }
 
-      const stopListening = () => {
+      const stopListening = async () => {
         if (speechly.isListening()) {
-          speechly.stopContext();
+          return speechly.stopContext();
         }
       }
 
