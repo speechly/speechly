@@ -19,76 +19,43 @@ export interface APIClient {
 }
 
 // @public
-export type AudioCallback = (audioBuffer: Int16Array) => void;
+export class BrowserClient {
+    constructor(options: DecoderOptions);
+    // (undocumented)
+    attach(mediaStream: MediaStream): Promise<void>;
+    // (undocumented)
+    close(): Promise<void>;
+    // (undocumented)
+    detach(): Promise<void>;
+    initialize(options?: {
+        mediaStream?: MediaStream;
+    }): Promise<void>;
+    onEntity(cb: (contextId: string, segmentId: number, entity: Entity) => void): void;
+    onIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void;
+    onSegmentChange(cb: (segment: Segment) => void): void;
+    // (undocumented)
+    onStateChange(cb: (state: DecoderState) => void): void;
+    onTentativeEntities(cb: (contextId: string, segmentId: number, entities: Entity[]) => void): void;
+    onTentativeIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void;
+    onTentativeTranscript(cb: (contextId: string, segmentId: number, words: Word[], text: string) => void): void;
+    onTranscript(cb: (contextId: string, segmentId: number, word: Word) => void): void;
+    // (undocumented)
+    start(options?: ContextOptions): Promise<string>;
+    // (undocumented)
+    stop(): Promise<string>;
+    // (undocumented)
+    uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<string>;
+}
 
 // @public
-export class Client {
-    constructor(options: ClientOptions);
+export class BrowserMicrophone {
+    constructor();
     close(): Promise<void>;
-    connect(): Promise<void>;
     initialize(): Promise<void>;
     // (undocumented)
-    isListening(): boolean;
-    onEntity(cb: EntityCallback): void;
-    onIntent(cb: IntentCallback): void;
-    onSegmentChange(cb: SegmentChangeCallback): void;
-    onStateChange(cb: StateChangeCallback): void;
-    onTentativeEntities(cb: TentativeEntitiesCallback): void;
-    onTentativeIntent(cb: IntentCallback): void;
-    onTentativeTranscript(cb: TentativeTranscriptCallback): void;
-    onTranscript(cb: TranscriptCallback): void;
-    printStats(): void;
-    startContext(appId?: string): Promise<string>;
-    stopContext(): Promise<string>;
-    switchContext(appId: string): Promise<void>;
-}
-
-// @public
-export interface ClientOptions {
-    apiClient?: APIClient;
-    apiUrl?: string;
-    appId?: string;
-    autoGainControl?: boolean;
-    connect?: boolean;
-    debug?: boolean;
-    // @deprecated (undocumented)
-    language?: string;
-    loginUrl?: string;
-    logSegments?: boolean;
-    microphone?: Microphone;
-    projectId?: string;
-    sampleRate?: number;
-    storage?: Storage_2;
-}
-
-// @public
-export enum ClientState {
+    isRecording(): boolean;
     // (undocumented)
-    __UnrecoverableErrors = 3,
-    // (undocumented)
-    Connected = 9,
-    // (undocumented)
-    Connecting = 6,
-    // (undocumented)
-    Disconnected = 4,
-    // (undocumented)
-    Disconnecting = 5,
-    // (undocumented)
-    Failed = 0,
-    // (undocumented)
-    Initializing = 8,
-    // (undocumented)
-    NoAudioConsent = 2,
-    // (undocumented)
-    NoBrowserSupport = 1,
-    // (undocumented)
-    Preinitialized = 7,
-    // (undocumented)
-    Recording = 12,
-    // (undocumented)
-    Starting = 11,
-    // (undocumented)
-    Stopping = 10
+    mediaStream?: MediaStream;
 }
 
 // @public
@@ -97,6 +64,58 @@ export type CloseCallback = (err: {
     reason: string;
     wasClean: boolean;
 }) => void;
+
+// @public
+export class CloudDecoder {
+    constructor(options: DecoderOptions);
+    close(): Promise<void>;
+    connect(): Promise<void>;
+    // (undocumented)
+    registerListener(listener: EventCallbacks): void;
+    sendAudio(audio: Float32Array): void;
+    // (undocumented)
+    setSampleRate(sr: number): Promise<void>;
+    startContext(options?: ContextOptions): Promise<string>;
+    // (undocumented)
+    state: DecoderState;
+    stopContext(): Promise<string>;
+    switchContext(appId: string): Promise<void>;
+    // (undocumented)
+    useSharedArrayBuffers(controlSAB: any, dataSAB: any): void;
+}
+
+// @public
+export interface ContextOptions {
+    // (undocumented)
+    appId?: string;
+}
+
+// @public
+export interface DecoderOptions {
+    apiUrl?: string;
+    appId?: string;
+    callbacks?: EventCallbacks;
+    connect?: boolean;
+    debug?: boolean;
+    decoder?: CloudDecoder;
+    loginUrl?: string;
+    logSegments?: boolean;
+    projectId?: string;
+    sampleRate?: number;
+    storage?: Storage_2;
+}
+
+// @public
+export enum DecoderState {
+    // (undocumented)
+    Active = 3,
+    // (undocumented)
+    Connected = 2,
+    // (undocumented)
+    Disconnected = 1,
+    // (undocumented)
+    Failed = 0
+}
 
 // @public
 export const DefaultSampleRate = 16000;
@@ -109,9 +128,6 @@ export interface Entity {
     type: string;
     value: string;
 }
-
-// @public
-export type EntityCallback = (contextId: string, segmentId: number, entity: Entity) => void;
 
 // @public
 export interface EntityResponse {
@@ -143,26 +159,38 @@ export const ErrNoStorageSupport: Error;
 export const ErrNotInitialized: Error;
 
 // @public
+export class EventCallbacks {
+    // (undocumented)
+    contextStartedCbs: Array<(contextId: string) => void>;
+    // (undocumented)
+    contextStoppedCbs: Array<(contextId: string) => void>;
+    // (undocumented)
+    entityCbs: Array<(contextId: string, segmentId: number, entity: Entity) => void>;
+    // (undocumented)
+    intentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void>;
+    // (undocumented)
+    segmentChangeCbs: Array<(segment: Segment) => void>;
+    // (undocumented)
+    stateChangeCbs: Array<(state: DecoderState) => void>;
+    // (undocumented)
+    tentativeEntityCbs: Array<(contextId: string, segmentId: number, entities: Entity[]) => void>;
+    // (undocumented)
+    tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void>;
+    // (undocumented)
+    tentativeTranscriptCbs: Array<(contextId: string, segmentId: number, words: Word[], text: string) => void>;
+    // (undocumented)
+    transcriptCbs: Array<(contextId: string, segmentId: number, word: Word) => void>;
+}
+
+// @public
 export interface Intent {
     intent: string;
     isFinal: boolean;
 }
 
 // @public
-export type IntentCallback = (contextId: string, segmentId: number, intent: Intent) => void;
-
-// @public
 export interface IntentResponse {
     intent: string;
-}
-
-// @public
-export interface Microphone {
-    close(): Promise<void>;
-    initialize(audioContext: AudioContext, mediaStreamConstraints: MediaStreamConstraints): Promise<void>;
-    mute(): void;
-    printStats(): void;
-    unmute(): void;
 }
 
 // @public
@@ -179,13 +207,36 @@ export interface Segment {
 }
 
 // @public
-export type SegmentChangeCallback = (segment: Segment) => void;
+export class SegmentState {
+    constructor(ctxId: string, sId: number);
+    // (undocumented)
+    contextId: string;
+    // (undocumented)
+    entities: Map<string, Entity>;
+    // (undocumented)
+    finalize(): SegmentState;
+    // (undocumented)
+    id: number;
+    // (undocumented)
+    intent: Intent;
+    // (undocumented)
+    isFinalized: boolean;
+    // (undocumented)
+    toSegment(): Segment;
+    // (undocumented)
+    toString(): string;
+    // (undocumented)
+    updateEntities(entities: Entity[]): SegmentState;
+    // (undocumented)
+    updateIntent(intent: Intent): SegmentState;
+    // (undocumented)
+    updateTranscript(words: Word[]): SegmentState;
+    // (undocumented)
+    words: Word[];
+}
 
 // @public
-export type StateChangeCallback = (state: ClientState) => void;
-
-// @public
-export function stateToString(state: ClientState): string;
+export function stateToString(state: DecoderState): string;
 
 // @public
 interface Storage_2 {
@@ -196,24 +247,15 @@ interface Storage_2 {
 export { Storage_2 as Storage }
 
 // @public
-export type TentativeEntitiesCallback = (contextId: string, segmentId: number, entities: Entity[]) => void;
-
-// @public
 export interface TentativeEntitiesResponse {
     entities: EntityResponse[];
 }
-
-// @public
-export type TentativeTranscriptCallback = (contextId: string, segmentId: number, words: Word[], text: string) => void;
 
 // @public
 export interface TentativeTranscriptResponse {
     transcript: string;
     words: TranscriptResponse[];
 }
-
-// @public
-export type TranscriptCallback = (contextId: string, segmentId: number, word: Word) => void;
 
 // @public
 export interface TranscriptResponse {
@@ -244,7 +286,7 @@ export enum WebsocketResponseType {
     // (undocumented)
     SegmentEnd = "segment_end",
     // (undocumented)
-    SourceSampleRateSetSuccess = "SOURSE_SAMPLE_RATE_SET_SUCCESS",
+    SourceSampleRateSetSuccess = "SOURCE_SAMPLE_RATE_SET_SUCCESS",
     // (undocumented)
     Started = "started",
     // (undocumented)
