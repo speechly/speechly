@@ -1,5 +1,9 @@
 import { Word, Entity, Intent, Segment } from './types'
 
+/**
+ * Contains the internal state of a `Segment`, with methods to update it based on new events.
+ * @public
+ */
 export class SegmentState {
   id: number
   contextId: string

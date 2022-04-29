@@ -80,6 +80,7 @@ export enum DecoderState {
 
 /**
  * All possible callbacks for the decoder.
+ * @public
  */
 export class EventCallbacks {
   stateChangeCbs: Array<(state: DecoderState) => void> = []
@@ -97,6 +98,7 @@ export class EventCallbacks {
 
 /**
  * Valid options for a new audioContext. All options are optional.
+ * @public
  */
 export interface ContextOptions {
   appId?: string

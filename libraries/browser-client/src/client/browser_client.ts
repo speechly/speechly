@@ -4,6 +4,11 @@ import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent
 import audioworklet from '../microphone/audioworklet'
 import { ContextOptions } from './types'
 
+/**
+ * BrowserClient connects a browser based mediaStream to the Speechly API, including any
+ * needed downsampling.
+ * @public
+ */
 export class BrowserClient {
   private audioContext?: AudioContext
   private readonly nativeResamplingSupported: boolean

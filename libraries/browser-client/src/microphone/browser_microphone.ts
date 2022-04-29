@@ -1,6 +1,11 @@
 import { ErrDeviceNotSupported, DefaultSampleRate } from '../speechly'
 import { ErrNoAudioConsent, ErrNotInitialized } from './types'
 
+/**
+ * Gets browser based microphone using the window.navigator.mediaDevices interface.
+ * The exposed `mediaStream` can be attached to a `BrowserClient` instance.
+ * @public
+ */
 export class BrowserMicrophone {
   private muted: boolean = false
   private initialized: boolean = false
