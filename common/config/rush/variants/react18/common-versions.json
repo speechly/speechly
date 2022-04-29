@@ -1,9 +1,0 @@
-{
-  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/common-versions.schema.json",
-  "preferredVersions": {
-    "react": "^18",
-    "react-dom": "^18",
-    "@types/react": "^18",
-    "@types/react-dom": "^18"
-  }
-}

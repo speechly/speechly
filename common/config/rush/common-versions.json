@@ -23,8 +23,8 @@
      * When someone asks for "^1.0.0" make sure they get "1.2.3" when working in this repo,
      * instead of the latest version.
      */
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    // "react": "^18",
+    // "react-dom": "^18"
   },
 
   /**

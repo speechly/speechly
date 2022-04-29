@@ -339,14 +339,14 @@
    * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
    */
   "variants": [
-		{
-			"variantName": "react16",
-			"description": "Build this repo using the React 16"
-		},
-		{
-			"variantName": "react18",
-			"description": "Build this repo using the React 18"
-		}
+		// {
+		// 	"variantName": "react16",
+		// 	"description": "Build this repo using the React 16"
+		// },
+		// {
+		// 	"variantName": "react18",
+		// 	"description": "Build this repo using the React 18"
+		// }
   ],
   /**
    * Rush can collect anonymous telemetry about everyday developer activity such as
