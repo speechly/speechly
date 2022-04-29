@@ -69,11 +69,11 @@
     "eslint-plugin-tsdoc": "^0.2.7",
     "prettier": "^2.1.2",
     "react": "^18",
-    "ts-loader": "^8.0.4",
-    "tsc-watch": "^4.2.9",
+    "ts-loader": "^9.2.5",
+    "tsc-watch": "^4.3.5",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3",
-    "typescript": "^4.3.5"
+    "typescript": "^4.6.4"
   },
   "files": ["dist/**/*", "src/**/*"],
   "publishConfig": {

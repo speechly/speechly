@@ -9,7 +9,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-scripts": "^4.0.3",
-    "typescript": "^4.3.5",
+    "typescript": "^4.6.4",
     "pubsub-js": "^1.9.2"
   },
   "devDependencies": {

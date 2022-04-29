@@ -22,7 +22,7 @@
     "@types/react-dom": "^18",
     "react-scripts": "^4.0.3",
     "source-map-explorer": "^2.5.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.6.4"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
