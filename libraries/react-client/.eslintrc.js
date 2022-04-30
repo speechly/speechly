@@ -7,6 +7,7 @@ module.exports = {
     'tsdoc/syntax': 'error',
     'comma-dangle': ['error', 'always-multiline'],
     'no-case-declarations': 'off',
+    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',

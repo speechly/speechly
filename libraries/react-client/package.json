@@ -55,12 +55,12 @@
     "react": ">=16.9.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.10.4",
+    "@microsoft/api-extractor": "^7",
     "@types/react": "^18",
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.4.0",
-    "eslint": "^7.10.0",
-    "eslint-config-standard-with-typescript": "^19.0.1",
+    "@typescript-eslint/eslint-plugin": "^4",
+    "@typescript-eslint/parser": "^4",
+    "eslint": "^7",
+    "eslint-config-standard-with-typescript": "^16",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
