@@ -77,12 +77,12 @@ client.onSegmentChange((segment: Segment) => {
 
 // Start recording.
 // This can be bound to e.g. a button press.
-await client.startContext()
+await client.start()
 
 // Stop recording after a timeout.
 // This can be bound to e.g. a button press.
 setTimeout(async function () {
-  await client.stopContext()
+  await client.stop()
 }, 3000)
 ```
 
