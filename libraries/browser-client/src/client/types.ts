@@ -23,12 +23,7 @@ export interface DecoderOptions {
   projectId?: string
 
   /**
-   * The URL of Speechly login endpoint.
-   */
-  loginUrl?: string
-
-  /**
-   * The URL of Speechly SLU API endpoint.
+   * The URL of Speechly SLU API endpoint. Defaults to https://api.speechly.com.
    */
   apiUrl?: string
 
