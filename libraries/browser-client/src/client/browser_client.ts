@@ -273,6 +273,13 @@ export class BrowserClient {
   }
 
   /**
+   * Returns if the client is processing audio at the moment.
+   */
+  isActive(): boolean {
+    return this.active
+  }
+
+  /**
    * Adds a listener for current segment change events.
    * @param cb - the callback to invoke on segment change events.
    */
