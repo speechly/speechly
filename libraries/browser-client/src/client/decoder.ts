@@ -25,8 +25,7 @@ import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeE
 
 const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
-const defaultApiUrl = 'wss://api.speechly.com/ws/v1'
-const defaultLoginUrl = 'https://api.speechly.com/login'
+const defaultApiUrl = 'https://api.speechly.com'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the websocket
@@ -61,7 +60,7 @@ export class CloudDecoder {
 
   constructor(options: DecoderOptions) {
     this.logSegments = options.logSegments ?? false
-    this.loginUrl = options.loginUrl ?? defaultLoginUrl
+
     this.appId = options.appId ?? undefined
     this.projectId = options.projectId ?? undefined
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
@@ -73,7 +72,9 @@ export class CloudDecoder {
       throw Error('[Decoder] Either an appId or a projectId is required')
     }
 
-    this.apiUrl = generateWsUrl(options.apiUrl ?? defaultApiUrl, this.sampleRate)
+    const apiUrl = options.apiUrl ?? defaultApiUrl
+    this.apiUrl = generateWsUrl(apiUrl.replace('http', 'ws') + '/ws/v1', this.sampleRate)
+    this.loginUrl = `${apiUrl}/login`
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
 
