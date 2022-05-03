@@ -128,12 +128,12 @@ Please use a HTML server to view the example. Running it as a file will not work
           await microphone.initialize()
           speechly.attach(microphone.mediaStream)
         }
-        return speechly.startContext();
+        return speechly.start();
       }
 
       const stopListening = async () => {
         if (speechly.isListening()) {
-          return speechly.stopContext();
+          return speechly.stop();
         }
       }
 
