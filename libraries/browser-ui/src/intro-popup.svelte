@@ -126,6 +126,8 @@
         }
         break;
       case ClientState.Connected:
+      case ClientState.Starting:
+      case ClientState.Recording:
         if (firstConnect) {
           // All good, hide this popup
           firstConnect = false;

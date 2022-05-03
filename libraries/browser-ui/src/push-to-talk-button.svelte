@@ -68,7 +68,7 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
-  let clientState: ClientState = undefined;
+  let clientState: ClientState = ClientState.Disconnected;
 
   onMount(() => {
     mounted = true;
@@ -138,7 +138,9 @@
           window.postMessage({
             type: MessageType.speechlypoweron
           }, "*");
-        } else if (isConnectable(clientState)) {
+        } else if (clientState >= ClientState.Connected) {
+          holdListenActive = true;
+        } else {
           if (appid || projectid) {
             const initStartTime = Date.now();
             await initialize();
@@ -149,8 +151,6 @@
               "No appid/projectid attribute specified. Speechly voice services are unavailable."
             );
           }
-        } else {
-          holdListenActive = true;
         }
 
         if (holdListenActive) {
