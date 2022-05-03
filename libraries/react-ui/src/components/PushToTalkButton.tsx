@@ -150,7 +150,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     tangentPressPromise: null,
   })
   const buttonRef = useRef<any>()
-  const clientStateRef = useRef<ClientState>()
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
@@ -160,7 +159,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // they need the current value.  Note: the callbacks will not
   // be reactive - they will not re-run the instant state changes,
   // but they *will* see the current value whenever they do run
-  clientStateRef.current = clientState
+  const clientStateRef = useRef<ClientState>(clientState)
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
@@ -224,7 +223,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           buttonStateRef.current.tapListenTimeout = null
         }
 
-        if (clientStateRef.current! >= ClientState.Connected) {
+        if (clientStateRef.current >= ClientState.Connected) {
           buttonStateRef.current.holdListenActive = true
         } else {
           // Speechly & Mic initialise needs to be in a function triggered by event handler
