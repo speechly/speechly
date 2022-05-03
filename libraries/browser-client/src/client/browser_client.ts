@@ -1,8 +1,8 @@
-import { CloudDecoder, DecoderState, EventCallbacks, DecoderOptions } from '../client'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions } from './types'
+import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
-import { ContextOptions } from './types'
 
 /**
  * BrowserClient connects a browser based mediaStream to the Speechly API, including any
