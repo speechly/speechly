@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { SpeechProvider } from "@speechly/react-client";
@@ -8,15 +8,17 @@ import { LogKit } from "@speechly/logkit"
 
 const appId = '1ea63538-f95c-4259-b8af-923994424137'
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
   <React.StrictMode>
     <SpeechProvider appId={appId}>
       <LogKit appName="flight-booking" appVersion={100} >
         <App />
       </LogKit>
     </SpeechProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
