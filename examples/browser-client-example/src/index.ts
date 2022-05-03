@@ -77,18 +77,13 @@ function newDecoder(): CloudDecoder {
 
   const opts: DecoderOptions = {
     appId,
-    apiUrl: 'wss://staging.speechly.com/ws/v1',
-    loginUrl: 'https://staging.speechly.com/login',
+    apiUrl: 'https://staging.speechly.com',
     debug: true, // process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: false,
     connect: false,
   };
-
-  if (process.env.REACT_APP_LOGIN_URL !== undefined) {
-    opts.loginUrl = process.env.REACT_APP_LOGIN_URL;
-  }
 
   if (process.env.REACT_APP_API_URL !== undefined) {
     opts.apiUrl = process.env.REACT_APP_API_URL;
