@@ -1,6 +1,6 @@
 {
   "name": "@speechly/react-ui",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Speechly UI Components",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -56,7 +56,7 @@
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
-    "@speechly/browser-ui": "5.3.1",
+    "@speechly/browser-ui": "5.3.2",
     "pubsub-js": "^1.9.2",
     "react-spring": "^9.4.4",
     "styled-components": ">=5.3.3"

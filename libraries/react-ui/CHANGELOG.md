@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-ui
 
-This log was last generated on Tue, 29 Mar 2022 11:27:59 GMT and should not be manually modified.
+This log was last generated on Wed, 04 May 2022 07:31:04 GMT and should not be manually modified.
+
+## 2.6.2
+Wed, 04 May 2022 07:31:04 GMT
+
+### Patches
+
+- Fixed a problems with Intro Popup: React version appeared unnecessarily due skipped 'Connected' state. PTT button was in pressed state after exiting Intro Popup if powerOn attribute was set to false (default on React).
 
 ## 2.6.1
 Tue, 29 Mar 2022 11:27:59 GMT
