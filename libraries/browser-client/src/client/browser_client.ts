@@ -180,6 +180,7 @@ export class BrowserClient {
       this.audioProcessor?.disconnect()
     }
     await this.decoder.close()
+    this.initialized = false
   }
 
   async attach(mediaStream: MediaStream): Promise<void> {
