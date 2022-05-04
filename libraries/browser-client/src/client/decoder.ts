@@ -150,15 +150,6 @@ export class CloudDecoder {
     }
   }
 
-  private async queueTask(task: () => Promise<any>): Promise<any> {
-    const prevTask = this.listeningPromise
-    this.listeningPromise = (async () => {
-      await prevTask
-      return task()
-    })()
-    return this.listeningPromise
-  }
-
   /**
    * Starts a new SLU context by sending a start context event to the API.
    */
@@ -175,29 +166,27 @@ export class CloudDecoder {
       )
     }
 
-    return this.queueTask(async () => {
-      this.setState(DecoderState.Active)
-      let contextId: string
-      if (this.projectId != null) {
-        contextId = await this.apiClient.startContext(options?.appId)
-      } else {
-        if (options?.appId != null && this.appId !== options?.appId) {
-          this.setState(DecoderState.Failed)
-          throw ErrAppIdChangeWithoutProjectLogin
-        }
-        contextId = await this.apiClient.startContext()
+    this.setState(DecoderState.Active)
+    let contextId: string
+    if (this.projectId != null) {
+      contextId = await this.apiClient.startContext(options?.appId)
+    } else {
+      if (options?.appId != null && this.appId !== options?.appId) {
+        this.setState(DecoderState.Failed)
+        throw ErrAppIdChangeWithoutProjectLogin
       }
+      contextId = await this.apiClient.startContext()
+    }
 
-      // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
-      // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to DecoderState.Disconnected
-      if (this.state < DecoderState.Active) {
-        throw Error('[Decoder] Unable to complete startContext: Problem acquiring contextId')
-      }
+    // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
+    // Due to apiClient.startContext implementation, they don't throw an error here, but call handleWebsocketClosure instead which changes to DecoderState.Disconnected
+    if (this.state < DecoderState.Active) {
+      throw Error('[Decoder] Unable to complete startContext: Problem acquiring contextId')
+    }
 
-      this.activeContexts.set(contextId, new Map<number, SegmentState>())
-      this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(contextId)))
-      return contextId
-    })
+    this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(contextId)))
+    return contextId
   }
 
   /**
@@ -230,20 +219,16 @@ export class CloudDecoder {
     }
     this.setState(DecoderState.Connected)
 
-    const contextId = await this.queueTask(async () => {
-      await this.sleep(this.contextStopDelay)
-      try {
-        const contextId = await this.apiClient.stopContext()
-        this.activeContexts.delete(contextId)
-        return contextId
-      } catch (err) {
-        this.setState(DecoderState.Failed)
-        throw err
-      }
-    })
-
-    this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(contextId)))
-    return contextId
+    await this.sleep(this.contextStopDelay)
+    try {
+      const contextId = await this.apiClient.stopContext()
+      this.activeContexts.delete(contextId)
+      this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(contextId)))
+      return contextId
+    } catch (err) {
+      this.setState(DecoderState.Failed)
+      throw err
+    }
   }
 
   /**
@@ -259,10 +244,8 @@ export class CloudDecoder {
           '.',
       )
     }
-    await this.queueTask(async () => {
-      const contextId = await this.apiClient.switchContext(appId)
-      this.activeContexts.set(contextId, new Map<number, SegmentState>())
-    })
+    const contextId = await this.apiClient.switchContext(appId)
+    this.activeContexts.set(contextId, new Map<number, SegmentState>())
   }
 
   registerListener(listener: EventCallbacks): void {
