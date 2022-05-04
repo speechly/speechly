@@ -69,16 +69,14 @@ window.onload = () => {
 };
 
 function newDecoder(): CloudDecoder {
-  const appId = "d9abea67-18e5-4c4e-b7fc-51f66d3219e2";
-    // process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
   const opts: DecoderOptions = {
     appId,
-    apiUrl: 'https://staging.speechly.com',
-    debug: true, // process.env.REACT_APP_DEBUG === "true",
+    debug: process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: false,
@@ -241,8 +239,8 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
     event.preventDefault();
 
     try {
-      await mic.close();
       await bc.close();
+      await mic.close();
     } catch (err) {
       console.error("Error closing Speechly clients:", err);
     }
