@@ -11,25 +11,25 @@
     "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
     "query-string": "^6.13.8",
-    "react": ">=16.13.1",
-    "react-dom": ">=16.13.1",
+    "react": "^18",
+    "react-dom": "^18",
     "react-image-webp": "^0.7.0",
     "react-map-interaction": "^2.0.0",
     "react-refresh": "^0.9.0",
     "react-scripts": "^4.0.3",
-    "react-spring": "^8.0.27",
+    "react-spring": "^9.4.4",
     "styled-components": ">=5.3.3",
-    "typescript": "^4.3.5"
+    "typescript": "^4.6.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
+    "@types/jest": "^25",
+    "@types/node": "^14",
     "@types/pubsub-js": "^1.8.1",
-    "@types/react": ">=16.13.1",
-    "@types/react-dom": ">=16.13.1",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@types/styled-components": "^5.1.7"
   },
   "scripts": {

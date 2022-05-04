@@ -628,7 +628,7 @@ export class Client {
     this.microphone.printStats()
   }
 
-  public async sendAudioData(audioData: ArrayBuffer): void {
+  public async sendAudioData(audioData: ArrayBuffer): Promise<void> {
     const audioBuffer = await this.audioContext.decodeAudioData(audioData)
     const samples = audioBuffer.getChannelData(0)
 

@@ -25,6 +25,7 @@ interface Props {
   appVersion: number,
   autoIntentTracking?: boolean,
   printLog?: boolean,
+  children?: React.ReactNode
 }
 
 export const LogKit: React.FC<Props> = ({

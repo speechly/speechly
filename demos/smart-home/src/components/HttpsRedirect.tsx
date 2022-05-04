@@ -11,7 +11,7 @@ const isLocalHost = (hostname: string) =>
     hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
   );
 
-const HttpsRedirect: React.FC<{ disabled?: boolean }> = (props) => {
+const HttpsRedirect: React.FC<{ disabled?: boolean, children?: React.ReactNode }> = (props) => {
   if (
     !props.disabled &&
     typeof window !== "undefined" &&

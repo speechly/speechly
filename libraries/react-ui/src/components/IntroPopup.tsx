@@ -17,6 +17,7 @@ declare global {
  */
 export type IntroPopupProps = {
   appId?: string
+  children?: React.ReactNode
 }
 
 /**

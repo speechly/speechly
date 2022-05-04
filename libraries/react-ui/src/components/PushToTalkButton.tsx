@@ -150,7 +150,6 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     tangentPressPromise: null,
   })
   const buttonRef = useRef<any>()
-  const clientStateRef = useRef<ClientState>()
 
   const TAP_TRESHOLD_MS = 600
   const PERMISSION_PRE_GRANTED_TRESHOLD_MS = 1500
@@ -160,7 +159,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // they need the current value.  Note: the callbacks will not
   // be reactive - they will not re-run the instant state changes,
   // but they *will* see the current value whenever they do run
-  clientStateRef.current = clientState
+  const clientStateRef = useRef<ClientState>(clientState)
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
@@ -205,6 +204,10 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   }, [clientState])
 
   const tangentPressAction = async (): Promise<void> => {
+    if (!client) {
+      throw Error('No Speechly client (are you using Speechly in non-browser environment?)')
+    }
+
     buttonStateRef.current.tangentPressPromise = (async() => {
       PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
       window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
@@ -220,39 +223,30 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           buttonStateRef.current.tapListenTimeout = null
         }
 
-        switch (clientStateRef.current) {
-          case ClientState.Disconnected:
-            // Speechly & Mic initialise needs to be in a function triggered by event handler
-            // otherwise it won't work reliably on Safari iOS as of 11/2020
-            const initStartTime = Date.now()
-            try {
-              await initialize()
-            } catch (err) {
-              console.error('Error initiasing Speechly', err)
-            }
-            // await buttonStateRef.current.initPromise
-            // Long init time suggests permission dialog --> prevent listening start
-            buttonStateRef.current.holdListenActive = !powerOn && Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
-            break
-          default:
-            buttonStateRef.current.holdListenActive = true
-            break
+        if (clientStateRef.current >= ClientState.Connected) {
+          buttonStateRef.current.holdListenActive = true
+        } else {
+          // Speechly & Mic initialise needs to be in a function triggered by event handler
+          const initStartTime = Date.now()
+          try {
+            await initialize()
+          } catch (err) {
+            console.error('Error initiasing Speechly', err)
+          }
+          // Long init time suggests permission dialog --> prevent listening start
+          buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
         }
 
-        if (client) {
-          // Start listening
-          if (buttonStateRef.current.holdListenActive) {
-            buttonStateRef.current.wasListening = client.isListening()
-            if (!client.isListening()) {
-              try {
-                await startContext()
-              } catch (err) {
-                console.error('Error while starting to record', err)
-              }
+        // Start listening
+        if (buttonStateRef.current.holdListenActive) {
+          buttonStateRef.current.wasListening = client.isListening()
+          if (!client.isListening()) {
+            try {
+              await startContext()
+            } catch (err) {
+              console.error('Error while starting to record', err)
             }
           }
-        } else {
-          throw Error('No Speechly client (are you using Speechly in non-browser environment?)')
         }
       }
     })()
