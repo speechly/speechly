@@ -34,7 +34,7 @@ interface WebsocketResponse {
  */
 enum WebsocketResponseType {
   Opened = 'WEBSOCKET_OPEN',
-  SourceSampleRateSetSuccess = 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
+  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
 }
@@ -74,7 +74,7 @@ class WebsocketClient {
   init(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
     this.debug = debug
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'initialize worker')
+      console.log('[WebSocketClient]', 'initialize worker')
     }
     this.apiUrl = apiUrl
     this.authToken = authToken
@@ -88,15 +88,17 @@ class WebsocketClient {
     this.sourceSampleRate = sourceSampleRate
     this.resampleRatio = this.sourceSampleRate / this.targetSampleRate
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
+      console.log('[WebSocketClient]', 'resampleRatio', this.resampleRatio)
     }
     if (this.resampleRatio > 1) {
       this.filter = generateFilter(this.sourceSampleRate, this.targetSampleRate, 127)
     }
-    this.workerCtx.postMessage({ type: 'SOURSE_SAMPLE_RATE_SET_SUCCESS' })
+    this.workerCtx.postMessage({ type: 'SOURCE_SAMPLE_RATE_SET_SUCCESS' })
 
     if (isNaN(this.resampleRatio)) {
-      throw Error(`resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`)
+      throw Error(
+        `resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`,
+      )
     }
   }
 
@@ -105,21 +107,21 @@ class WebsocketClient {
     this.dataSAB = new Float32Array(dataSAB)
     const audioHandleInterval = this.dataSAB.length / 32 // ms
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'Audio handle interval', audioHandleInterval, 'ms')
+      console.log('[WebSocketClient]', 'Audio handle interval', audioHandleInterval, 'ms')
     }
     setInterval(this.sendAudioFromSAB.bind(this), audioHandleInterval)
   }
 
   connect(timeout: number = 1000) {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'connect in ', timeout / 1000, 'sec')
+      console.log('[WebSocketClient]', 'connect in ', timeout / 1000, 'sec')
     }
     setTimeout(this.initializeWebsocket.bind(this), timeout)
   }
 
   initializeWebsocket() {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'connecting to ', this.apiUrl)
+      console.log('[WebSocketClient]', 'connecting to ', this.apiUrl)
     }
     this.websocket = new WebSocket(this.apiUrl, this.authToken)
     this.websocket.addEventListener('open', this.onWebsocketOpen)
@@ -180,7 +182,7 @@ class WebsocketClient {
           frames = float32ToInt16(data)
         }
         this.send(frames)
-  
+
         // 16000 per second, 1000 in 100 ms
         // save last 250 ms
         if (this.lastFramesSent.length > 1024 * 4) {
@@ -197,13 +199,13 @@ class WebsocketClient {
 
   startContext(appId?: string) {
     if (this.isContextStarted) {
-      console.log('Cant start context: it has been already started')
+      console.error('[WebSocketClient]', "can't start context: active context exists")
       return
     }
 
     this.isContextStarted = true
     this.isStartContextConfirmed = false
-     
+
     if (appId !== undefined) {
       this.outbox = JSON.stringify({ event: 'start', appId })
     } else {
@@ -215,11 +217,11 @@ class WebsocketClient {
 
   stopContext() {
     if (!this.websocket) {
-      throw Error('Cant start context: websocket is undefined')
+      throw Error('WebSocket is undefined')
     }
 
     if (!this.isContextStarted) {
-      console.log('Cant stop context: it is not started')
+      console.error('[WebSocketClient]', "can't stop context: no active context")
       return
     }
 
@@ -231,16 +233,16 @@ class WebsocketClient {
 
   switchContext(newAppId: string) {
     if (!this.websocket) {
-      throw Error('Cant switch context: websocket is undefined')
+      throw Error('WebSocket is undefined')
     }
 
     if (!this.isContextStarted) {
-      console.log('Cant switch context: it is not started')
+      console.error('[WebSocketClient]', "can't switch context: no active context")
       return
     }
 
     if (newAppId == undefined) {
-      console.log('Cant switch context: new app id is undefined')
+      console.error('[WebSocketClient]', "can't switch context: new app id is undefined")
       return
     }
 
@@ -251,15 +253,15 @@ class WebsocketClient {
     this.send(JSON.stringify({ event: 'start', appId: newAppId }))
   }
 
-  closeWebsocket(websocketCode: number = 1005, reason: string = "No Status Received") {
+  closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received') {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'Websocket closing')
+      console.log('[WebSocketClient]', 'Websocket closing')
     }
 
     if (!this.websocket) {
-      throw Error('Websocket is not open')
+      throw Error('WebSocket is undefined')
     }
-    
+
     this.websocket.close(websocketCode, reason)
   }
 
@@ -269,7 +271,7 @@ class WebsocketClient {
   // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
   private readonly onWebsocketClose = (event: CloseEvent): void => {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'onWebsocketClose')
+      console.log('[WebSocketClient]', 'onWebsocketClose')
     }
 
     this.websocket.removeEventListener('open', this.onWebsocketOpen)
@@ -278,24 +280,29 @@ class WebsocketClient {
     this.websocket.removeEventListener('close', this.onWebsocketClose)
     this.websocket = undefined
 
-    this.workerCtx.postMessage({ type: 'WEBSOCKET_CLOSED', code: event.code, reason: event.reason, wasClean: event.wasClean })
+    this.workerCtx.postMessage({
+      type: 'WEBSOCKET_CLOSED',
+      code: event.code,
+      reason: event.reason,
+      wasClean: event.wasClean,
+    })
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'websocket opened')
+      console.log('[WebSocketClient]', 'websocket opened')
     }
 
     if (this.isContextStarted && !this.isStartContextConfirmed) {
       this.send(this.outbox)
     }
-    
+
     this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' })
   }
 
   private readonly onWebsocketError = (_event: Event): void => {
     if (this.debug) {
-      console.log('[SpeechlyClient]', 'websocket error')
+      console.log('[WebSocketClient]', 'websocket error')
     }
   }
 
@@ -304,7 +311,7 @@ class WebsocketClient {
     try {
       response = JSON.parse(event.data)
     } catch (e) {
-      console.error('[SpeechlyClient] Error parsing response from the server:', e)
+      console.error('[WebSocketClient]', 'error parsing response from the server:', e)
       return
     }
 
@@ -315,7 +322,7 @@ class WebsocketClient {
         this.shouldResendLastFramesSent = false
       }
     }
-  
+
     this.workerCtx.postMessage(response)
   }
 
@@ -323,28 +330,28 @@ class WebsocketClient {
     const inputBuffer = new Float32Array(this.buffer.length + input.length)
     inputBuffer.set(this.buffer, 0)
     inputBuffer.set(input, this.buffer.length)
-  
+
     const outputLength = Math.ceil((inputBuffer.length - this.filter.length) / this.resampleRatio)
     const outputBuffer = new Int16Array(outputLength)
-  
+
     for (let i = 0; i < outputLength; i++) {
       const offset = Math.round(this.resampleRatio * i)
       let val = 0.0
-  
+
       for (let j = 0; j < this.filter.length; j++) {
         val += inputBuffer[offset + j] * this.filter[j]
       }
-  
+
       outputBuffer[i] = val * (val < 0 ? 0x8000 : 0x7fff)
     }
-  
+
     const remainingOffset = Math.round(this.resampleRatio * outputLength)
     if (remainingOffset < inputBuffer.length) {
       this.buffer = inputBuffer.subarray(remainingOffset)
     } else {
       this.buffer = new Float32Array(0)
     }
-  
+
     return outputBuffer
   }
 
@@ -353,7 +360,7 @@ class WebsocketClient {
       try {
         this.websocket.send(data)
       } catch (error) {
-        console.log('[SpeechlyClient]', 'Server connection error', error)
+        console.log('[WebSocketClient]', 'server connection error', error)
       }
     }
   }
@@ -362,19 +369,19 @@ class WebsocketClient {
 const ctx: Worker = self as any
 const websocketClient = new WebsocketClient(ctx)
 
-ctx.onmessage = function(e) {
+ctx.onmessage = function (e) {
   switch (e.data.type) {
     case 'INIT':
       websocketClient.init(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
-    case 'SET_SOURSE_SAMPLE_RATE':
+    case 'SET_SOURCE_SAMPLE_RATE':
       websocketClient.setSourceSampleRate(e.data.sourceSampleRate)
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
       break
     case 'CLOSE':
-      websocketClient.closeWebsocket(1000, "Close requested by client")
+      websocketClient.closeWebsocket(1000, 'Close requested by client')
       break
     case 'START_CONTEXT':
       websocketClient.startContext(e.data.appId)

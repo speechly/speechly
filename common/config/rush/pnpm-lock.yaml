@@ -4,7 +4,6 @@ specifiers:
   '@microsoft/api-extractor': ^7
   '@rollup/plugin-commonjs': ^21
   '@rollup/plugin-node-resolve': ^13
-  '@rollup/plugin-typescript': ^8.2.1
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:./projects/browser-client-example.tgz
   '@rush-temp/browser-ui': file:./projects/browser-ui.tgz
@@ -23,6 +22,7 @@ specifiers:
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
+  '@speechly/browser-client': 1.5.0
   '@speechly/demo-navigation': ^0.1.37
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
@@ -98,7 +98,6 @@ dependencies:
   '@microsoft/api-extractor': 7.23.0
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.71.1
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.71.1
-  '@rollup/plugin-typescript': 8.3.2_720a6ef9590eb3341203a9177a2b9e25
   '@rush-temp/browser-client': file:projects/browser-client.tgz_ts-node@10.7.0
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz_ts-node@10.7.0
   '@rush-temp/browser-ui': file:projects/browser-ui.tgz
@@ -117,6 +116,7 @@ dependencies:
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.7.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.7.0
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.7.0
+  '@speechly/browser-client': 1.5.0
   '@speechly/demo-navigation': 0.1.37
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0
@@ -3467,6 +3467,13 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: false
 
+  /@speechly/browser-client/1.5.0:
+    resolution: {integrity: sha512-sAhLuwV1YMoMoe3mY8WgT3C4+89FimBj0oAPMAtxl7PdWWWAAvWRqB1n9MzTaDzGN3mvu9tSkqrS+DHWU4jw4A==}
+    dependencies:
+      base-64: 0.1.0
+      uuid: 8.3.2
+    dev: false
+
   /@speechly/demo-navigation/0.1.37:
     resolution: {integrity: sha512-eS9og2qjWjO4RV7lGs0G5oqxR/wgUMLzmCoiAG9aamKrP6oygw3o5WuEZBjiL8/L+0KobpUtdnmF8z+eIDwjeA==}
     peerDependencies:
@@ -4182,7 +4189,7 @@ packages:
       glob: 7.2.0
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.3.7
+      semver: 7.3.2
       tsutils: 3.21.0_typescript@4.6.4
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -4628,8 +4635,8 @@ packages:
     resolution: {integrity: sha512-hNfzcOV8W4NdualtqBFPyVO+54DSJuZGY9qT4pRroB6S9e3iiido2ISIC5h9R2sPJ8H3FHCIiEnsv1lPXO3KtQ==}
     dev: false
 
-  /array-includes/3.1.4:
-    resolution: {integrity: sha512-ZTNSQkmWumEbiHO2GF4GmWxYVTiQyJy2XOTa15sdQSrvKn7l+180egQMqlrMOUMCyLMD7pmyQe4mMDUT6Behrw==}
+  /array-includes/3.1.5:
+    resolution: {integrity: sha512-iSDYZMMyTPkiFasVqfuAQnWAYcvO/SeBSCGKePoEthjp4LEMTe4uLc7b025o4jAZpHhihh8xPo99TNWUWWkGDQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -4774,7 +4781,7 @@ packages:
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.15.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -5319,7 +5326,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.131
+      electron-to-chromium: 1.4.132
       escalade: 3.1.1
       node-releases: 1.1.77
     dev: false
@@ -5330,7 +5337,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001335
-      electron-to-chromium: 1.4.131
+      electron-to-chromium: 1.4.132
       escalade: 3.1.1
       node-releases: 2.0.4
       picocolors: 1.0.0
@@ -6678,8 +6685,8 @@ packages:
       jake: 10.8.5
     dev: false
 
-  /electron-to-chromium/1.4.131:
-    resolution: {integrity: sha512-oi3YPmaP87hiHn0c4ePB67tXaF+ldGhxvZnT19tW9zX6/Ej+pLN0Afja5rQ6S+TND7I9EuwQTT8JYn1k7R7rrw==}
+  /electron-to-chromium/1.4.132:
+    resolution: {integrity: sha512-JYdZUw/1068NWN+SwXQ7w6Ue0bWYGihvSUNNQwurvcDV/SM7vSiGZ3NuFvFgoEiCs4kB8xs3cX2an3wB7d4TBw==}
     dev: false
 
   /elliptic/6.5.4:
@@ -7054,7 +7061,7 @@ packages:
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
       doctrine: 2.1.0
@@ -7076,7 +7083,7 @@ packages:
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
       doctrine: 2.1.0
@@ -7131,7 +7138,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.17.9
       aria-query: 4.2.2
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       ast-types-flow: 0.0.7
       axe-core: 4.4.1
       axobject-query: 2.2.0
@@ -7188,7 +7195,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       array.prototype.flatmap: 1.3.0
       doctrine: 2.1.0
       eslint: 7.32.0
@@ -7211,7 +7218,7 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       array.prototype.flatmap: 1.3.0
       doctrine: 2.1.0
       eslint: 7.32.0
@@ -7779,8 +7786,8 @@ packages:
       readable-stream: 2.3.7
     dev: false
 
-  /follow-redirects/1.14.9:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+  /follow-redirects/1.15.0:
+    resolution: {integrity: sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -7789,8 +7796,8 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.9_debug@4.3.4:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+  /follow-redirects/1.15.0_debug@4.3.4:
+    resolution: {integrity: sha512-aExlJShTV4qOUOL7yF1U5tvLCB0xQuudbf6toyYA0E/acBNw71mvjFTnLaRp50aQaYocMR0a/RMMBIHeZnGyjQ==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -8404,7 +8411,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.9_debug@4.3.4
+      follow-redirects: 1.15.0_debug@4.3.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -9742,7 +9749,7 @@ packages:
     resolution: {integrity: sha512-XzO9luP6L0xkxwhIJMTJQpZo/eeN60K08jHdexfD569AGxeNug6UketeHXEhROoM8aR7EcUoOQmIhcJQjcuq8Q==}
     engines: {node: '>=4.0'}
     dependencies:
-      array-includes: 3.1.4
+      array-includes: 3.1.5
       object.assign: 4.1.2
     dev: false
 
@@ -10352,8 +10359,8 @@ packages:
     dev: false
     optional: true
 
-  /nanoid/3.3.3:
-    resolution: {integrity: sha512-p1sjXuopFs0xg+fPASzQ28agW1oHD7xDsd9Xkf3T15H3c/cifrFHVwrh74PdoklAPi+i7MdRsE47vm2r6JoB+w==}
+  /nanoid/3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: false
@@ -11824,7 +11831,7 @@ packages:
     resolution: {integrity: sha512-jtL6eTBrza5MPzy8oJLFuUscHDXTV5KcLlqAWHl5q5WYRfnNRGSmOZmOZ1T6Gy7A99mOZfqungmZMpMmCVJ8ZA==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.3
+      nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: false
@@ -11833,7 +11840,7 @@ packages:
     resolution: {integrity: sha512-jBDboWM8qpaqwkMwItqTQTiFikhs/67OYVvblFFTM7MrZjt6yMKd6r2kgXizEbTTljacm4NldIlZnhbjr84QYg==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
-      nanoid: 3.3.3
+      nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: false
@@ -15431,7 +15438,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-TP7R4kp+hDazvpeMtviM636UHuRa29/5Jm4FvVkckQOGgCTGcnji7XNsBYTCiOG/hAYrytfKRIXYUMdaksV+Cg==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-0M8f4awcIFZyiEa1PrtPx36cUMI5VO8tr1YSjo2kHy26Ecxarmyc+MM6uY78QsVC+g3zGjiJ+pJWSaaxubWOXQ==, tarball: file:projects/browser-client-example.tgz}
     id: file:projects/browser-client-example.tgz
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
@@ -15458,7 +15465,7 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-CA9eWQid48ckZZdNY/2MoYXKgeubxxVH4Y/aSffmZEVslRMsX67g5B6FDshBwLJ5/pLBirTJ9ZarKck5d17Iag==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-/f7JfnKynU82c9RWdypzmNRHDkN/jHIBR23RPYpbM2jpNS/xvroHCi7LpOLSbdbq/FaKCKoJSMfbGsjAt0u3kA==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
@@ -15466,6 +15473,7 @@ packages:
       '@microsoft/api-extractor': 7.23.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.71.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.71.1
+      '@rollup/plugin-typescript': 8.3.2_720a6ef9590eb3341203a9177a2b9e25
       '@types/base-64': 0.1.3
       '@types/jest': 25.2.3
       '@types/uuid': 7.0.5
@@ -15504,13 +15512,14 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-BJsgwAs6w2Y/UhJEjpnFSlEyKEm1mCU/OvPFh5o0HGVTMR1qVUSKijQNijEDPtmVKADabxSIJvuY30nERXxo3A==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-ar28f/AI8DGsieX1aCuKOLMt/EZyawRhoS9R64nnbNxZH2H3F9BeKTGIlq+uZZ0RqIxdW/XboMXzwUaAxbePZA==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.71.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.71.1
       '@rollup/plugin-typescript': 8.3.2_720a6ef9590eb3341203a9177a2b9e25
+      '@speechly/browser-client': 1.5.0
       '@tsconfig/svelte': 1.0.13
       rimraf: 3.0.2
       rollup: 2.71.1
@@ -15541,7 +15550,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-gizfBcPoxbdMe7Ury3COI8nBW9Bf8xg7OEIRuLza6TNiKPIKuJHFzco9ozNLUI0mngIbt0X7csSZET4C8eNO+g==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-bP/1evKFGsvO2a5K97lGDEg724lcKpR4bR9T/QCF9/xQKN3zloqk/6eCe0ub8C3NSJgoGa1NJ72KFk7OdYT4vA==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -15579,7 +15588,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-sd/ogtUSPPC6p3dA+kL4EqCcE+e838D/JQxtUFBEklQr82eBe++JpmXnSTVpFkuMopGZkDKxVtoPM4q++5b9qA==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-v2mBFY7uFxc8yQZeDpGomognLPq7wpAB00H2+noiCP03NqnN/nJgk09CeI3pzIWEj7VYu8TftEppuGZIbW5YZA==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -15636,7 +15645,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-T9G+BKOY7K5U5xgK+zQuAXe18k6ta52KYu0+M8ML6K+nfQ3cwccIWl6sD250INVIPTi4wnNx/q+3ELKy1PGR8Q==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-mknz0mB9Qh+Ms69Ax7mSiYszWvgnRgVB9098IiRKqJWCvElAilNDR3QjDRcJ/IAU5vsEHnIgI1Wy20s4UV+QLA==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -15728,7 +15737,7 @@ packages:
     dev: false
 
   file:projects/next-js-example.tgz:
-    resolution: {integrity: sha512-1Kc9CYfvaQsN2O1QcwKzOFQVSRotNct7Hx6GKpsCKN/n1OdVtmFo7VoW1JNVhvDUPT74/iU2WUmje0XdtLcN+Q==, tarball: file:projects/next-js-example.tgz}
+    resolution: {integrity: sha512-Vc3yaVvmHJw0LOH8HQhVq4IJ/i7ZI5JlUz1gVFvPIX92x3Yb+qOcqwqPJ6HUORBdi22aPmuXL2Sqb2xx4ps4kg==, tarball: file:projects/next-js-example.tgz}
     name: '@rush-temp/next-js-example'
     version: 0.0.0
     dependencies:
@@ -15779,11 +15788,12 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-9d6TYFWyOWijELgQYrwac8I1jDbpcdYn2k4cuER0V0YdUsod4TniN1OtbylT938u3VSyen0dRccyQyJvI5PwCQ==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-+pUXcp/AMOAeflkp62n3RbM3bgrTmNWCQxSWrMSFLXa0JOQvoyw9qQYWWTcERQKCVCvW6fcgk5SXe6sF+oeCDA==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.23.0
+      '@speechly/browser-client': 1.5.0
       '@types/react': 18.0.8
       '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
       '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.4
@@ -15808,7 +15818,7 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-hTxez3+gtwt2ZcfyJo18UEFoL79yeep7Q2Pq0e3gBBu7R1nhLQNru5Y8ot1Qw2hbm80m5xLov7ZKkfgYC4pNJA==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-ag6J0URJqUiFyGX+zCLGgCMPbjoBSb/ftj+Vmedr9kU+k7DfvcTroqYw33qXDhMnwAdtlJL0TFWFz4NhiCWyJQ==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
@@ -15841,10 +15851,11 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-dk8JJ7RioSSr4OU7kY8MxWA8WlLmj61lry0tkiwuGmPS5HBYyn3vDFyr7Mk+qEFX20/7EBVQUyy0EHowRxes6A==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-j9RSzH4ZmICPAHood8+cB1PZMnLu9ne2EBkabsC12+058MOGc5L3d46o0A9zobfGC/Nj6S9kjuv0Sd0refNmJg==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
+      '@speechly/browser-client': 1.5.0
       '@types/pubsub-js': 1.8.3
       '@types/react': 18.0.8
       '@types/react-dom': 18.0.3
@@ -15880,7 +15891,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.7.0+typescript@4.6.4:
-    resolution: {integrity: sha512-JxArSLPM7UIgjds53otQ/k8O3N7Eoaxgk041uAknV9gVZZkMNT51s97FTiPZhLR+oEkAl8uKfkPMf+xIi8JyOg==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-nCiQ+7SlYSk5acpyUblMCPska4CVDtLKFAjkTa4cocVexaRU0FmuttHpPlo2yIbtaizQomTfmXMFwySP/Z8D4g==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
@@ -15924,7 +15935,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-SBN2UY80CDCUFUfdlTT5jMc7+6nnYtQLdxlYik14S0qJ6fsBr18pURlkv8QdFKNjEAhzm89BK4SVRuf+K3ESsQ==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-ywJNLhSt1cxlC6gNKOH+Q8vESCo0jckMlIpkUk/CsaA4RFKhJNeptsH1D50bJygDllTFm8K/JNcCjOEid8YIVQ==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -15979,7 +15990,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-YDd6vXX6AH8NpO8Di6PF1PCzDQaYgLqt4bliL4vyzKfjyI9GUZeGH2MMQDL9BAc9brGtyb2gVbdf1XTYa7/fPQ==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-/is8FTJ+ozcctO1ZFpEBQpHkY8cMWCUsHp57rngCuFWz5SQ9FRMqV3dsiWIVo1T0zZxc70NoLpDrFN55jEgNdg==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
@@ -16019,7 +16030,7 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-MxUgZEBvfyNMr9cBwjju/ojO7eJGjqcue6qszkPxd8+Cf7r/zlJQQGOo71Q3h7RZD8l017IvoLRfx8A1YwOsvg==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-g3/02C8dpcMALR2L0uMA+N3b0cmAOtD7FAEMxymLskN79IoF2kD2tauDCR2ZwapgSZGjOzUV2/eh/+PUKnJ6ZQ==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0

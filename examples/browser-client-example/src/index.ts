@@ -1,29 +1,33 @@
 import {
-  Client,
-  ClientState,
   stateToString,
   Word,
   Entity,
   Intent,
-  ClientOptions,
+  CloudDecoder,
+  DecoderState,
+  DecoderOptions,
   Segment,
+  BrowserMicrophone,
+  BrowserClient,
 } from "@speechly/browser-client";
 
-let clientState = ClientState.Disconnected;
-
 window.onload = () => {
-  let client: Client;
+  let mic: BrowserMicrophone;
+  let browserClient: BrowserClient;
+  let decoder: CloudDecoder;
 
   try {
-    client = newClient();
+    decoder = newDecoder();
   } catch (e) {
     // @ts-ignore
     updateStatus(e.message);
     return;
   }
+  mic = new BrowserMicrophone()
+  browserClient = new BrowserClient({decoder, debug: true})
 
   // High-level API, that you can use to react to segment changes.
-  client.onSegmentChange((segment: Segment) => {
+  let handler = function (segment: Segment) {
     updateWords(segment.words);
     updateEntities(segment.entities);
     updateIntent(segment.intent);
@@ -44,40 +48,46 @@ window.onload = () => {
       segment.intent,
       segment.entities
     );
+  };
+
+  browserClient.onSegmentChange(handler);
+
+  browserClient.onStateChange((state: DecoderState) => {
+    const connectButton = document.getElementById("connect") as HTMLButtonElement;
+    const statusDiv = document.getElementById("status") as HTMLButtonElement;
+    connectButton.innerHTML =
+      state === DecoderState.Disconnected ? "Connect" : "Disconnect";
+    statusDiv.innerHTML = stateToString(state);
   });
 
-  bindConnectButton(client);
-  bindInitializeButton(client);
-  bindListenButton(client);
+  bindConnectButton(decoder);
+  bindInitializeButton(browserClient, mic);
+  bindListenButton(browserClient);
   bindUploadButton();
-  bindFileSelector(client);
+  bindFileSelector(browserClient);
+  bindCloseButton(browserClient, mic);
 };
 
-function newClient(): Client {
-  const appId =
-    process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+function newDecoder(): CloudDecoder {
+  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
 
-  const opts: ClientOptions = {
+  const opts: DecoderOptions = {
     appId,
     debug: process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: true,
+    logSegments: false,
     connect: false,
   };
-
-  if (process.env.REACT_APP_LOGIN_URL !== undefined) {
-    opts.loginUrl = process.env.REACT_APP_LOGIN_URL;
-  }
 
   if (process.env.REACT_APP_API_URL !== undefined) {
     opts.apiUrl = process.env.REACT_APP_API_URL;
   }
 
-  return new Client(opts);
+  return new CloudDecoder(opts);
 }
 
 function updateWords(words: Word[]) {
@@ -161,12 +171,12 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
-function bindListenButton(client: Client) {
+function bindListenButton(bc: BrowserClient) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      const contextId = await client.startContext();
+      const contextId = await bc.start();
       console.log("Started", contextId);
       resetState(contextId);
     } catch (err) {
@@ -178,7 +188,7 @@ function bindListenButton(client: Client) {
     event.preventDefault();
 
     try {
-      const contextId = await client.stopContext();
+      const contextId = await bc.stop();
       console.log("Stopped", contextId);
     } catch (err) {
       console.error("Could not stop recording", err);
@@ -190,56 +200,54 @@ function bindListenButton(client: Client) {
   recordDiv.addEventListener("touchstart", startRecording);
   recordDiv.addEventListener("mouseup", stopRecording);
   recordDiv.addEventListener("touchend", stopRecording);
-
-  const connectButton = document.getElementById("connect") as HTMLButtonElement;
-  const statusDiv = document.getElementById("status") as HTMLButtonElement;
-
-  client.onStateChange((state: ClientState) => {
-    clientState = state;
-
-    connectButton.innerHTML =
-      state === ClientState.Disconnected ? "Connect" : "Disconnect";
-    statusDiv.innerHTML = stateToString(state);
-  });
 }
 
-function bindConnectButton(client: Client) {
+function bindConnectButton(decoder: CloudDecoder) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (clientState === ClientState.Disconnected) {
+    if (decoder.state === DecoderState.Disconnected) {
       try {
-        await client.connect();
+        await decoder.connect();
       } catch (err) {
         console.error("Error connecting Speechly:", err);
       }
     } else {
-      await client.close();
+      await decoder.close();
     }
   };
   const connectButton = document.getElementById("connect") as HTMLElement;
   connectButton.addEventListener("click", connect);
 }
 
-function bindInitializeButton(client: Client) {
+function bindInitializeButton(bc: BrowserClient, mic: BrowserMicrophone) {
   const initialize = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    if (clientState >= ClientState.Connected) {
-      console.log(
-        "Client is already initialized, but hey, it's still ok to call initialize(). Think of it as a social call."
-      );
-    }
-
     try {
-      await client.initialize();
+      await mic.initialize();
+      await bc.initialize({mediaStream: mic.mediaStream});
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
-
-    return;
   };
 
   const initButton = document.getElementById("initialize") as HTMLElement;
   initButton.addEventListener("click", initialize);
+}
+
+function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
+  const close = async (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+
+    try {
+      await bc.close();
+      await mic.close();
+    } catch (err) {
+      console.error("Error closing Speechly clients:", err);
+    }
+  };
+
+  const closeButton = document.getElementById("close") as HTMLElement;
+  closeButton.addEventListener("click", close);
 }
 
 function bindUploadButton() {
@@ -252,7 +260,7 @@ function bindUploadButton() {
     uploadButton.addEventListener("click", openFileInput);
 }
 
-function bindFileSelector(client: Client) {
+function bindFileSelector(bc: BrowserClient) {
     const transcribe = async (event: Event) => {
         const f: FileList | null = (event.target as HTMLInputElement).files;
         if (f === null) {
@@ -260,7 +268,7 @@ function bindFileSelector(client: Client) {
         }
         console.log('selected file = ', f[0]);
         try {
-          client.sendAudioData(await f[0].arrayBuffer());
+          bc.uploadAudioData(await f[0].arrayBuffer());
         } catch (err) {
             console.error("Error when transcribing file:", err);
         }

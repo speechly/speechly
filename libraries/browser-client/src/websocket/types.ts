@@ -35,7 +35,7 @@ export interface WebsocketResponse {
 export enum WebsocketResponseType {
   Opened = 'WEBSOCKET_OPEN',
   Closed = 'WEBSOCKET_CLOSED',
-  SourceSampleRateSetSuccess = 'SOURSE_SAMPLE_RATE_SET_SUCCESS',
+  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
   SegmentEnd = 'segment_end',
@@ -149,7 +149,8 @@ export type ResponseCallback = (response: WebsocketResponse) => void
  * A callback that is invoked whenever WebSocket connection is closed.
  * @public
  */
-export type CloseCallback = (err: {code: number, reason: string, wasClean: boolean}) => void
+// eslint-disable-next-line @typescript-eslint/member-delimiter-style
+export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean }) => void
 
 /**
  * The interface for a client for Speechly SLU WebSocket API.
