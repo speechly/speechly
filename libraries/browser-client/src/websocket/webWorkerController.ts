@@ -1,5 +1,6 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
-import worker from './worker'
+// import worker from './worker'
+import WebsocketClient from 'web-worker:./worker.ts'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -22,9 +23,9 @@ export class WebWorkerController implements APIClient {
   }
 
   constructor() {
-    const blob = new Blob([worker], { type: 'text/javascript' })
-    const blobURL = window.URL.createObjectURL(blob)
-    this.worker = new Worker(blobURL)
+    // const blob = new Blob([worker], { type: 'text/javascript' })
+    // const blobURL = window.URL.createObjectURL(blob)
+    this.worker = new WebsocketClient()
     this.worker.addEventListener('message', this.onWebsocketMessage)
   }
 

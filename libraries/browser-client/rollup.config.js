@@ -2,6 +2,7 @@ import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
+import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 const esmBundle = {
   input: 'src/index.ts',
@@ -15,6 +16,7 @@ const esmBundle = {
   plugins: [
     commonjs(),
     nodeResolve(),
+    webWorkerLoader(/* configuration */),
     typescript({ tsconfig: './tsconfig.json' }),
   ],
 };
@@ -31,6 +33,9 @@ const umdMinBundle = {
   plugins: [
     commonjs(),
     nodeResolve(),
+    webWorkerLoader( {
+      targetPlatform: 'base64',
+    }),
     typescript({ tsconfig: './tsconfig.json' }),
     terser(),
   ],

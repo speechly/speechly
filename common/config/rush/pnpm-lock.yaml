@@ -3108,21 +3108,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rollup/plugin-typescript/8.3.0_d75d488d35067cac5dd1d2d28ec29ccb:
-    resolution: {integrity: sha512-I5FpSvLbtAdwJ+naznv+B4sjXZUcIvLLceYpITAn7wAP8W0wqc5noLdGIp9HGVntNhRWXctwPYrSSFQxtl0FPA==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      rollup: ^2.14.0
-      tslib: '*'
-      typescript: '>=3.7.0'
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.63.0
-      resolve: 1.20.0
-      rollup: 2.63.0
-      tslib: 2.3.1
-      typescript: 4.6.3
-    dev: false
-
   /@rollup/plugin-typescript/8.3.2_d75d488d35067cac5dd1d2d28ec29ccb:
     resolution: {integrity: sha512-MtgyR5LNHZr3GyN0tM7gNO9D0CS+Y+vflS4v/PHmrX17JCkHUYKvQ5jN5o3cz1YKllM3duXUqu3yOHwMPUxhDg==}
     engines: {node: '>=8.0.0'}
@@ -13235,6 +13220,14 @@ packages:
       - acorn
     dev: false
 
+  /rollup-plugin-web-worker-loader/1.6.1_rollup@2.63.0:
+    resolution: {integrity: sha512-4QywQSz1NXFHKdyiou16mH3ijpcfLtLGOrAqvAqu1Gx+P8+zj+3gwC2BSL/VW1d+LW4nIHC8F7d7OXhs9UdR2A==}
+    peerDependencies:
+      rollup: ^1.9.2 || ^2.0.0
+    dependencies:
+      rollup: 2.63.0
+    dev: false
+
   /rollup-pluginutils/2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
     dependencies:
@@ -15909,7 +15902,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-Rquub5JNgqfPFRJej2wIS38bF69L7liJOOoVUeA2V7uJWvWX6S38Utgxn9whcjRQZQc44Yr0QKyyNDBTEbYrWw==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-ysm0OSCczyoV6k2dziCMIl3BQASVuxMEkMexdi2l2RV/pX4dy/+aUz4uxwNL95nDYhdyJGsLnEC+NH8LyrmxZA==, tarball: file:projects/browser-client-example.tgz}
     id: file:projects/browser-client-example.tgz
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
@@ -15937,7 +15930,7 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.4.0:
-    resolution: {integrity: sha512-r5mQ0OW7WcB3mY5HBuZxOLvZ6yOWSomHicwRJCjWwQiNBvYdtuvRU9TS66ncC1hreVP1LqJPrH6L6kw21dm4GQ==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-5xQEwm/77vyVLYIRriSIqIGixVj4Jyi+SuiL+o18jHSWfoQABxSVFg8NFu2D8nyhzC+a5WKOFShtHfxFJkZeCg==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
@@ -15967,6 +15960,7 @@ packages:
       rimraf: 3.0.2
       rollup: 2.63.0
       rollup-plugin-terser: 7.0.2_rollup@2.63.0
+      rollup-plugin-web-worker-loader: 1.6.1_rollup@2.63.0
       ts-jest: 26.5.6_jest@26.6.0+typescript@4.6.3
       ts-loader: 9.2.6_typescript@4.6.3
       tsc-watch: 4.5.0_typescript@4.6.3
@@ -15992,7 +15986,7 @@ packages:
     dependencies:
       '@rollup/plugin-commonjs': 17.1.0_rollup@2.63.0
       '@rollup/plugin-node-resolve': 11.2.1_rollup@2.63.0
-      '@rollup/plugin-typescript': 8.3.0_d75d488d35067cac5dd1d2d28ec29ccb
+      '@rollup/plugin-typescript': 8.3.2_d75d488d35067cac5dd1d2d28ec29ccb
       '@speechly/browser-client': 1.5.0
       '@tsconfig/svelte': 1.0.13
       rimraf: 3.0.2
