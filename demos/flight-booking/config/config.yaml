@@ -1,4 +1,4 @@
-adaptation_audio_package: 'DEFD5133-267E-4F7F-A191-F105B3508E74'
+adaptation_audio_package: '8D9D3E38-3A8D-4D61-B84F-DBB731E02B83'
 imports:
   - name: class_as_spoken
     source: travel_class.csv
