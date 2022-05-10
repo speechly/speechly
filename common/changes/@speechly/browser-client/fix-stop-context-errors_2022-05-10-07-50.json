@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Do not throw error if stopping a stopped context",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
