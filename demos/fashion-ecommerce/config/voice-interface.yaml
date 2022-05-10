@@ -1,5 +1,5 @@
 fast_intent_detector: true
-adaptation_audio_package: 'gs://speechly-experimental-configs-fbabb998a6fd91d0/fashion-demo-rnnt-adaptation-corpus-first-pass-5h47min.tar'
+adaptation_audio_package: '87A180F7-42CD-4FFA-9D0F-0AEC55C3065E'
 asr_biasing: moderate
 enable_strict_nlu: true
 imports:
