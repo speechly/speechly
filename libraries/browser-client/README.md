@@ -100,7 +100,7 @@ Please use a HTML server to view the example. Running it as a file will not work
 
     <script type="module">
       // Load Speechly ES module from a CDN. Note script type="module"
-      import { BrowserClient, BrowserMicrophone } from "../core/speechly.es.js"
+      import { BrowserClient, BrowserMicrophone } from "//unpkg.com/@speechly/browser-client?module=true"
 
       const widget = document.getElementById("textBox")
 
@@ -132,7 +132,7 @@ Please use a HTML server to view the example. Running it as a file will not work
       }
 
       const stopListening = async () => {
-        if (speechly.isListening()) {
+        if (speechly.isActive()) {
           return speechly.stop();
         }
       }
