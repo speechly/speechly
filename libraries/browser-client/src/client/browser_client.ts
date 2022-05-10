@@ -253,14 +253,26 @@ export class BrowserClient {
     return startPromise
   }
 
-  async stop(): Promise<string> {
-    const stopPromise = this.decoder.stopContext()
-    this.active = false
-    if (this.stats.sentSamples === 0) {
-      console.warn('[BrowserClient]', 'audioContext contained no audio data')
+  /**
+   * Stops the current audio context and deactivates the audio processing pipeline.
+   * If there is no active audio context, a warning is logged to console.
+   *
+   * @returns The contextId of the stopped context, or null if no context is active.
+   */
+  async stop(): Promise<string | null> {
+    let contextId = null
+    try {
+      contextId = await this.decoder.stopContext()
+      if (this.stats.sentSamples === 0) {
+        console.warn('[BrowserClient]', 'audioContext contained no audio data')
+      }
+    } catch (err) {
+      console.warn('[BrowserClient]', 'stop() failed', err)
+    } finally {
+      this.active = false
+      this.stats.sentSamples = 0
     }
-    this.stats.sentSamples = 0
-    return stopPromise
+    return contextId
   }
 
   private handleAudio(array: Float32Array): void {
