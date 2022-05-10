@@ -30,6 +30,11 @@ export class BrowserClient {
     sentSamples: 0,
   }
 
+  /**
+   * Create a new BrowserClient instance.
+   *
+   * @param options - any custom options for the enclosed CloudDecoder.
+   */
   constructor(options: DecoderOptions) {
     const constraints = window.navigator.mediaDevices.getSupportedConstraints()
     this.nativeResamplingSupported = constraints.sampleRate === true
@@ -47,6 +52,8 @@ export class BrowserClient {
 
   /**
    * Create an AudioContext for resampling audio.
+   *
+   * @param options - shorthand for attaching to existing mediaStream
    */
   async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
     if (this.initialized) {
@@ -169,6 +176,10 @@ export class BrowserClient {
     }
   }
 
+  /**
+   * Closes the client, detaching from any audio source and disconnecting any audio
+   * processors.
+   */
   async close(): Promise<void> {
     await this.detach()
     if (this.speechlyNode !== null) {
@@ -183,6 +194,11 @@ export class BrowserClient {
     this.initialized = false
   }
 
+  /**
+   * Attach a MediaStream to the client, enabling the client to send the audio to the
+   * Speechly API for processing. The processing is activated by calling
+   * {@link BrowserClient.start} and deactivated by calling {@link BrowserClient.stop}.
+   */
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
     await this.detach()
@@ -203,6 +219,9 @@ export class BrowserClient {
     }
   }
 
+  /**
+   * Detach or disconnect the client from the audio source.
+   */
   async detach(): Promise<void> {
     if (this.active) {
       await this.stop()
@@ -213,6 +232,12 @@ export class BrowserClient {
     }
   }
 
+  /**
+   * Upload an existing binary audio data buffer to the API.
+   *
+   * @param audioData - audio data in a binary format. Will be decoded.
+   * @param options - any custom options for the audio processing.
+   */
   async uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<string> {
     await this.initialize()
     const audioBuffer = await this.audioContext?.decodeAudioData(audioData)
@@ -246,6 +271,13 @@ export class BrowserClient {
     return contextId
   }
 
+  /**
+   * Starts a new audio context, returning it's id to use for matching received responses.
+   * If an active context already exists, an error is thrown.
+   *
+   * @param options - any custom options for the audio processing.
+   * @returns The contextId of the active audio context.
+   */
   async start(options?: ContextOptions): Promise<string> {
     await this.initialize()
     const startPromise = this.decoder.startContext(options)
@@ -286,7 +318,7 @@ export class BrowserClient {
   }
 
   /**
-   * Returns if the client is processing audio at the moment.
+   * @returns Whether the client is processing audio at the moment.
    */
   isActive(): boolean {
     return this.active
@@ -348,6 +380,10 @@ export class BrowserClient {
     this.callbacks.tentativeIntentCbs.push(cb)
   }
 
+  /**
+   * Adds a listener for the state changes of the client.
+   * @param cb - the callback to invoke on a client state change.
+   */
   onStateChange(cb: (state: DecoderState) => void): void {
     this.callbacks.stateChangeCbs.push(cb)
   }
