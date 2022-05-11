@@ -6,6 +6,7 @@ module.exports = {
   rules: {
     'tsdoc/syntax': 'error',
     'comma-dangle': ['error', 'always-multiline'],
+    '@typescript-eslint/no-extraneous-class': 'off',
     '@typescript-eslint/camelcase': 'off',
     'no-case-declarations': 'off',
     '@typescript-eslint/no-empty-function': 'off',
