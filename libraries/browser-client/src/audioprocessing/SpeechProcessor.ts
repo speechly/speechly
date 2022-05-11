@@ -16,7 +16,7 @@ class SpeechProcessor {
 
   public SamplesSent = 0
 
-  private readonly inputSampleRate = 16000
+  public inputSampleRate = 16000
   private readonly internalSampleRate = 16000
   private readonly frameMillis = 30
   private sampleRingBuffer = null
@@ -27,13 +27,14 @@ class SpeechProcessor {
   private readonly frameSamples
   private streamFramePos = 0
 
-  constructor() {
+  constructor(internalSampleRate: number) {
     // console.log('SpeechProcessor.constructor')
+    this.internalSampleRate = internalSampleRate
     this.frameSamples = this.internalSampleRate * this.frameMillis / 1000
     this.sampleRingBuffer = new Array(this.frameSamples * this.historyFrames)
   }
 
-  public SendAudio = (samples: number[], startIndex: number, length: number): void => {}
+  public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
 
   public StartContext(): void {
     console.log('StartContext')
@@ -80,7 +81,7 @@ class SpeechProcessor {
   /// <param name="length">Length of audio to process in samples or `-1` to process the whole array (default: `-1`).</param>
   /// <param name="forceSubFrameProcess"><see cref="StopStream"/> internally uses this to force processing of last subframe at end of audio stream (default: `false`).</param>
 
-  public ProcessAudio(floats: number[], start = 0, length = -1, forceSubFrameProcess = false): void {
+  public ProcessAudio(floats: Float32Array, start = 0, length = -1, forceSubFrameProcess = false): void {
     /*
     if (!this.IsAudioStreaming) {
       StartStream(AudioInputStreamIdentifier, auto: false);  // Assume no auto-start/stop if ProcessAudio call encountered before startContext call
@@ -129,10 +130,12 @@ class SpeechProcessor {
             let historyFrameIndex = (this.currentFrameNumber + this.historyFrames - sendHistory) % this.historyFrames
             while (historyFrameIndex !== this.currentFrameNumber) {
               this.SendAudio(this.sampleRingBuffer, historyFrameIndex * this.frameSamples, this.frameSamples)
+              this.SamplesSent += this.frameSamples
               historyFrameIndex = (historyFrameIndex + 1) % this.historyFrames
             }
           }
           this.SendAudio(this.sampleRingBuffer, frameBase, subFrameSamples)
+          this.SamplesSent += subFrameSamples
         }
 
         this.streamFramePos += 1
@@ -142,12 +145,12 @@ class SpeechProcessor {
     }
   }
 
-  private ProcessFrame(floats: number[], start = 0, length = -1): void {
+  private ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
     this.AnalyzeAudioFrame(floats, start, length)
     this.AutoControlListening()
   }
 
-  private AnalyzeAudioFrame(waveData: number[], s: number, frameSamples: number): void {
+  private AnalyzeAudioFrame(waveData: Float32Array, s: number, frameSamples: number): void {
     if (this.Vad?.Enabled) {
       this.Vad.ProcessFrame(waveData, s, frameSamples)
     }
