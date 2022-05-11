@@ -28,6 +28,7 @@ class SpeechProcessor {
   private streamFramePos = 0
 
   constructor() {
+    // console.log('SpeechProcessor.constructor')
     this.frameSamples = this.internalSampleRate * this.frameMillis / 1000
     this.sampleRingBuffer = new Array(this.frameSamples * this.historyFrames)
   }
