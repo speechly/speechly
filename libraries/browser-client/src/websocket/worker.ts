@@ -1,5 +1,7 @@
 import SpeechProcessor from '../audioprocessing/SpeechProcessor'
+import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
+import { WebsocketResponseType, WorkerMessage } from './types'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -31,17 +33,6 @@ interface WebsocketResponse {
   data: any
 }
 
-/**
- * Known WebSocket response types.
- * @public
- */
-enum WebsocketResponseType {
-  Opened = 'WEBSOCKET_OPEN',
-  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
-  Started = 'started',
-  Stopped = 'stopped',
-}
-
 const CONTROL = {
   WRITE_INDEX: 0,
   FRAMES_AVAILABLE: 1,
@@ -56,7 +47,7 @@ class WebsocketClient {
   private targetSampleRate: number = 16000
   private sourceSampleRate: number = 16000
   private readonly frameMillis = 30
-  private resampleRatio?: number
+  private resampleRatio: number = 1
   private isContextStarted: boolean = false
   private isStartContextConfirmed: boolean = false
   private controlSAB?: Int32Array
@@ -69,18 +60,7 @@ class WebsocketClient {
 
   constructor(ctx: Worker) {
     this.workerCtx = ctx
-    this.speechProcessor = new SpeechProcessor(this.sourceSampleRate)
-    this.speechProcessor.onSignalHigh = () => {
-      this.startContext()
-    }
-    this.speechProcessor.onSignalLow = () => {
-      this.stopContext()
-    }
-    this.speechProcessor.SendAudio = (s, startIndex, length) => {
-      AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
-      console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
-      // this.send(this.audioFrame)
-    }
+    this.initSpeechProcessor()
   }
 
   init(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
@@ -96,25 +76,44 @@ class WebsocketClient {
     this.connect(0)
   }
 
-  setSourceSampleRate(sourceSampleRate: number): void {
-    this.sourceSampleRate = sourceSampleRate
+  initSpeechProcessor(): void {
     this.speechProcessor = new SpeechProcessor(this.sourceSampleRate)
+    const vad = new EnergyTresholdVAD()
+    this.speechProcessor.Vad = vad
+
+    this.speechProcessor.onSignalHigh = () => {
+      console.log('onSignalHigh')
+      // this.startContext()
+      this.workerCtx.postMessage({ type: WorkerMessage.VadSignalHigh })
+    }
+    this.speechProcessor.onSignalLow = () => {
+      console.log('onSignalLow')
+      // this.stopContext()
+      this.workerCtx.postMessage({ type: WorkerMessage.VadSignalLow })
+    }
     this.speechProcessor.SendAudio = (s, startIndex, length) => {
       AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
-      // console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
+      console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
       this.send(this.audioFrame)
     }
+  }
 
-    this.resampleRatio = this.sourceSampleRate / this.targetSampleRate
-    if (this.debug) {
-      console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
-    }
-    this.workerCtx.postMessage({ type: 'SOURCE_SAMPLE_RATE_SET_SUCCESS' })
+  setSourceSampleRate(sourceSampleRate: number): void {
+    if (this.sourceSampleRate !== sourceSampleRate) {
+      this.sourceSampleRate = sourceSampleRate
+      this.initSpeechProcessor()
 
-    if (isNaN(this.resampleRatio)) {
-      throw Error(
-        `resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`,
-      )
+      this.resampleRatio = this.sourceSampleRate / this.targetSampleRate
+      if (this.debug) {
+        console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
+      }
+      this.workerCtx.postMessage({ type: WorkerMessage.SourceSampleRateSetSuccess })
+
+      if (isNaN(this.resampleRatio)) {
+        throw Error(
+          `resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`,
+        )
+      }
     }
   }
 
@@ -296,7 +295,7 @@ class WebsocketClient {
     this.websocket = undefined
 
     this.workerCtx.postMessage({
-      type: 'WEBSOCKET_CLOSED',
+      type: WorkerMessage.Closed,
       code: event.code,
       reason: event.reason,
       wasClean: event.wasClean,
@@ -308,7 +307,7 @@ class WebsocketClient {
       console.log('[SpeechlyClient]', 'websocket opened')
     }
 
-    this.workerCtx.postMessage({ type: 'WEBSOCKET_OPEN' })
+    this.workerCtx.postMessage({ type: WorkerMessage.Opened })
   }
 
   private readonly onWebsocketError = (_event: Event): void => {

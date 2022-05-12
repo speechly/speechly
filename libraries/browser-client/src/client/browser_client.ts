@@ -41,8 +41,20 @@ export class BrowserClient {
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
+    this.callbacks.onVadStateChange.push(this.onVadStateChange.bind(this))
     this.decoder = options.decoder ?? new CloudDecoder(options)
     this.decoder.registerListener(this.callbacks)
+  }
+
+  onVadStateChange(active: boolean): void {
+    console.log('onVadStateChange', active)
+    if (active) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      if (!this.active) this.start()
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      if (this.active) this.stop()
+    }
   }
 
   /**

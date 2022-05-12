@@ -14,6 +14,7 @@ import {
   TentativeEntitiesResponse,
   EntityResponse,
   IntentResponse,
+  WorkerMessage,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
@@ -287,6 +288,15 @@ export class CloudDecoder {
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
     if (this.debug) {
       console.log('[Decoder]', 'Received response', response)
+    }
+
+    switch (response.type) {
+      case WorkerMessage.VadSignalHigh:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(true)))
+        return
+      case WorkerMessage.VadSignalLow:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
+        return
     }
 
     const { audio_context, segment_id, type } = response

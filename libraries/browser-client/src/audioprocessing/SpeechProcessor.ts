@@ -27,10 +27,10 @@ class SpeechProcessor {
   private readonly frameSamples
   private streamFramePos = 0
 
-  constructor(internalSampleRate: number) {
+  constructor(inputSampleRate: number) {
     // console.log('SpeechProcessor.constructor')
-    this.internalSampleRate = internalSampleRate
-    this.frameSamples = this.internalSampleRate * this.frameMillis / 1000
+    this.inputSampleRate = inputSampleRate
+    this.frameSamples = ~~(this.internalSampleRate * this.frameMillis / 1000)
     this.sampleRingBuffer = new Array(this.frameSamples * this.historyFrames)
   }
 
@@ -89,7 +89,6 @@ class SpeechProcessor {
       StartStream(AudioInputStreamIdentifier, auto: false);  // Assume no auto-start/stop if ProcessAudio call encountered before startContext call
     }
     */
-    console.log('ProcessAudio')
 
     if (length < 0) length = floats.length
     if (length === 0) return
@@ -112,9 +111,15 @@ class SpeechProcessor {
         const ratio = 1.0 * this.inputSampleRate / this.internalSampleRate
         const inputSamplesToFillFrame = Math.min(endIndex - i, Math.round(ratio * (this.frameSamples - this.frameSamplePos)))
         const samplesToFillFrame = Math.min(Math.round((endIndex - i) / ratio), this.frameSamples - this.frameSamplePos)
-        AudioTools.Downsample(floats, this.sampleRingBuffer, i, inputSamplesToFillFrame, frameBase + this.frameSamplePos, samplesToFillFrame)
+        if (samplesToFillFrame > 0) {
+          AudioTools.Downsample(floats, this.sampleRingBuffer, i, inputSamplesToFillFrame, frameBase + this.frameSamplePos, samplesToFillFrame)
+        }
         i += inputSamplesToFillFrame
         this.frameSamplePos += samplesToFillFrame
+      }
+
+      if (this.frameSamplePos > this.frameSamples) {
+        throw new Error(`this.frameSamplePos (${this.frameSamplePos}) > this.frameSamples (${this.frameSamples})`)
       }
 
       // Process frame
@@ -162,13 +167,11 @@ class SpeechProcessor {
   private AutoControlListening(): void {
     if (this.Vad?.Enabled && this.Vad?.ControlListening) {
       if (!this.IsActive && this.Vad.IsSignalDetected) {
-        this.onSignalLow()
-        // this.StartContext()
+        this.onSignalHigh()
       }
 
       if (this.IsActive && !this.Vad.IsSignalDetected) {
-        this.onSignalHigh()
-        // this.StopContext()
+        this.onSignalLow()
       }
     }
   }

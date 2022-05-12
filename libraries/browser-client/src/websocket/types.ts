@@ -6,7 +6,7 @@ export interface WebsocketResponse {
   /**
    * Response type.
    */
-  type: WebsocketResponseType
+  type: WebsocketResponseType | WorkerMessage
 
   /**
    * Audio context ID.
@@ -33,9 +33,6 @@ export interface WebsocketResponse {
  * @public
  */
 export enum WebsocketResponseType {
-  Opened = 'WEBSOCKET_OPEN',
-  Closed = 'WEBSOCKET_CLOSED',
-  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
   SegmentEnd = 'segment_end',
@@ -45,6 +42,18 @@ export enum WebsocketResponseType {
   TentativeTranscript = 'tentative_transcript',
   TentativeEntities = 'tentative_entities',
   TentativeIntent = 'tentative_intent',
+}
+
+/**
+ * Messages from worker
+ * @public
+ */
+export enum WorkerMessage {
+  Opened = 'WEBSOCKET_OPEN',
+  Closed = 'WEBSOCKET_CLOSED',
+  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
+  VadSignalHigh = 'VadSignalHigh',
+  VadSignalLow = 'VadSignalLow',
 }
 
 /**

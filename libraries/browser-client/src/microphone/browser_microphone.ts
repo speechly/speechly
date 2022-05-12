@@ -11,7 +11,7 @@ export class BrowserMicrophone {
   private initialized: boolean = false
 
   private readonly nativeResamplingSupported: boolean
-  private readonly autoGainControl: boolean
+  private readonly autoGainControlSupported: boolean
 
   // The media stream and audio track are initialized during `initialize()` call.
   mediaStream?: MediaStream
@@ -20,10 +20,10 @@ export class BrowserMicrophone {
     try {
       const constraints = window.navigator.mediaDevices.getSupportedConstraints()
       this.nativeResamplingSupported = constraints.sampleRate === true
-      this.autoGainControl = constraints.autoGainControl === true
+      this.autoGainControlSupported = constraints.autoGainControl === true
     } catch {
       this.nativeResamplingSupported = false
-      this.autoGainControl = false
+      this.autoGainControlSupported = false
     }
   }
 
@@ -46,11 +46,11 @@ export class BrowserMicrophone {
       video: false,
     }
 
-    if (this.nativeResamplingSupported || this.autoGainControl) {
+    if (this.nativeResamplingSupported || this.autoGainControlSupported) {
       mediaStreamConstraints.audio = {
         sampleRate: DefaultSampleRate,
         // @ts-ignore
-        autoGainControl: this.autoGainControl,
+        autoGainControl: this.autoGainControlSupported,
       }
     } else {
       mediaStreamConstraints.audio = true

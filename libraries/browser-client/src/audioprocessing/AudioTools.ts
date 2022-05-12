@@ -7,11 +7,11 @@ class AudioTools {
     if (destLength < 0) destLength = dest.length - destIndex
 
     if (destLength > sourceLength) {
-      throw new Error("Can't downsample: destination array can't be longer than source")
+      throw new Error(`Can't downsample: source array length (${sourceLength}) is shorter than destination (${destLength})`)
     }
 
     if (destLength === 0) {
-      throw new Error("Can't downsample: destination array can't be zero-length.")
+      throw new Error(`Can't downsample: source array length (${sourceLength}) can't be downsampled to zero-length destination.`)
     }
 
     if (sourceLength === 0) {

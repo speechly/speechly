@@ -1,6 +1,6 @@
-import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
+import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerMessage as WorkerSignal } from './types'
 // import worker from './worker'
-import WebsocketClient from 'web-worker:./worker.ts'
+import WebsocketClient from 'web-worker:./worker'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -124,19 +124,19 @@ export class WebWorkerController implements APIClient {
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
     const response: WebsocketResponse = event.data
     switch (response.type) {
-      case WebsocketResponseType.Opened:
+      case WorkerSignal.Opened:
         if (this.resolveInitialization != null) {
           this.resolveInitialization()
         }
         break
-      case WebsocketResponseType.Closed:
+      case WorkerSignal.Closed:
         this.onCloseCb({
           code: event.data.code,
           reason: event.data.reason,
           wasClean: event.data.wasClean,
         })
         break
-      case WebsocketResponseType.SourceSampleRateSetSuccess:
+      case WorkerSignal.SourceSampleRateSetSuccess:
         if (this.resolveSourceSampleRateSet != null) {
           this.resolveSourceSampleRateSet()
         }

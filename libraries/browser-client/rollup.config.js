@@ -16,7 +16,9 @@ const esmBundle = {
   plugins: [
     commonjs(),
     nodeResolve(),
-    webWorkerLoader(/* configuration */),
+    webWorkerLoader( {
+      extensions: ['.js', '.ts'],
+    } ),
     typescript({ tsconfig: './tsconfig.json' }),
   ],
 };
@@ -35,7 +37,8 @@ const umdMinBundle = {
     nodeResolve(),
     webWorkerLoader( {
       targetPlatform: 'base64',
-    }),
+      extensions: ['.js', '.ts'],
+    } ),
     typescript({ tsconfig: './tsconfig.json' }),
     terser(),
   ],
