@@ -204,6 +204,7 @@ export class CloudDecoder {
    * Send audio array.
    */
   sendAudio(audio: Float32Array): void {
+    /*
     if (this.state !== DecoderState.Active) {
       throw Error(
         '[Decoder] Unable to complete startContext: Expected Active state, but was in ' +
@@ -211,6 +212,7 @@ export class CloudDecoder {
           '.',
       )
     }
+    */
     this.apiClient.sendAudio(audio)
   }
 

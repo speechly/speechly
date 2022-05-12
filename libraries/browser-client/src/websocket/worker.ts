@@ -70,10 +70,16 @@ class WebsocketClient {
   constructor(ctx: Worker) {
     this.workerCtx = ctx
     this.speechProcessor = new SpeechProcessor(this.sourceSampleRate)
+    this.speechProcessor.onSignalHigh = () => {
+      this.startContext()
+    }
+    this.speechProcessor.onSignalLow = () => {
+      this.stopContext()
+    }
     this.speechProcessor.SendAudio = (s, startIndex, length) => {
       AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
-      // console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
-      this.send(this.audioFrame)
+      console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
+      // this.send(this.audioFrame)
     }
   }
 

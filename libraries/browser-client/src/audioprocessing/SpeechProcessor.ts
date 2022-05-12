@@ -35,6 +35,8 @@ class SpeechProcessor {
   }
 
   public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
+  public onSignalLow = (): void => {}
+  public onSignalHigh = (): void => {}
 
   public StartContext(): void {
     console.log('StartContext')
@@ -87,6 +89,7 @@ class SpeechProcessor {
       StartStream(AudioInputStreamIdentifier, auto: false);  // Assume no auto-start/stop if ProcessAudio call encountered before startContext call
     }
     */
+    console.log('ProcessAudio')
 
     if (length < 0) length = floats.length
     if (length === 0) return
@@ -159,11 +162,13 @@ class SpeechProcessor {
   private AutoControlListening(): void {
     if (this.Vad?.Enabled && this.Vad?.ControlListening) {
       if (!this.IsActive && this.Vad.IsSignalDetected) {
-        this.StartContext()
+        this.onSignalLow()
+        // this.StartContext()
       }
 
       if (this.IsActive && !this.Vad.IsSignalDetected) {
-        this.StopContext()
+        this.onSignalHigh()
+        // this.StopContext()
       }
     }
   }
