@@ -52,10 +52,9 @@ class WebsocketClient {
   private isStartContextConfirmed: boolean = false
   private controlSAB?: Int32Array
   private dataSAB?: Float32Array
-  private readonly speechProcessor: SpeechProcessor
+  private speechProcessor?: SpeechProcessor
 
   private debug: boolean = false
-  private initialized: boolean = false
   private readonly audioFrame: Int16Array = new Int16Array(this.frameMillis * this.targetSampleRate / 1000)
 
   constructor(ctx: Worker) {
@@ -117,7 +116,7 @@ class WebsocketClient {
     }
   }
 
-  setSharedArrayBuffers(controlSAB, dataSAB): void {
+  setSharedArrayBuffers(controlSAB: number, dataSAB: number): void {
     this.controlSAB = new Int32Array(controlSAB)
     this.dataSAB = new Float32Array(dataSAB)
     const audioHandleInterval = this.dataSAB.length / 32 // ms
