@@ -98,7 +98,7 @@ x	0	0	category	Knitwear	Knitwear	Knitwear
 x	0	0	category	Lace dresses	Lace dresses	Lace dresses	Lace dress
 x	0	0	category	Lace-up shoes	Lace-up shoes	Lace-up shoes	shoes with laces	shoelaces	leather shoes	leather insoles	ones with laces
 x	0	0	category	Leather boots	Leather boots	Leather boots	Leather boot
-x	0	0	category	Leather jackets	Leather jackets	Leather jackets	Leather jacket
+x	0	0	category	Leather jackets	Leather jackets	Leather jackets	Leather jacket	Leather coat	Leather coats
 x	0	0	category	Leg warmers	Leg warmers	Leg warmers
 x	0	0	category	Leggings	Leggings	Leggings	Oversized leggings
 x	0	0	category	Living clothes	Leisurewear	Leisurewear	Leisure clothes	Leisure clothing
@@ -140,7 +140,7 @@ x	0	0	category	Rainwear	Rainwear	Rainwear	Waterproof clothing	sailing clothes	Wa
 x	0	0	category	Rubber boots	Rubber boots	Rubber boots	Wellingtons	Rubber boot	Wellies	Wellington boots	Wellington boot	Gumboots	Gumboot
 x	0	0	category	Running clothes	Running clothes	Running clothes
 x	0	0	category	Running shoes	Running shoes	Running shoes	Runners	Jogging shoes	Running shoe	Running trainers	Running sneakers
-x	0	0	category	Sandals	Sandals	Sandals	Flip flops	Summer sandals
+x	0	0	category	Sandals	Sandals	Sandals	Flip flops	Summer sandals	Flip flop
 x	0	0	category	Scarves	Scarves	Scarves	Scarf
 x	0	0	category	Shell jackets	Shell jackets	Shell jackets	Shell jacket
 x	0	0	category	Shell pants	Shell pants	Shell pants
@@ -167,10 +167,10 @@ x	0	0	category	Softshell jackets	Softshell jackets	Softshell jackets	Softshell j
 x	0	0	category	Sports bags	Sports bags	Sports bags	Sports bag	Gym bag	Fitness bag	Gym bags	Fitness bags
 x	0	0	category	Sports glasses	Sports glasses	Sports glasses
 x	0	0	category	Sports gloves	Sports gloves	Sports gloves
-x	0	0	category	Sports jackets	Sports jackets	Sports jackets	Sports jacket	Sports coat	Sports coats
+x	0	0	category	Sports jackets	Sports jackets	Sports jackets	Sports jacket	Sports coat	Sports coats	Sport jackets	Sport jacket
 x	1	1	category	Sports pants	Sports pants	Sports pants
 x	0	0	category	Sports shirts	Sports shirts	Sports shirts	Sports shirt	Training shirt	Training shirts
-x	0	0	category	Sports shoes	Sports shoes	Sports shoes	Sports shoe	Gym shoes	Gym shoe
+x	0	0	category	Sports shoes	Sports shoes	Sports shoes	Sports shoe	Gym shoes	Gym shoe	Sport shoe	Sport shoes
 x	0	0	category	Sports shorts	Sports shorts	Sports shorts	Biking pants	Biking shorts	Training shorts	Bicycle pants	Bicycle shorts
 x	0	0	category	Sports tops	Sports tops	Sports tops	Sports top
 x	0	0	category	Sports underwear	Sports underwear	Sports underwear	Sports undergarments
@@ -185,7 +185,7 @@ x	0	0	category	Suitcases	Suitcases	Suitcases	Suitcase
 x	0	0	category	Suits	Suits	Suits	Suit
 x	0	0	category	Summer dresses	Summer dresses	Summer dresses	Summer dress	Dress for summer
 x	0	0	category	Sunglasses	Sunglasses	Sunglasses
-	0	0	category	College pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants
+	0	0	category	College pants	Sweat pants	Sweat pants	Joggers	Track pants	Sweatpants Sweat pant
 x	0	0	category	College shirts	Sweat shirts	Sweatshirts	Sweatshirt	Sweat shirt
 x	0	0	category	Sweaters	Sweaters	Sweaters	Jumpers	Jumper	Sweater	Pullover	Pullovers
 x	0	0	category	Swimming shorts	Swimming shorts	Swimming shorts
@@ -390,7 +390,7 @@ x	0	0	brand	746	O'Neill	O Neill	O'Neill
 x	0	0	brand	234	Oakley	Oakley	Oakleys
 x	0	0	brand	1896	Old Navy	Old Navy
 x	0	0	brand	745	Patagonia	Patagonia
-x	0	0	brand	4146	Peak Performance	Peak Performance	Big Performance	junior frost down	jr frost down
+x	0	0	brand	4146	Peak Performance	Peak Performance	Big Performance	junior frost down	jr frost down	Helium hood
 x	0	0	brand	267	Puma	Puma
 x	0	0	brand	21503	Quicksilver	Quicksilver
 x	0	0	brand	1778	RALPH LAUREN	RALPH LAUREN	Polo RALPH LAUREN
