@@ -24,7 +24,6 @@
   "scripts": {
     "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpx rollup -c --silent",
     "build:watch": "rm -rf ./dist/ && pnpx rollup -c --silent",
-    "buildworker": "pnpx tsc ./worker/worker.ts && cat ./worker/templateOpen  > ./src/websocket/worker.ts && cat ./worker/worker.js >> ./src/websocket/worker.ts && cat ./worker/templateEnd  >> ./src/websocket/worker.ts",
     "check": "pnpm run build && pnpx api-extractor run --verbose",
     "docs": "rimraf docs && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/",
     "getdeps": "pnpm install --force --frozen-lockfile",
