@@ -81,17 +81,14 @@ class WebsocketClient {
 
     this.speechProcessor.onSignalHigh = () => {
       console.log('onSignalHigh')
-      // this.startContext()
       this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
     }
     this.speechProcessor.onSignalLow = () => {
       console.log('onSignalLow')
-      // this.stopContext()
       this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
     }
     this.speechProcessor.SendAudio = (s, startIndex, length) => {
       AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
-      console.log(`Sending ${length} samples, first sample ${this.audioFrame[0]}`)
       this.send(this.audioFrame)
     }
   }
@@ -253,7 +250,7 @@ class WebsocketClient {
       return
     }
 
-    if (newAppId == undefined) {
+    if (newAppId === undefined) {
       console.error('[WebSocketClient]', "can't switch context: new app id is undefined")
       return
     }

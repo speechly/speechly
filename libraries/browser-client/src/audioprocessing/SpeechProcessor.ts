@@ -26,6 +26,7 @@ class SpeechProcessor {
 
   private readonly frameSamples
   private streamFramePos = 0
+  private IsSignalDetected = false
 
   constructor(inputSampleRate: number) {
     // console.log('SpeechProcessor.constructor')
@@ -159,19 +160,21 @@ class SpeechProcessor {
   }
 
   private AnalyzeAudioFrame(waveData: Float32Array, s: number, frameSamples: number): void {
-    if (this.Vad?.Enabled) {
+    if (this.Vad !== undefined && this.Vad.Enabled) {
       this.Vad.ProcessFrame(waveData, s, frameSamples)
     }
   }
 
   private AutoControlListening(): void {
-    if (this.Vad?.Enabled && this.Vad?.ControlListening) {
-      if (!this.IsActive && this.Vad.IsSignalDetected) {
+    if (this.Vad !== undefined && this.Vad.Enabled && this.Vad.ControlListening) {
+      if (!this.IsSignalDetected && this.Vad.IsSignalDetected) {
         this.onSignalHigh()
+        this.IsSignalDetected = true
       }
 
-      if (this.IsActive && !this.Vad.IsSignalDetected) {
+      if (this.IsSignalDetected && !this.Vad.IsSignalDetected) {
         this.onSignalLow()
+        this.IsSignalDetected = false
       }
     }
   }

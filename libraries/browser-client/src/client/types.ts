@@ -58,6 +58,14 @@ export interface DecoderOptions {
    * If not provided, browser's LocalStorage API is used.
    */
   storage?: Storage
+
+  /**
+   * 
+   */
+  vad?: VadOptions
+}
+
+export interface VadOptions {
 }
 
 /**

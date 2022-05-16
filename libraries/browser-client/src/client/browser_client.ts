@@ -318,15 +318,8 @@ export class BrowserClient {
   }
 
   private handleAudio(array: Float32Array): void {
-    /*
-    if (!this.active) {
-      return
-    }
-    */
-    if (array.length > 0) {
-      this.stats.sentSamples += array.length
-      this.decoder.sendAudio(array)
-    }
+    this.stats.sentSamples += array.length
+    this.decoder.sendAudio(array)
   }
 
   /**
