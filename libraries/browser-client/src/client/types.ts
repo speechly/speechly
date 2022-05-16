@@ -58,6 +58,14 @@ export interface DecoderOptions {
    * If not provided, browser's LocalStorage API is used.
    */
   storage?: Storage
+
+  /**
+   * 
+   */
+  vad?: VadOptions
+}
+
+export interface VadOptions {
 }
 
 /**
@@ -89,6 +97,7 @@ export class EventCallbacks {
   tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
   contextStartedCbs: Array<(contextId: string) => void> = []
   contextStoppedCbs: Array<(contextId: string) => void> = []
+  onVadStateChange: Array<(active: boolean) => void> = []
 }
 
 /**

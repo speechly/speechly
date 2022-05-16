@@ -14,6 +14,7 @@ import {
   TentativeEntitiesResponse,
   EntityResponse,
   IntentResponse,
+  WorkerSignal,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
@@ -193,13 +194,6 @@ export class CloudDecoder {
    * Send audio array.
    */
   sendAudio(audio: Float32Array): void {
-    if (this.state !== DecoderState.Active) {
-      throw Error(
-        '[Decoder] Unable to complete startContext: Expected Active state, but was in ' +
-          stateToString(this.state) +
-          '.',
-      )
-    }
     this.apiClient.sendAudio(audio)
   }
 
@@ -268,6 +262,15 @@ export class CloudDecoder {
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
     if (this.debug) {
       console.log('[Decoder]', 'Received response', response)
+    }
+
+    switch (response.type) {
+      case WorkerSignal.VadSignalHigh:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(true)))
+        return
+      case WorkerSignal.VadSignalLow:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
+        return
     }
 
     const { audio_context, segment_id, type } = response

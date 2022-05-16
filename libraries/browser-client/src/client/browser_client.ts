@@ -46,14 +46,24 @@ export class BrowserClient {
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
+    this.callbacks.onVadStateChange.push(this.onVadStateChange.bind(this))
     this.decoder = options.decoder ?? new CloudDecoder(options)
     this.decoder.registerListener(this.callbacks)
   }
 
+  onVadStateChange(active: boolean): void {
+    console.log('onVadStateChange', active)
+    if (active) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      if (!this.active) this.start()
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      if (this.active) this.stop()
+    }
+  }
+
   /**
    * Create an AudioContext for resampling audio.
-   *
-   * @param options - shorthand for attaching to existing mediaStream
    */
   async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
     if (this.initialized) {
@@ -308,13 +318,8 @@ export class BrowserClient {
   }
 
   private handleAudio(array: Float32Array): void {
-    if (!this.active) {
-      return
-    }
-    if (array.length > 0) {
-      this.stats.sentSamples += array.length
-      this.decoder.sendAudio(array)
-    }
+    this.stats.sentSamples += array.length
+    this.decoder.sendAudio(array)
   }
 
   /**

@@ -22,8 +22,8 @@
     "speech recognition"
   ],
   "scripts": {
-    "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpm run buildworker && pnpx rollup -c --silent",
-    "build:watch": "rm -rf ./dist/ && pnpm run buildworker && pnpx rollup -c --silent",
+    "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpx rollup -c --silent",
+    "build:watch": "rm -rf ./dist/ && pnpx rollup -c --silent",
     "buildworker": "pnpx tsc ./worker/worker.ts && cat ./worker/templateOpen  > ./src/websocket/worker.ts && cat ./worker/worker.js >> ./src/websocket/worker.ts && cat ./worker/templateEnd  >> ./src/websocket/worker.ts",
     "check": "pnpm run build && pnpx api-extractor run --verbose",
     "docs": "rimraf docs && pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/",
@@ -43,7 +43,7 @@
   "files": ["core/**/*", "src/**/*"],
   "main": "./core/speechly.umd.min.js",
   "module": "./core/speechly.es.js",
-  "types": "./core/types/index.d.ts",
+  "types": "./core/types/src/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
@@ -80,7 +80,8 @@
     "typescript": "^4.6.4",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3",
-    "@rollup/plugin-typescript": "~8.3.2"
+    "@rollup/plugin-typescript": "~8.3.2",
+    "rollup-plugin-web-worker-loader": "~1.6.1"
   },
   "publishConfig": {
     "access": "public"
