@@ -75,7 +75,7 @@ class EnergyTresholdVAD {
   FrameMillis = 30
 
   // public ProcessFrame(float[] floats: number[], int start = 0, int length = -1) {
-  public ProcessFrame(floats: number[], start = 0, length = -1): void {
+  public ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
     if (!this.Enabled) {
       this.ResetVAD()
       return

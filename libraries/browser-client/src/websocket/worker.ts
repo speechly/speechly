@@ -1,7 +1,7 @@
 import SpeechProcessor from '../audioprocessing/SpeechProcessor'
 import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
-import { WebsocketResponseType, WorkerMessage } from './types'
+import { WebsocketResponseType, WorkerSignal } from './types'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -70,7 +70,6 @@ class WebsocketClient {
     this.apiUrl = apiUrl
     this.authToken = authToken
     this.targetSampleRate = targetSampleRate
-    this.initialized = true
     this.isContextStarted = false
     this.connect(0)
   }
@@ -83,12 +82,12 @@ class WebsocketClient {
     this.speechProcessor.onSignalHigh = () => {
       console.log('onSignalHigh')
       // this.startContext()
-      this.workerCtx.postMessage({ type: WorkerMessage.VadSignalHigh })
+      this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
     }
     this.speechProcessor.onSignalLow = () => {
       console.log('onSignalLow')
       // this.stopContext()
-      this.workerCtx.postMessage({ type: WorkerMessage.VadSignalLow })
+      this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
     }
     this.speechProcessor.SendAudio = (s, startIndex, length) => {
       AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
@@ -106,7 +105,6 @@ class WebsocketClient {
       if (this.debug) {
         console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
       }
-      this.workerCtx.postMessage({ type: WorkerMessage.SourceSampleRateSetSuccess })
 
       if (isNaN(this.resampleRatio)) {
         throw Error(
@@ -114,7 +112,8 @@ class WebsocketClient {
         )
       }
     }
-  }
+    this.workerCtx.postMessage({ type: WorkerSignal.SourceSampleRateSetSuccess })
+}
 
   setSharedArrayBuffers(controlSAB: number, dataSAB: number): void {
     this.controlSAB = new Int32Array(controlSAB)
@@ -167,13 +166,13 @@ class WebsocketClient {
   }
 
   sendAudioFromSAB(): void {
-    if (!this.isContextStarted) {
-      this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
-      this.controlSAB[CONTROL.WRITE_INDEX] = 0
+    if (!this.controlSAB || !this.dataSAB) {
       return
     }
 
-    if (this.controlSAB === undefined) {
+    if (!this.isContextStarted) {
+      this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+      this.controlSAB[CONTROL.WRITE_INDEX] = 0
       return
     }
 
@@ -294,7 +293,7 @@ class WebsocketClient {
     this.websocket = undefined
 
     this.workerCtx.postMessage({
-      type: WorkerMessage.Closed,
+      type: WorkerSignal.Closed,
       code: event.code,
       reason: event.reason,
       wasClean: event.wasClean,
@@ -306,7 +305,7 @@ class WebsocketClient {
       console.log('[SpeechlyClient]', 'websocket opened')
     }
 
-    this.workerCtx.postMessage({ type: WorkerMessage.Opened })
+    this.workerCtx.postMessage({ type: WorkerSignal.Opened })
   }
 
   private readonly onWebsocketError = (_event: Event): void => {
@@ -351,6 +350,7 @@ ctx.onmessage = function (e) {
       websocketClient.init(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
     case 'SET_SOURCE_SAMPLE_RATE':
+      console.log('!!!!!!!! onmessage setSampleRate...')
       websocketClient.setSourceSampleRate(e.data.sourceSampleRate)
       break
     case 'SET_SHARED_ARRAY_BUFFERS':

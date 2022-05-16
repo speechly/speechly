@@ -3,7 +3,7 @@ import EnergyTresholdVAD from './EnergyTresholdVAD'
 
 class SpeechProcessor {
   IsAudioStreaming = true
-  public Vad: EnergyTresholdVAD = null
+  public Vad?: EnergyTresholdVAD
   /**
    * Returns true when StartContext is called and expecting StopContext next
    */
@@ -19,7 +19,7 @@ class SpeechProcessor {
   public inputSampleRate = 16000
   private readonly internalSampleRate = 16000
   private readonly frameMillis = 30
-  private sampleRingBuffer = null
+  private sampleRingBuffer: Float32Array
   private frameSamplePos = 0
   private currentFrameNumber = 0
   private readonly historyFrames = 5
@@ -31,7 +31,7 @@ class SpeechProcessor {
     // console.log('SpeechProcessor.constructor')
     this.inputSampleRate = inputSampleRate
     this.frameSamples = ~~(this.internalSampleRate * this.frameMillis / 1000)
-    this.sampleRingBuffer = new Array(this.frameSamples * this.historyFrames)
+    this.sampleRingBuffer = new Float32Array(this.frameSamples * this.historyFrames)
   }
 
   public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}

@@ -1,4 +1,4 @@
-import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerMessage as WorkerSignal } from './types'
+import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal } from './types'
 // import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
 

@@ -47,7 +47,7 @@ class AudioTools {
   }
 
   // public static float GetEnergy(in float[] samples, int start = 0, int length = -1) {
-  public static GetEnergy(samples: Float32Array, start = 0, length = -1): void {
+  public static GetEnergy(samples: Float32Array, start = 0, length = -1): number {
     if (length < 0) length = samples.length - start
     if (length <= 0) return 0
     const endIndex = start + length
@@ -59,7 +59,7 @@ class AudioTools {
   }
 
   // public static float GetAudioPeak(in float[] samples, int start = 0, int length = -1) {
-  public static GetAudioPeak(samples: Float32Array, start = 0, length = -1): void {
+  public static GetAudioPeak(samples: Float32Array, start = 0, length = -1): number {
     if (length < 0) length = samples.length - start
     if (length <= 0) return 0
     const endIndex = start + length
@@ -73,7 +73,7 @@ class AudioTools {
   }
 
   // public static int ConvertInt16ToFloat(in byte[] src, ref float[] dest, int srcStartSample = 0, int lengthSamples = -1, int dstIndex = 0) {
-  public static ConvertInt16ToFloat(src: Int16Array, dest: Float32Array, srcStartSample = 0, lengthSamples = -1, dstIndex = 0): void {
+  public static ConvertInt16ToFloat(src: Int16Array, dest: Float32Array, srcStartSample = 0, lengthSamples = -1, dstIndex = 0): number {
     if (lengthSamples < 0) lengthSamples = src.length / 2 - srcStartSample
     const maxLen = Math.min((src.length / 2) - srcStartSample, dest.length - dstIndex)
     lengthSamples = Math.min(lengthSamples, maxLen)

@@ -14,7 +14,7 @@ import {
   TentativeEntitiesResponse,
   EntityResponse,
   IntentResponse,
-  WorkerMessage,
+  WorkerSignal,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
@@ -291,10 +291,10 @@ export class CloudDecoder {
     }
 
     switch (response.type) {
-      case WorkerMessage.VadSignalHigh:
+      case WorkerSignal.VadSignalHigh:
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(true)))
         return
-      case WorkerMessage.VadSignalLow:
+      case WorkerSignal.VadSignalLow:
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
         return
     }

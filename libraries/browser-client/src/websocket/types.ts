@@ -48,7 +48,7 @@ export enum WebsocketResponseType {
  * Messages from worker
  * @public
  */
-export enum WorkerMessage {
+export enum WorkerSignal {
   Opened = 'WEBSOCKET_OPEN',
   Closed = 'WEBSOCKET_CLOSED',
   SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
