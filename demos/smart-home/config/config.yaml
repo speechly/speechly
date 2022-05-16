@@ -1,3 +1,4 @@
+adaptation_audio_package: '990F15A3-F7BD-41E3-9557-9202D10E1F09'
 templates: |
   rooms = [kitchen|bedroom|living room|terrace|garage](room)
   room = [{in} {the} $rooms]

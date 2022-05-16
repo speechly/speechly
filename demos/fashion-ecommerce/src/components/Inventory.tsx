@@ -44,7 +44,7 @@ const updateFilter = (filters: IFilters) => {
   batchNumber++;
 };
 
-const Inventory: React.FC = (props) => {
+const Inventory: React.FC<{children: React.ReactNode}> = (props) => {
   const { filters } = useContext(AppContext);
   const [Products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);

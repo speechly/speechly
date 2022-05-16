@@ -1,6 +1,20 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Tue, 29 Mar 2022 11:27:59 GMT and should not be manually modified.
+This log was last generated on Wed, 11 May 2022 10:44:31 GMT and should not be manually modified.
+
+## 2.0.1
+Wed, 11 May 2022 10:44:31 GMT
+
+### Patches
+
+- Do not throw error if stopping a stopped context
+
+## 2.0.0
+Wed, 04 May 2022 12:48:48 GMT
+
+### Breaking changes
+
+- Rename SpeechlyClient to BrowserClient, add support for external MediaStreams and AudioBuffers
 
 ## 1.5.0
 Tue, 29 Mar 2022 11:27:59 GMT

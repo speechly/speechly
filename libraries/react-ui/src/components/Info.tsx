@@ -7,6 +7,7 @@ type InfoProps = {
   visible: boolean
   color: string
   backgroundcolor: string
+  children?: React.ReactNode
 }
 
 export const Info: React.FC<InfoProps> = props => {

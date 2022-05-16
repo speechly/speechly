@@ -52,15 +52,15 @@
     "@speechly/browser-client": "1.5.0"
   },
   "peerDependencies": {
-    "react": ">=16.13.1"
+    "react": ">=16.9.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.10.4",
-    "@types/react": ">=16.13.1",
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.4.0",
-    "eslint": "^7.10.0",
-    "eslint-config-standard-with-typescript": "^19.0.1",
+    "@microsoft/api-extractor": "^7",
+    "@types/react": "^18",
+    "@typescript-eslint/eslint-plugin": "^4",
+    "@typescript-eslint/parser": "^4",
+    "eslint": "^7",
+    "eslint-config-standard-with-typescript": "^16",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
@@ -68,12 +68,12 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-tsdoc": "^0.2.7",
     "prettier": "^2.1.2",
-    "react": ">=16.13.1",
-    "ts-loader": "^8.0.4",
-    "tsc-watch": "^4.2.9",
+    "react": "^18",
+    "ts-loader": "^9.2.5",
+    "tsc-watch": "^4.3.5",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3",
-    "typescript": "^4.3.5"
+    "typescript": "^4.6.4"
   },
   "files": ["dist/**/*", "src/**/*"],
   "publishConfig": {

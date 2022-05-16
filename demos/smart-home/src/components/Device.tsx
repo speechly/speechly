@@ -58,16 +58,16 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
           justifyContent: "start",
           alignItems: "center",
           color: "#000000",
-          transform: changeEffect.changeEffect.interpolate(
+          transform: changeEffect.changeEffect.to(
             x => `translate3d(0, ${Math.sin((x as number) * Math.PI) * -10}px, 0)`,
           ),
-          boxShadow: selectionProps.selection.interpolate(
+          boxShadow: selectionProps.selection.to(
             x => `0 0 ${(x as number) * 10}px ${(x as number) * 4}px cyan`,
           ),
           ...springProps
         }}
       >
-        <Knob cx={springProps.active.interpolate(x => x as number)}/>
+        <AnimatedKnob cx={springProps.active}/>
 
         {props.device}
         {props.state ? (
@@ -95,5 +95,7 @@ const Device: React.FC<{ device: string, state: boolean, tentativeState: boolean
       <animated.circle cx={props.cx} cy="12" r="12" fill="#ffffffff" />
     </svg>
   );
+
+  const AnimatedKnob = animated(Knob);
 
   export default Device;

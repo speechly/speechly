@@ -1,7 +1,7 @@
 {
   "name": "@speechly/browser-ui",
   "description": "Ready-made UI components to build a reactive voice interface to a web site or app. Uses Speechly's real-time cloud API for speech-to-text and NLU.",
-  "version": "5.3.1",
+  "version": "5.3.2",
   "scripts": {
     "build": "rimraf core && rollup -c --silent && mv core/types/src/* core && rimraf core/types",
     "build:watch": "rollup -c --silent && mv core/types/src/* core",
@@ -12,23 +12,23 @@
 
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-commonjs": "^21",
+    "@rollup/plugin-node-resolve": "^13",
     "@rollup/plugin-typescript": "^8.2.1",
     "@tsconfig/svelte": "^1.0.0",
-    "rollup": "^2.3.4",
+    "rollup": "^2.63.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
-    "rollup-plugin-terser": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.2",
     "svelte": "^3.37.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
-    "tslib": "^2.1.0",
-    "typescript": "^4.3.5",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.4",
     "sirv-cli": "^1.0.0",
     "rollup-plugin-copy-watch": ">=0.0.1",
-    "rimraf": "~3.0.2"
+    "rimraf": "^3.0.2"
   },
   "dependencies": {
     "@speechly/browser-client": "1.5.0"

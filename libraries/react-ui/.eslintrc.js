@@ -7,6 +7,7 @@ module.exports = {
     'no-case-declarations': 'off',
     'comma-dangle': ['error', 'always-multiline'],
     'react/prop-types': 'off',
+    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-empty-function': 'off',

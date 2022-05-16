@@ -33,7 +33,7 @@ Check out the [browser-client-example](https://github.com/speechly/speechly/tree
 
 NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
-## Usage with Node
+## Using in web sites built with eg. rollup
 
 Install the package:
 
@@ -86,7 +86,7 @@ setTimeout(async function () {
 }, 3000)
 ```
 
-## Usage with browsers
+## Usage in HTML
 
 This sample HTML loads Speechly's `browser-client` ES modules via a CDN that mirrors npm packages. The page displays a text field that you dictate text into. See browser's console log for raw segment feed from Speechly.
 
@@ -100,7 +100,7 @@ Please use a HTML server to view the example. Running it as a file will not work
 
     <script type="module">
       // Load Speechly ES module from a CDN. Note script type="module"
-      import { BrowserClient, BrowserMicrophone } from "../core/speechly.es.js"
+      import { BrowserClient, BrowserMicrophone } from "//unpkg.com/@speechly/browser-client?module=true"
 
       const widget = document.getElementById("textBox")
 
@@ -132,7 +132,7 @@ Please use a HTML server to view the example. Running it as a file will not work
       }
 
       const stopListening = async () => {
-        if (speechly.isListening()) {
+        if (speechly.isActive()) {
           return speechly.stop();
         }
       }

@@ -106,7 +106,7 @@ const filterReducer = (filters: IFilters, action: any) => {
   }
 };
 
-export const AppContextProvider: React.FC = (props) => {
+export const AppContextProvider: React.FC<{children?: React.ReactNode}> = (props) => {
   const [filters, filterDispatch] = useReducer(
     filterReducer,
     AppContextDefaultState.filters

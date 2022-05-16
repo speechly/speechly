@@ -16,7 +16,7 @@ export const Input: React.FC <{
   const [isHandled, setIsHandled] = useState(false);
 
   const onMessageReceived = useCallback(
-    event => {
+    (event: MessageEvent) => {
       if (event.data?.type === "holdstart") setIsActive(true);
       if (event.data?.type === "holdend") setIsActive(false);
       if (event.data?.type === "speechhandled") setIsHandled(true);

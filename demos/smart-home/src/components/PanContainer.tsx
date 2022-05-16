@@ -12,6 +12,7 @@ type IPanContainer = {
   disableZoom: boolean;
   disablePan: boolean;
   defaultValue: ITranslation;
+  children: React.ReactNode;
 };
 
 type ITranslation = {

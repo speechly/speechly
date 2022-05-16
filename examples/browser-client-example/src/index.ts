@@ -69,8 +69,7 @@ window.onload = () => {
 };
 
 function newDecoder(): CloudDecoder {
-  const appId = "d9abea67-18e5-4c4e-b7fc-51f66d3219e2";
-    // process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
   }
@@ -241,8 +240,8 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
     event.preventDefault();
 
     try {
-      await mic.close();
       await bc.close();
+      await mic.close();
     } catch (err) {
       console.error("Error closing Speechly clients:", err);
     }

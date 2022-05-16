@@ -60,7 +60,7 @@ function SpeechlyApp() {
     <>
       <TranscriptDrawer mockSegment={mockSegment} hint={['Try: "Hello World"', 'Try: "Show me blue jeans"']} formatText={false}/>
 
-      <PushToTalkButton placement="bottom"/>
+      <PushToTalkButton powerOn="auto" placement="bottom"/>
 
       <IntroPopup>
         <span slot="priming-body">You will be able to book faster with voice.</span>
