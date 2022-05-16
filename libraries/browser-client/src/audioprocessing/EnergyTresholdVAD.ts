@@ -1,3 +1,4 @@
+import { VadDefaultOptions, VadOptions } from '../client'
 import AudioTools from './AudioTools'
 
 /**
@@ -12,71 +13,26 @@ import AudioTools from './AudioTools'
 */
 
 class EnergyTresholdVAD {
-  /**
-    "Run energy analysis."
-  */
-  Enabled = true
+  vadOptions: VadOptions
 
-  /**
-  [Tooltip("Signal-to-noise energy ratio needed for frame to be 'loud'")]
-  */
-  SignalToNoiseDb = 3.0
-
-  /**
-  [Range(-90.0f, 0.0f)]
-  [Tooltip("Energy threshold - below this won't trigger activation")]
-  */
-  NoiseGateDb = -24.0
-
-  /**
-  [Range(0, 5000)]
-  [Tooltip("Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.")]
-  */
-  NoiseLearnHalftimeMillis = 400
-
-  /**
-   * Number of past frames analyzed for energy threshold VAD. Should be less or equal than HistoryFrames.
-   * [Range(1, 32)]
-   */
-  SignalSearchFrames = 5
-
-  /**
-  [Range(.0f, 1.0f)]
-  [Tooltip("Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'")]
-  */
-  SignalActivation = 0.7
-
-  /**
-  [Range(.0f, 1.0f)]
-  [Tooltip("Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.")]
-  */
-  SignalRelease = 0.2
-
-  /**
-  [Range(0, 8000)]
-  [Tooltip("Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.")]
-  */
-  SignalSustainMillis = 3000
+  FrameMillis = 30
 
   IsSignalDetected = false
   SignalDb = -90.0
   NoiseLevelDb = -90.0
 
-  /**
-  [Header("Signal detection controls listening")]
-  [Tooltip("Enable listening control if you want to use IsSignalDetected to control SpeechlyClient's StartContext/StopContext.")]
-  */
-  ControlListening = true
-
   Energy = 0.0
   BaselineEnergy = -1.0
   loudFrameBits = 0
   vadSustainMillisLeft = 0
-  FrameMillis = 30
+
+  constructor(vadOptionOverrides?: Partial<VadOptions>) {
+    this.vadOptions = { ...VadDefaultOptions, ...vadOptionOverrides }
+  }
 
   // public ProcessFrame(float[] floats: number[], int start = 0, int length = -1) {
   public ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
-    if (!this.Enabled) {
+    if (!this.vadOptions.Enabled) {
       this.ResetVAD()
       return
     }
@@ -87,7 +43,7 @@ class EnergyTresholdVAD {
       this.BaselineEnergy = this.Energy
     }
 
-    const isLoudFrame = this.Energy > Math.max(AudioTools.DbToEnergy(this.NoiseGateDb), this.BaselineEnergy * AudioTools.DbToEnergy(this.SignalToNoiseDb))
+    const isLoudFrame = this.Energy > Math.max(AudioTools.DbToEnergy(this.vadOptions.NoiseGateDb), this.BaselineEnergy * AudioTools.DbToEnergy(this.vadOptions.SignalToNoiseDb))
     this.PushFrameHistory(isLoudFrame)
 
     this.IsSignalDetected = this.DetermineNewSignalState(this.IsSignalDetected)
@@ -101,14 +57,14 @@ class EnergyTresholdVAD {
   private DetermineNewSignalState(currentState: boolean): boolean {
     this.vadSustainMillisLeft = Math.max(this.vadSustainMillisLeft - this.FrameMillis, 0)
 
-    const loudFrames = this.CountLoudFrames(this.SignalSearchFrames)
+    const loudFrames = this.CountLoudFrames(this.vadOptions.SignalSearchFrames)
 
-    const activationFrames = Math.round(this.SignalActivation * this.SignalSearchFrames)
-    const releaseFrames = Math.round(this.SignalRelease * this.SignalSearchFrames)
+    const activationFrames = Math.round(this.vadOptions.SignalActivation * this.vadOptions.SignalSearchFrames)
+    const releaseFrames = Math.round(this.vadOptions.SignalRelease * this.vadOptions.SignalSearchFrames)
 
     if (loudFrames >= activationFrames) {
       // Renew sustain time
-      this.vadSustainMillisLeft = this.SignalSustainMillis
+      this.vadSustainMillisLeft = this.vadOptions.SignalSustainMillis
       return true
     }
 
@@ -122,8 +78,8 @@ class EnergyTresholdVAD {
   private AdaptBackgroundNoise(): void {
     // Gradually learn background noise level
     if (!this.IsSignalDetected) {
-      if (this.NoiseLearnHalftimeMillis > 0) {
-        var decay = Math.pow(2.0, -this.FrameMillis / this.NoiseLearnHalftimeMillis)
+      if (this.vadOptions.NoiseLearnHalftimeMillis > 0) {
+        var decay = Math.pow(2.0, -this.FrameMillis / this.vadOptions.NoiseLearnHalftimeMillis)
         this.BaselineEnergy = (this.BaselineEnergy * decay) + (this.Energy * (1 - decay))
       }
     }

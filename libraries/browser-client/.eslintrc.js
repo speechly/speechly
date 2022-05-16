@@ -9,6 +9,7 @@ module.exports = {
     '@typescript-eslint/no-extraneous-class': 'off',
     '@typescript-eslint/camelcase': 'off',
     'no-case-declarations': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/return-await': ['error', 'in-try-catch'],

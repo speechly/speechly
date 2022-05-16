@@ -6,7 +6,7 @@ export interface WebsocketResponse {
   /**
    * Response type.
    */
-  type: WebsocketResponseType | WorkerMessage
+  type: WebsocketResponseType | WorkerSignal
 
   /**
    * Audio context ID.

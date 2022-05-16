@@ -160,13 +160,13 @@ class SpeechProcessor {
   }
 
   private AnalyzeAudioFrame(waveData: Float32Array, s: number, frameSamples: number): void {
-    if (this.Vad !== undefined && this.Vad.Enabled) {
+    if (this.Vad?.vadOptions.Enabled) {
       this.Vad.ProcessFrame(waveData, s, frameSamples)
     }
   }
 
   private AutoControlListening(): void {
-    if (this.Vad !== undefined && this.Vad.Enabled && this.Vad.ControlListening) {
+    if (this.Vad?.vadOptions.Enabled && this.Vad?.vadOptions.ControlListening) {
       if (!this.IsSignalDetected && this.Vad.IsSignalDetected) {
         this.onSignalHigh()
         this.IsSignalDetected = true

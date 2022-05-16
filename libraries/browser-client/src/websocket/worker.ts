@@ -371,3 +371,5 @@ ctx.onmessage = function (e) {
       console.log('WORKER', e)
   }
 }
+
+export default WebsocketClient
