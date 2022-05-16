@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import { SpeechProvider } from "@speechly/react-client";
 import { LogKit } from "@speechly/logkit";
 import { DemoNavigation } from "@speechly/demo-navigation";
@@ -15,10 +15,7 @@ const noMic = {
   printStats: function() {}
 }
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <SpeechProvider appId="aeca6691-2a4c-4f80-af93-4c8396216a62" microphone={noMic}>
       <LogKit appName="moderation" appVersion={100}>
@@ -26,7 +23,8 @@ root.render(
         <App />
       </LogKit>
     </SpeechProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
