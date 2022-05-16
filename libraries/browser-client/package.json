@@ -42,7 +42,7 @@
   "files": ["core/**/*", "src/**/*"],
   "main": "./core/speechly.umd.min.js",
   "module": "./core/speechly.es.js",
-  "types": "./core/types/src/index.d.ts",
+  "types": "./core/types/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {
