@@ -24,7 +24,11 @@ window.onload = () => {
     return;
   }
   mic = new BrowserMicrophone()
-  browserClient = new BrowserClient({decoder, debug: true})
+  browserClient = new BrowserClient({
+    decoder,
+    vad: { enabled: true, noiseGateDb: -24.0 },
+    debug: true
+  })
 
   // High-level API, that you can use to react to segment changes.
   let handler = function (segment: Segment) {
@@ -82,8 +86,7 @@ function newDecoder(): CloudDecoder {
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: false,
-    connect: false,
-    vad: { enabled: true, noiseGateDb: -24.0 }
+    connect: false
   };
 
   if (process.env.REACT_APP_API_URL !== undefined) {

@@ -73,18 +73,15 @@ class WebsocketClient {
   }
 
   initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): void {
-    console.log('got vad options', vadOptions)
     this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
 
     if (vadOptions) {
       this.audioProcessor.Vad = new EnergyTresholdVAD(vadOptions)
 
       this.audioProcessor.onVadSignalHigh = () => {
-        console.log('onSignalHigh')
         this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
       }
       this.audioProcessor.onVadSignalLow = () => {
-        console.log('onSignalLow')
         this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
       }
     }

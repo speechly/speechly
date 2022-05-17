@@ -57,7 +57,6 @@ export class CloudDecoder {
 
   private sampleRate: number
   state: DecoderState = DecoderState.Disconnected
-  private readonly vadOptionOverrides?: Partial<VadOptions>
 
   constructor(options: DecoderOptions) {
     this.logSegments = options.logSegments ?? false
@@ -66,7 +65,6 @@ export class CloudDecoder {
     this.projectId = options.projectId ?? undefined
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
     this.debug = options.debug ?? false
-    this.vadOptionOverrides = options.vad
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[Decoder] You cannot use both appId and projectId at the same time')
@@ -247,9 +245,9 @@ export class CloudDecoder {
     this.cbs.push(listener)
   }
 
-  async initAudioProcessor(sampleRate: number): Promise<void> {
+  async initAudioProcessor(sampleRate: number, vadOptions?: VadOptions): Promise<void> {
     this.sampleRate = sampleRate
-    await this.apiClient.initAudioProcessor(sampleRate, this.vadOptionOverrides)
+    await this.apiClient.initAudioProcessor(sampleRate, vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {

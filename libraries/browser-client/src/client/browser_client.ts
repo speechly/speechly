@@ -1,4 +1,4 @@
-import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions } from './types'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
@@ -19,6 +19,7 @@ export class BrowserClient {
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
 
+  private readonly vadOptions?: VadOptions
   private initialized: boolean = false
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
@@ -43,6 +44,7 @@ export class BrowserClient {
     // @ts-ignore
     this.isSafari = this.isMobileSafari || window.safari !== undefined
     this.useSAB = !this.isSafari
+    this.vadOptions = { ...VadDefaultOptions, ...options.vad }
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
@@ -180,8 +182,7 @@ export class BrowserClient {
     if (this.debug) {
       console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
     }
-    await this.decoder.initAudioProcessor(this.audioContext?.sampleRate)
-    console.log('[BrowserClient]', 'initAudioProcessor done. sampleRate is', this.audioContext?.sampleRate)
+    await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.vadOptions)
 
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)

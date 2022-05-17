@@ -217,7 +217,7 @@ export interface APIClient {
    *
    * @param sourceSampleRate - sample rate of audio source.
    */
-  initAudioProcessor(sourceSampleRate: number, vadOptionOverrides?: Partial<VadOptions>): Promise<void>
+  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
 
   /**
    * Closes the client.

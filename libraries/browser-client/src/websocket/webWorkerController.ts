@@ -48,11 +48,11 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async initAudioProcessor(sourceSampleRate: number, vadOptionOverrides?: Partial<VadOptions>): Promise<void> {
+  async initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void> {
     this.worker.postMessage({
       type: ControllerSignal.initAudioProcessor,
-      sourceSampleRate,
-      vadOptions: vadOptionOverrides,
+      sourceSampleRate: sourceSampleRate,
+      vadOptions: vadOptions,
     })
 
     return new Promise(resolve => {

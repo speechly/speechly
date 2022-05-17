@@ -1,4 +1,4 @@
-import { VadDefaultOptions, VadOptions } from '../client'
+import { VadOptions } from '../client'
 import AudioTools from './AudioTools'
 
 /**
@@ -26,9 +26,8 @@ class EnergyTresholdVAD {
   loudFrameBits = 0
   vadSustainMillisLeft = 0
 
-  constructor(vadOptionOverrides?: Partial<VadOptions>) {
-    this.vadOptions = { ...VadDefaultOptions, ...vadOptionOverrides }
-    console.log(this.vadOptions)
+  constructor(vadOptions: VadOptions) {
+    this.vadOptions = vadOptions
   }
 
   public ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
