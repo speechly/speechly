@@ -1,3 +1,5 @@
+import { VadOptions } from '../client'
+
 /**
  * The interface for response returned by WebSocket client.
  * @public
@@ -200,7 +202,7 @@ export interface APIClient {
    *
    * @param sourceSampleRate - sample rate of audio source.
    */
-  setSourceSampleRate(sourceSampleRate: number): Promise<void>
+  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
 
   /**
    * Closes the client.

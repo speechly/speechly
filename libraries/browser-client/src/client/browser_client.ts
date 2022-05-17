@@ -180,7 +180,9 @@ export class BrowserClient {
     if (this.debug) {
       console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
     }
-    await this.decoder.setSampleRate(this.audioContext?.sampleRate)
+    await this.decoder.initAudioProcessor(this.audioContext?.sampleRate)
+    console.log('[BrowserClient]', 'initAudioProcessor done. sampleRate is', this.audioContext?.sampleRate)
+
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }

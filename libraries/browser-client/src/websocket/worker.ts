@@ -2,6 +2,7 @@ import SpeechProcessor from '../audioprocessing/SpeechProcessor'
 import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
 import { WebsocketResponseType, WorkerSignal } from './types'
+import { VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -41,43 +42,43 @@ const CONTROL = {
 
 class WebsocketClient {
   private readonly workerCtx: Worker
-  private apiUrl?: string
-  private authToken?: string
-  private websocket?: WebSocket
   private targetSampleRate: number = 16000
-  private sourceSampleRate: number = 16000
-  private readonly frameMillis = 30
-  private resampleRatio: number = 1
   private isContextStarted: boolean = false
-  private isStartContextConfirmed: boolean = false
+  private websocket?: WebSocket
+  private speechProcessor?: SpeechProcessor
   private controlSAB?: Int32Array
   private dataSAB?: Float32Array
-  private speechProcessor?: SpeechProcessor
+
+  private readonly frameMillis = 30
+  private readonly outputAudioFrame: Int16Array = new Int16Array(this.frameMillis * this.targetSampleRate / 1000)
 
   private debug: boolean = false
-  private readonly audioFrame: Int16Array = new Int16Array(this.frameMillis * this.targetSampleRate / 1000)
 
   constructor(ctx: Worker) {
     this.workerCtx = ctx
-    this.initSpeechProcessor()
   }
 
-  init(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
+  connect(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
     this.debug = debug
     if (this.debug) {
-      console.log('[WebSocketClient]', 'initialize worker')
+      console.log('[WebSocketClient]', 'connecting to ', apiUrl)
     }
-    this.apiUrl = apiUrl
-    this.authToken = authToken
     this.targetSampleRate = targetSampleRate
     this.isContextStarted = false
-    this.connect(0)
+    this.websocket = new WebSocket(apiUrl, authToken)
+    this.websocket.addEventListener('open', this.onWebsocketOpen)
+    this.websocket.addEventListener('message', this.onWebsocketMessage)
+    this.websocket.addEventListener('error', this.onWebsocketError)
+    this.websocket.addEventListener('close', this.onWebsocketClose)
   }
 
-  initSpeechProcessor(): void {
-    this.speechProcessor = new SpeechProcessor(this.sourceSampleRate)
-    const vad = new EnergyTresholdVAD()
-    this.speechProcessor.Vad = vad
+  setSourceSampleRate(sourceSampleRate: number, vadOptions?: VadOptions): void {
+    this.speechProcessor = new SpeechProcessor(sourceSampleRate, this.targetSampleRate, 5)
+    if (!vadOptions) {
+      this.speechProcessor.Vad = new EnergyTresholdVAD({ Enabled: false })
+    } else {
+      this.speechProcessor.Vad = new EnergyTresholdVAD(vadOptions)
+    }
 
     this.speechProcessor.onSignalHigh = () => {
       console.log('onSignalHigh')
@@ -88,27 +89,10 @@ class WebsocketClient {
       this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
     }
     this.speechProcessor.SendAudio = (s, startIndex, length) => {
-      AudioTools.ConvertFloatToInt16(s, this.audioFrame, startIndex, length)
-      this.send(this.audioFrame)
+      AudioTools.ConvertFloatToInt16(s, this.outputAudioFrame, startIndex, length)
+      this.send(this.outputAudioFrame)
     }
-  }
 
-  setSourceSampleRate(sourceSampleRate: number): void {
-    if (this.sourceSampleRate !== sourceSampleRate) {
-      this.sourceSampleRate = sourceSampleRate
-      this.initSpeechProcessor()
-
-      this.resampleRatio = this.sourceSampleRate / this.targetSampleRate
-      if (this.debug) {
-        console.log('[SpeechlyClient]', 'resampleRatio', this.resampleRatio)
-      }
-
-      if (isNaN(this.resampleRatio)) {
-        throw Error(
-          `resampleRatio is NaN source rate is ${this.sourceSampleRate} and target rate is ${this.targetSampleRate}`,
-        )
-      }
-    }
     this.workerCtx.postMessage({ type: WorkerSignal.SourceSampleRateSetSuccess })
   }
 
@@ -122,56 +106,29 @@ class WebsocketClient {
     setInterval(this.sendAudioFromSAB.bind(this), audioHandleInterval)
   }
 
-  connect(timeout: number = 1000): void {
-    if (this.debug) {
-      console.log('[WebSocketClient]', 'connect in ', timeout / 1000, 'sec')
-    }
-    setTimeout(this.initializeWebsocket.bind(this), timeout)
-  }
-
-  initializeWebsocket(): void {
-    if (this.debug) {
-      console.log('[WebSocketClient]', 'connecting to ', this.apiUrl)
-    }
-    this.websocket = new WebSocket(this.apiUrl, this.authToken)
-    this.websocket.addEventListener('open', this.onWebsocketOpen)
-    this.websocket.addEventListener('message', this.onWebsocketMessage)
-    this.websocket.addEventListener('error', this.onWebsocketError)
-    this.websocket.addEventListener('close', this.onWebsocketClose)
-  }
-
-  private isOpen(): boolean {
-    return this.websocket !== undefined && this.websocket.readyState === this.websocket.OPEN
-  }
-
   sendAudio(audioChunk: Float32Array): void {
+    if (!this.speechProcessor) {
+      throw new Error('No SpeechProcessor')
+    }
     this.speechProcessor.ProcessAudio(audioChunk)
-    /*
-    if (!this.isContextStarted) {
-      return
-    }
-
-    if (audioChunk.length > 0) {
-      if (this.resampleRatio > 1) {
-        // Downsampling
-        this.send(this.downsample(audioChunk))
-      } else {
-        this.send(float32ToInt16(audioChunk))
-      }
-    }
-    */
   }
 
   sendAudioFromSAB(): void {
     if (!this.controlSAB || !this.dataSAB) {
-      return
+      throw new Error('No SharedArrayBuffers')
     }
 
+    if (!this.speechProcessor) {
+      throw new Error('No SpeechProcessor')
+    }
+
+    /*
     if (!this.isContextStarted) {
       this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
       this.controlSAB[CONTROL.WRITE_INDEX] = 0
       return
     }
+    */
 
     const framesAvailable = this.controlSAB[CONTROL.FRAMES_AVAILABLE]
     const lock = this.controlSAB[CONTROL.LOCK]
@@ -182,31 +139,15 @@ class WebsocketClient {
       this.controlSAB[CONTROL.WRITE_INDEX] = 0
       if (data.length > 0) {
         this.speechProcessor.ProcessAudio(data)
-        /*
-        let frames: Int16Array
-        if (this.resampleRatio > 1) {
-          frames = this.downsample(data)
-        } else {
-          frames = float32ToInt16(data)
-        }
-        this.send(frames)
-
-        // 16000 per second, 1000 in 100 ms
-        // save last 250 ms
-        if (this.lastFramesSent.length > 1024 * 4) {
-          this.lastFramesSent = frames
-        } else {
-          const concat = new Int16Array(this.lastFramesSent.length + frames.length)
-          concat.set(this.lastFramesSent)
-          concat.set(frames, this.lastFramesSent.length)
-          this.lastFramesSent = concat
-        }
-        */
       }
     }
   }
 
   startContext(appId?: string): void {
+    if (!this.speechProcessor) {
+      throw Error('No SpeechProcessor')
+    }
+
     if (this.isContextStarted) {
       console.error('[WebSocketClient]', "can't start context: active context exists")
       return
@@ -214,7 +155,6 @@ class WebsocketClient {
 
     this.speechProcessor.StartContext()
     this.isContextStarted = true
-    this.isStartContextConfirmed = false
 
     if (appId !== undefined) {
       this.send(JSON.stringify({ event: 'start', appId }))
@@ -224,8 +164,8 @@ class WebsocketClient {
   }
 
   stopContext(): void {
-    if (!this.websocket) {
-      throw Error('WebSocket is undefined')
+    if (!this.speechProcessor) {
+      throw Error('No SpeechProcessor')
     }
 
     if (!this.isContextStarted) {
@@ -235,7 +175,6 @@ class WebsocketClient {
 
     this.speechProcessor.StopContext()
     this.isContextStarted = false
-    this.isStartContextConfirmed = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
     this.send(StopEventJSON)
   }
@@ -255,10 +194,8 @@ class WebsocketClient {
       return
     }
 
-    this.isStartContextConfirmed = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
     this.send(StopEventJSON)
-    // @TODO this.shouldResendLastFramesSent = true // Indicates some history buffer should be re-sent
     this.send(JSON.stringify({ event: 'start', appId: newAppId }))
   }
 
@@ -279,6 +216,10 @@ class WebsocketClient {
   // - network unreachable or unable to (re)connect (code 1006)
   // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
   private readonly onWebsocketClose = (event: CloseEvent): void => {
+    if (!this.websocket) {
+      throw Error('WebSocket is undefined')
+    }
+
     if (this.debug) {
       console.log('[WebSocketClient]', 'onWebsocketClose')
     }
@@ -320,20 +261,22 @@ class WebsocketClient {
       return
     }
 
-    if (response.type === WebsocketResponseType.Started) {
-      this.isStartContextConfirmed = true
-    }
-
     this.workerCtx.postMessage(response)
   }
 
   send(data: string | Int16Array): void {
-    if (this.isOpen()) {
-      try {
-        this.websocket.send(data)
-      } catch (error) {
-        console.log('[WebSocketClient]', 'server connection error', error)
-      }
+    if (!this.websocket) {
+      throw new Error('No Websocket')
+    }
+
+    if (this.websocket.readyState !== this.websocket.OPEN) {
+      throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+    }
+
+    try {
+      this.websocket.send(data)
+    } catch (error) {
+      console.log('[WebSocketClient]', 'server connection error', error)
     }
   }
 }
@@ -344,10 +287,10 @@ const websocketClient = new WebsocketClient(ctx)
 ctx.onmessage = function (e) {
   switch (e.data.type) {
     case 'INIT':
-      websocketClient.init(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
+      websocketClient.connect(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
     case 'SET_SOURCE_SAMPLE_RATE':
-      websocketClient.setSourceSampleRate(e.data.sourceSampleRate)
+      websocketClient.setSourceSampleRate(e.data.sourceSampleRate, e.data.vadOptions)
       break
     case 'SET_SHARED_ARRAY_BUFFERS':
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)

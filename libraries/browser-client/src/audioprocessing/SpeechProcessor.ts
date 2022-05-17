@@ -13,31 +13,32 @@ class SpeechProcessor {
    * Current count of continuously processed samples (thru ProcessAudio) from start of stream
    */
   public StreamSamplePos = 0
-
   public SamplesSent = 0
-
-  public inputSampleRate = 16000
-  private readonly internalSampleRate = 16000
-  private readonly frameMillis = 30
-  private sampleRingBuffer: Float32Array
-  private frameSamplePos = 0
-  private currentFrameNumber = 0
-  private readonly historyFrames = 5
-
-  private readonly frameSamples
-  private streamFramePos = 0
-  private IsSignalDetected = false
-
-  constructor(inputSampleRate: number) {
-    // console.log('SpeechProcessor.constructor')
-    this.inputSampleRate = inputSampleRate
-    this.frameSamples = ~~(this.internalSampleRate * this.frameMillis / 1000)
-    this.sampleRingBuffer = new Float32Array(this.frameSamples * this.historyFrames)
-  }
-
   public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
   public onSignalLow = (): void => {}
   public onSignalHigh = (): void => {}
+
+  private readonly inputSampleRate = 16000
+  private readonly internalSampleRate = 16000
+  private sampleRingBuffer: Float32Array
+  private readonly historyFrames = 5
+
+  private readonly frameMillis = 30
+  private readonly frameSamples
+
+  private currentFrameNumber = 0
+  private frameSamplePos = 0
+  private streamFramePos = 0
+  private IsSignalDetected = false
+
+  constructor(inputSampleRate: number, outputSampleRate: number, historyFrames: number) {
+    this.inputSampleRate = inputSampleRate
+    this.internalSampleRate = outputSampleRate
+    this.historyFrames = historyFrames
+
+    this.frameSamples = ~~(this.internalSampleRate * this.frameMillis / 1000)
+    this.sampleRingBuffer = new Float32Array(this.frameSamples * this.historyFrames)
+  }
 
   public StartContext(): void {
     console.log('StartContext')

@@ -62,7 +62,7 @@ export interface DecoderOptions {
   /**
    * Enable voice activity detection (VAD) configuration overrides
    */
-  vad?: VadOptions
+  vad?: Partial<VadOptions>
 }
 
 export interface VadOptions {
@@ -72,8 +72,8 @@ export interface VadOptions {
   Enabled: boolean
 
   /**
-  [Tooltip("Signal-to-noise energy ratio needed for frame to be 'loud'")]
-  */
+   * Signal-to-noise energy ratio needed for frame to be 'loud'. Default: 3.0 [dB].
+   */
   SignalToNoiseDb: number
 
   /**

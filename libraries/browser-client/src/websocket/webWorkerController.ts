@@ -1,6 +1,7 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal } from './types'
 // import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
+import { VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -47,10 +48,11 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async setSourceSampleRate(sourceSampleRate: number): Promise<void> {
+  async initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void> {
     this.worker.postMessage({
       type: 'SET_SOURCE_SAMPLE_RATE',
       sourceSampleRate,
+      vadOptions,
     })
 
     return new Promise(resolve => {

@@ -37,9 +37,8 @@ const umdMinBundle = {
     commonjs(),
     nodeResolve(),
     webWorkerLoader( {
-      targetPlatform: 'base64',
       extensions: ['.js', '.ts'],
-      targetPlatform: 'browser',
+      targetPlatform: 'base64',
     } ),
     typescript({ tsconfig: './tsconfig.json' }),
     terser(),

@@ -19,7 +19,7 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -51,13 +51,13 @@ export class CloudDecoder {
 
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
-  private listeningPromise: Promise<any> | null = null
 
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
 
   private sampleRate: number
   state: DecoderState = DecoderState.Disconnected
+  private readonly vadOptions?: VadOptions
 
   constructor(options: DecoderOptions) {
     this.logSegments = options.logSegments ?? false
@@ -66,6 +66,7 @@ export class CloudDecoder {
     this.projectId = options.projectId ?? undefined
     this.sampleRate = options.sampleRate ?? DefaultSampleRate
     this.debug = options.debug ?? false
+    this.vadOptions = options.vad
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[Decoder] You cannot use both appId and projectId at the same time')
@@ -246,9 +247,9 @@ export class CloudDecoder {
     this.cbs.push(listener)
   }
 
-  async setSampleRate(sr: number): Promise<void> {
+  async initAudioProcessor(sr: number): Promise<void> {
     this.sampleRate = sr
-    await this.apiClient.setSourceSampleRate(sr)
+    await this.apiClient.initAudioProcessor(sr, this.vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {
