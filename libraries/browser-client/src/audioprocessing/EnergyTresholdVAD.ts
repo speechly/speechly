@@ -28,11 +28,11 @@ class EnergyTresholdVAD {
 
   constructor(vadOptionOverrides?: Partial<VadOptions>) {
     this.vadOptions = { ...VadDefaultOptions, ...vadOptionOverrides }
+    console.log(this.vadOptions)
   }
 
-  // public ProcessFrame(float[] floats: number[], int start = 0, int length = -1) {
   public ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
-    if (!this.vadOptions.Enabled) {
+    if (!this.vadOptions.enabled) {
       this.ResetVAD()
       return
     }
@@ -43,7 +43,7 @@ class EnergyTresholdVAD {
       this.BaselineEnergy = this.Energy
     }
 
-    const isLoudFrame = this.Energy > Math.max(AudioTools.DbToEnergy(this.vadOptions.NoiseGateDb), this.BaselineEnergy * AudioTools.DbToEnergy(this.vadOptions.SignalToNoiseDb))
+    const isLoudFrame = this.Energy > Math.max(AudioTools.DbToEnergy(this.vadOptions.noiseGateDb), this.BaselineEnergy * AudioTools.DbToEnergy(this.vadOptions.signalToNoiseDb))
     this.PushFrameHistory(isLoudFrame)
 
     this.IsSignalDetected = this.DetermineNewSignalState(this.IsSignalDetected)
@@ -57,14 +57,14 @@ class EnergyTresholdVAD {
   private DetermineNewSignalState(currentState: boolean): boolean {
     this.vadSustainMillisLeft = Math.max(this.vadSustainMillisLeft - this.FrameMillis, 0)
 
-    const loudFrames = this.CountLoudFrames(this.vadOptions.SignalSearchFrames)
+    const loudFrames = this.CountLoudFrames(this.vadOptions.signalSearchFrames)
 
-    const activationFrames = Math.round(this.vadOptions.SignalActivation * this.vadOptions.SignalSearchFrames)
-    const releaseFrames = Math.round(this.vadOptions.SignalRelease * this.vadOptions.SignalSearchFrames)
+    const activationFrames = Math.round(this.vadOptions.signalActivation * this.vadOptions.signalSearchFrames)
+    const releaseFrames = Math.round(this.vadOptions.signalRelease * this.vadOptions.signalSearchFrames)
 
     if (loudFrames >= activationFrames) {
       // Renew sustain time
-      this.vadSustainMillisLeft = this.vadOptions.SignalSustainMillis
+      this.vadSustainMillisLeft = this.vadOptions.signalSustainMillis
       return true
     }
 
@@ -78,8 +78,8 @@ class EnergyTresholdVAD {
   private AdaptBackgroundNoise(): void {
     // Gradually learn background noise level
     if (!this.IsSignalDetected) {
-      if (this.vadOptions.NoiseLearnHalftimeMillis > 0) {
-        var decay = Math.pow(2.0, -this.FrameMillis / this.vadOptions.NoiseLearnHalftimeMillis)
+      if (this.vadOptions.noiseLearnHalftimeMillis > 0) {
+        var decay = Math.pow(2.0, -this.FrameMillis / this.vadOptions.noiseLearnHalftimeMillis)
         this.BaselineEnergy = (this.BaselineEnergy * decay) + (this.Energy * (1 - decay))
       }
     }

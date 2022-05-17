@@ -83,7 +83,7 @@ function newDecoder(): CloudDecoder {
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: false,
     connect: false,
-    vad: { Enabled: true }
+    vad: { enabled: true, noiseGateDb: -24.0 }
   };
 
   if (process.env.REACT_APP_API_URL !== undefined) {

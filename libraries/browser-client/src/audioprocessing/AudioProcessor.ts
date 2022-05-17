@@ -1,7 +1,7 @@
 import AudioTools from './AudioTools'
 import EnergyTresholdVAD from './EnergyTresholdVAD'
 
-class SpeechProcessor {
+class AudioProcessor {
   IsAudioStreaming = true
   public Vad?: EnergyTresholdVAD
   /**
@@ -15,21 +15,21 @@ class SpeechProcessor {
   public StreamSamplePos = 0
   public SamplesSent = 0
   public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
-  public onSignalLow = (): void => {}
-  public onSignalHigh = (): void => {}
+  public onVadSignalLow = (): void => {}
+  public onVadSignalHigh = (): void => {}
 
-  private readonly inputSampleRate = 16000
-  private readonly internalSampleRate = 16000
+  private readonly inputSampleRate: number = 16000
+  private readonly internalSampleRate: number = 16000
   private sampleRingBuffer: Float32Array
-  private readonly historyFrames = 5
+  private readonly historyFrames: number = 5
 
-  private readonly frameMillis = 30
-  private readonly frameSamples
+  private readonly frameMillis: number = 30
+  private readonly frameSamples: number
 
-  private currentFrameNumber = 0
-  private frameSamplePos = 0
-  private streamFramePos = 0
-  private IsSignalDetected = false
+  private currentFrameNumber: number = 0
+  private frameSamplePos: number = 0
+  private streamFramePos: number = 0
+  private IsSignalDetected: boolean = false
 
   constructor(inputSampleRate: number, outputSampleRate: number, historyFrames: number) {
     this.inputSampleRate = inputSampleRate
@@ -41,26 +41,11 @@ class SpeechProcessor {
   }
 
   public StartContext(): void {
-    console.log('StartContext')
-    if (this.IsActive) {
-      throw new Error('Already listening.')
-    }
-
-    /*
-    if (!this.IsAudioStreaming) {
-      StartStream(AudioInputStreamIdentifier, auto: true);
-    }
-    */
-
     this.IsActive = true
     this.SamplesSent = 0
   }
 
   public StopContext(): void {
-    console.log('StopContext')
-    if (!this.IsActive) {
-      throw new Error('Already stopped listening.')
-    }
     this.IsActive = false
   }
 
@@ -161,24 +146,24 @@ class SpeechProcessor {
   }
 
   private AnalyzeAudioFrame(waveData: Float32Array, s: number, frameSamples: number): void {
-    if (this.Vad?.vadOptions.Enabled) {
+    if (this.Vad?.vadOptions.enabled) {
       this.Vad.ProcessFrame(waveData, s, frameSamples)
     }
   }
 
   private AutoControlListening(): void {
-    if (this.Vad?.vadOptions.Enabled && this.Vad?.vadOptions.ControlListening) {
+    if (this.Vad?.vadOptions.enabled && this.Vad?.vadOptions.controlListening) {
       if (!this.IsSignalDetected && this.Vad.IsSignalDetected) {
-        this.onSignalHigh()
+        this.onVadSignalHigh()
         this.IsSignalDetected = true
       }
 
       if (this.IsSignalDetected && !this.Vad.IsSignalDetected) {
-        this.onSignalLow()
+        this.onVadSignalLow()
         this.IsSignalDetected = false
       }
     }
   }
 }
 
-export default SpeechProcessor
+export default AudioProcessor

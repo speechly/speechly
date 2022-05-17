@@ -67,68 +67,69 @@ export interface DecoderOptions {
 
 export interface VadOptions {
   /**
-    "Run energy analysis."
-  */
-  Enabled: boolean
-
-  /**
-   * Signal-to-noise energy ratio needed for frame to be 'loud'. Default: 3.0 [dB].
+   * Run energy analysis
    */
-  SignalToNoiseDb: number
+  enabled: boolean
 
   /**
-  [Range(-90.0f, 0.0f)]
-  [Tooltip("Energy threshold - below this won't trigger activation")]
-  */
-  NoiseGateDb: number
+   * Signal-to-noise energy ratio needed for frame to be 'loud'.
+   * Default: 3.0 [dB].
+   */
+  signalToNoiseDb: number
 
   /**
-  [Range(0, 5000)]
-  [Tooltip("Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.")]
-  */
-  NoiseLearnHalftimeMillis: number
+   * Energy threshold - below this won't trigger activation.
+   * Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
+   */
+  noiseGateDb: number
+
+  /**
+   * Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.
+   * Range: 0, 5000 [ms]. Default: 400 [ms].
+   */
+  noiseLearnHalftimeMillis: number
 
   /**
    * Number of past frames analyzed for energy threshold VAD. Should be less or equal than HistoryFrames.
-   * [Range(1, 32)]
+   * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
-  SignalSearchFrames: number
+  signalSearchFrames: number
 
   /**
-  [Range(.0f, 1.0f)]
-  [Tooltip("Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'")]
-  */
-  SignalActivation: number
+   * Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'
+   * Range: 0.0 to 1.0. Default: 0.7.
+   */
+  signalActivation: number
 
   /**
-  [Range(.0f, 1.0f)]
-  [Tooltip("Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.")]
-  */
-  SignalRelease: number
+   * Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.
+   * Range: 0.0 to 1.0. Default: 0.2.
+   */
+  signalRelease: number
 
   /**
-  [Range(0, 8000)]
-  [Tooltip("Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.")]
-  */
-  SignalSustainMillis: number
+   * Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.
+   * Range: 0 to 8000 [ms]. Default: 3000 [ms].
+   */
+  signalSustainMillis: number
 
   /**
-  [Header("Signal detection controls listening")]
-  [Tooltip("Enable listening control if you want to use IsSignalDetected to control SpeechlyClient's StartContext/StopContext.")]
-  */
-  ControlListening: boolean
+   * Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+   * Default: true.
+   */
+  controlListening: boolean
 }
 
 export const VadDefaultOptions: VadOptions = {
-  Enabled: true,
-  SignalToNoiseDb: 3.0,
-  NoiseGateDb: -24.0,
-  NoiseLearnHalftimeMillis: 400,
-  SignalSearchFrames: 5,
-  SignalActivation: 0.7,
-  SignalRelease: 0.2,
-  SignalSustainMillis: 3000,
-  ControlListening: true,
+  enabled: false,
+  controlListening: true,
+  signalToNoiseDb: 3.0,
+  noiseGateDb: -24.0,
+  noiseLearnHalftimeMillis: 400,
+  signalSearchFrames: 5,
+  signalActivation: 0.7,
+  signalRelease: 0.2,
+  signalSustainMillis: 3000,
 }
 
 /**

@@ -1,7 +1,7 @@
-import SpeechProcessor from '../audioprocessing/SpeechProcessor'
+import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
-import { WebsocketResponseType, WorkerSignal } from './types'
+import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
 import { VadOptions } from '../client'
 
 /**
@@ -45,7 +45,7 @@ class WebsocketClient {
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
   private websocket?: WebSocket
-  private speechProcessor?: SpeechProcessor
+  private audioProcessor?: AudioProcessor
   private controlSAB?: Int32Array
   private dataSAB?: Float32Array
 
@@ -72,28 +72,29 @@ class WebsocketClient {
     this.websocket.addEventListener('close', this.onWebsocketClose)
   }
 
-  setSourceSampleRate(sourceSampleRate: number, vadOptions?: VadOptions): void {
-    this.speechProcessor = new SpeechProcessor(sourceSampleRate, this.targetSampleRate, 5)
-    if (!vadOptions) {
-      this.speechProcessor.Vad = new EnergyTresholdVAD({ Enabled: false })
-    } else {
-      this.speechProcessor.Vad = new EnergyTresholdVAD(vadOptions)
+  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): void {
+    console.log('got vad options', vadOptions)
+    this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
+
+    if (vadOptions) {
+      this.audioProcessor.Vad = new EnergyTresholdVAD(vadOptions)
+
+      this.audioProcessor.onVadSignalHigh = () => {
+        console.log('onSignalHigh')
+        this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+      }
+      this.audioProcessor.onVadSignalLow = () => {
+        console.log('onSignalLow')
+        this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+      }
     }
 
-    this.speechProcessor.onSignalHigh = () => {
-      console.log('onSignalHigh')
-      this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
-    }
-    this.speechProcessor.onSignalLow = () => {
-      console.log('onSignalLow')
-      this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
-    }
-    this.speechProcessor.SendAudio = (s, startIndex, length) => {
+    this.audioProcessor.SendAudio = (s, startIndex, length) => {
       AudioTools.ConvertFloatToInt16(s, this.outputAudioFrame, startIndex, length)
       this.send(this.outputAudioFrame)
     }
 
-    this.workerCtx.postMessage({ type: WorkerSignal.SourceSampleRateSetSuccess })
+    this.workerCtx.postMessage({ type: WorkerSignal.AudioProcessorReady })
   }
 
   setSharedArrayBuffers(controlSAB: number, dataSAB: number): void {
@@ -106,11 +107,15 @@ class WebsocketClient {
     setInterval(this.sendAudioFromSAB.bind(this), audioHandleInterval)
   }
 
-  sendAudio(audioChunk: Float32Array): void {
-    if (!this.speechProcessor) {
-      throw new Error('No SpeechProcessor')
+  /**
+   * Processes and sends audio
+   * @param audioChunk - audio data to process
+   */
+  processAudio(audioChunk: Float32Array): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
     }
-    this.speechProcessor.ProcessAudio(audioChunk)
+    this.audioProcessor.ProcessAudio(audioChunk)
   }
 
   sendAudioFromSAB(): void {
@@ -118,8 +123,8 @@ class WebsocketClient {
       throw new Error('No SharedArrayBuffers')
     }
 
-    if (!this.speechProcessor) {
-      throw new Error('No SpeechProcessor')
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
     }
 
     /*
@@ -138,14 +143,14 @@ class WebsocketClient {
       this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
       this.controlSAB[CONTROL.WRITE_INDEX] = 0
       if (data.length > 0) {
-        this.speechProcessor.ProcessAudio(data)
+        this.audioProcessor.ProcessAudio(data)
       }
     }
   }
 
   startContext(appId?: string): void {
-    if (!this.speechProcessor) {
-      throw Error('No SpeechProcessor')
+    if (!this.audioProcessor) {
+      throw Error('No AudioProcessor')
     }
 
     if (this.isContextStarted) {
@@ -153,7 +158,7 @@ class WebsocketClient {
       return
     }
 
-    this.speechProcessor.StartContext()
+    this.audioProcessor.StartContext()
     this.isContextStarted = true
 
     if (appId !== undefined) {
@@ -164,8 +169,8 @@ class WebsocketClient {
   }
 
   stopContext(): void {
-    if (!this.speechProcessor) {
-      throw Error('No SpeechProcessor')
+    if (!this.audioProcessor) {
+      throw Error('No AudioProcessor')
     }
 
     if (!this.isContextStarted) {
@@ -173,7 +178,7 @@ class WebsocketClient {
       return
     }
 
-    this.speechProcessor.StopContext()
+    this.audioProcessor.StopContext()
     this.isContextStarted = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
     this.send(StopEventJSON)
@@ -286,29 +291,29 @@ const websocketClient = new WebsocketClient(ctx)
 
 ctx.onmessage = function (e) {
   switch (e.data.type) {
-    case 'INIT':
+    case ControllerSignal.connect:
       websocketClient.connect(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
-    case 'SET_SOURCE_SAMPLE_RATE':
-      websocketClient.setSourceSampleRate(e.data.sourceSampleRate, e.data.vadOptions)
+    case ControllerSignal.initAudioProcessor:
+      websocketClient.initAudioProcessor(e.data.sourceSampleRate, e.data.vadOptions)
       break
-    case 'SET_SHARED_ARRAY_BUFFERS':
+    case ControllerSignal.SET_SHARED_ARRAY_BUFFERS:
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
       break
-    case 'CLOSE':
+    case ControllerSignal.CLOSE:
       websocketClient.closeWebsocket(1000, 'Close requested by client')
       break
-    case 'START_CONTEXT':
+    case ControllerSignal.START_CONTEXT:
       websocketClient.startContext(e.data.appId)
       break
-    case 'SWITCH_CONTEXT':
+    case ControllerSignal.SWITCH_CONTEXT:
       websocketClient.switchContext(e.data.appId)
       break
-    case 'STOP_CONTEXT':
+    case ControllerSignal.STOP_CONTEXT:
       websocketClient.stopContext()
       break
-    case 'AUDIO':
-      websocketClient.sendAudio(e.data.payload)
+    case ControllerSignal.AUDIO:
+      websocketClient.processAudio(e.data.payload)
       break
     default:
       console.log('WORKER', e)

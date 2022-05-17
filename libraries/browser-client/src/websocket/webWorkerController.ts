@@ -1,4 +1,4 @@
-import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal } from './types'
+import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 // import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
 import { VadOptions } from '../client'
@@ -32,7 +32,7 @@ export class WebWorkerController implements APIClient {
 
   async initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void> {
     this.worker.postMessage({
-      type: 'INIT',
+      type: ControllerSignal.connect,
       apiUrl,
       authToken,
       targetSampleRate,
@@ -48,11 +48,11 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void> {
+  async initAudioProcessor(sourceSampleRate: number, vadOptionOverrides?: Partial<VadOptions>): Promise<void> {
     this.worker.postMessage({
-      type: 'SET_SOURCE_SAMPLE_RATE',
+      type: ControllerSignal.initAudioProcessor,
       sourceSampleRate,
-      vadOptions,
+      vadOptions: vadOptionOverrides,
     })
 
     return new Promise(resolve => {
@@ -63,7 +63,7 @@ export class WebWorkerController implements APIClient {
   async close(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.worker.postMessage({
-        type: 'CLOSE',
+        type: ControllerSignal.CLOSE,
         code: 1000,
         message: 'Client has ended the session',
       })
@@ -81,9 +81,9 @@ export class WebWorkerController implements APIClient {
         }
       })
       if (appId != null) {
-        this.worker.postMessage({ type: 'START_CONTEXT', appId })
+        this.worker.postMessage({ type: ControllerSignal.START_CONTEXT, appId })
       } else {
-        this.worker.postMessage({ type: 'START_CONTEXT' })
+        this.worker.postMessage({ type: ControllerSignal.START_CONTEXT })
       }
     })
   }
@@ -98,7 +98,7 @@ export class WebWorkerController implements APIClient {
         }
       })
 
-      this.worker.postMessage({ type: 'STOP_CONTEXT' })
+      this.worker.postMessage({ type: ControllerSignal.STOP_CONTEXT })
     })
   }
 
@@ -111,7 +111,7 @@ export class WebWorkerController implements APIClient {
           resolve(id as string)
         }
       })
-      this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
+      this.worker.postMessage({ type: ControllerSignal.SWITCH_CONTEXT, appId })
     })
   }
 
@@ -120,7 +120,7 @@ export class WebWorkerController implements APIClient {
   }
 
   sendAudio(audioChunk: Float32Array): void {
-    this.worker.postMessage({ type: 'AUDIO', payload: audioChunk })
+    this.worker.postMessage({ type: ControllerSignal.AUDIO, payload: audioChunk })
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
@@ -138,7 +138,7 @@ export class WebWorkerController implements APIClient {
           wasClean: event.data.wasClean,
         })
         break
-      case WorkerSignal.SourceSampleRateSetSuccess:
+      case WorkerSignal.AudioProcessorReady:
         if (this.resolveSourceSampleRateSet != null) {
           this.resolveSourceSampleRateSet()
         }

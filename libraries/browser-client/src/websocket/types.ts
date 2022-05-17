@@ -47,15 +47,30 @@ export enum WebsocketResponseType {
 }
 
 /**
- * Messages from worker
+ * Messages from worker to controller
  * @public
  */
 export enum WorkerSignal {
   Opened = 'WEBSOCKET_OPEN',
   Closed = 'WEBSOCKET_CLOSED',
-  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
+  AudioProcessorReady = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   VadSignalHigh = 'VadSignalHigh',
   VadSignalLow = 'VadSignalLow',
+}
+
+/**
+ * Messages from controller to worker
+ * @public
+ */
+export enum ControllerSignal {
+  connect = 'connect',
+  initAudioProcessor = 'initAudioProcessor',
+  SET_SHARED_ARRAY_BUFFERS = 'SET_SHARED_ARRAY_BUFFERS',
+  CLOSE = 'CLOSE',
+  START_CONTEXT = 'START_CONTEXT',
+  SWITCH_CONTEXT = 'SWITCH_CONTEXT',
+  STOP_CONTEXT = 'STOP_CONTEXT',
+  AUDIO = 'AUDIO',
 }
 
 /**
@@ -202,7 +217,7 @@ export interface APIClient {
    *
    * @param sourceSampleRate - sample rate of audio source.
    */
-  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
+  initAudioProcessor(sourceSampleRate: number, vadOptionOverrides?: Partial<VadOptions>): Promise<void>
 
   /**
    * Closes the client.
