@@ -200,7 +200,7 @@ x	0	0	category	Travel bags	Travel bags	Travel bags	Travel bag
 x	0	0	category	Tunics	Tunics	Tunics	Tunic
 x	0	0	category	Underpants	Underpants	Underpants	Panties	Pantie	Knickers	Nickers
 x	0	0	category	Undershirts	Undershirts	Undershirts
-x	0	0	category	Underwear	Underwear	Underwear	Undies	Lingerie	Boxers	Boxer shorts	briefs	undergarments	jockstraps	crop tops
+x	0	0	category	Underwear	Underwear	Underwear	Undies	Lingerie	Boxers	Boxer shorts	briefs	brief	undergarments	jockstraps
 x	0	0	category	Vest	Vest	Vests	Vest
 x	0	0	category	Walking shoes	Walking shoes	Walking shoes
 x	0	0	category	Wallets	Wallets	Wallets	Wallet
@@ -1286,7 +1286,7 @@ x	0	0	brand	1566	Tiger of Sweden	Tiger of Sweden
 	0	0	brand	364	Vaude	Vaude
 	0	0	brand	632	Vero Moda	Vero Moda
 	0	0	brand	4463	Victoria	Victoria
-x	0	0	brand	289	Viking	Viking	Viking cascade	Viking Toasty	Viking cascade two	Viking cascade ii
+x	0	0	brand	289	Viking	Viking	Viking cascade	Viking Toasty	Viking toasty two	Viking cascade two	Viking cascade ii
 x	0	0	brand	2652	Scarpe	Scarpe
 x	0	0	brand	7695	Zara	Zara	zara
 	0	0	brand	70	Vila	Vila

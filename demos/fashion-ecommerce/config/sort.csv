@@ -23,7 +23,7 @@ cheap,price_asc
 cheapest,price_asc
 least expensive,price_asc
 increasing price,price_asc
-cost, price_asc
+cost,price_asc
 popular,popularity_desc
 most popular,popularity_desc
 popularity,popularity_desc
@@ -32,7 +32,7 @@ top sellers,popularity_desc
 top seller,popularity_desc
 top selling,popularity_desc
 favorite,popularity_desc
-fanciest,popularity_desc 
+fanciest,popularity_desc
 fancy,popularity_desc
 most sold,popularity_desc
 new,new_desc
