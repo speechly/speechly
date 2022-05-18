@@ -13,50 +13,56 @@ import AudioTools from './AudioTools'
 */
 
 class EnergyTresholdVAD {
-  vadOptions: VadOptions
+  public isSignalDetected = false
+  public signalDb = -90.0
+  public noiseLevelDb = -90.0
 
-  FrameMillis = 30
+  public readonly vadOptions: VadOptions
+  public readonly frameMillis = 30
 
-  IsSignalDetected = false
-  SignalDb = -90.0
-  NoiseLevelDb = -90.0
-
-  Energy = 0.0
-  BaselineEnergy = -1.0
-  loudFrameBits = 0
-  vadSustainMillisLeft = 0
+  private energy = 0.0
+  private baselineEnergy = -1.0
+  private loudFrameBits = 0
+  private vadSustainMillisLeft = 0
 
   constructor(vadOptions: VadOptions) {
     this.vadOptions = vadOptions
   }
 
-  public ProcessFrame(floats: Float32Array, start = 0, length = -1): void {
+  public resetVAD(): void {
+    this.isSignalDetected = false
+    this.loudFrameBits = 0
+    this.energy = 0
+    this.baselineEnergy = -1
+  }
+
+  public processFrame(floats: Float32Array, start = 0, length = -1): void {
     if (!this.vadOptions.enabled) {
-      this.ResetVAD()
+      this.resetVAD()
       return
     }
 
-    this.Energy = AudioTools.GetEnergy(floats, start, length)
+    this.energy = AudioTools.getEnergy(floats, start, length)
 
-    if (this.BaselineEnergy < 0) {
-      this.BaselineEnergy = this.Energy
+    if (this.baselineEnergy < 0) {
+      this.baselineEnergy = this.energy
     }
 
-    const isLoudFrame = this.Energy > Math.max(AudioTools.DbToEnergy(this.vadOptions.noiseGateDb), this.BaselineEnergy * AudioTools.DbToEnergy(this.vadOptions.signalToNoiseDb))
-    this.PushFrameHistory(isLoudFrame)
+    const isLoudFrame = this.energy > Math.max(AudioTools.dbToEnergy(this.vadOptions.noiseGateDb), this.baselineEnergy * AudioTools.dbToEnergy(this.vadOptions.signalToNoiseDb))
+    this.pushFrameHistory(isLoudFrame)
 
-    this.IsSignalDetected = this.DetermineNewSignalState(this.IsSignalDetected)
+    this.isSignalDetected = this.determineNewSignalState(this.isSignalDetected)
 
-    this.AdaptBackgroundNoise()
+    this.adaptBackgroundNoise()
 
-    this.SignalDb = AudioTools.EnergyToDb(this.Energy / this.BaselineEnergy)
-    this.NoiseLevelDb = AudioTools.EnergyToDb(this.BaselineEnergy)
+    this.signalDb = AudioTools.energyToDb(this.energy / this.baselineEnergy)
+    this.noiseLevelDb = AudioTools.energyToDb(this.baselineEnergy)
   }
 
-  private DetermineNewSignalState(currentState: boolean): boolean {
-    this.vadSustainMillisLeft = Math.max(this.vadSustainMillisLeft - this.FrameMillis, 0)
+  private determineNewSignalState(currentState: boolean): boolean {
+    this.vadSustainMillisLeft = Math.max(this.vadSustainMillisLeft - this.frameMillis, 0)
 
-    const loudFrames = this.CountLoudFrames(this.vadOptions.signalSearchFrames)
+    const loudFrames = this.countLoudFrames(this.vadOptions.signalSearchFrames)
 
     const activationFrames = Math.round(this.vadOptions.signalActivation * this.vadOptions.signalSearchFrames)
     const releaseFrames = Math.round(this.vadOptions.signalRelease * this.vadOptions.signalSearchFrames)
@@ -74,21 +80,21 @@ class EnergyTresholdVAD {
     return currentState
   }
 
-  private AdaptBackgroundNoise(): void {
+  private adaptBackgroundNoise(): void {
     // Gradually learn background noise level
-    if (!this.IsSignalDetected) {
+    if (!this.isSignalDetected) {
       if (this.vadOptions.noiseLearnHalftimeMillis > 0) {
-        var decay = Math.pow(2.0, -this.FrameMillis / this.vadOptions.noiseLearnHalftimeMillis)
-        this.BaselineEnergy = (this.BaselineEnergy * decay) + (this.Energy * (1 - decay))
+        var decay = Math.pow(2.0, -this.frameMillis / this.vadOptions.noiseLearnHalftimeMillis)
+        this.baselineEnergy = (this.baselineEnergy * decay) + (this.energy * (1 - decay))
       }
     }
   }
 
-  private PushFrameHistory(isLoud: boolean): void {
+  private pushFrameHistory(isLoud: boolean): void {
     this.loudFrameBits = (isLoud ? 1 : 0) | (this.loudFrameBits << 1)
   }
 
-  private CountLoudFrames(numHistoryFrames: number): number {
+  private countLoudFrames(numHistoryFrames: number): number {
     let numActiveFrames = 0
     let t = this.loudFrameBits
     while (numHistoryFrames > 0) {
@@ -97,13 +103,6 @@ class EnergyTresholdVAD {
       numHistoryFrames--
     }
     return numActiveFrames
-  }
-
-  private ResetVAD(): void {
-    this.IsSignalDetected = false
-    this.loudFrameBits = 0
-    this.Energy = 0
-    this.BaselineEnergy = -1
   }
 }
 
