@@ -2,7 +2,7 @@ import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
 import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
-import { VadOptions } from '../client'
+import { ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -54,6 +54,8 @@ class WebsocketClient {
 
   private debug: boolean = false
 
+  private defaultContextOptions?: ContextOptions
+
   constructor(ctx: Worker) {
     this.workerCtx = ctx
   }
@@ -79,15 +81,23 @@ class WebsocketClient {
       this.audioProcessor.Vad = new EnergyTresholdVAD(vadOptions)
 
       this.audioProcessor.onVadSignalHigh = () => {
-        this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+        if (!this.defaultContextOptions?.immediate) {
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+        } else {
+          this.startContext()
+        }
       }
       this.audioProcessor.onVadSignalLow = () => {
-        this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+        if (!this.defaultContextOptions?.immediate) {
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+        } else {
+          this.stopContext()
+        }
       }
     }
 
-    this.audioProcessor.SendAudio = (s, startIndex, length) => {
-      AudioTools.ConvertFloatToInt16(s, this.outputAudioFrame, startIndex, length)
+    this.audioProcessor.SendAudio = (floats: Float32Array, startIndex: number, length: number) => {
+      AudioTools.ConvertFloatToInt16(floats, this.outputAudioFrame, startIndex, length)
       this.send(this.outputAudioFrame)
     }
 
@@ -101,7 +111,30 @@ class WebsocketClient {
     if (this.debug) {
       console.log('[WebSocketClient]', 'Audio handle interval', audioHandleInterval, 'ms')
     }
-    setInterval(this.sendAudioFromSAB.bind(this), audioHandleInterval)
+    setInterval(this.processAudioSAB.bind(this), audioHandleInterval)
+  }
+
+  startStream(defaultContextOptions?: ContextOptions): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    this.defaultContextOptions = defaultContextOptions
+    this.audioProcessor.startStream()
+  }
+
+  stopStream(): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    if (this.isContextStarted) {
+      // Ensure stopContext is called in immediate mode
+      this.stopContext()
+    }
+
+    this.audioProcessor.stopStream()
+    this.defaultContextOptions = undefined
   }
 
   /**
@@ -112,25 +145,14 @@ class WebsocketClient {
     if (!this.audioProcessor) {
       throw new Error('No AudioProcessor')
     }
+
     this.audioProcessor.ProcessAudio(audioChunk)
   }
 
-  sendAudioFromSAB(): void {
+  processAudioSAB(): void {
     if (!this.controlSAB || !this.dataSAB) {
       throw new Error('No SharedArrayBuffers')
     }
-
-    if (!this.audioProcessor) {
-      throw new Error('No AudioProcessor')
-    }
-
-    /*
-    if (!this.isContextStarted) {
-      this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
-      this.controlSAB[CONTROL.WRITE_INDEX] = 0
-      return
-    }
-    */
 
     const framesAvailable = this.controlSAB[CONTROL.FRAMES_AVAILABLE]
     const lock = this.controlSAB[CONTROL.LOCK]
@@ -140,7 +162,7 @@ class WebsocketClient {
       this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
       this.controlSAB[CONTROL.WRITE_INDEX] = 0
       if (data.length > 0) {
-        this.audioProcessor.ProcessAudio(data)
+        this.processAudio(data)
       }
     }
   }
@@ -299,6 +321,12 @@ ctx.onmessage = function (e) {
       break
     case ControllerSignal.CLOSE:
       websocketClient.closeWebsocket(1000, 'Close requested by client')
+      break
+    case ControllerSignal.startStream:
+      websocketClient.startStream(e.data.options)
+      break
+    case ControllerSignal.stopStream:
+      websocketClient.stopStream()
       break
     case ControllerSignal.START_CONTEXT:
       websocketClient.startContext(e.data.appId)

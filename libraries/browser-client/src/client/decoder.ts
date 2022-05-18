@@ -150,6 +150,17 @@ export class CloudDecoder {
     }
   }
 
+  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
+    await this.apiClient.startStream(defaultContextOptions)
+  }
+
+  async stopStream(): Promise<void> {
+    if (this.state === DecoderState.Active) {
+      await this.stopContext()
+    }
+    await this.apiClient.stopStream()
+  }
+
   /**
    * Starts a new SLU context by sending a start context event to the API.
    */
@@ -184,8 +195,6 @@ export class CloudDecoder {
       throw Error('[Decoder] Unable to complete startContext: Problem acquiring contextId')
     }
 
-    this.activeContexts.set(contextId, new Map<number, SegmentState>())
-    this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(contextId)))
     return contextId
   }
 
@@ -215,8 +224,6 @@ export class CloudDecoder {
     await this.sleep(this.contextStopDelay)
     try {
       const contextId = await this.apiClient.stopContext()
-      this.activeContexts.delete(contextId)
-      this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(contextId)))
       return contextId
     } catch (err) {
       this.setState(DecoderState.Failed)
@@ -266,12 +273,27 @@ export class CloudDecoder {
     switch (response.type) {
       case WorkerSignal.VadSignalHigh:
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(true)))
-        return
+        break
       case WorkerSignal.VadSignalLow:
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
-        return
+        break
+      case WebsocketResponseType.Started: {
+        this.activeContexts.set(response.audio_context, new Map<number, SegmentState>())
+        this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
+        break
+      }
+      case WebsocketResponseType.Stopped: {
+        this.activeContexts.delete(response.audio_context)
+        this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
+        break
+      }
+      default:
+        this.handleSegmentUpdate(response)
+        break
     }
+  }
 
+  private readonly handleSegmentUpdate = (response: WebsocketResponse): void => {
     const { audio_context, segment_id, type } = response
     let { data } = response
 

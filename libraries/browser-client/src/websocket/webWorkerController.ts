@@ -1,7 +1,7 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 // import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
-import { VadOptions } from '../client'
+import { ContextOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -69,6 +69,14 @@ export class WebWorkerController implements APIClient {
       })
       resolve()
     })
+  }
+
+  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.startStream, options: defaultContextOptions })
+  }
+
+  async stopStream(): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.stopStream })
   }
 
   async startContext(appId?: string): Promise<string> {
@@ -144,6 +152,7 @@ export class WebWorkerController implements APIClient {
         }
         break
       case WebsocketResponseType.Started:
+        this.onResponseCb(response)
         this.startCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
@@ -154,6 +163,7 @@ export class WebWorkerController implements APIClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
+        this.onResponseCb(response)
         this.stopCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)

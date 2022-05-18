@@ -2,7 +2,6 @@ import AudioTools from './AudioTools'
 import EnergyTresholdVAD from './EnergyTresholdVAD'
 
 class AudioProcessor {
-  IsAudioStreaming = true
   public Vad?: EnergyTresholdVAD
   /**
    * Returns true when StartContext is called and expecting StopContext next
@@ -14,6 +13,7 @@ class AudioProcessor {
    */
   public StreamSamplePos = 0
   public SamplesSent = 0
+  public utteranceSerial = -1
   public SendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
   public onVadSignalLow = (): void => {}
   public onVadSignalHigh = (): void => {}
@@ -43,40 +43,52 @@ class AudioProcessor {
   public StartContext(): void {
     this.IsActive = true
     this.SamplesSent = 0
+    this.utteranceSerial++
   }
 
   public StopContext(): void {
     this.IsActive = false
   }
 
-  /// <summary>
-  /// Process speech audio samples from a microphone or other audio source.
-  ///
-  /// It's recommended to constantly feed new audio as long as you want to use Speechly's SLU services.
-  ///
-  /// You can control when to start and stop process speech either manually with <see cref="StartContext"/> and <see cref="StopContext"/> or
-  /// automatically by providing a voice activity detection (VAD) field to <see cref="SpeechlyClient"/>.
-  ///
-  /// The audio is handled as follows:
-  /// - Downsample to 16kHz if needed
-  /// - Add to history ringbuffer
-  /// - Calculate energy (VAD)
-  /// - Automatic Start/StopContext (VAD)
-  /// - Send utterance audio to a file
-  /// - Send utterance audio to Speechly SLU decoder
-  /// </summary>
-  /// <param name="floats">Array of float containing samples to feed to the audio pipeline. Each sample needs to be in range -1f..1f.</param>
-  /// <param name="start">Start index of audio to process in samples (default: `0`).</param>
-  /// <param name="length">Length of audio to process in samples or `-1` to process the whole array (default: `-1`).</param>
-  /// <param name="forceSubFrameProcess"><see cref="StopStream"/> internally uses this to force processing of last subframe at end of audio stream (default: `false`).</param>
+  public startStream(): void {
+    this.streamFramePos = 0
+    this.StreamSamplePos = 0
+    this.frameSamplePos = 0
+    this.currentFrameNumber = 0
+    this.utteranceSerial = -1
+  }
+
+  public stopStream(): void {
+    // Process remaining frame samples
+    this.ProcessAudio(this.sampleRingBuffer, 0, this.frameSamplePos, true)
+
+    if (this.IsActive) {
+      this.StopContext()
+    }
+  }
+
+  /**
+   * Process speech audio samples from a microphone or other audio source.
+   *
+   * You can control when to start and stop process speech either manually with <see cref="StartContext"/> and <see cref="StopContext"/> or
+   * automatically by providing a voice activity detection (VAD) field to <see cref="SpeechlyClient"/>.
+   *
+   * The audio is handled as follows:
+   * - Downsample to 16kHz if needed
+   * - Add to history ringbuffer
+   * - Calculate energy (VAD)
+   * - Automatic Start/StopContext (VAD)
+   * - Send utterance audio to a file
+   * - Send utterance audio to Speechly SLU decoder
+   *
+   * @param floats - Array of float containing samples to feed to the audio pipeline. Each sample needs to be in range -1f..1f.
+   * @param start - Start index of audio to process in samples (default: `0`).
+   * @param length - Length of audio to process in samples or `-1` to process the whole array (default: `-1`).
+   * @param forceSubFrameProcess - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
+   * @returns
+   */
 
   public ProcessAudio(floats: Float32Array, start = 0, length = -1, forceSubFrameProcess = false): void {
-    /*
-    if (!this.IsAudioStreaming) {
-      StartStream(AudioInputStreamIdentifier, auto: false);  // Assume no auto-start/stop if ProcessAudio call encountered before startContext call
-    }
-    */
-
     if (length < 0) length = floats.length
     if (length === 0) return
 

@@ -1,4 +1,4 @@
-import { VadOptions } from '../client'
+import { ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -71,6 +71,8 @@ export enum ControllerSignal {
   SWITCH_CONTEXT = 'SWITCH_CONTEXT',
   STOP_CONTEXT = 'STOP_CONTEXT',
   AUDIO = 'AUDIO',
+  startStream = 'startStream',
+  stopStream = 'stopStream',
 }
 
 /**
@@ -259,4 +261,9 @@ export interface APIClient {
    * @param message - message to send.
    */
   postMessage(message: Object): void
+
+  startStream(defaultContextOptions?: ContextOptions): Promise<void>
+
+  stopStream(): Promise<void>
+
 }

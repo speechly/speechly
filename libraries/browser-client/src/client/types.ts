@@ -170,4 +170,10 @@ export class EventCallbacks {
  */
 export interface ContextOptions {
   appId?: string
+
+  /**
+   * BrowserClient.uploadAudioData internally uses this to set audio worker
+   * to ‘immediate audio processor’ mode where it can control start/stop context at its own pace.
+   */
+  immediate?: boolean
 }

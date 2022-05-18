@@ -267,7 +267,15 @@ export class BrowserClient {
       }
     }
 
-    const contextId = await this.start(options)
+    await this.startStream({ immediate: true })
+
+    let contextId: string
+    const vadActive = this.vadOptions?.enabled && this.vadOptions?.controlListening
+    if (!vadActive) {
+      contextId = await this.start(options)
+    } else {
+      contextId = 'multiple context ids'
+    }
 
     let sendBuffer: Float32Array
     for (let b = 0; b < samples.length; b += 16000) {
@@ -280,8 +288,30 @@ export class BrowserClient {
       this.handleAudio(sendBuffer)
     }
 
-    await this.stop()
+    if (!vadActive) {
+      await this.stop()
+    }
+
+    await this.stopStream()
+
     return contextId
+  }
+
+  /**
+   * If the application starts and resumes the flow of audio, `startStream` should be called at start of a continuous audio stream.
+   * If you're using VAD that controls starting and stopping audio contexts automatically, you can pass optional inference time options.
+   * It resets the stream sample counters and history.
+   */
+  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
+    await this.decoder.startStream(defaultContextOptions)
+  }
+
+  /**
+   * If the application starts and resumes the flow of audio, `stopStream` should be called at the end of a continuous audio stream.
+   * It ensures that all of the internal audio buffers are flushed for processing.
+   */
+  async stopStream(): Promise<void> {
+    await this.decoder.stopStream()
   }
 
   /**
