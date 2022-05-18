@@ -4,7 +4,7 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { ClientState, MessageType } from "./constants";
+  import { DecoderState, MessageType } from "./constants";
 
   export let hide = "auto";
   export let clientstate: string = undefined;
@@ -14,7 +14,7 @@
   export let customcssurl = undefined;
   export let customtypography = undefined;
 
-  $: if (clientstate) onClientStateChange(parseInt(clientstate) as ClientState)
+  $: if (clientstate) onClientStateChange(parseInt(clientstate) as DecoderState)
 
   let firstConnect = true;
 
@@ -28,7 +28,7 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let mounted = false;
-  let page: ClientState | string = PagePriming;
+  let page: DecoderState | string = PagePriming;
   let introTimeout = null;
   let showAllowButton = false;
 
@@ -74,9 +74,9 @@
         break;
       case MessageType.holdstart:
         switch (e.data.state) {
-          case ClientState.Failed:
-          case ClientState.NoAudioConsent:
-          case ClientState.NoBrowserSupport:
+          case DecoderState.Failed:
+          // case ClientState.NoAudioConsent:
+          // case ClientState.NoBrowserSupport:
             showError(e.data.state);
             break;
         }
@@ -86,7 +86,7 @@
     }
   }
 
-  const showError = (e: ClientState | string) => {
+  const showError = (e: DecoderState | string) => {
     if (hide === "auto") {
       visibility = true;
     }
@@ -109,8 +109,9 @@
     window.location.replace(newUrl)
   }
 
-  const onClientStateChange = (state: ClientState) => {
+  const onClientStateChange = (state: DecoderState) => {
     switch (state) {
+      /*
       case ClientState.Initializing:
         // Allow only going forward in pages to prevent hiding an error
         if (page === PagePriming) {
@@ -125,9 +126,10 @@
           visibility = true;
         }
         break;
-      case ClientState.Connected:
-      case ClientState.Starting:
-      case ClientState.Recording:
+      */
+      case DecoderState.Connected:
+      // case ClientState.Starting:
+      // case ClientState.Recording:
         if (firstConnect) {
           // All good, hide this popup
           firstConnect = false;
@@ -141,9 +143,9 @@
           }
         }
         break;
-      case ClientState.Failed:
-      case ClientState.NoAudioConsent:
-      case ClientState.NoBrowserSupport:
+      case DecoderState.Failed:
+      // case ClientState.NoAudioConsent:
+      // case ClientState.NoBrowserSupport:
         showError(state);
         break;
     }
@@ -171,7 +173,7 @@
   <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
-      {#if page === PagePriming || page === ClientState.Initializing}
+      {#if page === PagePriming || page === "@TODO ClientState.Initializing"}
         <h2><slot name="priming-title">Allow microphone</slot></h2>
         <p>
           <slot name="priming-body">
@@ -182,7 +184,7 @@
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
           {#if showAllowButton}
-            <button on:click={initialize} class="button button-primary" disabled={page === ClientState.Initializing}>Allow</button>
+            <button on:click={initialize} class="button button-primary" disabled={page === "@TODO ClientState.Initializing"}>Allow</button>
           {/if}
         </options>
       {:else if page === HttpsRequired}
@@ -197,7 +199,7 @@
             Try with HTTPS
           </button>
         </options>
-      {:else if page === ClientState.NoAudioConsent}
+      {:else if page === "@TODO ClientState.NoAudioConsent"}
         <h2>Microphone blocked</h2>
         <p>
           To use voice input, {window.location.hostname} needs access to your microphone. Check your
@@ -207,7 +209,7 @@
           <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
           <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
         </options>
-      {:else if page === ClientState.NoBrowserSupport}
+      {:else if page === "@TODO ClientState.NoBrowserSupport"}
         <h2>Unsupported browser</h2>
         <p>
           To use voice input, please visit this site using a supported browser.

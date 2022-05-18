@@ -4,8 +4,8 @@
   import type { Segment, IHoldEvent } from "./types";
   import "./holdable-button.ts";
   import "./call-out.ts";
-  import { Client } from "@speechly/browser-client";
-  import { ClientState, LocalStorageKeys, MessageType } from "./constants";
+  import { BrowserClient, BrowserMicrophone } from "@speechly/browser-client";
+  import { DecoderState, LocalStorageKeys, MessageType } from "./constants";
   import { onMount } from "svelte";
   import { createDispatchUnbounded} from "./fixDispatch";
 
@@ -15,7 +15,6 @@
 
   export let projectid: string = undefined;
   export let appid: string = undefined;
-  export let loginurl = undefined;
   export let apiurl = undefined;
 
   export let capturekey = " ";
@@ -61,14 +60,14 @@
 
   let tapListenTimeout = null;
   let tangentStartPromise = null;
-  let icon = ClientState.Disconnected;
+  let icon = DecoderState.Disconnected;
 
   $: tipCallOutText = intro;
   $: connect(projectid, appid);
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
-  let clientState: ClientState = ClientState.Disconnected;
+  let clientState: DecoderState = DecoderState.Disconnected;
 
   onMount(() => {
     mounted = true;
@@ -89,10 +88,13 @@
         connect: false,
         ...(appid && !projectid && {appId: appid}),
         ...(projectid && {projectId: projectid}),
-        ...(loginurl && {loginUrl: loginurl}),
         ...(apiurl && {apiUrl: apiurl}),
       }
-      client = new Client(clientOptions);
+
+      client = new BrowserClient(clientOptions);
+
+      // Make BrowserClient available thru window for Intro Popup
+      window.SpeechlyClient = client
 
       client.onStateChange(onStateChange);
       client.onSegmentChange((segment: Segment) => {
@@ -104,7 +106,7 @@
         window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
       });
 
-      client.connect();
+      // @TODO FIX PRE-WARM client.connect();
 
       tipCalloutVisible = true;
     }
@@ -115,7 +117,9 @@
     // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
 
     try {
-      await client.initialize();
+      const microphone = new BrowserMicrophone()
+      await microphone.initialize()
+      await client.attach(microphone.mediaStream)
     } catch (e) {
       console.error("Speechly initialization failed", e);
       client = null;
@@ -138,7 +142,7 @@
           window.postMessage({
             type: MessageType.speechlypoweron
           }, "*");
-        } else if (clientState >= ClientState.Connected) {
+        } else if (clientState >= DecoderState.Connected) {
           holdListenActive = true;
         } else {
           if (appid || projectid) {
@@ -154,10 +158,10 @@
         }
 
         if (holdListenActive) {
-          wasListening = client.isListening()
-          if (!client.isListening()) {
+          wasListening = client.isActive()
+          if (!client.isActive()) {
             dispatchUnbounded("startcontext");
-            client.startContext(appid);
+            client.start(appid);
           }
         }
       }
@@ -209,7 +213,7 @@
 
   const stopListening = () => {
     if (client) {
-      client.stopContext();
+      client.stop();
       dispatchUnbounded("stopcontext");
     }
     updateSkin();
@@ -219,21 +223,16 @@
     if (clientState !== null) icon = clientState;
   };
 
-  const isConnectable = (clientState?: ClientState) => {
-    if (!clientState) return true;
-    return clientState === ClientState.Disconnected;
-  };
-
-  const onStateChange = (s: ClientState) => {
+  const onStateChange = (s: DecoderState) => {
     clientState = s;
     updateSkin();
     switch(s) {
-      case ClientState.Failed:
-      case ClientState.NoBrowserSupport:
-      case ClientState.NoAudioConsent:
+      case DecoderState.Failed:
+      // case ClientState.NoBrowserSupport:
+      // case ClientState.NoAudioConsent:
         setInitialized(false, s as unknown as string);
         break;
-      case ClientState.Connected:
+      case DecoderState.Connected:
         setInitialized(true, s as unknown as string);
         break;
     }

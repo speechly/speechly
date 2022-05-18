@@ -164,14 +164,6 @@ export default [
   },
 
   {...webComponentDefaults,
-    input: 'src/error-panel.ts',
-    output: {
-      ...webComponentDefaults.output,
-      file: 'core/error-panel.js'
-    },
-  },
-
-  {...webComponentDefaults,
     input: 'src/video-guide.ts',
     output: {
       ...webComponentDefaults.output,

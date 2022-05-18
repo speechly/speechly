@@ -2,7 +2,7 @@
 
 <script lang="ts">
   import type { Segment, ITaggedWord } from "./types";
-  import { ClientState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
+  import { DecoderState, MessageType } from "./constants";  // Re-exported from @speechl./fixTransitionclient. See types.ts for explanation.
   import fix from './fixTransition'
   import { get_current_component } from "svelte/internal";
   import { draw as draw_orig } from 'svelte/transition';
@@ -35,7 +35,7 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
   $: wordTransitionInMs = useDemoMode ? 800 : 350;
   $: {
-    const newVisibility = clientState === ClientState.Recording || showingTranscript;
+    const newVisibility = clientState === DecoderState.Active || showingTranscript;
     if (newVisibility !== visibility) {
       dispatchUnbounded("visibilitychanged", newVisibility);
     }
@@ -48,7 +48,7 @@
   let vumeter = undefined;
   let timeout = null;
   let lastSegmentId = null;
-  let clientState = ClientState.Disconnected;
+  let clientState = DecoderState.Disconnected;
   let showingTranscript = false;
   let visibility = false;
   let acknowledged = false;
@@ -99,9 +99,9 @@
     acknowledged = acknowledged || success;
   }
 
-  export const speechstate = (state: ClientState) => {
+  export const speechstate = (state: DecoderState) => {
     clientState = state;
-    if (clientState === ClientState.Recording) {
+    if (clientState === DecoderState.Active) {
       acknowledged = false;
       words = [];
       lastSegmentId = null;
@@ -112,7 +112,7 @@
     if (segment === undefined) return;
 
     // Animate VU meter
-    if (vumeter && (useDemoMode || clientState === ClientState.Recording)) {
+    if (vumeter && (useDemoMode || clientState === DecoderState.Active)) {
       vumeter.updateVU(Math.random() * 0.50 + 0.50, Math.random() * 75 + 75);
     }
 
