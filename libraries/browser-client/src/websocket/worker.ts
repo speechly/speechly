@@ -78,7 +78,7 @@ class WebsocketClient {
     this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
 
     if (vadOptions) {
-      this.audioProcessor.Vad = new EnergyTresholdVAD(vadOptions)
+      this.audioProcessor.vad = new EnergyTresholdVAD(vadOptions)
 
       this.audioProcessor.onVadSignalHigh = () => {
         if (!this.defaultContextOptions?.immediate) {
@@ -96,8 +96,8 @@ class WebsocketClient {
       }
     }
 
-    this.audioProcessor.SendAudio = (floats: Float32Array, startIndex: number, length: number) => {
-      AudioTools.ConvertFloatToInt16(floats, this.outputAudioFrame, startIndex, length)
+    this.audioProcessor.sendAudio = (floats: Float32Array, startIndex: number, length: number) => {
+      AudioTools.convertFloatToInt16(floats, this.outputAudioFrame, startIndex, length)
       this.send(this.outputAudioFrame)
     }
 
@@ -146,7 +146,7 @@ class WebsocketClient {
       throw new Error('No AudioProcessor')
     }
 
-    this.audioProcessor.ProcessAudio(audioChunk)
+    this.audioProcessor.processAudio(audioChunk)
   }
 
   processAudioSAB(): void {
@@ -177,7 +177,7 @@ class WebsocketClient {
       return
     }
 
-    this.audioProcessor.StartContext()
+    this.audioProcessor.startContext()
     this.isContextStarted = true
 
     if (appId !== undefined) {
@@ -197,7 +197,7 @@ class WebsocketClient {
       return
     }
 
-    this.audioProcessor.StopContext()
+    this.audioProcessor.stopContext()
     this.isContextStarted = false
     const StopEventJSON = JSON.stringify({ event: 'stop' })
     this.send(StopEventJSON)
