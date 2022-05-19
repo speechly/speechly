@@ -65,6 +65,10 @@ export interface DecoderOptions {
   vad?: Partial<VadOptions>
 }
 
+/**
+ * Options for voice activity detection (VAD)
+ * @public
+ */
 export interface VadOptions {
   /**
    * Run energy analysis
@@ -120,6 +124,10 @@ export interface VadOptions {
   controlListening: boolean
 }
 
+/**
+ * Default options for voice activity detection (VAD)
+ * @public
+ */
 export const VadDefaultOptions: VadOptions = {
   enabled: false,
   controlListening: true,
