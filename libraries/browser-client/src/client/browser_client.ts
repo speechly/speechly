@@ -21,10 +21,13 @@ export class BrowserClient {
 
   private readonly vadOptions?: VadOptions
   private initialized: boolean = false
+  private isStreaming: boolean = false
+  private isStreamAutoStarted: boolean = false
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
   private audioProcessor?: ScriptProcessorNode
   private stream?: MediaStreamAudioSourceNode
+  private listeningPromise: Promise<any> | null = null
 
   private stats = {
     maxSignalEnergy: 0.0,
@@ -54,13 +57,17 @@ export class BrowserClient {
   }
 
   onVadStateChange(active: boolean): void {
-    console.log('onVadStateChange', active)
-    if (active) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      if (!this.active) this.start()
-    } else {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      if (this.active) this.stop()
+    if (this.debug) {
+      console.log('[BrowserClient]', 'onVadStateChange', active)
+    }
+    if (this.vadOptions?.controlListening) {
+      if (active) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (!this.active) this.start()
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (this.active) this.stop()
+      }
     }
   }
 
@@ -184,6 +191,11 @@ export class BrowserClient {
     }
     await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.vadOptions)
 
+    // Auto-start stream if VAD enabled
+    if (this.vadOptions?.enabled) {
+      await this.startStream()
+    }
+
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
@@ -304,6 +316,7 @@ export class BrowserClient {
    */
   async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
     await this.decoder.startStream(defaultContextOptions)
+    this.isStreaming = true
   }
 
   /**
@@ -312,6 +325,17 @@ export class BrowserClient {
    */
   async stopStream(): Promise<void> {
     await this.decoder.stopStream()
+    this.isStreaming = false
+    this.isStreamAutoStarted = false
+  }
+
+  private async queueTask(task: () => Promise<any>): Promise<any> {
+    const prevTask = this.listeningPromise
+    this.listeningPromise = (async () => {
+      await prevTask
+      return task()
+    })()
+    return this.listeningPromise
   }
 
   /**
@@ -322,10 +346,18 @@ export class BrowserClient {
    * @returns The contextId of the active audio context.
    */
   async start(options?: ContextOptions): Promise<string> {
-    await this.initialize()
-    const startPromise = this.decoder.startContext(options)
-    this.active = true
-    return startPromise
+    const promise = await this.queueTask(async () => {
+      await this.initialize()
+      if (!this.isStreaming) {
+        // Automatically control streaming for backwards compability
+        await this.startStream()
+        this.isStreamAutoStarted = true
+      }
+      const startPromise = this.decoder.startContext(options)
+      this.active = true
+      return startPromise
+    })
+    return promise
   }
 
   /**
@@ -335,24 +367,34 @@ export class BrowserClient {
    * @returns The contextId of the stopped context, or null if no context is active.
    */
   async stop(): Promise<string | null> {
-    let contextId = null
-    try {
-      contextId = await this.decoder.stopContext()
-      if (this.stats.sentSamples === 0) {
-        console.warn('[BrowserClient]', 'audioContext contained no audio data')
+    const contextId = await this.queueTask(async () => {
+      let contextId = null
+      try {
+        contextId = await this.decoder.stopContext()
+        if (this.isStreaming && this.isStreamAutoStarted) {
+          // Automatically control streaming for backwards compability
+          await this.stopStream()
+        }
+
+        if (this.stats.sentSamples === 0) {
+          console.warn('[BrowserClient]', 'audioContext contained no audio data')
+        }
+      } catch (err) {
+        console.warn('[BrowserClient]', 'stop() failed', err)
+      } finally {
+        this.active = false
+        this.stats.sentSamples = 0
       }
-    } catch (err) {
-      console.warn('[BrowserClient]', 'stop() failed', err)
-    } finally {
-      this.active = false
-      this.stats.sentSamples = 0
-    }
+      return contextId
+    })
     return contextId
   }
 
   private handleAudio(array: Float32Array): void {
-    this.stats.sentSamples += array.length
-    this.decoder.sendAudio(array)
+    if (this.isStreaming) {
+      this.stats.sentSamples += array.length
+      this.decoder.sendAudio(array)
+    }
   }
 
   /**

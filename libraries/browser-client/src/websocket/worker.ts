@@ -81,17 +81,21 @@ class WebsocketClient {
       this.audioProcessor.vad = new EnergyTresholdVAD(vadOptions)
 
       this.audioProcessor.onVadSignalHigh = () => {
-        if (!this.defaultContextOptions?.immediate) {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+        if (this.defaultContextOptions?.immediate) {
+          if (vadOptions.controlListening) {
+            this.startContext()
+          }
         } else {
-          this.startContext()
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
         }
       }
       this.audioProcessor.onVadSignalLow = () => {
-        if (!this.defaultContextOptions?.immediate) {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+        if (this.defaultContextOptions?.immediate) {
+          if (vadOptions.controlListening) {
+            this.stopContext()
+          }
         } else {
-          this.stopContext()
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
         }
       }
     }
@@ -120,7 +124,7 @@ class WebsocketClient {
     }
 
     this.defaultContextOptions = defaultContextOptions
-    this.audioProcessor.startStream()
+    this.audioProcessor.resetStream()
   }
 
   stopStream(): void {
@@ -133,7 +137,6 @@ class WebsocketClient {
       this.stopContext()
     }
 
-    this.audioProcessor.stopStream()
     this.defaultContextOptions = undefined
   }
 

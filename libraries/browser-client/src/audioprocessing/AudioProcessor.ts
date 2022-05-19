@@ -47,10 +47,11 @@ class AudioProcessor {
   }
 
   public stopContext(): void {
+    this.flush()
     this.isActive = false
   }
 
-  public startStream(): void {
+  public resetStream(): void {
     this.streamFramePos = 0
     this.streamSamplePos = 0
     this.frameSamplePos = 0
@@ -59,13 +60,8 @@ class AudioProcessor {
     this.vad?.resetVAD()
   }
 
-  public stopStream(): void {
-    // Process remaining frame samples
+  private flush(): void {
     this.processAudio(this.sampleRingBuffer, 0, this.frameSamplePos, true)
-
-    if (this.isActive) {
-      this.stopContext()
-    }
   }
 
   /**
@@ -85,11 +81,11 @@ class AudioProcessor {
    * @param floats - Array of float containing samples to feed to the audio pipeline. Each sample needs to be in range -1f..1f.
    * @param start - Start index of audio to process in samples (default: `0`).
    * @param length - Length of audio to process in samples or `-1` to process the whole array (default: `-1`).
-   * @param forceSubFrameProcess - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
+   * @param flush - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
    * @returns
    */
 
-  public processAudio(floats: Float32Array, start = 0, length = -1, forceSubFrameProcess = false): void {
+  public processAudio(floats: Float32Array, start = 0, length = -1, flush = false): void {
     if (length < 0) length = floats.length
     if (length === 0) return
 
@@ -123,11 +119,10 @@ class AudioProcessor {
       }
 
       // Process frame
-      if (this.frameSamplePos === this.frameSamples || forceSubFrameProcess) {
-        this.frameSamplePos = 0
-        const subFrameSamples = forceSubFrameProcess ? this.frameSamplePos : this.frameSamples
+      if (this.frameSamplePos === this.frameSamples || flush) {
+        const subFrameSamples = flush ? this.frameSamplePos : this.frameSamples
 
-        if (!forceSubFrameProcess) {
+        if (!flush) {
           this.processFrame(this.sampleRingBuffer, frameBase, subFrameSamples)
         }
 
@@ -146,9 +141,12 @@ class AudioProcessor {
           this.samplesSent += subFrameSamples
         }
 
-        this.streamFramePos += 1
-        this.streamSamplePos += subFrameSamples
-        this.currentFrameNumber = (this.currentFrameNumber + 1) % this.historyFrames
+        if (this.frameSamplePos === this.frameSamples) {
+          this.frameSamplePos = 0
+          this.streamFramePos += 1
+          this.streamSamplePos += subFrameSamples
+          this.currentFrameNumber = (this.currentFrameNumber + 1) % this.historyFrames
+        }
       }
     }
   }
@@ -165,7 +163,7 @@ class AudioProcessor {
   }
 
   private autoControlListening(): void {
-    if (this.vad?.vadOptions.enabled && this.vad?.vadOptions.controlListening) {
+    if (this.vad?.vadOptions.enabled) {
       if (!this.isSignalDetected && this.vad.isSignalDetected) {
         this.onVadSignalHigh()
         this.isSignalDetected = true

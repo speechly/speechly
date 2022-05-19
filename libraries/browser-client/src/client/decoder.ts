@@ -380,9 +380,6 @@ export class CloudDecoder {
         return
       }
 
-      // Reset
-      this.listeningPromise = null
-
       this.setState(DecoderState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
