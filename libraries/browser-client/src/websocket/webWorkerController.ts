@@ -1,5 +1,4 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
-// import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
 import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 

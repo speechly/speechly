@@ -3,6 +3,7 @@ import EnergyTresholdVAD from './EnergyTresholdVAD'
 
 class AudioProcessor {
   public vad?: EnergyTresholdVAD
+
   /**
    * Returns true when StartContext is called and expecting StopContext next
    */
@@ -75,7 +76,6 @@ class AudioProcessor {
    * - Add to history ringbuffer
    * - Calculate energy (VAD)
    * - Automatic Start/StopContext (VAD)
-   * - Send utterance audio to a file
    * - Send utterance audio to Speechly SLU decoder
    *
    * @param floats - Array of float containing samples to feed to the audio pipeline. Each sample needs to be in range -1f..1f.
@@ -84,7 +84,6 @@ class AudioProcessor {
    * @param flush - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
    * @returns
    */
-
   public processAudio(floats: Float32Array, start = 0, length = -1, flush = false): void {
     if (length < 0) length = floats.length
     if (length === 0) return
