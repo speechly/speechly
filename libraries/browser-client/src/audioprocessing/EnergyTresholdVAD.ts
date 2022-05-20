@@ -17,7 +17,7 @@ class EnergyTresholdVAD {
   public signalDb = -90.0
   public noiseLevelDb = -90.0
 
-  public readonly vadOptions: VadOptions
+  public vadOptions: VadOptions
   public readonly frameMillis = 30
 
   private energy = 0.0
@@ -27,6 +27,10 @@ class EnergyTresholdVAD {
 
   constructor(vadOptions: VadOptions) {
     this.vadOptions = vadOptions
+  }
+
+  public adjustVadOptions(vadOptions: Partial<VadOptions>): void {
+    this.vadOptions = { ...this.vadOptions, ...vadOptions }
   }
 
   public resetVAD(): void {

@@ -2,7 +2,7 @@ import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
 import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
-import { ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -81,21 +81,33 @@ class WebsocketClient {
       this.audioProcessor.vad = new EnergyTresholdVAD(vadOptions)
 
       this.audioProcessor.onVadSignalHigh = () => {
-        if (this.defaultContextOptions?.immediate) {
-          if (vadOptions.controlListening) {
-            this.startContext()
+        const currentVadOptions = this.audioProcessor?.vad?.vadOptions
+        if (currentVadOptions) {
+          if (this.defaultContextOptions?.immediate) {
+            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
+              this.startContext()
+            }
+          } else {
+            if (this.audioProcessor?.vad?.vadOptions.enabled) {
+              if (currentVadOptions.enabled && currentVadOptions.controlListening) {
+                this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+              }
+            }
           }
-        } else {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
         }
       }
       this.audioProcessor.onVadSignalLow = () => {
-        if (this.defaultContextOptions?.immediate) {
-          if (vadOptions.controlListening) {
-            this.stopContext()
+        const currentVadOptions = this.audioProcessor?.vad?.vadOptions
+        if (currentVadOptions) {
+          if (this.defaultContextOptions?.immediate) {
+            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
+              this.stopContext()
+            }
+          } else {
+            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
+              this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+            }
           }
-        } else {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
         }
       }
     }
@@ -106,6 +118,23 @@ class WebsocketClient {
     }
 
     this.workerCtx.postMessage({ type: WorkerSignal.AudioProcessorReady })
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    if (ap.vad) {
+      if (!this.audioProcessor.vad) {
+        throw new Error('No VAD in AudioProcessor. Did you define `vad` in BrowserClient constructor parameters?')
+      }
+      this.audioProcessor.vad.adjustVadOptions(ap.vad)
+    }
   }
 
   setSharedArrayBuffers(controlSAB: number, dataSAB: number): void {
@@ -318,6 +347,9 @@ ctx.onmessage = function (e) {
       break
     case ControllerSignal.initAudioProcessor:
       websocketClient.initAudioProcessor(e.data.sourceSampleRate, e.data.vadOptions)
+      break
+    case ControllerSignal.adjustAudioProcessor:
+      websocketClient.adjustAudioProcessor(e.data.params)
       break
     case ControllerSignal.SET_SHARED_ARRAY_BUFFERS:
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)

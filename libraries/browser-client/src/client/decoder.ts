@@ -19,7 +19,7 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -126,6 +126,14 @@ export class CloudDecoder {
       })()
     }
     await this.connectPromise
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    this.apiClient.adjustAudioProcessor(ap)
   }
 
   /**

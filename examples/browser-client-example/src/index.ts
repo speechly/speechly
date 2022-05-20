@@ -11,6 +11,8 @@ import {
   BrowserClient,
 } from "@speechly/browser-client";
 
+var decoderState = DecoderState.Disconnected
+
 window.onload = () => {
   let mic: BrowserMicrophone;
   let browserClient: BrowserClient;
@@ -23,10 +25,11 @@ window.onload = () => {
     updateStatus(e.message);
     return;
   }
+
   mic = new BrowserMicrophone()
   browserClient = new BrowserClient({
     decoder,
-    vad: { enabled: true, noiseGateDb: -24.0 },
+    vad: { enabled: false, noiseGateDb: -24.0 },
     debug: true
   })
 
@@ -62,18 +65,19 @@ window.onload = () => {
     connectButton.innerHTML =
       state === DecoderState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
+    decoderState = state
   });
 
-  bindConnectButton(decoder);
+  bindConnectButton(browserClient);
   bindInitializeButton(browserClient, mic);
   bindListenButton(browserClient);
   bindUploadButton();
   bindFileSelector(browserClient);
   bindCloseButton(browserClient, mic);
+  bindVadToggle(browserClient);
 };
 
 function newDecoder(): CloudDecoder {
-  // const appId = "d9abea67-18e5-4c4e-b7fc-51f66d3219e2";
   const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
   if (appId === undefined) {
     throw Error("Missing Speechly app ID!");
@@ -208,16 +212,16 @@ function bindListenButton(bc: BrowserClient) {
   recordDiv.addEventListener("touchend", stopRecording);
 }
 
-function bindConnectButton(decoder: CloudDecoder) {
+function bindConnectButton(bc: BrowserClient) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (decoder.state === DecoderState.Disconnected) {
+    if (decoderState === DecoderState.Disconnected) {
       try {
-        await decoder.connect();
+        await bc.initialize();
       } catch (err) {
         console.error("Error connecting Speechly:", err);
       }
     } else {
-      await decoder.close();
+      await bc.close();
     }
   };
   const connectButton = document.getElementById("connect") as HTMLElement;
@@ -230,7 +234,10 @@ function bindInitializeButton(bc: BrowserClient, mic: BrowserMicrophone) {
 
     try {
       await mic.initialize();
-      await bc.initialize({mediaStream: mic.mediaStream});
+      await bc.attach(mic.mediaStream!)
+      // Set initial vad state
+      const vadChecked = (document.getElementById("vad") as HTMLInputElement).checked
+      bc.adjustAudioProcessor( { vad: { enabled: vadChecked }})
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
@@ -254,6 +261,24 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
 
   const closeButton = document.getElementById("close") as HTMLElement;
   closeButton.addEventListener("click", close);
+}
+
+function bindVadToggle(bc: BrowserClient) {
+  const toggle = async (event: MouseEvent | TouchEvent) => {
+    if (event.target) {
+      if (decoderState !== DecoderState.Disconnected) {
+        const checked = (event.target as HTMLInputElement).checked
+        try {
+          bc.adjustAudioProcessor( { vad: { enabled: checked }})
+        } catch (err) {
+          console.error("Error with adjustAudioProcessor:", err);
+        }
+      }
+    }
+  };
+
+  const el = document.getElementById("vad") as HTMLInputElement;
+  el.addEventListener("click", toggle);
 }
 
 function bindUploadButton() {

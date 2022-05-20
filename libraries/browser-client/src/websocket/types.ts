@@ -1,4 +1,4 @@
-import { ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -65,6 +65,7 @@ export enum WorkerSignal {
 export enum ControllerSignal {
   connect = 'connect',
   initAudioProcessor = 'initAudioProcessor',
+  adjustAudioProcessor = 'adjustAudioProcessor',
   SET_SHARED_ARRAY_BUFFERS = 'SET_SHARED_ARRAY_BUFFERS',
   CLOSE = 'CLOSE',
   START_CONTEXT = 'START_CONTEXT',
@@ -220,6 +221,12 @@ export interface APIClient {
    * @param sourceSampleRate - sample rate of audio source.
    */
   initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void
 
   /**
    * Closes the client.

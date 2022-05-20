@@ -1,4 +1,4 @@
-import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions } from './types'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions, AudioProcessorParameters } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
@@ -191,14 +191,22 @@ export class BrowserClient {
     }
     await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.vadOptions)
 
-    // Auto-start stream if VAD enabled
-    if (this.vadOptions?.enabled) {
+    // Auto-start stream if VAD is defined
+    if (this.vadOptions) {
       await this.startStream()
     }
 
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    this.decoder.adjustAudioProcessor(ap)
   }
 
   /**
@@ -394,6 +402,7 @@ export class BrowserClient {
     if (this.isStreaming) {
       this.stats.sentSamples += array.length
       this.decoder.sendAudio(array)
+      console.log('handleAudio')
     }
   }
 

@@ -124,6 +124,10 @@ export interface VadOptions {
   controlListening: boolean
 }
 
+export interface AudioProcessorParameters {
+  vad?: Partial<VadOptions>
+}
+
 /**
  * Default options for voice activity detection (VAD)
  * @public

@@ -1,7 +1,7 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 // import worker from './worker'
 import WebsocketClient from 'web-worker:./worker'
-import { ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -57,6 +57,17 @@ export class WebWorkerController implements APIClient {
 
     return new Promise(resolve => {
       this.resolveSourceSampleRateSet = resolve
+    })
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    this.worker.postMessage({
+      type: ControllerSignal.adjustAudioProcessor,
+      params: ap,
     })
   }
 
