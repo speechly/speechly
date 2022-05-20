@@ -52,7 +52,11 @@ import { BrowserClient, BrowserMicrophone, Segment } from '@speechly/browser-cli
 
 // Create a new client.
 // NOTE: Configure and get your appId from https://api.speechly.com/dashboard
-const client = new BrowserClient({ appId: 'your-app-id' })
+// NOTE: Set vad.enable to true for hands free use
+const client = new BrowserClient({
+  appId: 'your-app-id'
+  vad: { enabled: false, noiseGateDb: -24.0 }
+})
 
 // Create a microphone
 const microphone = new BrowserMicrophone()
