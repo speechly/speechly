@@ -402,7 +402,6 @@ export class BrowserClient {
     if (this.isStreaming) {
       this.stats.sentSamples += array.length
       this.decoder.sendAudio(array)
-      console.log('handleAudio')
     }
   }
 
