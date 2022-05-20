@@ -17,6 +17,8 @@ const esmBundle = {
     commonjs(),
     nodeResolve(),
     webWorkerLoader( {
+      "web-worker": /.+\.worker$/,
+      pattern: /.+\.worker$/,
       extensions: ['.js', '.ts'],
       targetPlatform: 'browser',
     } ),
@@ -37,6 +39,8 @@ const umdMinBundle = {
     commonjs(),
     nodeResolve(),
     webWorkerLoader( {
+      "web-worker": /.+\.worker$/,
+      pattern: /.+\.worker$/,
       extensions: ['.js', '.ts'],
       targetPlatform: 'base64',
     } ),

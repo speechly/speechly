@@ -1,6 +1,6 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 // import worker from './worker'
-import WebsocketClient from 'web-worker:./worker'
+import WebsocketClient from './WebsocketClient.worker'
 import { ContextOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void

@@ -41,7 +41,7 @@ const CONTROL = {
 }
 
 class WebsocketClient {
-  private readonly workerCtx: Worker
+  public workerCtx: Worker
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
   private websocket?: WebSocket
