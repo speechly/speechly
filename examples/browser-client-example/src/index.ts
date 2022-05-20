@@ -85,7 +85,6 @@ function newDecoder(): CloudDecoder {
 
   const opts: DecoderOptions = {
     appId,
-    // apiUrl: 'https://staging.speechly.com',
     debug: true, // process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
