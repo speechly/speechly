@@ -82,32 +82,23 @@ class WebsocketClient {
 
       this.audioProcessor.onVadSignalHigh = () => {
         const currentVadOptions = this.audioProcessor?.vad?.vadOptions
-        if (currentVadOptions) {
-          if (this.defaultContextOptions?.immediate) {
-            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
-              this.startContext()
-            }
-          } else {
-            if (this.audioProcessor?.vad?.vadOptions.enabled) {
-              if (currentVadOptions.enabled && currentVadOptions.controlListening) {
-                this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
-              }
-            }
-          }
+        if (!(currentVadOptions?.enabled && currentVadOptions?.controlListening)) return
+
+        if (this.defaultContextOptions?.immediate) {
+          this.startContext()
+        } else {
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
         }
       }
+
       this.audioProcessor.onVadSignalLow = () => {
         const currentVadOptions = this.audioProcessor?.vad?.vadOptions
-        if (currentVadOptions) {
-          if (this.defaultContextOptions?.immediate) {
-            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
-              this.stopContext()
-            }
-          } else {
-            if (currentVadOptions.enabled && currentVadOptions.controlListening) {
-              this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
-            }
-          }
+        if (!(currentVadOptions?.enabled && currentVadOptions?.controlListening)) return
+
+        if (this.defaultContextOptions?.immediate) {
+          this.stopContext()
+        } else {
+          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
         }
       }
     }
