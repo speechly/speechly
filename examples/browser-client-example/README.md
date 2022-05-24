@@ -36,6 +36,9 @@ export REACT_APP_APP_ID="your-app-id"
 
 # Configure your Speechly app language
 export REACT_APP_LANGUAGE="your-app-language"
+
+# OPTIONAL Configure your Speechly app timezone for Date entities. By default using the timezone of the browser.
+export REACT_APP_TIMEZONE="your-app-timezone"
 ```
 For instructions on how to get started on the Speechly free tier and obtain your appId, please see the [Quick Start Guide](https://docs.speechly.com/quick-start).
 

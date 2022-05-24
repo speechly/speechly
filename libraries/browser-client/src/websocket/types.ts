@@ -74,6 +74,7 @@ export enum ControllerSignal {
   AUDIO = 'AUDIO',
   startStream = 'startStream',
   stopStream = 'stopStream',
+  setContextOptions = 'setContextOptions',
 }
 
 /**
@@ -240,7 +241,7 @@ export interface APIClient {
    * Starts a new audio context by sending the start event to the API.
    * The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
    */
-  startContext(appId?: string): Promise<string>
+  startContext(options?: ContextOptions): Promise<string>
 
   /**
    * Stops an audio context by sending the stop event to the API.
@@ -252,7 +253,7 @@ export interface APIClient {
    * Stops current context and immediately starts a new SLU context
    * by sending a start context event to the API and unmuting the microphone.
    */
-  switchContext(appId: string): Promise<string>
+  switchContext(options: ContextOptions): Promise<string>
 
   /**
    * Sends audio to the API.
@@ -272,5 +273,12 @@ export interface APIClient {
   startStream(defaultContextOptions?: ContextOptions): Promise<void>
 
   stopStream(): Promise<void>
+
+  /**
+   * Sets the default context options (appId, inference parameters, timezone). New audio contextes
+   * use these options until new options are provided. Decoder's functions startContext() or startStream() can
+   * also override the options per function call.
+   */
+  setContextOptions(options: ContextOptions): Promise<void>
 
 }

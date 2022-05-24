@@ -359,7 +359,7 @@ export class BrowserClient {
       await this.initialize()
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
-        await this.startStream()
+        await this.startStream(options)
         this.isStreamAutoStarted = true
       }
       const startPromise = this.decoder.startContext(options)
