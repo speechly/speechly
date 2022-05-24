@@ -270,7 +270,7 @@ export interface APIClient {
    */
   postMessage(message: Object): void
 
-  startStream(defaultContextOptions?: ContextOptions): Promise<void>
+  startStream(): Promise<void>
 
   stopStream(): Promise<void>
 

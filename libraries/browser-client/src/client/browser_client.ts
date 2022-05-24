@@ -276,7 +276,8 @@ export class BrowserClient {
       }
     }
 
-    await this.startStream({ immediate: true })
+    await this.adjustAudioProcessor({ immediate: true })
+    await this.startStream()
 
     let contextId: string
     const vadActive = this.vadOptions?.enabled && this.vadOptions?.controlListening
@@ -303,6 +304,7 @@ export class BrowserClient {
     }
 
     await this.stopStream()
+    await this.adjustAudioProcessor({ immediate: false })
 
     return contextId
   }

@@ -81,8 +81,8 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
-    this.worker.postMessage({ type: ControllerSignal.startStream, options: defaultContextOptions })
+  async startStream(): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.startStream })
   }
 
   async stopStream(): Promise<void> {

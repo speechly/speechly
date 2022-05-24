@@ -50,6 +50,7 @@ class WebsocketClient {
   private controlSAB?: Int32Array
   private dataSAB?: Float32Array
 
+  private immediateMode = false
   private readonly frameMillis = 30
   private readonly outputAudioFrame: Int16Array = new Int16Array(this.frameMillis * this.targetSampleRate / 1000)
 
@@ -86,7 +87,7 @@ class WebsocketClient {
         if (!currentVadOptions) return
 
         if (isSignalDetected) {
-          if (!this.defaultContextOptions?.immediate) {
+          if (!this.immediateMode) {
             this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
           } else if (currentVadOptions.controlListening) {
             this.startContext(this.defaultContextOptions)
@@ -94,7 +95,7 @@ class WebsocketClient {
         }
 
         if (!isSignalDetected) {
-          if (!this.defaultContextOptions?.immediate) {
+          if (!this.immediateMode) {
             this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
           } else if (currentVadOptions.controlListening) {
             this.stopContext()
@@ -119,6 +120,10 @@ class WebsocketClient {
   adjustAudioProcessor(ap: AudioProcessorParameters): void {
     if (!this.audioProcessor) {
       throw new Error('No AudioProcessor')
+    }
+
+    if (ap.immediate !== undefined) {
+      this.immediateMode = ap.immediate
     }
 
     if (ap.vad) {

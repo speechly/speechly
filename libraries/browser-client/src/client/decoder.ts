@@ -157,8 +157,8 @@ export class CloudDecoder {
     }
   }
 
-  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
-    await this.apiClient.startStream(defaultContextOptions)
+  async startStream(): Promise<void> {
+    await this.apiClient.startStream()
   }
 
   async stopStream(): Promise<void> {
