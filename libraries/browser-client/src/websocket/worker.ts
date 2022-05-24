@@ -44,6 +44,7 @@ class WebsocketClient {
   private readonly workerCtx: Worker
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
+  private contextStartTime: number = 0
   private websocket?: WebSocket
   private audioProcessor?: AudioProcessor
   private controlSAB?: Int32Array
@@ -201,6 +202,7 @@ class WebsocketClient {
 
     this.audioProcessor.startContext()
     this.isContextStarted = true
+    this.contextStartTime = this.audioProcessor.getStreamPosition()
 
     if (appId !== undefined) {
       this.send(JSON.stringify({ event: 'start', appId }))

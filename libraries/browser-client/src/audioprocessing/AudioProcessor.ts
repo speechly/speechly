@@ -65,6 +65,13 @@ class AudioProcessor {
   }
 
   /**
+   * @returns current position in stream in seconds
+   */
+  public getStreamPosition(): number {
+    return this.streamSamplePos / this.inputSampleRate
+  }
+
+  /**
    * Process speech audio samples from a microphone or other audio source.
    *
    * You can control when to start and stop process speech either manually with <see cref="StartContext"/> and <see cref="StopContext"/> or
