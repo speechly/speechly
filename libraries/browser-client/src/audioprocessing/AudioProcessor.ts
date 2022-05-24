@@ -1,8 +1,8 @@
 import AudioTools from './AudioTools'
-import EnergyTresholdVAD from './EnergyTresholdVAD'
+import EnergyThresholdVAD from './EnergyThresholdVAD'
 
 class AudioProcessor {
-  public vad?: EnergyTresholdVAD
+  public vad?: EnergyThresholdVAD
 
   /**
    * Returns true when StartContext is called and expecting StopContext next
@@ -15,9 +15,8 @@ class AudioProcessor {
   public streamSamplePos = 0
   public samplesSent = 0
   public utteranceSerial = -1
-  public sendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
-  public onVadSignalLow = (): void => {}
-  public onVadSignalHigh = (): void => {}
+  public onSendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
+  public onVadStateChange = (isSignalDetected: boolean): void => {}
 
   private readonly inputSampleRate: number = 16000
   private readonly internalSampleRate: number = 16000
@@ -30,7 +29,7 @@ class AudioProcessor {
   private currentFrameNumber: number = 0
   private frameSamplePos: number = 0
   private streamFramePos: number = 0
-  private isSignalDetected: boolean = false
+  private wasSignalDetected: boolean = false
 
   constructor(inputSampleRate: number, outputSampleRate: number, historyFrames: number) {
     this.inputSampleRate = inputSampleRate
@@ -131,12 +130,12 @@ class AudioProcessor {
             const sendHistory = Math.min(this.streamFramePos, this.historyFrames - 1)
             let historyFrameIndex = (this.currentFrameNumber + this.historyFrames - sendHistory) % this.historyFrames
             while (historyFrameIndex !== this.currentFrameNumber) {
-              this.sendAudio(this.sampleRingBuffer, historyFrameIndex * this.frameSamples, this.frameSamples)
+              this.onSendAudio(this.sampleRingBuffer, historyFrameIndex * this.frameSamples, this.frameSamples)
               this.samplesSent += this.frameSamples
               historyFrameIndex = (historyFrameIndex + 1) % this.historyFrames
             }
           }
-          this.sendAudio(this.sampleRingBuffer, frameBase, subFrameSamples)
+          this.onSendAudio(this.sampleRingBuffer, frameBase, subFrameSamples)
           this.samplesSent += subFrameSamples
         }
 
@@ -151,27 +150,16 @@ class AudioProcessor {
   }
 
   private processFrame(floats: Float32Array, start = 0, length = -1): void {
-    this.analyzeAudioFrame(floats, start, length)
-    this.autoControlListening()
-  }
-
-  private analyzeAudioFrame(waveData: Float32Array, s: number, frameSamples: number): void {
     if (this.vad?.vadOptions.enabled) {
-      this.vad.processFrame(waveData, s, frameSamples)
+      this.processVadFrame(this.vad, floats, start, length)
     }
   }
 
-  private autoControlListening(): void {
-    if (this.vad?.vadOptions.enabled) {
-      if (!this.isSignalDetected && this.vad.isSignalDetected) {
-        this.onVadSignalHigh()
-        this.isSignalDetected = true
-      }
-
-      if (this.isSignalDetected && !this.vad.isSignalDetected) {
-        this.onVadSignalLow()
-        this.isSignalDetected = false
-      }
+  private processVadFrame(vad: EnergyThresholdVAD, floats: Float32Array, start = 0, length = -1): void {
+    vad.processFrame(floats, start, length)
+    if (vad.isSignalDetected !== this.wasSignalDetected) {
+      this.onVadStateChange(vad.isSignalDetected)
+      this.wasSignalDetected = vad.isSignalDetected
     }
   }
 }

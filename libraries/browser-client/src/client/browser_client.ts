@@ -18,7 +18,7 @@ export class BrowserClient {
   private readonly isMobileSafari: boolean
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
-  private readonly vadOptions?: VadOptions
+  private vadOptions: VadOptions
 
   private audioContext?: AudioContext
   private initialized: boolean = false
@@ -52,24 +52,9 @@ export class BrowserClient {
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
-    this.callbacks.onVadStateChange.push(this.onVadStateChange.bind(this))
+    this.callbacks.onVadStateChange.push(this.autoControlListening.bind(this))
     this.decoder = options.decoder ?? new CloudDecoder(options)
     this.decoder.registerListener(this.callbacks)
-  }
-
-  onVadStateChange(active: boolean): void {
-    if (this.debug) {
-      console.log('[BrowserClient]', 'onVadStateChange', active)
-    }
-    if (this.vadOptions?.controlListening) {
-      if (active) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        if (!this.active) this.start()
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        if (this.active) this.stop(0)
-      }
-    }
   }
 
   /**
@@ -207,6 +192,9 @@ export class BrowserClient {
    * @param ap - Audio processor parameters to adjust
    */
   adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    if (ap.vad) {
+      this.vadOptions = { ...this.vadOptions, ...ap.vad }
+    }
     this.decoder.adjustAudioProcessor(ap)
   }
 
@@ -292,6 +280,7 @@ export class BrowserClient {
 
     let contextId: string
     const vadActive = this.vadOptions?.enabled && this.vadOptions?.controlListening
+
     if (!vadActive) {
       contextId = await this.start(options)
     } else {
@@ -352,9 +341,11 @@ export class BrowserClient {
    * If an active context already exists, an error is thrown.
    *
    * @param options - any custom options for the audio processing.
-   * @returns The contextId of the active audio context.
+   * @returns The contextId of the active audio context
    */
   async start(options?: ContextOptions): Promise<string> {
+    this.active = true
+
     const promise = await this.queueTask(async () => {
       await this.initialize()
       if (!this.isStreaming) {
@@ -363,7 +354,6 @@ export class BrowserClient {
         this.isStreamAutoStarted = true
       }
       const startPromise = this.decoder.startContext(options)
-      this.active = true
       return startPromise
     })
     return promise
@@ -372,14 +362,13 @@ export class BrowserClient {
   /**
    * Stops the current audio context and deactivates the audio processing pipeline.
    * If there is no active audio context, a warning is logged to console.
-   *
-   * @returns The contextId of the stopped context, or null if no context is active.
    */
-  async stop(stopDelayMs = this.contextStopDelay): Promise<string | null> {
-    const contextId = await this.queueTask(async () => {
-      let contextId = null
+  async stop(stopDelayMs = this.contextStopDelay): Promise<void> {
+    this.active = false
+
+    await this.queueTask(async () => {
       try {
-        contextId = await this.decoder.stopContext(stopDelayMs)
+        await this.decoder.stopContext(stopDelayMs)
         if (this.isStreaming && this.isStreamAutoStarted) {
           // Automatically control streaming for backwards compability
           await this.stopStream()
@@ -391,12 +380,24 @@ export class BrowserClient {
       } catch (err) {
         console.warn('[BrowserClient]', 'stop() failed', err)
       } finally {
-        this.active = false
         this.stats.sentSamples = 0
       }
-      return contextId
     })
-    return contextId
+  }
+
+  private autoControlListening(vadActive: boolean): void {
+    if (this.debug) {
+      console.log('[BrowserClient]', 'autoControlListening', vadActive)
+    }
+    if (this.vadOptions?.controlListening) {
+      if (vadActive) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (!this.active) this.start()
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (this.active) this.stop(0)
+      }
+    }
   }
 
   private handleAudio(array: Float32Array): void {
@@ -411,6 +412,22 @@ export class BrowserClient {
    */
   isActive(): boolean {
     return this.active
+  }
+
+  /**
+   * Adds a listener for start events
+   * @param cb - the callback to invoke on context start
+   */
+  onStart(cb: (contextId: string) => void): void {
+    this.callbacks.contextStartedCbs.push(cb)
+  }
+
+  /**
+   * Adds a listener for stop events
+   * @param cb - the callback to invoke on context stop
+   */
+  onStop(cb: (contextId: string) => void): void {
+    this.callbacks.contextStoppedCbs.push(cb)
   }
 
   /**

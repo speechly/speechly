@@ -1,5 +1,5 @@
 import AudioProcessor from '../audioprocessing/AudioProcessor'
-import EnergyTresholdVAD from '../audioprocessing/EnergyTresholdVAD'
+import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
 import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
 import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
@@ -78,32 +78,31 @@ class WebsocketClient {
     this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
 
     if (vadOptions) {
-      this.audioProcessor.vad = new EnergyTresholdVAD(vadOptions)
+      this.audioProcessor.vad = new EnergyThresholdVAD(vadOptions)
 
-      this.audioProcessor.onVadSignalHigh = () => {
+      this.audioProcessor.onVadStateChange = (isSignalDetected: boolean) => {
         const currentVadOptions = this.audioProcessor?.vad?.vadOptions
-        if (!(currentVadOptions?.enabled && currentVadOptions?.controlListening)) return
+        if (!currentVadOptions) return
 
-        if (this.defaultContextOptions?.immediate) {
-          this.startContext()
-        } else {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+        if (isSignalDetected) {
+          if (!this.defaultContextOptions?.immediate) {
+            this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+          } else if (currentVadOptions.controlListening) {
+            this.startContext()
+          }
         }
-      }
 
-      this.audioProcessor.onVadSignalLow = () => {
-        const currentVadOptions = this.audioProcessor?.vad?.vadOptions
-        if (!(currentVadOptions?.enabled && currentVadOptions?.controlListening)) return
-
-        if (this.defaultContextOptions?.immediate) {
-          this.stopContext()
-        } else {
-          this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+        if (!isSignalDetected) {
+          if (!this.defaultContextOptions?.immediate) {
+            this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+          } else if (currentVadOptions.controlListening) {
+            this.stopContext()
+          }
         }
       }
     }
 
-    this.audioProcessor.sendAudio = (floats: Float32Array, startIndex: number, length: number) => {
+    this.audioProcessor.onSendAudio = (floats: Float32Array, startIndex: number, length: number) => {
       AudioTools.convertFloatToInt16(floats, this.outputAudioFrame, startIndex, length)
       this.send(this.outputAudioFrame)
     }

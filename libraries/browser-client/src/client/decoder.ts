@@ -286,8 +286,8 @@ export class CloudDecoder {
         break
       }
       case WebsocketResponseType.Stopped: {
-        this.activeContexts.delete(response.audio_context)
         this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
+        this.activeContexts.delete(response.audio_context)
         break
       }
       default:
