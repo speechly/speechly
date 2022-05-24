@@ -160,7 +160,7 @@ It is intended to be placed as an overlay near top-left corner of the screen wit
 
 ## TranscriptDrawer component
 
-`<TranscriptDrawer/>` is an alternative to BigTranscript, displaying speech-to-text transcript and a hint text. This drawer-style component automatically appears from the top of the window when the app is listening for voice input (`SpeechState.Recording`) and hides automatically.
+`<TranscriptDrawer/>` is an alternative to BigTranscript, displaying speech-to-text transcript and a hint text. This drawer-style component automatically appears from the top of the window when the app is listening for voice input and hides automatically.
 
 Set the `hint` property to show relevant hints for your audience at the time they are likely to need it.
 
