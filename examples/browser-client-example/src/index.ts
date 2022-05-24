@@ -9,6 +9,7 @@ import {
   Segment,
   BrowserMicrophone,
   BrowserClient,
+  ContextOptions,
 } from "@speechly/browser-client";
 
 var decoderState = DecoderState.Disconnected
@@ -96,7 +97,16 @@ function newDecoder(): CloudDecoder {
     opts.apiUrl = process.env.REACT_APP_API_URL;
   }
 
-  return new CloudDecoder(opts);
+  const decoder = new CloudDecoder(opts);
+  const timezone = process.env.REACT_APP_TIMEZONE;
+  const contextOptions: ContextOptions = {appId};
+  if (timezone !== undefined) {
+    contextOptions.timezone = [timezone]
+  }
+  // ContextOptions can be specified per startContext() / startStream() call or
+  // "globally" by using setContextOptions()
+  decoder.setContextOptions(contextOptions)
+  return decoder;
 }
 
 function updateWords(words: Word[]) {

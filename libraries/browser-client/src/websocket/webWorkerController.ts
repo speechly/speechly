@@ -89,7 +89,7 @@ export class WebWorkerController implements APIClient {
     this.worker.postMessage({ type: ControllerSignal.stopStream })
   }
 
-  async startContext(appId?: string): Promise<string> {
+  async startContext(options?: ContextOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -98,11 +98,8 @@ export class WebWorkerController implements APIClient {
           resolve(id as string)
         }
       })
-      if (appId != null) {
-        this.worker.postMessage({ type: ControllerSignal.START_CONTEXT, appId })
-      } else {
-        this.worker.postMessage({ type: ControllerSignal.START_CONTEXT })
-      }
+
+      this.worker.postMessage({ type: ControllerSignal.START_CONTEXT, options })
     })
   }
 
@@ -120,7 +117,7 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async switchContext(appId: string): Promise<string> {
+  async switchContext(options: ContextOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -129,7 +126,7 @@ export class WebWorkerController implements APIClient {
           resolve(id as string)
         }
       })
-      this.worker.postMessage({ type: ControllerSignal.SWITCH_CONTEXT, appId })
+      this.worker.postMessage({ type: ControllerSignal.SWITCH_CONTEXT, options })
     })
   }
 
@@ -139,6 +136,10 @@ export class WebWorkerController implements APIClient {
 
   sendAudio(audioChunk: Float32Array): void {
     this.worker.postMessage({ type: ControllerSignal.AUDIO, payload: audioChunk })
+  }
+
+  async setContextOptions(options: ContextOptions): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.setContextOptions, options })
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {

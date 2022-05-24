@@ -188,4 +188,25 @@ export interface ContextOptions {
    * to ‘immediate audio processor’ mode where it can control start/stop context at its own pace.
    */
   immediate?: boolean
+
+  /**
+   * Inference time vocabulary.
+   */
+  vocabulary?: string[]
+
+  /**
+   * Inference time vocabulary bias.
+   */
+  vocabularyBias?: string[]
+
+  /**
+   * Inference time silence triggered segmentation.
+   */
+  silenceTriggeredSegmentation?: string[]
+
+  /**
+   * Inference timezone in [TZ database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+   * e.g. "Africa/Abidjan". Timezone should be wrapped to list, like ["Africa/Abidjan"].
+   */
+  timezone?: string[]
 }

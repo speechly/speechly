@@ -89,7 +89,7 @@ class WebsocketClient {
           if (!this.defaultContextOptions?.immediate) {
             this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
           } else if (currentVadOptions.controlListening) {
-            this.startContext()
+            this.startContext(this.defaultContextOptions)
           }
         }
 
@@ -108,6 +108,7 @@ class WebsocketClient {
       this.send(this.outputAudioFrame)
     }
 
+    if (this.workerCtx === undefined) return
     this.workerCtx.postMessage({ type: WorkerSignal.AudioProcessorReady })
   }
 
@@ -138,12 +139,11 @@ class WebsocketClient {
     setInterval(this.processAudioSAB.bind(this), audioHandleInterval)
   }
 
-  startStream(defaultContextOptions?: ContextOptions): void {
+  startStream(): void {
     if (!this.audioProcessor) {
       throw new Error('No AudioProcessor')
     }
 
-    this.defaultContextOptions = defaultContextOptions
     this.audioProcessor.resetStream()
   }
 
@@ -156,8 +156,6 @@ class WebsocketClient {
       // Ensure stopContext is called in immediate mode
       this.stopContext()
     }
-
-    this.defaultContextOptions = undefined
   }
 
   /**
@@ -190,7 +188,7 @@ class WebsocketClient {
     }
   }
 
-  startContext(appId?: string): void {
+  startContext(contextOptions?: ContextOptions): void {
     if (!this.audioProcessor) {
       throw Error('No AudioProcessor')
     }
@@ -204,11 +202,13 @@ class WebsocketClient {
     this.isContextStarted = true
     this.contextStartTime = this.audioProcessor.getStreamPosition()
 
-    if (appId !== undefined) {
-      this.send(JSON.stringify({ event: 'start', appId }))
-    } else {
-      this.send(JSON.stringify({ event: 'start' }))
+    let options: ContextOptions = this.defaultContextOptions ?? {}
+    if (contextOptions !== undefined) {
+      options = { ...options, ...contextOptions }
     }
+    const message = contextOptionsToMsg(options)
+    message.event = 'start'
+    this.send(JSON.stringify(message))
   }
 
   stopContext(): void {
@@ -227,7 +227,7 @@ class WebsocketClient {
     this.send(StopEventJSON)
   }
 
-  switchContext(newAppId: string): void {
+  switchContext(contextOptions?: ContextOptions): void {
     if (!this.websocket) {
       throw Error('WebSocket is undefined')
     }
@@ -237,14 +237,16 @@ class WebsocketClient {
       return
     }
 
-    if (newAppId === undefined) {
+    if (contextOptions?.appId === undefined) {
       console.error('[WebSocketClient]', "can't switch context: new app id is undefined")
       return
     }
 
     const StopEventJSON = JSON.stringify({ event: 'stop' })
     this.send(StopEventJSON)
-    this.send(JSON.stringify({ event: 'start', appId: newAppId }))
+    const message = contextOptionsToMsg(contextOptions)
+    message.event = 'start'
+    this.send(JSON.stringify(message))
   }
 
   closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received'): void {
@@ -327,6 +329,10 @@ class WebsocketClient {
       console.log('[WebSocketClient]', 'server connection error', error)
     }
   }
+
+  setContextOptions(options: ContextOptions): void {
+    this.defaultContextOptions = options
+  }
 }
 
 const ctx: Worker = self as any
@@ -350,16 +356,16 @@ ctx.onmessage = function (e) {
       websocketClient.closeWebsocket(1000, 'Close requested by client')
       break
     case ControllerSignal.startStream:
-      websocketClient.startStream(e.data.options)
+      websocketClient.startStream()
       break
     case ControllerSignal.stopStream:
       websocketClient.stopStream()
       break
     case ControllerSignal.START_CONTEXT:
-      websocketClient.startContext(e.data.appId)
+      websocketClient.startContext(e.data.options)
       break
     case ControllerSignal.SWITCH_CONTEXT:
-      websocketClient.switchContext(e.data.appId)
+      websocketClient.switchContext(e.data.options)
       break
     case ControllerSignal.STOP_CONTEXT:
       websocketClient.stopContext()
@@ -367,9 +373,31 @@ ctx.onmessage = function (e) {
     case ControllerSignal.AUDIO:
       websocketClient.processAudio(e.data.payload)
       break
+    case ControllerSignal.setContextOptions:
+      websocketClient.setContextOptions(e.data.options)
+      break
     default:
       console.log('WORKER', e)
   }
+}
+
+export function contextOptionsToMsg(contextOptions?: ContextOptions): Record<string, any> {
+  const message: Record<string, any> = {
+    options: {
+      timezone: [Intl.DateTimeFormat().resolvedOptions().timeZone],
+    },
+  }
+  if (contextOptions === undefined) return message
+  message.options.vocabulary = contextOptions.vocabulary
+  message.options.vocabulary_bias = contextOptions.vocabularyBias
+  message.options.silence_triggered_segmentation = contextOptions.silenceTriggeredSegmentation
+  if (contextOptions?.timezone !== undefined) {
+    message.options.timezone = contextOptions?.timezone // override browser timezone
+  }
+  if (contextOptions.appId !== undefined) {
+    message.appId = contextOptions.appId
+  }
+  return message
 }
 
 export default WebsocketClient

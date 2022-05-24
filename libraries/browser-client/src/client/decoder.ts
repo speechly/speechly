@@ -237,9 +237,9 @@ export class CloudDecoder {
   /**
    * Stops current context and immediately starts a new SLU context
    * by sending a start context event to the API and unmuting the microphone.
-   * @param appId - unique identifier of an app in the dashboard.
+   * @param options - any custom options for the audio processing.
    */
-  async switchContext(appId: string): Promise<void> {
+  async switchContext(options: ContextOptions): Promise<void> {
     if (this.state !== DecoderState.Active) {
       throw Error(
         '[Decoder] Unable to complete switchContext: Expected Active state, but was in ' +
@@ -247,7 +247,7 @@ export class CloudDecoder {
           '.',
       )
     }
-    const contextId = await this.apiClient.switchContext(appId)
+    const contextId = await this.apiClient.switchContext(options)
     this.activeContexts.set(contextId, new Map<number, SegmentState>())
   }
 
@@ -266,6 +266,10 @@ export class CloudDecoder {
       controlSAB,
       dataSAB,
     })
+  }
+
+  async setContextOptions(options: ContextOptions): Promise<void> {
+    await this.apiClient.setContextOptions(options)
   }
 
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
