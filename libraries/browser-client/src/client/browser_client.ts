@@ -10,7 +10,7 @@ import audioworklet from '../microphone/audioworklet'
  * @public
  */
 export class BrowserClient {
-  private audioContext?: AudioContext
+  private readonly contextStopDelay = 250
   private readonly nativeResamplingSupported: boolean
   private readonly debug: boolean = false
   private readonly useSAB: boolean
@@ -18,8 +18,9 @@ export class BrowserClient {
   private readonly isMobileSafari: boolean
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
-
   private readonly vadOptions?: VadOptions
+
+  private audioContext?: AudioContext
   private initialized: boolean = false
   private isStreaming: boolean = false
   private isStreamAutoStarted: boolean = false
@@ -66,7 +67,7 @@ export class BrowserClient {
         if (!this.active) this.start()
       } else {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        if (this.active) this.stop()
+        if (this.active) this.stop(0)
       }
     }
   }
@@ -257,7 +258,7 @@ export class BrowserClient {
    */
   async detach(): Promise<void> {
     if (this.active) {
-      await this.stop()
+      await this.stop(0)
     }
     if (this.stream) {
       this.stream.disconnect()
@@ -309,7 +310,7 @@ export class BrowserClient {
     }
 
     if (!vadActive) {
-      await this.stop()
+      await this.stop(0)
     }
 
     await this.stopStream()
@@ -374,11 +375,11 @@ export class BrowserClient {
    *
    * @returns The contextId of the stopped context, or null if no context is active.
    */
-  async stop(): Promise<string | null> {
+  async stop(stopDelayMs = this.contextStopDelay): Promise<string | null> {
     const contextId = await this.queueTask(async () => {
       let contextId = null
       try {
-        contextId = await this.decoder.stopContext()
+        contextId = await this.decoder.stopContext(stopDelayMs)
         if (this.isStreaming && this.isStreamAutoStarted) {
           // Automatically control streaming for backwards compability
           await this.stopStream()

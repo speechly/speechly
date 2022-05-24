@@ -47,7 +47,6 @@ export class CloudDecoder {
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
   private readonly maxReconnectAttemptCount = 10
-  private readonly contextStopDelay = 250
 
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
@@ -164,7 +163,7 @@ export class CloudDecoder {
 
   async stopStream(): Promise<void> {
     if (this.state === DecoderState.Active) {
-      await this.stopContext()
+      await this.stopContext(0)
     }
     await this.apiClient.stopStream()
   }
@@ -217,7 +216,7 @@ export class CloudDecoder {
    * Stops current SLU context by sending a stop context event to the API and muting the microphone
    * delayed by contextStopDelay = 250 ms
    */
-  async stopContext(): Promise<string> {
+  async stopContext(stopDelayMs: number): Promise<void> {
     if (this.state === DecoderState.Failed) {
       throw Error('[Decoder] stopContext cannot be run in unrecovable error state.')
     } else if (this.state !== DecoderState.Active) {
@@ -227,16 +226,12 @@ export class CloudDecoder {
           '.',
       )
     }
-    this.setState(DecoderState.Connected)
-
-    await this.sleep(this.contextStopDelay)
-    try {
-      const contextId = await this.apiClient.stopContext()
-      return contextId
-    } catch (err) {
-      this.setState(DecoderState.Failed)
-      throw err
+    if (stopDelayMs > 0) {
+      await this.sleep(stopDelayMs)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.apiClient.stopContext()
+    this.setState(DecoderState.Connected)
   }
 
   /**
