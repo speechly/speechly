@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Wed, 11 May 2022 10:44:31 GMT and should not be manually modified.
+This log was last generated on Wed, 25 May 2022 05:10:21 GMT and should not be manually modified.
+
+## 2.1.0
+Wed, 25 May 2022 05:10:21 GMT
+
+### Minor changes
+
+- Optional EnergyThreshold VAD to trigger SLU activation based on signal level."
 
 ## 2.0.1
 Wed, 11 May 2022 10:44:31 GMT
