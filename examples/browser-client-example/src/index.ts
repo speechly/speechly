@@ -9,7 +9,10 @@ import {
   Segment,
   BrowserMicrophone,
   BrowserClient,
+  ContextOptions,
 } from "@speechly/browser-client";
+
+var decoderState = DecoderState.Disconnected
 
 window.onload = () => {
   let mic: BrowserMicrophone;
@@ -23,8 +26,13 @@ window.onload = () => {
     updateStatus(e.message);
     return;
   }
+
   mic = new BrowserMicrophone()
-  browserClient = new BrowserClient({decoder, debug: true})
+  browserClient = new BrowserClient({
+    decoder,
+    vad: { enabled: false, noiseGateDb: -24.0 },
+    debug: true
+  })
 
   // High-level API, that you can use to react to segment changes.
   let handler = function (segment: Segment) {
@@ -58,14 +66,16 @@ window.onload = () => {
     connectButton.innerHTML =
       state === DecoderState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
+    decoderState = state
   });
 
-  bindConnectButton(decoder);
+  bindConnectButton(browserClient);
   bindInitializeButton(browserClient, mic);
   bindListenButton(browserClient);
   bindUploadButton();
   bindFileSelector(browserClient);
   bindCloseButton(browserClient, mic);
+  bindVadToggle(browserClient);
 };
 
 function newDecoder(): CloudDecoder {
@@ -76,18 +86,27 @@ function newDecoder(): CloudDecoder {
 
   const opts: DecoderOptions = {
     appId,
-    debug: process.env.REACT_APP_DEBUG === "true",
+    debug: true, // process.env.REACT_APP_DEBUG === "true",
     // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
     // Consider turning it off in the production as it has extra JSON.stringify operation.
     logSegments: false,
-    connect: false,
+    connect: false
   };
 
   if (process.env.REACT_APP_API_URL !== undefined) {
     opts.apiUrl = process.env.REACT_APP_API_URL;
   }
 
-  return new CloudDecoder(opts);
+  const decoder = new CloudDecoder(opts);
+  const timezone = process.env.REACT_APP_TIMEZONE;
+  const contextOptions: ContextOptions = {appId};
+  if (timezone !== undefined) {
+    contextOptions.timezone = [timezone]
+  }
+  // ContextOptions can be specified per startContext() / startStream() call or
+  // "globally" by using setContextOptions()
+  decoder.setContextOptions(contextOptions)
+  return decoder;
 }
 
 function updateWords(words: Word[]) {
@@ -202,16 +221,16 @@ function bindListenButton(bc: BrowserClient) {
   recordDiv.addEventListener("touchend", stopRecording);
 }
 
-function bindConnectButton(decoder: CloudDecoder) {
+function bindConnectButton(bc: BrowserClient) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (decoder.state === DecoderState.Disconnected) {
+    if (decoderState === DecoderState.Disconnected) {
       try {
-        await decoder.connect();
+        await bc.initialize();
       } catch (err) {
         console.error("Error connecting Speechly:", err);
       }
     } else {
-      await decoder.close();
+      await bc.close();
     }
   };
   const connectButton = document.getElementById("connect") as HTMLElement;
@@ -224,7 +243,10 @@ function bindInitializeButton(bc: BrowserClient, mic: BrowserMicrophone) {
 
     try {
       await mic.initialize();
-      await bc.initialize({mediaStream: mic.mediaStream});
+      await bc.attach(mic.mediaStream!)
+      // Set initial vad state
+      const vadChecked = (document.getElementById("vad") as HTMLInputElement).checked
+      bc.adjustAudioProcessor( { vad: { enabled: vadChecked }})
     } catch (err) {
       console.error("Error initializing Speechly client:", err);
     }
@@ -248,6 +270,24 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
 
   const closeButton = document.getElementById("close") as HTMLElement;
   closeButton.addEventListener("click", close);
+}
+
+function bindVadToggle(bc: BrowserClient) {
+  const toggle = async (event: MouseEvent | TouchEvent) => {
+    if (event.target) {
+      if (decoderState !== DecoderState.Disconnected) {
+        const checked = (event.target as HTMLInputElement).checked
+        try {
+          bc.adjustAudioProcessor( { vad: { enabled: checked }})
+        } catch (err) {
+          console.error("Error with adjustAudioProcessor:", err);
+        }
+      }
+    }
+  };
+
+  const el = document.getElementById("vad") as HTMLInputElement;
+  el.addEventListener("click", toggle);
 }
 
 function bindUploadButton() {

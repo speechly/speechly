@@ -7,43 +7,46 @@
 // @public
 export interface APIClient {
     close(): Promise<void>;
+    initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>;
     initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void>;
     onClose(cb: CloseCallback): void;
     onResponse(cb: ResponseCallback): void;
     postMessage(message: Object): void;
     sendAudio(audioChunk: Float32Array): void;
-    setSourceSampleRate(sourceSampleRate: number): Promise<void>;
     startContext(appId?: string): Promise<string>;
+    // (undocumented)
+    startStream(defaultContextOptions?: ContextOptions): Promise<void>;
     stopContext(): Promise<string>;
+    // (undocumented)
+    stopStream(): Promise<void>;
     switchContext(appId: string): Promise<string>;
 }
 
 // @public
 export class BrowserClient {
     constructor(options: DecoderOptions);
-    // (undocumented)
     attach(mediaStream: MediaStream): Promise<void>;
-    // (undocumented)
     close(): Promise<void>;
-    // (undocumented)
     detach(): Promise<void>;
     initialize(options?: {
         mediaStream?: MediaStream;
     }): Promise<void>;
+    // (undocumented)
+    isActive(): boolean;
     onEntity(cb: (contextId: string, segmentId: number, entity: Entity) => void): void;
     onIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void;
     onSegmentChange(cb: (segment: Segment) => void): void;
-    // (undocumented)
     onStateChange(cb: (state: DecoderState) => void): void;
     onTentativeEntities(cb: (contextId: string, segmentId: number, entities: Entity[]) => void): void;
     onTentativeIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void;
     onTentativeTranscript(cb: (contextId: string, segmentId: number, words: Word[], text: string) => void): void;
     onTranscript(cb: (contextId: string, segmentId: number, word: Word) => void): void;
     // (undocumented)
+    onVadStateChange(active: boolean): void;
     start(options?: ContextOptions): Promise<string>;
-    // (undocumented)
-    stop(): Promise<string>;
-    // (undocumented)
+    startStream(defaultContextOptions?: ContextOptions): Promise<void>;
+    stop(): Promise<string | null>;
+    stopStream(): Promise<void>;
     uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<string>;
 }
 
@@ -71,14 +74,18 @@ export class CloudDecoder {
     close(): Promise<void>;
     connect(): Promise<void>;
     // (undocumented)
+    initAudioProcessor(sampleRate: number, vadOptions?: VadOptions): Promise<void>;
+    // (undocumented)
     registerListener(listener: EventCallbacks): void;
     sendAudio(audio: Float32Array): void;
-    // (undocumented)
-    setSampleRate(sr: number): Promise<void>;
     startContext(options?: ContextOptions): Promise<string>;
+    // (undocumented)
+    startStream(defaultContextOptions?: ContextOptions): Promise<void>;
     // (undocumented)
     state: DecoderState;
     stopContext(): Promise<string>;
+    // (undocumented)
+    stopStream(): Promise<void>;
     switchContext(appId: string): Promise<void>;
     // (undocumented)
     useSharedArrayBuffers(controlSAB: any, dataSAB: any): void;
@@ -88,6 +95,31 @@ export class CloudDecoder {
 export interface ContextOptions {
     // (undocumented)
     appId?: string;
+    immediate?: boolean;
+}
+
+// @public
+export enum ControllerSignal {
+    // (undocumented)
+    AUDIO = "AUDIO",
+    // (undocumented)
+    CLOSE = "CLOSE",
+    // (undocumented)
+    connect = "connect",
+    // (undocumented)
+    initAudioProcessor = "initAudioProcessor",
+    // (undocumented)
+    SET_SHARED_ARRAY_BUFFERS = "SET_SHARED_ARRAY_BUFFERS",
+    // (undocumented)
+    START_CONTEXT = "START_CONTEXT",
+    // (undocumented)
+    startStream = "startStream",
+    // (undocumented)
+    STOP_CONTEXT = "STOP_CONTEXT",
+    // (undocumented)
+    stopStream = "stopStream",
+    // (undocumented)
+    SWITCH_CONTEXT = "SWITCH_CONTEXT"
 }
 
 // @public
@@ -98,11 +130,11 @@ export interface DecoderOptions {
     connect?: boolean;
     debug?: boolean;
     decoder?: CloudDecoder;
-    loginUrl?: string;
     logSegments?: boolean;
     projectId?: string;
     sampleRate?: number;
     storage?: Storage_2;
+    vad?: Partial<VadOptions>;
 }
 
 // @public
@@ -169,6 +201,8 @@ export class EventCallbacks {
     // (undocumented)
     intentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void>;
     // (undocumented)
+    onVadStateChange: Array<(active: boolean) => void>;
+    // (undocumented)
     segmentChangeCbs: Array<(segment: Segment) => void>;
     // (undocumented)
     stateChangeCbs: Array<(state: DecoderState) => void>;
@@ -194,7 +228,7 @@ export interface IntentResponse {
 }
 
 // @public
-export type ResponseCallback = (response: WebsocketResponse) => void;
+export type ResponseCallback = (response: WebsocketResponse_2) => void;
 
 // @public
 export interface Segment {
@@ -266,27 +300,38 @@ export interface TranscriptResponse {
 }
 
 // @public
-export interface WebsocketResponse {
-    audio_context: string;
-    data: TranscriptResponse | EntityResponse | IntentResponse | TentativeTranscriptResponse | TentativeEntitiesResponse;
-    segment_id: number;
-    type: WebsocketResponseType;
+export const VadDefaultOptions: VadOptions;
+
+// @public
+export interface VadOptions {
+    controlListening: boolean;
+    enabled: boolean;
+    noiseGateDb: number;
+    noiseLearnHalftimeMillis: number;
+    signalActivation: number;
+    signalRelease: number;
+    signalSearchFrames: number;
+    signalSustainMillis: number;
+    signalToNoiseDb: number;
 }
 
 // @public
-export enum WebsocketResponseType {
-    // (undocumented)
-    Closed = "WEBSOCKET_CLOSED",
+interface WebsocketResponse_2 {
+    audio_context: string;
+    data: TranscriptResponse | EntityResponse | IntentResponse | TentativeTranscriptResponse | TentativeEntitiesResponse;
+    segment_id: number;
+    type: WebsocketResponseType_2 | WorkerSignal;
+}
+export { WebsocketResponse_2 as WebsocketResponse }
+
+// @public
+enum WebsocketResponseType_2 {
     // (undocumented)
     Entity = "entity",
     // (undocumented)
     Intent = "intent",
     // (undocumented)
-    Opened = "WEBSOCKET_OPEN",
-    // (undocumented)
     SegmentEnd = "segment_end",
-    // (undocumented)
-    SourceSampleRateSetSuccess = "SOURCE_SAMPLE_RATE_SET_SUCCESS",
     // (undocumented)
     Started = "started",
     // (undocumented)
@@ -300,6 +345,7 @@ export enum WebsocketResponseType {
     // (undocumented)
     Transcript = "transcript"
 }
+export { WebsocketResponseType_2 as WebsocketResponseType }
 
 // @public
 export interface Word {
@@ -308,6 +354,20 @@ export interface Word {
     isFinal: boolean;
     startTimestamp: number;
     value: string;
+}
+
+// @public
+export enum WorkerSignal {
+    // (undocumented)
+    AudioProcessorReady = "SOURCE_SAMPLE_RATE_SET_SUCCESS",
+    // (undocumented)
+    Closed = "WEBSOCKET_CLOSED",
+    // (undocumented)
+    Opened = "WEBSOCKET_OPEN",
+    // (undocumented)
+    VadSignalHigh = "VadSignalHigh",
+    // (undocumented)
+    VadSignalLow = "VadSignalLow"
 }
 
 // (No @packageDocumentation comment for this package)

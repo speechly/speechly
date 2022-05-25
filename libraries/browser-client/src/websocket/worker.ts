@@ -1,0 +1,408 @@
+import AudioProcessor from '../audioprocessing/AudioProcessor'
+import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
+import AudioTools from '../audioprocessing/AudioTools'
+import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
+
+/**
+ * The interface for response returned by WebSocket client.
+ * @public
+ */
+interface WebsocketResponse {
+  /**
+   * Response type.
+   */
+  type: WebsocketResponseType
+
+  /**
+   * Audio context ID.
+   */
+  audio_context: string
+
+  /**
+   * Segment ID.
+   */
+  segment_id: number
+
+  /**
+   * Response payload.
+   *
+   * The payload value should match the response type (i.e. TranscriptResponse should have Transcript type).
+   * Not all response types have payloads - Started, Stopped and SegmentEnd don't have payloads.
+   * TentativeIntent and Intent share the same payload interface (IntentResponse).
+   */
+  data: any
+}
+
+const CONTROL = {
+  WRITE_INDEX: 0,
+  FRAMES_AVAILABLE: 1,
+  LOCK: 2,
+}
+
+class WebsocketClient {
+  private readonly workerCtx: Worker
+  private targetSampleRate: number = 16000
+  private isContextStarted: boolean = false
+  private contextStartTime: number = 0
+  private websocket?: WebSocket
+  private audioProcessor?: AudioProcessor
+  private controlSAB?: Int32Array
+  private dataSAB?: Float32Array
+
+  private immediateMode = false
+  private readonly frameMillis = 30
+  private readonly outputAudioFrame: Int16Array = new Int16Array(this.frameMillis * this.targetSampleRate / 1000)
+
+  private debug: boolean = false
+
+  private defaultContextOptions?: ContextOptions
+
+  constructor(ctx: Worker) {
+    this.workerCtx = ctx
+  }
+
+  connect(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
+    this.debug = debug
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'connecting to ', apiUrl)
+    }
+    this.targetSampleRate = targetSampleRate
+    this.isContextStarted = false
+    this.websocket = new WebSocket(apiUrl, authToken)
+    this.websocket.addEventListener('open', this.onWebsocketOpen)
+    this.websocket.addEventListener('message', this.onWebsocketMessage)
+    this.websocket.addEventListener('error', this.onWebsocketError)
+    this.websocket.addEventListener('close', this.onWebsocketClose)
+  }
+
+  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): void {
+    this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
+
+    if (vadOptions) {
+      this.audioProcessor.vad = new EnergyThresholdVAD(vadOptions)
+
+      this.audioProcessor.onVadStateChange = (isSignalDetected: boolean) => {
+        const currentVadOptions = this.audioProcessor?.vad?.vadOptions
+        if (!currentVadOptions) return
+
+        if (isSignalDetected) {
+          if (!this.immediateMode) {
+            this.workerCtx.postMessage({ type: WorkerSignal.VadSignalHigh })
+          } else if (currentVadOptions.controlListening) {
+            this.startContext(this.defaultContextOptions)
+          }
+        }
+
+        if (!isSignalDetected) {
+          if (!this.immediateMode) {
+            this.workerCtx.postMessage({ type: WorkerSignal.VadSignalLow })
+          } else if (currentVadOptions.controlListening) {
+            this.stopContext()
+          }
+        }
+      }
+    }
+
+    this.audioProcessor.onSendAudio = (floats: Float32Array, startIndex: number, length: number) => {
+      AudioTools.convertFloatToInt16(floats, this.outputAudioFrame, startIndex, length)
+      this.send(this.outputAudioFrame)
+    }
+
+    if (this.workerCtx === undefined) return
+    this.workerCtx.postMessage({ type: WorkerSignal.AudioProcessorReady })
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    if (ap.immediate !== undefined) {
+      this.immediateMode = ap.immediate
+    }
+
+    if (ap.vad) {
+      if (!this.audioProcessor.vad) {
+        throw new Error('No VAD in AudioProcessor. Did you define `vad` in BrowserClient constructor parameters?')
+      }
+      this.audioProcessor.vad.adjustVadOptions(ap.vad)
+    }
+  }
+
+  setSharedArrayBuffers(controlSAB: number, dataSAB: number): void {
+    this.controlSAB = new Int32Array(controlSAB)
+    this.dataSAB = new Float32Array(dataSAB)
+    const audioHandleInterval = this.dataSAB.length / 32 // ms
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'Audio handle interval', audioHandleInterval, 'ms')
+    }
+    setInterval(this.processAudioSAB.bind(this), audioHandleInterval)
+  }
+
+  startStream(): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    this.audioProcessor.resetStream()
+  }
+
+  stopStream(): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    if (this.isContextStarted) {
+      // Ensure stopContext is called in immediate mode
+      this.stopContext()
+    }
+  }
+
+  /**
+   * Processes and sends audio
+   * @param audioChunk - audio data to process
+   */
+  processAudio(audioChunk: Float32Array): void {
+    if (!this.audioProcessor) {
+      throw new Error('No AudioProcessor')
+    }
+
+    this.audioProcessor.processAudio(audioChunk)
+  }
+
+  processAudioSAB(): void {
+    if (!this.controlSAB || !this.dataSAB) {
+      throw new Error('No SharedArrayBuffers')
+    }
+
+    const framesAvailable = this.controlSAB[CONTROL.FRAMES_AVAILABLE]
+    const lock = this.controlSAB[CONTROL.LOCK]
+
+    if (lock === 0 && framesAvailable > 0) {
+      const data = this.dataSAB.subarray(0, framesAvailable)
+      this.controlSAB[CONTROL.FRAMES_AVAILABLE] = 0
+      this.controlSAB[CONTROL.WRITE_INDEX] = 0
+      if (data.length > 0) {
+        this.processAudio(data)
+      }
+    }
+  }
+
+  startContext(contextOptions?: ContextOptions): void {
+    if (!this.audioProcessor) {
+      throw Error('No AudioProcessor')
+    }
+
+    if (this.isContextStarted) {
+      console.error('[WebSocketClient]', "can't start context: active context exists")
+      return
+    }
+
+    this.audioProcessor.startContext()
+    this.isContextStarted = true
+    this.contextStartTime = this.audioProcessor.getStreamPosition()
+
+    let options: ContextOptions = this.defaultContextOptions ?? {}
+    if (contextOptions !== undefined) {
+      options = { ...options, ...contextOptions }
+    }
+    const message = contextOptionsToMsg(options)
+    message.event = 'start'
+    this.send(JSON.stringify(message))
+  }
+
+  stopContext(): void {
+    if (!this.audioProcessor) {
+      throw Error('No AudioProcessor')
+    }
+
+    if (!this.isContextStarted) {
+      console.error('[WebSocketClient]', "can't stop context: no active context")
+      return
+    }
+
+    this.audioProcessor.stopContext()
+    this.isContextStarted = false
+    const StopEventJSON = JSON.stringify({ event: 'stop' })
+    this.send(StopEventJSON)
+  }
+
+  switchContext(contextOptions?: ContextOptions): void {
+    if (!this.websocket) {
+      throw Error('WebSocket is undefined')
+    }
+
+    if (!this.isContextStarted) {
+      console.error('[WebSocketClient]', "can't switch context: no active context")
+      return
+    }
+
+    if (contextOptions?.appId === undefined) {
+      console.error('[WebSocketClient]', "can't switch context: new app id is undefined")
+      return
+    }
+
+    const StopEventJSON = JSON.stringify({ event: 'stop' })
+    this.send(StopEventJSON)
+    const message = contextOptionsToMsg(contextOptions)
+    message.event = 'start'
+    this.send(JSON.stringify(message))
+  }
+
+  closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received'): void {
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'Websocket closing')
+    }
+
+    if (!this.websocket) {
+      throw Error('WebSocket is undefined')
+    }
+
+    this.websocket.close(websocketCode, reason)
+  }
+
+  // WebSocket's close handler, called e.g. when
+  // - normal close (code 1000)
+  // - network unreachable or unable to (re)connect (code 1006)
+  // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
+  private readonly onWebsocketClose = (event: CloseEvent): void => {
+    if (!this.websocket) {
+      throw Error('WebSocket is undefined')
+    }
+
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'onWebsocketClose')
+    }
+
+    this.websocket.removeEventListener('open', this.onWebsocketOpen)
+    this.websocket.removeEventListener('message', this.onWebsocketMessage)
+    this.websocket.removeEventListener('error', this.onWebsocketError)
+    this.websocket.removeEventListener('close', this.onWebsocketClose)
+    this.websocket = undefined
+
+    this.workerCtx.postMessage({
+      type: WorkerSignal.Closed,
+      code: event.code,
+      reason: event.reason,
+      wasClean: event.wasClean,
+    })
+  }
+
+  private readonly onWebsocketOpen = (_event: Event): void => {
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'websocket opened')
+    }
+
+    this.workerCtx.postMessage({ type: WorkerSignal.Opened })
+  }
+
+  private readonly onWebsocketError = (_event: Event): void => {
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'websocket error')
+    }
+  }
+
+  private readonly onWebsocketMessage = (event: MessageEvent): void => {
+    let response: WebsocketResponse
+    try {
+      response = JSON.parse(event.data)
+    } catch (e) {
+      console.error('[WebSocketClient]', 'error parsing response from the server:', e)
+      return
+    }
+
+    this.workerCtx.postMessage(response)
+  }
+
+  send(data: string | Int16Array): void {
+    if (!this.websocket) {
+      throw new Error('No Websocket')
+    }
+
+    if (this.websocket.readyState !== this.websocket.OPEN) {
+      throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+    }
+
+    try {
+      this.websocket.send(data)
+    } catch (error) {
+      console.log('[WebSocketClient]', 'server connection error', error)
+    }
+  }
+
+  setContextOptions(options: ContextOptions): void {
+    this.defaultContextOptions = options
+  }
+}
+
+const ctx: Worker = self as any
+const websocketClient = new WebsocketClient(ctx)
+
+ctx.onmessage = function (e) {
+  switch (e.data.type) {
+    case ControllerSignal.connect:
+      websocketClient.connect(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
+      break
+    case ControllerSignal.initAudioProcessor:
+      websocketClient.initAudioProcessor(e.data.sourceSampleRate, e.data.vadOptions)
+      break
+    case ControllerSignal.adjustAudioProcessor:
+      websocketClient.adjustAudioProcessor(e.data.params)
+      break
+    case ControllerSignal.SET_SHARED_ARRAY_BUFFERS:
+      websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
+      break
+    case ControllerSignal.CLOSE:
+      websocketClient.closeWebsocket(1000, 'Close requested by client')
+      break
+    case ControllerSignal.startStream:
+      websocketClient.startStream()
+      break
+    case ControllerSignal.stopStream:
+      websocketClient.stopStream()
+      break
+    case ControllerSignal.START_CONTEXT:
+      websocketClient.startContext(e.data.options)
+      break
+    case ControllerSignal.SWITCH_CONTEXT:
+      websocketClient.switchContext(e.data.options)
+      break
+    case ControllerSignal.STOP_CONTEXT:
+      websocketClient.stopContext()
+      break
+    case ControllerSignal.AUDIO:
+      websocketClient.processAudio(e.data.payload)
+      break
+    case ControllerSignal.setContextOptions:
+      websocketClient.setContextOptions(e.data.options)
+      break
+    default:
+      console.log('WORKER', e)
+  }
+}
+
+export function contextOptionsToMsg(contextOptions?: ContextOptions): Record<string, any> {
+  const message: Record<string, any> = {
+    options: {
+      timezone: [Intl.DateTimeFormat().resolvedOptions().timeZone],
+    },
+  }
+  if (contextOptions === undefined) return message
+  message.options.vocabulary = contextOptions.vocabulary
+  message.options.vocabulary_bias = contextOptions.vocabularyBias
+  message.options.silence_triggered_segmentation = contextOptions.silenceTriggeredSegmentation
+  if (contextOptions?.timezone !== undefined) {
+    message.options.timezone = contextOptions?.timezone // override browser timezone
+  }
+  if (contextOptions.appId !== undefined) {
+    message.appId = contextOptions.appId
+  }
+  return message
+}
+
+export default WebsocketClient

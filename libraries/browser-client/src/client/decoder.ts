@@ -14,11 +14,12 @@ import {
   TentativeEntitiesResponse,
   EntityResponse,
   IntentResponse,
+  WorkerSignal,
 } from '../websocket'
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -46,11 +47,9 @@ export class CloudDecoder {
 
   private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
   private readonly maxReconnectAttemptCount = 10
-  private readonly contextStopDelay = 250
 
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
-  private listeningPromise: Promise<any> | null = null
 
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
@@ -129,6 +128,14 @@ export class CloudDecoder {
   }
 
   /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    this.apiClient.adjustAudioProcessor(ap)
+  }
+
+  /**
    * Closes the client by closing the API connection and disabling the microphone.
    */
   async close(): Promise<void> {
@@ -148,6 +155,17 @@ export class CloudDecoder {
     if (error !== undefined) {
       throw Error(error)
     }
+  }
+
+  async startStream(): Promise<void> {
+    await this.apiClient.startStream()
+  }
+
+  async stopStream(): Promise<void> {
+    if (this.state === DecoderState.Active) {
+      await this.stopContext(0)
+    }
+    await this.apiClient.stopStream()
   }
 
   /**
@@ -184,8 +202,6 @@ export class CloudDecoder {
       throw Error('[Decoder] Unable to complete startContext: Problem acquiring contextId')
     }
 
-    this.activeContexts.set(contextId, new Map<number, SegmentState>())
-    this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(contextId)))
     return contextId
   }
 
@@ -193,13 +209,6 @@ export class CloudDecoder {
    * Send audio array.
    */
   sendAudio(audio: Float32Array): void {
-    if (this.state !== DecoderState.Active) {
-      throw Error(
-        '[Decoder] Unable to complete startContext: Expected Active state, but was in ' +
-          stateToString(this.state) +
-          '.',
-      )
-    }
     this.apiClient.sendAudio(audio)
   }
 
@@ -207,7 +216,7 @@ export class CloudDecoder {
    * Stops current SLU context by sending a stop context event to the API and muting the microphone
    * delayed by contextStopDelay = 250 ms
    */
-  async stopContext(): Promise<string> {
+  async stopContext(stopDelayMs: number): Promise<void> {
     if (this.state === DecoderState.Failed) {
       throw Error('[Decoder] stopContext cannot be run in unrecovable error state.')
     } else if (this.state !== DecoderState.Active) {
@@ -217,26 +226,20 @@ export class CloudDecoder {
           '.',
       )
     }
-    this.setState(DecoderState.Connected)
-
-    await this.sleep(this.contextStopDelay)
-    try {
-      const contextId = await this.apiClient.stopContext()
-      this.activeContexts.delete(contextId)
-      this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(contextId)))
-      return contextId
-    } catch (err) {
-      this.setState(DecoderState.Failed)
-      throw err
+    if (stopDelayMs > 0) {
+      await this.sleep(stopDelayMs)
     }
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    this.apiClient.stopContext()
+    this.setState(DecoderState.Connected)
   }
 
   /**
    * Stops current context and immediately starts a new SLU context
    * by sending a start context event to the API and unmuting the microphone.
-   * @param appId - unique identifier of an app in the dashboard.
+   * @param options - any custom options for the audio processing.
    */
-  async switchContext(appId: string): Promise<void> {
+  async switchContext(options: ContextOptions): Promise<void> {
     if (this.state !== DecoderState.Active) {
       throw Error(
         '[Decoder] Unable to complete switchContext: Expected Active state, but was in ' +
@@ -244,7 +247,7 @@ export class CloudDecoder {
           '.',
       )
     }
-    const contextId = await this.apiClient.switchContext(appId)
+    const contextId = await this.apiClient.switchContext(options)
     this.activeContexts.set(contextId, new Map<number, SegmentState>())
   }
 
@@ -252,9 +255,9 @@ export class CloudDecoder {
     this.cbs.push(listener)
   }
 
-  async setSampleRate(sr: number): Promise<void> {
-    this.sampleRate = sr
-    await this.apiClient.setSourceSampleRate(sr)
+  async initAudioProcessor(sampleRate: number, vadOptions?: VadOptions): Promise<void> {
+    this.sampleRate = sampleRate
+    await this.apiClient.initAudioProcessor(sampleRate, vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {
@@ -265,11 +268,39 @@ export class CloudDecoder {
     })
   }
 
+  async setContextOptions(options: ContextOptions): Promise<void> {
+    await this.apiClient.setContextOptions(options)
+  }
+
   private readonly handleWebsocketResponse = (response: WebsocketResponse): void => {
     if (this.debug) {
       console.log('[Decoder]', 'Received response', response)
     }
 
+    switch (response.type) {
+      case WorkerSignal.VadSignalHigh:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(true)))
+        break
+      case WorkerSignal.VadSignalLow:
+        this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
+        break
+      case WebsocketResponseType.Started: {
+        this.activeContexts.set(response.audio_context, new Map<number, SegmentState>())
+        this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
+        break
+      }
+      case WebsocketResponseType.Stopped: {
+        this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
+        this.activeContexts.delete(response.audio_context)
+        break
+      }
+      default:
+        this.handleSegmentUpdate(response)
+        break
+    }
+  }
+
+  private readonly handleSegmentUpdate = (response: WebsocketResponse): void => {
     const { audio_context, segment_id, type } = response
     let { data } = response
 
@@ -355,9 +386,6 @@ export class CloudDecoder {
         this.setState(DecoderState.Failed)
         return
       }
-
-      // Reset
-      this.listeningPromise = null
 
       this.setState(DecoderState.Disconnected)
       // eslint-disable-next-line @typescript-eslint/no-floating-promises

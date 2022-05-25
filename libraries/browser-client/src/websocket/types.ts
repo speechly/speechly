@@ -1,3 +1,5 @@
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
+
 /**
  * The interface for response returned by WebSocket client.
  * @public
@@ -6,7 +8,7 @@ export interface WebsocketResponse {
   /**
    * Response type.
    */
-  type: WebsocketResponseType
+  type: WebsocketResponseType | WorkerSignal
 
   /**
    * Audio context ID.
@@ -33,9 +35,6 @@ export interface WebsocketResponse {
  * @public
  */
 export enum WebsocketResponseType {
-  Opened = 'WEBSOCKET_OPEN',
-  Closed = 'WEBSOCKET_CLOSED',
-  SourceSampleRateSetSuccess = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   Started = 'started',
   Stopped = 'stopped',
   SegmentEnd = 'segment_end',
@@ -45,6 +44,37 @@ export enum WebsocketResponseType {
   TentativeTranscript = 'tentative_transcript',
   TentativeEntities = 'tentative_entities',
   TentativeIntent = 'tentative_intent',
+}
+
+/**
+ * Messages from worker to controller
+ * @public
+ */
+export enum WorkerSignal {
+  Opened = 'WEBSOCKET_OPEN',
+  Closed = 'WEBSOCKET_CLOSED',
+  AudioProcessorReady = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
+  VadSignalHigh = 'VadSignalHigh',
+  VadSignalLow = 'VadSignalLow',
+}
+
+/**
+ * Messages from controller to worker
+ * @public
+ */
+export enum ControllerSignal {
+  connect = 'connect',
+  initAudioProcessor = 'initAudioProcessor',
+  adjustAudioProcessor = 'adjustAudioProcessor',
+  SET_SHARED_ARRAY_BUFFERS = 'SET_SHARED_ARRAY_BUFFERS',
+  CLOSE = 'CLOSE',
+  START_CONTEXT = 'START_CONTEXT',
+  SWITCH_CONTEXT = 'SWITCH_CONTEXT',
+  STOP_CONTEXT = 'STOP_CONTEXT',
+  AUDIO = 'AUDIO',
+  startStream = 'startStream',
+  stopStream = 'stopStream',
+  setContextOptions = 'setContextOptions',
 }
 
 /**
@@ -191,7 +221,13 @@ export interface APIClient {
    *
    * @param sourceSampleRate - sample rate of audio source.
    */
-  setSourceSampleRate(sourceSampleRate: number): Promise<void>
+  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void
 
   /**
    * Closes the client.
@@ -205,7 +241,7 @@ export interface APIClient {
    * Starts a new audio context by sending the start event to the API.
    * The promise returned should resolve or reject after the API has responded with confirmation or an error has occured.
    */
-  startContext(appId?: string): Promise<string>
+  startContext(options?: ContextOptions): Promise<string>
 
   /**
    * Stops an audio context by sending the stop event to the API.
@@ -217,7 +253,7 @@ export interface APIClient {
    * Stops current context and immediately starts a new SLU context
    * by sending a start context event to the API and unmuting the microphone.
    */
-  switchContext(appId: string): Promise<string>
+  switchContext(options: ContextOptions): Promise<string>
 
   /**
    * Sends audio to the API.
@@ -233,4 +269,16 @@ export interface APIClient {
    * @param message - message to send.
    */
   postMessage(message: Object): void
+
+  startStream(): Promise<void>
+
+  stopStream(): Promise<void>
+
+  /**
+   * Sets the default context options (appId, inference parameters, timezone). New audio contextes
+   * use these options until new options are provided. Decoder's functions startContext() or startStream() can
+   * also override the options per function call.
+   */
+  setContextOptions(options: ContextOptions): Promise<void>
+
 }

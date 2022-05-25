@@ -58,6 +58,97 @@ export interface DecoderOptions {
    * If not provided, browser's LocalStorage API is used.
    */
   storage?: Storage
+
+  /**
+   * Enable voice activity detection (VAD) configuration overrides
+   */
+  vad?: Partial<VadOptions>
+}
+
+/**
+ * Options for voice activity detection (VAD)
+ * @public
+ */
+export interface VadOptions {
+  /**
+   * Run energy analysis
+   */
+  enabled: boolean
+
+  /**
+   * Signal-to-noise energy ratio needed for frame to be 'loud'.
+   * Default: 3.0 [dB].
+   */
+  signalToNoiseDb: number
+
+  /**
+   * Energy threshold - below this won't trigger activation.
+   * Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
+   */
+  noiseGateDb: number
+
+  /**
+   * Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.
+   * Range: 0, 5000 [ms]. Default: 400 [ms].
+   */
+  noiseLearnHalftimeMillis: number
+
+  /**
+   * Number of past frames analyzed for energy threshold VAD. Should be less or equal than HistoryFrames.
+   * Range: 1 to 32 [frames]. Default: 5 [frames].
+   */
+  signalSearchFrames: number
+
+  /**
+   * Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'
+   * Range: 0.0 to 1.0. Default: 0.7.
+   */
+  signalActivation: number
+
+  /**
+   * Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.
+   * Range: 0.0 to 1.0. Default: 0.2.
+   */
+  signalRelease: number
+
+  /**
+   * Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.
+   * Range: 0 to 8000 [ms]. Default: 3000 [ms].
+   */
+  signalSustainMillis: number
+
+  /**
+   * Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+   * Default: true.
+   */
+  controlListening: boolean
+
+  /**
+   * Set audio worker
+   * to ‘immediate audio processor’ mode where it can control start/stop context internally at its own pace.
+   */
+  immediate?: boolean
+}
+
+export interface AudioProcessorParameters {
+  vad?: Partial<VadOptions>
+  immediate?: boolean
+}
+
+/**
+ * Default options for voice activity detection (VAD)
+ * @public
+ */
+export const VadDefaultOptions: VadOptions = {
+  enabled: false,
+  controlListening: true,
+  signalToNoiseDb: 3.0,
+  noiseGateDb: -24.0,
+  noiseLearnHalftimeMillis: 400,
+  signalSearchFrames: 5,
+  signalActivation: 0.7,
+  signalRelease: 0.2,
+  signalSustainMillis: 3000,
 }
 
 /**
@@ -89,6 +180,7 @@ export class EventCallbacks {
   tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
   contextStartedCbs: Array<(contextId: string) => void> = []
   contextStoppedCbs: Array<(contextId: string) => void> = []
+  onVadStateChange: Array<(active: boolean) => void> = []
 }
 
 /**
@@ -97,4 +189,25 @@ export class EventCallbacks {
  */
 export interface ContextOptions {
   appId?: string
+
+  /**
+   * Inference time vocabulary.
+   */
+  vocabulary?: string[]
+
+  /**
+   * Inference time vocabulary bias.
+   */
+  vocabularyBias?: string[]
+
+  /**
+   * Inference time silence triggered segmentation.
+   */
+  silenceTriggeredSegmentation?: string[]
+
+  /**
+   * Inference timezone in [TZ database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+   * e.g. "Africa/Abidjan". Timezone should be wrapped to list, like ["Africa/Abidjan"].
+   */
+  timezone?: string[]
 }

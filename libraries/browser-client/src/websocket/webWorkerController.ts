@@ -1,5 +1,6 @@
-import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType } from './types'
-import worker from './worker'
+import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
+import WebsocketClient from 'web-worker:./worker'
+import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -22,15 +23,15 @@ export class WebWorkerController implements APIClient {
   }
 
   constructor() {
-    const blob = new Blob([worker], { type: 'text/javascript' })
-    const blobURL = window.URL.createObjectURL(blob)
-    this.worker = new Worker(blobURL)
+    // const blob = new Blob([worker], { type: 'text/javascript' })
+    // const blobURL = window.URL.createObjectURL(blob)
+    this.worker = new WebsocketClient()
     this.worker.addEventListener('message', this.onWebsocketMessage)
   }
 
   async initialize(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): Promise<void> {
     this.worker.postMessage({
-      type: 'INIT',
+      type: ControllerSignal.connect,
       apiUrl,
       authToken,
       targetSampleRate,
@@ -46,10 +47,11 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async setSourceSampleRate(sourceSampleRate: number): Promise<void> {
+  async initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void> {
     this.worker.postMessage({
-      type: 'SET_SOURCE_SAMPLE_RATE',
-      sourceSampleRate,
+      type: ControllerSignal.initAudioProcessor,
+      sourceSampleRate: sourceSampleRate,
+      vadOptions: vadOptions,
     })
 
     return new Promise(resolve => {
@@ -57,10 +59,21 @@ export class WebWorkerController implements APIClient {
     })
   }
 
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    this.worker.postMessage({
+      type: ControllerSignal.adjustAudioProcessor,
+      params: ap,
+    })
+  }
+
   async close(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.worker.postMessage({
-        type: 'CLOSE',
+        type: ControllerSignal.CLOSE,
         code: 1000,
         message: 'Client has ended the session',
       })
@@ -68,7 +81,15 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async startContext(appId?: string): Promise<string> {
+  async startStream(): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.startStream })
+  }
+
+  async stopStream(): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.stopStream })
+  }
+
+  async startContext(options?: ContextOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -77,11 +98,8 @@ export class WebWorkerController implements APIClient {
           resolve(id as string)
         }
       })
-      if (appId != null) {
-        this.worker.postMessage({ type: 'START_CONTEXT', appId })
-      } else {
-        this.worker.postMessage({ type: 'START_CONTEXT' })
-      }
+
+      this.worker.postMessage({ type: ControllerSignal.START_CONTEXT, options })
     })
   }
 
@@ -95,11 +113,11 @@ export class WebWorkerController implements APIClient {
         }
       })
 
-      this.worker.postMessage({ type: 'STOP_CONTEXT' })
+      this.worker.postMessage({ type: ControllerSignal.STOP_CONTEXT })
     })
   }
 
-  async switchContext(appId: string): Promise<string> {
+  async switchContext(options: ContextOptions): Promise<string> {
     return new Promise((resolve, reject) => {
       this.startCbs.push((err?, id?) => {
         if (err !== undefined) {
@@ -108,7 +126,7 @@ export class WebWorkerController implements APIClient {
           resolve(id as string)
         }
       })
-      this.worker.postMessage({ type: 'SWITCH_CONTEXT', appId })
+      this.worker.postMessage({ type: ControllerSignal.SWITCH_CONTEXT, options })
     })
   }
 
@@ -117,30 +135,35 @@ export class WebWorkerController implements APIClient {
   }
 
   sendAudio(audioChunk: Float32Array): void {
-    this.worker.postMessage({ type: 'AUDIO', payload: audioChunk })
+    this.worker.postMessage({ type: ControllerSignal.AUDIO, payload: audioChunk })
+  }
+
+  async setContextOptions(options: ContextOptions): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.setContextOptions, options })
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
     const response: WebsocketResponse = event.data
     switch (response.type) {
-      case WebsocketResponseType.Opened:
+      case WorkerSignal.Opened:
         if (this.resolveInitialization != null) {
           this.resolveInitialization()
         }
         break
-      case WebsocketResponseType.Closed:
+      case WorkerSignal.Closed:
         this.onCloseCb({
           code: event.data.code,
           reason: event.data.reason,
           wasClean: event.data.wasClean,
         })
         break
-      case WebsocketResponseType.SourceSampleRateSetSuccess:
+      case WorkerSignal.AudioProcessorReady:
         if (this.resolveSourceSampleRateSet != null) {
           this.resolveSourceSampleRateSet()
         }
         break
       case WebsocketResponseType.Started:
+        this.onResponseCb(response)
         this.startCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)
@@ -151,6 +174,7 @@ export class WebWorkerController implements APIClient {
         this.startCbs.length = 0
         break
       case WebsocketResponseType.Stopped:
+        this.onResponseCb(response)
         this.stopCbs.forEach(cb => {
           try {
             cb(undefined, response.audio_context)

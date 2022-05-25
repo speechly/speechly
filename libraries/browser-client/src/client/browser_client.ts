@@ -1,4 +1,4 @@
-import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions } from './types'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions, AudioProcessorParameters } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
@@ -10,7 +10,7 @@ import audioworklet from '../microphone/audioworklet'
  * @public
  */
 export class BrowserClient {
-  private audioContext?: AudioContext
+  private readonly contextStopDelay = 250
   private readonly nativeResamplingSupported: boolean
   private readonly debug: boolean = false
   private readonly useSAB: boolean
@@ -18,12 +18,17 @@ export class BrowserClient {
   private readonly isMobileSafari: boolean
   private readonly decoder: CloudDecoder
   private readonly callbacks: EventCallbacks
+  private vadOptions: VadOptions
 
+  private audioContext?: AudioContext
   private initialized: boolean = false
+  private isStreaming: boolean = false
+  private isStreamAutoStarted: boolean = false
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
   private audioProcessor?: ScriptProcessorNode
   private stream?: MediaStreamAudioSourceNode
+  private listeningPromise: Promise<any> | null = null
 
   private stats = {
     maxSignalEnergy: 0.0,
@@ -43,17 +48,17 @@ export class BrowserClient {
     // @ts-ignore
     this.isSafari = this.isMobileSafari || window.safari !== undefined
     this.useSAB = !this.isSafari
+    this.vadOptions = { ...VadDefaultOptions, ...options.vad }
 
     this.debug = options.debug ?? true
     this.callbacks = new EventCallbacks()
+    this.callbacks.onVadStateChange.push(this.autoControlListening.bind(this))
     this.decoder = options.decoder ?? new CloudDecoder(options)
     this.decoder.registerListener(this.callbacks)
   }
 
   /**
    * Create an AudioContext for resampling audio.
-   *
-   * @param options - shorthand for attaching to existing mediaStream
    */
   async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
     if (this.initialized) {
@@ -170,10 +175,27 @@ export class BrowserClient {
     if (this.debug) {
       console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
     }
-    await this.decoder.setSampleRate(this.audioContext?.sampleRate)
+    await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.vadOptions)
+
+    // Auto-start stream if VAD is defined
+    if (this.vadOptions) {
+      await this.startStream()
+    }
+
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
+  }
+
+  /**
+   * Control audio processor parameters
+   * @param ap - Audio processor parameters to adjust
+   */
+  adjustAudioProcessor(ap: AudioProcessorParameters): void {
+    if (ap.vad) {
+      this.vadOptions = { ...this.vadOptions, ...ap.vad }
+    }
+    this.decoder.adjustAudioProcessor(ap)
   }
 
   /**
@@ -224,7 +246,7 @@ export class BrowserClient {
    */
   async detach(): Promise<void> {
     if (this.active) {
-      await this.stop()
+      await this.stop(0)
     }
     if (this.stream) {
       this.stream.disconnect()
@@ -254,7 +276,17 @@ export class BrowserClient {
       }
     }
 
-    const contextId = await this.start(options)
+    await this.adjustAudioProcessor({ immediate: true })
+    await this.startStream()
+
+    let contextId: string
+    const vadActive = this.vadOptions?.enabled && this.vadOptions?.controlListening
+
+    if (!vadActive) {
+      contextId = await this.start(options)
+    } else {
+      contextId = 'multiple context ids'
+    }
 
     let sendBuffer: Float32Array
     for (let b = 0; b < samples.length; b += 16000) {
@@ -267,8 +299,42 @@ export class BrowserClient {
       this.handleAudio(sendBuffer)
     }
 
-    await this.stop()
+    if (!vadActive) {
+      await this.stop(0)
+    }
+
+    await this.stopStream()
+    await this.adjustAudioProcessor({ immediate: false })
+
     return contextId
+  }
+
+  /**
+   * If the application starts and resumes the flow of audio, `startStream` should be called at start of a continuous audio stream.
+   * Resets the stream sample counters and history. Use decoder.setContextOptions() to provide optional inference time options.
+   */
+  async startStream(): Promise<void> {
+    await this.decoder.startStream()
+    this.isStreaming = true
+  }
+
+  /**
+   * If the application starts and resumes the flow of audio, `stopStream` should be called at the end of a continuous audio stream.
+   * It ensures that all of the internal audio buffers are flushed for processing.
+   */
+  async stopStream(): Promise<void> {
+    await this.decoder.stopStream()
+    this.isStreaming = false
+    this.isStreamAutoStarted = false
+  }
+
+  private async queueTask(task: () => Promise<any>): Promise<any> {
+    const prevTask = this.listeningPromise
+    this.listeningPromise = (async () => {
+      await prevTask
+      return task()
+    })()
+    return this.listeningPromise
   }
 
   /**
@@ -276,42 +342,67 @@ export class BrowserClient {
    * If an active context already exists, an error is thrown.
    *
    * @param options - any custom options for the audio processing.
-   * @returns The contextId of the active audio context.
+   * @returns The contextId of the active audio context
    */
   async start(options?: ContextOptions): Promise<string> {
-    await this.initialize()
-    const startPromise = this.decoder.startContext(options)
     this.active = true
-    return startPromise
+
+    const promise = await this.queueTask(async () => {
+      await this.initialize()
+      if (!this.isStreaming) {
+        // Automatically control streaming for backwards compability
+        await this.startStream()
+        this.isStreamAutoStarted = true
+      }
+      const startPromise = this.decoder.startContext(options)
+      return startPromise
+    })
+    return promise
   }
 
   /**
    * Stops the current audio context and deactivates the audio processing pipeline.
    * If there is no active audio context, a warning is logged to console.
-   *
-   * @returns The contextId of the stopped context, or null if no context is active.
    */
-  async stop(): Promise<string | null> {
-    let contextId = null
-    try {
-      contextId = await this.decoder.stopContext()
-      if (this.stats.sentSamples === 0) {
-        console.warn('[BrowserClient]', 'audioContext contained no audio data')
+  async stop(stopDelayMs = this.contextStopDelay): Promise<void> {
+    this.active = false
+
+    await this.queueTask(async () => {
+      try {
+        await this.decoder.stopContext(stopDelayMs)
+        if (this.isStreaming && this.isStreamAutoStarted) {
+          // Automatically control streaming for backwards compability
+          await this.stopStream()
+        }
+
+        if (this.stats.sentSamples === 0) {
+          console.warn('[BrowserClient]', 'audioContext contained no audio data')
+        }
+      } catch (err) {
+        console.warn('[BrowserClient]', 'stop() failed', err)
+      } finally {
+        this.stats.sentSamples = 0
       }
-    } catch (err) {
-      console.warn('[BrowserClient]', 'stop() failed', err)
-    } finally {
-      this.active = false
-      this.stats.sentSamples = 0
+    })
+  }
+
+  private autoControlListening(vadActive: boolean): void {
+    if (this.debug) {
+      console.log('[BrowserClient]', 'autoControlListening', vadActive)
     }
-    return contextId
+    if (this.vadOptions?.controlListening) {
+      if (vadActive) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (!this.active) this.start()
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        if (this.active) this.stop(0)
+      }
+    }
   }
 
   private handleAudio(array: Float32Array): void {
-    if (!this.active) {
-      return
-    }
-    if (array.length > 0) {
+    if (this.isStreaming) {
       this.stats.sentSamples += array.length
       this.decoder.sendAudio(array)
     }
@@ -322,6 +413,22 @@ export class BrowserClient {
    */
   isActive(): boolean {
     return this.active
+  }
+
+  /**
+   * Adds a listener for start events
+   * @param cb - the callback to invoke on context start
+   */
+  onStart(cb: (contextId: string) => void): void {
+    this.callbacks.contextStartedCbs.push(cb)
+  }
+
+  /**
+   * Adds a listener for stop events
+   * @param cb - the callback to invoke on context stop
+   */
+  onStop(cb: (contextId: string) => void): void {
+    this.callbacks.contextStoppedCbs.push(cb)
   }
 
   /**
