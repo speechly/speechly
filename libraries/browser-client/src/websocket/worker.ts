@@ -118,15 +118,11 @@ class WebsocketClient {
    * @param ap - Audio processor parameters to adjust
    */
   adjustAudioProcessor(ap: AudioProcessorParameters): void {
-    if (!this.audioProcessor) {
-      throw new Error('No AudioProcessor')
-    }
-
     if (ap.immediate !== undefined) {
       this.immediateMode = ap.immediate
     }
 
-    if (ap.vad) {
+    if (this.audioProcessor && ap.vad) {
       if (!this.audioProcessor.vad) {
         throw new Error('No VAD in AudioProcessor. Did you define `vad` in BrowserClient constructor parameters?')
       }

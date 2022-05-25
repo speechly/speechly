@@ -275,13 +275,11 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
 function bindVadToggle(bc: BrowserClient) {
   const toggle = async (event: MouseEvent | TouchEvent) => {
     if (event.target) {
-      if (decoderState !== DecoderState.Disconnected) {
-        const checked = (event.target as HTMLInputElement).checked
-        try {
-          bc.adjustAudioProcessor( { vad: { enabled: checked }})
-        } catch (err) {
-          console.error("Error with adjustAudioProcessor:", err);
-        }
+      const checked = (event.target as HTMLInputElement).checked
+      try {
+        bc.adjustAudioProcessor( { vad: { enabled: checked }})
+      } catch (err) {
+        console.error("Error with adjustAudioProcessor:", err);
       }
     }
   };

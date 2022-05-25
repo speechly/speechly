@@ -54,7 +54,7 @@ export class CloudDecoder {
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
 
-  private sampleRate: number
+  readonly sampleRate: number
   state: DecoderState = DecoderState.Disconnected
 
   constructor(options: DecoderOptions) {

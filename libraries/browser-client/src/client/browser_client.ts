@@ -254,6 +254,10 @@ export class BrowserClient {
     }
   }
 
+  private async sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
   /**
    * Upload an existing binary audio data buffer to the API.
    *
@@ -289,14 +293,26 @@ export class BrowserClient {
     }
 
     let sendBuffer: Float32Array
-    for (let b = 0; b < samples.length; b += 16000) {
-      const e = b + 16000
+
+    const chunkMillis = 1000
+    const allowedContexts = 10
+    const lookbackMillis = 10000
+
+    const worstCaseContextsInLookback = lookbackMillis / this.vadOptions.signalSustainMillis
+    const maxSpeedUp = allowedContexts / worstCaseContextsInLookback
+    const throttlingWaitMillis = chunkMillis / maxSpeedUp
+
+    const chunkSamples = Math.round(this.decoder.sampleRate * chunkMillis / 1000)
+
+    for (let b = 0; b < samples.length; b += chunkSamples) {
+      const e = b + chunkSamples
       if (e > samples.length) {
         sendBuffer = samples.slice(b)
       } else {
         sendBuffer = samples.slice(b, e)
       }
       this.handleAudio(sendBuffer)
+      await this.sleep(throttlingWaitMillis)
     }
 
     if (!vadActive) {
