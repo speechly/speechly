@@ -311,11 +311,10 @@ export class BrowserClient {
 
   /**
    * If the application starts and resumes the flow of audio, `startStream` should be called at start of a continuous audio stream.
-   * If you're using VAD that controls starting and stopping audio contexts automatically, you can pass optional inference time options.
-   * It resets the stream sample counters and history.
+   * Resets the stream sample counters and history. Use decoder.setContextOptions() to provide optional inference time options.
    */
-  async startStream(defaultContextOptions?: ContextOptions): Promise<void> {
-    await this.decoder.startStream(defaultContextOptions)
+  async startStream(): Promise<void> {
+    await this.decoder.startStream()
     this.isStreaming = true
   }
 
@@ -352,7 +351,7 @@ export class BrowserClient {
       await this.initialize()
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
-        await this.startStream(options)
+        await this.startStream()
         this.isStreamAutoStarted = true
       }
       const startPromise = this.decoder.startContext(options)
