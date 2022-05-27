@@ -58,7 +58,7 @@ export class CloudDecoder {
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
 
-  readonly sampleRate: number
+  sampleRate: number
   state: DecoderState = DecoderState.Disconnected
 
   constructor(options: DecoderOptions) {
@@ -203,13 +203,17 @@ export class CloudDecoder {
     this.setState(DecoderState.Active)
     let contextId: string
     if (this.projectId != null) {
-      contextId = await this.apiClient.startContext(options?.appId)
+      if (options?.appId) {
+        contextId = await this.apiClient.startContext(options)
+      } else {
+        throw new Error('options.appId is required with project login')
+      }
     } else {
       if (options?.appId != null && this.appId !== options?.appId) {
         this.setState(DecoderState.Failed)
         throw ErrAppIdChangeWithoutProjectLogin
       }
-      contextId = await this.apiClient.startContext()
+      contextId = await this.apiClient.startContext(options)
     }
 
     // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
