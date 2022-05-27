@@ -1,4 +1,4 @@
-import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions, AudioProcessorParameters } from './types'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
@@ -264,7 +264,7 @@ export class BrowserClient {
    * @param audioData - audio data in a binary format. Will be decoded.
    * @param options - any custom options for the audio processing.
    */
-  async uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<string> {
+  async uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<Segment[]> {
     await this.initialize()
     const audioBuffer = await this.audioContext?.decodeAudioData(audioData)
     if (audioBuffer === undefined) {
@@ -280,28 +280,33 @@ export class BrowserClient {
       }
     }
 
-    await this.adjustAudioProcessor({ immediate: true })
-    await this.startStream()
+    this.adjustAudioProcessor({ immediate: true })
 
-    let contextId: string
+    const wasStreaming = this.isStreaming
+
+    if (this.isStreaming) await this.stopStream()
+    await this.startStream({ preserveSegments: true })
+
     const vadActive = this.vadOptions?.enabled && this.vadOptions?.controlListening
+    const chunkMillis = 1000
+    let throttlingWaitMillis = 0
 
     if (!vadActive) {
-      contextId = await this.start(options)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      await this.start(options)
     } else {
-      contextId = 'multiple context ids'
+      if (this.vadOptions.signalSustainMillis >= chunkMillis) {
+        const allowedContexts = 10
+        const lookbackWindowMillis = 10000
+        const worstCaseContextsInLookback = lookbackWindowMillis / this.vadOptions.signalSustainMillis
+        const maxSpeedUp = allowedContexts / worstCaseContextsInLookback
+        throttlingWaitMillis = chunkMillis / maxSpeedUp
+      } else {
+        console.warn(`Throttling disabled due to low (<= ${chunkMillis}) VAD sustain value. Server may disconnect while processing if contexts are created at high rate.`)
+      }
     }
 
     let sendBuffer: Float32Array
-
-    const chunkMillis = 1000
-    const allowedContexts = 10
-    const lookbackMillis = 10000
-
-    const worstCaseContextsInLookback = lookbackMillis / this.vadOptions.signalSustainMillis
-    const maxSpeedUp = allowedContexts / worstCaseContextsInLookback
-    const throttlingWaitMillis = chunkMillis / maxSpeedUp
-
     const chunkSamples = Math.round(this.decoder.sampleRate * chunkMillis / 1000)
 
     for (let b = 0; b < samples.length; b += chunkSamples) {
@@ -320,17 +325,23 @@ export class BrowserClient {
     }
 
     await this.stopStream()
-    await this.adjustAudioProcessor({ immediate: false })
+    this.adjustAudioProcessor({ immediate: false })
 
-    return contextId
+    // Store result before startStream as it'll clear the results
+    const result = this.decoder.getSegments()
+
+    // Restore previous state
+    if (wasStreaming) await this.startStream()
+    return result
   }
 
   /**
    * If the application starts and resumes the flow of audio, `startStream` should be called at start of a continuous audio stream.
    * Resets the stream sample counters and history. Use decoder.setContextOptions() to provide optional inference time options.
    */
-  async startStream(): Promise<void> {
-    await this.decoder.startStream()
+  async startStream(streamOptionOverrides?: Partial<StreamOptions>): Promise<void> {
+    const streamOptions = { ...StreamDefaultOptions, ...streamOptionOverrides }
+    await this.decoder.startStream(streamOptions.preserveSegments)
     this.isStreaming = true
   }
 
@@ -436,7 +447,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on context start
    */
   onStart(cb: (contextId: string) => void): void {
-    this.callbacks.contextStartedCbs.push(cb)
+    this.callbacks.contextStartedCbs.addEventListener(cb)
   }
 
   /**
@@ -444,7 +455,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on context stop
    */
   onStop(cb: (contextId: string) => void): void {
-    this.callbacks.contextStoppedCbs.push(cb)
+    this.callbacks.contextStoppedCbs.addEventListener(cb)
   }
 
   /**
@@ -452,7 +463,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on segment change events.
    */
   onSegmentChange(cb: (segment: Segment) => void): void {
-    this.callbacks.segmentChangeCbs.push(cb)
+    this.callbacks.segmentChangeCbs.addEventListener(cb)
   }
 
   /**
@@ -460,7 +471,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on a transcript response.
    */
   onTranscript(cb: (contextId: string, segmentId: number, word: Word) => void): void {
-    this.callbacks.transcriptCbs.push(cb)
+    this.callbacks.transcriptCbs.addEventListener(cb)
   }
 
   /**
@@ -468,7 +479,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on an entity response.
    */
   onEntity(cb: (contextId: string, segmentId: number, entity: Entity) => void): void {
-    this.callbacks.entityCbs.push(cb)
+    this.callbacks.entityCbs.addEventListener(cb)
   }
 
   /**
@@ -476,7 +487,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on an intent response.
    */
   onIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void {
-    this.callbacks.intentCbs.push(cb)
+    this.callbacks.intentCbs.addEventListener(cb)
   }
 
   /**
@@ -484,7 +495,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on a tentative transcript response.
    */
   onTentativeTranscript(cb: (contextId: string, segmentId: number, words: Word[], text: string) => void): void {
-    this.callbacks.tentativeTranscriptCbs.push(cb)
+    this.callbacks.tentativeTranscriptCbs.addEventListener(cb)
   }
 
   /**
@@ -492,7 +503,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on a tentative entities response.
    */
   onTentativeEntities(cb: (contextId: string, segmentId: number, entities: Entity[]) => void): void {
-    this.callbacks.tentativeEntityCbs.push(cb)
+    this.callbacks.tentativeEntityCbs.addEventListener(cb)
   }
 
   /**
@@ -500,7 +511,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on a tentative intent response.
    */
   onTentativeIntent(cb: (contextId: string, segmentId: number, intent: Intent) => void): void {
-    this.callbacks.tentativeIntentCbs.push(cb)
+    this.callbacks.tentativeIntentCbs.addEventListener(cb)
   }
 
   /**
@@ -508,7 +519,7 @@ export class BrowserClient {
    * @param cb - the callback to invoke on a client state change.
    */
   onStateChange(cb: (state: DecoderState) => void): void {
-    this.callbacks.stateChangeCbs.push(cb)
+    this.callbacks.stateChangeCbs.addEventListener(cb)
   }
 }
 

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin } from '../speechly'
+import { SegmentState, DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin, Segment } from '../speechly'
 
 import {
   APIClient,
@@ -19,7 +19,7 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters } from './types'
+import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
@@ -44,8 +44,12 @@ export class CloudDecoder {
   private readonly loginUrl: string
   private readonly deviceId: string
   private readonly apiUrl: string
+  private streamOptions: StreamOptions = StreamDefaultOptions
+  private resolveStopStream?: any
 
-  private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
+  private activeContexts = 0
+
+  private readonly segments = new Map<string, Map<number, SegmentState>>()
   private readonly maxReconnectAttemptCount = 10
 
   private connectAttempt: number = 0
@@ -148,7 +152,7 @@ export class CloudDecoder {
       error = err.message
     }
 
-    this.activeContexts.clear()
+    this.segments.clear()
     this.connectPromise = null
     this.setState(DecoderState.Disconnected)
 
@@ -157,7 +161,11 @@ export class CloudDecoder {
     }
   }
 
-  async startStream(): Promise<void> {
+  async startStream(streamOptions: StreamOptions): Promise<void> {
+    this.streamOptions = streamOptions
+    this.segments.clear()
+    this.activeContexts = 0
+
     await this.apiClient.startStream()
   }
 
@@ -166,6 +174,14 @@ export class CloudDecoder {
       await this.stopContext(0)
     }
     await this.apiClient.stopStream()
+
+    if (this.activeContexts > 0) {
+      const p = new Promise(resolve => {
+        this.resolveStopStream = resolve
+      })
+      await p
+    }
+    this.resolveStopStream = undefined
   }
 
   /**
@@ -248,7 +264,7 @@ export class CloudDecoder {
       )
     }
     const contextId = await this.apiClient.switchContext(options)
-    this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    this.segments.set(contextId, new Map<number, SegmentState>())
   }
 
   registerListener(listener: EventCallbacks): void {
@@ -285,13 +301,22 @@ export class CloudDecoder {
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
         break
       case WebsocketResponseType.Started: {
-        this.activeContexts.set(response.audio_context, new Map<number, SegmentState>())
+        this.activeContexts++
+        this.segments.set(response.audio_context, new Map<number, SegmentState>())
         this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
         break
       }
       case WebsocketResponseType.Stopped: {
+        this.activeContexts--
         this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
-        this.activeContexts.delete(response.audio_context)
+        if (!this.streamOptions.preserveSegments) {
+          this.segments.delete(response.audio_context)
+        }
+
+        // Signal stopStream listeners that the final results are in, it's ok to resolve the await
+        if (this.resolveStopStream !== undefined && this.activeContexts === 0) {
+          this.resolveStopStream()
+        }
         break
       }
       default:
@@ -304,7 +329,7 @@ export class CloudDecoder {
     const { audio_context, segment_id, type } = response
     let { data } = response
 
-    const context = this.activeContexts.get(audio_context)
+    const context = this.segments.get(audio_context)
     if (context === undefined) {
       console.warn('[Decoder]', 'Received response for non-existent context', audio_context)
       return
@@ -361,7 +386,7 @@ export class CloudDecoder {
     context.set(segment_id, segmentState)
 
     // Update current contexts.
-    this.activeContexts.set(audio_context, context)
+    this.segments.set(audio_context, context)
 
     // Log segment to console
     if (this.logSegments) {
@@ -425,6 +450,20 @@ export class CloudDecoder {
 
     this.state = newState
     this.cbs.forEach(cb => cb.stateChangeCbs?.forEach(f => f(newState)))
+  }
+
+  /**
+   * @returns Array of Segments since last startStream if preserveSegment options was used
+   */
+  getSegments(): Segment[] {
+    const result: Segment[] = []
+    this.segments.forEach((segments, contextId) => {
+      segments.forEach((segment, segmentIndex) => {
+        const deepCopy = JSON.parse(JSON.stringify(segment))
+        result.push(deepCopy)
+      })
+    })
+    return result
   }
 }
 

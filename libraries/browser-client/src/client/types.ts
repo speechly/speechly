@@ -151,6 +151,14 @@ export const VadDefaultOptions: VadOptions = {
   signalSustainMillis: 3000,
 }
 
+export interface StreamOptions {
+  preserveSegments: boolean
+}
+
+export const StreamDefaultOptions: StreamOptions = {
+  preserveSegments: false,
+}
+
 /**
  * All possible states of a Speechly API client. Failed state is non-recoverable.
  * It is also possible to use arithmetics for state comparison, e.g. `if (state < speechly.ClientState.Disconnected)`,
@@ -164,23 +172,36 @@ export enum DecoderState {
   Active,
 }
 
+export class ListenerArray<T> extends Array<T> {
+  addEventListener(e: T): void {
+    this.push(e)
+  }
+
+  removeEventListener(e: T): void {
+    const index = this.findIndex(cb => cb === e)
+    if (index >= 0) {
+      this.splice(index, 1)
+    }
+  }
+}
+
 /**
  * All possible callbacks for the decoder.
  * @public
  */
 export class EventCallbacks {
-  stateChangeCbs: Array<(state: DecoderState) => void> = []
-  transcriptCbs: Array<(contextId: string, segmentId: number, word: Word) => void> = []
-  entityCbs: Array<(contextId: string, segmentId: number, entity: Entity) => void> = []
-  intentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
+  stateChangeCbs: ListenerArray<(state: DecoderState) => void> = new ListenerArray()
+  transcriptCbs: ListenerArray<(contextId: string, segmentId: number, word: Word) => void> = new ListenerArray()
+  entityCbs: ListenerArray<(contextId: string, segmentId: number, entity: Entity) => void> = new ListenerArray()
+  intentCbs: ListenerArray<(contextId: string, segmentId: number, intent: Intent) => void> = new ListenerArray()
 
-  segmentChangeCbs: Array<(segment: Segment) => void> = []
-  tentativeTranscriptCbs: Array<(contextId: string, segmentId: number, words: Word[], text: string) => void> = []
-  tentativeEntityCbs: Array<(contextId: string, segmentId: number, entities: Entity[]) => void> = []
-  tentativeIntentCbs: Array<(contextId: string, segmentId: number, intent: Intent) => void> = []
-  contextStartedCbs: Array<(contextId: string) => void> = []
-  contextStoppedCbs: Array<(contextId: string) => void> = []
-  onVadStateChange: Array<(active: boolean) => void> = []
+  segmentChangeCbs: ListenerArray<(segment: Segment) => void> = new ListenerArray()
+  tentativeTranscriptCbs: ListenerArray<(contextId: string, segmentId: number, words: Word[], text: string) => void> = new ListenerArray()
+  tentativeEntityCbs: ListenerArray<(contextId: string, segmentId: number, entities: Entity[]) => void> = new ListenerArray()
+  tentativeIntentCbs: ListenerArray<(contextId: string, segmentId: number, intent: Intent) => void> = new ListenerArray()
+  contextStartedCbs: ListenerArray<(contextId: string) => void> = new ListenerArray()
+  contextStoppedCbs: ListenerArray<(contextId: string) => void> = new ListenerArray()
+  onVadStateChange: ListenerArray<(active: boolean) => void> = new ListenerArray()
 }
 
 /**
