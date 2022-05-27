@@ -275,8 +275,8 @@ export interface APIClient {
   stopStream(): Promise<void>
 
   /**
-   * Sets the default context options (appId, inference parameters, timezone). New audio contextes
-   * use these options until new options are provided. Decoder's functions startContext() or startStream() can
+   * Sets the default context options (appId, inference parameters, timezone). New audio contexts
+   * use these options until new options are provided. Decoder's functions startContext() can
    * also override the options per function call.
    */
   setContextOptions(options: ContextOptions): Promise<void>

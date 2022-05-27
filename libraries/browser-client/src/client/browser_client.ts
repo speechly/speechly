@@ -341,7 +341,7 @@ export class BrowserClient {
    */
   async startStream(streamOptionOverrides?: Partial<StreamOptions>): Promise<void> {
     const streamOptions = { ...StreamDefaultOptions, ...streamOptionOverrides }
-    await this.decoder.startStream(streamOptions.preserveSegments)
+    await this.decoder.startStream(streamOptions)
     this.isStreaming = true
   }
 

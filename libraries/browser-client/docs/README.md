@@ -8,7 +8,7 @@
 
 - [audioprocessing/AudioProcessor](modules/audioprocessing_AudioProcessor.md)
 - [audioprocessing/AudioTools](modules/audioprocessing_AudioTools.md)
-- [audioprocessing/EnergyTresholdVAD](modules/audioprocessing_EnergyTresholdVAD.md)
+- [audioprocessing/EnergyThresholdVAD](modules/audioprocessing_EnergyThresholdVAD.md)
 - [client/browser\_client](modules/client_browser_client.md)
 - [client/decoder](modules/client_decoder.md)
 - [client](modules/client.md)
