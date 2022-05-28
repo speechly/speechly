@@ -11,7 +11,7 @@ Usage:
 
 - Create a BrowserClient instance with [DecoderOptions](../interfaces/client.DecoderOptions.md) containing a valid appId from https://api.speechly.com/dashboard.
 - Create and initialize a [BrowserMicrophone](microphone.BrowserMicrophone.md) instance and [attach](client.BrowserClient.md#attach) its mediaStream to the BrowserClient instance.
-- Control processing manually with [start](client.BrowserClient.md#start) and [stop](client.BrowserClient.md#stop). Alternatively, you can enable automatic control with VAD in [DecoderOptions](../interfaces/client.DecoderOptions.md).
+- Control processing manually with [start](client.BrowserClient.md#start) and [stop](client.BrowserClient.md#stop). Alternatively, you can enable automatic control by initializing BrowserClient with [VadOptions](../interfaces/client.VadOptions.md) defined in the [DecoderOptions](../interfaces/client.DecoderOptions.md).
 - Read the ASR/NLU result [Segment](../interfaces/speechly.Segment.md) by providing a custom handler for the [onSegmentChange](client.BrowserClient.md#onsegmentchange) callback.
 
 ## Table of contents

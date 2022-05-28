@@ -12,7 +12,7 @@ import audioworklet from '../microphone/audioworklet'
  *
  * - Create a BrowserClient instance with {@link DecoderOptions} containing a valid appId from https://api.speechly.com/dashboard.
  * - Create and initialize a {@link BrowserMicrophone} instance and {@link attach} its mediaStream to the BrowserClient instance.
- * - Control processing manually with {@link start} and {@link stop}. Alternatively, you can enable automatic control with VAD in {@link DecoderOptions}.
+ * - Control processing manually with {@link start} and {@link stop}. Alternatively, you can enable automatic control by initializing BrowserClient with {@link VadOptions} defined in the {@link DecoderOptions}.
  * - Read the ASR/NLU result {@link Segment} by providing a custom handler for the {@link onSegmentChange} callback.
  * @public
  */
