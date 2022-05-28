@@ -14,7 +14,7 @@ import audioworklet from '../microphone/audioworklet'
  * - Create and initialize a {@link BrowserMicrophone} instance and {@link attach} its mediaStream to the BrowserClient instance.
  * - Control processing manually with {@link start} and {@link stop}. Alternatively, you can enable automatic control by initializing BrowserClient with {@link VadOptions} defined in the {@link DecoderOptions}.
  * - Read the ASR/NLU result {@link Segment} by providing a custom handler for the {@link onSegmentChange} callback.
- * 
+ *
  * Alternatively, you can create the BrowserClient instance and process audio files (binary data) using {@link uploadAudioData}.
  * @public
  */
@@ -310,7 +310,7 @@ export class BrowserClient {
   /**
    * Upload an audio binary (like .wav) to the cloud for automatic speech recogition (ASR) and natural langugage understanding (NLU).
    * Callbacks are fired as the processing advances.
-   * 
+   *
    * @param audioData - audio data in a binary format. Will be decoded.
    * @param options - any custom options for the audio processing.
    * @returns array of segments containing the final results of speech recognition (ASR and NLU).
