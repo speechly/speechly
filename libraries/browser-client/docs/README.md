@@ -8,3 +8,4 @@
 
 - [client](modules/client.md)
 - [microphone](modules/microphone.md)
+- [speechly](modules/speechly.md)

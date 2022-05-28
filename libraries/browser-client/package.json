@@ -25,7 +25,7 @@
     "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpx rollup -c --silent",
     "build:watch": "rm -rf ./dist/ && pnpx rollup -c --silent",
     "check": "pnpm run build && pnpx api-extractor run --verbose",
-    "docs": "rimraf docs && pnpx typedoc --readme none --excludeInternal --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy resolve --sort required-first --disableSources ./src/client ./src/microphone",
+    "docs": "rimraf docs && pnpx typedoc --readme none --excludeInternal --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy resolve --sort required-first --disableSources ./src/client ./src/microphone ./src/speechly",
     "getdeps": "pnpm install --force --frozen-lockfile",
     "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpx api-extractor run --local && pnpm run docs",

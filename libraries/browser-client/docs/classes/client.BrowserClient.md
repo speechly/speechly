@@ -186,7 +186,7 @@ ___
 
 ### uploadAudioData
 
-▸ **uploadAudioData**(`audioData`, `options?`): `Promise`<`Segment`[]\>
+▸ **uploadAudioData**(`audioData`, `options?`): `Promise`<[`Segment`](../interfaces/speechly.Segment.md)[]\>
 
 Upload an existing binary audio data buffer to the API.
 
@@ -199,7 +199,7 @@ Upload an existing binary audio data buffer to the API.
 
 #### Returns
 
-`Promise`<`Segment`[]\>
+`Promise`<[`Segment`](../interfaces/speechly.Segment.md)[]\>
 
 ___
 
@@ -309,7 +309,7 @@ Adds a listener for current segment change events.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`segment`: `Segment`) => `void` | the callback to invoke on segment change events. |
+| `cb` | (`segment`: [`Segment`](../interfaces/speechly.Segment.md)) => `void` | the callback to invoke on segment change events. |
 
 #### Returns
 
@@ -327,7 +327,7 @@ Adds a listener for transcript responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `word`: `Word`) => `void` | the callback to invoke on a transcript response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `word`: [`Word`](../interfaces/speechly.Word.md)) => `void` | the callback to invoke on a transcript response. |
 
 #### Returns
 
@@ -345,7 +345,7 @@ Adds a listener for entity responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `entity`: `Entity`) => `void` | the callback to invoke on an entity response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `entity`: [`Entity`](../interfaces/speechly.Entity.md)) => `void` | the callback to invoke on an entity response. |
 
 #### Returns
 
@@ -363,7 +363,7 @@ Adds a listener for intent responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `intent`: `Intent`) => `void` | the callback to invoke on an intent response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `intent`: [`Intent`](../interfaces/speechly.Intent.md)) => `void` | the callback to invoke on an intent response. |
 
 #### Returns
 
@@ -381,7 +381,7 @@ Adds a listener for tentative transcript responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `words`: `Word`[], `text`: `string`) => `void` | the callback to invoke on a tentative transcript response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `words`: [`Word`](../interfaces/speechly.Word.md)[], `text`: `string`) => `void` | the callback to invoke on a tentative transcript response. |
 
 #### Returns
 
@@ -399,7 +399,7 @@ Adds a listener for tentative entities responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `entities`: `Entity`[]) => `void` | the callback to invoke on a tentative entities response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `entities`: [`Entity`](../interfaces/speechly.Entity.md)[]) => `void` | the callback to invoke on a tentative entities response. |
 
 #### Returns
 
@@ -417,7 +417,7 @@ Adds a listener for tentative intent responses from the API.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `cb` | (`contextId`: `string`, `segmentId`: `number`, `intent`: `Intent`) => `void` | the callback to invoke on a tentative intent response. |
+| `cb` | (`contextId`: `string`, `segmentId`: `number`, `intent`: [`Intent`](../interfaces/speechly.Intent.md)) => `void` | the callback to invoke on a tentative intent response. |
 
 #### Returns
 
