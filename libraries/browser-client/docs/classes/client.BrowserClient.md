@@ -14,6 +14,8 @@ Usage:
 - Control processing manually with [start](client.BrowserClient.md#start) and [stop](client.BrowserClient.md#stop). Alternatively, you can enable automatic control by initializing BrowserClient with [VadOptions](../interfaces/client.VadOptions.md) defined in the [DecoderOptions](../interfaces/client.DecoderOptions.md).
 - Read the ASR/NLU result [Segment](../interfaces/speechly.Segment.md) by providing a custom handler for the [onSegmentChange](client.BrowserClient.md#onsegmentchange) callback.
 
+Alternatively, you can create the BrowserClient instance and process audio files (binary data) using [uploadAudioData](client.BrowserClient.md#uploadaudiodata).
+
 ## Table of contents
 
 ### Constructors
@@ -195,7 +197,8 @@ ___
 
 ▸ **uploadAudioData**(`audioData`, `options?`): `Promise`<[`Segment`](../interfaces/speechly.Segment.md)[]\>
 
-Upload an existing binary audio data buffer to the API.
+Upload an audio binary (like .wav) to the cloud for automatic speech recogition (ASR) and natural langugage understanding (NLU).
+Callbacks are fired as the processing advances.
 
 #### Parameters
 
@@ -207,6 +210,8 @@ Upload an existing binary audio data buffer to the API.
 #### Returns
 
 `Promise`<[`Segment`](../interfaces/speechly.Segment.md)[]\>
+
+array of segments containing the final results of speech recognition (ASR and NLU).
 
 ___
 
