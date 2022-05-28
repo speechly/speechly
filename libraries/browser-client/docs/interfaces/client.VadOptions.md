@@ -11,6 +11,7 @@ Options for voice activity detection (VAD)
 ### Properties
 
 - [enabled](client.VadOptions.md#enabled)
+- [controlListening](client.VadOptions.md#controllistening)
 - [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)
 - [noiseGateDb](client.VadOptions.md#noisegatedb)
 - [noiseLearnHalftimeMillis](client.VadOptions.md#noiselearnhalftimemillis)
@@ -18,7 +19,6 @@ Options for voice activity detection (VAD)
 - [signalActivation](client.VadOptions.md#signalactivation)
 - [signalRelease](client.VadOptions.md#signalrelease)
 - [signalSustainMillis](client.VadOptions.md#signalsustainmillis)
-- [controlListening](client.VadOptions.md#controllistening)
 - [immediate](client.VadOptions.md#immediate)
 
 ## Properties
@@ -27,7 +27,18 @@ Options for voice activity detection (VAD)
 
 • **enabled**: `boolean`
 
-Run energy analysis
+Run basic energy analysis for audio frames.
+Enables getting current energy levels from the audio stream. When false, controlListening won't have effect.
+Default: false.
+
+___
+
+### controlListening
+
+• **controlListening**: `boolean`
+
+Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+Default: true.
 
 ___
 
@@ -62,7 +73,7 @@ ___
 
 • **signalSearchFrames**: `number`
 
-Number of past frames analyzed for energy threshold VAD. Should be less or equal than HistoryFrames.
+Number of past frames analyzed for energy threshold VAD. Should be less or equal than [DecoderOptions.historyFrames](client.DecoderOptions.md#historyframes) setting.
 Range: 1 to 32 [frames]. Default: 5 [frames].
 
 ___
@@ -91,15 +102,6 @@ ___
 
 Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.
 Range: 0 to 8000 [ms]. Default: 3000 [ms].
-
-___
-
-### controlListening
-
-• **controlListening**: `boolean`
-
-Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
-Default: true.
 
 ___
 

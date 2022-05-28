@@ -1,4 +1,4 @@
-import { Segment, Word, Entity, Intent } from '../speechly'
+import { Segment, Word, Entity, Intent, DefaultSampleRate } from '../speechly'
 import { Storage } from '../storage'
 import { CloudDecoder } from './decoder'
 
@@ -83,7 +83,7 @@ export interface DecoderOptions extends Partial<ResolvedDecoderOptions> {
 export const DecoderDefaultOptions = {
   connect: true,
   apiUrl: 'https://api.speechly.com',
-  sampleRate: 16000,
+  sampleRate: DefaultSampleRate,
   debug: false,
   logSegments: false,
   frameMillis: 30,
@@ -96,9 +96,17 @@ export const DecoderDefaultOptions = {
  */
 export interface VadOptions {
   /**
-   * Run energy analysis
+   * Run basic energy analysis for audio frames.
+   * Enables getting current energy levels from the audio stream. When false, controlListening won't have effect.
+   * Default: false.
    */
   enabled: boolean
+
+  /**
+   * Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+   * Default: true.
+   */
+  controlListening: boolean
 
   /**
    * Signal-to-noise energy ratio needed for frame to be 'loud'.
@@ -119,7 +127,7 @@ export interface VadOptions {
   noiseLearnHalftimeMillis: number
 
   /**
-   * Number of past frames analyzed for energy threshold VAD. Should be less or equal than HistoryFrames.
+   * Number of past frames analyzed for energy threshold VAD. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
   signalSearchFrames: number
@@ -141,12 +149,6 @@ export interface VadOptions {
    * Range: 0 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number
-
-  /**
-   * Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
-   * Default: true.
-   */
-  controlListening: boolean
 
   /**
    * Set audio worker
