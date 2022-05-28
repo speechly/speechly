@@ -5,8 +5,8 @@ import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent
 import audioworklet from '../microphone/audioworklet'
 
 /**
- * Create a new Speechly Spoken Language Understading (SLU) Client to process audio containing speech
- * and provide the results of automatic speech recogition (ASR) and natural langugage understanding (NLU).
+ * Speechly BrowserClient streams audio containing speech for cloud processing and
+ * provides the results of automatic speech recogition (ASR) and natural langugage understanding (NLU) via callbacks.
  *
  * Usage:
  *
