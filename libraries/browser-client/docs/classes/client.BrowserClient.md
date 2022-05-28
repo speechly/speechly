@@ -4,8 +4,14 @@
 
 [client](../modules/client.md).BrowserClient
 
-BrowserClient connects a browser based mediaStream to the Speechly API, including any
-needed downsampling.
+Create a new Speechly Spoken Language Understading (SLU) Client to process audio containing speech
+and provide the results of automatic speech recogition (ASR) and natural langugage understanding (NLU).
+
+Usage:
+
+- Create a BrowserClient instance with a valid appId from https://api.speechly.com/dashboard passed with the options.
+- Create a [BrowserMicrophone](microphone.BrowserMicrophone.md) instance and [attach](client.BrowserClient.md#attach) the mediaStream to BrowserClient.
+- Process the ASR/NLU result [Segment](../interfaces/speechly.Segment.md) in your custom handler passed to the [onSegmentChange](client.BrowserClient.md#onsegmentchange) callback.
 
 ## Table of contents
 

@@ -5,8 +5,14 @@ import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent
 import audioworklet from '../microphone/audioworklet'
 
 /**
- * BrowserClient connects a browser based mediaStream to the Speechly API, including any
- * needed downsampling.
+ * Create a new Speechly Spoken Language Understading (SLU) Client to process audio containing speech
+ * and provide the results of automatic speech recogition (ASR) and natural langugage understanding (NLU).
+ *
+ * Usage:
+ *
+ * - Create a BrowserClient instance with a valid appId from https://api.speechly.com/dashboard passed with the options.
+ * - Create a {@link BrowserMicrophone} instance and {@link attach} the mediaStream to BrowserClient.
+ * - Process the ASR/NLU result {@link Segment} in your custom handler passed to the {@link onSegmentChange} callback.
  * @public
  */
 export class BrowserClient {
