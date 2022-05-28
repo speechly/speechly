@@ -1,5 +1,8 @@
 import { Storage as IStorage } from './types'
 
+/**
+ * @internal
+ */
 export class LocalStorage implements IStorage {
   private readonly storage: Storage
 

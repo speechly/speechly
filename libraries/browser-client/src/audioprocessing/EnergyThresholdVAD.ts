@@ -2,15 +2,16 @@ import { VadOptions } from '../client'
 import AudioTools from './AudioTools'
 
 /**
-/// Adaptive energy threshold voice activity detection (VAD) implementation.
-/// It can be used to enable hands-free operation of the SLU decoder.
-///
-/// When enough frames with a signal stronger than SignalToNoiseDb have been detected, IsSignalDetected goes true. When enough silent frames have been detected, IsSignalDetected goes false after the sustain time.
-/// Use its public fields to configure the static noise gate level, signal-to-noise level, activation/deactivation treshold (ratio of signal to silent frames) and the signal sustain time.
-/// The background noise level gradually adapts when no signal is detected.
-///
-/// IsSignalDetected can be used to drive SpeechlyClient's StartContext and StopContext automatically by setting ControlListening true.
-*/
+ * Adaptive energy threshold voice activity detection (VAD) implementation.
+ * It can be used to enable hands-free operation of the SLU decoder.
+ *
+ * When enough frames with a signal stronger than SignalToNoiseDb have been detected, IsSignalDetected goes true. When enough silent frames have been detected, IsSignalDetected goes false after the sustain time.
+ * Use its public fields to configure the static noise gate level, signal-to-noise level, activation/deactivation treshold (ratio of signal to silent frames) and the signal sustain time.
+ * The background noise level gradually adapts when no signal is detected.
+ *
+ * IsSignalDetected can be used to drive SpeechlyClient's StartContext and StopContext automatically by setting ControlListening true.
+ * @internal
+ */
 
 class EnergyTresholdVAD {
   public isSignalDetected = false
@@ -18,14 +19,15 @@ class EnergyTresholdVAD {
   public noiseLevelDb = -90.0
 
   public vadOptions: VadOptions
-  public readonly frameMillis = 30
+  public readonly frameMillis: number = 30
 
   private energy = 0.0
   private baselineEnergy = -1.0
   private loudFrameBits = 0
   private vadSustainMillisLeft = 0
 
-  constructor(vadOptions: VadOptions) {
+  constructor(frameMillis: number, vadOptions: VadOptions) {
+    this.frameMillis = frameMillis
     this.vadOptions = vadOptions
   }
 

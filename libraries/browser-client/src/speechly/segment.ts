@@ -1,20 +1,49 @@
 import { Word, Entity, Intent, Segment } from './types'
 
 /**
- * Contains the internal state of a `Segment`, with methods to update it based on new events.
+ * A high level API for automatic speech recognition (ASR) and natural language understanding (NLU) results. Results will accumulate in Segment for the duration of the an utterance.
  * @public
  */
 export class SegmentState {
-  id: number
+  /**
+   * Audio context id, an identifier for the audio chunk processed during start and stop calls.
+   * There may be one or more segments in one context.
+   */
   contextId: string
+
+  /**
+   * 0-based segment index within the audio context. Together with {@link contextId} forms an unique identifier for the segment.
+   */
+  id: number
+
+  /**
+   * True when the segment will not be changed any more
+   */
   isFinalized: boolean = false
+
+  /**
+   * Detected words in the segment
+   */
   words: Word[] = []
+
+  /**
+   * Detected entities in the segment
+   */
   entities: Map<string, Entity> = new Map<string, Entity>()
+
+  /**
+   * Detected intent for the segment
+   */
   intent: Intent = { intent: '', isFinal: false }
 
-  constructor(ctxId: string, sId: number) {
-    this.contextId = ctxId
-    this.id = sId
+  /**
+   * @param contextId - Audio context id
+   * @param segmentIndex - 0-based segment index within the audio context
+   * @internal
+   */
+  constructor(contextId: string, segmentIndex: number) {
+    this.contextId = contextId
+    this.id = segmentIndex
   }
 
   toSegment(): Segment {
@@ -42,6 +71,11 @@ export class SegmentState {
     return JSON.stringify(cleanSegment, null, 2)
   }
 
+  /**
+   * @param words - changed words
+   * @returns updated SegmentState
+   * @internal
+   */
   updateTranscript(words: Word[]): SegmentState {
     words.forEach(w => {
       // Only accept tentative words if the segment is tentative.
@@ -53,16 +87,26 @@ export class SegmentState {
     return this
   }
 
+  /**
+   * @param entities - changed entities
+   * @returns updated SegmentState
+   * @internal
+   */
   updateEntities(entities: Entity[]): SegmentState {
     entities.forEach(e => {
       // Only accept tentative entities if the segment is tentative.
       if (!this.isFinalized || e.isFinal) {
-        this.entities.set(entityMapKey(e), e)
+        this.entities.set(this.entityMapKey(e), e)
       }
     })
     return this
   }
 
+  /**
+   * @param intent - changed intent
+   * @returns updated SegmentState
+   * @internal
+   */
   updateIntent(intent: Intent): SegmentState {
     // Only accept tentative intent if the segment is tentative.
     if (!this.isFinalized || intent.isFinal) {
@@ -72,6 +116,10 @@ export class SegmentState {
     return this
   }
 
+  /**
+   * @returns SegmentState with final flags set
+   * @internal
+   */
   finalize(): SegmentState {
     // Filter away any entities which were not finalized.
     this.entities.forEach((val, key) => {
@@ -93,8 +141,8 @@ export class SegmentState {
 
     return this
   }
-}
 
-function entityMapKey(e: Entity): string {
-  return `${e.startPosition.toString()}:${e.endPosition.toString()}`
+  private entityMapKey(e: Entity): string {
+    return `${e.startPosition.toString()}:${e.endPosition.toString()}`
+  }
 }

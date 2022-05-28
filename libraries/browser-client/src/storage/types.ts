@@ -12,7 +12,7 @@ export const ErrKeyNotFound = new Error('Requested key was not present in storag
 
 /**
  * The interface for local key-value storage.
- * @public
+ * @internal
  */
 export interface Storage {
   /**

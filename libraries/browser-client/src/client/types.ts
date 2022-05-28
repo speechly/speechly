@@ -3,14 +3,13 @@ import { Storage } from '../storage'
 import { CloudDecoder } from './decoder'
 
 /**
- * The options which can be used to configure the client.
- * @public
+ * @internal
  */
-export interface DecoderOptions {
+export interface ResolvedDecoderOptions {
   /**
    * Connect to Speechly upon creating the client instance. Defaults to true.
    */
-  connect?: boolean
+  connect: boolean
 
   /**
    * The unique identifier of an app in the dashboard.
@@ -25,22 +24,22 @@ export interface DecoderOptions {
   /**
    * The URL of Speechly SLU API endpoint. Defaults to https://api.speechly.com.
    */
-  apiUrl?: string
+  apiUrl: string
 
   /**
    * The sample rate of the audio to use.
    */
-  sampleRate?: number
+  sampleRate: number
 
   /**
    * Whether to output debug statements to the console.
    */
-  debug?: boolean
+  debug: boolean
 
   /**
    * Whether to output updated segments to the console.
    */
-  logSegments?: boolean
+  logSegments: boolean
 
   /**
    * Listener for client state changes.
@@ -60,9 +59,35 @@ export interface DecoderOptions {
   storage?: Storage
 
   /**
+   * Length of audio frame in milliseconds. Audio frame is the audio basic processing unit in VAD and audio history ringbuffer.
+   */
+  frameMillis: number
+
+  /**
+   * Number of history frames to keep in ringbuffer. They are sent upon start of context to capture the start of utterance, which is especially important to compensate loss of utterance start with VAD.
+   */
+  historyFrames: number
+}
+
+/**
+ * The options which can be used to configure the client.
+ * @public
+ */
+export interface DecoderOptions extends Partial<ResolvedDecoderOptions> {
+  /**
    * Enable voice activity detection (VAD) configuration overrides
    */
   vad?: Partial<VadOptions>
+}
+
+export const DecoderDefaultOptions = {
+  connect: true,
+  apiUrl: 'https://api.speechly.com',
+  sampleRate: 16000,
+  debug: false,
+  logSegments: false,
+  frameMillis: 30,
+  historyFrames: 5,
 }
 
 /**
@@ -172,6 +197,10 @@ export enum DecoderState {
   Active,
 }
 
+/**
+ * Array with methods for adding and removing event listener functions
+ * @internal
+ */
 export class ListenerArray<T> extends Array<T> {
   addEventListener(e: T): void {
     this.push(e)
@@ -187,7 +216,7 @@ export class ListenerArray<T> extends Array<T> {
 
 /**
  * All possible callbacks for the decoder.
- * @public
+ * @internal
  */
 export class EventCallbacks {
   stateChangeCbs: ListenerArray<(state: DecoderState) => void> = new ListenerArray()

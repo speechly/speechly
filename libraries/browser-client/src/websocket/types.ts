@@ -2,7 +2,7 @@ import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
- * @public
+ * @internal
  */
 export interface WebsocketResponse {
   /**
@@ -32,7 +32,7 @@ export interface WebsocketResponse {
 
 /**
  * Known WebSocket response types.
- * @public
+ * @internal
  */
 export enum WebsocketResponseType {
   Started = 'started',
@@ -48,7 +48,7 @@ export enum WebsocketResponseType {
 
 /**
  * Messages from worker to controller
- * @public
+ * @internal
  */
 export enum WorkerSignal {
   Opened = 'WEBSOCKET_OPEN',
@@ -60,7 +60,7 @@ export enum WorkerSignal {
 
 /**
  * Messages from controller to worker
- * @public
+ * @internal
  */
 export enum ControllerSignal {
   connect = 'connect',
@@ -79,7 +79,7 @@ export enum ControllerSignal {
 
 /**
  * Transcript response payload.
- * @public
+ * @internal
  */
 export interface TranscriptResponse {
   /**
@@ -105,7 +105,7 @@ export interface TranscriptResponse {
 
 /**
  * Entity response payload.
- * @public
+ * @internal
  */
 export interface EntityResponse {
   /**
@@ -133,7 +133,7 @@ export interface EntityResponse {
 
 /**
  * Intent response payload.
- * @public
+ * @internal
  */
 export interface IntentResponse {
   /**
@@ -144,7 +144,7 @@ export interface IntentResponse {
 
 /**
  * Tentative transcript response payload.
- * @public
+ * @internal
  */
 export interface TentativeTranscriptResponse {
   /**
@@ -159,8 +159,8 @@ export interface TentativeTranscriptResponse {
 }
 
 /**
- * Tenative entities response payload.
- * @public
+ * Tentative entities response payload.
+ * @internal
  */
 export interface TentativeEntitiesResponse {
   /**
@@ -171,20 +171,24 @@ export interface TentativeEntitiesResponse {
 
 /**
  * A callback that is invoked whenever a response is received from Speechly SLU WebSocket API.
- * @public
+ * @internal
  */
 export type ResponseCallback = (response: WebsocketResponse) => void
 
 /**
  * A callback that is invoked whenever WebSocket connection is closed.
- * @public
+ * @internal
  */
 // eslint-disable-next-line @typescript-eslint/member-delimiter-style
 export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean }) => void
 
 /**
  * The interface for a client for Speechly SLU WebSocket API.
- * @public
+ * @internal
+ */
+
+/**
+ * @internal
  */
 export interface APIClient {
   /**
@@ -220,8 +224,10 @@ export interface APIClient {
    * This method will be called by the Client as part of the initialisation process.
    *
    * @param sourceSampleRate - sample rate of audio source.
+   * @param frameMillis - milliseconds per audio frame. Default 30 [ms].
+   * @param historyFrames - number of history audio frames. Default 5 [frames].
    */
-  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void>
+  initAudioProcessor(sourceSampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void>
 
   /**
    * Control audio processor parameters

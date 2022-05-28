@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin, Segment } from '../speechly'
+import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment } from '../speechly'
 
 import {
   APIClient,
@@ -19,20 +19,19 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions } from './types'
+import { DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, ResolvedDecoderOptions } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
 
 const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
-const defaultApiUrl = 'https://api.speechly.com'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the websocket
  * connection to Speechly API, sending control events and audio stream. It reads and dispatches the responses
  * through a high-level API for interacting with so-called speech segments.
- * @public
+ * @internal
  */
 export class CloudDecoder {
   private readonly debug: boolean
@@ -61,13 +60,13 @@ export class CloudDecoder {
   sampleRate: number
   state: DecoderState = DecoderState.Disconnected
 
-  constructor(options: DecoderOptions) {
-    this.logSegments = options.logSegments ?? false
+  constructor(options: ResolvedDecoderOptions) {
+    this.logSegments = options.logSegments
 
-    this.appId = options.appId ?? undefined
-    this.projectId = options.projectId ?? undefined
-    this.sampleRate = options.sampleRate ?? DefaultSampleRate
-    this.debug = options.debug ?? false
+    this.appId = options.appId
+    this.projectId = options.projectId
+    this.sampleRate = options.sampleRate
+    this.debug = options.debug
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[Decoder] You cannot use both appId and projectId at the same time')
@@ -75,7 +74,7 @@ export class CloudDecoder {
       throw Error('[Decoder] Either an appId or a projectId is required')
     }
 
-    const apiUrl = options.apiUrl ?? defaultApiUrl
+    const apiUrl = options.apiUrl
     this.apiUrl = generateWsUrl(apiUrl.replace('http', 'ws') + '/ws/v1', this.sampleRate)
     this.loginUrl = `${apiUrl}/login`
     this.storage = options.storage ?? new LocalStorage()
@@ -275,9 +274,9 @@ export class CloudDecoder {
     this.cbs.push(listener)
   }
 
-  async initAudioProcessor(sampleRate: number, vadOptions?: VadOptions): Promise<void> {
+  async initAudioProcessor(sampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void> {
     this.sampleRate = sampleRate
-    await this.apiClient.initAudioProcessor(sampleRate, vadOptions)
+    await this.apiClient.initAudioProcessor(sampleRate, frameMillis, historyFrames, vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {

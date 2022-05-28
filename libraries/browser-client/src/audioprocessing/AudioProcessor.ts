@@ -1,6 +1,9 @@
 import AudioTools from './AudioTools'
 import EnergyThresholdVAD from './EnergyThresholdVAD'
 
+/**
+ * @internal
+ */
 class AudioProcessor {
   public vad?: EnergyThresholdVAD
 
@@ -31,44 +34,14 @@ class AudioProcessor {
   private streamFramePos: number = 0
   private wasSignalDetected: boolean = false
 
-  constructor(inputSampleRate: number, outputSampleRate: number, historyFrames: number) {
+  constructor(inputSampleRate: number, outputSampleRate: number, frameMillis: number, historyFrames: number) {
     this.inputSampleRate = inputSampleRate
     this.internalSampleRate = outputSampleRate
+    this.frameMillis = frameMillis
     this.historyFrames = historyFrames
 
     this.frameSamples = ~~(this.internalSampleRate * this.frameMillis / 1000)
     this.sampleRingBuffer = new Float32Array(this.frameSamples * this.historyFrames)
-  }
-
-  public startContext(): void {
-    this.isActive = true
-    this.samplesSent = 0
-    this.utteranceSerial++
-  }
-
-  public stopContext(): void {
-    this.flush()
-    this.isActive = false
-  }
-
-  public resetStream(): void {
-    this.streamFramePos = 0
-    this.streamSamplePos = 0
-    this.frameSamplePos = 0
-    this.currentFrameNumber = 0
-    this.utteranceSerial = -1
-    this.vad?.resetVAD()
-  }
-
-  private flush(): void {
-    this.processAudio(this.sampleRingBuffer, 0, this.frameSamplePos, true)
-  }
-
-  /**
-   * @returns current position in stream in seconds
-   */
-  public getStreamPosition(): number {
-    return this.streamSamplePos / this.inputSampleRate
   }
 
   /**
@@ -154,6 +127,37 @@ class AudioProcessor {
         }
       }
     }
+  }
+
+  public startContext(): void {
+    this.isActive = true
+    this.samplesSent = 0
+    this.utteranceSerial++
+  }
+
+  public stopContext(): void {
+    this.flush()
+    this.isActive = false
+  }
+
+  public resetStream(): void {
+    this.streamFramePos = 0
+    this.streamSamplePos = 0
+    this.frameSamplePos = 0
+    this.currentFrameNumber = 0
+    this.utteranceSerial = -1
+    this.vad?.resetVAD()
+  }
+
+  /**
+   * @returns current position in stream in seconds
+   */
+  public getStreamPosition(): number {
+    return this.streamSamplePos / this.inputSampleRate
+  }
+
+  private flush(): void {
+    this.processAudio(this.sampleRingBuffer, 0, this.frameSamplePos, true)
   }
 
   private processFrame(floats: Float32Array, start = 0, length = -1): void {
