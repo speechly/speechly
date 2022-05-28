@@ -2,7 +2,7 @@ import { Word, Entity, Intent, Segment } from './types'
 
 /**
  * A high level API for automatic speech recognition (ASR) and natural language understanding (NLU) results. Results will accumulate in Segment for the duration of the an utterance.
- * @public
+ * @internal
  */
 export class SegmentState {
   /**

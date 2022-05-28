@@ -17,10 +17,6 @@
 - [Word](../interfaces/speechly.Word.md)
 - [Entity](../interfaces/speechly.Entity.md)
 
-### Classes
-
-- [SegmentState](../classes/speechly.SegmentState.md)
-
 ## Variables
 
 ### ErrDeviceNotSupported
