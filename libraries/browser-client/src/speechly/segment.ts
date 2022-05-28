@@ -6,8 +6,8 @@ import { Word, Entity, Intent, Segment } from './types'
  */
 export class SegmentState {
   /**
-   * Audio context id, an identifier for the audio chunk processed during start and stop calls.
-   * There may be one or more segments in one context.
+   * Audio context id for the utterance. Unique for the processed audio chunk between start and stop calls.
+   * One utterance may produce one or more segments.
    */
   contextId: string
 
