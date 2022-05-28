@@ -9,9 +9,10 @@ provides the results of automatic speech recogition (ASR) and natural langugage 
 
 Usage:
 
-- Create a BrowserClient instance with a valid appId from https://api.speechly.com/dashboard passed with the options.
-- Create a [BrowserMicrophone](microphone.BrowserMicrophone.md) instance and [attach](client.BrowserClient.md#attach) the mediaStream to BrowserClient.
-- Process the ASR/NLU result [Segment](../interfaces/speechly.Segment.md) in your custom handler passed to the [onSegmentChange](client.BrowserClient.md#onsegmentchange) callback.
+- Create a BrowserClient instance with [DecoderOptions](../interfaces/client.DecoderOptions.md) containing a valid appId from https://api.speechly.com/dashboard.
+- Create and initialize a [BrowserMicrophone](microphone.BrowserMicrophone.md) instance and [attach](client.BrowserClient.md#attach) its mediaStream to the BrowserClient instance.
+- Control processing manually with [start](client.BrowserClient.md#start) and [stop](client.BrowserClient.md#stop). Alternatively, you can enable automatic control with VAD in [DecoderOptions](../interfaces/client.DecoderOptions.md).
+- Read the ASR/NLU result [Segment](../interfaces/speechly.Segment.md) by providing a custom handler for the [onSegmentChange](client.BrowserClient.md#onsegmentchange) callback.
 
 ## Table of contents
 
