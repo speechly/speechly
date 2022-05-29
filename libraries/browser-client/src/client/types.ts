@@ -94,26 +94,16 @@ export const DecoderDefaultOptions = {
  * Options for audio processor's voice activity detection (VAD) system.
  * Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
  *
- * VAD activates when signal energy exceeds a certain level for a period of time.
- * There is both an absolute energy threshold and dynamic signal-to-noise threshold to adjust.
+ * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}).
  *
  * When {@link enabled} is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
  * With {@link controlListening} also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
- *
- * Implementation details:
- * - `signalDb` is calculated for the current full audio frame (default: 30 ms).
- * - `loud` flag for the current frame is set if signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb}).
- * - History of past loud/silent frame flags is updated.
- * - `isSignalDetected` is set if ratio of loud/silent frames in past {@link signalSearchFrames} exceeds {@link signalActivation}.
- * - `isSignalDetected` is cleared if ratio of loud/silent frames in past {@link signalSearchFrames} goes lower than {@link signalRelease} and {@link signalSustainMillis} has passed.
- * - Speech detection is started/stopped whenever `isSignalDetected` changes state when {@link controlListening} is set.
- * - Background noise level is adjusted whenever `isSignalDetected` flag is clear.
  * @public
  */
 export interface VadOptions {
   /**
-   * Run signal detection analysis on incoming audio stream.
-   * When false, {@link controlListening} won't have effect.
+   * Run signal detection analysis on every full audio frame (by default 30 ms).
+   * When false, {@link controlListening} won't have an effect.
    *
    * Default: false.
    */
@@ -151,19 +141,19 @@ export interface VadOptions {
   signalSearchFrames: number
 
   /**
-   * Minimum 'loud' to 'silent' frame ratio in history to set 'isSignalDetected' flag.
+   * `isSignalDetected` will be set if ratio of loud/silent frames in past {@link signalSearchFrames} exceeds {@link signalActivation}.
    * Range: 0.0 to 1.0. Default: 0.7.
    */
   signalActivation: number
 
   /**
-   * Maximum 'loud' to 'silent' frame ratio in history to clear 'isSignalDetected' flag. Only evaluated when the sustain period is over.
+   * `isSignalDetected` will be cleared if ratio of loud/silent frames in past {@link signalSearchFrames} goes lower than {@link signalRelease} and {@link signalSustainMillis} has elapsed.
    * Range: 0.0 to 1.0. Default: 0.2.
    */
   signalRelease: number
 
   /**
-   * Minimum duration to keep 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+   * Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number

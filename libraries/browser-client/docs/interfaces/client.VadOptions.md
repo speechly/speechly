@@ -7,20 +7,10 @@
 Options for audio processor's voice activity detection (VAD) system.
 Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
 
-VAD activates when signal energy exceeds a certain level for a period of time.
-There is both an absolute energy threshold and dynamic signal-to-noise threshold to adjust.
+VAD activates when signal energy exceeds both the absolute energy threshold ([noiseGateDb](client.VadOptions.md#noisegatedb)) and the dynamic signal-to-noise threshold ([signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
 
 When [enabled](client.VadOptions.md#enabled) is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
 With [controlListening](client.VadOptions.md#controllistening) also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
-
-Implementation details:
-- `signalDb` is calculated for the current full audio frame (default: 30 ms).
-- `loud` flag for the current frame is set if signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
-- History of past loud/silent frame flags is updated.
-- `isSignalDetected` is set if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) exceeds [signalActivation](client.VadOptions.md#signalactivation).
-- `isSignalDetected` is cleared if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) goes lower than [signalRelease](client.VadOptions.md#signalrelease) and [signalSustainMillis](client.VadOptions.md#signalsustainmillis) has passed.
-- Speech detection is started/stopped whenever `isSignalDetected` changes state when [controlListening](client.VadOptions.md#controllistening) is set.
-- Background noise level is adjusted whenever `isSignalDetected` flag is clear.
 
 ## Table of contents
 
@@ -42,8 +32,8 @@ Implementation details:
 
 • **enabled**: `boolean`
 
-Run signal detection analysis on incoming audio stream.
-When false, [controlListening](client.VadOptions.md#controllistening) won't have effect.
+Run signal detection analysis on every full audio frame (by default 30 ms).
+When false, [controlListening](client.VadOptions.md#controllistening) won't have an effect.
 
 Default: false.
 
@@ -99,7 +89,7 @@ ___
 
 • **signalActivation**: `number`
 
-Minimum 'loud' to 'silent' frame ratio in history to set 'isSignalDetected' flag.
+`isSignalDetected` will be set if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) exceeds [signalActivation](client.VadOptions.md#signalactivation).
 Range: 0.0 to 1.0. Default: 0.7.
 
 ___
@@ -108,7 +98,7 @@ ___
 
 • **signalRelease**: `number`
 
-Maximum 'loud' to 'silent' frame ratio in history to clear 'isSignalDetected' flag. Only evaluated when the sustain period is over.
+`isSignalDetected` will be cleared if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) goes lower than [signalRelease](client.VadOptions.md#signalrelease) and [signalSustainMillis](client.VadOptions.md#signalsustainmillis) has elapsed.
 Range: 0.0 to 1.0. Default: 0.2.
 
 ___
@@ -117,5 +107,5 @@ ___
 
 • **signalSustainMillis**: `number`
 
-Minimum duration to keep 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
 Range: 2000 to 8000 [ms]. Default: 3000 [ms].
