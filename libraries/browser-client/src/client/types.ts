@@ -94,7 +94,7 @@ export const DecoderDefaultOptions = {
  * Options for audio processor's voice activity detector (VAD).
  * Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
  *
- * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}) for a period of time (audio frames).
+ * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}) for a period defined by {@link signalActivation}.
  *
  * When {@link enabled} is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
  * With {@link controlListening} also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
@@ -102,8 +102,8 @@ export const DecoderDefaultOptions = {
  */
 export interface VadOptions {
   /**
-   * Run signal detection analysis on every full audio frame (by default 30 ms).
-   * When false, {@link controlListening} won't have an effect.
+   * Run signal detection for every full audio frame (by default 30 ms).
+   * Setting this to `false` saves some CPU cycles and {@link controlListening} won't have an effect.
    *
    * Default: false.
    */
@@ -136,7 +136,7 @@ export interface VadOptions {
   noiseLearnHalftimeMillis: number
 
   /**
-   * Number of past frames analyzed for setting `isSignalDetected` flag. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
+   * Number of past audio frames (by default 30 ms) analyzed for determining `isSignalDetected` flag state. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
    * 
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
@@ -157,7 +157,7 @@ export interface VadOptions {
   signalRelease: number
 
   /**
-   * Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+   * Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this below 2000 ms may degrade speech-to-text accuracy.
    * 
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
