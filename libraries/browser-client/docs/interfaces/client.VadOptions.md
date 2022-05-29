@@ -5,17 +5,16 @@
 [client](../modules/client.md).VadOptions
 
 Options for audio processor's voice activity detection (VAD) system.
-The system can start/stop speech detection when the signal energy exceeds the set thresholds in a number of past audio frames.
+When [enabled](client.VadOptions.md#enabled), `isSignalDetected` flag is set when signal energy exceeds the set thresholds in a number of past audio frames. See below for details.
+With [controlListening](client.VadOptions.md#controllistening), `isSignalDetected` flag controls speech detection.
 
-When [enabled](client.VadOptions.md#enabled), the following calculations take place:
-- Calculate `signalDb` for the full audio frame (default: 30 ms).
-- Determine if frame is loud enough: signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
-- Maintain history of loud/silent frames.
-- Set or clear `isSignalDetected` flag based on ratio of loud/silent frames in last [signalSearchFrames](client.VadOptions.md#signalsearchframes).
-- Keep `isSignalDetected` flag set for at least [signalSustainMillis](client.VadOptions.md#signalsustainmillis) to prevent hysteresis.
-- Control listening is [controlListening](client.VadOptions.md#controllistening) is set.
-
-Additionally, when [controlListening](client.VadOptions.md#controllistening) is set, VAD controls [BrowserClient.start](../classes/client.BrowserClient.md#start) and [BrowserClient.stop](../classes/client.BrowserClient.md#stop).
+Energy threshold VAD works as follws:
+- `signalDb` for the full audio frame (default: 30 ms) is calculated.
+- `loud` flag for the frame is set if signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
+- History of past loud/silent frame flags is updated.
+- `isSignalDetected` is set if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) exceeds [signalActivation](client.VadOptions.md#signalactivation).
+- `isSignalDetected` is cleared if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) goes lower than [signalRelease](client.VadOptions.md#signalrelease) and [signalSustainMillis](client.VadOptions.md#signalsustainmillis) has passed.
+- Speech detection is started/stopped whenever `isSignalDetected` changes state when [controlListening](client.VadOptions.md#controllistening) is set.
 
 ## Table of contents
 

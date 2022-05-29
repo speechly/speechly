@@ -92,17 +92,16 @@ export const DecoderDefaultOptions = {
 
 /**
  * Options for audio processor's voice activity detection (VAD) system.
- * The system can start/stop speech detection when the signal energy exceeds the set thresholds in a number of past audio frames.
+ * When {@link enabled}, `isSignalDetected` flag is set when signal energy exceeds the set thresholds in a number of past audio frames. See below for details.
+ * With {@link controlListening}, `isSignalDetected` flag controls speech detection.
  *
- * When {@link enabled}, the following calculations take place:
- * - Calculate `signalDb` for the full audio frame (default: 30 ms).
- * - Determine if frame is loud enough: signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb}).
- * - Maintain history of loud/silent frames.
- * - Set or clear `isSignalDetected` flag based on ratio of loud/silent frames in last {@link signalSearchFrames}.
- * - Keep `isSignalDetected` flag set for at least {@link signalSustainMillis} to prevent hysteresis.
- * - Control listening is {@link controlListening} is set.
- *
- * Additionally, when {@link controlListening} is set, VAD controls {@link BrowserClient.start} and {@link BrowserClient.stop}.
+ * Energy threshold VAD works as follws:
+ * - `signalDb` for the full audio frame (default: 30 ms) is calculated.
+ * - `loud` flag for the frame is set if signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb}).
+ * - History of past loud/silent frame flags is updated.
+ * - `isSignalDetected` is set if ratio of loud/silent frames in past {@link signalSearchFrames} exceeds {@link signalActivation}.
+ * - `isSignalDetected` is cleared if ratio of loud/silent frames in past {@link signalSearchFrames} goes lower than {@link signalRelease} and {@link signalSustainMillis} has passed.
+ * - Speech detection is started/stopped whenever `isSignalDetected` changes state when {@link controlListening} is set.
  * @public
  */
 export interface VadOptions {
