@@ -4,7 +4,18 @@
 
 [client](../modules/client.md).VadOptions
 
-Options for voice activity detection (VAD)
+Options for audio processor's voice activity detection (VAD) system.
+The system can start/stop speech detection when the signal energy exceeds the set thresholds in a number of past audio frames.
+
+When [enabled](client.VadOptions.md#enabled), the following calculations take place:
+- Calculate `signalDb` for the full audio frame (default: 30 ms).
+- Determine if frame is loud enough: signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
+- Maintain history of loud/silent frames.
+- Set or clear `isSignalDetected` flag based on ratio of loud/silent frames in last [signalSearchFrames](client.VadOptions.md#signalsearchframes).
+- Keep `isSignalDetected` flag set for at least [signalSustainMillis](client.VadOptions.md#signalsustainmillis) to prevent hysteresis.
+- Control listening is [controlListening](client.VadOptions.md#controllistening) is set.
+
+Additionally, when [controlListening](client.VadOptions.md#controllistening) is set, VAD controls [BrowserClient.start](../classes/client.BrowserClient.md#start) and [BrowserClient.stop](../classes/client.BrowserClient.md#stop).
 
 ## Table of contents
 
@@ -26,14 +37,10 @@ Options for voice activity detection (VAD)
 
 • **enabled**: `boolean`
 
-Run signal detection analysis on incoming audio stream:
-- Calculate signalDb for current audio frame (pooled from stream)
-- Determine if frame is loud enough: signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb))
-- Maintain history of loud/silent frames.
-- Set or clear isSignalDetected flag based on ratio of loud/silent frames in last [signalSearchFrames](client.VadOptions.md#signalsearchframes).
-- Keep isSignalDetected flag set at least for [signalSustainMillis](client.VadOptions.md#signalsustainmillis).
+Run signal detection analysis on incoming audio stream.
+When false, [controlListening](client.VadOptions.md#controllistening) won't have effect.
 
-When false, controlListening won't have effect. Default: false.
+Default: false.
 
 ___
 
@@ -41,7 +48,7 @@ ___
 
 • **controlListening**: `boolean`
 
-Enable VAD to automatically call start/stop based on isSignalDetected state.
+Enable VAD to automatically control [BrowserClient.start](../classes/client.BrowserClient.md#start) and [BrowserClient.stop](../classes/client.BrowserClient.md#stop) based on isSignalDetected state.
 Default: true.
 
 ___
@@ -50,7 +57,7 @@ ___
 
 • **noiseGateDb**: `number`
 
-Absolute signal energy required.
+Absolute signal energy.
 Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
 
 ___
@@ -59,7 +66,7 @@ ___
 
 • **signalToNoiseDb**: `number`
 
-Relative signal-to-noise energy required top of learned background noise level.
+Relative signal-to-noise energy on top of current noise level.
 Default: 3.0 [dB].
 
 ___
@@ -69,6 +76,7 @@ ___
 • **noiseLearnHalftimeMillis**: `number`
 
 Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
+Noise level is only adjusted when `isSignalDetected` flag is clear.
 Range: 0, 5000 [ms]. Default: 400 [ms].
 
 ___

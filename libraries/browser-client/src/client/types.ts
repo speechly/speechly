@@ -91,42 +91,50 @@ export const DecoderDefaultOptions = {
 }
 
 /**
- * Options for voice activity detection (VAD)
+ * Options for audio processor's voice activity detection (VAD) system.
+ * The system can start/stop speech detection when the signal energy exceeds the set thresholds in a number of past audio frames.
+ *
+ * When {@link enabled}, the following calculations take place:
+ * - Calculate `signalDb` for the full audio frame (default: 30 ms).
+ * - Determine if frame is loud enough: signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb}).
+ * - Maintain history of loud/silent frames.
+ * - Set or clear `isSignalDetected` flag based on ratio of loud/silent frames in last {@link signalSearchFrames}.
+ * - Keep `isSignalDetected` flag set for at least {@link signalSustainMillis} to prevent hysteresis.
+ * - Control listening is {@link controlListening} is set.
+ *
+ * Additionally, when {@link controlListening} is set, VAD controls {@link BrowserClient.start} and {@link BrowserClient.stop}.
  * @public
  */
 export interface VadOptions {
   /**
-   * Run signal detection analysis on incoming audio stream:
-   * - Calculate signalDb for current audio frame (pooled from stream)
-   * - Determine if frame is loud enough: signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb})
-   * - Maintain history of loud/silent frames.
-   * - Set or clear isSignalDetected flag based on ratio of loud/silent frames in last {@link signalSearchFrames}.
-   * - Keep isSignalDetected flag set at least for {@link signalSustainMillis}.
+   * Run signal detection analysis on incoming audio stream.
+   * When false, {@link controlListening} won't have effect.
    *
-   * When false, controlListening won't have effect. Default: false.
+   * Default: false.
    */
   enabled: boolean
 
   /**
-   * Enable VAD to automatically call start/stop based on isSignalDetected state.
+   * Enable VAD to automatically control {@link BrowserClient.start} and {@link BrowserClient.stop} based on isSignalDetected state.
    * Default: true.
    */
   controlListening: boolean
 
   /**
-   * Absolute signal energy required.
+   * Absolute signal energy.
    * Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
    */
   noiseGateDb: number
 
   /**
-   * Relative signal-to-noise energy required top of learned background noise level.
+   * Relative signal-to-noise energy on top of current noise level.
    * Default: 3.0 [dB].
    */
   signalToNoiseDb: number
 
   /**
    * Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
+   * Noise level is only adjusted when `isSignalDetected` flag is clear.
    * Range: 0, 5000 [ms]. Default: 400 [ms].
    */
   noiseLearnHalftimeMillis: number
