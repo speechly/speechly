@@ -44,6 +44,7 @@ ___
 • **controlListening**: `boolean`
 
 Enable VAD to automatically control [BrowserClient.start](../classes/client.BrowserClient.md#start) and [BrowserClient.stop](../classes/client.BrowserClient.md#stop) based on isSignalDetected state.
+
 Default: true.
 
 ___
@@ -53,7 +54,8 @@ ___
 • **noiseGateDb**: `number`
 
 Absolute signal energy threshold.
-Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
+
+Range: -90.0f [dB, extremely sensitive] to 0.0f [dB, extemely insensitive]. Default: -24 [dB].
 
 ___
 
@@ -62,6 +64,7 @@ ___
 • **signalToNoiseDb**: `number`
 
 Signal-to-noise energy threshold. Noise energy level is dynamically adjusted to current conditions.
+
 Default: 3.0 [dB].
 
 ___

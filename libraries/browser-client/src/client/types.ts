@@ -111,18 +111,21 @@ export interface VadOptions {
 
   /**
    * Enable VAD to automatically control {@link BrowserClient.start} and {@link BrowserClient.stop} based on isSignalDetected state.
+   * 
    * Default: true.
    */
   controlListening: boolean
 
   /**
    * Absolute signal energy threshold.
-   * Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
+   * 
+   * Range: -90.0f [dB, extremely sensitive] to 0.0f [dB, extemely insensitive]. Default: -24 [dB].
    */
   noiseGateDb: number
 
   /**
    * Signal-to-noise energy threshold. Noise energy level is dynamically adjusted to current conditions.
+   * 
    * Default: 3.0 [dB].
    */
   signalToNoiseDb: number
