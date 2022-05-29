@@ -92,9 +92,9 @@ export const DecoderDefaultOptions = {
 
 /**
  * Options for audio processor's voice activity detector (VAD).
- * Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
+ * Enabling VAD automatically starts and stops cloud speech decoding. This enables for hands-free use and eliminates silence from being sent to cloud for processing.
  *
- * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}) for a period defined by {@link signalActivation}.
+ * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}) for a period defined of time ({@link signalActivation}).
  *
  * When {@link enabled} is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
  * With {@link controlListening} also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
@@ -136,7 +136,7 @@ export interface VadOptions {
   noiseLearnHalftimeMillis: number
 
   /**
-   * Number of past audio frames (by default 30 ms) analyzed for determining `isSignalDetected` flag state. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
+   * Number of past audio frames (by default 30 ms) analyzed for determining `isSignalDetected` state. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
    * 
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
@@ -157,7 +157,7 @@ export interface VadOptions {
   signalRelease: number
 
   /**
-   * Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this below 2000 ms may degrade speech-to-text accuracy.
+   * Minimum duration to hold 'isSignalDetected' set. This effectively defines the minimum length of the utterance sent for speech decoding. Setting this below 2000 ms may degrade speech-to-text accuracy.
    * 
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
