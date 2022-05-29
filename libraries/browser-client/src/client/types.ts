@@ -91,10 +91,10 @@ export const DecoderDefaultOptions = {
 }
 
 /**
- * Options for audio processor's voice activity detection (VAD) system.
+ * Options for audio processor's voice activity detector (VAD).
  * Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
  *
- * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}).
+ * VAD activates when signal energy exceeds both the absolute energy threshold ({@link noiseGateDb}) and the dynamic signal-to-noise threshold ({@link signalToNoiseDb}) for a period of time (audio frames).
  *
  * When {@link enabled} is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
  * With {@link controlListening} also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
@@ -130,30 +130,35 @@ export interface VadOptions {
   /**
    * Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
    * Noise level is only adjusted when `isSignalDetected` flag is clear.
+   * 
    * Range: 0, 5000 [ms]. Default: 400 [ms].
    */
   noiseLearnHalftimeMillis: number
 
   /**
    * Number of past frames analyzed for setting `isSignalDetected` flag. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
+   * 
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
   signalSearchFrames: number
 
   /**
    * `isSignalDetected` will be set if ratio of loud/silent frames in past {@link signalSearchFrames} exceeds {@link signalActivation}.
+   * 
    * Range: 0.0 to 1.0. Default: 0.7.
    */
   signalActivation: number
 
   /**
    * `isSignalDetected` will be cleared if ratio of loud/silent frames in past {@link signalSearchFrames} goes lower than {@link signalRelease} and {@link signalSustainMillis} has elapsed.
+   * 
    * Range: 0.0 to 1.0. Default: 0.2.
    */
   signalRelease: number
 
   /**
    * Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+   * 
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number

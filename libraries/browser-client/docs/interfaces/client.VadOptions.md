@@ -4,10 +4,10 @@
 
 [client](../modules/client.md).VadOptions
 
-Options for audio processor's voice activity detection (VAD) system.
+Options for audio processor's voice activity detector (VAD).
 Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
 
-VAD activates when signal energy exceeds both the absolute energy threshold ([noiseGateDb](client.VadOptions.md#noisegatedb)) and the dynamic signal-to-noise threshold ([signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
+VAD activates when signal energy exceeds both the absolute energy threshold ([noiseGateDb](client.VadOptions.md#noisegatedb)) and the dynamic signal-to-noise threshold ([signalToNoiseDb](client.VadOptions.md#signaltonoisedb)) for a period of time (audio frames).
 
 When [enabled](client.VadOptions.md#enabled) is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
 With [controlListening](client.VadOptions.md#controllistening) also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
@@ -72,6 +72,7 @@ ___
 
 Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
 Noise level is only adjusted when `isSignalDetected` flag is clear.
+
 Range: 0, 5000 [ms]. Default: 400 [ms].
 
 ___
@@ -81,6 +82,7 @@ ___
 • **signalSearchFrames**: `number`
 
 Number of past frames analyzed for setting `isSignalDetected` flag. Should be less or equal than [DecoderOptions.historyFrames](client.DecoderOptions.md#historyframes) setting.
+
 Range: 1 to 32 [frames]. Default: 5 [frames].
 
 ___
@@ -90,6 +92,7 @@ ___
 • **signalActivation**: `number`
 
 `isSignalDetected` will be set if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) exceeds [signalActivation](client.VadOptions.md#signalactivation).
+
 Range: 0.0 to 1.0. Default: 0.7.
 
 ___
@@ -99,6 +102,7 @@ ___
 • **signalRelease**: `number`
 
 `isSignalDetected` will be cleared if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) goes lower than [signalRelease](client.VadOptions.md#signalrelease) and [signalSustainMillis](client.VadOptions.md#signalsustainmillis) has elapsed.
+
 Range: 0.0 to 1.0. Default: 0.2.
 
 ___
@@ -108,4 +112,5 @@ ___
 • **signalSustainMillis**: `number`
 
 Minimum duration to hold 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+
 Range: 2000 to 8000 [ms]. Default: 3000 [ms].
