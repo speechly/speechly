@@ -96,63 +96,68 @@ export const DecoderDefaultOptions = {
  */
 export interface VadOptions {
   /**
-   * Run basic energy analysis for audio frames.
-   * Enables getting current energy levels from the audio stream. When false, controlListening won't have effect.
-   * Default: false.
+   * Run signal detection analysis on incoming audio stream:
+   * - Calculate signalDb for current audio frame (pooled from stream)
+   * - Determine if frame is loud enough: signalDb `>` {@link noiseGateDb} `>` (noiseLevelDb + {@link signalToNoiseDb})
+   * - Maintain history of loud/silent frames.
+   * - Set or clear isSignalDetected flag based on ratio of loud/silent frames in last {@link signalSearchFrames}.
+   * - Keep isSignalDetected flag set at least for {@link signalSustainMillis}.
+   *
+   * When false, controlListening won't have effect. Default: false.
    */
   enabled: boolean
 
   /**
-   * Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+   * Enable VAD to automatically call start/stop based on isSignalDetected state.
    * Default: true.
    */
   controlListening: boolean
 
   /**
-   * Signal-to-noise energy ratio needed for frame to be 'loud'.
-   * Default: 3.0 [dB].
-   */
-  signalToNoiseDb: number
-
-  /**
-   * Energy threshold - below this won't trigger activation.
+   * Absolute signal energy required.
    * Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
    */
   noiseGateDb: number
 
   /**
-   * Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.
+   * Relative signal-to-noise energy required top of learned background noise level.
+   * Default: 3.0 [dB].
+   */
+  signalToNoiseDb: number
+
+  /**
+   * Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
    * Range: 0, 5000 [ms]. Default: 400 [ms].
    */
   noiseLearnHalftimeMillis: number
 
   /**
-   * Number of past frames analyzed for energy threshold VAD. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
+   * Number of past frames analyzed for setting `isSignalDetected` flag. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
   signalSearchFrames: number
 
   /**
-   * Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'
+   * Minimum 'loud' to 'silent' frame ratio in history to set 'isSignalDetected' flag.
    * Range: 0.0 to 1.0. Default: 0.7.
    */
   signalActivation: number
 
   /**
-   * Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.
+   * Maximum 'loud' to 'silent' frame ratio in history to clear 'isSignalDetected' flag. Only evaluated when the sustain period is over.
    * Range: 0.0 to 1.0. Default: 0.2.
    */
   signalRelease: number
 
   /**
-   * Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.
-   * Range: 0 to 8000 [ms]. Default: 3000 [ms].
+   * Minimum duration to keep 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+   * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number
 
   /**
-   * Set audio worker
-   * to ‘immediate audio processor’ mode where it can control start/stop context internally at its own pace.
+   * Set audio worker to ‘immediate utterance processing’ mode. The worker controls start/stop internally without input from BrowserClient. Internally used with file upload.
+   * @internal
    */
   immediate?: boolean
 }

@@ -12,14 +12,13 @@ Options for voice activity detection (VAD)
 
 - [enabled](client.VadOptions.md#enabled)
 - [controlListening](client.VadOptions.md#controllistening)
-- [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)
 - [noiseGateDb](client.VadOptions.md#noisegatedb)
+- [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)
 - [noiseLearnHalftimeMillis](client.VadOptions.md#noiselearnhalftimemillis)
 - [signalSearchFrames](client.VadOptions.md#signalsearchframes)
 - [signalActivation](client.VadOptions.md#signalactivation)
 - [signalRelease](client.VadOptions.md#signalrelease)
 - [signalSustainMillis](client.VadOptions.md#signalsustainmillis)
-- [immediate](client.VadOptions.md#immediate)
 
 ## Properties
 
@@ -27,9 +26,14 @@ Options for voice activity detection (VAD)
 
 • **enabled**: `boolean`
 
-Run basic energy analysis for audio frames.
-Enables getting current energy levels from the audio stream. When false, controlListening won't have effect.
-Default: false.
+Run signal detection analysis on incoming audio stream:
+- Calculate signalDb for current audio frame (pooled from stream)
+- Determine if frame is loud enough: signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb))
+- Maintain history of loud/silent frames.
+- Set or clear isSignalDetected flag based on ratio of loud/silent frames in last [signalSearchFrames](client.VadOptions.md#signalsearchframes).
+- Keep isSignalDetected flag set at least for [signalSustainMillis](client.VadOptions.md#signalsustainmillis).
+
+When false, controlListening won't have effect. Default: false.
 
 ___
 
@@ -37,17 +41,8 @@ ___
 
 • **controlListening**: `boolean`
 
-Enable listening control if you want to use IsSignalDetected to control SLU start / stop.
+Enable VAD to automatically call start/stop based on isSignalDetected state.
 Default: true.
-
-___
-
-### signalToNoiseDb
-
-• **signalToNoiseDb**: `number`
-
-Signal-to-noise energy ratio needed for frame to be 'loud'.
-Default: 3.0 [dB].
 
 ___
 
@@ -55,8 +50,17 @@ ___
 
 • **noiseGateDb**: `number`
 
-Energy threshold - below this won't trigger activation.
+Absolute signal energy required.
 Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
+
+___
+
+### signalToNoiseDb
+
+• **signalToNoiseDb**: `number`
+
+Relative signal-to-noise energy required top of learned background noise level.
+Default: 3.0 [dB].
 
 ___
 
@@ -64,7 +68,7 @@ ___
 
 • **noiseLearnHalftimeMillis**: `number`
 
-Rate of background noise learn. Defined as duration in which background noise energy is moved halfway towards current frame's energy.
+Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
 Range: 0, 5000 [ms]. Default: 400 [ms].
 
 ___
@@ -73,7 +77,7 @@ ___
 
 • **signalSearchFrames**: `number`
 
-Number of past frames analyzed for energy threshold VAD. Should be less or equal than [DecoderOptions.historyFrames](client.DecoderOptions.md#historyframes) setting.
+Number of past frames analyzed for setting `isSignalDetected` flag. Should be less or equal than [DecoderOptions.historyFrames](client.DecoderOptions.md#historyframes) setting.
 Range: 1 to 32 [frames]. Default: 5 [frames].
 
 ___
@@ -82,7 +86,7 @@ ___
 
 • **signalActivation**: `number`
 
-Minimum 'signal' to 'silent' frame ratio in history to activate 'IsSignalDetected'
+Minimum 'loud' to 'silent' frame ratio in history to set 'isSignalDetected' flag.
 Range: 0.0 to 1.0. Default: 0.7.
 
 ___
@@ -91,7 +95,7 @@ ___
 
 • **signalRelease**: `number`
 
-Maximum 'signal' to 'silent' frame ratio in history to inactivate 'IsSignalDetected'. Only evaluated when the sustain period is over.
+Maximum 'loud' to 'silent' frame ratio in history to clear 'isSignalDetected' flag. Only evaluated when the sustain period is over.
 Range: 0.0 to 1.0. Default: 0.2.
 
 ___
@@ -100,14 +104,5 @@ ___
 
 • **signalSustainMillis**: `number`
 
-Duration to keep 'IsSignalDetected' active. Renewed as long as VADActivation is holds true.
-Range: 0 to 8000 [ms]. Default: 3000 [ms].
-
-___
-
-### immediate
-
-• `Optional` **immediate**: `boolean`
-
-Set audio worker
-to ‘immediate audio processor’ mode where it can control start/stop context internally at its own pace.
+Minimum duration to keep 'isSignalDetected' flag in set state. This effectively sets the minimum length of the utterance. Setting this to a value below 2000 ms may degrade speech-to-text accuracy.
+Range: 2000 to 8000 [ms]. Default: 3000 [ms].
