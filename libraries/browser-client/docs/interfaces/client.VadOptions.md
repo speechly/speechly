@@ -5,16 +5,22 @@
 [client](../modules/client.md).VadOptions
 
 Options for audio processor's voice activity detection (VAD) system.
-When [enabled](client.VadOptions.md#enabled), `isSignalDetected` flag is set when signal energy exceeds the set thresholds in a number of past audio frames. See below for details.
-With [controlListening](client.VadOptions.md#controllistening), `isSignalDetected` flag controls speech detection.
+Enabling VAD allows hands-free use and eliminates silence from being sent to cloud for speech decoding.
 
-Energy threshold VAD works as follws:
-- `signalDb` for the full audio frame (default: 30 ms) is calculated.
-- `loud` flag for the frame is set if signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
+VAD activates when signal energy exceeds a certain level for a period of time.
+There is both an absolute energy threshold and dynamic signal-to-noise threshold to adjust.
+
+When [enabled](client.VadOptions.md#enabled) is set, VAD's internal `signalDb`, `noiseLevelDb` and `isSignalDetected` states are updated.
+With [controlListening](client.VadOptions.md#controllistening) also set, `isSignalDetected` flag controls start and stop of cloud speech decoding.
+
+Implementation details:
+- `signalDb` is calculated for the current full audio frame (default: 30 ms).
+- `loud` flag for the current frame is set if signalDb `>` [noiseGateDb](client.VadOptions.md#noisegatedb) `>` (noiseLevelDb + [signalToNoiseDb](client.VadOptions.md#signaltonoisedb)).
 - History of past loud/silent frame flags is updated.
 - `isSignalDetected` is set if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) exceeds [signalActivation](client.VadOptions.md#signalactivation).
 - `isSignalDetected` is cleared if ratio of loud/silent frames in past [signalSearchFrames](client.VadOptions.md#signalsearchframes) goes lower than [signalRelease](client.VadOptions.md#signalrelease) and [signalSustainMillis](client.VadOptions.md#signalsustainmillis) has passed.
 - Speech detection is started/stopped whenever `isSignalDetected` changes state when [controlListening](client.VadOptions.md#controllistening) is set.
+- Background noise level is adjusted whenever `isSignalDetected` flag is clear.
 
 ## Table of contents
 
@@ -56,7 +62,7 @@ ___
 
 • **noiseGateDb**: `number`
 
-Absolute signal energy.
+Absolute signal energy threshold.
 Range: -90.0f to 0.0f [dB]. Default: -24 [dB].
 
 ___
@@ -65,7 +71,7 @@ ___
 
 • **signalToNoiseDb**: `number`
 
-Relative signal-to-noise energy on top of current noise level.
+Signal-to-noise energy threshold. Noise energy level is dynamically adjusted to current conditions.
 Default: 3.0 [dB].
 
 ___
