@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Wed, 25 May 2022 05:10:21 GMT and should not be manually modified.
+This log was last generated on Mon, 30 May 2022 07:18:04 GMT and should not be manually modified.
+
+## 2.1.1
+Mon, 30 May 2022 07:18:04 GMT
+
+### Patches
+
+- Fix error due to missing default argument in browser-client.
 
 ## 2.1.0
 Wed, 25 May 2022 05:10:21 GMT

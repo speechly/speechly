@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.1.1",
+      "tag": "@speechly/browser-client_v2.1.1",
+      "date": "Mon, 30 May 2022 07:18:04 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix error due to missing default argument in browser-client."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.0",
       "tag": "@speechly/browser-client_v2.1.0",
       "date": "Wed, 25 May 2022 05:10:21 GMT",
