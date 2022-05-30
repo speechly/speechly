@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Fix error due to missing default argument in browser-client.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
