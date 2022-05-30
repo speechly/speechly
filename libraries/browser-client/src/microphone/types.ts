@@ -15,3 +15,11 @@ export const ErrAlreadyInitialized = new Error('Microphone is already initialize
  * @public
  */
 export const ErrNoAudioConsent = new Error('Microphone consent is not given')
+
+export enum AudioSourceState {
+  NoAudioConsent = 'NoAudioConsent',
+  NoBrowserSupport = 'NoBrowserSupport',
+  Stopped = 'Stopped',
+  Starting = 'Starting',
+  Started = 'Started',
+}

@@ -4,7 +4,7 @@
   import MicIcon from "./components/MicIcon.svelte";
   import fix from './fixTransition'
   import { createDispatchUnbounded} from "./fixDispatch";
-  import { DecoderState, MessageType } from "./constants";
+  import { AudioSourceState, DecoderState, MessageType } from "./constants";
 
   export let hide = "auto";
   export let clientstate: string = undefined;
@@ -28,7 +28,7 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let mounted = false;
-  let page: DecoderState | string = PagePriming;
+  let page: DecoderState | AudioSourceState | string = PagePriming;
   let introTimeout = null;
   let showAllowButton = false;
 
@@ -50,8 +50,9 @@
     window.postMessage({ type: MessageType.speechlyintroclosed, ...params }, "*");
   }
 
-  const initialize = () => {
-    window.SpeechlyClient.initialize();
+  const initialize = async() => {
+    await window.SpeechlyMicrophone.initialize();
+    await window.SpeechlyClient.attach(window.SpeechlyMicrophone.mediaStream)
   }
 
   const handleKeydown = (event) => {
@@ -72,12 +73,21 @@
       case MessageType.speechstate:
         onClientStateChange(e.data.state)
         break;
+      case MessageType.audiosourcestate:
+        onAudioSourceStateChange(e.data.state)
+        break;
       case MessageType.holdstart:
-        switch (e.data.state) {
-          case DecoderState.Failed:
-          // case ClientState.NoAudioConsent:
-          // case ClientState.NoBrowserSupport:
-            showError(e.data.state);
+        switch (e.data.audioSourceState) {
+          case AudioSourceState.NoAudioConsent:
+          case AudioSourceState.NoBrowserSupport:
+            showError(e.data.audioSourceState);
+            break;
+          default:
+            switch (e.data.state) {
+              case DecoderState.Failed:
+                showError(e.data.state);
+                break;
+            }
             break;
         }
         break;
@@ -86,7 +96,7 @@
     }
   }
 
-  const showError = (e: DecoderState | string) => {
+  const showError = (e: DecoderState | AudioSourceState | string) => {
     if (hide === "auto") {
       visibility = true;
     }
@@ -109,10 +119,9 @@
     window.location.replace(newUrl)
   }
 
-  const onClientStateChange = (state: DecoderState) => {
+  const onAudioSourceStateChange = (state: AudioSourceState) => {
     switch (state) {
-      /*
-      case ClientState.Initializing:
+      case AudioSourceState.Starting:
         // Allow only going forward in pages to prevent hiding an error
         if (page === PagePriming) {
           page = state;
@@ -126,10 +135,8 @@
           visibility = true;
         }
         break;
-      */
-      case DecoderState.Connected:
-      // case ClientState.Starting:
-      // case ClientState.Recording:
+      case AudioSourceState.Started:
+        console.log('hohohoi')
         if (firstConnect) {
           // All good, hide this popup
           firstConnect = false;
@@ -143,9 +150,16 @@
           }
         }
         break;
+      case AudioSourceState.NoAudioConsent:
+      case AudioSourceState.NoBrowserSupport:
+        showError(state);
+        break;
+    }
+  }
+
+  const onClientStateChange = (state: DecoderState) => {
+    switch (state) {
       case DecoderState.Failed:
-      // case ClientState.NoAudioConsent:
-      // case ClientState.NoBrowserSupport:
         showError(state);
         break;
     }
@@ -173,7 +187,7 @@
   <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
-      {#if page === PagePriming || page === "@TODO ClientState.Initializing"}
+      {#if page === PagePriming || page === AudioSourceState.Starting}
         <h2><slot name="priming-title">Allow microphone</slot></h2>
         <p>
           <slot name="priming-body">
@@ -184,7 +198,7 @@
         <options>
           <button on:click={closeSelf} class="button button-secondary">Not now</button>
           {#if showAllowButton}
-            <button on:click={initialize} class="button button-primary" disabled={page === "@TODO ClientState.Initializing"}>Allow</button>
+            <button on:click={initialize} class="button button-primary" disabled={page === AudioSourceState.Starting}>Allow</button>
           {/if}
         </options>
       {:else if page === HttpsRequired}
@@ -199,7 +213,7 @@
             Try with HTTPS
           </button>
         </options>
-      {:else if page === "@TODO ClientState.NoAudioConsent"}
+      {:else if page === AudioSourceState.NoAudioConsent}
         <h2>Microphone blocked</h2>
         <p>
           To use voice input, {window.location.hostname} needs access to your microphone. Check your
@@ -209,7 +223,7 @@
           <button on:click={closeSelf} class="button button-secondary">Ok, got it</button>
           <button on:click={() => {window.location.reload()}} class="button button-primary">Reload page</button>
         </options>
-      {:else if page === "@TODO ClientState.NoBrowserSupport"}
+      {:else if page === AudioSourceState.NoBrowserSupport}
         <h2>Unsupported browser</h2>
         <p>
           To use voice input, please visit this site using a supported browser.

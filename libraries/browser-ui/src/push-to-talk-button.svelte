@@ -5,7 +5,7 @@
   import "./holdable-button.ts";
   import "./call-out.ts";
   import { BrowserClient, BrowserMicrophone } from "@speechly/browser-client";
-  import { DecoderState, LocalStorageKeys, MessageType } from "./constants";
+  import { DecoderState, AudioSourceState, LocalStorageKeys, MessageType } from "./constants";
   import { onMount } from "svelte";
   import { createDispatchUnbounded} from "./fixDispatch";
 
@@ -67,7 +67,9 @@
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
+  let microphone = null;
   let clientState: DecoderState = DecoderState.Disconnected;
+  let audioSourceState: AudioSourceState = AudioSourceState.Stopped;
 
   onMount(() => {
     mounted = true;
@@ -92,11 +94,7 @@
       }
 
       client = new BrowserClient(clientOptions);
-
-      // Make BrowserClient available thru window for Intro Popup
-      window.SpeechlyClient = client
-
-      client.onStateChange(onStateChange);
+      client.onStateChange(onDecoderStateChange);
       client.onSegmentChange((segment: Segment) => {
         // Refresh stopContext timeout if set
         if (tapListenTimeout) setStopContextTimeout(silencetohanguptime);
@@ -106,25 +104,18 @@
         window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
       });
 
-      // @TODO FIX PRE-WARM client.connect();
+      microphone = new BrowserMicrophone()
+      microphone.onStateChange(onMicrophoneStateChange)
+
+      // Make BrowserClient and BrowserMicrophone available thru window for Intro Popup
+      window.SpeechlyClient = client
+      window.SpeechlyMicrophone = microphone
+
+      client.initialize();
 
       tipCalloutVisible = true;
     }
   }
-
-  const initialize = async () => {
-    // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
-    // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
-
-    try {
-      const microphone = new BrowserMicrophone()
-      await microphone.initialize()
-      await client.attach(microphone.mediaStream)
-    } catch (e) {
-      console.error("Speechly initialization failed", e);
-      client = null;
-    }
-  };
 
   const tangentStart = async (event) => {
     tangentStartPromise = (async () => {
@@ -142,14 +133,23 @@
           window.postMessage({
             type: MessageType.speechlypoweron
           }, "*");
-        } else if (clientState >= DecoderState.Connected) {
+        } else if (clientState >= DecoderState.Connected && audioSourceState === AudioSourceState.Started) {
           holdListenActive = true;
         } else {
           if (appid || projectid) {
-            const initStartTime = Date.now();
-            await initialize();
-            // Long init time suggests permission dialog --> prevent listening start
-            holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+            // Initialize the client - this will ask the user for microphone permissions and establish the connection to Speechly API.
+            // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
+            try {
+              const initStartTime = Date.now();
+              await microphone.initialize()
+              await client.attach(microphone.mediaStream)
+              // Long init time suggests permission dialog --> prevent listening start
+              holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
+            } catch (e) {
+              console.error("Speechly initialization failed", e);
+              client = null;
+              holdListenActive = false;
+            }
           } else {
             console.warn(
               "No appid/projectid attribute specified. Speechly voice services are unavailable."
@@ -160,13 +160,13 @@
         if (holdListenActive) {
           wasListening = client.isActive()
           if (!client.isActive()) {
-            dispatchUnbounded("startcontext");
+            dispatchUnbounded(MessageType.startcontext);
             client.start(appid);
           }
         }
       }
       // Send as window.postMessages
-      window.postMessage({ type: MessageType.holdstart, state: clientState }, "*");
+      window.postMessage({ type: MessageType.holdstart, state: clientState, audioSourceState: audioSourceState }, "*");
     })()
   };
 
@@ -198,7 +198,7 @@
     }
 
     // Send as window.postMessages
-    window.postMessage({ type: "holdend" }, "*");
+    window.postMessage({ type: MessageType.holdend }, "*");
   };
 
   const setStopContextTimeout = (timeoutMs: number) => {
@@ -214,7 +214,7 @@
   const stopListening = () => {
     if (client) {
       client.stop();
-      dispatchUnbounded("stopcontext");
+      dispatchUnbounded(MessageType.stopcontext);
     }
     updateSkin();
   }
@@ -223,30 +223,30 @@
     if (clientState !== null) icon = clientState;
   };
 
-  const onStateChange = (s: DecoderState) => {
+  const onDecoderStateChange = (s: DecoderState) => {
     clientState = s;
     updateSkin();
-    switch(s) {
-      case DecoderState.Failed:
-      // case ClientState.NoBrowserSupport:
-      // case ClientState.NoAudioConsent:
-        setInitialized(false, s as unknown as string);
-        break;
-      case DecoderState.Connected:
-        setInitialized(true, s as unknown as string);
-        break;
-    }
     // Broadcast state changes
     window.postMessage({ type: MessageType.speechstate, state: s }, "*");
+    checkReadyToUse()
   };
 
-  const setInitialized = (success: boolean, state: string) => {
-    if (initializedSuccessfully === undefined) {
-      initializedSuccessfully = success;
-      usePermissionPriming = false;
+  const onMicrophoneStateChange = (state: AudioSourceState) => {
+    audioSourceState = state
+    // Broadcast state changes
+    window.postMessage({ type: MessageType.audiosourcestate, state: state }, "*");
+    checkReadyToUse()
+  };
 
-      if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null && success) {
-        localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
+  const checkReadyToUse = () => {
+    if (initializedSuccessfully === undefined) {
+      if (clientState === DecoderState.Connected && audioSourceState === AudioSourceState.Started) {
+        initializedSuccessfully = true;
+        usePermissionPriming = false;
+
+        if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
+          localStorage.setItem(LocalStorageKeys.SpeechlyFirstConnect, String(Date.now()));
+        }
       }
     }
   }

@@ -1,9 +1,10 @@
 import type { IAppearance } from "./types";
 import { DecoderState } from "../node_modules/@speechly/browser-client/src/client/types";
+import { AudioSourceState } from "../node_modules/@speechly/browser-client/src/microphone/types";
 
 // Copy of ClientState. If used directly from browser-client, rollup includes the whole of
 // browser-client in big-transcript, resulting in a 90kb filesize instead of ~20kb
-export { DecoderState }
+export { DecoderState, AudioSourceState }
 
 export const enum LocalStorageKeys {
   SpeechlyFirstConnect = "SpeechlyFirstConnect",
@@ -14,12 +15,15 @@ export const enum MessageType {
   holdstart = "holdstart",
   holdend = "holdend",
   speechstate = "speechstate",
+  audiosourcestate = "audiosourcestate",
   speechsegment = "speechsegment",
   speechhandled = "speechhandled",
   showhint = "showhint",
   transcriptdrawerhint = "hint",
   speechlyintroready = "speechlyintroready",
   speechlyintroclosed = "speechlyintroclosed",
+  startcontext = "startcontext",
+  stopcontext = "stopcontext"
 }
 
 export const enum Icon {
