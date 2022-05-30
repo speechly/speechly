@@ -111,21 +111,21 @@ export interface VadOptions {
 
   /**
    * Enable VAD to automatically control {@link BrowserClient.start} and {@link BrowserClient.stop} based on isSignalDetected state.
-   * 
+   *
    * Default: true.
    */
   controlListening: boolean
 
   /**
    * Absolute signal energy threshold.
-   * 
+   *
    * Range: -90.0f [dB, extremely sensitive] to 0.0f [dB, extemely insensitive]. Default: -24 [dB].
    */
   noiseGateDb: number
 
   /**
    * Signal-to-noise energy threshold. Noise energy level is dynamically adjusted to current conditions.
-   * 
+   *
    * Default: 3.0 [dB].
    */
   signalToNoiseDb: number
@@ -133,35 +133,35 @@ export interface VadOptions {
   /**
    * Rate of background noise learn. Defined as duration in which background noise energy is adjusted halfway towards current frame's energy.
    * Noise level is only adjusted when `isSignalDetected` flag is clear.
-   * 
+   *
    * Range: 0, 5000 [ms]. Default: 400 [ms].
    */
   noiseLearnHalftimeMillis: number
 
   /**
    * Number of past audio frames (by default 30 ms) analyzed for determining `isSignalDetected` state. Should be less or equal than {@link DecoderOptions.historyFrames} setting.
-   * 
+   *
    * Range: 1 to 32 [frames]. Default: 5 [frames].
    */
   signalSearchFrames: number
 
   /**
    * `isSignalDetected` will be set if ratio of loud/silent frames in past {@link signalSearchFrames} exceeds {@link signalActivation}.
-   * 
+   *
    * Range: 0.0 to 1.0. Default: 0.7.
    */
   signalActivation: number
 
   /**
    * `isSignalDetected` will be cleared if ratio of loud/silent frames in past {@link signalSearchFrames} goes lower than {@link signalRelease} and {@link signalSustainMillis} has elapsed.
-   * 
+   *
    * Range: 0.0 to 1.0. Default: 0.2.
    */
   signalRelease: number
 
   /**
    * Minimum duration to hold 'isSignalDetected' set. This effectively defines the minimum length of the utterance sent for speech decoding. Setting this below 2000 ms may degrade speech-to-text accuracy.
-   * 
+   *
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number
