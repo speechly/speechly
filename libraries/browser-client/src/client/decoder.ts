@@ -108,7 +108,7 @@ export class CloudDecoder {
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
           try {
-            this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId)
+            this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId, fetch)
             // Cache the auth token in local storage for future use.
             this.storage.set(authTokenKey, this.authToken)
           } catch (err) {
