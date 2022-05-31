@@ -63,7 +63,7 @@
   let icon = DecoderState.Disconnected;
 
   $: tipCallOutText = intro;
-  $: connect(projectid, appid);
+  $: initialize(projectid, appid);
   $: defaultTypography = customtypography === undefined || customtypography === "false";
 
   let client = null;
@@ -81,10 +81,10 @@
         usePermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
         break;
     }
-    connect(projectid, appid);
+    initialize(projectid, appid);
   });
 
-  const connect = (projectid: string, appid: string) => {
+  const initialize = (projectid: string, appid: string) => {
     if (mounted && !client && (projectid || appid)) {
       const clientOptions = {
         connect: false,
@@ -106,12 +106,14 @@
 
       microphone = new BrowserMicrophone()
       microphone.onStateChange(onMicrophoneStateChange)
-
-      // Make BrowserClient and BrowserMicrophone available thru window for Intro Popup
-      window.SpeechlyClient = client
-      window.SpeechlyMicrophone = microphone
-
       client.initialize();
+
+      // Make BrowserClient and BrowserMicrophone available for Intro Popup thru window (globalThis in the future)
+      window.Speechly = {
+        ...window.Speechly,
+        browserClient: client,
+        browserMicrophone: microphone,
+      }
 
       tipCalloutVisible = true;
     }

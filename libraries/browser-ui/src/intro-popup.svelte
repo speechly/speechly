@@ -51,8 +51,8 @@
   }
 
   const initialize = async() => {
-    await window.SpeechlyMicrophone.initialize();
-    await window.SpeechlyClient.attach(window.SpeechlyMicrophone.mediaStream)
+    await window.Speechly.browserMicrophone.initialize();
+    await window.Speechly.browserClient.attach(window.Speechly.browserMicrophone.mediaStream)
   }
 
   const handleKeydown = (event) => {
