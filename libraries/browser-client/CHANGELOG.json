@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.2.0",
+      "tag": "@speechly/browser-client_v2.2.0",
+      "date": "Tue, 31 May 2022 10:24:53 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "BrowserClient.uploadAudioData() returns an array of Segments as the result. Upload throttling is used to ensure that the backend can keep up. BrowserClient.stopStream() now waits for last stopContext to arrive."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.1",
       "tag": "@speechly/browser-client_v2.1.1",
       "date": "Mon, 30 May 2022 07:18:04 GMT",

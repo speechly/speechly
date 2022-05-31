@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Mon, 30 May 2022 07:18:04 GMT and should not be manually modified.
+This log was last generated on Tue, 31 May 2022 10:24:53 GMT and should not be manually modified.
+
+## 2.2.0
+Tue, 31 May 2022 10:24:53 GMT
+
+### Minor changes
+
+- BrowserClient.uploadAudioData() returns an array of Segments as the result. Upload throttling is used to ensure that the backend can keep up. BrowserClient.stopStream() now waits for last stopContext to arrive.
 
 ## 2.1.1
 Mon, 30 May 2022 07:18:04 GMT
