@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Added AudioSourceState and onStateChange callback to BrowserMicrophone.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
