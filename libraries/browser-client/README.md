@@ -33,6 +33,10 @@ Check out the [browser-client-example](https://github.com/speechly/speechly/tree
 
 NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
+## API Documentation
+
+- [API documentation (TypeDoc generated)](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md)
+
 ## Using in web sites built with eg. rollup
 
 Install the package:
