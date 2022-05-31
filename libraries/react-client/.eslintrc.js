@@ -11,6 +11,7 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/return-await': ['error', 'in-try-catch'],
   },
   parserOptions: {
