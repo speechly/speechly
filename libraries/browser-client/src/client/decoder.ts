@@ -460,8 +460,8 @@ export class CloudDecoder {
    */
   getSegments(): Segment[] {
     const result: Segment[] = []
-    this.segments.forEach((segments, contextId) => {
-      segments.forEach((segment, segmentIndex) => {
+    this.segments.forEach((segments, _) => {
+      segments.forEach((segment, _) => {
         const deepCopy = JSON.parse(JSON.stringify(segment))
         result.push(deepCopy)
       })
