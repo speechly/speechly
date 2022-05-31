@@ -3,7 +3,6 @@ import {
   Word,
   Entity,
   Intent,
-  CloudDecoder,
   DecoderState,
   DecoderOptions,
   Segment,
@@ -17,22 +16,42 @@ var decoderState = DecoderState.Disconnected
 window.onload = () => {
   let mic: BrowserMicrophone;
   let browserClient: BrowserClient;
-  let decoder: CloudDecoder;
+
+  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
+  if (appId === undefined) {
+    throw Error("Missing Speechly app ID!");
+  }
+
+  const opts: DecoderOptions = {
+    appId,
+    debug: process.env.REACT_APP_DEBUG === "true",
+    // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
+    // Consider turning it off in the production as it has extra JSON.stringify operation.
+    logSegments: false,
+    connect: false,
+    vad: { enabled: false, noiseGateDb: -24.0, signalSustainMillis: 2000 },
+    ...process.env.REACT_APP_API_URL ? { apiUrl: process.env.REACT_APP_API_URL } : null,
+};
+
+  const timezone = process.env.REACT_APP_TIMEZONE;
+  const contextOptions: ContextOptions = {appId};
+  if (timezone !== undefined) {
+    contextOptions.timezone = [timezone]
+  }
 
   try {
-    decoder = newDecoder();
+    browserClient = new BrowserClient(opts)
   } catch (e) {
     // @ts-ignore
     updateStatus(e.message);
     return;
   }
 
+  // ContextOptions can be specified per startContext() call or
+  // "globally" by using setContextOptions()
+  browserClient.setContextOptions(contextOptions)
+
   mic = new BrowserMicrophone()
-  browserClient = new BrowserClient({
-    decoder,
-    vad: { enabled: false, noiseGateDb: -24.0 },
-    debug: true
-  })
 
   // High-level API, that you can use to react to segment changes.
   let handler = function (segment: Segment) {
@@ -69,6 +88,14 @@ window.onload = () => {
     decoderState = state
   });
 
+  browserClient.onStart((contextId: string) => {
+    console.log("onStart", contextId)
+  });
+
+  browserClient.onStop((contextId: string) => {
+    console.log("onStop", contextId)
+  });
+
   bindConnectButton(browserClient);
   bindInitializeButton(browserClient, mic);
   bindListenButton(browserClient);
@@ -77,37 +104,6 @@ window.onload = () => {
   bindCloseButton(browserClient, mic);
   bindVadToggle(browserClient);
 };
-
-function newDecoder(): CloudDecoder {
-  const appId = process.env.REACT_APP_APP_ID || "be3bfb17-ee36-4050-8830-743aa85065ab";
-  if (appId === undefined) {
-    throw Error("Missing Speechly app ID!");
-  }
-
-  const opts: DecoderOptions = {
-    appId,
-    debug: true, // process.env.REACT_APP_DEBUG === "true",
-    // Enabling logSegments logs the updates to segment (transcript, intent and entities) to console.
-    // Consider turning it off in the production as it has extra JSON.stringify operation.
-    logSegments: false,
-    connect: false
-  };
-
-  if (process.env.REACT_APP_API_URL !== undefined) {
-    opts.apiUrl = process.env.REACT_APP_API_URL;
-  }
-
-  const decoder = new CloudDecoder(opts);
-  const timezone = process.env.REACT_APP_TIMEZONE;
-  const contextOptions: ContextOptions = {appId};
-  if (timezone !== undefined) {
-    contextOptions.timezone = [timezone]
-  }
-  // ContextOptions can be specified per startContext() / startStream() call or
-  // "globally" by using setContextOptions()
-  decoder.setContextOptions(contextOptions)
-  return decoder;
-}
 
 function updateWords(words: Word[]) {
   const transcriptDiv = document.getElementById(
@@ -275,13 +271,11 @@ function bindCloseButton(bc: BrowserClient, mic: BrowserMicrophone) {
 function bindVadToggle(bc: BrowserClient) {
   const toggle = async (event: MouseEvent | TouchEvent) => {
     if (event.target) {
-      if (decoderState !== DecoderState.Disconnected) {
-        const checked = (event.target as HTMLInputElement).checked
-        try {
-          bc.adjustAudioProcessor( { vad: { enabled: checked }})
-        } catch (err) {
-          console.error("Error with adjustAudioProcessor:", err);
-        }
+      const checked = (event.target as HTMLInputElement).checked
+      try {
+        bc.adjustAudioProcessor( { vad: { enabled: checked }})
+      } catch (err) {
+        console.error("Error with adjustAudioProcessor:", err);
       }
     }
   };

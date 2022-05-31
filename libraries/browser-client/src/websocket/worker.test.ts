@@ -27,7 +27,7 @@ describe('worker', () => {
     test('no options', async () => {
       // @ts-ignore
       const worker = new WebsocketClient(undefined)
-      worker.initAudioProcessor(3)
+      worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.startContext()
       expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ options: { timezone: [Intl.DateTimeFormat().resolvedOptions().timeZone] }, event: 'start' }))
@@ -35,7 +35,7 @@ describe('worker', () => {
     test('startContext with options', async () => {
       // @ts-ignore
       const worker = new WebsocketClient(undefined)
-      worker.initAudioProcessor(3)
+      worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       const options: ContextOptions = { timezone: ['TZ'], vocabulary: ['W'] }
       worker.startContext(options)
@@ -44,7 +44,7 @@ describe('worker', () => {
     test('default options', async () => {
       // @ts-ignore
       const worker = new WebsocketClient(undefined)
-      worker.initAudioProcessor(3)
+      worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })
       worker.startContext({})
@@ -55,7 +55,7 @@ describe('worker', () => {
     test('default options + startContext with options', async () => {
       // @ts-ignore
       const worker = new WebsocketClient(undefined)
-      worker.initAudioProcessor(3)
+      worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })
       worker.startContext({ timezone: ['TZ'], vocabulary: ['W'] })

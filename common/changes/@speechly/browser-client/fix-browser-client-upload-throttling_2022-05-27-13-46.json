@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "BrowserClient.uploadAudioData() returns an array of Segments as the result. Upload throttling is used to ensure that the backend can keep up. BrowserClient.stopStream() now waits for last stopContext to arrive.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}

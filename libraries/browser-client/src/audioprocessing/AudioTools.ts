@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 class AudioTools {
   static LOG_2_PLUS_LOG_5 = Math.log(2) + Math.log(5)
 

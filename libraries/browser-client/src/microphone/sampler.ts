@@ -17,6 +17,7 @@ export function newSampler(sourceSampleRate: number, targetSampleRate: number): 
 
 /**
  * BypassSampler is a re-sampler that simply returns the passed buffer without performing any sampling.
+ * @internal
  */
 export class BypassSampler implements AudioFilter {
   readonly resampleRatio = 1
@@ -28,6 +29,7 @@ export class BypassSampler implements AudioFilter {
 
 /**
  * DownSampler is a re-sampler that performs downsampling on the passed audio buffer.
+ * @internal
  */
 export class DownSampler implements AudioFilter {
   readonly resampleRatio: number

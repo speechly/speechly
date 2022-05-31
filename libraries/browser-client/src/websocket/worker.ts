@@ -6,7 +6,7 @@ import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
- * @public
+ * @internal
  */
 interface WebsocketResponse {
   /**
@@ -40,6 +40,11 @@ const CONTROL = {
   LOCK: 2,
 }
 
+/**
+ * Web worker to handle streaming audio to cloud and receiving speech processing results.
+ * Also handles audio processing like maintaining history ringbuffer and running the VAD
+ * @internal
+ */
 class WebsocketClient {
   private readonly workerCtx: Worker
   private targetSampleRate: number = 16000
@@ -76,11 +81,11 @@ class WebsocketClient {
     this.websocket.addEventListener('close', this.onWebsocketClose)
   }
 
-  initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): void {
-    this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, 5)
+  initAudioProcessor(sourceSampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): void {
+    this.audioProcessor = new AudioProcessor(sourceSampleRate, this.targetSampleRate, frameMillis, historyFrames)
 
     if (vadOptions) {
-      this.audioProcessor.vad = new EnergyThresholdVAD(vadOptions)
+      this.audioProcessor.vad = new EnergyThresholdVAD(frameMillis, vadOptions)
 
       this.audioProcessor.onVadStateChange = (isSignalDetected: boolean) => {
         const currentVadOptions = this.audioProcessor?.vad?.vadOptions
@@ -118,15 +123,11 @@ class WebsocketClient {
    * @param ap - Audio processor parameters to adjust
    */
   adjustAudioProcessor(ap: AudioProcessorParameters): void {
-    if (!this.audioProcessor) {
-      throw new Error('No AudioProcessor')
-    }
-
     if (ap.immediate !== undefined) {
       this.immediateMode = ap.immediate
     }
 
-    if (ap.vad) {
+    if (this.audioProcessor && ap.vad) {
       if (!this.audioProcessor.vad) {
         throw new Error('No VAD in AudioProcessor. Did you define `vad` in BrowserClient constructor parameters?')
       }
@@ -349,7 +350,7 @@ ctx.onmessage = function (e) {
       websocketClient.connect(e.data.apiUrl, e.data.authToken, e.data.targetSampleRate, e.data.debug)
       break
     case ControllerSignal.initAudioProcessor:
-      websocketClient.initAudioProcessor(e.data.sourceSampleRate, e.data.vadOptions)
+      websocketClient.initAudioProcessor(e.data.sourceSampleRate, e.data.frameMillis, e.data.historyFrames, e.data.vadOptions)
       break
     case ControllerSignal.adjustAudioProcessor:
       websocketClient.adjustAudioProcessor(e.data.params)

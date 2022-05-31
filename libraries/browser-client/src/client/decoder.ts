@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, DefaultSampleRate, ErrAppIdChangeWithoutProjectLogin } from '../speechly'
+import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment } from '../speechly'
 
 import {
   APIClient,
@@ -19,20 +19,19 @@ import {
 
 import { Storage, LocalStorage } from '../storage'
 
-import { DecoderOptions, DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters } from './types'
+import { DecoderState, EventCallbacks, ContextOptions, VadOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, ResolvedDecoderOptions } from './types'
 import { stateToString } from './state'
 
 import { parseTentativeTranscript, parseIntent, parseTranscript, parseTentativeEntities, parseEntity } from './parsers'
 
 const deviceIdStorageKey = 'speechly-device-id'
 const authTokenKey = 'speechly-auth-token'
-const defaultApiUrl = 'https://api.speechly.com'
 
 /**
  * A client for Speechly Spoken Language Understanding (SLU) API. The client handles initializing the websocket
  * connection to Speechly API, sending control events and audio stream. It reads and dispatches the responses
  * through a high-level API for interacting with so-called speech segments.
- * @public
+ * @internal
  */
 export class CloudDecoder {
   private readonly debug: boolean
@@ -44,8 +43,12 @@ export class CloudDecoder {
   private readonly loginUrl: string
   private readonly deviceId: string
   private readonly apiUrl: string
+  private streamOptions: StreamOptions = StreamDefaultOptions
+  private resolveStopStream?: any
 
-  private readonly activeContexts = new Map<string, Map<number, SegmentState>>()
+  private activeContexts = 0
+
+  private readonly segments = new Map<string, Map<number, SegmentState>>()
   private readonly maxReconnectAttemptCount = 10
 
   private connectAttempt: number = 0
@@ -54,16 +57,16 @@ export class CloudDecoder {
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
 
-  private sampleRate: number
+  sampleRate: number
   state: DecoderState = DecoderState.Disconnected
 
-  constructor(options: DecoderOptions) {
-    this.logSegments = options.logSegments ?? false
+  constructor(options: ResolvedDecoderOptions) {
+    this.logSegments = options.logSegments
 
-    this.appId = options.appId ?? undefined
-    this.projectId = options.projectId ?? undefined
-    this.sampleRate = options.sampleRate ?? DefaultSampleRate
-    this.debug = options.debug ?? false
+    this.appId = options.appId
+    this.projectId = options.projectId
+    this.sampleRate = options.sampleRate
+    this.debug = options.debug
 
     if (this.appId !== undefined && this.projectId !== undefined) {
       throw Error('[Decoder] You cannot use both appId and projectId at the same time')
@@ -71,7 +74,7 @@ export class CloudDecoder {
       throw Error('[Decoder] Either an appId or a projectId is required')
     }
 
-    const apiUrl = options.apiUrl ?? defaultApiUrl
+    const apiUrl = options.apiUrl
     this.apiUrl = generateWsUrl(apiUrl.replace('http', 'ws') + '/ws/v1', this.sampleRate)
     this.loginUrl = `${apiUrl}/login`
     this.storage = options.storage ?? new LocalStorage()
@@ -148,7 +151,7 @@ export class CloudDecoder {
       error = err.message
     }
 
-    this.activeContexts.clear()
+    this.segments.clear()
     this.connectPromise = null
     this.setState(DecoderState.Disconnected)
 
@@ -157,7 +160,11 @@ export class CloudDecoder {
     }
   }
 
-  async startStream(): Promise<void> {
+  async startStream(streamOptions: StreamOptions): Promise<void> {
+    this.streamOptions = streamOptions
+    this.segments.clear()
+    this.activeContexts = 0
+
     await this.apiClient.startStream()
   }
 
@@ -166,6 +173,14 @@ export class CloudDecoder {
       await this.stopContext(0)
     }
     await this.apiClient.stopStream()
+
+    if (this.activeContexts > 0) {
+      const p = new Promise(resolve => {
+        this.resolveStopStream = resolve
+      })
+      await p
+    }
+    this.resolveStopStream = undefined
   }
 
   /**
@@ -187,13 +202,17 @@ export class CloudDecoder {
     this.setState(DecoderState.Active)
     let contextId: string
     if (this.projectId != null) {
-      contextId = await this.apiClient.startContext(options?.appId)
+      if (options?.appId) {
+        contextId = await this.apiClient.startContext(options)
+      } else {
+        throw new Error('options.appId is required with project login')
+      }
     } else {
       if (options?.appId != null && this.appId !== options?.appId) {
         this.setState(DecoderState.Failed)
         throw ErrAppIdChangeWithoutProjectLogin
       }
-      contextId = await this.apiClient.startContext()
+      contextId = await this.apiClient.startContext(options)
     }
 
     // Ensure state has not been changed by await apiClient.startContext() due to websocket errors.
@@ -248,16 +267,16 @@ export class CloudDecoder {
       )
     }
     const contextId = await this.apiClient.switchContext(options)
-    this.activeContexts.set(contextId, new Map<number, SegmentState>())
+    this.segments.set(contextId, new Map<number, SegmentState>())
   }
 
   registerListener(listener: EventCallbacks): void {
     this.cbs.push(listener)
   }
 
-  async initAudioProcessor(sampleRate: number, vadOptions?: VadOptions): Promise<void> {
+  async initAudioProcessor(sampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void> {
     this.sampleRate = sampleRate
-    await this.apiClient.initAudioProcessor(sampleRate, vadOptions)
+    await this.apiClient.initAudioProcessor(sampleRate, frameMillis, historyFrames, vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {
@@ -285,13 +304,22 @@ export class CloudDecoder {
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
         break
       case WebsocketResponseType.Started: {
-        this.activeContexts.set(response.audio_context, new Map<number, SegmentState>())
+        this.activeContexts++
+        this.segments.set(response.audio_context, new Map<number, SegmentState>())
         this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
         break
       }
       case WebsocketResponseType.Stopped: {
+        this.activeContexts--
         this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
-        this.activeContexts.delete(response.audio_context)
+        if (!this.streamOptions.preserveSegments) {
+          this.segments.delete(response.audio_context)
+        }
+
+        // Signal stopStream listeners that the final results are in, it's ok to resolve the await
+        if (this.resolveStopStream !== undefined && this.activeContexts === 0) {
+          this.resolveStopStream()
+        }
         break
       }
       default:
@@ -304,7 +332,7 @@ export class CloudDecoder {
     const { audio_context, segment_id, type } = response
     let { data } = response
 
-    const context = this.activeContexts.get(audio_context)
+    const context = this.segments.get(audio_context)
     if (context === undefined) {
       console.warn('[Decoder]', 'Received response for non-existent context', audio_context)
       return
@@ -361,7 +389,7 @@ export class CloudDecoder {
     context.set(segment_id, segmentState)
 
     // Update current contexts.
-    this.activeContexts.set(audio_context, context)
+    this.segments.set(audio_context, context)
 
     // Log segment to console
     if (this.logSegments) {
@@ -425,6 +453,20 @@ export class CloudDecoder {
 
     this.state = newState
     this.cbs.forEach(cb => cb.stateChangeCbs?.forEach(f => f(newState)))
+  }
+
+  /**
+   * @returns Array of Segments since last startStream if preserveSegment options was used
+   */
+  getSegments(): Segment[] {
+    const result: Segment[] = []
+    this.segments.forEach((segments, _) => {
+      segments.forEach((segment, _) => {
+        const deepCopy = JSON.parse(JSON.stringify(segment))
+        result.push(deepCopy)
+      })
+    })
+    return result
   }
 }
 

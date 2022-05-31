@@ -4,6 +4,10 @@ import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
+/**
+ * Controller to communicate with the web worker
+ * @internal
+ */
 export class WebWorkerController implements APIClient {
   private readonly worker: Worker
   private resolveInitialization?: (value?: void) => void
@@ -23,8 +27,6 @@ export class WebWorkerController implements APIClient {
   }
 
   constructor() {
-    // const blob = new Blob([worker], { type: 'text/javascript' })
-    // const blobURL = window.URL.createObjectURL(blob)
     this.worker = new WebsocketClient()
     this.worker.addEventListener('message', this.onWebsocketMessage)
   }
@@ -47,10 +49,12 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async initAudioProcessor(sourceSampleRate: number, vadOptions?: VadOptions): Promise<void> {
+  async initAudioProcessor(sourceSampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void> {
     this.worker.postMessage({
       type: ControllerSignal.initAudioProcessor,
       sourceSampleRate: sourceSampleRate,
+      frameMillis: frameMillis,
+      historyFrames: historyFrames,
       vadOptions: vadOptions,
     })
 

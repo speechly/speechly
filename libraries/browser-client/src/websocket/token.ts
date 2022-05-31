@@ -5,6 +5,9 @@ type nowFn = () => number
 
 export const minTokenValidTime = 60 * 60 * 1000 // 1 hour
 
+/**
+ * @internal
+ */
 export interface Token {
   appId: string
   projectId: string

@@ -28,9 +28,11 @@ export class BrowserMicrophone {
   }
 
   /**
-   * Initializes the microphone. Needs to happen after a user interaction in the view.
-   * The reason for that is that it's required for user to first interact with the page,
-   * before it can capture or play audio and video, for privacy and user experience reasons.
+   * Initializes the microphone. Must to be called directly in an user interaction handler (e.g. button 'click').
+   * The call will trigger a browser permission prompt on the first time.
+   *
+   * This behaviour is imposed by browser security features.
+   *
    */
   async initialize(): Promise<void> {
     if (this.initialized) {
