@@ -133,7 +133,8 @@
       <h3>Window messages sent (postMessage)</h3>
       <ul>
         <li><code>{type: "speechsegment", segment: Segment}</code> - Broadcasts new segment when an update is available</li>
-        <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
+        <li><code>{type: "speechstate", state: DecoderState}</code> - Broadcasts decoder state changes. Refer to browser-client API doc for values.</li>
+        <li><code>{type: "audiosourcestate", state: AudioSourceState}</code> - Broadcasts mic state changes. Refer to browser-client API doc for values.</li>
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
         <li><code>{type: "poweron"}</code> - Broadcasted on button initial button press when poweron="true"</li>
