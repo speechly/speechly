@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Fixed reconnecting after websocket close",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
