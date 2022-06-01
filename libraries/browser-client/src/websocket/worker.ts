@@ -69,6 +69,7 @@ class WebsocketClient {
 
   connect(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
     this.debug = debug
+
     if (this.debug) {
       console.log('[WebSocketClient]', 'connecting to ', apiUrl)
     }
@@ -150,7 +151,7 @@ class WebsocketClient {
       throw new Error('No AudioProcessor')
     }
 
-    this.audioProcessor.resetStream()
+    this.audioProcessor.reset()
   }
 
   stopStream(): void {
@@ -276,6 +277,9 @@ class WebsocketClient {
       throw Error('WebSocket is undefined')
     }
 
+    // Reset audioprocessor so it won't try to send audio the first thing when reconnect happens. This will lead to a reconnect loop.
+    this.audioProcessor?.reset()
+
     if (this.debug) {
       console.log('[WebSocketClient]', 'onWebsocketClose')
     }
@@ -298,7 +302,6 @@ class WebsocketClient {
     if (this.debug) {
       console.log('[WebSocketClient]', 'websocket opened')
     }
-
     this.workerCtx.postMessage({ type: WorkerSignal.Opened })
   }
 
@@ -321,9 +324,8 @@ class WebsocketClient {
   }
 
   send(data: string | Int16Array): void {
-    if (!this.websocket) {
-      throw new Error('No Websocket')
-    }
+    // We're offline, most likely due to an earlier error
+    if (!this.websocket) return
 
     if (this.websocket.readyState !== this.websocket.OPEN) {
       throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)

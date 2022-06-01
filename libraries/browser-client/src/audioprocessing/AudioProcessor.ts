@@ -140,7 +140,8 @@ class AudioProcessor {
     this.isActive = false
   }
 
-  public resetStream(): void {
+  public reset(): void {
+    this.isActive = false
     this.streamFramePos = 0
     this.streamSamplePos = 0
     this.frameSamplePos = 0

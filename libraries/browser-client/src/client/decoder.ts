@@ -412,6 +412,7 @@ export class CloudDecoder {
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
         this.setState(DecoderState.Failed)
+        console.error('[Decoder]', 'No deviceId. Giving up reconnecting.')
         return
       }
 
