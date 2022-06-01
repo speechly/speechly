@@ -68,7 +68,7 @@ export class BrowserClient {
     this.debug = this.decoderOptions.debug ?? true
     this.callbacks = new EventCallbacks()
     this.callbacks.stateChangeCbs.addEventListener(this.handleStateChange.bind(this))
-    this.callbacks.onVadStateChange.push(this.autoControlListening.bind(this))
+    this.callbacks.onVadStateChange.addEventListener(this.autoControlListening.bind(this))
     this.decoder = this.decoderOptions.decoder ?? new CloudDecoder(this.decoderOptions)
     this.decoder.registerListener(this.callbacks)
   }
@@ -408,9 +408,11 @@ export class BrowserClient {
    * Use `startStream` to resume audio processing afterwards.
    */
   async stopStream(): Promise<void> {
-    await this.decoder.stopStream()
+    this.active = false
     this.isStreaming = false
     this.isStreamAutoStarted = false
+    this.listeningPromise = null
+    await this.decoder.stopStream()
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {
@@ -448,10 +450,8 @@ export class BrowserClient {
     switch (decoderState) {
       case DecoderState.Disconnected:
       case DecoderState.Failed:
-        // Reset state for reconnect
-        this.active = false
-        this.isStreaming = false
-        this.listeningPromise = null
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.stopStream()
         break
       case DecoderState.Connected:
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
