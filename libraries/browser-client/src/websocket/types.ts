@@ -33,7 +33,7 @@ export interface WebsocketResponse {
    * Context start offset from beginning of the stream in milliseconds
    * Added by the client, not provided by the backend
    */
-   context_start_in_stream_millis: number
+  context_start_in_stream_millis: number
 }
 
 /**
