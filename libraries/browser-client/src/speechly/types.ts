@@ -86,12 +86,12 @@ export interface Word {
   index: number
 
   /**
-   * Start timestamp of the word within the audio of the context.
+   * Start timestamp of the word from the start of the audio stream.
    */
   startTimestamp: number
 
   /**
-   * End timestamp of the word within the audio of the context.
+   * End timestamp of the word from start of the audio stream.
    */
   endTimestamp: number
 

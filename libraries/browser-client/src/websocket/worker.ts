@@ -1,38 +1,8 @@
 import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
-import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
+import { ControllerSignal, WebsocketResponse, WorkerSignal } from './types'
 import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
-
-/**
- * The interface for response returned by WebSocket client.
- * @internal
- */
-interface WebsocketResponse {
-  /**
-   * Response type.
-   */
-  type: WebsocketResponseType
-
-  /**
-   * Audio context ID.
-   */
-  audio_context: string
-
-  /**
-   * Segment ID.
-   */
-  segment_id: number
-
-  /**
-   * Response payload.
-   *
-   * The payload value should match the response type (i.e. TranscriptResponse should have Transcript type).
-   * Not all response types have payloads - Started, Stopped and SegmentEnd don't have payloads.
-   * TentativeIntent and Intent share the same payload interface (IntentResponse).
-   */
-  data: any
-}
 
 const CONTROL = {
   WRITE_INDEX: 0,
@@ -49,7 +19,7 @@ class WebsocketClient {
   private readonly workerCtx: Worker
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
-  private contextStartTime: number = 0
+  private contextStartMillis: number = 0
   private websocket?: WebSocket
   private audioProcessor?: AudioProcessor
   private controlSAB?: Int32Array
@@ -207,7 +177,7 @@ class WebsocketClient {
 
     this.audioProcessor.startContext()
     this.isContextStarted = true
-    this.contextStartTime = this.audioProcessor.getStreamPosition()
+    this.contextStartMillis = this.audioProcessor.getStreamPosition()
 
     let options: ContextOptions = this.defaultContextOptions ?? {}
     if (contextOptions !== undefined) {
@@ -323,6 +293,7 @@ class WebsocketClient {
       return
     }
 
+    response.context_start_in_stream_millis = this.contextStartMillis
     this.workerCtx.postMessage(response)
   }
 

@@ -331,7 +331,7 @@ export class CloudDecoder {
   }
 
   private readonly handleSegmentUpdate = (response: WebsocketResponse): void => {
-    const { audio_context, segment_id, type } = response
+    const { audio_context, segment_id, type, context_start_in_stream_millis } = response
     let { data } = response
 
     const context = this.segments.get(audio_context)
@@ -345,14 +345,14 @@ export class CloudDecoder {
     switch (type) {
       case WebsocketResponseType.TentativeTranscript:
         data = data as TentativeTranscriptResponse
-        const words = parseTentativeTranscript(data)
+        const words = parseTentativeTranscript(data, context_start_in_stream_millis)
         const transcript = data.transcript
         this.cbs.forEach(cb => cb.tentativeTranscriptCbs.forEach(f => f(audio_context, segment_id, words, transcript)))
         segmentState = segmentState.updateTranscript(words)
         break
       case WebsocketResponseType.Transcript:
         data = data as TranscriptResponse
-        const word = parseTranscript(data)
+        const word = parseTranscript(data, context_start_in_stream_millis)
         this.cbs.forEach(cb => cb.transcriptCbs.forEach(f => f(audio_context, segment_id, word)))
         segmentState = segmentState.updateTranscript([word])
         break

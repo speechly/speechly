@@ -151,10 +151,10 @@ class AudioProcessor {
   }
 
   /**
-   * @returns current position in stream in seconds
+   * @returns current position in stream in milliseconds
    */
   public getStreamPosition(): number {
-    return this.streamSamplePos / this.inputSampleRate
+    return Math.round(this.streamSamplePos / this.inputSampleRate * 1000)
   }
 
   private flush(): void {
