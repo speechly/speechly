@@ -69,6 +69,7 @@ class WebsocketClient {
 
   connect(apiUrl: string, authToken: string, targetSampleRate: number, debug: boolean): void {
     this.debug = debug
+
     if (this.debug) {
       console.log('[WebSocketClient]', 'connecting to ', apiUrl)
     }
@@ -150,7 +151,7 @@ class WebsocketClient {
       throw new Error('No AudioProcessor')
     }
 
-    this.audioProcessor.resetStream()
+    this.audioProcessor.reset()
   }
 
   stopStream(): void {
@@ -229,8 +230,11 @@ class WebsocketClient {
 
     this.audioProcessor.stopContext()
     this.isContextStarted = false
-    const StopEventJSON = JSON.stringify({ event: 'stop' })
-    this.send(StopEventJSON)
+
+    if (this.websocket) {
+      const StopEventJSON = JSON.stringify({ event: 'stop' })
+      this.send(StopEventJSON)
+    }
   }
 
   switchContext(contextOptions?: ContextOptions): void {
@@ -276,6 +280,9 @@ class WebsocketClient {
       throw Error('WebSocket is undefined')
     }
 
+    // Reset audioprocessor so it won't try to send audio the first thing when reconnect happens. This will lead to a reconnect loop.
+    this.audioProcessor?.reset()
+
     if (this.debug) {
       console.log('[WebSocketClient]', 'onWebsocketClose')
     }
@@ -298,7 +305,6 @@ class WebsocketClient {
     if (this.debug) {
       console.log('[WebSocketClient]', 'websocket opened')
     }
-
     this.workerCtx.postMessage({ type: WorkerSignal.Opened })
   }
 

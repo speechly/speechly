@@ -30,6 +30,7 @@ export class BrowserClient {
 
   private audioContext?: AudioContext
   private initialized: boolean = false
+  private audioProcessorInitialized: boolean = false
   private isStreaming: boolean = false
   private isStreamAutoStarted: boolean = false
   private active: boolean = false
@@ -66,7 +67,8 @@ export class BrowserClient {
 
     this.debug = this.decoderOptions.debug ?? true
     this.callbacks = new EventCallbacks()
-    this.callbacks.onVadStateChange.push(this.autoControlListening.bind(this))
+    this.callbacks.stateChangeCbs.addEventListener(this.handleStateChange.bind(this))
+    this.callbacks.onVadStateChange.addEventListener(this.autoControlListening.bind(this))
     this.decoder = this.decoderOptions.decoder ?? new CloudDecoder(this.decoderOptions)
     this.decoder.registerListener(this.callbacks)
   }
@@ -191,11 +193,9 @@ export class BrowserClient {
       console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
     }
     await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
+    this.audioProcessorInitialized = true
 
-    // Auto-start stream if VAD is defined
-    if (this.decoderOptions.vad) {
-      await this.startStream()
-    }
+    await this.autoStartStream()
 
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
@@ -225,6 +225,7 @@ export class BrowserClient {
     } else {
       throw Error('[BrowserClient] cannot attach to mediaStream, not initialized')
     }
+    await this.autoStartStream()
   }
 
   /**
@@ -407,9 +408,11 @@ export class BrowserClient {
    * Use `startStream` to resume audio processing afterwards.
    */
   async stopStream(): Promise<void> {
-    await this.decoder.stopStream()
+    this.active = false
     this.isStreaming = false
     this.isStreamAutoStarted = false
+    this.listeningPromise = null
+    await this.decoder.stopStream()
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {
@@ -433,6 +436,27 @@ export class BrowserClient {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         if (this.active) this.stop(0)
       }
+    }
+  }
+
+  private async autoStartStream(): Promise<void> {
+    // Auto-start stream if VAD is defined
+    if (this.audioProcessorInitialized && this.decoderOptions.vad && !this.isStreaming) {
+      await this.startStream()
+    }
+  }
+
+  private handleStateChange(decoderState: DecoderState): void {
+    switch (decoderState) {
+      case DecoderState.Disconnected:
+      case DecoderState.Failed:
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.stopStream()
+        break
+      case DecoderState.Connected:
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.autoStartStream()
+        break
     }
   }
 

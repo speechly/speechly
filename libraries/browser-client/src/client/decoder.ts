@@ -139,7 +139,7 @@ export class CloudDecoder {
   }
 
   /**
-   * Closes the client by closing the API connection and disabling the microphone.
+   * Closes the client by closing the API connection.
    */
   async close(): Promise<void> {
     let error: string | undefined
@@ -152,6 +152,7 @@ export class CloudDecoder {
     }
 
     this.segments.clear()
+    this.activeContexts = 0
     this.connectPromise = null
     this.setState(DecoderState.Disconnected)
 
@@ -174,6 +175,7 @@ export class CloudDecoder {
     }
     await this.apiClient.stopStream()
 
+    // Wait for active contexts to finish
     if (this.activeContexts > 0) {
       const p = new Promise(resolve => {
         this.resolveStopStream = resolve
@@ -412,10 +414,13 @@ export class CloudDecoder {
       // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
       if (this.deviceId === undefined) {
         this.setState(DecoderState.Failed)
+        console.error('[Decoder]', 'No deviceId. Giving up reconnecting.')
         return
       }
 
       this.setState(DecoderState.Disconnected)
+      this.activeContexts = 0
+      this.segments.clear()
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
