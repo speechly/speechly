@@ -230,8 +230,11 @@ class WebsocketClient {
 
     this.audioProcessor.stopContext()
     this.isContextStarted = false
-    const StopEventJSON = JSON.stringify({ event: 'stop' })
-    this.send(StopEventJSON)
+
+    if (this.websocket) {
+      const StopEventJSON = JSON.stringify({ event: 'stop' })
+      this.send(StopEventJSON)
+    }
   }
 
   switchContext(contextOptions?: ContextOptions): void {
@@ -324,8 +327,9 @@ class WebsocketClient {
   }
 
   send(data: string | Int16Array): void {
-    // We're offline, most likely due to an earlier error
-    if (!this.websocket) return
+    if (!this.websocket) {
+      throw new Error('No Websocket')
+    }
 
     if (this.websocket.readyState !== this.websocket.OPEN) {
       throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
