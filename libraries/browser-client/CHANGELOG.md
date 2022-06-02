@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Tue, 31 May 2022 10:24:53 GMT and should not be manually modified.
+This log was last generated on Thu, 02 Jun 2022 07:49:18 GMT and should not be manually modified.
+
+## 2.2.1
+Thu, 02 Jun 2022 07:49:18 GMT
+
+### Patches
+
+- Fixed reconnecting after websocket close
 
 ## 2.2.0
 Tue, 31 May 2022 10:24:53 GMT
