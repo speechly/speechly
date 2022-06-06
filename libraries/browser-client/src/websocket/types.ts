@@ -30,10 +30,10 @@ export interface WebsocketResponse {
   data: TranscriptResponse | EntityResponse | IntentResponse | TentativeTranscriptResponse | TentativeEntitiesResponse
 
   /**
-   * Context start offset from beginning of the stream in milliseconds
-   * Added by the client, not provided by the backend
+   * Optional client-side metadata associated to the response.
+   * The payload value, if present, should match the response type.
    */
-  context_start_in_stream_millis: number
+  params?: StartContextParams
 }
 
 /**
@@ -81,6 +81,10 @@ export enum ControllerSignal {
   startStream = 'startStream',
   stopStream = 'stopStream',
   setContextOptions = 'setContextOptions',
+}
+
+export interface StartContextParams {
+  audioStartTimeMillis: number
 }
 
 /**
@@ -292,5 +296,4 @@ export interface APIClient {
    * also override the options per function call.
    */
   setContextOptions(options: ContextOptions): Promise<void>
-
 }

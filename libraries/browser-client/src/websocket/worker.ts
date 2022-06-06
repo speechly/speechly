@@ -1,7 +1,7 @@
 import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
-import { ControllerSignal, WebsocketResponse, WorkerSignal } from './types'
+import { ControllerSignal, WebsocketResponse, WebsocketResponseType, WorkerSignal, StartContextParams } from './types'
 import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
 
 const CONTROL = {
@@ -19,7 +19,7 @@ class WebsocketClient {
   private readonly workerCtx: Worker
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
-  private contextStartMillis: number = 0
+  private audioContextStartTimes: number[] = []
   private websocket?: WebSocket
   private audioProcessor?: AudioProcessor
   private controlSAB?: Int32Array
@@ -122,6 +122,7 @@ class WebsocketClient {
     }
 
     this.audioProcessor.reset()
+    this.audioContextStartTimes = []
   }
 
   stopStream(): void {
@@ -177,7 +178,7 @@ class WebsocketClient {
 
     this.audioProcessor.startContext()
     this.isContextStarted = true
-    this.contextStartMillis = this.audioProcessor.getStreamPosition()
+    this.audioContextStartTimes.push(this.audioProcessor.getStreamPosition())
 
     let options: ContextOptions = this.defaultContextOptions ?? {}
     if (contextOptions !== undefined) {
@@ -293,7 +294,19 @@ class WebsocketClient {
       return
     }
 
-    response.context_start_in_stream_millis = this.contextStartMillis
+    if (response.type === WebsocketResponseType.Started) {
+      // Append client-side metadata to the backend message
+      let audioContextStartTime = this.audioContextStartTimes.shift()
+      if (!audioContextStartTime) {
+        console.warn('No valid value for contextStartMillis')
+        audioContextStartTime = 0
+      }
+      const startContextParams: StartContextParams = {
+        audioStartTimeMillis: audioContextStartTime,
+      }
+      response.params = startContextParams
+    }
+
     this.workerCtx.postMessage(response)
   }
 

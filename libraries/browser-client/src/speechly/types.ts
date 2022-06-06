@@ -1,3 +1,5 @@
+import { SegmentState } from './segment'
+
 /**
  * Error to be thrown when the device does not support audioContext.
  * @public
@@ -130,4 +132,9 @@ export interface Entity {
    * Whether the entity was detected as final.
    */
   isFinal: boolean
+}
+
+export interface AudioRange {
+  segments: Map<number, SegmentState>
+  audioStartTimeMillis: number
 }
