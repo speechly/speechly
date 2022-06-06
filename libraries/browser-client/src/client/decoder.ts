@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment, AudioRange } from '../speechly'
+import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment, SLUResults } from '../speechly'
 
 import {
   APIClient,
@@ -48,7 +48,7 @@ export class CloudDecoder {
 
   private activeContexts = 0
 
-  private readonly audioContexts = new Map<string, AudioRange>()
+  private readonly audioContexts = new Map<string, SLUResults>()
   private readonly maxReconnectAttemptCount = 10
 
   private connectAttempt: number = 0

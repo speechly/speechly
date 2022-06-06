@@ -134,7 +134,10 @@ export interface Entity {
   isFinal: boolean
 }
 
-export interface AudioRange {
+/**
+ * A structure to accumulate SLU results for one audio context
+ */
+export interface SLUResults {
   segments: Map<number, SegmentState>
   audioStartTimeMillis: number
 }
