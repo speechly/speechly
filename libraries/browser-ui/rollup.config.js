@@ -180,11 +180,11 @@ export default [
   },
 
   {...typeScriptDefaults,
-    input: 'src/demomode.ts',
+    input: 'src/index.ts',
     output: [
       {
         ...typeScriptDefaults.output,
-        file: 'core/demomode.js',
+        file: 'core/index.js',
       },
     ],
   },

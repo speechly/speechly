@@ -10,7 +10,6 @@
     "declarationDir": "types",
     "declarationMap": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "importsNotUsedAsValues": "remove",
     "isolatedModules": false,
     "preserveConstEnums": true,
@@ -18,7 +17,6 @@
   },
 
   "include": [
-    "node_modules/@speechly/browser-client/src/**/*",
     "src/**/*",
   ],
   "exclude": ["node_modules/@speechly/browser-client/src/**/*.test.ts"],
