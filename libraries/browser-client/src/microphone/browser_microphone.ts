@@ -13,7 +13,7 @@ export class BrowserMicrophone {
 
   private readonly nativeResamplingSupported: boolean
   private readonly autoGainControlSupported: boolean
-  private readonly debug = true
+  private readonly debug = false
 
   // The media stream and audio track are initialized during `initialize()` call.
   mediaStream?: MediaStream
