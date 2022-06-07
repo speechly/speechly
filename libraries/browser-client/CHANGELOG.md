@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Thu, 02 Jun 2022 07:49:18 GMT and should not be manually modified.
+This log was last generated on Tue, 07 Jun 2022 08:08:54 GMT and should not be manually modified.
+
+## 2.3.0
+Tue, 07 Jun 2022 08:08:54 GMT
+
+### Minor changes
+
+- Word offsets are in relation to stream start. This is equal to time within audio context when not using VAD.
 
 ## 2.2.1
 Thu, 02 Jun 2022 07:49:18 GMT
