@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from 'react'
-import { SpeechSegment, useSpeechContext, ClientState, stateToString } from '@speechly/react-client'
+import { SpeechSegment, useSpeechContext, DecoderState, AudioSourceState, stateToString } from '@speechly/react-client'
 import Logger from './logger'
 
 const search = window.location.search.substring(1)
@@ -37,7 +37,7 @@ export const LogKit: React.FC<Props> = ({
 }) => {
   const [launched, setLaunched] = useState(false)
   const [initializationAttempted, setInitializationAttempted] = useState(false)
-  const { clientState, segment } = useSpeechContext()
+  const { clientState, microphoneState, segment } = useSpeechContext()
   const startAttempted = useRef<boolean>(false)
 
   useEffect(() => {
@@ -69,20 +69,28 @@ export const LogKit: React.FC<Props> = ({
 
   useEffect(() => {
     if (!initializationAttempted) {
+      switch(microphoneState) {
+        case AudioSourceState.NoBrowserSupport:
+        case AudioSourceState.NoAudioConsent:
+          Logger.trackInitialized(false, microphoneState, appName, appVersion)
+          setInitializationAttempted(true)
+          return
+      }
+
       switch(clientState) {
-        case ClientState.NoBrowserSupport:
-        case ClientState.NoAudioConsent:
-        case ClientState.Failed:
+        case DecoderState.Failed:
           Logger.trackInitialized(false, stateToString(clientState), appName, appVersion)
           setInitializationAttempted(true)
-          break
-        case ClientState.Connected:
-          Logger.trackInitialized(true, stateToString(clientState), appName, appVersion)
-          setInitializationAttempted(true)
-          break
+          return
+      }
+
+      if (microphoneState === AudioSourceState.Started && clientState >= DecoderState.Connected) {
+        Logger.trackInitialized(true, stateToString(clientState), appName, appVersion)
+        setInitializationAttempted(true)
+        return
       }
     }
-  }, [clientState, initializationAttempted, appName, appVersion])
+  }, [clientState, microphoneState, initializationAttempted, appName, appVersion])
 
   useEffect(() => {
     if (autoIntentTracking && segment && segment.isFinal) {
