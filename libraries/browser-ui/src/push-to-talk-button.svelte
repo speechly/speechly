@@ -70,6 +70,7 @@
   let microphone = null;
   let clientState: DecoderState = DecoderState.Disconnected;
   let audioSourceState: AudioSourceState = AudioSourceState.Stopped;
+  let introPopup: HTMLElement = null;
 
   onMount(() => {
     mounted = true;
@@ -78,11 +79,22 @@
         usePermissionPriming = true;
         break;
       case "auto":
-        usePermissionPriming = (document.querySelector("intro-popup") !== null) && (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null);
+        tryUseIntroPopup(document.querySelector("intro-popup"));
         break;
     }
     initialize(projectid, appid);
   });
+
+  const tryUseIntroPopup = (el: HTMLElement) => {
+    if (introPopup === null && el !== null) {
+      introPopup = el;
+      el.addEventListener(MessageType.requeststartmicrophone, async() => {
+        await microphone.initialize()
+        await client.attach(microphone.mediaStream)
+      });
+      usePermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
+    }
+  }
 
   const initialize = (projectid: string, appid: string) => {
     if (mounted && !client && (projectid || appid)) {
@@ -107,14 +119,6 @@
       microphone = new BrowserMicrophone()
       microphone.onStateChange(onMicrophoneStateChange)
       client.initialize();
-
-      // Make BrowserClient and BrowserMicrophone available for Intro Popup thru window (globalThis in the future)
-      window.Speechly = {
-        ...window.Speechly,
-        browserClient: client,
-        browserMicrophone: microphone,
-      }
-
       tipCalloutVisible = true;
     }
   }
@@ -261,7 +265,7 @@
         break;
       case MessageType.speechlyintroready:
         if (poweron === "auto") {
-          usePermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
+          tryUseIntroPopup(document.querySelector("intro-popup"));
         }
         break;
     }

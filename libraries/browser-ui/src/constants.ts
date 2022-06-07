@@ -23,7 +23,8 @@ export const enum MessageType {
   speechlyintroready = "speechlyintroready",
   speechlyintroclosed = "speechlyintroclosed",
   startcontext = "startcontext",
-  stopcontext = "stopcontext"
+  stopcontext = "stopcontext",
+  requeststartmicrophone = "requeststartmicrophone"
 }
 
 export const enum Icon {

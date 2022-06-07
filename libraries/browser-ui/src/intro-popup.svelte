@@ -8,6 +8,7 @@
 
   export let hide = "auto";
   export let clientstate: string = undefined;
+  export let microphonestate: string = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
   export let appid = undefined;
@@ -15,6 +16,7 @@
   export let customtypography = undefined;
 
   $: if (clientstate) onClientStateChange(parseInt(clientstate) as DecoderState)
+  $: if (microphonestate) onAudioSourceStateChange(microphonestate as AudioSourceState)
 
   let firstConnect = true;
 
@@ -51,8 +53,7 @@
   }
 
   const initialize = async() => {
-    await window.Speechly.browserMicrophone.initialize();
-    await window.Speechly.browserClient.attach(window.Speechly.browserMicrophone.mediaStream)
+    dispatchUnbounded(MessageType.requeststartmicrophone);
   }
 
   const handleKeydown = (event) => {
@@ -136,7 +137,6 @@
         }
         break;
       case AudioSourceState.Started:
-        console.log('hohohoi')
         if (firstConnect) {
           // All good, hide this popup
           firstConnect = false;
