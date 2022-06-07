@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr, { APITypes } from "plyr-react";
-import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import { DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import classNames from "classnames";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
@@ -49,7 +49,7 @@ const App = () => {
         setCurrentItem(undefined);
       };
       const buffer =  await response.arrayBuffer();
-      client?.sendAudioData(buffer);
+      client?.uploadAudioData(buffer);
     }
     if (client && currentItem !== undefined) {
       sendAudioToSpeechly(currentItem);
@@ -131,7 +131,7 @@ const App = () => {
               <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
             </div>
           )}
-          {clientState > 9 && <Spinner />}
+          {clientState > DecoderState.Connected && <Spinner />}
         </div>
       </div>
     </div>
