@@ -65,7 +65,7 @@ window.onload = () => {
 
     const cleanedWords = segment.words
       .filter((w: Word) => w.value)
-      .map((w: Word) => ({ value: w.value, index: w.index }));
+      .map((w: Word) => ({ value: w.value, index: w.index, startTimestamp: w.startTimestamp, endTimestamp: w.endTimestamp }));
 
     logResponse(
       segment.contextId,

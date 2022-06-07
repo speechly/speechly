@@ -7,24 +7,24 @@ import {
 } from '../websocket'
 import { Word, Entity, Intent } from '../speechly'
 
-export function parseTentativeTranscript(data: TentativeTranscriptResponse): Word[] {
+export function parseTentativeTranscript(data: TentativeTranscriptResponse, timeOffset: number): Word[] {
   return data.words.map(({ word, index, start_timestamp, end_timestamp }) => {
     return {
       value: word,
       index: index,
-      startTimestamp: start_timestamp,
-      endTimestamp: end_timestamp,
+      startTimestamp: start_timestamp + timeOffset,
+      endTimestamp: end_timestamp + timeOffset,
       isFinal: false,
     }
   })
 }
 
-export function parseTranscript(data: TranscriptResponse): Word {
+export function parseTranscript(data: TranscriptResponse, timeOffset: number): Word {
   return {
     value: data.word,
     index: data.index,
-    startTimestamp: data.start_timestamp,
-    endTimestamp: data.end_timestamp,
+    startTimestamp: data.start_timestamp + timeOffset,
+    endTimestamp: data.end_timestamp + timeOffset,
     isFinal: true,
   }
 }

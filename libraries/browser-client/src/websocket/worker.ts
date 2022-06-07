@@ -1,38 +1,8 @@
 import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
-import { ControllerSignal, WebsocketResponseType, WorkerSignal } from './types'
+import { ControllerSignal, WebsocketResponse, WebsocketResponseType, WorkerSignal, StartContextParams } from './types'
 import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
-
-/**
- * The interface for response returned by WebSocket client.
- * @internal
- */
-interface WebsocketResponse {
-  /**
-   * Response type.
-   */
-  type: WebsocketResponseType
-
-  /**
-   * Audio context ID.
-   */
-  audio_context: string
-
-  /**
-   * Segment ID.
-   */
-  segment_id: number
-
-  /**
-   * Response payload.
-   *
-   * The payload value should match the response type (i.e. TranscriptResponse should have Transcript type).
-   * Not all response types have payloads - Started, Stopped and SegmentEnd don't have payloads.
-   * TentativeIntent and Intent share the same payload interface (IntentResponse).
-   */
-  data: any
-}
 
 const CONTROL = {
   WRITE_INDEX: 0,
@@ -49,7 +19,7 @@ class WebsocketClient {
   private readonly workerCtx: Worker
   private targetSampleRate: number = 16000
   private isContextStarted: boolean = false
-  private contextStartTime: number = 0
+  private audioContextStartTimes: number[] = []
   private websocket?: WebSocket
   private audioProcessor?: AudioProcessor
   private controlSAB?: Int32Array
@@ -152,6 +122,7 @@ class WebsocketClient {
     }
 
     this.audioProcessor.reset()
+    this.audioContextStartTimes = []
   }
 
   stopStream(): void {
@@ -207,7 +178,7 @@ class WebsocketClient {
 
     this.audioProcessor.startContext()
     this.isContextStarted = true
-    this.contextStartTime = this.audioProcessor.getStreamPosition()
+    this.audioContextStartTimes.push(this.audioProcessor.getStreamPosition())
 
     let options: ContextOptions = this.defaultContextOptions ?? {}
     if (contextOptions !== undefined) {
@@ -321,6 +292,19 @@ class WebsocketClient {
     } catch (e) {
       console.error('[WebSocketClient]', 'error parsing response from the server:', e)
       return
+    }
+
+    if (response.type === WebsocketResponseType.Started) {
+      // Append client-side metadata to the backend message
+      let audioContextStartTime = this.audioContextStartTimes.shift()
+      if (!audioContextStartTime) {
+        console.warn('No valid value for contextStartMillis')
+        audioContextStartTime = 0
+      }
+      const startContextParams: StartContextParams = {
+        audioStartTimeMillis: audioContextStartTime,
+      }
+      response.params = startContextParams
     }
 
     this.workerCtx.postMessage(response)

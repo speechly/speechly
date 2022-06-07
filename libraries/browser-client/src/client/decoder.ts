@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment } from '../speechly'
+import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment, SLUResults } from '../speechly'
 
 import {
   APIClient,
@@ -48,7 +48,7 @@ export class CloudDecoder {
 
   private activeContexts = 0
 
-  private readonly segments = new Map<string, Map<number, SegmentState>>()
+  private readonly audioContexts = new Map<string, SLUResults>()
   private readonly maxReconnectAttemptCount = 10
 
   private connectAttempt: number = 0
@@ -151,7 +151,7 @@ export class CloudDecoder {
       error = err.message
     }
 
-    this.segments.clear()
+    this.audioContexts.clear()
     this.activeContexts = 0
     this.connectPromise = null
     this.setState(DecoderState.Disconnected)
@@ -163,7 +163,7 @@ export class CloudDecoder {
 
   async startStream(streamOptions: StreamOptions): Promise<void> {
     this.streamOptions = streamOptions
-    this.segments.clear()
+    this.audioContexts.clear()
     this.activeContexts = 0
 
     await this.apiClient.startStream()
@@ -260,7 +260,7 @@ export class CloudDecoder {
    * by sending a start context event to the API and unmuting the microphone.
    * @param options - any custom options for the audio processing.
    */
-  async switchContext(options: ContextOptions): Promise<void> {
+  async switchContext(options: ContextOptions): Promise<string> {
     if (this.state !== DecoderState.Active) {
       throw Error(
         '[Decoder] Unable to complete switchContext: Expected Active state, but was in ' +
@@ -269,7 +269,7 @@ export class CloudDecoder {
       )
     }
     const contextId = await this.apiClient.switchContext(options)
-    this.segments.set(contextId, new Map<number, SegmentState>())
+    return contextId
   }
 
   registerListener(listener: EventCallbacks): void {
@@ -307,7 +307,11 @@ export class CloudDecoder {
         break
       case WebsocketResponseType.Started: {
         this.activeContexts++
-        this.segments.set(response.audio_context, new Map<number, SegmentState>())
+        const params = response.params
+        this.audioContexts.set(response.audio_context, {
+          segments: new Map(),
+          audioStartTimeMillis: params.audioStartTimeMillis,
+        })
         this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
         break
       }
@@ -315,7 +319,7 @@ export class CloudDecoder {
         this.activeContexts--
         this.cbs.forEach(cb => cb.contextStoppedCbs.forEach(f => f(response.audio_context)))
         if (!this.streamOptions.preserveSegments) {
-          this.segments.delete(response.audio_context)
+          this.audioContexts.delete(response.audio_context)
         }
 
         // Signal stopStream listeners that the final results are in, it's ok to resolve the await
@@ -334,25 +338,25 @@ export class CloudDecoder {
     const { audio_context, segment_id, type } = response
     let { data } = response
 
-    const context = this.segments.get(audio_context)
+    const context = this.audioContexts.get(audio_context)
     if (context === undefined) {
       console.warn('[Decoder]', 'Received response for non-existent context', audio_context)
       return
     }
 
-    let segmentState = context.get(segment_id) ?? new SegmentState(audio_context, segment_id)
+    let segmentState = context.segments.get(segment_id) ?? new SegmentState(audio_context, segment_id)
 
     switch (type) {
       case WebsocketResponseType.TentativeTranscript:
         data = data as TentativeTranscriptResponse
-        const words = parseTentativeTranscript(data)
+        const words = parseTentativeTranscript(data, context.audioStartTimeMillis)
         const transcript = data.transcript
         this.cbs.forEach(cb => cb.tentativeTranscriptCbs.forEach(f => f(audio_context, segment_id, words, transcript)))
         segmentState = segmentState.updateTranscript(words)
         break
       case WebsocketResponseType.Transcript:
         data = data as TranscriptResponse
-        const word = parseTranscript(data)
+        const word = parseTranscript(data, context.audioStartTimeMillis)
         this.cbs.forEach(cb => cb.transcriptCbs.forEach(f => f(audio_context, segment_id, word)))
         segmentState = segmentState.updateTranscript([word])
         break
@@ -388,10 +392,10 @@ export class CloudDecoder {
     }
 
     // Update the segment in current context.
-    context.set(segment_id, segmentState)
+    context.segments.set(segment_id, segmentState)
 
     // Update current contexts.
-    this.segments.set(audio_context, context)
+    this.audioContexts.set(audio_context, context)
 
     // Log segment to console
     if (this.logSegments) {
@@ -420,7 +424,7 @@ export class CloudDecoder {
 
       this.setState(DecoderState.Disconnected)
       this.activeContexts = 0
-      this.segments.clear()
+      this.audioContexts.clear()
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.reconnect()
     }
@@ -465,8 +469,8 @@ export class CloudDecoder {
    */
   getSegments(): Segment[] {
     const result: Segment[] = []
-    this.segments.forEach((segments, _) => {
-      segments.forEach((segment, _) => {
+    this.audioContexts.forEach((audioContext, _) => {
+      audioContext.segments.forEach((segment, _) => {
         const deepCopy = JSON.parse(JSON.stringify(segment))
         result.push(deepCopy)
       })
