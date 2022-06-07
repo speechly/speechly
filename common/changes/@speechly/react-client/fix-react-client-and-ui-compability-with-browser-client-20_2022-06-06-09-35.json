@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "react-client support for browser-client@^2",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
