@@ -83,7 +83,7 @@ const DefaultAppState = {
 };
 
 export default function FloorPlan() {
-  const { segment, clientState, microphoneState } = useSpeechContext();
+  const { segment, clientState } = useSpeechContext();
   const [appState, setAppState] = useState<AppState>(DefaultAppState);
   const [tentativeAppState, setTentativeAppState] = useState<AppState>(
     DefaultAppState
