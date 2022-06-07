@@ -28,6 +28,12 @@ export interface WebsocketResponse {
    * TentativeIntent and Intent share the same payload interface (IntentResponse).
    */
   data: TranscriptResponse | EntityResponse | IntentResponse | TentativeTranscriptResponse | TentativeEntitiesResponse
+
+  /**
+   * Optional client-side metadata associated to the response.
+   * The payload value, if present, should match the response type.
+   */
+  params?: StartContextParams
 }
 
 /**
@@ -75,6 +81,10 @@ export enum ControllerSignal {
   startStream = 'startStream',
   stopStream = 'stopStream',
   setContextOptions = 'setContextOptions',
+}
+
+export interface StartContextParams {
+  audioStartTimeMillis: number
 }
 
 /**
@@ -286,5 +296,4 @@ export interface APIClient {
    * also override the options per function call.
    */
   setContextOptions(options: ContextOptions): Promise<void>
-
 }

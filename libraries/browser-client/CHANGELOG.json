@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.3.0",
+      "tag": "@speechly/browser-client_v2.3.0",
+      "date": "Tue, 07 Jun 2022 08:08:54 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Word offsets are in relation to stream start. This is equal to time within audio context when not using VAD."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.2.1",
       "tag": "@speechly/browser-client_v2.2.1",
       "date": "Thu, 02 Jun 2022 07:49:18 GMT",
