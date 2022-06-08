@@ -43,12 +43,12 @@ export interface SpeechContextState {
   /**
    * Turns listening on. Automatically initialises the API connection and audio stack.
    */
-  startContext: () => Promise<string>
+  start: () => Promise<string>
 
   /**
    * Turns listening off.
    */
-  stopContext: () => Promise<void>
+  stop: () => Promise<void>
 
   /**
    * Current appId in multi-app project.
@@ -126,8 +126,8 @@ export interface SpeechContextState {
 export const SpeechContext = React.createContext<SpeechContextState>({
   connect: async () => Promise.resolve(),
   initialize: async () => Promise.resolve(),
-  startContext: async () => Promise.resolve('Unknown contextId'),
-  stopContext: async () => Promise.resolve(),
+  start: async () => Promise.resolve('Unknown contextId'),
+  stop: async () => Promise.resolve(),
   clientState: DecoderState.Disconnected,
   microphoneState: AudioSourceState.Stopped,
   listening: false,
@@ -213,11 +213,11 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     }
   }
 
-  readonly startContext = async (): Promise<string> => {
+  readonly start = async (): Promise<string> => {
     const { client, appId } = this.state
     this.setState({ listening: true })
     if (client == null) {
-      throw Error('No Speechly client (are you calling startContext in non-browser environment)')
+      throw Error('No Speechly client (are you calling start in non-browser environment)')
     }
     if (appId !== undefined) {
       return client.start({ appId: appId })
@@ -225,11 +225,11 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return client.start()
   }
 
-  readonly stopContext = async (): Promise<void> => {
+  readonly stop = async (): Promise<void> => {
     const { client } = this.state
     this.setState({ listening: false })
     if (client == null) {
-      throw Error('No Speechly client (are you calling stopContext in non-browser environment)')
+      throw Error('No Speechly client (are you calling stop in non-browser environment)')
     }
     return client.stop()
   }
@@ -240,8 +240,8 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
         value={{
           connect: this.connect,
           initialize: this.initialize,
-          startContext: this.startContext,
-          stopContext: this.stopContext,
+          start: this.start,
+          stop: this.stop,
           appId: this.state.appId,
           listening: this.state.listening,
           clientState: this.state.clientState,

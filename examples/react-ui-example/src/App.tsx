@@ -24,7 +24,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { clientState, segment, startContext, stopContext } = useSpeechContext();
+  const { clientState, segment, start, stop } = useSpeechContext();
   const [mockSegment, setMockSegment] = useState<SpeechSegment | undefined>();
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function SpeechlyApp() {
       ) : null}
 
       <div className="mic-button">
-        <button onMouseDown={startContext} onMouseUp={stopContext}>Record</button>
+        <button onMouseDown={start} onMouseUp={stop}>Hold to talk</button>
         <button onClick={clickStartDemo}>Start demo</button>
         <button onClick={clickStopDemo}>Stop demo</button>
       </div>

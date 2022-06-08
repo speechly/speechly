@@ -17,7 +17,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const {clientState, microphoneState, segment, listening, startContext, stopContext, connect, initialize} = useSpeechContext()
+  const {clientState, microphoneState, segment, listening, start, stop, connect, initialize} = useSpeechContext()
 
   return (
     <div>
@@ -35,7 +35,7 @@ function SpeechlyApp() {
       <div className="mic-button">
         <button onClick={connect} disabled={clientState !== DecoderState.Disconnected}>Connect</button>
         <button onClick={initialize} disabled={microphoneState !== AudioSourceState.Stopped}>Initialize mic</button>
-        <button onMouseDown={startContext} onMouseUp={stopContext}>
+        <button onMouseDown={start} onMouseUp={stop}>
           { listening ? 'Listening...' : 'Hold to listen' }
         </button>
       </div>

@@ -136,7 +136,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   tapToTalkTime = 8000,
   silenceToHangupTime = 1000,
 }) => {
-  const { client, clientState, microphoneState, initialize, startContext, stopContext, segment } = useSpeechContext()
+  const { client, clientState, microphoneState, initialize, start, stop, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
   const [icon, setIcon] = useState<string>(DecoderState.Disconnected as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
@@ -243,7 +243,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           buttonStateRef.current.wasListening = client.isActive()
           if (!client.isActive()) {
             try {
-              await startContext()
+              await start()
             } catch (err) {
               console.error('Error while starting to record', err)
             }
@@ -299,7 +299,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
     if (client?.isActive()) {
       try {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        stopContext()
+        stop()
       } catch (err) {
         console.error('Error while stopping recording', err)
       }

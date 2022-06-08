@@ -162,6 +162,10 @@ export class CloudDecoder {
   }
 
   async startStream(streamOptions: StreamOptions): Promise<void> {
+    if (this.debug) {
+      console.log('[Decoder]', 'startStream')
+    }
+
     this.streamOptions = streamOptions
     this.audioContexts.clear()
     this.activeContexts = 0
@@ -170,6 +174,10 @@ export class CloudDecoder {
   }
 
   async stopStream(): Promise<void> {
+    if (this.debug) {
+      console.log('[Decoder]', 'stopStream')
+    }
+
     if (this.state === DecoderState.Active) {
       await this.stopContext(0)
     }
