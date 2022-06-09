@@ -136,7 +136,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   tapToTalkTime = 8000,
   silenceToHangupTime = 1000,
 }) => {
-  const { client, clientState, microphoneState, initialize, start, stop, segment } = useSpeechContext()
+  const { client, clientState, microphoneState, attachMicrophone, start, stop, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
   const [icon, setIcon] = useState<string>(DecoderState.Disconnected as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
@@ -193,6 +193,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   useEffect(() => {
     // Change button face according to Speechly states
     setIcon(clientState as unknown as string)
+    clientStateRef.current = clientState
+    microphoneStateRef.current = microphoneState
 
     if (clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started) {
       setUsePermissionPriming(false)
@@ -211,7 +213,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
     buttonStateRef.current.tangentPressPromise = (async() => {
       PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
-      window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
+      window.postMessage({ type: 'holdstart', state: clientStateRef.current, audioSourceState: microphoneStateRef.current }, '*')
       setShowHint(false)
 
       if (usePermissionPriming) {
@@ -230,9 +232,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           // Speechly & Mic initialise needs to be in a function triggered by event handler
           const initStartTime = Date.now()
           try {
-            await initialize()
+            await attachMicrophone()
           } catch (err) {
-            console.error('Error initiasing Speechly', err)
+            console.error('Error initializing Speechly', err)
           }
           // Long init time suggests permission dialog --> prevent listening start
           buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS

@@ -29,14 +29,14 @@ export const IntroPopup: React.FC<IntroPopupProps> = ({
   appId,
   children,
 }) => {
-  const { clientState, microphoneState, initialize } = useSpeechContext()
+  const { clientState, microphoneState, attachMicrophone } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
   let refElement: HTMLElement | null = null
 
   const initMic = (): void => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     (async() => {
-      await initialize()
+      await attachMicrophone()
     })()
   }
 
@@ -61,7 +61,7 @@ export const IntroPopup: React.FC<IntroPopupProps> = ({
   if (!loaded) return null
 
   return (
-    <intro-popup ref={setRef} clientstate={clientState} microphoneState={microphoneState} appid={appId}>
+    <intro-popup ref={setRef} clientstate={clientState} microphonestate={microphoneState} appid={appId}>
       {children}
     </intro-popup>
   )
