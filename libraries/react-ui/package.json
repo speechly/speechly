@@ -10,7 +10,7 @@
     "build:watch": "rm -rf ./lib/ && pnpx tsc",
     "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "test": "echo 'Pending...'",
-    "docs": "pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/",
+    "docs": "pnpx typedoc --readme none --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy expand --sort required-first --disableSources ./src/components",
     "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpm run docs",
     "prerelease": "pnpm run build",
     "watch": "rm -rf ./lib/ && mkdir lib && pnpx tsc-watch"

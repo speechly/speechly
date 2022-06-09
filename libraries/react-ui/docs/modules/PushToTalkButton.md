@@ -1,16 +1,16 @@
-[@speechly/react-ui](../README.md) / components/PushToTalkButton
+[@speechly/react-ui](../README.md) / PushToTalkButton
 
-# Module: components/PushToTalkButton
+# Module: PushToTalkButton
 
 ## Table of contents
 
 ### Type aliases
 
-- [PushToTalkButtonProps](components_PushToTalkButton.md#pushtotalkbuttonprops)
+- [PushToTalkButtonProps](PushToTalkButton.md#pushtotalkbuttonprops)
 
 ### Variables
 
-- [PushToTalkButton](components_PushToTalkButton.md#pushtotalkbutton)
+- [PushToTalkButton](PushToTalkButton.md#pushtotalkbutton)
 
 ## Type aliases
 
@@ -44,4 +44,4 @@ Properties for PushToTalkButton component.
 
 ### PushToTalkButton
 
-• **PushToTalkButton**: `React.FC`<[`PushToTalkButtonProps`](components_PushToTalkButton.md#pushtotalkbuttonprops)\>
+• `Const` **PushToTalkButton**: `React.FC`<[`PushToTalkButtonProps`](PushToTalkButton.md#pushtotalkbuttonprops)\>

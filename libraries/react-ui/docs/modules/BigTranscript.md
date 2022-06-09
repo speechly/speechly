@@ -1,16 +1,16 @@
-[@speechly/react-ui](../README.md) / components/BigTranscript
+[@speechly/react-ui](../README.md) / BigTranscript
 
-# Module: components/BigTranscript
+# Module: BigTranscript
 
 ## Table of contents
 
 ### Type aliases
 
-- [BigTranscriptProps](components_BigTranscript.md#bigtranscriptprops)
+- [BigTranscriptProps](BigTranscript.md#bigtranscriptprops)
 
 ### Variables
 
-- [BigTranscript](components_BigTranscript.md#bigtranscript)
+- [BigTranscript](BigTranscript.md#bigtranscript)
 
 ## Type aliases
 
@@ -37,7 +37,7 @@ Properties for BigTranscript component.
 
 ### BigTranscript
 
-• **BigTranscript**: `React.FC`<[`BigTranscriptProps`](components_BigTranscript.md#bigtranscriptprops)\>
+• `Const` **BigTranscript**: `React.FC`<[`BigTranscriptProps`](BigTranscript.md#bigtranscriptprops)\>
 
 A React component that renders the transcript and entities received from Speechly SLU API.
 

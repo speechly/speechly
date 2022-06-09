@@ -1,16 +1,16 @@
-[@speechly/react-ui](../README.md) / components/BigTranscriptContainer
+[@speechly/react-ui](../README.md) / BigTranscriptContainer
 
-# Module: components/BigTranscriptContainer
+# Module: BigTranscriptContainer
 
 ## Table of contents
 
 ### Type aliases
 
-- [BigTranscriptContainerProps](components_BigTranscriptContainer.md#bigtranscriptcontainerprops)
+- [BigTranscriptContainerProps](BigTranscriptContainer.md#bigtranscriptcontainerprops)
 
 ### Variables
 
-- [BigTranscriptContainer](components_BigTranscriptContainer.md#bigtranscriptcontainer)
+- [BigTranscriptContainer](BigTranscriptContainer.md#bigtranscriptcontainer)
 
 ## Type aliases
 
@@ -26,12 +26,13 @@ Properties for BigTranscriptContainer component.
 | :------ | :------ | :------ |
 | `position?` | `string` | The override value for CSS position (default: `"fixed"`). |
 | `margin?` | `string` | The override value for CSS margin(default: `"3rem 2rem 0 2rem"`). |
+| `children?` | `React.ReactNode` | - |
 
 ## Variables
 
 ### BigTranscriptContainer
 
-• **BigTranscriptContainer**: `React.FC`<[`BigTranscriptContainerProps`](components_BigTranscriptContainer.md#bigtranscriptcontainerprops)\>
+• `Const` **BigTranscriptContainer**: `React.FC`<[`BigTranscriptContainerProps`](BigTranscriptContainer.md#bigtranscriptcontainerprops)\>
 
 A React component that can be used for wrapping and positioning BigTranscript components.
 
