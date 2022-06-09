@@ -191,10 +191,19 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   })
 
   useEffect(() => {
-    // Change button face according to Speechly states
-    setIcon(clientState as unknown as string)
     clientStateRef.current = clientState
     microphoneStateRef.current = microphoneState
+
+    // Change button appearance according to Speechly states
+    switch (microphoneState) {
+      case AudioSourceState.NoAudioConsent:
+      case AudioSourceState.NoBrowserSupport:
+        setIcon(microphoneState)
+        break
+      default:
+        setIcon(clientState as unknown as string)
+        break
+    }
 
     if (clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started) {
       setUsePermissionPriming(false)
