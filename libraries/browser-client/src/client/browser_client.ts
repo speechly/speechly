@@ -194,8 +194,6 @@ export class BrowserClient {
     await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
     this.audioProcessorInitialized = true
 
-    await this.autoControlStream()
-
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
@@ -330,12 +328,13 @@ export class BrowserClient {
       }
     }
 
-    this.adjustAudioProcessor({ immediate: true })
-
-    const wasStreaming = this.isStreaming
-
     if (this.isStreaming) await this.stopStream()
-    await this.startStream({ preserveSegments: true })
+
+    await this.startStream({
+      sampleRate: audioBuffer.sampleRate,
+      preserveSegments: true,
+      immediate: true,
+    })
 
     const vadActive = this.decoderOptions.vad?.enabled && this.decoderOptions.vad?.controlListening
     const chunkMillis = 1000
@@ -345,6 +344,7 @@ export class BrowserClient {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       await this.start(options)
     } else {
+      if (options) await this.setContextOptions(options)
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       if (this.decoderOptions.vad!.signalSustainMillis >= chunkMillis) {
         const allowedContexts = 10
@@ -356,10 +356,11 @@ export class BrowserClient {
       } else {
         console.warn(`Throttling disabled due to low (<= ${chunkMillis}) VAD sustain value. Server may disconnect while processing if contexts are created at high rate.`)
       }
+      throttlingWaitMillis = 0 // @DEBUG
     }
 
     let sendBuffer: Float32Array
-    const chunkSamples = Math.round(this.decoder.sampleRate * chunkMillis / 1000)
+    const chunkSamples = Math.round(audioBuffer.sampleRate * chunkMillis / 1000)
 
     for (let b = 0; b < samples.length; b += chunkSamples) {
       const e = b + chunkSamples
@@ -377,13 +378,10 @@ export class BrowserClient {
     }
 
     await this.stopStream()
-    this.adjustAudioProcessor({ immediate: false })
 
     // Store result before startStream as it'll clear the results
     const result = this.decoder.getSegments()
 
-    // Restore previous state
-    if (wasStreaming) await this.startStream()
     return result
   }
 
@@ -437,13 +435,17 @@ export class BrowserClient {
   }
 
   private async autoControlStream(): Promise<void> {
+    if (!this.audioProcessorInitialized) return
+
+    if (!this.stream) return
+
     // Auto-start stream if VAD is enabled
-    if (this.audioProcessorInitialized && this.decoderOptions.vad?.enabled && !this.isStreaming) {
+    if (this.decoderOptions.vad?.enabled && !this.isStreaming) {
       await this.startStream()
     }
 
     // Auto-stop stream if VAD is no longer enabled
-    if (this.audioProcessorInitialized && !this.decoderOptions.vad?.enabled && this.isStreaming) {
+    if (!this.decoderOptions.vad?.enabled && this.isStreaming) {
       await this.stopStream()
     }
   }

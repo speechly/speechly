@@ -43,7 +43,7 @@ export class CloudDecoder {
   private readonly loginUrl: string
   private readonly deviceId: string
   private readonly apiUrl: string
-  private streamOptions: StreamOptions = StreamDefaultOptions
+  streamOptions: StreamOptions = StreamDefaultOptions
   private resolveStopStream?: any
 
   private activeContexts = 0
@@ -170,7 +170,7 @@ export class CloudDecoder {
     this.audioContexts.clear()
     this.activeContexts = 0
 
-    await this.apiClient.startStream()
+    await this.apiClient.startStream(streamOptions)
   }
 
   async stopStream(): Promise<void> {
