@@ -56,4 +56,6 @@ export const clientStateToAppearance: {[state: string]: IAppearance} = {
   [DecoderState.Connected]: { icon: Icon.Mic, behaviour: Behaviour.Hold, effect: Effect.None, triggerFx: TriggerFx.Whirl},
   [DecoderState.Active]: { icon: Icon.MicActive, behaviour: Behaviour.Hold, effect: Effect.None},
   [DecoderState.Failed]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [AudioSourceState.NoBrowserSupport]: { icon: Icon.Error, behaviour: Behaviour.Click, effect: Effect.None},
+  [AudioSourceState.NoAudioConsent]: { icon: Icon.Denied, behaviour: Behaviour.Click, effect: Effect.None},
 }

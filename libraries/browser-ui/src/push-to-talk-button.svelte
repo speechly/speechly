@@ -60,7 +60,7 @@
 
   let tapListenTimeout = null;
   let tangentStartPromise = null;
-  let icon = DecoderState.Disconnected;
+  let icon: DecoderState | AudioSourceState = DecoderState.Disconnected;
 
   $: tipCallOutText = intro;
   $: initialize(projectid, appid);
@@ -226,7 +226,15 @@
   }
 
   const updateSkin = () => {
-    if (clientState !== null) icon = clientState;
+    switch (audioSourceState) {
+      case AudioSourceState.NoAudioConsent:
+      case AudioSourceState.NoBrowserSupport:
+        icon = audioSourceState;
+        break;
+      default:
+        icon = clientState;
+        break;
+    }
   };
 
   const onDecoderStateChange = (s: DecoderState) => {
@@ -242,6 +250,7 @@
     // Broadcast state changes
     window.postMessage({ type: MessageType.audiosourcestate, state: state }, "*");
     checkReadyToUse()
+    updateSkin();
   };
 
   const checkReadyToUse = () => {
