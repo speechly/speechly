@@ -294,7 +294,7 @@ class WebsocketClient {
     if (response.type === WebsocketResponseType.Started) {
       // Append client-side metadata to the backend message
       let audioContextStartTime = this.audioContextStartTimes.shift()
-      if (!audioContextStartTime) {
+      if (audioContextStartTime === undefined) {
         console.warn('No valid value for contextStartMillis')
         audioContextStartTime = 0
       }

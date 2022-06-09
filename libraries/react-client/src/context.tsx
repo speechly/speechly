@@ -38,7 +38,7 @@ export interface SpeechContextState {
    * The idea is that it provides a more fine-grained control over how the audio is initialised,
    * in case you want to give the user more control over your app.
    */
-  initialize: () => Promise<void>
+  attachMicrophone: () => Promise<void>
 
   /**
    * Turns listening on. Automatically initialises the API connection and audio stack.
@@ -125,7 +125,7 @@ export interface SpeechContextState {
  */
 export const SpeechContext = React.createContext<SpeechContextState>({
   connect: async () => Promise.resolve(),
-  initialize: async () => Promise.resolve(),
+  attachMicrophone: async () => Promise.resolve(),
   start: async () => Promise.resolve('Unknown contextId'),
   stop: async () => Promise.resolve(),
   clientState: DecoderState.Disconnected,
@@ -197,20 +197,30 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     await client.initialize()
   }
 
-  readonly initialize = async (): Promise<void> => {
-    const { client, microphone } = this.state
+  readonly attachMicrophone = async (): Promise<void> => {
+    const { client } = this.state
     if (client == null) {
       throw Error('No Speechly client (are you calling connect in non-browser environment)')
     }
-    if (microphone == null) {
-      throw Error('No Speechly client (are you calling initialize in non-browser environment)')
-    }
+
+    const microphone = new BrowserMicrophone()
+    microphone.onStateChange((state: AudioSourceState) => {
+      this.setState({
+        microphoneState: state,
+      })
+    })
+
     await microphone.initialize()
+
     if (microphone.mediaStream) {
       await client.attach(microphone.mediaStream)
     } else {
       throw Error('Microphone contains no MediaStream to attach')
     }
+
+    this.setState({
+      microphone: microphone,
+    })
   }
 
   readonly start = async (): Promise<string> => {
@@ -239,7 +249,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       <SpeechContext.Provider
         value={{
           connect: this.connect,
-          initialize: this.initialize,
+          attachMicrophone: this.attachMicrophone,
           start: this.start,
           stop: this.stop,
           appId: this.state.appId,
@@ -325,16 +335,8 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       client.initialize()
     }
 
-    const microphone = new BrowserMicrophone()
-    microphone.onStateChange((state: AudioSourceState) => {
-      this.setState({
-        microphoneState: state,
-      })
-    })
-
     this.setState({
       client: client,
-      microphone: microphone,
     })
   }
 
