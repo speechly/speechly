@@ -4,7 +4,8 @@
 
 [index](../modules/index.md).SpeechSegment
 
-The smallest component of SLU API, defined by an intent.
+A structure that accumulates speech recognition (ASR) and natural language understanding (NLU) results.
+The segment contains exactly one intent, one or more words and zero or more entities depending on the NLU configuration.
 
 ## Table of contents
 
@@ -23,7 +24,8 @@ The smallest component of SLU API, defined by an intent.
 
 • **contextId**: `string`
 
-The identifier of parent SLU context.
+Audio context id for the utterance. Unique for the processed audio chunk between start and stop calls.
+One utterance may produce one or more segments.
 
 ___
 
@@ -31,7 +33,7 @@ ___
 
 • **id**: `number`
 
-The identifier of the segment within the parent context.
+0-based segment index within the audio context. Together with [contextId](index.SpeechSegment.md#contextid) forms an unique identifier for the segment.
 
 ___
 

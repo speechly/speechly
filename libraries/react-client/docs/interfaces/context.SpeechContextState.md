@@ -13,14 +13,18 @@ Individual values (transcripts, entities and intent) are reset back to undefined
 
 ## Table of contents
 
+### Methods
+
+- [connect](context.SpeechContextState.md#connect)
+- [attachMicrophone](context.SpeechContextState.md#attachmicrophone)
+- [start](context.SpeechContextState.md#start)
+- [stop](context.SpeechContextState.md#stop)
+
 ### Properties
 
-- [initialise](context.SpeechContextState.md#initialise)
-- [toggleRecording](context.SpeechContextState.md#togglerecording)
-- [startContext](context.SpeechContextState.md#startcontext)
-- [stopContext](context.SpeechContextState.md#stopcontext)
+- [listening](context.SpeechContextState.md#listening)
 - [clientState](context.SpeechContextState.md#clientstate)
-- [speechState](context.SpeechContextState.md#speechstate)
+- [microphoneState](context.SpeechContextState.md#microphonestate)
 - [appId](context.SpeechContextState.md#appid)
 - [tentativeTranscript](context.SpeechContextState.md#tentativetranscript)
 - [tentativeEntities](context.SpeechContextState.md#tentativeentities)
@@ -29,16 +33,26 @@ Individual values (transcripts, entities and intent) are reset back to undefined
 - [entity](context.SpeechContextState.md#entity)
 - [intent](context.SpeechContextState.md#intent)
 - [segment](context.SpeechContextState.md#segment)
+- [client](context.SpeechContextState.md#client)
+- [microphone](context.SpeechContextState.md#microphone)
 
-### Methods
+## Methods
 
-- [switchApp](context.SpeechContextState.md#switchapp)
+### connect
 
-## Properties
+▸ **connect**(): `Promise`<`void`\>
 
-### initialise
+Connect to Speechly API.
 
-• **initialise**: [`ContextFunc`](../modules/context.md#contextfunc)
+#### Returns
+
+`Promise`<`void`\>
+
+___
+
+### attachMicrophone
+
+▸ **attachMicrophone**(): `Promise`<`void`\>
 
 Function that initialises Speechly client, including both the API connection and the audio initialisation.
 
@@ -48,51 +62,60 @@ it will be called automatically upon the first call to toggleRecording.
 The idea is that it provides a more fine-grained control over how the audio is initialised,
 in case you want to give the user more control over your app.
 
-___
+#### Returns
 
-### toggleRecording
-
-• **toggleRecording**: [`ContextFunc`](../modules/context.md#contextfunc)
-
-**`deprecated`**
-Toggles listening on or off. Automatically initialises the API connection and audio stack.
+`Promise`<`void`\>
 
 ___
 
-### startContext
+### start
 
-• **startContext**: [`ContextFunc`](../modules/context.md#contextfunc)
+▸ **start**(): `Promise`<`string`\>
 
 Turns listening on. Automatically initialises the API connection and audio stack.
 
+#### Returns
+
+`Promise`<`string`\>
+
 ___
 
-### stopContext
+### stop
 
-• **stopContext**: [`ContextFunc`](../modules/context.md#contextfunc)
+▸ **stop**(): `Promise`<`void`\>
 
 Turns listening off.
+
+#### Returns
+
+`Promise`<`void`\>
+
+## Properties
+
+### listening
+
+• **listening**: `boolean`
+
+**`returns`** true if startContext called and listening will start.
+Speechly will normally be listening nearly instantly after startContext.
+Check clientState for details about browser client's state.
 
 ___
 
 ### clientState
 
-• **clientState**: [`ClientState`](../enums/index.ClientState.md)
+• **clientState**: [`DecoderState`](../enums/index.DecoderState.md)
 
 Current state of the context, whether it's idle, recording or failed, etc.
-It's advised to react to this to enable / disable voice functionality in your app
-as well as inidicate to the user that recording is in progress or results are being fetched from the API.
+Use this to indicate to the user that recording is in progress or results are being fetched from the API.
 
 ___
 
-### speechState
+### microphoneState
 
-• **speechState**: [`SpeechState`](../enums/types.SpeechState.md)
+• **microphoneState**: [`AudioSourceState`](../enums/index.AudioSourceState.md)
 
-**`deprecated`**
-Current state of the context, whether it's idle, recording or failed, etc.
-It's advised to react to this to enable / disable voice functionality in your app
-as well as inidicate to the user that recording is in progress or results are being fetched from the API.
+Current state of the microphone
 
 ___
 
@@ -158,20 +181,18 @@ ___
 
 Last segment received from the API.
 
-## Methods
+___
 
-### switchApp
+### client
 
-▸ **switchApp**(`appId`): `void`
+• `Optional` **client**: `BrowserClient`
 
-Switch appId in multi-app project.
+Low-level access to underlying Speechly BrowserClient.
 
-#### Parameters
+___
 
-| Name | Type |
-| :------ | :------ |
-| `appId` | `string` |
+### microphone
 
-#### Returns
+• `Optional` **microphone**: `BrowserMicrophone`
 
-`void`
+Low-level access to underlying Speechly BrowserMicrophone.

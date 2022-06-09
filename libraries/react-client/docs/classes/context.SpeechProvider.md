@@ -27,11 +27,10 @@ and start a new one.
 ### Methods
 
 - [componentDidMount](context.SpeechProvider.md#componentdidmount)
-- [initialiseAudio](context.SpeechProvider.md#initialiseaudio)
-- [startContext](context.SpeechProvider.md#startcontext)
-- [stopContext](context.SpeechProvider.md#stopcontext)
-- [toggleRecording](context.SpeechProvider.md#togglerecording)
-- [switchApp](context.SpeechProvider.md#switchapp)
+- [connect](context.SpeechProvider.md#connect)
+- [attachMicrophone](context.SpeechProvider.md#attachmicrophone)
+- [start](context.SpeechProvider.md#start)
+- [stop](context.SpeechProvider.md#stop)
 - [render](context.SpeechProvider.md#render)
 - [componentDidUpdate](context.SpeechProvider.md#componentdidupdate)
 - [componentWillUnmount](context.SpeechProvider.md#componentwillunmount)
@@ -68,19 +67,9 @@ React.Component.componentDidMount
 
 ___
 
-### initialiseAudio
+### connect
 
-▸ `Readonly` **initialiseAudio**(): `Promise`<`void`\>
-
-#### Returns
-
-`Promise`<`void`\>
-
-___
-
-### startContext
-
-▸ `Readonly` **startContext**(): `Promise`<`void`\>
+▸ `Readonly` **connect**(): `Promise`<`void`\>
 
 #### Returns
 
@@ -88,19 +77,9 @@ ___
 
 ___
 
-### stopContext
+### attachMicrophone
 
-▸ `Readonly` **stopContext**(): `Promise`<`void`\>
-
-#### Returns
-
-`Promise`<`void`\>
-
-___
-
-### toggleRecording
-
-▸ `Readonly` **toggleRecording**(): `Promise`<`void`\>
+▸ `Readonly` **attachMicrophone**(): `Promise`<`void`\>
 
 #### Returns
 
@@ -108,15 +87,19 @@ ___
 
 ___
 
-### switchApp
+### start
 
-▸ `Readonly` **switchApp**(`appId`): `Promise`<`void`\>
+▸ `Readonly` **start**(): `Promise`<`string`\>
 
-#### Parameters
+#### Returns
 
-| Name | Type |
-| :------ | :------ |
-| `appId` | `string` |
+`Promise`<`string`\>
+
+___
+
+### stop
+
+▸ `Readonly` **stop**(): `Promise`<`void`\>
 
 #### Returns
 
