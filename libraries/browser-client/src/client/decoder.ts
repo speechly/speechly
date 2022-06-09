@@ -318,7 +318,7 @@ export class CloudDecoder {
         const params = response.params
         this.audioContexts.set(response.audio_context, {
           segments: new Map(),
-          audioStartTimeMillis: params.audioStartTimeMillis,
+          audioStartTimeMillis: params?.audioStartTimeMillis ?? 0,
         })
         this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
         break

@@ -9,16 +9,9 @@
 ### Properties
 
 - [vad](client.AudioProcessorParameters.md#vad)
-- [immediate](client.AudioProcessorParameters.md#immediate)
 
 ## Properties
 
 ### vad
 
 • `Optional` **vad**: `Partial`<[`VadOptions`](client.VadOptions.md)\>
-
-___
-
-### immediate
-
-• `Optional` **immediate**: `boolean`

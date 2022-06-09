@@ -14,6 +14,10 @@
 - [ErrAlreadyInitialized](microphone.md#erralreadyinitialized)
 - [ErrNoAudioConsent](microphone.md#errnoaudioconsent)
 
+### Enumerations
+
+- [AudioSourceState](../enums/microphone.AudioSourceState.md)
+
 ## Variables
 
 ### ErrNotInitialized

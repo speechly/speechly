@@ -9,9 +9,16 @@
 ### Properties
 
 - [preserveSegments](client.StreamOptions.md#preservesegments)
+- [sampleRate](client.StreamOptions.md#samplerate)
 
 ## Properties
 
 ### preserveSegments
 
 • **preserveSegments**: `boolean`
+
+___
+
+### sampleRate
+
+• **sampleRate**: `number`
