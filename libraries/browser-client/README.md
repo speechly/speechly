@@ -156,7 +156,7 @@ Please use a HTML server to view the example. Running it as a file will not work
 
 ## Documentation
 
-You can find the detailed [browser-client API documentation](docs/classes/_index_d_.client.md) in the GitHub repository.
+You can find the detailed [browser-client API documentation](docs/classes/client.BrowserClient.md) in the GitHub repository.
 
 You can also refer to [Speechly Docs](https://docs.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
