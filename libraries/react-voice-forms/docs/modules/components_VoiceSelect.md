@@ -32,13 +32,13 @@ Properties for VoiceSelect component.
 | `changeOnIntent?` | `string` \| `string`[] | `string[]` (intents) changes this widget's option based on the intent of the SpeechSegment. The order must match that of `options`. `string` (intent) filters out all but the specified intent. Use `changeOnEntityType` or `changeOnEntityValue` to change the option. `undefined` disables intent filtering. |
 | `changeOnEntityType?` | `string` \| `string`[] | `string[]` (entity types) changes this widget's option if a matched entity type is found in the SpeechSegment. The order must match that of `options`. `string` (intent) filters out all but the specified entity type. Use `changeOnEntityValue` to change the option. `undefined` disables entity type filtering. |
 | `changeOnEntityValue?` | `string`[] | `string[]` (entity values) changes this widget's option if a matched entity value is found in the SpeechSegment. The order must match that of `options`. |
-| `onChange?` | (`value`: `string`) => `void` | - |
+| `onChange?` | (`value`: `string`) => `void` |  |
 
 ## Functions
 
 ### VoiceSelect
 
-▸ `Const` **VoiceSelect**(`__namedParameters`): `Element`
+▸ **VoiceSelect**(`__namedParameters`): `Element`
 
 #### Parameters
 

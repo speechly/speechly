@@ -27,13 +27,13 @@
 | `value?` | `Date` | The current value. Specifying the value controls the components's state so it makes sense to provide an onChange handler. |
 | `defaultValue?` | `Date` | Initially selected option. Has no effect if `value` is specified. |
 | `changeOnIntent?` | `string` | Specifies how this component reacts to intents in SpeechSegments. Undefined value reacts to any intent. String value (intent name) reacts to the single specified intent, e.g. "book" |
-| `onChange?` | (`value`: `Date`) => `void` | - |
+| `onChange?` | (`value`: `Date`) => `void` |  |
 
 ## Functions
 
 ### VoiceDatePicker
 
-▸ `Const` **VoiceDatePicker**(`__namedParameters`): `Element`
+▸ **VoiceDatePicker**(`__namedParameters`): `Element`
 
 #### Parameters
 
