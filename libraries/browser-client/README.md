@@ -156,7 +156,7 @@ Please use a HTML server to view the example. Running it as a file will not work
 
 ## Documentation
 
-- [browser-client API documentation](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) in GitHub
+- [API documentation](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) in GitHub
 - [Basic usage in docs.speechly.com](https://docs.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
 
 ## Contributing
