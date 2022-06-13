@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.4.0",
+      "tag": "@speechly/browser-client_v2.4.0",
+      "date": "Mon, 13 Jun 2022 08:05:47 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Added AudioSourceState and onStateChange callback to BrowserMicrophone."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.3.0",
       "tag": "@speechly/browser-client_v2.3.0",
       "date": "Tue, 07 Jun 2022 08:08:54 GMT",

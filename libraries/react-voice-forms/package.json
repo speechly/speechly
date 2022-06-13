@@ -1,13 +1,13 @@
 {
   "name": "@speechly/react-voice-forms",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Speechly voice form components for React",
   "license": "MIT",
   "author": "Speechly",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@speechly/react-client": "2.0.1"
+    "@speechly/react-client": "2.1.0"
   },
   "peerDependencies": {
     "react": ">=16.9.0"

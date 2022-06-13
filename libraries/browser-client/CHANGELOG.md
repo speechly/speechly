@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Tue, 07 Jun 2022 08:08:54 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Jun 2022 08:05:47 GMT and should not be manually modified.
+
+## 2.4.0
+Mon, 13 Jun 2022 08:05:47 GMT
+
+### Minor changes
+
+- Added AudioSourceState and onStateChange callback to BrowserMicrophone.
 
 ## 2.3.0
 Tue, 07 Jun 2022 08:08:54 GMT
