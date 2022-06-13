@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClientOptions, ClientState, Client } from '@speechly/browser-client'
+import { DecoderOptions, DecoderState, BrowserClient, BrowserMicrophone, AudioSourceState } from '@speechly/browser-client'
 
 import {
   Word,
@@ -38,28 +38,17 @@ export interface SpeechContextState {
    * The idea is that it provides a more fine-grained control over how the audio is initialised,
    * in case you want to give the user more control over your app.
    */
-  initialize: () => Promise<void>
-
-  /**
-   * @deprecated Use client.isListening(), startContext() and stopContext() instead
-   * Toggles listening on or off. Automatically initialises the API connection and audio stack.
-   */
-  toggleRecording: () => Promise<string>
+  attachMicrophone: () => Promise<void>
 
   /**
    * Turns listening on. Automatically initialises the API connection and audio stack.
    */
-  startContext: () => Promise<string>
+  start: () => Promise<string>
 
   /**
    * Turns listening off.
    */
-  stopContext: () => Promise<string>
-
-  /**
-   * Switch appId in multi-app project.
-   */
-  switchApp: (appId: string) => void
+  stop: () => Promise<void>
 
   /**
    * Current appId in multi-app project.
@@ -77,7 +66,12 @@ export interface SpeechContextState {
    * Current state of the context, whether it's idle, recording or failed, etc.
    * Use this to indicate to the user that recording is in progress or results are being fetched from the API.
    */
-  clientState: ClientState
+  clientState: DecoderState
+
+  /**
+   * Current state of the microphone
+   */
+  microphoneState: AudioSourceState
 
   /**
    * Last tentative transcript received from the API. Resets after current segment is finalised.
@@ -115,9 +109,14 @@ export interface SpeechContextState {
   segment?: SpeechSegment
 
   /**
-   * Low-level access to underlying Speechly browser client.
+   * Low-level access to underlying Speechly BrowserClient.
    */
-  client?: Client
+  client?: BrowserClient
+
+  /**
+   * Low-level access to underlying Speechly BrowserMicrophone.
+   */
+  microphone?: BrowserMicrophone
 }
 
 /**
@@ -126,12 +125,11 @@ export interface SpeechContextState {
  */
 export const SpeechContext = React.createContext<SpeechContextState>({
   connect: async () => Promise.resolve(),
-  initialize: async () => Promise.resolve(),
-  toggleRecording: async () => Promise.resolve('Unknown contextId'),
-  startContext: async () => Promise.resolve('Unknown contextId'),
-  stopContext: async () => Promise.resolve('Unknown contextId'),
-  switchApp: (): void => {},
-  clientState: ClientState.Disconnected,
+  attachMicrophone: async () => Promise.resolve(),
+  start: async () => Promise.resolve('Unknown contextId'),
+  stop: async () => Promise.resolve(),
+  clientState: DecoderState.Disconnected,
+  microphoneState: AudioSourceState.Stopped,
   listening: false,
 })
 
@@ -139,7 +137,7 @@ export const SpeechContext = React.createContext<SpeechContextState>({
  * Props for SpeechContext provider, which are used to initialise API client.
  * @public
  */
-export interface SpeechProviderProps extends ClientOptions {
+export interface SpeechProviderProps extends DecoderOptions {
   /**
    * Whether to disable reacting to tentative items. Set this to true if you don't use them.
    */
@@ -148,8 +146,10 @@ export interface SpeechProviderProps extends ClientOptions {
 }
 
 interface SpeechProviderState {
-  client?: Client
-  clientState: ClientState
+  client?: BrowserClient
+  microphone?: BrowserMicrophone
+  clientState: DecoderState
+  microphoneState: AudioSourceState
   listening: boolean
   appId?: string
   segment?: SpeechSegment
@@ -176,18 +176,17 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     super(props)
     this.state = {
       client: undefined,
+      microphone: undefined,
       listening: false,
-      clientState: ClientState.Disconnected,
+      clientState: DecoderState.Disconnected,
+      microphoneState: AudioSourceState.Stopped,
       appId: props.appId,
     }
   }
 
   // init at mount mount time for to play it nice with SSR
   readonly componentDidMount = async (): Promise<void> => {
-    this.setState({
-      ...this.state,
-      client: this.createClient(this.props),
-    })
+    this.createClient(this.props)
   }
 
   readonly connect = async (): Promise<void> => {
@@ -195,93 +194,76 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     if (client == null) {
       throw Error('No Speechly client (are you calling connect in non-browser environment)')
     }
-    await client.connect()
-  }
-
-  readonly initialize = async (): Promise<void> => {
-    const { client } = this.state
-    if (client == null) {
-      throw Error('No Speechly client (are you calling initialize in non-browser environment)')
-    }
     await client.initialize()
   }
 
-  readonly startContext = async (): Promise<string> => {
+  readonly attachMicrophone = async (): Promise<void> => {
+    const { client } = this.state
+    if (client == null) {
+      throw Error('No Speechly client (are you calling connect in non-browser environment)')
+    }
+
+    const microphone = new BrowserMicrophone()
+    microphone.onStateChange((state: AudioSourceState) => {
+      this.setState({
+        microphoneState: state,
+      })
+    })
+
+    await microphone.initialize()
+
+    if (microphone.mediaStream) {
+      await client.attach(microphone.mediaStream)
+    } else {
+      throw Error('Microphone contains no MediaStream to attach')
+    }
+
+    this.setState({
+      microphone: microphone,
+    })
+  }
+
+  readonly start = async (): Promise<string> => {
     const { client, appId } = this.state
     this.setState({ listening: true })
     if (client == null) {
-      throw Error('No Speechly client (are you calling startContext in non-browser environment)')
+      throw Error('No Speechly client (are you calling start in non-browser environment)')
     }
     if (appId !== undefined) {
-      return client.startContext(appId)
+      return client.start({ appId: appId })
     }
-    return client.startContext()
+    return client.start()
   }
 
-  readonly stopContext = async (): Promise<string> => {
+  readonly stop = async (): Promise<void> => {
     const { client } = this.state
     this.setState({ listening: false })
     if (client == null) {
-      throw Error('No Speechly client (are you calling stopContext in non-browser environment)')
+      throw Error('No Speechly client (are you calling stop in non-browser environment)')
     }
-    return client.stopContext()
-  }
-
-  readonly toggleRecording = async (): Promise<string> => {
-    const { client } = this.state
-    if (client == null) {
-      throw Error('No Speechly client (are you calling toggleRecording in non-browser environment)')
-    }
-    if (!client.isListening()) {
-      return this.startContext()
-    } else {
-      return this.stopContext()
-    }
-  }
-
-  readonly switchApp = async (appId: string): Promise<void> => {
-    const { client } = this.state
-    if (client == null) {
-      throw Error('No Speechly client (are you calling toggleRecording in non-browser environment)')
-    }
-    return client.switchContext(appId)
+    return client.stop()
   }
 
   render(): JSX.Element {
-    const {
-      appId,
-      clientState,
-      segment,
-      tentativeTranscript,
-      transcript,
-      tentativeEntities,
-      entity,
-      tentativeIntent,
-      intent,
-      client,
-      listening,
-    } = this.state
-
     return (
       <SpeechContext.Provider
         value={{
           connect: this.connect,
-          initialize: this.initialize,
-          startContext: this.startContext,
-          stopContext: this.stopContext,
-          toggleRecording: this.toggleRecording,
-          switchApp: async(appId: string) => this.switchApp(appId),
-          appId,
-          listening,
-          clientState,
-          segment,
-          tentativeTranscript,
-          transcript,
-          tentativeEntities,
-          entity,
-          tentativeIntent,
-          intent,
-          client,
+          attachMicrophone: this.attachMicrophone,
+          start: this.start,
+          stop: this.stop,
+          appId: this.state.appId,
+          listening: this.state.listening,
+          clientState: this.state.clientState,
+          microphoneState: this.state.microphoneState,
+          segment: this.state.segment,
+          tentativeTranscript: this.state.tentativeTranscript,
+          transcript: this.state.transcript,
+          tentativeEntities: this.state.tentativeEntities,
+          entity: this.state.entity,
+          tentativeIntent: this.state.tentativeIntent,
+          intent: this.state.intent,
+          client: this.state.client,
         }}
       >
         {this.props.children}
@@ -299,13 +281,12 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       props.appId === prevProps.appId &&
       props.sampleRate === prevProps.sampleRate &&
       props.debug === prevProps.debug &&
-      props.loginUrl === prevProps.loginUrl &&
       props.apiUrl === prevProps.apiUrl
     ) {
       return
     }
 
-    const { client } = this.state
+    const { client, microphone } = this.state
 
     try {
       await client?.close()
@@ -313,7 +294,13 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       console.error('Error closing Speechly client:', e)
     }
 
-    this.setState({ client: this.createClient(props) })
+    try {
+      await microphone?.close()
+    } catch (e) {
+      console.error('Error closing microphone:', e)
+    }
+
+    this.createClient(props)
   }
 
   async componentWillUnmount(): Promise<void> {
@@ -324,10 +311,10 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     }
   }
 
-  private readonly createClient = (clientOptions: SpeechProviderProps): Client => {
+  private readonly createClient = (clientOptions: SpeechProviderProps): void => {
     // Postpone connect
     const effectiveOpts = { ...clientOptions, connect: false }
-    const client = new Client(effectiveOpts)
+    const client = new BrowserClient(effectiveOpts)
 
     client.onStateChange(this.onClientStateChange)
     client.onSegmentChange(this.onSegmentChange)
@@ -345,13 +332,16 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     // Connect now to pre-warm backend if not explicitely told not to
     if (clientOptions.connect !== false) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      client.connect()
+      client.initialize()
     }
-    return client
+
+    this.setState({
+      client: client,
+    })
   }
 
-  private readonly onClientStateChange = (clientState: ClientState): void => {
-    if (clientState <= ClientState.Disconnected) {
+  private readonly onClientStateChange = (clientState: DecoderState): void => {
+    if (clientState <= DecoderState.Disconnected) {
       this.setState({ listening: false })
     }
     this.setState({ clientState })

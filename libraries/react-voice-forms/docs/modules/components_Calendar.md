@@ -12,7 +12,7 @@
 
 ### Calendar
 
-▸ `Const` **Calendar**(`__namedParameters`): `Element`
+▸ **Calendar**(`__namedParameters`): `Element`
 
 #### Parameters
 

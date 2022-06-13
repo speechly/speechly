@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <SpeechProvider appId="a194bb09-dca0-451a-8f0f-d29b49a4c446">
-      <LogKit appName="voice-search" appVersion={100} >
+      <LogKit appName="voice-search" appVersion={110} >
         <App />
       </LogKit>
     </SpeechProvider>

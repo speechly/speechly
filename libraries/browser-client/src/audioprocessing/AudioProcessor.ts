@@ -13,7 +13,7 @@ class AudioProcessor {
   public isActive = false
 
   /**
-   * Current count of continuously processed samples (thru ProcessAudio) from start of stream
+   * Current count of downsampled and continuously processed samples (thru ProcessAudio) from start of stream
    */
   public streamSamplePos = 0
   public samplesSent = 0
@@ -21,7 +21,7 @@ class AudioProcessor {
   public onSendAudio = (samples: Float32Array, startIndex: number, length: number): void => {}
   public onVadStateChange = (isSignalDetected: boolean): void => {}
 
-  private readonly inputSampleRate: number = 16000
+  private inputSampleRate: number = 16000
   private readonly internalSampleRate: number = 16000
   private sampleRingBuffer: Float32Array
   private readonly historyFrames: number = 5
@@ -140,13 +140,14 @@ class AudioProcessor {
     this.isActive = false
   }
 
-  public reset(): void {
+  public reset(inputSampleRate?: number): void {
     this.isActive = false
     this.streamFramePos = 0
     this.streamSamplePos = 0
     this.frameSamplePos = 0
     this.currentFrameNumber = 0
     this.utteranceSerial = -1
+    if (inputSampleRate) this.inputSampleRate = inputSampleRate
     this.vad?.resetVAD()
   }
 
@@ -154,7 +155,7 @@ class AudioProcessor {
    * @returns current position in stream in milliseconds
    */
   public getStreamPosition(): number {
-    return Math.round(this.streamSamplePos / this.inputSampleRate * 1000)
+    return Math.round(this.streamSamplePos / this.internalSampleRate * 1000)
   }
 
   private flush(): void {

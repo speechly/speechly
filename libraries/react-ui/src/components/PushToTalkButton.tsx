@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ClientState, useSpeechContext } from '@speechly/react-client'
-import { LocalStorageKeys, MessageType } from '@speechly/browser-ui/src/constants'
+import { AudioSourceState, DecoderState, useSpeechContext } from '@speechly/react-client'
+import { LocalStorageKeys, MessageType } from '@speechly/browser-ui'
 import PubSub from 'pubsub-js'
 import { SpeechlyUiEvents } from '../types'
 import { PushToTalkButtonContainer } from '..'
@@ -136,9 +136,9 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   tapToTalkTime = 8000,
   silenceToHangupTime = 1000,
 }) => {
-  const { client, clientState, initialize, startContext, stopContext, segment } = useSpeechContext()
+  const { client, clientState, microphoneState, attachMicrophone, start, stop, segment } = useSpeechContext()
   const [loaded, setLoaded] = useState(false)
-  const [icon, setIcon] = useState<string>(ClientState.Disconnected as unknown as string)
+  const [icon, setIcon] = useState<string>(DecoderState.Disconnected as unknown as string)
   const [hintText, setHintText] = useState<string>(intro)
   const [showHint, setShowHint] = useState(true)
   const [usePermissionPriming, setUsePermissionPriming] = useState(powerOn === true)
@@ -159,7 +159,8 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   // they need the current value.  Note: the callbacks will not
   // be reactive - they will not re-run the instant state changes,
   // but they *will* see the current value whenever they do run
-  const clientStateRef = useRef<ClientState>(clientState)
+  const clientStateRef = useRef<DecoderState>(clientState)
+  const microphoneStateRef = useRef<AudioSourceState>(microphoneState)
 
   // Dynamic import of HTML custom element to play nice with Next.js SSR
   useEffect(() => {
@@ -190,10 +191,21 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
   })
 
   useEffect(() => {
-    // Change button face according to Speechly states
-    setIcon(clientState as unknown as string)
+    clientStateRef.current = clientState
+    microphoneStateRef.current = microphoneState
 
-    if (clientState >= ClientState.Connected) {
+    // Change button appearance according to Speechly states
+    switch (microphoneState) {
+      case AudioSourceState.NoAudioConsent:
+      case AudioSourceState.NoBrowserSupport:
+        setIcon(microphoneState)
+        break
+      default:
+        setIcon(clientState as unknown as string)
+        break
+    }
+
+    if (clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started) {
       setUsePermissionPriming(false)
       // Set connect made
       if (localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null) {
@@ -201,7 +213,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clientState])
+  }, [clientState, microphoneState])
 
   const tangentPressAction = async (): Promise<void> => {
     if (!client) {
@@ -210,7 +222,7 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
     buttonStateRef.current.tangentPressPromise = (async() => {
       PubSub.publish(SpeechlyUiEvents.TangentPress, { state: clientStateRef.current })
-      window.postMessage({ type: 'holdstart', state: clientStateRef.current }, '*')
+      window.postMessage({ type: 'holdstart', state: clientStateRef.current, audioSourceState: microphoneStateRef.current }, '*')
       setShowHint(false)
 
       if (usePermissionPriming) {
@@ -223,15 +235,15 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
           buttonStateRef.current.tapListenTimeout = null
         }
 
-        if (clientStateRef.current >= ClientState.Connected) {
+        if (clientStateRef.current >= DecoderState.Connected && microphoneStateRef.current === AudioSourceState.Started) {
           buttonStateRef.current.holdListenActive = true
         } else {
           // Speechly & Mic initialise needs to be in a function triggered by event handler
           const initStartTime = Date.now()
           try {
-            await initialize()
+            await attachMicrophone()
           } catch (err) {
-            console.error('Error initiasing Speechly', err)
+            console.error('Error initializing Speechly', err)
           }
           // Long init time suggests permission dialog --> prevent listening start
           buttonStateRef.current.holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS
@@ -239,10 +251,10 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
         // Start listening
         if (buttonStateRef.current.holdListenActive) {
-          buttonStateRef.current.wasListening = client.isListening()
-          if (!client.isListening()) {
+          buttonStateRef.current.wasListening = client.isActive()
+          if (!client.isActive()) {
             try {
-              await startContext()
+              await start()
             } catch (err) {
               console.error('Error while starting to record', err)
             }
@@ -295,10 +307,10 @@ export const PushToTalkButton: React.FC<PushToTalkButtonProps> = ({
 
   const stopListening = (): void => {
     buttonStateRef.current.tapListenActive = false
-    if (client?.isListening()) {
+    if (client?.isActive()) {
       try {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        stopContext()
+        stop()
       } catch (err) {
         console.error('Error while stopping recording', err)
       }

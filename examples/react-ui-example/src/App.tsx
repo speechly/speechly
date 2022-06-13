@@ -7,7 +7,7 @@ import {
 } from "@speechly/react-ui";
 
 import { TranscriptDrawer } from "@speechly/react-ui/lib/components/TranscriptDrawer";
-import { startDemo, stopDemo } from "@speechly/browser-ui/core/demomode";
+import { startDemo, stopDemo } from "@speechly/browser-ui";
 import { SpeechlyUiEvents } from "@speechly/react-ui/lib/types";
 import PubSub from "pubsub-js";
 
@@ -24,7 +24,7 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { clientState, segment, toggleRecording } = useSpeechContext();
+  const { clientState, segment, start, stop } = useSpeechContext();
   const [mockSegment, setMockSegment] = useState<SpeechSegment | undefined>();
 
   useEffect(() => {
@@ -75,7 +75,7 @@ function SpeechlyApp() {
       ) : null}
 
       <div className="mic-button">
-        <button onClick={toggleRecording}>Record</button>
+        <button onMouseDown={start} onMouseUp={stop}>Hold to talk</button>
         <button onClick={clickStartDemo}>Start demo</button>
         <button onClick={clickStopDemo}>Stop demo</button>
       </div>

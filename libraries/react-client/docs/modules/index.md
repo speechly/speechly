@@ -6,7 +6,12 @@
 
 ### Enumerations
 
-- [ClientState](../enums/index.ClientState.md)
+- [DecoderState](../enums/index.DecoderState.md)
+- [AudioSourceState](../enums/index.AudioSourceState.md)
+
+### Functions
+
+- [stateToString](index.md#statetostring)
 
 ### Interfaces
 
@@ -17,7 +22,6 @@
 
 ### References
 
-- [SpeechState](index.md#speechstate)
 - [TentativeSpeechTranscript](index.md#tentativespeechtranscript)
 - [SpeechTranscript](index.md#speechtranscript)
 - [TentativeSpeechEntities](index.md#tentativespeechentities)
@@ -25,19 +29,30 @@
 - [TentativeSpeechIntent](index.md#tentativespeechintent)
 - [SpeechIntent](index.md#speechintent)
 - [SpeechContextState](index.md#speechcontextstate)
-- [ContextFunc](index.md#contextfunc)
 - [SpeechContext](index.md#speechcontext)
 - [SpeechProviderProps](index.md#speechproviderprops)
 - [SpeechProvider](index.md#speechprovider)
 - [useSpeechContext](index.md#usespeechcontext)
 
+## Functions
+
+### stateToString
+
+▸ **stateToString**(`state`): `string`
+
+Converts client state value to a string, which could be useful for debugging or metrics.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `state` | [`DecoderState`](../enums/index.DecoderState.md) | the state of the client |
+
+#### Returns
+
+`string`
+
 ## References
-
-### SpeechState
-
-Re-exports [SpeechState](../enums/types.SpeechState.md)
-
-___
 
 ### TentativeSpeechTranscript
 
@@ -78,12 +93,6 @@ ___
 ### SpeechContextState
 
 Re-exports [SpeechContextState](../interfaces/context.SpeechContextState.md)
-
-___
-
-### ContextFunc
-
-Re-exports [ContextFunc](context.md#contextfunc)
 
 ___
 

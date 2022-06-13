@@ -23,6 +23,14 @@
       // Enable "watch mode"
       "watchForChanges": true
     },
+    {
+      "name": "docs",
+      "commandKind": "bulk",
+      "summary": "Run docs generation script for projects",
+      "description": "Run docs generation script for projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
     // {
     //   /**
     //    * (Required) Determines the type of custom command.

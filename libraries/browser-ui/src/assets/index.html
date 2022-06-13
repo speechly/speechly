@@ -10,9 +10,8 @@
 	<link rel='stylesheet' href='../global.css'>
   <link rel="stylesheet" href="speechly-ui.css">
  
-	<script src='push-to-talk-button.js'></script>
-	<script src='big-transcript.js'></script>
-	<script src='error-panel.js'></script>
+	<script defer src='push-to-talk-button.js'></script>
+	<script defer src='big-transcript.js'></script>
 
 </head>
 
@@ -23,18 +22,13 @@
     placement="bottom"
   ></push-to-talk-button>
 
-  <error-panel
-    placement="bottom"
-  ></error-panel>
-
   <main>
     <h1>Speechly Web Components</h1>
     <h2>Quick installation from CDN</h2>
       Include the resources in your <code>&lt;head&gt;</code> block:
 <xmp><head>
-  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/push-to-talk-button.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/big-transcript.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/error-panel.js"></script>
+  <script defer type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/push-to-talk-button.js"></script>
+  <script defer type="text/javascript" src="https://unpkg.com/@speechly/browser-ui/core/big-transcript.js"></script>
 </head>
 </xmp>
     These scripts add Speechly's components to the page's custom element registry to be used in HTML markup as shown below.
@@ -52,10 +46,6 @@
     appid="ead4b9e7-e5c4-48ed-9dae-3c530916ed76"
     placement="bottom" >
   </push-to-talk-button>
-
-  <error-panel
-    placement="bottom" >
-  </error-panel>
 </body>
 </xmp>
 
@@ -143,7 +133,8 @@
       <h3>Window messages sent (postMessage)</h3>
       <ul>
         <li><code>{type: "speechsegment", segment: Segment}</code> - Broadcasts new segment when an update is available</li>
-        <li><code>{type: "speechstate", state: ClientState}</code> - Broadcasts state changes. Refer to browser-client documentation for values.</li>
+        <li><code>{type: "speechstate", state: DecoderState}</code> - Broadcasts decoder state changes. Refer to browser-client API doc for values.</li>
+        <li><code>{type: "audiosourcestate", state: AudioSourceState}</code> - Broadcasts mic state changes. Refer to browser-client API doc for values.</li>
         <li><code>{type: "holdstart"}</code> - Broadcasted upon hold start</li>
         <li><code>{type: "holdend"}</code> - Broadcasted upon hold end</li>
         <li><code>{type: "poweron"}</code> - Broadcasted on button initial button press when poweron="true"</li>

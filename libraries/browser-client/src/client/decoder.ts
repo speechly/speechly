@@ -43,7 +43,7 @@ export class CloudDecoder {
   private readonly loginUrl: string
   private readonly deviceId: string
   private readonly apiUrl: string
-  private streamOptions: StreamOptions = StreamDefaultOptions
+  streamOptions: StreamOptions = StreamDefaultOptions
   private resolveStopStream?: any
 
   private activeContexts = 0
@@ -162,14 +162,22 @@ export class CloudDecoder {
   }
 
   async startStream(streamOptions: StreamOptions): Promise<void> {
+    if (this.debug) {
+      console.log('[Decoder]', 'startStream')
+    }
+
     this.streamOptions = streamOptions
     this.audioContexts.clear()
     this.activeContexts = 0
 
-    await this.apiClient.startStream()
+    await this.apiClient.startStream(streamOptions)
   }
 
   async stopStream(): Promise<void> {
+    if (this.debug) {
+      console.log('[Decoder]', 'stopStream')
+    }
+
     if (this.state === DecoderState.Active) {
       await this.stopContext(0)
     }
@@ -310,7 +318,7 @@ export class CloudDecoder {
         const params = response.params
         this.audioContexts.set(response.audio_context, {
           segments: new Map(),
-          audioStartTimeMillis: params.audioStartTimeMillis,
+          audioStartTimeMillis: params?.audioStartTimeMillis ?? 0,
         })
         this.cbs.forEach(cb => cb.contextStartedCbs.forEach(f => f(response.audio_context)))
         break

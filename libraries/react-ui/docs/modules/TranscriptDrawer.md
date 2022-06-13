@@ -1,16 +1,16 @@
-[@speechly/react-ui](../README.md) / components/TranscriptDrawer
+[@speechly/react-ui](../README.md) / TranscriptDrawer
 
-# Module: components/TranscriptDrawer
+# Module: TranscriptDrawer
 
 ## Table of contents
 
 ### Type aliases
 
-- [TranscriptDrawerProps](components_TranscriptDrawer.md#transcriptdrawerprops)
+- [TranscriptDrawerProps](TranscriptDrawer.md#transcriptdrawerprops)
 
 ### Variables
 
-- [TranscriptDrawer](components_TranscriptDrawer.md#transcriptdrawer)
+- [TranscriptDrawer](TranscriptDrawer.md#transcriptdrawer)
 
 ## Type aliases
 
@@ -41,7 +41,7 @@ Properties for BigTranscript component.
 
 ### TranscriptDrawer
 
-• **TranscriptDrawer**: `React.FC`<[`TranscriptDrawerProps`](components_TranscriptDrawer.md#transcriptdrawerprops)\>
+• `Const` **TranscriptDrawer**: `React.FC`<[`TranscriptDrawerProps`](TranscriptDrawer.md#transcriptdrawerprops)\>
 
 A React component that renders the transcript and entities received from Speechly SLU API.
 

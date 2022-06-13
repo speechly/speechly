@@ -165,17 +165,10 @@ export interface VadOptions {
    * Range: 2000 to 8000 [ms]. Default: 3000 [ms].
    */
   signalSustainMillis: number
-
-  /**
-   * Set audio worker to ‘immediate utterance processing’ mode. The worker controls start/stop internally without input from BrowserClient. Internally used with file upload.
-   * @internal
-   */
-  immediate?: boolean
 }
 
 export interface AudioProcessorParameters {
   vad?: Partial<VadOptions>
-  immediate?: boolean
 }
 
 /**
@@ -196,10 +189,18 @@ export const VadDefaultOptions: VadOptions = {
 
 export interface StreamOptions {
   preserveSegments: boolean
+  sampleRate: number
+  /**
+   * Set audio worker to ‘immediate utterance processing’ mode. The worker controls start/stop internally without input from BrowserClient. Internally used with file upload.
+   * @internal
+   */
+  immediate: boolean
 }
 
 export const StreamDefaultOptions: StreamOptions = {
   preserveSegments: false,
+  sampleRate: DefaultSampleRate,
+  immediate: false,
 }
 
 /**

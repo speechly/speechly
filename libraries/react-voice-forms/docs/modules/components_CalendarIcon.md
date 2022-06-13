@@ -12,7 +12,7 @@
 
 ### CalendarIcon
 
-▸ `Const` **CalendarIcon**(): `Element`
+▸ **CalendarIcon**(): `Element`
 
 #### Returns
 

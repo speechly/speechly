@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Plyr, { APITypes } from "plyr-react";
-import { SpeechSegment, useSpeechContext } from "@speechly/react-client";
+import { DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import classNames from "classnames";
 import { Segment } from "./Segment";
 import { Cover } from "./Cover";
@@ -16,10 +16,10 @@ const playerOptions: Plyr.Options = {
 };
 
 const App = () => {
-  const { segment, client, clientState, initialize } = useSpeechContext();
+  const { segment, client, clientState } = useSpeechContext();
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [currentItem, setCurrentItem] = useState<number>();
-  const [segments, setSegments] = useState<SpeechSegment[]>([]);
+  const [sluResults, setSluResults] = useState<Map<string, Map<number, SpeechSegment>>>(new Map());
   const ref = useRef<APITypes>(null);
 
   const handleTimeUpdate = (event: any) => {
@@ -35,6 +35,18 @@ const App = () => {
     }
   })
 
+  /**
+   * Add contextIds to a map that maintains addition order.
+   * This keeps them neatly in cronological ordered, which is needed when VAD is used
+   */
+  useEffect(() => {
+    if (client) {
+      client.onStart((contextId: string) => {
+        setSluResults(oldSegments => oldSegments.set(contextId, new Map()));
+      })
+    }
+  }, [client])
+
   useEffect(() => {
     const sendAudioToSpeechly = async (i: number) => {
       const response = await fetch(demoAudios[i].audioSrc.sources[0].src, {
@@ -49,7 +61,7 @@ const App = () => {
         setCurrentItem(undefined);
       };
       const buffer =  await response.arrayBuffer();
-      client?.sendAudioData(buffer);
+      client?.uploadAudioData(buffer);
     }
     if (client && currentItem !== undefined) {
       sendAudioToSpeechly(currentItem);
@@ -57,19 +69,24 @@ const App = () => {
   }, [currentItem, client])
 
   useEffect(() => {
-    if (segment && segment.isFinal) {
-      setSegments(oldSegments => [...oldSegments, segment]);
-      const player = (ref?.current?.plyr as Plyr);
-      if (player.paused && segments.length === 1) player.play();
+    if (segment) {
+      setSluResults(oldSegments => {
+        oldSegments.get(segment.contextId)!.set(segment.id, segment)
+        return oldSegments
+      });
+      if (segment.isFinal) {
+        // Auto-start playback once we have one full segment received
+        const player = (ref?.current?.plyr as Plyr);
+        if (player.paused && sluResults.size >= 1) player.play();
+      }
     }
   // eslint-disable-next-line
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
-    if (client) initialize();
     if (i === currentItem || clientState > 9) return
     setCurrentItem(i);
-    setSegments([]);
+    setSluResults(new Map());
   }
 
   const handleSegmentClick = (ms: number) => {
@@ -109,29 +126,31 @@ const App = () => {
         </div>
       </div>
       <div className="Content">
-        {segments.length > 0 && (
+        {sluResults.size > 0 && (
           <div className="Transcripts">
-            {segments.map((segment, i) =>
-              <Segment
-                key={segment.id + i}
-                words={segment.words}
-                intent={segment.intent}
-                entities={segment.entities}
-                currentTime={currentTime}
-                onClick={handleSegmentClick}
-              />
-            )}
+            {Array.from(sluResults.values()).map((segments) =>
+              Array.from(segments.values()).map((segment) =>
+                <Segment
+                  key={`${segment.contextId}/${segment.id}`}
+                  words={segment.words}
+                  intent={segment.intent}
+                  entities={segment.entities}
+                  currentTime={currentTime}
+                  onClick={handleSegmentClick}
+                  isFinal={segment.isFinal}
+                />
+            ))}
           </div>
         )}
         <div className="Empty">
-          {currentItem === undefined && segments.length === 0 && (
+          {currentItem === undefined && sluResults.size === 0 && (
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx={12} cy={12} r={10} /><polyline points="16 12 12 8 8 12" /><line x1={12} y1={16} x2={12} y2={8} /></svg>
               <h3>Choose an audio source to get started</h3>
               <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
             </div>
           )}
-          {clientState > 9 && <Spinner />}
+          {clientState > DecoderState.Connected && <Spinner />}
         </div>
       </div>
     </div>

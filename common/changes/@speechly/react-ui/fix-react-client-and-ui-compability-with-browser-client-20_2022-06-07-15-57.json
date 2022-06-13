@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "react-ui support for browser-client@^2.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

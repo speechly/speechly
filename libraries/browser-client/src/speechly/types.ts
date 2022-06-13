@@ -136,6 +136,7 @@ export interface Entity {
 
 /**
  * A structure to accumulate SLU results for one audio context
+ * @internal
  */
 export interface SLUResults {
   segments: Map<number, SegmentState>

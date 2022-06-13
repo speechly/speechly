@@ -87,7 +87,8 @@ Check out the [react-example-repo-filtering](https://github.com/speechly/react-e
 
 ## Documentation
 
-You can find the detailed API documentation in [GitHub repository](docs/modules/_index_d_.md).
+- [API documentation](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) in GitHub
+- [Basic usage in docs.speechly.com](https://docs.speechly.com/client-libraries/usage/?platform=React)
 
 ## Contributing
 

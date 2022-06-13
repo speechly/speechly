@@ -1,6 +1,6 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 import WebsocketClient from 'web-worker:./worker'
-import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, StreamOptions, VadOptions } from '../client'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -85,8 +85,8 @@ export class WebWorkerController implements APIClient {
     })
   }
 
-  async startStream(): Promise<void> {
-    this.worker.postMessage({ type: ControllerSignal.startStream })
+  async startStream(streamOptions: StreamOptions): Promise<void> {
+    this.worker.postMessage({ type: ControllerSignal.startStream, streamOptions: streamOptions })
   }
 
   async stopStream(): Promise<void> {

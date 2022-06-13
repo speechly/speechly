@@ -38,7 +38,7 @@ ___
 
 • **startTimestamp**: `number`
 
-Start timestamp of the word within the audio of the context.
+Start timestamp of the word from the start of the audio stream.
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 • **endTimestamp**: `number`
 
-End timestamp of the word within the audio of the context.
+End timestamp of the word from start of the audio stream.
 
 ___
 

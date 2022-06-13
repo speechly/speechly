@@ -12,7 +12,7 @@
 
 ### formatEntities
 
-▸ `Const` **formatEntities**(`entities`): `EntityMap`
+▸ **formatEntities**(`entities`): `EntityMap`
 
 Format entities to a key value object
 

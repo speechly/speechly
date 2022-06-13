@@ -22,12 +22,13 @@ type SegmentProps = {
   entities: Entity[];
   currentTime?: number;
   onClick: (ms: number) => void;
+  isFinal: boolean;
 };
 
-export const Segment = ({ words, intent, entities, currentTime = 0, onClick }: SegmentProps) => {
+export const Segment = ({ words, intent, entities, currentTime = 0, onClick, isFinal }: SegmentProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const firstTimestamp = words && words[0].startTimestamp;
-  const lastTimestamp = words && words[words.length - 1].endTimestamp;
+  const firstTimestamp = isFinal ? words && words[0].startTimestamp : 0;
+  const lastTimestamp = isFinal ? words && words[words.length - 1].endTimestamp : 0;
   const wordsWithEntities = mapWordsWithEntities(words, entities);
 
   useEffect(() => {

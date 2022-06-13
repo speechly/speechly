@@ -164,14 +164,6 @@ export default [
   },
 
   {...webComponentDefaults,
-    input: 'src/error-panel.ts',
-    output: {
-      ...webComponentDefaults.output,
-      file: 'core/error-panel.js'
-    },
-  },
-
-  {...webComponentDefaults,
     input: 'src/video-guide.ts',
     output: {
       ...webComponentDefaults.output,
@@ -188,11 +180,11 @@ export default [
   },
 
   {...typeScriptDefaults,
-    input: 'src/demomode.ts',
+    input: 'src/index.ts',
     output: [
       {
         ...typeScriptDefaults.output,
-        file: 'core/demomode.js',
+        file: 'core/index.js',
       },
     ],
   },

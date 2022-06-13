@@ -8,7 +8,7 @@ Props for SpeechContext provider, which are used to initialise API client.
 
 ## Hierarchy
 
-- `ClientOptions`
+- `DecoderOptions`
 
   ↳ **`SpeechProviderProps`**
 
@@ -16,27 +16,59 @@ Props for SpeechContext provider, which are used to initialise API client.
 
 ### Properties
 
-- [disableTenative](context.SpeechProviderProps.md#disabletenative)
+- [disableTentative](context.SpeechProviderProps.md#disabletentative)
+- [children](context.SpeechProviderProps.md#children)
+- [vad](context.SpeechProviderProps.md#vad)
+- [connect](context.SpeechProviderProps.md#connect)
 - [appId](context.SpeechProviderProps.md#appid)
 - [projectId](context.SpeechProviderProps.md#projectid)
-- [language](context.SpeechProviderProps.md#language)
-- [loginUrl](context.SpeechProviderProps.md#loginurl)
 - [apiUrl](context.SpeechProviderProps.md#apiurl)
 - [sampleRate](context.SpeechProviderProps.md#samplerate)
 - [debug](context.SpeechProviderProps.md#debug)
-- [autoGainControl](context.SpeechProviderProps.md#autogaincontrol)
 - [logSegments](context.SpeechProviderProps.md#logsegments)
-- [microphone](context.SpeechProviderProps.md#microphone)
-- [apiClient](context.SpeechProviderProps.md#apiclient)
+- [callbacks](context.SpeechProviderProps.md#callbacks)
+- [decoder](context.SpeechProviderProps.md#decoder)
 - [storage](context.SpeechProviderProps.md#storage)
+- [frameMillis](context.SpeechProviderProps.md#framemillis)
+- [historyFrames](context.SpeechProviderProps.md#historyframes)
 
 ## Properties
 
-### disableTenative
+### disableTentative
 
-• `Optional` **disableTenative**: `boolean`
+• `Optional` **disableTentative**: `boolean`
 
 Whether to disable reacting to tentative items. Set this to true if you don't use them.
+
+___
+
+### children
+
+• `Optional` **children**: `ReactNode`
+
+___
+
+### vad
+
+• `Optional` **vad**: `Partial`<`VadOptions`\>
+
+Enable voice activity detection (VAD) configuration overrides
+
+#### Inherited from
+
+DecoderOptions.vad
+
+___
+
+### connect
+
+• `Optional` **connect**: `boolean`
+
+Connect to Speechly upon creating the client instance. Defaults to true.
+
+#### Inherited from
+
+DecoderOptions.connect
 
 ___
 
@@ -48,7 +80,7 @@ The unique identifier of an app in the dashboard.
 
 #### Inherited from
 
-ClientOptions.appId
+DecoderOptions.appId
 
 ___
 
@@ -60,31 +92,7 @@ The unique identifier of a project in the dashboard.
 
 #### Inherited from
 
-ClientOptions.projectId
-
-___
-
-### language
-
-• `Optional` **language**: `string`
-
-The language which is used by the app.
-
-#### Inherited from
-
-ClientOptions.language
-
-___
-
-### loginUrl
-
-• `Optional` **loginUrl**: `string`
-
-The URL of Speechly login endpoint.
-
-#### Inherited from
-
-ClientOptions.loginUrl
+DecoderOptions.projectId
 
 ___
 
@@ -92,11 +100,11 @@ ___
 
 • `Optional` **apiUrl**: `string`
 
-The URL of Speechly SLU API endpoint.
+The URL of Speechly SLU API endpoint. Defaults to https://api.speechly.com.
 
 #### Inherited from
 
-ClientOptions.apiUrl
+DecoderOptions.apiUrl
 
 ___
 
@@ -108,7 +116,7 @@ The sample rate of the audio to use.
 
 #### Inherited from
 
-ClientOptions.sampleRate
+DecoderOptions.sampleRate
 
 ___
 
@@ -120,20 +128,7 @@ Whether to output debug statements to the console.
 
 #### Inherited from
 
-ClientOptions.debug
-
-___
-
-### autoGainControl
-
-• `Optional` **autoGainControl**: `boolean`
-
-Whether to use auto gain control.
-True by default.
-
-#### Inherited from
-
-ClientOptions.autoGainControl
+DecoderOptions.debug
 
 ___
 
@@ -145,33 +140,32 @@ Whether to output updated segments to the console.
 
 #### Inherited from
 
-ClientOptions.logSegments
+DecoderOptions.logSegments
 
 ___
 
-### microphone
+### callbacks
 
-• `Optional` **microphone**: `Microphone`
+• `Optional` **callbacks**: `EventCallbacks`
 
-Custom microphone implementation.
-If not provided, an implementation based on getUserMedia and Web Audio API is used.
+Listener for client state changes.
 
 #### Inherited from
 
-ClientOptions.microphone
+DecoderOptions.callbacks
 
 ___
 
-### apiClient
+### decoder
 
-• `Optional` **apiClient**: `APIClient`
+• `Optional` **decoder**: `CloudDecoder`
 
 Custom API client implementation.
 If not provided, an implementation based on Speechly SLU WebSocket API is used.
 
 #### Inherited from
 
-ClientOptions.apiClient
+DecoderOptions.decoder
 
 ___
 
@@ -184,4 +178,28 @@ If not provided, browser's LocalStorage API is used.
 
 #### Inherited from
 
-ClientOptions.storage
+DecoderOptions.storage
+
+___
+
+### frameMillis
+
+• `Optional` **frameMillis**: `number`
+
+Length of audio frame in milliseconds. Audio frame is the audio basic processing unit in VAD and audio history ringbuffer.
+
+#### Inherited from
+
+DecoderOptions.frameMillis
+
+___
+
+### historyFrames
+
+• `Optional` **historyFrames**: `number`
+
+Number of history frames to keep in ringbuffer. They are sent upon start of context to capture the start of utterance, which is especially important to compensate loss of utterance start with VAD.
+
+#### Inherited from
+
+DecoderOptions.historyFrames

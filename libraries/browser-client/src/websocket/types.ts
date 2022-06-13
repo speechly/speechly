@@ -1,4 +1,4 @@
-import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, StreamOptions, VadOptions } from '../client'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -286,7 +286,7 @@ export interface APIClient {
    */
   postMessage(message: Object): void
 
-  startStream(): Promise<void>
+  startStream(streamOptions: StreamOptions): Promise<void>
 
   stopStream(): Promise<void>
 

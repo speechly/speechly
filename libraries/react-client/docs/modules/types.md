@@ -4,10 +4,6 @@
 
 ## Table of contents
 
-### Enumerations
-
-- [SpeechState](../enums/types.SpeechState.md)
-
 ### Type aliases
 
 - [TentativeSpeechTranscript](types.md#tentativespeechtranscript)

@@ -7,18 +7,10 @@ import * as serviceWorker from "./serviceWorker";
 import App from "./App";
 import "./index.css";
 
-const noMic = {
-  initialize: function() {return new Promise<void>(function() {})},
-  close: function() {return new Promise<void>(function() {})},
-  mute: function() {},
-  unmute: function() {},
-  printStats: function() {}
-}
-
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="aeca6691-2a4c-4f80-af93-4c8396216a62" microphone={noMic}>
-      <LogKit appName="moderation" appVersion={100}>
+    <SpeechProvider appId="aeca6691-2a4c-4f80-af93-4c8396216a62" vad={{enabled: true, signalSustainMillis: 2000}}>
+      <LogKit appName="moderation" appVersion={110}>
         <DemoNavigation />
         <App />
       </LogKit>

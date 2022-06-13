@@ -2,7 +2,7 @@ import AudioProcessor from '../audioprocessing/AudioProcessor'
 import EnergyThresholdVAD from '../audioprocessing/EnergyThresholdVAD'
 import AudioTools from '../audioprocessing/AudioTools'
 import { ControllerSignal, WebsocketResponse, WebsocketResponseType, WorkerSignal, StartContextParams } from './types'
-import { AudioProcessorParameters, ContextOptions, VadOptions } from '../client'
+import { AudioProcessorParameters, ContextOptions, StreamOptions, VadOptions } from '../client'
 
 const CONTROL = {
   WRITE_INDEX: 0,
@@ -94,10 +94,6 @@ class WebsocketClient {
    * @param ap - Audio processor parameters to adjust
    */
   adjustAudioProcessor(ap: AudioProcessorParameters): void {
-    if (ap.immediate !== undefined) {
-      this.immediateMode = ap.immediate
-    }
-
     if (this.audioProcessor && ap.vad) {
       if (!this.audioProcessor.vad) {
         throw new Error('No VAD in AudioProcessor. Did you define `vad` in BrowserClient constructor parameters?')
@@ -116,12 +112,13 @@ class WebsocketClient {
     setInterval(this.processAudioSAB.bind(this), audioHandleInterval)
   }
 
-  startStream(): void {
+  startStream(streamOptions: StreamOptions): void {
     if (!this.audioProcessor) {
       throw new Error('No AudioProcessor')
     }
 
-    this.audioProcessor.reset()
+    this.immediateMode = streamOptions.immediate
+    this.audioProcessor.reset(streamOptions.sampleRate)
     this.audioContextStartTimes = []
   }
 
@@ -297,7 +294,7 @@ class WebsocketClient {
     if (response.type === WebsocketResponseType.Started) {
       // Append client-side metadata to the backend message
       let audioContextStartTime = this.audioContextStartTimes.shift()
-      if (!audioContextStartTime) {
+      if (audioContextStartTime === undefined) {
         console.warn('No valid value for contextStartMillis')
         audioContextStartTime = 0
       }
@@ -352,7 +349,7 @@ ctx.onmessage = function (e) {
       websocketClient.closeWebsocket(1000, 'Close requested by client')
       break
     case ControllerSignal.startStream:
-      websocketClient.startStream()
+      websocketClient.startStream(e.data.streamOptions)
       break
     case ControllerSignal.stopStream:
       websocketClient.stopStream()
