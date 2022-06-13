@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <SpeechProvider appId={appId}>
-      <LogKit appName="flight-booking" appVersion={100} >
+      <LogKit appName="flight-booking" appVersion={110} >
         <App />
       </LogKit>
     </SpeechProvider>
