@@ -1,7 +1,7 @@
 {
   "name": "@speechly/browser-ui",
   "description": "Ready-made UI components to build a reactive voice interface to a web site or app. Uses Speechly's real-time cloud API for speech-to-text and NLU.",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "scripts": {
     "build": "rimraf core && rollup -c --silent",
     "build:watch": "rollup -c --silent",
