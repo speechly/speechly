@@ -38,6 +38,7 @@ export class BrowserClient {
   private stream?: MediaStreamAudioSourceNode
   private listeningPromise: Promise<any> | null = null
   private readonly decoderOptions: ResolvedDecoderOptions & { vad?: VadOptions }
+  private streamOptions: StreamOptions = { ...StreamDefaultOptions }
 
   private stats = {
     maxSignalEnergy: 0.0,
@@ -191,7 +192,8 @@ export class BrowserClient {
     if (this.debug) {
       console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
     }
-    await this.decoder.initAudioProcessor(this.audioContext?.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
+    this.streamOptions.sampleRate = this.audioContext?.sampleRate
+    await this.decoder.initAudioProcessor(this.streamOptions.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
     this.audioProcessorInitialized = true
 
     if (options?.mediaStream) {
@@ -392,8 +394,8 @@ export class BrowserClient {
    * @param streamOptionOverrides - options for stream processing
    */
   async startStream(streamOptionOverrides?: Partial<StreamOptions>): Promise<void> {
-    const streamOptions = { ...StreamDefaultOptions, ...streamOptionOverrides }
-    await this.decoder.startStream(streamOptions)
+    this.streamOptions = { ...this.streamOptions, ...streamOptionOverrides }
+    await this.decoder.startStream(this.streamOptions)
     this.isStreaming = true
   }
 
