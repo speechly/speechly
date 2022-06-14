@@ -284,9 +284,8 @@ export class CloudDecoder {
     this.cbs.push(listener)
   }
 
-  async initAudioProcessor(sampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void> {
-    this.sampleRate = sampleRate
-    await this.apiClient.initAudioProcessor(sampleRate, frameMillis, historyFrames, vadOptions)
+  async initAudioProcessor(sourceSampleRate: number, frameMillis: number, historyFrames: number, vadOptions?: VadOptions): Promise<void> {
+    await this.apiClient.initAudioProcessor(sourceSampleRate, frameMillis, historyFrames, vadOptions)
   }
 
   useSharedArrayBuffers(controlSAB: any, dataSAB: any): void {
