@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.4.1",
+      "tag": "@speechly/browser-client_v2.4.1",
+      "date": "Tue, 14 Jun 2022 13:51:56 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Source sample rate was reset upon startStream causing Firefox and Safari to send 44kHz data instead of downsampling it to 16kHz.\""
+          }
+        ]
+      }
+    },
+    {
       "version": "2.4.0",
       "tag": "@speechly/browser-client_v2.4.0",
       "date": "Mon, 13 Jun 2022 08:05:47 GMT",

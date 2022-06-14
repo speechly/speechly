@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Mon, 13 Jun 2022 08:05:47 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Jun 2022 13:51:56 GMT and should not be manually modified.
+
+## 2.4.1
+Tue, 14 Jun 2022 13:51:56 GMT
+
+### Patches
+
+- Source sample rate was reset upon startStream causing Firefox and Safari to send 44kHz data instead of downsampling it to 16kHz."
 
 ## 2.4.0
 Mon, 13 Jun 2022 08:05:47 GMT
