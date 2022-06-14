@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Source sample rate was reset upon startStream causing Firefox and Safari to send 44kHz data instead of downsampling it to 16kHz.\"",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
