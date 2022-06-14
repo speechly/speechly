@@ -30,7 +30,7 @@
     "url": "https://github.com/speechly/react-ui/issues"
   },
   "devDependencies": {
-    "@speechly/react-client": "^2.1.0",
+    "@speechly/react-client": "^2.1.2",
     "@speechly/browser-client": "^2.4.1",
     "@typescript-eslint/eslint-plugin": "^4",
     "@typescript-eslint/parser": "^4",
@@ -51,12 +51,12 @@
     "typedoc-plugin-markdown": "^3.11.3"
   },
   "peerDependencies": {
-    "@speechly/react-client": "^2.1.0",
+    "@speechly/react-client": "^2.1.2",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
-    "@speechly/browser-ui": "^6.0.0",
+    "@speechly/browser-ui": "^6.0.2",
     "pubsub-js": "^1.9.2",
     "react-spring": "^9.4.4",
     "styled-components": ">=5.3.3"

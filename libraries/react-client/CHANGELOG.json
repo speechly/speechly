@@ -2,6 +2,18 @@
   "name": "@speechly/react-client",
   "entries": [
     {
+      "version": "2.1.2",
+      "tag": "@speechly/react-client_v2.1.2",
+      "date": "Tue, 14 Jun 2022 14:29:09 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix for incorrect sample rate on Fir"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.0",
       "tag": "@speechly/react-client_v2.1.0",
       "date": "Mon, 13 Jun 2022 08:05:47 GMT",

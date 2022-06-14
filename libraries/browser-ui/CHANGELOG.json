@@ -2,6 +2,18 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "6.0.2",
+      "tag": "@speechly/browser-ui_v6.0.2",
+      "date": "Tue, 14 Jun 2022 14:29:09 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix for incorrect sample rate on Firefox and Safari resulting in no ASR."
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.0",
       "tag": "@speechly/browser-ui_v6.0.0",
       "date": "Mon, 13 Jun 2022 08:05:47 GMT",

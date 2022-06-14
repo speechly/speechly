@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Mon, 13 Jun 2022 08:05:47 GMT and should not be manually modified.
+This log was last generated on Tue, 14 Jun 2022 14:29:09 GMT and should not be manually modified.
+
+## 6.0.2
+Tue, 14 Jun 2022 14:29:09 GMT
+
+### Patches
+
+- Fix for incorrect sample rate on Firefox and Safari resulting in no ASR.
 
 ## 6.0.0
 Mon, 13 Jun 2022 08:05:47 GMT
