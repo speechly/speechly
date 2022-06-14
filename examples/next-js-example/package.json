@@ -12,8 +12,8 @@
     "next": "~12.1.5",
     "react": "^18",
     "react-dom": "^18",
-    "@speechly/react-client": "2.1.0",
-    "@speechly/react-ui": "2.7.0"
+    "@speechly/react-client": "^2.1.2",
+    "@speechly/react-ui": "^2.7.0"
   },
   "devDependencies": {
     "@types/node": "^14",
