@@ -5,8 +5,8 @@
   "homepage": "smart-home",
   "dependencies": {
     "@speechly/demo-navigation": "^0.1.37",
-    "@speechly/react-client": "2.1.0",
-    "@speechly/react-ui": "2.7.0",
+    "@speechly/react-client": "^2.1.2",
+    "@speechly/react-ui": "^2.7.0",
     "@speechly/logkit": ">=1.0.0",
     "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
