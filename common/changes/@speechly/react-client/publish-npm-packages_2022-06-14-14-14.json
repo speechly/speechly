@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Fix for incorrect sample rate on Fir",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Fix for incorrect sample rate on Firefox and Safari resulting in no ASR.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
