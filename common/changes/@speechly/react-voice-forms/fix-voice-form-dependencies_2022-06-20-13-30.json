@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-voice-forms",
+      "comment": "Fixed react-client dependency.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-voice-forms"
+}
