@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-voice-forms
 
-This log was last generated on Mon, 13 Jun 2022 08:05:47 GMT and should not be manually modified.
+This log was last generated on Mon, 20 Jun 2022 13:46:09 GMT and should not be manually modified.
+
+## 1.3.5
+Mon, 20 Jun 2022 13:46:09 GMT
+
+### Patches
+
+- Fixed react-client dependency.
 
 ## 1.3.4
 Mon, 13 Jun 2022 08:05:47 GMT
