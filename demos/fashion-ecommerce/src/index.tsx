@@ -15,8 +15,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <HttpsRedirect>
-      <SpeechProvider appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}>
-        <LogKit appName="fashion-ecommerce" appVersion={211}>
+      <SpeechProvider appId={process.env.REACT_APP__SPEECHLY_APP_ID || appId}>
+        <LogKit appName="fashion-ecommerce" appVersion={220}>
           <App />
         </LogKit>
       </SpeechProvider>
