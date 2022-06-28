@@ -134,7 +134,7 @@ Please use a HTML server to view the example. Running it as a file will not work
       const startListening = async () => {
         if (microphone.mediaStream === undefined) {
           await microphone.initialize()
-          speechly.attach(microphone.mediaStream)
+          await speechly.attach(microphone.mediaStream)
         }
         return speechly.start();
       }
