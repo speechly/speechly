@@ -1,10 +1,10 @@
 import audioBlank from "./assets/blank.mp3"
 import audioDemo1 from "./assets/koth.mp3"
-import audioDemo2 from "./assets/pewdiepie.mp3"
+import audioDemo2 from "./assets/rdr2.mp3"
 import audioDemo3 from "./assets/tiktok.mp3"
 import audioDemo4 from "./assets/stepbrothers.mp3"
 import coverDemo1 from "./assets/koth.jpg"
-import coverDemo2 from "./assets/pewdiepie.jpg"
+import coverDemo2 from "./assets/rdr2.jpg"
 import coverDemo3 from "./assets/tiktok.jpg"
 import coverDemo4 from "./assets/stepbrothers.jpg"
 
@@ -30,8 +30,8 @@ export const demoAudios: {
           type: "audio/mpeg"
       }]
       },
-      title: "PewDiePie Uses the N-word",
-      duration: 12000,
+      title: "Red Dead Redemption 2",
+      duration: 10000,
       thumbnail: coverDemo2
     },
     {

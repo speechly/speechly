@@ -10,11 +10,34 @@ const scOptions = {
   stripRegexp: /[^A-Z0-9@'"]+/gi
 }
 
-const findEntity = (word: Word, entities: Entity[]) =>
-  entities.find(entity => word.index >= entity.startPosition && word.index < entity.endPosition);
+const isWordPartOfEntity = (entity: Entity, word: Word | undefined) =>
+  word && word.index >= entity.startPosition && word.index < entity.endPosition;
 
-const mapWordsWithEntities = (words: Word[], entities: Entity[]) =>
-  words.flatMap(word => [{ word, entity: findEntity(word, entities) }])
+const transformWordsToMatchEntities = (words: Word[], entities: Entity[]) => {
+  let wordsBuilder: {word: Word, entity?: Entity | null}[] = [];
+
+  words.forEach(word => {
+    if (!word) return;
+    let entitiesToDisplay = entities;
+    const wordEntity = entitiesToDisplay.find(entity => isWordPartOfEntity(entity, word));
+
+    if (!wordEntity) {
+      wordsBuilder[word.index] = { word };
+    } else {
+      const combinedWordValue = words
+        .filter(word => isWordPartOfEntity(wordEntity, word))
+        .map(word => word.value)
+        .join(" ");
+
+      wordsBuilder[wordEntity.startPosition] = {
+        entity: wordEntity,
+        word: { ...word, value: combinedWordValue, index: wordEntity.startPosition }
+      };
+    }
+  });
+
+  return wordsBuilder.filter(item => item.word);
+}
 
 type SegmentProps = {
   words: Word[];
@@ -29,7 +52,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick, isF
   const ref = useRef<HTMLDivElement>(null);
   const firstTimestamp = isFinal ? words && words[0].startTimestamp : 0;
   const lastTimestamp = isFinal ? words && words[words.length - 1].endTimestamp : 0;
-  const wordsWithEntities = mapWordsWithEntities(words, entities);
+  const wordsWithEntities = transformWordsToMatchEntities(words, entities);
 
   useEffect(() => {
     if (currentTime >= firstTimestamp && currentTime <= lastTimestamp) {
