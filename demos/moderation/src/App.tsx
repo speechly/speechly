@@ -77,14 +77,14 @@ const App = () => {
       if (segment.isFinal) {
         // Auto-start playback once we have one full segment received
         const player = (ref?.current?.plyr as Plyr);
-        if (player.paused && sluResults.size >= 1) player.play();
+        if (player.paused && sluResults.size === 1) player.play();
       }
     }
   // eslint-disable-next-line
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
-    if (i === currentItem || clientState > 9) return
+    if (i === currentItem) return
     setCurrentItem(i);
     setSluResults(new Map());
   }
