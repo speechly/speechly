@@ -84,6 +84,7 @@ const App = () => {
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
+    // client?.close();
     if (i === currentItem) return
     setCurrentItem(i);
     setSluResults(new Map());
