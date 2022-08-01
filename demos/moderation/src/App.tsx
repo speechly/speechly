@@ -147,7 +147,7 @@ const App = () => {
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx={12} cy={12} r={10} /><polyline points="16 12 12 8 8 12" /><line x1={12} y1={16} x2={12} y2={8} /></svg>
               <h3>Choose an audio source to get started</h3>
-              <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
+              <p>Warning: this demo contains profanities and hate speech.</p>
             </div>
           )}
           {clientState > DecoderState.Connected && <Spinner />}
