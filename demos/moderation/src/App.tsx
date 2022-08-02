@@ -61,10 +61,9 @@ const App = () => {
         setCurrentItem(undefined);
       };
       const buffer =  await response.arrayBuffer();
-      await client?.uploadAudioData(buffer);
+      client?.uploadAudioData(buffer);
     }
     if (client && currentItem !== undefined) {
-      console.log("sendAudioToSpeechly");
       sendAudioToSpeechly(currentItem);
     }
   }, [currentItem, client])
@@ -72,7 +71,7 @@ const App = () => {
   useEffect(() => {
     if (segment) {
       setSluResults(oldSegments => {
-        oldSegments.get(segment.contextId)?.set(segment.id, segment)
+        oldSegments.get(segment.contextId)!.set(segment.id, segment)
         return oldSegments
       });
       if (segment.isFinal) {
@@ -85,8 +84,7 @@ const App = () => {
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
-    console.log("handleCoverClick");
-    client?.close();
+    // client?.close();
     if (i === currentItem) return
     setCurrentItem(i);
     setSluResults(new Map());

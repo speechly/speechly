@@ -315,8 +315,6 @@ export class BrowserClient {
    * @returns array of segments containing the final results of speech recognition (ASR and NLU).
    */
   async uploadAudioData(audioData: ArrayBuffer, options?: ContextOptions): Promise<Segment[]> {
-    console.log("Ny alotellaan")
-
     await this.initialize()
     const audioBuffer = await this.audioContext?.decodeAudioData(audioData)
     if (audioBuffer === undefined) {
@@ -332,10 +330,7 @@ export class BrowserClient {
       }
     }
 
-    if (this.isStreaming) {
-      console.log("Ny loppu tää homma")
-      await this.stopStream()
-    }
+    if (this.isStreaming) await this.stopStream()
 
     await this.startStream({
       sampleRate: audioBuffer.sampleRate,
@@ -369,8 +364,7 @@ export class BrowserClient {
     let sendBuffer: Float32Array
     const chunkSamples = Math.round(audioBuffer.sampleRate * chunkMillis / 1000)
 
-    let b = 0
-    while (b < samples.length && this.decoder.state >= DecoderState.Connected) {
+    for (let b = 0; b < samples.length; b += chunkSamples) {
       const e = b + chunkSamples
       if (e > samples.length) {
         sendBuffer = samples.slice(b)
@@ -379,25 +373,16 @@ export class BrowserClient {
       }
       this.handleAudio(sendBuffer)
       await this.sleep(throttlingWaitMillis)
-      b += chunkSamples
-      console.log(this.decoder.state)
     }
 
-    if (this.decoder.state >= DecoderState.Connected) {
-      if (!vadActive) {
-        await this.stop(0)
-      }
-
-      await this.stopStream()
-
-      console.log("Ny o valmista")
-    } else {
-      console.log("Stoppi tälle hommalle tuli", this.decoder.state)
+    if (!vadActive) {
+      await this.stop(0)
     }
+
+    await this.stopStream()
 
     // Store result before startStream as it'll clear the results
     const result = this.decoder.getSegments()
-
 
     return result
   }
@@ -499,7 +484,6 @@ export class BrowserClient {
    * processors.
    */
   async close(): Promise<void> {
-    this.initialized = false
     await this.detach()
     if (this.speechlyNode !== null) {
       this.speechlyNode?.port.close()
@@ -510,6 +494,7 @@ export class BrowserClient {
       this.audioProcessor?.disconnect()
     }
     await this.decoder.close()
+    this.initialized = false
   }
 
   private async sleep(ms: number): Promise<void> {

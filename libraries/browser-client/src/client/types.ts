@@ -212,7 +212,6 @@ export const StreamDefaultOptions: StreamOptions = {
 export enum DecoderState {
   Failed = 0,
   Disconnected,
-  Disconnecting,
   Connected,
   Active,
 }

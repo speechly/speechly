@@ -59,7 +59,6 @@ class WebsocketClient {
       this.audioProcessor.vad = new EnergyThresholdVAD(frameMillis, vadOptions)
 
       this.audioProcessor.onVadStateChange = (isSignalDetected: boolean) => {
-        console.log("onVadStateChange", isSignalDetected)
         const currentVadOptions = this.audioProcessor?.vad?.vadOptions
         if (!currentVadOptions) return
 
@@ -229,7 +228,6 @@ class WebsocketClient {
   }
 
   closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received'): void {
-    console.log("closeWebsocket")
     if (this.debug) {
       console.log('[WebSocketClient]', 'Websocket closing')
     }

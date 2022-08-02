@@ -142,7 +142,6 @@ class AudioProcessor {
 
   public reset(inputSampleRate?: number): void {
     this.isActive = false
-    this.wasSignalDetected = false
     this.streamFramePos = 0
     this.streamSamplePos = 0
     this.frameSamplePos = 0

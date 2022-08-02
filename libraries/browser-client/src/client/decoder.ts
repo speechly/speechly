@@ -45,7 +45,6 @@ export class CloudDecoder {
   private readonly apiUrl: string
   streamOptions: StreamOptions = StreamDefaultOptions
   private resolveStopStream?: any
-  private resolveClose?: any
 
   private activeContexts = 0
 
@@ -54,7 +53,6 @@ export class CloudDecoder {
 
   private connectAttempt: number = 0
   private connectPromise: Promise<void> | null = null
-  private closePromise: Promise<void> | null = null
 
   private authToken?: string
   private readonly cbs: EventCallbacks[] = []
@@ -109,9 +107,6 @@ export class CloudDecoder {
   async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
-        console.log("awaiting this.closePromise...")
-        await this.closePromise
-        console.log("awaited this.closePromise")
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -147,14 +142,7 @@ export class CloudDecoder {
    * Closes the client by closing the API connection.
    */
   async close(): Promise<void> {
-    this.setState(DecoderState.Disconnecting)
     let error: string | undefined
-
-    console.log("set up this.closePromise...")
-    this.connectPromise = null
-    this.closePromise = new Promise(resolve => {
-      this.resolveClose = resolve
-    })
 
     try {
       await this.apiClient.close()
@@ -163,11 +151,9 @@ export class CloudDecoder {
       error = err.message
     }
 
-    await this.closePromise
-    this.resolveClose = undefined
-
     this.audioContexts.clear()
     this.activeContexts = 0
+    this.connectPromise = null
     this.setState(DecoderState.Disconnected)
 
     if (error !== undefined) {
@@ -429,11 +415,6 @@ export class CloudDecoder {
 
   // eslint-disable-next-line @typescript-eslint/member-delimiter-style
   private readonly handleWebsocketClosure = (err: { code: number; reason: string; wasClean: boolean }): void => {
-    // Signal stopStream listeners that the final results are in, it's ok to resolve the await
-    if (this.resolveClose !== undefined) {
-      this.resolveClose()
-    }
-
     if (err.code === 1000) {
       if (this.debug) {
         console.log('[Decoder]', 'Websocket closed', err)

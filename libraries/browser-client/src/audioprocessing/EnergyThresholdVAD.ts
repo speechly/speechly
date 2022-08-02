@@ -36,7 +36,6 @@ class EnergyTresholdVAD {
   }
 
   public resetVAD(): void {
-    console.log("resetVAD")
     this.isSignalDetected = false
     this.loudFrameBits = 0
     this.energy = 0
