@@ -13,6 +13,7 @@ export function stateToString(state: DecoderState): string {
 const states = new Map<DecoderState, string>([
   [DecoderState.Failed, 'Failed'],
   [DecoderState.Disconnected, 'Disconnected'],
+  [DecoderState.Disconnecting, 'Disconnecting'],
   [DecoderState.Connected, 'Connected'],
   [DecoderState.Active, 'Active'],
 ])

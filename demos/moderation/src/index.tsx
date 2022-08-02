@@ -9,7 +9,7 @@ import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <SpeechProvider appId="9dbba3e2-0d75-40db-a45a-a351d6cb8ce7" vad={{enabled: true, signalSustainMillis: 2000}}>
+    <SpeechProvider appId="9dbba3e2-0d75-40db-a45a-a351d6cb8ce7" debug={true} vad={{enabled: true, signalSustainMillis: 2000}}>
       <LogKit appName="moderation" appVersion={110}>
         <DemoNavigation />
         <App />
