@@ -10,6 +10,7 @@ type ContextCallback = (err?: Error, contextId?: string) => void
  */
 export class WebWorkerController implements APIClient {
   private readonly worker: Worker
+  private userInitiatedShutdown: boolean = false
   private resolveInitialization?: (value?: void) => void
   private resolveSourceSampleRateSet?: (value?: void) => void
 
@@ -75,6 +76,7 @@ export class WebWorkerController implements APIClient {
   }
 
   async close(): Promise<void> {
+    this.userInitiatedShutdown = true
     return new Promise((resolve, reject) => {
       this.worker.postMessage({
         type: ControllerSignal.CLOSE,
@@ -139,27 +141,38 @@ export class WebWorkerController implements APIClient {
   }
 
   sendAudio(audioChunk: Float32Array): void {
+    if (this.userInitiatedShutdown) return
     this.worker.postMessage({ type: ControllerSignal.AUDIO, payload: audioChunk })
   }
 
   async setContextOptions(options: ContextOptions): Promise<void> {
+    if (this.userInitiatedShutdown) return
     this.worker.postMessage({ type: ControllerSignal.setContextOptions, options })
   }
 
   private readonly onWebsocketMessage = (event: MessageEvent): void => {
     const response: WebsocketResponse = event.data
+
+    switch (response.type) {
+      case WorkerSignal.Closed:
+        this.onCloseCb({
+          code: event.data.code,
+          reason: event.data.reason,
+          wasClean: event.data.wasClean
+        },
+          this.userInitiatedShutdown
+        )
+        break
+    }
+
+    // Stop forwarding other messages than close acknowledgment during shutdown
+    if (this.userInitiatedShutdown) return
+
     switch (response.type) {
       case WorkerSignal.Opened:
         if (this.resolveInitialization != null) {
           this.resolveInitialization()
         }
-        break
-      case WorkerSignal.Closed:
-        this.onCloseCb({
-          code: event.data.code,
-          reason: event.data.reason,
-          wasClean: event.data.wasClean,
-        })
         break
       case WorkerSignal.AudioProcessorReady:
         if (this.resolveSourceSampleRateSet != null) {

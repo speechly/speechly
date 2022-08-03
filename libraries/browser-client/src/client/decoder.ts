@@ -82,10 +82,6 @@ export class CloudDecoder {
     this.storage = options.storage ?? new LocalStorage()
     this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
 
-    this.apiClient = new WebWorkerController()
-    this.apiClient.onResponse(this.handleWebsocketResponse)
-    this.apiClient.onClose(this.handleWebsocketClosure)
-
     if (options.connect ?? true) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       this.connect()
@@ -109,9 +105,12 @@ export class CloudDecoder {
   async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
-        console.log("awaiting this.closePromise...")
-        await this.closePromise
-        console.log("awaited this.closePromise")
+        this.apiClient = new WebWorkerController()
+        this.apiClient.onResponse(this.handleWebsocketResponse)
+        this.apiClient.onClose(this.handleWebsocketClosure)
+        // console.log("awaiting this.closePromise...")
+        // await this.closePromise
+        //console.log("awaited this.closePromise")
         // Get auth token from cache or renew it
         const storedToken = this.storage.get(authTokenKey)
         if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
@@ -147,7 +146,7 @@ export class CloudDecoder {
    * Closes the client by closing the API connection.
    */
   async close(): Promise<void> {
-    this.setState(DecoderState.Disconnecting)
+    this.setState(DecoderState.Disconnected)
     let error: string | undefined
 
     console.log("set up this.closePromise...")
@@ -163,8 +162,8 @@ export class CloudDecoder {
       error = err.message
     }
 
-    await this.closePromise
-    this.resolveClose = undefined
+    // await this.closePromise
+    // this.resolveClose = undefined
 
     this.audioContexts.clear()
     this.activeContexts = 0
@@ -428,7 +427,7 @@ export class CloudDecoder {
   }
 
   // eslint-disable-next-line @typescript-eslint/member-delimiter-style
-  private readonly handleWebsocketClosure = (err: { code: number; reason: string; wasClean: boolean }): void => {
+  private readonly handleWebsocketClosure = (err: { code: number; reason: string; wasClean: boolean; }, userInitiated: boolean): void => {
     // Signal stopStream listeners that the final results are in, it's ok to resolve the await
     if (this.resolveClose !== undefined) {
       this.resolveClose()
@@ -436,22 +435,20 @@ export class CloudDecoder {
 
     if (err.code === 1000) {
       if (this.debug) {
-        console.log('[Decoder]', 'Websocket closed', err)
+        console.log('[Decoder]', 'Websocket close OK', err)
       }
     } else {
-      console.error('[Decoder]', 'Websocket closed due to error', err)
+      console.error('[Decoder]', 'Websocket closed with problems:', err)
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    }
 
-      // If for some reason deviceId is missing, there's nothing else we can do but fail completely.
-      if (this.deviceId === undefined) {
-        this.setState(DecoderState.Failed)
-        console.error('[Decoder]', 'No deviceId. Giving up reconnecting.')
-        return
+    if (!userInitiated) {
+      if (this.debug) {
+        console.log('[Decoder]', 'Unexpected closure. Attempting reconnect.', err)
       }
-
-      this.setState(DecoderState.Disconnected)
       this.activeContexts = 0
       this.audioContexts.clear()
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.setState(DecoderState.Disconnected);
       this.reconnect()
     }
   }

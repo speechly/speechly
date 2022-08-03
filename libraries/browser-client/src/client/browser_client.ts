@@ -343,6 +343,16 @@ export class BrowserClient {
       immediate: true,
     })
 
+    let abort = false
+
+    const abortListener = (decoderState: DecoderState): void => {
+      if (decoderState <= DecoderState.Disconnected) {
+        console.warn("aborted!!!!!!", decoderState)
+        abort = true
+      }
+    }
+
+    this.callbacks.stateChangeCbs.addEventListener(abortListener)
     const vadActive = this.decoderOptions.vad?.enabled && this.decoderOptions.vad?.controlListening
     const chunkMillis = 1000
     let throttlingWaitMillis = 0
@@ -370,7 +380,7 @@ export class BrowserClient {
     const chunkSamples = Math.round(audioBuffer.sampleRate * chunkMillis / 1000)
 
     let b = 0
-    while (b < samples.length && this.decoder.state >= DecoderState.Connected) {
+    while (b < samples.length && !abort) {
       const e = b + chunkSamples
       if (e > samples.length) {
         sendBuffer = samples.slice(b)
@@ -380,10 +390,13 @@ export class BrowserClient {
       this.handleAudio(sendBuffer)
       await this.sleep(throttlingWaitMillis)
       b += chunkSamples
-      console.log(this.decoder.state)
     }
 
-    if (this.decoder.state >= DecoderState.Connected) {
+    console.log("abort:", abort)
+
+    this.callbacks.stateChangeCbs.removeEventListener(abortListener)
+
+    if (!abort) {
       if (!vadActive) {
         await this.stop(0)
       }
@@ -392,12 +405,11 @@ export class BrowserClient {
 
       console.log("Ny o valmista")
     } else {
-      console.log("Stoppi tälle hommalle tuli", this.decoder.state)
+      console.warn("Stoppi tälle hommalle tuli", this.decoder.state)
     }
 
     // Store result before startStream as it'll clear the results
     const result = this.decoder.getSegments()
-
 
     return result
   }
@@ -500,6 +512,7 @@ export class BrowserClient {
    */
   async close(): Promise<void> {
     this.initialized = false
+    
     await this.detach()
     if (this.speechlyNode !== null) {
       this.speechlyNode?.port.close()

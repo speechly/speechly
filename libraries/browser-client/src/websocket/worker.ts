@@ -269,6 +269,9 @@ class WebsocketClient {
       reason: event.reason,
       wasClean: event.wasClean,
     })
+
+    // Terminate this worker
+    close()
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {

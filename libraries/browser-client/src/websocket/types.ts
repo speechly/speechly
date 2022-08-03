@@ -190,7 +190,7 @@ export type ResponseCallback = (response: WebsocketResponse) => void
  * @internal
  */
 // eslint-disable-next-line @typescript-eslint/member-delimiter-style
-export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean }) => void
+export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean; }, userInitiated: boolean) => void
 
 /**
  * The interface for a client for Speechly SLU WebSocket API.
