@@ -195,12 +195,18 @@ export interface StreamOptions {
    * @internal
    */
   immediate: boolean
+  /**
+   * True if stream has been automatically started.
+   * @internal
+   */
+  autoStarted: boolean
 }
 
 export const StreamDefaultOptions: StreamOptions = {
   preserveSegments: false,
   sampleRate: DefaultSampleRate,
   immediate: false,
+  autoStarted: false,
 }
 
 /**
