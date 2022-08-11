@@ -248,7 +248,7 @@ export class BrowserClient {
       await this.initialize()
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
-        await this.startStream()
+        await this.startStream({ autoStarted: true })
       }
       const startPromise = this.decoder.startContext(options)
       return startPromise
@@ -394,7 +394,7 @@ export class BrowserClient {
    * @param streamOptionOverrides - options for stream processing
    */
   async startStream(streamOptionOverrides?: Partial<StreamOptions>): Promise<void> {
-    this.streamOptions = { ...this.streamOptions, ...streamOptionOverrides }
+    this.streamOptions = { ...this.streamOptions, autoStarted: false, ...streamOptionOverrides }
     await this.decoder.startStream(this.streamOptions)
     this.isStreaming = true
   }
@@ -443,11 +443,12 @@ export class BrowserClient {
 
     // Auto-start stream if VAD is enabled
     if (this.decoderOptions.vad?.enabled && !this.isStreaming) {
-      await this.startStream()
+      await this.startStream({ autoStarted: true })
+      return
     }
 
-    // Auto-stop stream if VAD is no longer enabled
-    if (!this.decoderOptions.vad?.enabled && this.isStreaming) {
+    // Auto-stop stream if automatically started
+    if (!this.decoderOptions.vad?.enabled && this.isStreaming && this.streamOptions.autoStarted) {
       await this.stopStream()
     }
   }
