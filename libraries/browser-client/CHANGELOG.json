@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.4.2",
+      "tag": "@speechly/browser-client_v2.4.2",
+      "date": "Thu, 11 Aug 2022 18:23:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fixed honoring user-initiated startStream(). It should keep streaming audio to AudioProcessor to be able to send historyFrames upon start(). The stream was incorrectly paused upon call to stop(), which should only happen for automatically started streams when VAD is not in use."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.4.1",
       "tag": "@speechly/browser-client_v2.4.1",
       "date": "Tue, 14 Jun 2022 13:51:56 GMT",

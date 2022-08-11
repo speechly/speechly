@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Tue, 14 Jun 2022 13:51:56 GMT and should not be manually modified.
+This log was last generated on Thu, 11 Aug 2022 18:23:12 GMT and should not be manually modified.
+
+## 2.4.2
+Thu, 11 Aug 2022 18:23:12 GMT
+
+### Patches
+
+- Fixed honoring user-initiated startStream(). It should keep streaming audio to AudioProcessor to be able to send historyFrames upon start(). The stream was incorrectly paused upon call to stop(), which should only happen for automatically started streams when VAD is not in use.
 
 ## 2.4.1
 Tue, 14 Jun 2022 13:51:56 GMT

@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@speechly/react-client": "^2.1.2",
-    "@speechly/browser-client": "^2.4.1",
+    "@speechly/browser-client": "^2.4.2",
     "@typescript-eslint/eslint-plugin": "^4",
     "@typescript-eslint/parser": "^4",
     "eslint": "^7",
