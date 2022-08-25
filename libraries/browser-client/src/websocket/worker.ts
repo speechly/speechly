@@ -384,6 +384,7 @@ export function contextOptionsToMsg(contextOptions?: ContextOptions): Record<str
   message.options.vocabulary = contextOptions.vocabulary
   message.options.vocabulary_bias = contextOptions.vocabularyBias
   message.options.silence_triggered_segmentation = contextOptions.silenceTriggeredSegmentation
+  message.options.non_streaming_nlu = contextOptions.nonStreamingNlu
   if (contextOptions?.timezone !== undefined) {
     message.options.timezone = contextOptions?.timezone // override browser timezone
   }
