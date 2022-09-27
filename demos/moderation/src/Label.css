@@ -6,6 +6,8 @@
   padding: 3px 6px;
   border-radius: 3px;
   transition: all .25s ease;
+  background-color: var(--label-secondary);
+  color: var(--label-secondary-text);
 }
 
 .Label--info {
@@ -23,10 +25,8 @@
   color: var(--label-danger-text);
 }
 
-.Label--secondary {
-  background-color: var(--label-secondary);
-  color: var(--label-secondary-text);
-  font-size: 13.5px;
+.Label--number {
+  font-size: 13px;
 }
 
 .Label small {

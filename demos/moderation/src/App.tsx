@@ -61,7 +61,7 @@ const App = () => {
         setCurrentItem(undefined);
       };
       const buffer =  await response.arrayBuffer();
-      client?.uploadAudioData(buffer);
+      await client?.uploadAudioData(buffer);
     }
     if (client && currentItem !== undefined) {
       sendAudioToSpeechly(currentItem);
@@ -71,7 +71,7 @@ const App = () => {
   useEffect(() => {
     if (segment) {
       setSluResults(oldSegments => {
-        oldSegments.get(segment.contextId)!.set(segment.id, segment)
+        oldSegments.get(segment.contextId)?.set(segment.id, segment)
         return oldSegments
       });
       if (segment.isFinal) {

@@ -7,15 +7,16 @@ type LabelProps = {
   variant: "intent" | "entity" | "time";
   type?: string;
   intent?: string;
+  isFinal?: boolean;
 }
 
-export const Label = ({ children, variant, type, intent }: LabelProps) => {
+export const Label = ({ children, variant, type, intent, isFinal }: LabelProps) => {
   const classes = classNames({
     Label: true,
-    "Label--danger": variant === "intent" && intent === "offensive",
-    "Label--success": variant === "intent" && intent !== "offensive",
+    "Label--danger": variant === "intent" && intent === "offensive" && isFinal,
+    "Label--success": variant === "intent" && intent !== "offensive" && isFinal,
     "Label--info": variant === "entity",
-    "Label--secondary": variant === "time"
+    "Label--number": variant === "time"
   })
 
   return (
