@@ -94,7 +94,7 @@ export const Segment = ({ words, intent, entities, currentTime = 0, onClick, isF
           {formatDuration(firstTimestamp, { leading: true })}
         </Label>
         {intent.intent && (
-          <Label variant="intent" intent={intent.intent}>
+          <Label variant="intent" intent={intent.intent} isFinal={isFinal}>
             {sentenceCase(intent.intent, scOptions)}
           </Label>
         )}

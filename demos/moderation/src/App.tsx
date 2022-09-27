@@ -61,7 +61,7 @@ const App = () => {
         setCurrentItem(undefined);
       };
       const buffer =  await response.arrayBuffer();
-      client?.uploadAudioData(buffer);
+      await client?.uploadAudioData(buffer);
     }
     if (client && currentItem !== undefined) {
       sendAudioToSpeechly(currentItem);
@@ -71,20 +71,21 @@ const App = () => {
   useEffect(() => {
     if (segment) {
       setSluResults(oldSegments => {
-        oldSegments.get(segment.contextId)!.set(segment.id, segment)
+        oldSegments.get(segment.contextId)?.set(segment.id, segment)
         return oldSegments
       });
       if (segment.isFinal) {
         // Auto-start playback once we have one full segment received
         const player = (ref?.current?.plyr as Plyr);
-        if (player.paused && sluResults.size >= 1) player.play();
+        if (player.paused && segment.id === 0) player.play();
       }
     }
   // eslint-disable-next-line
   }, [segment]);
 
   const handleCoverClick = (i: number) => {
-    if (i === currentItem || clientState > 9) return
+    // client?.close();
+    if (i === currentItem) return
     setCurrentItem(i);
     setSluResults(new Map());
   }
@@ -147,7 +148,7 @@ const App = () => {
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx={12} cy={12} r={10} /><polyline points="16 12 12 8 8 12" /><line x1={12} y1={16} x2={12} y2={8} /></svg>
               <h3>Choose an audio source to get started</h3>
-              <p>Trigger warning: this demo contains profanity, racial slurs and hate speech.</p>
+              <p>Warning: this demo contains profanities and hate speech.</p>
             </div>
           )}
           {clientState > DecoderState.Connected && <Spinner />}
