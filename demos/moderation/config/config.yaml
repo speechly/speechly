@@ -15,3 +15,5 @@ imports:
   - name: non_offensive
     source: non_offensive.csv
     field: 1
+silence_triggered_segmentation: 120
+enable_strict_nlu: true
