@@ -285,4 +285,10 @@ export interface ContextOptions {
    * e.g. "Africa/Abidjan". Timezone should be wrapped to list, like ["Africa/Abidjan"].
    */
   timezone?: string[]
+
+  /**
+   * Inference time setting to use the non-streaming NLU variant. Set value to true to enable,
+   * (or to false to disable for the current context if this parameter is enabled in the configuration).
+   */
+  nonStreamingNlu?: boolean
 }

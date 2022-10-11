@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "ContextOptions.nonStreamingNlu flag for performing NLU detection for final utterance only.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
