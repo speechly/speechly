@@ -30,7 +30,7 @@ describe('worker', () => {
       worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.startContext()
-      expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ options: { timezone: [Intl.DateTimeFormat().resolvedOptions().timeZone] }, event: 'start' }))
+      expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ options: { timezone: [Intl.DateTimeFormat().resolvedOptions().timeZone], non_streaming_nlu: ['no'] }, event: 'start' }))
     })
     test('startContext with options', async () => {
       // @ts-ignore
@@ -39,7 +39,7 @@ describe('worker', () => {
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       const options: ContextOptions = { timezone: ['TZ'], vocabulary: ['W'] }
       worker.startContext(options)
-      expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ options: options, event: 'start' }))
+      expect(mockSend).toHaveBeenCalledWith(JSON.stringify({ options: { timezone: ['TZ'], vocabulary: ['W'], non_streaming_nlu: ['no'] }, event: 'start' }))
     })
     test('default options', async () => {
       // @ts-ignore
@@ -49,7 +49,7 @@ describe('worker', () => {
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })
       worker.startContext({})
       expect(mockSend).toHaveBeenCalledWith(
-        JSON.stringify({ options: { timezone: ['DEF_TZ'], vocabulary_bias: ['0.2'] }, event: 'start' }),
+        JSON.stringify({ options: { timezone: ['DEF_TZ'], vocabulary_bias: ['0.2'], non_streaming_nlu: ['no'] }, event: 'start' }),
       )
     })
     test('default options + startContext with options', async () => {
@@ -60,7 +60,7 @@ describe('worker', () => {
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })
       worker.startContext({ timezone: ['TZ'], vocabulary: ['W'] })
       expect(mockSend).toHaveBeenCalledWith(
-        JSON.stringify({ options: { timezone: ['TZ'], vocabulary: ['W'], vocabulary_bias: ['0.2'] }, event: 'start' }),
+        JSON.stringify({ options: { timezone: ['TZ'], vocabulary: ['W'], vocabulary_bias: ['0.2'], non_streaming_nlu: ['no'] }, event: 'start' }),
       )
     })
   })
