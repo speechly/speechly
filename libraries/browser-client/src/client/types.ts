@@ -287,8 +287,8 @@ export interface ContextOptions {
   timezone?: string[]
 
   /**
-   * Inference time setting to use the non-streaming NLU variant. Set value to ["yes"] to enable,
-   * (or to ["no"] to disable for the current context if this parameter is enabled in the configuration).
+   * Inference time setting to use the non-streaming NLU variant. Set value to true to enable,
+   * (or to false to disable for the current context if this parameter is enabled in the configuration).
    */
-  nonStreamingNlu?: string[]
+  nonStreamingNlu?: boolean
 }
