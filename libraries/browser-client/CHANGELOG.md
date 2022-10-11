@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Thu, 11 Aug 2022 18:23:12 GMT and should not be manually modified.
+This log was last generated on Tue, 11 Oct 2022 13:46:09 GMT and should not be manually modified.
+
+## 2.5.0
+Tue, 11 Oct 2022 13:46:09 GMT
+
+### Minor changes
+
+- ContextOptions.nonStreamingNlu flag for performing NLU detection for final utterance only.
 
 ## 2.4.2
 Thu, 11 Aug 2022 18:23:12 GMT

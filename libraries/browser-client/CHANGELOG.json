@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.5.0",
+      "tag": "@speechly/browser-client_v2.5.0",
+      "date": "Tue, 11 Oct 2022 13:46:09 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "ContextOptions.nonStreamingNlu flag for performing NLU detection for final utterance only."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.4.2",
       "tag": "@speechly/browser-client_v2.4.2",
       "date": "Thu, 11 Aug 2022 18:23:12 GMT",
