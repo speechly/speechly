@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Fixed problem when calling BrowserClient.start() and stop() quickly multiple times.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
