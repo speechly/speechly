@@ -42,11 +42,13 @@ class EnergyTresholdVAD {
     this.baselineEnergy = -1
   }
 
-  public processFrame(floats: Float32Array, start = 0, length = -1): void {
+  public processFrame(floats: Float32Array, start = 0, length = -1, eos: boolean = false): void {
     if (!this.vadOptions.enabled) {
       this.resetVAD()
       return
     }
+
+    if (eos) return
 
     this.energy = AudioTools.getEnergy(floats, start, length)
 

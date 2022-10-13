@@ -62,6 +62,7 @@ export enum WorkerSignal {
   AudioProcessorReady = 'SOURCE_SAMPLE_RATE_SET_SUCCESS',
   VadSignalHigh = 'VadSignalHigh',
   VadSignalLow = 'VadSignalLow',
+  RequestContextStart = 'RequestContextStart',
 }
 
 /**

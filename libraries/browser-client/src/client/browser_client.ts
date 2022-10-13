@@ -243,7 +243,7 @@ export class BrowserClient {
    */
   async start(options?: ContextOptions): Promise<string> {
     if (this.active) {
-      throw ErrAlreadyStarted;
+      throw ErrAlreadyStarted
     }
 
     this.active = true
@@ -266,7 +266,7 @@ export class BrowserClient {
    */
   async stop(stopDelayMs = this.contextStopDelay): Promise<string> {
     if (!this.active) {
-      throw ErrAlreadyStopped;
+      throw ErrAlreadyStopped
     }
 
     this.active = false
@@ -282,7 +282,7 @@ export class BrowserClient {
         if (this.stats.sentSamples === 0) {
           console.warn('[BrowserClient]', 'audioContext contained no audio data')
         }
-        return contextId;
+        return contextId
       } catch (err) {
         console.warn('[BrowserClient]', 'stop() failed', err)
       } finally {
@@ -290,7 +290,7 @@ export class BrowserClient {
       }
     })
 
-    return contextId;
+    return contextId
   }
 
   /**
@@ -351,6 +351,7 @@ export class BrowserClient {
       }
     }
 
+    if (this.active) await this.stop(0)
     if (this.isStreaming) await this.stopStream()
 
     await this.startStream({

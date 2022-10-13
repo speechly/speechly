@@ -1,6 +1,8 @@
 import { ContextOptions } from '../client'
 import WebsocketClient, { contextOptionsToMsg } from './worker'
 
+const workerCtx = { postMessage: () => {} }
+
 describe('worker', () => {
   describe('contextOptionsToMsg', () => {
     test('default timezone', async () => {
@@ -25,8 +27,7 @@ describe('worker', () => {
   describe('setContextOptions', () => {
     jest.mock('./worker')
     test('no options', async () => {
-      // @ts-ignore
-      const worker = new WebsocketClient(undefined)
+      const worker = new WebsocketClient(workerCtx as any)
       worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.startContext()
@@ -34,7 +35,7 @@ describe('worker', () => {
     })
     test('startContext with options', async () => {
       // @ts-ignore
-      const worker = new WebsocketClient(undefined)
+      const worker = new WebsocketClient(workerCtx as any)
       worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       const options: ContextOptions = { timezone: ['TZ'], vocabulary: ['W'] }
@@ -43,7 +44,7 @@ describe('worker', () => {
     })
     test('default options', async () => {
       // @ts-ignore
-      const worker = new WebsocketClient(undefined)
+      const worker = new WebsocketClient(workerCtx as any)
       worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })
@@ -54,7 +55,7 @@ describe('worker', () => {
     })
     test('default options + startContext with options', async () => {
       // @ts-ignore
-      const worker = new WebsocketClient(undefined)
+      const worker = new WebsocketClient(workerCtx as any)
       worker.initAudioProcessor(16000, 30, 5)
       const mockSend = jest.spyOn(worker, 'send').mockImplementation()
       worker.setContextOptions({ vocabularyBias: ['0.2'], timezone: ['DEF_TZ'] })

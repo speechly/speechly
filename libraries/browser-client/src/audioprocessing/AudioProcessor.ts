@@ -8,9 +8,9 @@ class AudioProcessor {
   public vad?: EnergyThresholdVAD
 
   /**
-   * Returns true when StartContext is called and expecting StopContext next
+   * Sending state. If true, AudioProcessor is currently sending audio via onSendAudio callback
    */
-  public isActive = false
+  public isSending = false
 
   /**
    * Current count of downsampled and continuously processed samples (thru ProcessAudio) from start of stream
@@ -60,12 +60,18 @@ class AudioProcessor {
    * @param floats - Array of float containing samples to feed to the audio pipeline. Each sample needs to be in range -1f..1f.
    * @param start - Start index of audio to process in samples (default: `0`).
    * @param length - Length of audio to process in samples or `-1` to process the whole array (default: `-1`).
-   * @param flush - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
+   * @param eos_at_end - StopStream internally uses this to force processing of last subframe at end of audio stream (default: `false`).
    * @returns
    */
-  public processAudio(floats: Float32Array, start = 0, length = -1, flush = false): void {
+  public processAudio(floats: Float32Array, start = 0, length = -1, eos_at_end = false): void {
     if (length < 0) length = floats.length
-    if (length === 0) return
+
+    if (length === 0) {
+      if (eos_at_end) {
+        this.processEos()
+      }
+      return
+    }
 
     let i = start
     const endIndex = start + length
@@ -92,19 +98,15 @@ class AudioProcessor {
         this.frameSamplePos += samplesToFillFrame
       }
 
-      if (this.frameSamplePos > this.frameSamples) {
-        throw new Error(`this.frameSamplePos (${this.frameSamplePos}) > this.frameSamples (${this.frameSamples})`)
-      }
+      const eos = i === endIndex && eos_at_end
 
       // Process frame
-      if (this.frameSamplePos === this.frameSamples || flush) {
-        const subFrameSamples = flush ? this.frameSamplePos : this.frameSamples
+      if (this.frameSamplePos === this.frameSamples || eos) {
+        const subFrameSamples = eos ? this.frameSamplePos : this.frameSamples
 
-        if (!flush) {
-          this.processFrame(this.sampleRingBuffer, frameBase, subFrameSamples)
-        }
+        this.processFrame(this.sampleRingBuffer, frameBase, subFrameSamples, eos)
 
-        if (this.isActive) {
+        if (this.isSending) {
           if (this.samplesSent === 0) {
             // Start of the utterance - send history frames
             const sendHistory = Math.min(this.streamFramePos, this.historyFrames - 1)
@@ -119,35 +121,40 @@ class AudioProcessor {
           this.samplesSent += subFrameSamples
         }
 
-        if (this.frameSamplePos === this.frameSamples) {
+        if (eos) {
+          this.streamSamplePos += subFrameSamples
+          this.processEos()
+        } else if (this.frameSamplePos === this.frameSamples) {
           this.frameSamplePos = 0
           this.streamFramePos += 1
           this.streamSamplePos += subFrameSamples
           this.currentFrameNumber = (this.currentFrameNumber + 1) % this.historyFrames
         }
       }
+
+      if (this.vad) {
+        this.wasSignalDetected = this.vad.isSignalDetected
+      }
     }
   }
 
-  public startContext(): void {
-    this.isActive = true
-    this.samplesSent = 0
-    this.utteranceSerial++
-  }
-
-  public stopContext(): void {
-    this.flush()
-    this.isActive = false
+  public setSendAudio(active: boolean): void {
+    this.isSending = active
+    if (active) {
+      this.samplesSent = 0
+      this.utteranceSerial++
+    }
   }
 
   public reset(inputSampleRate?: number): void {
-    this.isActive = false
+    this.isSending = false
     this.streamFramePos = 0
     this.streamSamplePos = 0
     this.frameSamplePos = 0
     this.currentFrameNumber = 0
     this.utteranceSerial = -1
     if (inputSampleRate) this.inputSampleRate = inputSampleRate
+    this.wasSignalDetected = false
     this.vad?.resetVAD()
   }
 
@@ -158,21 +165,24 @@ class AudioProcessor {
     return Math.round(this.streamSamplePos / this.internalSampleRate * 1000)
   }
 
-  private flush(): void {
+  public eos(): void {
     this.processAudio(this.sampleRingBuffer, 0, this.frameSamplePos, true)
   }
 
-  private processFrame(floats: Float32Array, start = 0, length = -1): void {
+  private processFrame(floats: Float32Array, start = 0, length = -1, eos: boolean = false): void {
     if (this.vad?.vadOptions.enabled) {
-      this.processVadFrame(this.vad, floats, start, length)
+      this.vad.processFrame(floats, start, length, eos)
+      if (this.vad.isSignalDetected !== this.wasSignalDetected) {
+        this.onVadStateChange(this.vad.isSignalDetected)
+      }
     }
   }
 
-  private processVadFrame(vad: EnergyThresholdVAD, floats: Float32Array, start = 0, length = -1): void {
-    vad.processFrame(floats, start, length)
-    if (vad.isSignalDetected !== this.wasSignalDetected) {
-      this.onVadStateChange(vad.isSignalDetected)
-      this.wasSignalDetected = vad.isSignalDetected
+  private processEos(): void {
+    if (this.isSending && this.vad?.vadOptions.enabled) {
+      // Ensure VAD state change on end-of-stream
+      this.vad.resetVAD()
+      this.onVadStateChange(false)
     }
   }
 }
