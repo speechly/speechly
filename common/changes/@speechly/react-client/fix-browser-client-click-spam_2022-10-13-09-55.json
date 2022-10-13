@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "stop() returns stopped contextId",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
