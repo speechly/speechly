@@ -2,8 +2,8 @@
   "changes": [
     {
       "packageName": "@speechly/react-client",
-      "comment": "stop() returns stopped contextId",
-      "type": "patch"
+      "comment": "Fixed problem when calling BrowserClient.start() and stop() quickly multiple times. Stop() can be awaited to return the stopped context id.",
+      "type": "minor"
     }
   ],
   "packageName": "@speechly/react-client"
