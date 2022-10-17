@@ -70,12 +70,17 @@ export interface ResolvedDecoderOptions {
   historyFrames: number
 
   /**
-   * BrowserMicrophone instance to be used with BrowserClient.
+   * MediaStream instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
+   */
+  mediaStream?: MediaStream
+
+  /**
+   * BrowserMicrophone instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
    */
   microphone?: BrowserMicrophone
 
   /**
-   * Controls whether or not microphone should be closed on stop
+   * Controls whether or not microphone should be automatically detached and closed on stop and re-attached on start. MediaStreams cannot be automatically detached.
    */
   closeMicrophone?: boolean
 }

@@ -57,6 +57,10 @@ export class BrowserClient {
       vad: customOptions.vad ? { ...VadDefaultOptions, ...customOptions.vad } : undefined,
     }
 
+    if (this.decoderOptions.mediaStream !== undefined && this.decoderOptions.microphone !== undefined) {
+      throw Error('[BrowserClient] You cannot use both mediaStream and microphone at the same time')
+    }
+
     const constraints = window.navigator.mediaDevices.getSupportedConstraints()
     this.nativeResamplingSupported = constraints.sampleRate === true
 
@@ -77,127 +81,134 @@ export class BrowserClient {
    * Connect to cloud, create an AudioContext for receiving audio samples from a MediaStream
    * and initialize a worker for audio processing and bi-directional streaming to the cloud.
    */
-  async initialize(options?: { mediaStream?: MediaStream }): Promise<void> {
-    if (this.initialized) {
-      return
-    }
-    this.initialized = true
+  async initialize(): Promise<void> {
+    if (!this.initialized) {
+      this.initialized = true
 
-    if (this.debug) {
-      console.log('[BrowserClient]', 'initializing')
-    }
-    await this.decoder.connect()
-    try {
-      const opts: AudioContextOptions = {}
-      if (this.nativeResamplingSupported) {
-        opts.sampleRate = DefaultSampleRate
+      if (this.debug) {
+        console.log('[BrowserClient]', 'initializing')
       }
-      if (window.webkitAudioContext !== undefined) {
-        // create webkit flavor of audiocontext
-        try {
-          // eslint-disable-next-line new-cap
-          this.audioContext = new window.webkitAudioContext(opts)
-        } catch (err) {
-          if (this.debug) {
-            console.log('[BrowserClient]', 'creating audioContext without samplerate conversion', err)
-          }
-          // older webkit without constructor options
-          // eslint-disable-next-line new-cap
-          this.audioContext = new window.webkitAudioContext()
+      await this.decoder.connect()
+      try {
+        const opts: AudioContextOptions = {}
+        if (this.nativeResamplingSupported) {
+          opts.sampleRate = DefaultSampleRate
         }
-      } else {
-        this.audioContext = new window.AudioContext(opts)
-        // Start audio context if we are dealing with a WebKit browser.
-        //
-        // WebKit browsers (e.g. Safari) require to resume the context first,
-        // before obtaining user media by calling `mediaDevices.getUserMedia`.
-        //
-        // If done in a different order, the audio context will resume successfully,
-        // but will emit empty audio buffers.
         if (window.webkitAudioContext !== undefined) {
-          await this.audioContext.resume()
-        }
-      }
-    } catch {
-      throw ErrDeviceNotSupported
-    }
-
-    if (!this.isSafari && window.AudioWorkletNode !== undefined) {
-      if (this.debug) {
-        console.log('[BrowserClient]', 'using AudioWorkletNode')
-      }
-      const blob = new Blob([audioworklet], { type: 'text/javascript' })
-      const blobURL = window.URL.createObjectURL(blob)
-      await this.audioContext.audioWorklet.addModule(blobURL)
-      this.speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
-      this.speechlyNode.connect(this.audioContext.destination)
-      // @ts-ignore
-      if (this.useSAB && window.SharedArrayBuffer !== undefined) {
-        // Chrome, Edge, Firefox, Firefox Android
-        if (this.debug) {
-          console.log('[BrowserClient]', 'using SharedArrayBuffer')
-        }
-        // @ts-ignore
-        const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
-        // @ts-ignore
-        const dataSAB = new window.SharedArrayBuffer(1024 * Float32Array.BYTES_PER_ELEMENT)
-        this.decoder.useSharedArrayBuffers(controlSAB, dataSAB)
-        this.speechlyNode.port.postMessage({
-          type: 'SET_SHARED_ARRAY_BUFFERS',
-          controlSAB,
-          dataSAB,
-          debug: this.debug,
-        })
-      } else {
-        // Safari, Opera, Chrome Android, Webview Android
-        // or if site CORS headers do not allow SharedArrayBuffer
-        if (this.debug) {
-          console.log('[BrowserClient]', 'can not use SharedArrayBuffer')
-        }
-      }
-
-      this.speechlyNode.port.onmessage = (event: MessageEvent) => {
-        switch (event.data.type) {
-          case 'STATS':
-            if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
-              this.stats.maxSignalEnergy = event.data.signalEnergy
+          // create webkit flavor of audiocontext
+          try {
+            // eslint-disable-next-line new-cap
+            this.audioContext = new window.webkitAudioContext(opts)
+          } catch (err) {
+            if (this.debug) {
+              console.log('[BrowserClient]', 'creating audioContext without samplerate conversion', err)
             }
-            this.stats.sentSamples += parseInt(event.data.samples)
-            break
-          case 'DATA':
-            // this is not called if SAB is used, the buffers are sent immediately
-            this.handleAudio(event.data.frames)
-            break
-          default:
+            // older webkit without constructor options
+            // eslint-disable-next-line new-cap
+            this.audioContext = new window.webkitAudioContext()
+          }
+        } else {
+          this.audioContext = new window.AudioContext(opts)
+          // Start audio context if we are dealing with a WebKit browser.
+          //
+          // WebKit browsers (e.g. Safari) require to resume the context first,
+          // before obtaining user media by calling `mediaDevices.getUserMedia`.
+          //
+          // If done in a different order, the audio context will resume successfully,
+          // but will emit empty audio buffers.
+          if (window.webkitAudioContext !== undefined) {
+            await this.audioContext.resume()
+          }
         }
+      } catch {
+        throw ErrDeviceNotSupported
       }
-    } else {
-      if (this.debug) {
-        console.log('[BrowserClient]', 'using ScriptProcessorNode')
-      }
-      if (window.webkitAudioContext !== undefined) {
-        // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
-        // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
-        const resampleRatio = this.audioContext.sampleRate / DefaultSampleRate
-        const bufSize = 4096 * Math.pow(2, Math.ceil(Math.log(resampleRatio) / Math.log(2)))
-        this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1)
-      } else {
-        this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
-      }
-      this.audioProcessor.connect(this.audioContext.destination)
-      this.audioProcessor.addEventListener('audioprocess', (event: AudioProcessingEvent) => {
-        this.handleAudio(event.inputBuffer.getChannelData(0))
-      })
-    }
-    if (this.debug) {
-      console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
-    }
-    this.streamOptions.sampleRate = this.audioContext?.sampleRate
-    await this.decoder.initAudioProcessor(this.streamOptions.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
-    this.audioProcessorInitialized = true
 
-    if (options?.mediaStream) {
-      await this.attach(options?.mediaStream)
+      if (!this.isSafari && window.AudioWorkletNode !== undefined) {
+        if (this.debug) {
+          console.log('[BrowserClient]', 'using AudioWorkletNode')
+        }
+        const blob = new Blob([audioworklet], { type: 'text/javascript' })
+        const blobURL = window.URL.createObjectURL(blob)
+        await this.audioContext.audioWorklet.addModule(blobURL)
+        this.speechlyNode = new AudioWorkletNode(this.audioContext, 'speechly-worklet')
+        this.speechlyNode.connect(this.audioContext.destination)
+        // @ts-ignore
+        if (this.useSAB && window.SharedArrayBuffer !== undefined) {
+          // Chrome, Edge, Firefox, Firefox Android
+          if (this.debug) {
+            console.log('[BrowserClient]', 'using SharedArrayBuffer')
+          }
+          // @ts-ignore
+          const controlSAB = new window.SharedArrayBuffer(4 * Int32Array.BYTES_PER_ELEMENT)
+          // @ts-ignore
+          const dataSAB = new window.SharedArrayBuffer(1024 * Float32Array.BYTES_PER_ELEMENT)
+          this.decoder.useSharedArrayBuffers(controlSAB, dataSAB)
+          this.speechlyNode.port.postMessage({
+            type: 'SET_SHARED_ARRAY_BUFFERS',
+            controlSAB,
+            dataSAB,
+            debug: this.debug,
+          })
+        } else {
+          // Safari, Opera, Chrome Android, Webview Android
+          // or if site CORS headers do not allow SharedArrayBuffer
+          if (this.debug) {
+            console.log('[BrowserClient]', 'can not use SharedArrayBuffer')
+          }
+        }
+
+        this.speechlyNode.port.onmessage = (event: MessageEvent) => {
+          switch (event.data.type) {
+            case 'STATS':
+              if (event.data.signalEnergy > this.stats.maxSignalEnergy) {
+                this.stats.maxSignalEnergy = event.data.signalEnergy
+              }
+              this.stats.sentSamples += parseInt(event.data.samples)
+              break
+            case 'DATA':
+              // this is not called if SAB is used, the buffers are sent immediately
+              this.handleAudio(event.data.frames)
+              break
+            default:
+          }
+        }
+      } else {
+        if (this.debug) {
+          console.log('[BrowserClient]', 'using ScriptProcessorNode')
+        }
+        if (window.webkitAudioContext !== undefined) {
+          // Multiply base buffer size of 4 kB by the resample ratio rounded up to the next power of 2.
+          // i.e. for 48 kHz to 16 kHz downsampling, this will be 4096 (base) * 4 = 16384.
+          const resampleRatio = this.audioContext.sampleRate / DefaultSampleRate
+          const bufSize = 4096 * Math.pow(2, Math.ceil(Math.log(resampleRatio) / Math.log(2)))
+          this.audioProcessor = this.audioContext.createScriptProcessor(bufSize, 1, 1)
+        } else {
+          this.audioProcessor = this.audioContext.createScriptProcessor(undefined, 1, 1)
+        }
+        this.audioProcessor.connect(this.audioContext.destination)
+        this.audioProcessor.addEventListener('audioprocess', (event: AudioProcessingEvent) => {
+          this.handleAudio(event.inputBuffer.getChannelData(0))
+        })
+      }
+      if (this.debug) {
+        console.log('[BrowserClient]', 'audioContext sampleRate is', this.audioContext?.sampleRate)
+      }
+      this.streamOptions.sampleRate = this.audioContext?.sampleRate
+      await this.decoder.initAudioProcessor(this.streamOptions.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
+      this.audioProcessorInitialized = true
+    }
+
+    // Automatically (re)attach a microphone or a mediastream defined in options
+    if (!this.stream && this.decoderOptions.microphone) {
+      await this.decoderOptions.microphone.initialize()
+      if (this.decoderOptions.microphone.mediaStream) {
+        await this._attach(this.decoderOptions.microphone.mediaStream)
+      }
+    }
+
+    if (!this.stream && this.decoderOptions.mediaStream) {
+      await this._attach(this.decoderOptions.mediaStream)
     }
   }
 
@@ -209,7 +220,10 @@ export class BrowserClient {
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
     await this.detach()
+    await this._attach(mediaStream)
+  }
 
+  private async _attach(mediaStream: MediaStream): Promise<void> {
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
 
     // ensure audioContext is active
@@ -252,13 +266,6 @@ export class BrowserClient {
 
     const contextId = await this.queueTask(async () => {
       await this.initialize()
-      // Re-attach microphone if detached
-      if (this.decoderOptions.microphone && !this.stream) {
-        await this.decoderOptions.microphone.initialize()
-        if (this.decoderOptions.microphone.mediaStream) {
-          await this.attach(this.decoderOptions.microphone.mediaStream)
-        }
-      }
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
         await this.startStream({ autoStarted: true })
@@ -288,12 +295,9 @@ export class BrowserClient {
           await this.stopStream()
         }
         // Close microphone if set to do so (removes the "red mic dot" from the browser)
-        if (this.decoderOptions.microphone && this.decoderOptions.closeMicrophone) {
+        if (this.decoderOptions.closeMicrophone && this.decoderOptions.microphone) {
           await this.decoderOptions.microphone?.close()
-          if (this.stream) {
-            this.stream.disconnect()
-            this.stream = undefined
-          }
+          this._detach()
         }
         if (this.stats.sentSamples === 0) {
           console.warn('[BrowserClient]', 'audioContext contained no audio data')
@@ -503,13 +507,15 @@ export class BrowserClient {
    * Detach or disconnect the client from the audio source.
    */
   async detach(): Promise<void> {
-    if (this.stream) {
-      if (this.active) {
-        await this.stop(0)
-      }
-      this.stream.disconnect()
-      this.stream = undefined
+    if (this.active) {
+      await this.stop(0)
     }
+    this._detach()
+  }
+
+  private _detach(): void {
+    this.stream?.disconnect()
+    this.stream = undefined
   }
 
   /**
