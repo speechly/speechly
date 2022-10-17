@@ -1,6 +1,7 @@
 import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, DecoderDefaultOptions, ResolvedDecoderOptions, VadOptions, ErrAlreadyStarted, ErrAlreadyStopped } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
+import { BrowserMicrophone } from '../microphone/browser_microphone'
 
 import audioworklet from '../microphone/audioworklet'
 
@@ -35,6 +36,7 @@ export class BrowserClient {
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
   private audioProcessor?: ScriptProcessorNode
+  private readonly browserMicrophone?: BrowserMicrophone
   private stream?: MediaStreamAudioSourceNode
   private listeningPromise: Promise<any> | null = null
   private readonly decoderOptions: ResolvedDecoderOptions & { vad?: VadOptions }
@@ -209,7 +211,9 @@ export class BrowserClient {
   async attach(mediaStream: MediaStream): Promise<void> {
     await this.initialize()
     await this.detach()
+
     this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
+
     // ensure audioContext is active
     if (this.audioContext?.state !== 'running') {
       if (this.debug) {
@@ -250,6 +254,13 @@ export class BrowserClient {
 
     const contextId = await this.queueTask(async () => {
       await this.initialize()
+      // Re-establish microphone input
+      if (this.decoderOptions.microphone && !this.stream) {
+        await this.decoderOptions.microphone.initialize()
+        if (this.decoderOptions.microphone.mediaStream) {
+          await this.attach(this.decoderOptions.microphone.mediaStream)
+        }
+      }
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
         await this.startStream({ autoStarted: true })
@@ -278,7 +289,14 @@ export class BrowserClient {
         if (!this.decoderOptions.vad?.enabled && this.isStreaming && this.streamOptions.autoStarted) {
           await this.stopStream()
         }
-
+        // Close microphone if set to do so (removes the "red mic dot" from the browser)
+        if (this.decoderOptions.microphone && this.decoderOptions.closeMicrophone) {
+          await this.decoderOptions.microphone?.close()
+          if (this.stream) {
+            this.stream.disconnect()
+            this.stream = undefined
+          }
+        }
         if (this.stats.sentSamples === 0) {
           console.warn('[BrowserClient]', 'audioContext contained no audio data')
         }
@@ -487,10 +505,10 @@ export class BrowserClient {
    * Detach or disconnect the client from the audio source.
    */
   async detach(): Promise<void> {
-    if (this.active) {
-      await this.stop(0)
-    }
     if (this.stream) {
+      if (this.active) {
+        await this.stop(0)
+      }
       this.stream.disconnect()
       this.stream = undefined
     }
@@ -502,6 +520,7 @@ export class BrowserClient {
    */
   async close(): Promise<void> {
     await this.detach()
+
     if (this.speechlyNode !== null) {
       this.speechlyNode?.port.close()
       this.speechlyNode?.disconnect()
@@ -510,7 +529,17 @@ export class BrowserClient {
     if (this.audioProcessor !== undefined) {
       this.audioProcessor?.disconnect()
     }
-    await this.decoder.close()
+
+    const closingTasks: Array<Promise<any>> = []
+
+    closingTasks.push(this.decoder.close())
+
+    if (this.decoderOptions.microphone) {
+      closingTasks.push(this.decoderOptions.microphone.close())
+    }
+
+    await Promise.all(closingTasks)
+
     this.initialized = false
   }
 

@@ -47,6 +47,7 @@ export class BrowserMicrophone {
     if (this.initialized) {
       return
     }
+    this.initialized = true
 
     // ensure mediaDevices are available
     if (window.navigator?.mediaDevices === undefined) {
@@ -76,7 +77,6 @@ export class BrowserMicrophone {
       throw ErrNoAudioConsent
     }
 
-    this.initialized = true
     this.muted = true
     this.setState(AudioSourceState.Started)
   }

@@ -1,3 +1,4 @@
+import { BrowserMicrophone } from '../microphone'
 import { Segment, Word, Entity, Intent, DefaultSampleRate } from '../speechly'
 import { Storage } from '../storage'
 import { CloudDecoder } from './decoder'
@@ -67,6 +68,16 @@ export interface ResolvedDecoderOptions {
    * Number of history frames to keep in ringbuffer. They are sent upon start of context to capture the start of utterance, which is especially important to compensate loss of utterance start with VAD.
    */
   historyFrames: number
+
+  /**
+   * BrowserMicrophone instance to be used with BrowserClient.
+   */
+  microphone?: BrowserMicrophone
+
+  /**
+   * Controls whether or not microphone should be closed on stop
+   */
+  closeMicrophone?: boolean
 }
 
 /**
@@ -88,6 +99,7 @@ export const DecoderDefaultOptions = {
   logSegments: false,
   frameMillis: 30,
   historyFrames: 5,
+  closeMicrophone: false,
 }
 
 /**
