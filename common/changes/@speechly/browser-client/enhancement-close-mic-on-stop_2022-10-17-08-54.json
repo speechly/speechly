@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "A BrowserMicrophone instance can be passed to BrowserClient options in constructor. This enables automatic microphone initialization/attaching on BrowserClient.start() without need to call Microphone.initialize() manually. `closeMicrophone: true` can be passed to BrowserClient options to detach the microphone after each utterance and turn off the red recording dot in the browser interface.\"",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
