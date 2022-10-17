@@ -178,11 +178,12 @@ export class CloudDecoder {
       console.log('[Decoder]', 'stopStream')
     }
 
-    if (this.state === DecoderState.Active) {
-      await this.stopContext(0)
-    }
     await this.apiClient.stopStream()
 
+    await this.waitResults()
+  }
+
+  private async waitResults(): Promise<void> {
     // Wait for active contexts to finish
     if (this.activeContexts > 0) {
       const p = new Promise(resolve => {
@@ -245,7 +246,7 @@ export class CloudDecoder {
    * Stops current SLU context by sending a stop context event to the API and muting the microphone
    * delayed by contextStopDelay = 250 ms
    */
-  async stopContext(stopDelayMs: number): Promise<void> {
+  async stopContext(stopDelayMs: number): Promise<string> {
     if (this.state === DecoderState.Failed) {
       throw Error('[Decoder] stopContext cannot be run in unrecovable error state.')
     } else if (this.state !== DecoderState.Active) {
@@ -258,9 +259,9 @@ export class CloudDecoder {
     if (stopDelayMs > 0) {
       await this.sleep(stopDelayMs)
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.apiClient.stopContext()
+    const contextId = await this.apiClient.stopContext()
     this.setState(DecoderState.Connected)
+    return contextId
   }
 
   /**
@@ -312,8 +313,10 @@ export class CloudDecoder {
       case WorkerSignal.VadSignalLow:
         this.cbs.forEach(cb => cb.onVadStateChange.forEach(f => f(false)))
         break
-      case WebsocketResponseType.Started: {
+      case WorkerSignal.RequestContextStart:
         this.activeContexts++
+        break
+      case WebsocketResponseType.Started: {
         const params = response.params
         this.audioContexts.set(response.audio_context, {
           segments: new Map(),

@@ -292,3 +292,15 @@ export interface ContextOptions {
    */
   nonStreamingNlu?: boolean
 }
+
+/**
+ * Error to be thrown when BrowserClient is already started
+ * @public
+ */
+export const ErrAlreadyStarted = new Error('BrowserClient already started')
+
+/**
+ * Error to be thrown when BrowserClient is already stopped
+ * @public
+ */
+export const ErrAlreadyStopped = new Error('BrowserClient already stopped')

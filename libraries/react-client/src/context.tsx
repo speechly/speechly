@@ -41,14 +41,14 @@ export interface SpeechContextState {
   attachMicrophone: () => Promise<void>
 
   /**
-   * Turns listening on. Automatically initialises the API connection and audio stack.
+   * Turns listening on. Automatically initialises the API connection and audio stack. Returns the context id for the stated utterance.
    */
   start: () => Promise<string>
 
   /**
-   * Turns listening off.
+   * Turns listening off. Returns the context id for the stopped utterance.
    */
-  stop: () => Promise<void>
+  stop: () => Promise<string>
 
   /**
    * Current appId in multi-app project.
@@ -127,7 +127,7 @@ export const SpeechContext = React.createContext<SpeechContextState>({
   connect: async () => Promise.resolve(),
   attachMicrophone: async () => Promise.resolve(),
   start: async () => Promise.resolve('Unknown contextId'),
-  stop: async () => Promise.resolve(),
+  stop: async () => Promise.resolve('Unknown contextId'),
   clientState: DecoderState.Disconnected,
   microphoneState: AudioSourceState.Stopped,
   listening: false,
@@ -235,7 +235,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     return client.start()
   }
 
-  readonly stop = async (): Promise<void> => {
+  readonly stop = async (): Promise<string> => {
     const { client } = this.state
     this.setState({ listening: false })
     if (client == null) {

@@ -1,5 +1,5 @@
 import { ErrDeviceNotSupported, DefaultSampleRate } from '../speechly'
-import { AudioSourceState, ErrNoAudioConsent, ErrNotInitialized } from './types'
+import { AudioSourceState, ErrNoAudioConsent } from './types'
 
 /**
  * Gets browser based microphone using the window.navigator.mediaDevices interface.
@@ -98,9 +98,7 @@ export class BrowserMicrophone {
    * Closes the microphone, releases all resources and stops the Speechly client.
    */
   async close(): Promise<void> {
-    if (!this.initialized) {
-      throw ErrNotInitialized
-    }
+    if (!this.initialized) return
 
     this.muted = true
 

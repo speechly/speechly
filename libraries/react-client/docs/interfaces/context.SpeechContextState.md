@@ -72,7 +72,7 @@ ___
 
 ▸ **start**(): `Promise`<`string`\>
 
-Turns listening on. Automatically initialises the API connection and audio stack.
+Turns listening on. Automatically initialises the API connection and audio stack. Returns the context id for the stated utterance.
 
 #### Returns
 
@@ -82,13 +82,13 @@ ___
 
 ### stop
 
-▸ **stop**(): `Promise`<`void`\>
+▸ **stop**(): `Promise`<`string`\>
 
-Turns listening off.
+Turns listening off. Returns the context id for the stopped utterance.
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`<`string`\>
 
 ## Properties
 

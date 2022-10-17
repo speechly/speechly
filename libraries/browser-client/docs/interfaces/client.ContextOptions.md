@@ -15,6 +15,7 @@ Valid options for a new audioContext. All options are optional.
 - [vocabularyBias](client.ContextOptions.md#vocabularybias)
 - [silenceTriggeredSegmentation](client.ContextOptions.md#silencetriggeredsegmentation)
 - [timezone](client.ContextOptions.md#timezone)
+- [nonStreamingNlu](client.ContextOptions.md#nonstreamingnlu)
 
 ## Properties
 
@@ -54,3 +55,12 @@ ___
 
 Inference timezone in [TZ database format](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 e.g. "Africa/Abidjan". Timezone should be wrapped to list, like ["Africa/Abidjan"].
+
+___
+
+### nonStreamingNlu
+
+• `Optional` **nonStreamingNlu**: `boolean`
+
+Inference time setting to use the non-streaming NLU variant. Set value to true to enable,
+(or to false to disable for the current context if this parameter is enabled in the configuration).

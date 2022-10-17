@@ -1,4 +1,4 @@
-import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, DecoderDefaultOptions, ResolvedDecoderOptions, VadOptions } from './types'
+import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, DecoderDefaultOptions, ResolvedDecoderOptions, VadOptions, ErrAlreadyStarted, ErrAlreadyStopped } from './types'
 import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
@@ -242,42 +242,55 @@ export class BrowserClient {
    * @returns The contextId of the active audio context
    */
   async start(options?: ContextOptions): Promise<string> {
+    if (this.active) {
+      throw ErrAlreadyStarted
+    }
+
     this.active = true
 
-    const promise = await this.queueTask(async () => {
+    const contextId = await this.queueTask(async () => {
       await this.initialize()
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
         await this.startStream({ autoStarted: true })
       }
-      const startPromise = this.decoder.startContext(options)
-      return startPromise
+      const contextId = await this.decoder.startContext(options)
+      return contextId
     })
-    return promise
+    return contextId
   }
 
   /**
    * Stops the current audio context and deactivates the audio processing pipeline.
    * If there is no active audio context, a warning is logged to console.
    */
-  async stop(stopDelayMs = this.contextStopDelay): Promise<void> {
+  async stop(stopDelayMs = this.contextStopDelay): Promise<string> {
+    if (!this.active) {
+      throw ErrAlreadyStopped
+    }
+
     this.active = false
 
-    await this.queueTask(async () => {
+    const contextId = await this.queueTask(async () => {
       try {
-        await this.decoder.stopContext(stopDelayMs)
+        const contextId = await this.decoder.stopContext(stopDelayMs)
         // Automatically control streaming for backwards compability
-        await this.autoControlStream()
+        if (!this.decoderOptions.vad?.enabled && this.isStreaming && this.streamOptions.autoStarted) {
+          await this.stopStream()
+        }
 
         if (this.stats.sentSamples === 0) {
           console.warn('[BrowserClient]', 'audioContext contained no audio data')
         }
+        return contextId
       } catch (err) {
         console.warn('[BrowserClient]', 'stop() failed', err)
       } finally {
         this.stats.sentSamples = 0
       }
     })
+
+    return contextId
   }
 
   /**
@@ -302,8 +315,16 @@ export class BrowserClient {
       }
     }
     this.decoder.adjustAudioProcessor(ap)
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.autoControlStream()
+
+    if (this.decoderOptions.vad?.enabled) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      this.autoControlStream()
+    } else {
+      if (this.active) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.stop()
+      }
+    }
   }
 
   /**
@@ -330,6 +351,7 @@ export class BrowserClient {
       }
     }
 
+    if (this.active) await this.stop(0)
     if (this.isStreaming) await this.stopStream()
 
     await this.startStream({
@@ -406,9 +428,7 @@ export class BrowserClient {
    * Use `startStream` to resume audio processing afterwards.
    */
   async stopStream(): Promise<void> {
-    this.active = false
     this.isStreaming = false
-    this.listeningPromise = null
     await this.decoder.stopStream()
   }
 
@@ -459,10 +479,6 @@ export class BrowserClient {
       case DecoderState.Failed:
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.stopStream()
-        break
-      case DecoderState.Connected:
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.autoControlStream()
         break
     }
   }

@@ -127,10 +127,8 @@ class WebsocketClient {
       throw new Error('No AudioProcessor')
     }
 
-    if (this.isContextStarted) {
-      // Ensure stopContext is called in immediate mode
-      this.stopContext()
-    }
+    // Send EOS. Ensure VAD will go off at end of stream and stopContext is called in immediate mode
+    this.audioProcessor.eos()
   }
 
   /**
@@ -173,9 +171,11 @@ class WebsocketClient {
       return
     }
 
-    this.audioProcessor.startContext()
+    this.audioProcessor.setSendAudio(true)
     this.isContextStarted = true
     this.audioContextStartTimes.push(this.audioProcessor.getStreamPosition())
+
+    this.workerCtx.postMessage({ type: WorkerSignal.RequestContextStart })
 
     let options: ContextOptions = this.defaultContextOptions ?? {}
     if (contextOptions !== undefined) {
@@ -196,7 +196,7 @@ class WebsocketClient {
       return
     }
 
-    this.audioProcessor.stopContext()
+    this.audioProcessor.setSendAudio(false)
     this.isContextStarted = false
 
     if (this.websocket) {
@@ -384,11 +384,13 @@ export function contextOptionsToMsg(contextOptions?: ContextOptions): Record<str
   message.options.vocabulary = contextOptions.vocabulary
   message.options.vocabulary_bias = contextOptions.vocabularyBias
   message.options.silence_triggered_segmentation = contextOptions.silenceTriggeredSegmentation
+
   if (contextOptions.nonStreamingNlu) {
     message.options.non_streaming_nlu = ['yes']
   } else {
     message.options.non_streaming_nlu = ['no']
   }
+
   if (contextOptions?.timezone !== undefined) {
     message.options.timezone = contextOptions?.timezone // override browser timezone
   }
