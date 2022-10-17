@@ -36,7 +36,6 @@ export class BrowserClient {
   private active: boolean = false
   private speechlyNode?: AudioWorkletNode
   private audioProcessor?: ScriptProcessorNode
-  private readonly browserMicrophone?: BrowserMicrophone
   private stream?: MediaStreamAudioSourceNode
   private listeningPromise: Promise<any> | null = null
   private readonly decoderOptions: ResolvedDecoderOptions & { vad?: VadOptions }
@@ -254,7 +253,7 @@ export class BrowserClient {
 
     const contextId = await this.queueTask(async () => {
       await this.initialize()
-      // Re-establish microphone input
+      // Re-attach microphone if detached
       if (this.decoderOptions.microphone && !this.stream) {
         await this.decoderOptions.microphone.initialize()
         if (this.decoderOptions.microphone.mediaStream) {
