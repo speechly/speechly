@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-client
 
-This log was last generated on Tue, 14 Jun 2022 14:29:09 GMT and should not be manually modified.
+This log was last generated on Mon, 17 Oct 2022 07:57:20 GMT and should not be manually modified.
+
+## 2.2.0
+Mon, 17 Oct 2022 07:57:20 GMT
+
+### Minor changes
+
+- Fixed problem when calling BrowserClient.start() and stop() quickly multiple times. Stop() can be awaited to return the stopped context id.
 
 ## 2.1.2
 Tue, 14 Jun 2022 14:29:09 GMT
