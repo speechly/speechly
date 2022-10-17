@@ -25,6 +25,8 @@
 - [DecoderDefaultOptions](client.md#decoderdefaultoptions)
 - [VadDefaultOptions](client.md#vaddefaultoptions)
 - [StreamDefaultOptions](client.md#streamdefaultoptions)
+- [ErrAlreadyStarted](client.md#erralreadystarted)
+- [ErrAlreadyStopped](client.md#erralreadystopped)
 
 ### Enumerations
 
@@ -79,3 +81,19 @@ ___
 ### StreamDefaultOptions
 
 • `Const` **StreamDefaultOptions**: [`StreamOptions`](../interfaces/client.StreamOptions.md)
+
+___
+
+### ErrAlreadyStarted
+
+• `Const` **ErrAlreadyStarted**: `Error`
+
+Error to be thrown when BrowserClient is already started
+
+___
+
+### ErrAlreadyStopped
+
+• `Const` **ErrAlreadyStopped**: `Error`
+
+Error to be thrown when BrowserClient is already stopped

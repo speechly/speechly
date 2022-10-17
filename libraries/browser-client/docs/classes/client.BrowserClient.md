@@ -138,7 +138,7 @@ ___
 
 ### stop
 
-▸ **stop**(`stopDelayMs?`): `Promise`<`void`\>
+▸ **stop**(`stopDelayMs?`): `Promise`<`string`\>
 
 Stops the current audio context and deactivates the audio processing pipeline.
 If there is no active audio context, a warning is logged to console.
@@ -151,7 +151,7 @@ If there is no active audio context, a warning is logged to console.
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`<`string`\>
 
 ___
 

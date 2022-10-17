@@ -99,11 +99,11 @@ ___
 
 ### stop
 
-▸ `Readonly` **stop**(): `Promise`<`void`\>
+▸ `Readonly` **stop**(): `Promise`<`string`\>
 
 #### Returns
 
-`Promise`<`void`\>
+`Promise`<`string`\>
 
 ___
 
