@@ -204,19 +204,14 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     }
 
     const microphone = new BrowserMicrophone()
+
     microphone.onStateChange((state: AudioSourceState) => {
       this.setState({
         microphoneState: state,
       })
     })
 
-    await microphone.initialize()
-
-    if (microphone.mediaStream) {
-      await client.attach(microphone.mediaStream)
-    } else {
-      throw Error('Microphone contains no MediaStream to attach')
-    }
+    await client.attach(microphone)
 
     this.setState({
       microphone: microphone,
