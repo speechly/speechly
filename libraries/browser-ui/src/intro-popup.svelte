@@ -132,7 +132,7 @@
               visibility = true;
             }
           }, 500);
-        } else {
+        } else if (firstConnect) {
           visibility = true;
         }
         break;

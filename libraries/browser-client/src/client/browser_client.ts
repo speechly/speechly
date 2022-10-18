@@ -3,6 +3,7 @@ import { CloudDecoder } from './decoder'
 import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
+import { BrowserMicrophone } from '../microphone'
 
 /**
  * Speechly BrowserClient streams audio containing speech for cloud processing and
@@ -198,49 +199,59 @@ export class BrowserClient {
       await this.decoder.initAudioProcessor(this.streamOptions.sampleRate, this.decoderOptions.frameMillis, this.decoderOptions.historyFrames, this.decoderOptions.vad)
       this.audioProcessorInitialized = true
     }
-
-    // Automatically (re)attach a microphone or a mediastream defined in options
-    if (!this.stream && this.decoderOptions.microphone) {
-      await this.decoderOptions.microphone.initialize()
-      if (this.decoderOptions.microphone.mediaStream) {
-        await this._attach(this.decoderOptions.microphone.mediaStream)
-      }
-    }
-
-    if (!this.stream && this.decoderOptions.mediaStream) {
-      await this._attach(this.decoderOptions.mediaStream)
-    }
   }
 
   /**
-   * Attach a MediaStream to the client, enabling the client to send the audio to the
+   * Attach a BrowserMicrophone or a MediaStream to the client, enabling the client to send the audio to the
    * Speechly API for processing. The processing is activated by calling
    * {@link BrowserClient.start} and deactivated by calling {@link BrowserClient.stop}.
    */
-  async attach(mediaStream: MediaStream): Promise<void> {
+  async attach(audioSource: MediaStream | BrowserMicrophone): Promise<void> {
     await this.initialize()
     await this.detach()
-    await this._attach(mediaStream)
+
+    if (audioSource instanceof BrowserMicrophone) {
+      this.decoderOptions.microphone = audioSource
+    } else {
+      this.decoderOptions.mediaStream = audioSource
+    }
+    await this._attach()
+
+    // Auto-start stream if VAD is enabled
+    if (this.decoderOptions.vad?.enabled) {
+      await this.startStream({ autoStarted: true })
+    }
   }
 
-  private async _attach(mediaStream: MediaStream): Promise<void> {
-    this.stream = this.audioContext?.createMediaStreamSource(mediaStream)
-
-    // ensure audioContext is active
-    if (this.audioContext?.state !== 'running') {
-      if (this.debug) {
-        console.log('[BrowserClient]', 'audioContext resume required, state is', this.audioContext?.state)
+  private async _attach(): Promise<void> {
+    if (!this.stream) {
+      // (re)attach a microphone or a mediastream defined in options
+      if (this.decoderOptions.microphone) {
+        await this.decoderOptions.microphone.initialize()
+        if (this.decoderOptions.microphone.mediaStream) {
+          this.stream = this.audioContext?.createMediaStreamSource(this.decoderOptions.microphone.mediaStream)
+        }
       }
-      await this.audioContext?.resume()
+
+      if (this.decoderOptions.mediaStream) {
+        this.stream = this.audioContext?.createMediaStreamSource(this.decoderOptions.mediaStream)
+      }
+
+      // ensure audioContext is active
+      if (this.audioContext?.state !== 'running') {
+        if (this.debug) {
+          console.log('[BrowserClient]', 'audioContext resume required, state is', this.audioContext?.state)
+        }
+        await this.audioContext?.resume()
+      }
+      if (this.speechlyNode) {
+        this.stream?.connect(this.speechlyNode)
+      } else if (this.audioProcessor) {
+        this.stream?.connect(this.audioProcessor)
+      } else {
+        throw Error('[BrowserClient] cannot attach to mediaStream, not initialized')
+      }
     }
-    if (this.speechlyNode) {
-      this.stream?.connect(this.speechlyNode)
-    } else if (this.audioProcessor) {
-      this.stream?.connect(this.audioProcessor)
-    } else {
-      throw Error('[BrowserClient] cannot attach to mediaStream, not initialized')
-    }
-    await this.autoControlStream()
   }
 
   /**
@@ -266,6 +277,8 @@ export class BrowserClient {
 
     const contextId = await this.queueTask(async () => {
       await this.initialize()
+      // (re)attach mediastream if needed
+      await this._attach()
       if (!this.isStreaming) {
         // Automatically control streaming for backwards compability
         await this.startStream({ autoStarted: true })
@@ -336,14 +349,10 @@ export class BrowserClient {
     }
     this.decoder.adjustAudioProcessor(ap)
 
-    if (this.decoderOptions.vad?.enabled) {
+    // Auto-start stream if VAD is enabled
+    if (this.decoderOptions.vad?.enabled && !this.isStreaming) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.autoControlStream()
-    } else {
-      if (this.active) {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.stop()
-      }
+      this.startStream({ autoStarted: true })
     }
   }
 
@@ -473,23 +482,6 @@ export class BrowserClient {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         if (this.active) this.stop(0)
       }
-    }
-  }
-
-  private async autoControlStream(): Promise<void> {
-    if (!this.audioProcessorInitialized) return
-
-    if (!this.stream) return
-
-    // Auto-start stream if VAD is enabled
-    if (this.decoderOptions.vad?.enabled && !this.isStreaming) {
-      await this.startStream({ autoStarted: true })
-      return
-    }
-
-    // Auto-stop stream if automatically started
-    if (!this.decoderOptions.vad?.enabled && this.isStreaming && this.streamOptions.autoStarted) {
-      await this.stopStream()
     }
   }
 

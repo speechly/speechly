@@ -90,7 +90,7 @@
       introPopup = el;
       el.addEventListener(MessageType.requeststartmicrophone, async() => {
         await microphone.initialize()
-        await client.attach(microphone.mediaStream)
+        await client.attach(microphone)
       });
       usePermissionPriming = localStorage.getItem(LocalStorageKeys.SpeechlyFirstConnect) === null;
     }
@@ -100,6 +100,7 @@
     if (mounted && !client && (projectid || appid)) {
       const clientOptions = {
         connect: false,
+        // closeMicrophone: true,
         ...(appid && !projectid && {appId: appid}),
         ...(projectid && {projectId: projectid}),
         ...(apiurl && {apiUrl: apiurl}),
@@ -147,8 +148,8 @@
             // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
             try {
               const initStartTime = Date.now();
-              await microphone.initialize()
-              await client.attach(microphone.mediaStream)
+              await microphone.initialize();
+              await client.attach(microphone);
               // Long init time suggests permission dialog --> prevent listening start
               holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
             } catch (e) {
