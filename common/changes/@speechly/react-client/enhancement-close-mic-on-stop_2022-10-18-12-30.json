@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "react-client attaches microphone by BrowserMicrophone instance instead of MediaStream.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
