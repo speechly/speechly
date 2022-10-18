@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "push-to-talk-button attaches microphone by BrowserMicrophone instance instead of MediaStream to enable closing and reopening. intro-popup fix to prevent re-displaying on mic reopen.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
