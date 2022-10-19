@@ -112,11 +112,6 @@ export interface SpeechContextState {
    * Low-level access to underlying Speechly BrowserClient.
    */
   client?: BrowserClient
-
-  /**
-   * Low-level access to underlying Speechly BrowserMicrophone.
-   */
-  microphone?: BrowserMicrophone
 }
 
 /**
@@ -147,7 +142,6 @@ export interface SpeechProviderProps extends DecoderOptions {
 
 interface SpeechProviderState {
   client?: BrowserClient
-  microphone?: BrowserMicrophone
   clientState: DecoderState
   microphoneState: AudioSourceState
   listening: boolean
@@ -176,7 +170,6 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
     super(props)
     this.state = {
       client: undefined,
-      microphone: undefined,
       listening: false,
       clientState: DecoderState.Disconnected,
       microphoneState: AudioSourceState.Stopped,
@@ -203,19 +196,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       throw Error('No Speechly client (are you calling connect in non-browser environment)')
     }
 
-    const microphone = new BrowserMicrophone()
-
-    microphone.onStateChange((state: AudioSourceState) => {
-      this.setState({
-        microphoneState: state,
-      })
-    })
-
-    await client.attach(microphone)
-
-    this.setState({
-      microphone: microphone,
-    })
+    await client.attach()
   }
 
   readonly start = async (): Promise<string> => {
@@ -281,18 +262,12 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
       return
     }
 
-    const { client, microphone } = this.state
+    const { client } = this.state
 
     try {
       await client?.close()
     } catch (e) {
       console.error('Error closing Speechly client:', e)
-    }
-
-    try {
-      await microphone?.close()
-    } catch (e) {
-      console.error('Error closing microphone:', e)
     }
 
     this.createClient(props)
@@ -307,8 +282,19 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   }
 
   private readonly createClient = (clientOptions: SpeechProviderProps): void => {
-    // Postpone connect
+    // Augment client options to postpone connect until callback have been attached
     const effectiveOpts = { ...clientOptions, connect: false }
+
+    // Create BrowserMicrophone if no mediaStream or microphone provided - will be attached later at user gesture
+    if (clientOptions.mediaStream === undefined && clientOptions.microphone === undefined) {
+      effectiveOpts.microphone = new BrowserMicrophone()
+      effectiveOpts.microphone.onStateChange((state: AudioSourceState) => {
+        this.setState({
+          microphoneState: state,
+        })
+      })
+    }
+
     const client = new BrowserClient(effectiveOpts)
 
     client.onStateChange(this.onClientStateChange)
