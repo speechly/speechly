@@ -36,7 +36,7 @@ function SpeechlyApp() {
         <button onClick={connect} disabled={clientState !== DecoderState.Disconnected}>Connect</button>
         <button onClick={attachMicrophone} disabled={microphoneState !== AudioSourceState.Stopped}>Initialize mic</button>
         <button onMouseDown={start} onMouseUp={stop}>
-          { listening ? 'Listening...' : 'Hold to listen' }
+          { listening ? 'Listening...' : 'Hold to talk' }
         </button>
       </div>
       <h3>Transcript</h3>

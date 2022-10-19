@@ -112,14 +112,15 @@ Please use a HTML server to view the example. Running it as a file will not work
 
       const widget = document.getElementById("textBox")
 
-      // Create a Speechly client instance.
+      // Create a Speechly client instance and microphone
       // NOTE: Configure and get your appId from https://api.speechly.com/dashboard
       const speechly = new BrowserClient({
         appId: "your-app-id",
         debug: true,
         logSegments: true,
+        microphone: new BrowserMicrophone(),
+        closeMicrophone: true,
       })
-      const microphone = new BrowserMicrophone()
 
       speechly.onSegmentChange(segment => {
         // Clean up and concatenate words
@@ -132,17 +133,11 @@ Please use a HTML server to view the example. Running it as a file will not work
       });
 
       const startListening = async () => {
-        if (microphone.mediaStream === undefined) {
-          await microphone.initialize()
-          await speechly.attach(microphone.mediaStream)
-        }
-        return speechly.start();
+        await speechly.start();
       }
 
       const stopListening = async () => {
-        if (speechly.isActive()) {
-          return speechly.stop();
-        }
+        await speechly.stop();
       }
 
       // Bind start listening to a widget hold, release anywhere to stop

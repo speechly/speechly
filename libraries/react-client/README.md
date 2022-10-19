@@ -69,14 +69,16 @@ export default function App() {
 }
 
 function SpeechlyApp() {
-  const { listening, segment, toggleRecording } = useSpeechContext()
+  const { listening, segment, start, stop } = useSpeechContext()
 
   return (
     <div>
       <div className="status">Listening: {listening}</div>
       {segment ? <div className="segment">{segment.words.map(w => w.value).join(' ')}</div> : null}
       <div className="mic-button">
-        <button onClick={toggleRecording}>Record</button>
+        <button onMouseDown={start} onMouseUp={stop}>
+          { listening ? 'Listening...' : 'Hold to talk' }
+        </button>
       </div>
     </div>
   )
