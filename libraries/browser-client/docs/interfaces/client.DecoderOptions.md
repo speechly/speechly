@@ -29,6 +29,9 @@ The options which can be used to configure the client.
 - [storage](client.DecoderOptions.md#storage)
 - [frameMillis](client.DecoderOptions.md#framemillis)
 - [historyFrames](client.DecoderOptions.md#historyframes)
+- [mediaStream](client.DecoderOptions.md#mediastream)
+- [microphone](client.DecoderOptions.md#microphone)
+- [closeMicrophone](client.DecoderOptions.md#closemicrophone)
 
 ## Properties
 
@@ -183,3 +186,39 @@ Number of history frames to keep in ringbuffer. They are sent upon start of cont
 #### Inherited from
 
 Partial.historyFrames
+
+___
+
+### mediaStream
+
+• `Optional` **mediaStream**: `MediaStream`
+
+MediaStream instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
+
+#### Inherited from
+
+Partial.mediaStream
+
+___
+
+### microphone
+
+• `Optional` **microphone**: [`BrowserMicrophone`](../classes/microphone.BrowserMicrophone.md)
+
+BrowserMicrophone instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
+
+#### Inherited from
+
+Partial.microphone
+
+___
+
+### closeMicrophone
+
+• `Optional` **closeMicrophone**: `boolean`
+
+Controls whether or not microphone should be automatically detached and closed on stop and re-attached on start. MediaStreams cannot be automatically detached.
+
+#### Inherited from
+
+Partial.closeMicrophone

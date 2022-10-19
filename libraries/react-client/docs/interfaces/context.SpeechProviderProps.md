@@ -31,6 +31,9 @@ Props for SpeechContext provider, which are used to initialise API client.
 - [storage](context.SpeechProviderProps.md#storage)
 - [frameMillis](context.SpeechProviderProps.md#framemillis)
 - [historyFrames](context.SpeechProviderProps.md#historyframes)
+- [mediaStream](context.SpeechProviderProps.md#mediastream)
+- [microphone](context.SpeechProviderProps.md#microphone)
+- [closeMicrophone](context.SpeechProviderProps.md#closemicrophone)
 
 ## Properties
 
@@ -203,3 +206,39 @@ Number of history frames to keep in ringbuffer. They are sent upon start of cont
 #### Inherited from
 
 DecoderOptions.historyFrames
+
+___
+
+### mediaStream
+
+• `Optional` **mediaStream**: `MediaStream`
+
+MediaStream instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
+
+#### Inherited from
+
+DecoderOptions.mediaStream
+
+___
+
+### microphone
+
+• `Optional` **microphone**: `BrowserMicrophone`
+
+BrowserMicrophone instance to be used with BrowserClient. Only mediaStream or microphone can be used at a time.
+
+#### Inherited from
+
+DecoderOptions.microphone
+
+___
+
+### closeMicrophone
+
+• `Optional` **closeMicrophone**: `boolean`
+
+Controls whether or not microphone should be automatically detached and closed on stop and re-attached on start. MediaStreams cannot be automatically detached.
+
+#### Inherited from
+
+DecoderOptions.closeMicrophone

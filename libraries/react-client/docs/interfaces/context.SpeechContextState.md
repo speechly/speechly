@@ -34,7 +34,6 @@ Individual values (transcripts, entities and intent) are reset back to undefined
 - [intent](context.SpeechContextState.md#intent)
 - [segment](context.SpeechContextState.md#segment)
 - [client](context.SpeechContextState.md#client)
-- [microphone](context.SpeechContextState.md#microphone)
 
 ## Methods
 
@@ -188,11 +187,3 @@ ___
 • `Optional` **client**: `BrowserClient`
 
 Low-level access to underlying Speechly BrowserClient.
-
-___
-
-### microphone
-
-• `Optional` **microphone**: `BrowserMicrophone`
-
-Low-level access to underlying Speechly BrowserMicrophone.

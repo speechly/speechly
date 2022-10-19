@@ -65,17 +65,10 @@ Create a new BrowserClient instance.
 
 ### initialize
 
-▸ **initialize**(`options?`): `Promise`<`void`\>
+▸ **initialize**(): `Promise`<`void`\>
 
 Connect to cloud, create an AudioContext for receiving audio samples from a MediaStream
 and initialize a worker for audio processing and bi-directional streaming to the cloud.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `options?` | `Object` |
-| `options.mediaStream?` | `MediaStream` |
 
 #### Returns
 
@@ -85,9 +78,9 @@ ___
 
 ### attach
 
-▸ **attach**(`mediaStream`): `Promise`<`void`\>
+▸ **attach**(`audioSource?`): `Promise`<`void`\>
 
-Attach a MediaStream to the client, enabling the client to send the audio to the
+Attach a BrowserMicrophone or a MediaStream to the client, enabling the client to send the audio to the
 Speechly API for processing. The processing is activated by calling
 [BrowserClient.start](client.BrowserClient.md#start) and deactivated by calling [BrowserClient.stop](client.BrowserClient.md#stop).
 
@@ -95,7 +88,7 @@ Speechly API for processing. The processing is activated by calling
 
 | Name | Type |
 | :------ | :------ |
-| `mediaStream` | `MediaStream` |
+| `audioSource?` | `MediaStream` \| [`BrowserMicrophone`](microphone.BrowserMicrophone.md) |
 
 #### Returns
 

@@ -67,6 +67,7 @@ Converts client state value to a string, which could be useful for debugging or 
 | `logSegments` | `boolean` |
 | `frameMillis` | `number` |
 | `historyFrames` | `number` |
+| `closeMicrophone` | `boolean` |
 
 ___
 
