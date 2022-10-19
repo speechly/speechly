@@ -206,15 +206,16 @@ export class BrowserClient {
    * Speechly API for processing. The processing is activated by calling
    * {@link BrowserClient.start} and deactivated by calling {@link BrowserClient.stop}.
    */
-  async attach(audioSource: MediaStream | BrowserMicrophone): Promise<void> {
+  async attach(audioSource?: MediaStream | BrowserMicrophone): Promise<void> {
     await this.initialize()
     await this.detach()
 
     if (audioSource instanceof BrowserMicrophone) {
       this.decoderOptions.microphone = audioSource
-    } else {
+    } else if (audioSource instanceof MediaStream) {
       this.decoderOptions.mediaStream = audioSource
     }
+    
     await this._attach()
 
     // Auto-start stream if VAD is enabled
@@ -231,10 +232,10 @@ export class BrowserClient {
         if (this.decoderOptions.microphone.mediaStream) {
           this.stream = this.audioContext?.createMediaStreamSource(this.decoderOptions.microphone.mediaStream)
         }
-      }
-
-      if (this.decoderOptions.mediaStream) {
+      } else if (this.decoderOptions.mediaStream) {
         this.stream = this.audioContext?.createMediaStreamSource(this.decoderOptions.mediaStream)
+      } else {
+        throw Error("No MediaSteam or BrowserMicrophone to attach. Pass one to attach() or define it in constructor options.")
       }
 
       // ensure audioContext is active
