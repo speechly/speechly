@@ -22,6 +22,7 @@
   export let hide = undefined;
   export let taptotalktime = 8000; // ms to listen after tap. Set to 0 to disable tap-to-talk.
   export let silencetohanguptime = 1000; // ms of silence to listen before hangup
+  export let closemicrophone = undefined;
 
   export let placement = undefined;
   export let size = "80px";
@@ -65,6 +66,7 @@
   $: tipCallOutText = intro;
   $: initialize(projectid, appid);
   $: defaultTypography = customtypography === undefined || customtypography === "false";
+  $: useCloseMicrophone = closemicrophone !== undefined && closemicrophone !== "false";
 
   let client = null;
   let microphone = null;
@@ -98,9 +100,13 @@
 
   const initialize = (projectid: string, appid: string) => {
     if (mounted && !client && (projectid || appid)) {
+      microphone = new BrowserMicrophone()
+      microphone.onStateChange(onMicrophoneStateChange)
+
       const clientOptions = {
         connect: false,
-        // closeMicrophone: true,
+        microphone,
+        closeMicrophone: useCloseMicrophone,
         ...(appid && !projectid && {appId: appid}),
         ...(projectid && {projectId: projectid}),
         ...(apiurl && {apiUrl: apiurl}),
@@ -117,8 +123,6 @@
         window.postMessage({ type: MessageType.speechsegment, segment: segment }, "*");
       });
 
-      microphone = new BrowserMicrophone()
-      microphone.onStateChange(onMicrophoneStateChange)
       client.initialize();
       tipCalloutVisible = true;
     }
@@ -148,8 +152,7 @@
             // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
             try {
               const initStartTime = Date.now();
-              await microphone.initialize();
-              await client.attach(microphone);
+              await client.attach();
               // Long init time suggests permission dialog --> prevent listening start
               holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
             } catch (e) {

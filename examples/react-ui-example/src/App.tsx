@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <SpeechProvider appId={appId} >
+      <SpeechProvider appId={appId} closeMicrophone={false} >
         <SpeechlyApp />
       </SpeechProvider>
     </div>

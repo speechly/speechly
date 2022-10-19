@@ -85,6 +85,7 @@
         <li><code>capturekey</code> - Optional string (of length 1). Defines a keyboard hotkey that with control listening on/off. Default: undefined. Recommendation: Space (" ")</li>
         <li><code>poweron</code> - Optional string "auto"|"true"|"false". If "true", first button press sends a "poweron" message instead of initializing Speechly. This allows displaying a welcome screen using Intro Popup or a custom implementation. "auto" setting tries to detect presence of Intro Popup in DOM and use poweron if found. Default: "auto" </li>
         <li><code>hide</code> - Optional "false" | "true". Default: "false"</li>
+        <li><code>closemicrophone</code> - Optional "false" | "true". Set to true to close microphone after listening ends. May introduce input lag on older browsers. Default: "false".</li>
       </ul>
       <h3>Attributes for styling</h3>
       <ul>       

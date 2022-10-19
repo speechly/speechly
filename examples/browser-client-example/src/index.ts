@@ -34,7 +34,8 @@ window.onload = () => {
     logSegments: false,
     connect: false,
     vad: { enabled: false, noiseGateDb: -24.0, signalSustainMillis: 2000 },
-    // microphone: mic,
+    closeMicrophone: false,
+    microphone: mic,
     ...process.env.REACT_APP_API_URL ? { apiUrl: process.env.REACT_APP_API_URL } : null,
 };
 
