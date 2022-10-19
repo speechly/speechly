@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Microphone will be attached upon start.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}

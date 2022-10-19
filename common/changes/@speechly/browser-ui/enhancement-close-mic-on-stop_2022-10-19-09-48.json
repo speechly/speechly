@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Added closemicrophone=\"true\" attribute.",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
