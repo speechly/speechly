@@ -215,7 +215,7 @@ export class BrowserClient {
     } else if (audioSource instanceof MediaStream) {
       this.decoderOptions.mediaStream = audioSource
     }
-    
+
     await this._attach()
 
     // Auto-start stream if VAD is enabled
@@ -235,7 +235,7 @@ export class BrowserClient {
       } else if (this.decoderOptions.mediaStream) {
         this.stream = this.audioContext?.createMediaStreamSource(this.decoderOptions.mediaStream)
       } else {
-        throw Error("No MediaSteam or BrowserMicrophone to attach. Pass one to attach() or define it in constructor options.")
+        throw Error('No MediaSteam or BrowserMicrophone to attach. Pass one to attach() or define it in constructor options.')
       }
 
       // ensure audioContext is active
