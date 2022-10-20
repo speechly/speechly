@@ -186,36 +186,50 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
+let listenPromise: Promise<void> | null = null;
+
 function bindListenButton(bc: BrowserClient, mic: BrowserMicrophone) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    try {
-      await mic.initialize();
-      if (mic.mediaStream) {
-        await bc.attach(mic.mediaStream);
-        const contextId = await bc.start();
-        console.log("Started", contextId);
-        resetState(contextId);
-      } else {
-        console.error("No mediastream")
+    listenPromise = (async () => {
+      // Wait for earlier task(s) to complete, effectively adding to a task queue
+      await listenPromise;
+      try {
+        await mic.initialize();
+        if (mic.mediaStream) {
+          await bc.attach(mic.mediaStream);
+          const contextId = await bc.start();
+          console.log("Started", contextId);
+          resetState(contextId);
+        } else {
+          console.error("No mediastream")
+        }
+      } catch (err) {
+        console.error("Could not start recording", err);
       }
-    } catch (err) {
-      console.error("Could not start recording", err);
-    }
+    })();
+
+    await listenPromise;
   };
 
   const stopRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
-    try {
-      const contextId = await bc.stop();
-      await bc.detach();
-      await mic.close();
-      console.log("Stopped", contextId);
-    } catch (err) {
-      console.error("Could not stop recording", err);
-    }
+    listenPromise = (async () => {
+      // Wait for earlier task(s) to complete, effectively adding to a task queue
+      await listenPromise;
+      try {
+        const contextId = await bc.stop();
+        await bc.detach();
+        await mic.close();
+        console.log("Stopped", contextId);
+      } catch (err) {
+        console.error("Could not stop recording", err);
+      }
+    })();
+
+    await listenPromise;
   };
 
   const recordDiv = document.getElementById("record") as HTMLElement;
