@@ -98,7 +98,7 @@ window.onload = () => {
 
   bindConnectButton(browserClient);
   bindInitializeButton(browserClient, mic);
-  bindListenButton(browserClient);
+  bindListenButton(browserClient, mic);
   bindUploadButton();
   bindFileSelector(browserClient);
   bindCloseButton(browserClient, mic);
@@ -186,14 +186,20 @@ function updateStatus(status: string): void {
   statusDiv.innerHTML = status;
 }
 
-function bindListenButton(bc: BrowserClient) {
+function bindListenButton(bc: BrowserClient, mic: BrowserMicrophone) {
   const startRecording = async (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
 
     try {
-      const contextId = await bc.start();
-      console.log("Started", contextId);
-      resetState(contextId);
+      await mic.initialize();
+      if (mic.mediaStream) {
+        await bc.attach(mic.mediaStream);
+        const contextId = await bc.start();
+        console.log("Started", contextId);
+        resetState(contextId);
+      } else {
+        console.error("No mediastream")
+      }
     } catch (err) {
       console.error("Could not start recording", err);
     }
@@ -204,6 +210,8 @@ function bindListenButton(bc: BrowserClient) {
 
     try {
       const contextId = await bc.stop();
+      await bc.detach();
+      await mic.close();
       console.log("Stopped", contextId);
     } catch (err) {
       console.error("Could not stop recording", err);
