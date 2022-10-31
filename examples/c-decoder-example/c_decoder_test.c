@@ -99,7 +99,8 @@ int main(int argc, char *argv[])
     void* model;
     size_t model_len;
 
-    // load model bundle to memory.
+    // load model bundle to memory. The model pointer must *not* be free'd while the
+    // decoder is in operation.
     if (load_file(argv[1], &model, &model_len) > 0) {
         printf("Loading model failed.\n");
         return 1;
@@ -122,7 +123,7 @@ int main(int argc, char *argv[])
     }
 
     // Below we first feed all samples to the decoder, and then read the transcript.
-    // Note that it is possible to run the functions feed_audio and read_transcript
+    // It is also possible to run the functions feed_audio and read_transcript
     // concurrently in two threads. This is useful for real-time situations in which
     // it is important to show the transcript while receiving more audio.
 
