@@ -8,9 +8,11 @@ An example iOS app for using the Speechly Decoder library for on-device transcri
 
 Make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
 
+You will also need the `SpeechlyDecoder.xcframework` library.
+
 ## Download model bundle
 
-Download a **Core ML** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
+To use the Speechly Decoder library you need a model bundle. Download a **Core ML** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
 
 ```bash 
 speechly download YOUR_APP_ID . --model coreml
