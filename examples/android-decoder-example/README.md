@@ -6,11 +6,11 @@ An example Android app for using the Speechly Decoder library for on-device tran
 
 ## Get started
 
-Before starting, make sure you have created and deployed a Speechly application. For on-device use it's required to use a **small** model.
+Before starting, make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
 
 ### Download model bundle
 
-Download the **TensorFlow Lite** version of the model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
+Download a **TensorFlow Lite** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
 
 ```bash 
 speechly download YOUR_APP_ID . --model tflite

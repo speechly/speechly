@@ -1,20 +1,20 @@
 # Speechly Decoder for C Example
 
-An example C program for using the Speechly Decoder library (`libSpeechlyDecoder`) for on-device transcription.
+An example C program for using the Speechly Decoder library, `libSpeechlyDecoder`, for on-device transcription. This example assumes you are working on Linux, but the same steps work also on macOS.
 
 **Note:** on-device transcription is only available on [Enterprise plans](https://www.speechly.com/pricing)
 
-This example assumes you are working on Linux, but the same steps work also on macOS.
-
 ## Get started
 
-Before starting, make sure you have created and deployed a Speechly application. You will also need the `libSpeechlyDecoder.so` shared library, as well as the `Decoder.h` and `SpeechlyConstants.h` header files.
+Before starting, make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
+
+You will also need the `libSpeechlyDecoder.so` shared library, as well as the `Decoder.h` and `SpeechlyConstants.h` header files.
 
 ### Download model bundle
 
-To use the Speechly Decoder Library you need a model bundle. These come in three varieties: Onnxruntime (ORT), Tensorflow Lite or CoreML, and your `libSpeechlyDecoder` library will support only one of these. In this example, we assume your version of the library is built for ORT.
+To use the Speechly Decoder library you need a model bundle. They are available for three different machine learning frameworks: ONNX Runtime, TensorFlow Lite and Core ML. Your `libSpeechlyDecoder` library will support only one of them. In this example, we assume your version of the library is built for ONNX Runtime.
 
-Download an ORT model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
+Download an **ONNX Runtime** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
 
 ```bash 
 speechly download YOUR_APP_ID . --model ort
