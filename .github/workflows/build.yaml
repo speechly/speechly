@@ -11,6 +11,7 @@ on:
 
 env:
   WEBPACK_MODE: prd
+  BROWSERSLIST_IGNORE_OLD_DATA: 1
 
 jobs:
   build:
