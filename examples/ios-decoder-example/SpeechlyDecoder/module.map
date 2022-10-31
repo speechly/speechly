@@ -1,0 +1,5 @@
+module CSpeechlyDecoder {
+       umbrella "include"
+       header "include/Decoder.h"
+       export *
+}
