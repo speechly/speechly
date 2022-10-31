@@ -1,4 +1,4 @@
-# Speechly Decoder for C Example
+# Speechly Decoder for C example
 
 An example C program for using the Speechly Decoder library, `libSpeechlyDecoder`, for on-device transcription. This example assumes you are working on Linux, but the same steps work also on macOS.
 

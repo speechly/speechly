@@ -1,4 +1,4 @@
-# Speechly Decoder for iOS Example
+# Speechly Decoder for iOS example
 
 An example iOS app for using the Speechly Decoder library for on-device transcription.
 

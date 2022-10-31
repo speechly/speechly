@@ -1,4 +1,4 @@
-# Speechly Decoder for Android
+# Speechly Decoder for Android example
 
 An example Android app for using the Speechly Decoder library for on-device transcription.
 
