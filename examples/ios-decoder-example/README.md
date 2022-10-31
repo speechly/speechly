@@ -4,11 +4,11 @@ An example iOS app for using the Speechly Decoder library for on-device transcri
 
 **Note:** on-device transcription is only available on [Enterprise plans](https://www.speechly.com/pricing)
 
-## Get started
+## Before you start
 
-Before starting, make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
+Make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
 
-### Download model bundle
+## Download model bundle
 
 Download a **Core ML** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
 
@@ -16,7 +16,7 @@ Download a **Core ML** model bundle from [Speechly Dashboard](https://api.speech
 speechly download YOUR_APP_ID . --model coreml
 ```
 
-### Add dependencies
+## Add dependencies
 
 Open `Decoder.xcodeproj` and add both `SpeechlyDecoder.xcframework` and `YOUR_MODEL_BUNDLE.coreml.bundle` to the Xcode project by dragging and dropping it from Finder into the **Frameworks** folder:
 
@@ -32,7 +32,7 @@ In `Decoder/SpeechlyManager.swift` update the model bundle resource URL:
 let bundle = Bundle.main.url(forResource: "YOUR_MODEL_BUNDLE.coreml", withExtension: "bundle")!
 ```
 
-### Run the app
+## Run the app
 
 Run the app and grant it microphone permissions when prompted.
 

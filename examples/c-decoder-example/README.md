@@ -4,13 +4,13 @@ An example C program for using the Speechly Decoder library, `libSpeechlyDecoder
 
 **Note:** on-device transcription is only available on [Enterprise plans](https://www.speechly.com/pricing)
 
-## Get started
+## Before you start
 
-Before starting, make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
+Make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
 
 You will also need the `libSpeechlyDecoder.so` shared library, as well as the `Decoder.h` and `SpeechlyConstants.h` header files.
 
-### Download model bundle
+## Download model bundle
 
 To use the Speechly Decoder library you need a model bundle. They are available for three different machine learning frameworks: ONNX Runtime, TensorFlow Lite and Core ML. Your `libSpeechlyDecoder` library will support only one of them. In this example, we assume your version of the library is built for ONNX Runtime.
 
@@ -20,13 +20,13 @@ Download an **ONNX Runtime** model bundle from [Speechly Dashboard](https://api.
 speechly download YOUR_APP_ID . --model ort
 ```
 
-### Add dependencies
+## Add dependencies
 
 Put `Decoder.h`, `SpeechlyConstants.h`, `libSpeechlyDecoder.so` (assuming we are building on Linux) and `YOUR_MODEL_BUNDLE.ort.bundle` in the same directory as `c_decoder_test.c`.
 
 You'll also need an audio file. Use an existing audio file, record your own or use our [sample audio file](https://funny-kashata-6dcdf0.netlify.app/audio/ndgt.wav). The example assumes you have a single channel 16-bit WAV file with a sample rate of 16kHz.
 
-### Compile and run
+## Compile and run
 
 Compile the program:
 
