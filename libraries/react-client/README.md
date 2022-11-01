@@ -28,67 +28,78 @@ This repository contains source code for the React client for [Speechly](https:/
 
 Check out [Speechly documentation](https://docs.speechly.com//client-libraries/react-client/?utm_source=github&utm_medium=react-client&utm_campaign=text) for a tutorial on how to build a voice filtering app using this client.
 
-## Quick start
+## Before you start
 
-Bootstrap a simple Speechly React app
+Make sure you have created and deployed a Speechly application. Take note of the **App ID**, you'll need it shortly.
 
-```sh
-npx degit speechly/speechly/templates/empty my-app
-cd my-app
-// Add an app ID to index.js from https://api.speechly.com/dashboard
-npm install
-npm start
+You'll also need a React app. Use your existing app, or create a new one using:
+
+```bash
+npx create-react-app my-app
 ```
+
+## Installation
+
+Install Speechly React client:
+
+```
+npm install @speechly/react-client
+```
+
+Import `SpeechProvider` and wrap the app with it, passing the **App ID** of your Speechly application:
+
+```jsx
+// index.js
+import { SpeechProvider } from '@speechly/react-client';
+
+<React.StrictMode>
+  <SpeechProvider appId="YOUR_APP_ID">
+    <App />
+  </SpeechProvider>
+</React.StrictMode>
+```
+
+See [`SpeechProviderProps`](docs/classes/context.SpeechProviderProps.md) for all available properties.
 
 ## Usage
 
-Install the package:
+Import the `useSpeechContext` hook, create a button to initialize the microphone, another button for toggling the microphone and then display the transcript:
 
-```sh
-# Create a new React app
-create-react-app .
+```jsx
+// App.js
+import { useSpeechContext } from '@speechly/react-client';
 
-# Install Speechly client
-npm install --save @speechly/react-client
-```
+function App() {
+  const { segment, listening, attachMicrophone, start, stop } = useSpeechContext();
 
-Start using the client:
-
-```typescript
-import React from 'react'
-import { SpeechProvider, useSpeechContext } from '@speechly/react-client'
-
-export default function App() {
   return (
     <div className="App">
-      <SpeechProvider appId="my-app-id" language="my-app-language">
-        <SpeechlyApp />
-      </SpeechProvider>
+      <button onClick={attachMicrophone}>Initialize microphone</button>
+      <button onPointerDown={start} onPointerUp={stop}>
+        {listening ? 'Listening…' : 'Push to talk'}
+      </button>
+      <p>
+        {segment && segment.words.map(word => word.value).join(' ')}
+      </p>
     </div>
-  )
-}
-
-function SpeechlyApp() {
-  const { listening, segment, toggleRecording } = useSpeechContext()
-
-  return (
-    <div>
-      <div className="status">Listening: {listening}</div>
-      {segment ? <div className="segment">{segment.words.map(w => w.value).join(' ')}</div> : null}
-      <div className="mic-button">
-        <button onClick={toggleRecording}>Record</button>
-      </div>
-    </div>
-  )
+  );
 }
 ```
 
-Check out the [react-example-repo-filtering](https://github.com/speechly/react-example-repo-filtering) repository for a demo app built using this client.
+Start the development server:
+
+```
+npm run start
+```
+
+Navigate to http://localhost:3000 to see your app running!
 
 ## Documentation
 
-- [API documentation](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) in GitHub
-- [Basic usage in docs.speechly.com](https://docs.speechly.com/client-libraries/usage/?platform=React)
+- [API reference](docs/classes/context.SpeechProvider.md) (GitHub)
+- [Basic usage](https://docs.speechly.com/client-libraries/usage/?platform=React) (Docs)
+- [Advanced usage](https://docs.speechly.com/client-libraries/using-react-client/) (Docs)
+- Check out the [react-example-repo-filtering](https://github.com/speechly/react-example-repo-filtering) repository for a example app built using this client.
 
 ## Contributing
 
