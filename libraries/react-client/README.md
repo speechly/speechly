@@ -59,7 +59,7 @@ import { SpeechProvider } from '@speechly/react-client';
 </React.StrictMode>
 ```
 
-See [`SpeechProviderProps`](docs/classes/context.SpeechProviderProps.md) for all available properties.
+See [`SpeechProviderProps`](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/interfaces/context.SpeechProviderProps.md) for all available properties.
 
 ## Usage
 
@@ -96,7 +96,7 @@ Navigate to http://localhost:3000 to see your app running!
 
 ## Documentation
 
-- [API reference](docs/classes/context.SpeechProvider.md) (GitHub)
+- [API reference](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) (GitHub)
 - [Basic usage](https://docs.speechly.com/client-libraries/usage/?platform=React) (Docs)
 - [Advanced usage](https://docs.speechly.com/client-libraries/using-react-client/) (Docs)
 - Check out the [react-example-repo-filtering](https://github.com/speechly/react-example-repo-filtering) repository for a example app built using this client.

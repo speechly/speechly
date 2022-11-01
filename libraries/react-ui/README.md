@@ -94,5 +94,5 @@ Navigate to http://localhost:3000 to see your app running!
 
 ### Documentation
 
-- [API reference](docs/README.md) (GitHub)
+- [API reference](https://github.com/speechly/speechly/tree/main/libraries/react-ui/docs) (GitHub)
 - [UI components](https://docs.speechly.com/ui-components/) (Docs)
