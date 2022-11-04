@@ -61,17 +61,6 @@ Example applications can be used to validate correct behaviour of client and UI 
 | [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
 | [/examples/next-js-example](/examples/next-js-example) | A two-page Next.js site bootstrapped with `yarn create next-app --typescript` with Speechly UI components on them. |
 
-## Templates
-
-Collection of simple React templates for [Speechly](https://www.speechly.com/) applications. Templates provide a starting point for any application. They can be expanded further to build more complex applications.
-
-| Folder | Description |
-| ------ | ------- |
-| [/templates/empty](/templates/empty) | This template is a blank canvas. Useful for speech-to-text applications, like text entry and note taking. |
-| [/templates/product-filtering](/templates/product-filtering) | This template provides a starting point for creating a product filtering experience. |
-| [/templates/contact-form](/templates/contact-form) | This template provides a starting point for creating a contact form that can be interacted with using voice. |
-| [/templates/command-control](/templates/command-control) | This template shows how to use Speechly for command-and-control. Useful for things like navigation and finding information on a site. |
-
 ## How to get help?
 
 For general discussion or questions, please use our [GitHub Discussion forum](https://github.com/speechly/speechly/discussions).
@@ -89,16 +78,20 @@ This monorepository is set up using [rushjs](https://rushjs.io). Rush can be use
 Each project and library is a stand-alone node project that can be built and devoped with npm or [pnpm](https://pnpm.io). To run a single examples or demos, just follow the instructions in the project's README.
 
 ### To build all projects using Rush, run
+
 ```
 npm install -g @microsoft/rush
 npm install -g pnpm
 rush update
 rush build
 ```
+
 This will build everything in the repository – This may take a while! After this step, you can run any example or demo by navigating to the corresponding folder (e.g. `examples/browser-client-example`) and running
+
 ```
 rushx start
 ```
+
 Before doing a PR, remember to create a changelog entry with
 
 ```
@@ -106,12 +99,14 @@ rush change -b origin/main
 ```
 
 ## Learn more
+
 - [Quick Start Guide](https://docs.speechly.com/quick-start/) – Get started on developing with Speechly for the web
 - [Developer Documentation](https://docs.speechly.com/) – Browse the latest developer documentation, including tutorials, sample code and API reference
 - [Speechly Demos](https://www.speechly.com/demos/) – Get inspired and see what you can build with Speechly
 - [Speechly Dashboard](https://www.speechly.com/dashboard) – Where you create, configure and deploy your Speechly applications
 
 ## Related repositories
+
 - [Android Client Library](https://github.com/speechly/android-client)
 - [iOS Client Library](https://github.com/speechly/ios-client)
 - [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)

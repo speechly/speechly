@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "",
+      "type": "none"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}
