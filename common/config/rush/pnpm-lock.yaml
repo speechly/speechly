@@ -37,6 +37,8 @@ specifiers:
   '@types/react-dom': ^18
   '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
+  '@typescript-eslint/eslint-plugin': ^5
+  '@typescript-eslint/parser': ^5
   axios: ^0.21.1
   base-64: ^0.1.0
   classnames: ~2.3.1
@@ -130,13 +132,15 @@ dependencies:
   '@types/react-dom': 18.0.4
   '@types/styled-components': 5.1.25
   '@types/uuid': 7.0.5
+  '@typescript-eslint/eslint-plugin': 5.26.0_bb0ad1d634be530527f7b0533a6c8adc
+  '@typescript-eslint/parser': 5.10.1_eslint@7.32.0+typescript@4.6.4
   axios: 0.21.4
   base-64: 0.1.0
   classnames: 2.3.1
   csvtojson: 2.0.10
   eslint: 7.32.0
   eslint-config-next: 12.1.4_00e03c44f5a8d6c1b028bf82f23dfb17
-  eslint-config-standard-with-typescript: 16.0.0_03ee8cb8460b21572951352622f6e1e2
+  eslint-config-standard-with-typescript: 16.0.0_d0b5cb6f773797afa453933faa8041ca
   eslint-plugin-import: 2.26.0_eslint@7.32.0
   eslint-plugin-jest: 23.20.0_eslint@7.32.0+typescript@4.6.4
   eslint-plugin-node: 11.1.0_eslint@7.32.0
@@ -7081,51 +7085,6 @@ packages:
       eslint-plugin-react: 7.29.4_eslint@7.32.0
       eslint-plugin-react-hooks: 4.5.0_eslint@7.32.0
       eslint-plugin-testing-library: 3.10.2_eslint@7.32.0+typescript@4.6.4
-    dev: false
-
-  /eslint-config-standard-with-typescript/16.0.0_03ee8cb8460b21572951352622f6e1e2:
-    resolution: {integrity: sha512-SpEQcg8x4DchhOq4fCDA4cb83GzSVxEKzPyjxAc7p136sKAflPr3E/zvn9x9ooOXqtBlbISDpB0wC2L3K8nWZQ==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>=2.26.0'
-      eslint: '>=6.2.2'
-      eslint-plugin-import: '>=2.18.0'
-      eslint-plugin-node: '>=9.1.0'
-      eslint-plugin-promise: '>=4.2.1'
-      eslint-plugin-standard: '>=4.0.0'
-    dependencies:
-      '@typescript-eslint/parser': 2.34.0_eslint@7.32.0+typescript@4.6.4
-      eslint: 7.32.0
-      eslint-config-standard: 14.1.1_9aaecb2a3f70c207f0b65cfba27b3f05
-      eslint-plugin-import: 2.26.0_eslint@7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-standard: 4.1.0_eslint@7.32.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: false
-
-  /eslint-config-standard-with-typescript/16.0.0_3a3b2e90ae58a9583f2d7228bc15beb5:
-    resolution: {integrity: sha512-SpEQcg8x4DchhOq4fCDA4cb83GzSVxEKzPyjxAc7p136sKAflPr3E/zvn9x9ooOXqtBlbISDpB0wC2L3K8nWZQ==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>=2.26.0'
-      eslint: '>=6.2.2'
-      eslint-plugin-import: '>=2.18.0'
-      eslint-plugin-node: '>=9.1.0'
-      eslint-plugin-promise: '>=4.2.1'
-      eslint-plugin-standard: '>=4.0.0'
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
-      '@typescript-eslint/parser': 2.34.0_eslint@7.32.0+typescript@4.6.4
-      eslint: 7.32.0
-      eslint-config-standard: 14.1.1_9aaecb2a3f70c207f0b65cfba27b3f05
-      eslint-plugin-import: 2.26.0_eslint@7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-standard: 4.1.0_eslint@7.32.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
     dev: false
 
   /eslint-config-standard-with-typescript/16.0.0_d0b5cb6f773797afa453933faa8041ca:
@@ -16052,7 +16011,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-F8uPM3gCmqxtPv9+zqBvQyoodOOtS8dRjGfl/KFqTe7HJwCfGq9a51Y7caueyiaVfmet3noAYN5KeZTaqcxDfA==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-FSgRdFgMCLPFS2Y6X3yxpWUN1PdwjGTtBldJkTH81+4xdyyl1K7JnKeidIPia1mY8t/HsGwfOQI2s1uIlUeUVQ==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
@@ -16061,10 +16020,10 @@ packages:
       '@types/react': 18.0.9
       '@types/react-dom': 18.0.4
       '@types/styled-components': 5.1.25
-      '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
-      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.4
+      '@typescript-eslint/eslint-plugin': 5.26.0_bb0ad1d634be530527f7b0533a6c8adc
+      '@typescript-eslint/parser': 5.10.1_eslint@7.32.0+typescript@4.6.4
       eslint: 7.32.0
-      eslint-config-standard-with-typescript: 16.0.0_3a3b2e90ae58a9583f2d7228bc15beb5
+      eslint-config-standard-with-typescript: 16.0.0_d0b5cb6f773797afa453933faa8041ca
       eslint-plugin-import: 2.26.0_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 4.3.1
