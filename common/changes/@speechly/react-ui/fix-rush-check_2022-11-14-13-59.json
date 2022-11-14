@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "Harmonize dependencies, release vers",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

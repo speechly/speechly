@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Harmonize dependencies, release version with new browser-client",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
