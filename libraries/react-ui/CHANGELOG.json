@@ -2,6 +2,23 @@
   "name": "@speechly/react-ui",
   "entries": [
     {
+      "version": "2.7.1",
+      "tag": "@speechly/react-ui_v2.7.1",
+      "date": "Tue, 15 Nov 2022 09:13:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Harmonize dependencies, release vers"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-ui\" from `^6.0.2` to `^6.0.3`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.7.0",
       "tag": "@speechly/react-ui_v2.7.0",
       "date": "Mon, 13 Jun 2022 08:05:47 GMT",

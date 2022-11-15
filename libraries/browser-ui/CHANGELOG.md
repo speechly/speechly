@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Tue, 14 Jun 2022 14:29:09 GMT and should not be manually modified.
+This log was last generated on Tue, 15 Nov 2022 09:13:48 GMT and should not be manually modified.
+
+## 6.0.3
+Tue, 15 Nov 2022 09:13:48 GMT
+
+### Patches
+
+- Harmonize dependencies, release version with new browser-client
 
 ## 6.0.2
 Tue, 14 Jun 2022 14:29:09 GMT

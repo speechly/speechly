@@ -2,6 +2,18 @@
   "name": "@speechly/browser-ui",
   "entries": [
     {
+      "version": "6.0.3",
+      "tag": "@speechly/browser-ui_v6.0.3",
+      "date": "Tue, 15 Nov 2022 09:13:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Harmonize dependencies, release version with new browser-client"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.2",
       "tag": "@speechly/browser-ui_v6.0.2",
       "date": "Tue, 14 Jun 2022 14:29:09 GMT",
