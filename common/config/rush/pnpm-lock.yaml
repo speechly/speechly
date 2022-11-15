@@ -4,6 +4,7 @@ specifiers:
   '@microsoft/api-extractor': ^7
   '@rollup/plugin-commonjs': ^21
   '@rollup/plugin-node-resolve': ^13
+  '@rollup/plugin-typescript': ~8.3.2
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
   '@rush-temp/browser-client-example': file:./projects/browser-client-example.tgz
   '@rush-temp/browser-ui': file:./projects/browser-ui.tgz
@@ -22,10 +23,7 @@ specifiers:
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
-  '@speechly/browser-client': 1.5.0
-  '@speechly/browser-ui': 6.0.0
   '@speechly/demo-navigation': ^0.1.37
-  '@speechly/react-client': 2.1.0
   '@testing-library/jest-dom': ^4.2.4
   '@testing-library/react': ^9.3.2
   '@testing-library/user-event': ^7.1.2
@@ -39,6 +37,8 @@ specifiers:
   '@types/react-dom': ^18
   '@types/styled-components': ^5.1.7
   '@types/uuid': ^7.0.3
+  '@typescript-eslint/eslint-plugin': ^5
+  '@typescript-eslint/parser': ^5
   axios: ^0.21.1
   base-64: ^0.1.0
   classnames: ~2.3.1
@@ -99,6 +99,7 @@ dependencies:
   '@microsoft/api-extractor': 7.24.0
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+  '@rollup/plugin-typescript': 8.3.2_85597b07bb5af8e2d870d848a0cbfc3a
   '@rush-temp/browser-client': file:projects/browser-client.tgz_ts-node@10.7.0
   '@rush-temp/browser-client-example': file:projects/browser-client-example.tgz_ts-node@10.7.0
   '@rush-temp/browser-ui': file:projects/browser-ui.tgz
@@ -117,10 +118,7 @@ dependencies:
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.7.0
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.7.0
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.7.0
-  '@speechly/browser-client': 1.5.0
-  '@speechly/browser-ui': 6.0.0
   '@speechly/demo-navigation': 0.1.37
-  '@speechly/react-client': 2.1.0
   '@testing-library/jest-dom': 4.2.4
   '@testing-library/react': 9.5.0
   '@testing-library/user-event': 7.2.1
@@ -134,13 +132,15 @@ dependencies:
   '@types/react-dom': 18.0.4
   '@types/styled-components': 5.1.25
   '@types/uuid': 7.0.5
+  '@typescript-eslint/eslint-plugin': 5.26.0_bb0ad1d634be530527f7b0533a6c8adc
+  '@typescript-eslint/parser': 5.10.1_eslint@7.32.0+typescript@4.6.4
   axios: 0.21.4
   base-64: 0.1.0
   classnames: 2.3.1
   csvtojson: 2.0.10
   eslint: 7.32.0
   eslint-config-next: 12.1.4_00e03c44f5a8d6c1b028bf82f23dfb17
-  eslint-config-standard-with-typescript: 16.0.0_03ee8cb8460b21572951352622f6e1e2
+  eslint-config-standard-with-typescript: 16.0.0_d0b5cb6f773797afa453933faa8041ca
   eslint-plugin-import: 2.26.0_eslint@7.32.0
   eslint-plugin-jest: 23.20.0_eslint@7.32.0+typescript@4.6.4
   eslint-plugin-node: 11.1.0_eslint@7.32.0
@@ -3504,14 +3504,6 @@ packages:
     dependencies:
       react: 18.1.0
       react-dom: 18.1.0_react@18.1.0
-    dev: false
-
-  /@speechly/react-client/2.1.0:
-    resolution: {integrity: sha512-iRUrb6aG2CiEunxBwBTUUBAz5bCugfZrGtSxjglroTJ55GslGataK5pY7s6FjyKsrWj1ty7F3J9ZtVabmBt3Wg==}
-    peerDependencies:
-      react: '>=16.9.0'
-    dependencies:
-      '@speechly/browser-client': 2.4.1
     dev: false
 
   /@speechly/react-client/2.1.0_react@18.1.0:
@@ -7093,51 +7085,6 @@ packages:
       eslint-plugin-react: 7.29.4_eslint@7.32.0
       eslint-plugin-react-hooks: 4.5.0_eslint@7.32.0
       eslint-plugin-testing-library: 3.10.2_eslint@7.32.0+typescript@4.6.4
-    dev: false
-
-  /eslint-config-standard-with-typescript/16.0.0_03ee8cb8460b21572951352622f6e1e2:
-    resolution: {integrity: sha512-SpEQcg8x4DchhOq4fCDA4cb83GzSVxEKzPyjxAc7p136sKAflPr3E/zvn9x9ooOXqtBlbISDpB0wC2L3K8nWZQ==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>=2.26.0'
-      eslint: '>=6.2.2'
-      eslint-plugin-import: '>=2.18.0'
-      eslint-plugin-node: '>=9.1.0'
-      eslint-plugin-promise: '>=4.2.1'
-      eslint-plugin-standard: '>=4.0.0'
-    dependencies:
-      '@typescript-eslint/parser': 2.34.0_eslint@7.32.0+typescript@4.6.4
-      eslint: 7.32.0
-      eslint-config-standard: 14.1.1_9aaecb2a3f70c207f0b65cfba27b3f05
-      eslint-plugin-import: 2.26.0_eslint@7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-standard: 4.1.0_eslint@7.32.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: false
-
-  /eslint-config-standard-with-typescript/16.0.0_3a3b2e90ae58a9583f2d7228bc15beb5:
-    resolution: {integrity: sha512-SpEQcg8x4DchhOq4fCDA4cb83GzSVxEKzPyjxAc7p136sKAflPr3E/zvn9x9ooOXqtBlbISDpB0wC2L3K8nWZQ==}
-    peerDependencies:
-      '@typescript-eslint/eslint-plugin': '>=2.26.0'
-      eslint: '>=6.2.2'
-      eslint-plugin-import: '>=2.18.0'
-      eslint-plugin-node: '>=9.1.0'
-      eslint-plugin-promise: '>=4.2.1'
-      eslint-plugin-standard: '>=4.0.0'
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
-      '@typescript-eslint/parser': 2.34.0_eslint@7.32.0+typescript@4.6.4
-      eslint: 7.32.0
-      eslint-config-standard: 14.1.1_9aaecb2a3f70c207f0b65cfba27b3f05
-      eslint-plugin-import: 2.26.0_eslint@7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
-      eslint-plugin-promise: 4.3.1
-      eslint-plugin-standard: 4.1.0_eslint@7.32.0
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
     dev: false
 
   /eslint-config-standard-with-typescript/16.0.0_d0b5cb6f773797afa453933faa8041ca:
@@ -15642,7 +15589,7 @@ packages:
     dev: false
 
   file:projects/browser-client-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-Vzj/NyKYi/vWkXN9b/KYen9OUlcBCgaoa7o6QjK2e8EKRoDsGW6nAyFZgyxNjfzh9sAb3nigg9OLHm475m5Hww==, tarball: file:projects/browser-client-example.tgz}
+    resolution: {integrity: sha512-D/VbNjk/762E5PNxrffRiSNT1A9WrS1VbDddG3huJyuFe6SBnNZsN2+6NZsblGYVfeN7GmEIkbLEnOF8fYpE9Q==, tarball: file:projects/browser-client-example.tgz}
     id: file:projects/browser-client-example.tgz
     name: '@rush-temp/browser-client-example'
     version: 0.0.0
@@ -15717,7 +15664,7 @@ packages:
     dev: false
 
   file:projects/browser-ui.tgz:
-    resolution: {integrity: sha512-kkjKt924HIn6XX58060ymDInqGu/6ikkbgHyx/13OyZRF6fsPZLPpXrNiL2wKaYBXOobOV0MhQBSb0S7gTq7Vg==, tarball: file:projects/browser-ui.tgz}
+    resolution: {integrity: sha512-VdW3tN9TQ4vNj9I+UWOZIBQiKTlbtUIqZdMSM9AeT+op3c2ELHS+DCjqxXf5bmYPFCoP9eksxgBrIQwPye+mTw==, tarball: file:projects/browser-ui.tgz}
     name: '@rush-temp/browser-ui'
     version: 0.0.0
     dependencies:
@@ -15755,7 +15702,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-wjft1DZokWJcMzaEE9QvVshpW9Hh+qFTQuGtH/I6/IFE3xs9yQ4Trjg346SUIhgb30AKxeagCnrg+JO4wNcaNw==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-cGOT7p+k7+fChubH/MNIBmKYox4qIDfE/VBhhyv/7g0IbEFCZfZAvL4Bibe61u+FN4wrxAHDwhNnyl+MEzrfgQ==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -15794,7 +15741,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-rXCCktJA1Ji0+RQzym5v/AG3Q+84yGF120X0yE1JyoUVf2N+9Cxav5aCqZbMGcoNheEe7bCBUivJL2MJZPP9qA==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-OcC7Nh7E0p/LEh4EgrH+VVV88cvTkxQdp+bSQy4jipIMLpI94G0UfqXktJ1y+hkDxZ+ilLsohDcq5cy6jPFOlQ==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -15852,7 +15799,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-j6pzqjtUpmcpNaoax9ZeVrD7WJrjKGgUanZzmx+QZwjbuDTkZgr2pAnEhmzLsPFOIfrr0gkb8yTZtEdhvwhsEg==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-t7xih6fLq85mHxBFBp1NoSK4wBb+QM74QfkAixr5vcUTe/B6CuXdAK2FgO0+wThftoRzPYLga8Yp0QPyD6Slkw==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -15891,7 +15838,7 @@ packages:
     dev: false
 
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-DsHAbARjNlcvWCrSyoq7JudvmmGi3hmSGp7XoWK6irZnqPnXL8DathTLxDSHoi1h6GdBeblJlVKF/tSRe3NFoA==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-GuJk/rR17/WgtS12DDAwPSKJ6WzpwSDopswN2oqwPyedj9uCAIghv2HcdPk01tskYhwlSk2QtzhDofWOGK3Ecw==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
@@ -15905,7 +15852,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-hnNpBC+DOmgRQXsk1iGtTwbKZFslcHA9sKYGdA5eJdRByZ5E8nJQoqK5RxsH7rNjh+xwXieEhjWVEroRfrZSgw==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-1/2oRrBLsaLPBZXfUq7z83YCR0AlGvuYOj3Y3xA+iVodRqk/XxB4Zh6F2W23IOMAAGNVL4WkaTUi9O+rPWStKg==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -15947,7 +15894,7 @@ packages:
     dev: false
 
   file:projects/next-js-example.tgz:
-    resolution: {integrity: sha512-/CyE51GRCaIcjXprb5IRUtdLNA0opsa0BkOyCsNnVgriusinXNe4cKrEmmONAv/8/BM5tQf762Bf+KR/Q/XvfQ==, tarball: file:projects/next-js-example.tgz}
+    resolution: {integrity: sha512-VJSkrLQbN9uVFlDOh24ukucltFkMdh3gcWnaSUrLOY8EQ4mdZlFwSSzalVLaMA6ctkmXFgeVotpD0s2mQ0gkiQ==, tarball: file:projects/next-js-example.tgz}
     name: '@rush-temp/next-js-example'
     version: 0.0.0
     dependencies:
@@ -15971,7 +15918,7 @@ packages:
     dev: false
 
   file:projects/react-client-example.tgz_ts-node@10.7.0+typescript@4.6.4:
-    resolution: {integrity: sha512-sFuawM+ClGBSXPuWBOs5yzeX3tCh5CJrfKXrygGew7ouR0LYcxIpKLeOuWyWYCkfp1R9m7+lh0th0nPQ8B3OzA==, tarball: file:projects/react-client-example.tgz}
+    resolution: {integrity: sha512-hU7OrG/xSCmkfVVRIu/vx6QuB+MhUe0/dManYS6iuBgNyDJOtj+Bcz9nmOui/wnGy6O+gBQjeqcVS4HsYQOMRQ==, tarball: file:projects/react-client-example.tgz}
     id: file:projects/react-client-example.tgz
     name: '@rush-temp/react-client-example'
     version: 0.0.0
@@ -15999,17 +15946,17 @@ packages:
     dev: false
 
   file:projects/react-client.tgz:
-    resolution: {integrity: sha512-diLSE3ZJo9sitdwmbvcT4mhib4YWnOJWDpNmAxDcxl6aoeAE4iqX0svpElGh1aMxLDcs/7p9x/lNSwA1Q8ittQ==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-lcD5ZNCqLSCg0qvvb56Rrnhtr2Th+1xa6Oo9fPF9WHsmFgvnsEDVkdqkasS64cdiFmlgU9Mqji66YPTzDLpylg==, tarball: file:projects/react-client.tgz}
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.24.0
       '@speechly/browser-client': 1.5.0
       '@types/react': 18.0.9
-      '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
-      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.4
+      '@typescript-eslint/eslint-plugin': 5.26.0_bb0ad1d634be530527f7b0533a6c8adc
+      '@typescript-eslint/parser': 5.10.1_eslint@7.32.0+typescript@4.6.4
       eslint: 7.32.0
-      eslint-config-standard-with-typescript: 16.0.0_3a3b2e90ae58a9583f2d7228bc15beb5
+      eslint-config-standard-with-typescript: 16.0.0_d0b5cb6f773797afa453933faa8041ca
       eslint-plugin-import: 2.26.0_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 4.3.1
@@ -16029,7 +15976,7 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-6hnc2ZVGZ+4xd28nsJyPLhvqFTF7ly6GINQ4et/rJxw3QS89Fr+TfussbgpohG2sHa+lksFLinw88fquaRVfyA==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-/Y9O66JUZehhFUxxFvFdpk+eBjdvb0XYqSZP34r0uDwqRmk52tPKm+0yV7UMQxtEmwIY5/63FlbjmWst1ZieQA==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
@@ -16064,7 +16011,7 @@ packages:
     dev: false
 
   file:projects/react-ui.tgz:
-    resolution: {integrity: sha512-a6Nwbhx2OYs8UCwQoRRSQFe67uxHA/CFjDkNlORolKbx9sdib4BGEDlNyMBvhwZhnO6uplZphHkPP+p4TMQBWg==, tarball: file:projects/react-ui.tgz}
+    resolution: {integrity: sha512-FSgRdFgMCLPFS2Y6X3yxpWUN1PdwjGTtBldJkTH81+4xdyyl1K7JnKeidIPia1mY8t/HsGwfOQI2s1uIlUeUVQ==, tarball: file:projects/react-ui.tgz}
     name: '@rush-temp/react-ui'
     version: 0.0.0
     dependencies:
@@ -16073,10 +16020,10 @@ packages:
       '@types/react': 18.0.9
       '@types/react-dom': 18.0.4
       '@types/styled-components': 5.1.25
-      '@typescript-eslint/eslint-plugin': 4.33.0_5e731fab734ce085fc02cd0ecce6c061
-      '@typescript-eslint/parser': 4.33.0_eslint@7.32.0+typescript@4.6.4
+      '@typescript-eslint/eslint-plugin': 5.26.0_bb0ad1d634be530527f7b0533a6c8adc
+      '@typescript-eslint/parser': 5.10.1_eslint@7.32.0+typescript@4.6.4
       eslint: 7.32.0
-      eslint-config-standard-with-typescript: 16.0.0_3a3b2e90ae58a9583f2d7228bc15beb5
+      eslint-config-standard-with-typescript: 16.0.0_d0b5cb6f773797afa453933faa8041ca
       eslint-plugin-import: 2.26.0_eslint@7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
       eslint-plugin-promise: 4.3.1
@@ -16104,7 +16051,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.7.0+typescript@4.6.4:
-    resolution: {integrity: sha512-SUG9m9jBGdLCyf6WRsXYWOzpIRQYLrmvlDidob7IjO79sHSWb7hs2aTgPMvJtbqkiP43SAXRVl4438OJjpa9qw==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-gl76J+WhUY4gJOZ6in9WndR/JMwztcTbrTqYQEbndLx2qDRj9jgTN1jiRq2KqpinL/zjytYDHBhXjFKPcVPOCg==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
@@ -16133,7 +16080,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms.tgz:
-    resolution: {integrity: sha512-G0JB/gdSQRdZR28zY26qcrtQlBuYTyJxf4eQAoCKW/sYJGB/jYfwZ/BTzpyhw9uJ42nEd+pmw5ppMrQl6O3Qfg==, tarball: file:projects/react-voice-forms.tgz}
+    resolution: {integrity: sha512-c3SSTYoeg4YmOQSMNRpay784B44rts/qUJiCtebZXLt8CgPItmj3Fso4oPINaxeA2RWdhRhfj2Gg++pzyaUgdA==, tarball: file:projects/react-voice-forms.tgz}
     name: '@rush-temp/react-voice-forms'
     version: 0.0.0
     dependencies:
@@ -16150,7 +16097,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-YHvLUvLF8iYC/O+OJJgPxbw6t3opubi8x/CqrRsAKqCgflECVkvFfIWsvaSksN+voknXd33EFUTP2mZsF4m7gQ==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-1T14fJelLdxh1ZEIIXwSPvDaiA2894/rivicmzuWgv4R6/xOzFedfHevGFukNrDexvjExrKdLHmskZQzr7xAOQ==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -16206,7 +16153,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-d6ArzkeYW4gCtioOHwRIGuVb3XIWmxT284UsFvfhiA1TGNpgy4oJyxGRfx4H7yNgGBI5Ie1pCRJRVwFY+rq9HA==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-yGPgSkIf0/eAGaJ+PWW/ifVpANj2BiaVUyi3UTUPZyrILejzZ+Lj0Cqgji9DnWtKKKdZ9rRBNNw+2QJaTRtBDA==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
@@ -16247,7 +16194,7 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.7.0:
-    resolution: {integrity: sha512-rGbDwpP9QIb/M8yo7x0RSp8Kv6sGpmU5CgC39nWAfSeKR8/ZQrKPjGXutQfIB2coPmZeV5+MIu/5hvUpn78teg==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-0asuRZN1vUwNM2XWtgzuyroWBi4yVZZKM1hiVpyj1MBEaVJR0qm4VMq0MSpQysn0PwumYybUDZGnEJvYqJ/UXg==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0
