@@ -100,6 +100,7 @@ const typeScriptDefaults = {
     sourcemap: true,
   },
   plugins: [
+    resolve(),
     typescript({ tsconfig: './tsconfig.json' }),
   ],
 };
