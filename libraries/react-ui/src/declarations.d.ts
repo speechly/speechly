@@ -1,4 +1,3 @@
-declare module '@speechly/browser-ui'
 declare module '@speechly/browser-ui/core/holdable-button'
 declare module '@speechly/browser-ui/core/call-out'
 declare module '@speechly/browser-ui/core/big-transcript'

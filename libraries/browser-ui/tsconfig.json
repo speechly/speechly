@@ -7,7 +7,6 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "declarationDir": "types",
     "declarationMap": true,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",

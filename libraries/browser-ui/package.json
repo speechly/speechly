@@ -37,7 +37,7 @@
     "core/**/*","src/**/*"
   ],
   "main": "./core/index.js",
-  "types": "./core/types/index.d.ts",
+  "types": "./core/index.d.ts",
   "publishConfig": {
     "access": "public"
   }

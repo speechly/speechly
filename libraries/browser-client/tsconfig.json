@@ -5,7 +5,6 @@
     "module": "ES2015",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationDir": "types",
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": true,
