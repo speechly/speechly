@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Re-added browser-ui demomode.js to package.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}

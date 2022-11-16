@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-ui",
+      "comment": "Updated deps and fixed compile problems it introduced.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-ui"
+}

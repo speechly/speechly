@@ -22,7 +22,7 @@
     "speech recognition"
   ],
   "scripts": {
-    "build": "pnpm run lint && pnpm run test 2>&1 && rm -rf ./dist/ && pnpx rollup -c --silent",
+    "build": "pnpm run lint && pnpm run test 2>&1 && rimraf core && pnpx rollup -c --silent",
     "build:watch": "rm -rf ./dist/ && pnpx rollup -c --silent",
     "check": "pnpm run build && pnpx api-extractor run --verbose",
     "docs": "rimraf docs && pnpx typedoc --readme none --excludeInternal --excludeExternals --excludePrivate --excludeProtected --out ./docs/ --entryPointStrategy resolve --sort required-first --disableSources ./src/client ./src/microphone ./src/speechly",
@@ -40,9 +40,9 @@
     "url": "https://github.com/speechly/speechly/issues"
   },
   "files": ["core/**/*", "src/**/*"],
-  "main": "./core/speechly.umd.min.js",
-  "module": "./core/speechly.es.js",
-  "types": "./core/types/index.d.ts",
+  "main": "core/speechly.umd.min.js",
+  "module": "core/speechly.es.js",
+  "types": "core/index.d.ts",
   "author": "Speechly",
   "license": "MIT",
   "dependencies": {

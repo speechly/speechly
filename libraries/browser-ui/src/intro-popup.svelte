@@ -184,7 +184,7 @@
   --remsize: {remsize};
 ">
 {#if visibility}
-  <modalbg transition:fade="{{duration: 200}}" on:click={closeSelf} />
+  <modalbg transition:fade="{{duration: 200}}" />
   <modalcontent class:defaultTypography={defaultTypography} class="{position}">
     <main>
       {#if page === PagePriming || page === AudioSourceState.Starting}

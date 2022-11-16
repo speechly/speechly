@@ -100,6 +100,7 @@ const typeScriptDefaults = {
     sourcemap: true,
   },
   plugins: [
+    resolve(),
     typescript({ tsconfig: './tsconfig.json' }),
   ],
 };
@@ -177,6 +178,16 @@ export default [
       ...webComponentDefaults.output,
       file: 'core/intro-popup.js'
     },
+  },
+
+  {...typeScriptDefaults,
+    input: 'src/demomode.ts',
+    output: [
+      {
+        ...typeScriptDefaults.output,
+        file: 'core/demomode.js',
+      },
+    ],
   },
 
   {...typeScriptDefaults,
