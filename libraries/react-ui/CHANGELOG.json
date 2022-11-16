@@ -2,6 +2,26 @@
   "name": "@speechly/react-ui",
   "entries": [
     {
+      "version": "2.7.2",
+      "tag": "@speechly/react-ui_v2.7.2",
+      "date": "Wed, 16 Nov 2022 12:35:00 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Updated deps and fixed compile problems it introduced."
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-ui\" from `^6.0.3` to `^6.0.4`"
+          },
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `^2.6.0` to `^2.6.1`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.7.1",
       "tag": "@speechly/react-ui_v2.7.1",
       "date": "Tue, 15 Nov 2022 09:13:48 GMT",

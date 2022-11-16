@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-ui
 
-This log was last generated on Tue, 15 Nov 2022 09:13:48 GMT and should not be manually modified.
+This log was last generated on Wed, 16 Nov 2022 12:35:00 GMT and should not be manually modified.
+
+## 6.0.4
+Wed, 16 Nov 2022 12:35:00 GMT
+
+### Patches
+
+- Re-added browser-ui demomode.js to package.
 
 ## 6.0.3
 Tue, 15 Nov 2022 09:13:48 GMT
