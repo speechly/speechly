@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Fixed TypeScript declarations",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
