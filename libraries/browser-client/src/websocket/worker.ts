@@ -199,10 +199,8 @@ class WebsocketClient {
     this.audioProcessor.setSendAudio(false)
     this.isContextStarted = false
 
-    if (this.websocket) {
-      const StopEventJSON = JSON.stringify({ event: 'stop' })
-      this.send(StopEventJSON)
-    }
+    const StopEventJSON = JSON.stringify({ event: 'stop' })
+    this.send(StopEventJSON)
   }
 
   switchContext(contextOptions?: ContextOptions): void {
@@ -233,7 +231,8 @@ class WebsocketClient {
     }
 
     if (!this.websocket) {
-      throw Error('WebSocket is undefined')
+      console.warn('WebSocket already closed')
+      return
     }
 
     this.websocket.close(websocketCode, reason)
@@ -313,7 +312,8 @@ class WebsocketClient {
     }
 
     if (this.websocket.readyState !== this.websocket.OPEN) {
-      throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+      console.warn(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+      return
     }
 
     try {
