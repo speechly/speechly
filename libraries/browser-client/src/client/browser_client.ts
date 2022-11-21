@@ -428,8 +428,10 @@ export class BrowserClient {
    * Use `startStream` to resume audio processing afterwards.
    */
   async stopStream(): Promise<void> {
-    this.isStreaming = false
-    await this.decoder.stopStream()
+    if (this.isStreaming) {
+      this.isStreaming = false
+      await this.decoder.stopStream()
+    }
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {
@@ -512,6 +514,7 @@ export class BrowserClient {
     }
     await this.decoder.close()
     this.initialized = false
+    this.listeningPromise = null
   }
 
   private async sleep(ms: number): Promise<void> {
