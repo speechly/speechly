@@ -86,7 +86,7 @@ export class BrowserClient {
     if (this.debug) {
       console.log('[BrowserClient]', 'initializing')
     }
-    await this.decoder.connect()
+
     try {
       const opts: AudioContextOptions = {}
       if (this.nativeResamplingSupported) {
@@ -199,6 +199,8 @@ export class BrowserClient {
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
+
+    await this.decoder.connect()
   }
 
   /**
