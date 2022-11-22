@@ -16,7 +16,7 @@ export class WebsocketError extends Error {
   code: number
   wasClean: boolean
 
-  constructor(reason: string, code = 1000, wasClean: true, ...params: any) {
+  constructor(reason: string, code: number, wasClean: boolean, ...params: any) {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
     super(...params)
 

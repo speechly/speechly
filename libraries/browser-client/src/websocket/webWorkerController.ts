@@ -12,7 +12,7 @@ type ContextCallback = (err?: Error, contextId?: string) => void
 export class WebWorkerController implements APIClient {
   private readonly worker: Worker
   private onInitResolve?: () => void
-  private onInitReject?: ( result: WebsocketError ) => void
+  private onInitReject?: (result: WebsocketError) => void
   private resolveSourceSampleRateSet?: (value?: void) => void
 
   private startCbs: ContextCallback[] = []
@@ -55,7 +55,7 @@ export class WebWorkerController implements APIClient {
       this.onInitReject = (err: WebsocketError) => {
         this.onInitResolve = undefined
         this.onInitReject = undefined
-        reject(err)
+        reject(err) // Will throw WebsocketError in `await initialize()`
       }
     })
   }
@@ -166,7 +166,7 @@ export class WebWorkerController implements APIClient {
         }
         break
       case WorkerSignal.Closed:
-        let e = new WebsocketError(
+        const e = new WebsocketError(
           event.data.reason,
           event.data.code,
           event.data.wasClean,

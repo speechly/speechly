@@ -211,7 +211,6 @@ export class BrowserClient {
     if (options?.mediaStream) {
       await this.attach(options?.mediaStream)
     }
-
   }
 
   /**

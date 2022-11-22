@@ -226,7 +226,6 @@ class WebsocketClient {
   }
 
   closeWebsocket(code: number = 1005, reason: string = 'No Status Received', wasClean: boolean = true, userInitiated: boolean = true): void {
-
     if (!this.websocket) {
       console.warn('WebSocket already closed')
       return
@@ -254,7 +253,6 @@ class WebsocketClient {
       reason,
       wasClean,
     })
-
   }
 
   // WebSocket's close handler, called when encountering a non user-initiated close, e.g.
