@@ -1,6 +1,7 @@
 import { APIClient, ResponseCallback, CloseCallback, WebsocketResponse, WebsocketResponseType, WorkerSignal, ControllerSignal } from './types'
 import WebsocketClient from 'web-worker:./worker'
 import { AudioProcessorParameters, ContextOptions, StreamOptions, VadOptions } from '../client'
+import { WebsocketError } from '../speechly/types'
 
 type ContextCallback = (err?: Error, contextId?: string) => void
 
@@ -10,7 +11,8 @@ type ContextCallback = (err?: Error, contextId?: string) => void
  */
 export class WebWorkerController implements APIClient {
   private readonly worker: Worker
-  private resolveInitialization?: (value?: void) => void
+  private onInitResolve?: () => void
+  private onInitReject?: ( result: WebsocketError ) => void
   private resolveSourceSampleRateSet?: (value?: void) => void
 
   private startCbs: ContextCallback[] = []
@@ -44,8 +46,17 @@ export class WebWorkerController implements APIClient {
     this.startCbs = []
     this.stopCbs = []
 
-    return new Promise(resolve => {
-      this.resolveInitialization = resolve
+    return new Promise((resolve, reject) => {
+      this.onInitResolve = () => {
+        this.onInitResolve = undefined
+        this.onInitReject = undefined
+        resolve()
+      }
+      this.onInitReject = (err: WebsocketError) => {
+        this.onInitResolve = undefined
+        this.onInitReject = undefined
+        reject(err)
+      }
     })
   }
 
@@ -150,16 +161,21 @@ export class WebWorkerController implements APIClient {
     const response: WebsocketResponse = event.data
     switch (response.type) {
       case WorkerSignal.Opened:
-        if (this.resolveInitialization != null) {
-          this.resolveInitialization()
+        if (this.onInitResolve) {
+          this.onInitResolve()
         }
         break
       case WorkerSignal.Closed:
-        this.onCloseCb({
-          code: event.data.code,
-          reason: event.data.reason,
-          wasClean: event.data.wasClean,
-        })
+        let e = new WebsocketError(
+          event.data.reason,
+          event.data.code,
+          event.data.wasClean,
+        )
+        if (this.onInitReject) {
+          this.onInitReject(e)
+        } else {
+          this.onCloseCb(e)
+        }
         break
       case WorkerSignal.AudioProcessorReady:
         if (this.resolveSourceSampleRateSet != null) {

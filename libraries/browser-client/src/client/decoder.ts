@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { validateToken, fetchToken } from '../websocket/token'
 
-import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment, SLUResults } from '../speechly'
+import { SegmentState, ErrAppIdChangeWithoutProjectLogin, Segment, SLUResults, WebsocketError } from '../speechly'
 
 import {
   APIClient,
@@ -115,6 +115,7 @@ export class CloudDecoder {
             // Cache the auth token in local storage for future use.
             this.storage.set(authTokenKey, this.authToken)
           } catch (err) {
+            this.connectPromise = null
             this.setState(DecoderState.Failed)
             throw err
           }
@@ -123,7 +124,13 @@ export class CloudDecoder {
         }
 
         // Establish websocket connection
-        await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
+        try {
+          await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
+        } catch (err) {
+          this.connectPromise = null
+          this.setState(DecoderState.Failed)
+          throw err
+        }
         this.advanceState(DecoderState.Connected)
       })()
     }
@@ -417,7 +424,7 @@ export class CloudDecoder {
   }
 
   // eslint-disable-next-line @typescript-eslint/member-delimiter-style
-  private readonly handleWebsocketClosure = (err: { code: number; reason: string; wasClean: boolean }): void => {
+  private readonly handleWebsocketClosure = (err: WebsocketError): void => {
     if (err.code === 1000) {
       if (this.debug) {
         console.log('[Decoder]', 'Websocket closed', err)

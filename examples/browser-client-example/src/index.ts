@@ -83,7 +83,7 @@ window.onload = () => {
     const connectButton = document.getElementById("connect") as HTMLButtonElement;
     const statusDiv = document.getElementById("status") as HTMLButtonElement;
     connectButton.innerHTML =
-      state === DecoderState.Disconnected ? "Connect" : "Disconnect";
+      state <= DecoderState.Disconnected ? "Connect" : "Disconnect";
     statusDiv.innerHTML = stateToString(state);
     decoderState = state
   });
@@ -219,12 +219,8 @@ function bindListenButton(bc: BrowserClient) {
 
 function bindConnectButton(bc: BrowserClient) {
   const connect = async (event: MouseEvent | TouchEvent) => {
-    if (decoderState === DecoderState.Disconnected) {
-      try {
-        await bc.initialize();
-      } catch (err) {
-        console.error("Error connecting Speechly:", err);
-      }
+    if (decoderState <= DecoderState.Disconnected) {
+      await bc.initialize();
     } else {
       await bc.close();
     }

@@ -1,6 +1,6 @@
 import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, DecoderDefaultOptions, ResolvedDecoderOptions, VadOptions, ErrAlreadyStarted, ErrAlreadyStopped } from './types'
 import { CloudDecoder } from './decoder'
-import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
+import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent, WebsocketError } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
 
@@ -81,10 +81,21 @@ export class BrowserClient {
     if (this.initialized) {
       return
     }
-    this.initialized = true
-
     if (this.debug) {
       console.log('[BrowserClient]', 'initializing')
+    }
+
+    this.initialized = true
+
+    try {
+      await this.decoder.connect()
+    } catch (err) {
+      this.initialized = false
+      if (err instanceof WebsocketError) {
+        throw Error(`Unable to connect. Most likely there is no connection to network. Websocket error code: ${err.code}`)
+      } else {
+        throw err
+      }
     }
 
     try {
@@ -119,6 +130,7 @@ export class BrowserClient {
         }
       }
     } catch {
+      this.initialized = false
       throw ErrDeviceNotSupported
     }
 
@@ -200,7 +212,6 @@ export class BrowserClient {
       await this.attach(options?.mediaStream)
     }
 
-    await this.decoder.connect()
   }
 
   /**
