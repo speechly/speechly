@@ -20,7 +20,7 @@ export class WebsocketError extends Error {
     // Pass remaining arguments (including vendor specific ones) to parent constructor
     super(...params)
 
-    this.name = 'WebsocketError'
+    this.name = `WebsocketError code ${code}`
     this.message = reason
     this.code = code
     this.wasClean = wasClean
