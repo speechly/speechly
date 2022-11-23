@@ -38,7 +38,7 @@ export class CloudDecoder {
   private readonly logSegments: boolean
   private readonly projectId?: string
   private readonly appId?: string
-  private readonly storage: Storage
+  private readonly storage?: Storage
   private readonly apiClient: APIClient
   private readonly loginUrl: string
   private readonly deviceId: string
@@ -77,8 +77,14 @@ export class CloudDecoder {
     const apiUrl = options.apiUrl
     this.apiUrl = generateWsUrl(apiUrl.replace('http', 'ws') + '/ws/v1', this.sampleRate)
     this.loginUrl = `${apiUrl}/login`
-    this.storage = options.storage ?? new LocalStorage()
-    this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+
+    // Attempt to access local storage for caching settings. Do without if it's blocked by security settings
+    try {
+      this.storage = options.storage ?? new LocalStorage()
+      this.deviceId = this.storage.getOrSet(deviceIdStorageKey, uuidv4)
+    } catch (err) {
+      this.deviceId = uuidv4()
+    }
 
     this.apiClient = new WebWorkerController()
     this.apiClient.onResponse(this.handleWebsocketResponse)
@@ -107,13 +113,16 @@ export class CloudDecoder {
   async connect(): Promise<void> {
     if (this.connectPromise === null) {
       this.connectPromise = (async () => {
+        this.setState(DecoderState.Disconnected)
         // Get auth token from cache or renew it
-        const storedToken = this.storage.get(authTokenKey)
-        if (storedToken == null || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
+        const storedToken = this.storage?.get(authTokenKey)
+        if (!storedToken || !validateToken(storedToken, this.projectId, this.appId, this.deviceId)) {
           try {
             this.authToken = await fetchToken(this.loginUrl, this.projectId, this.appId, this.deviceId, fetch)
             // Cache the auth token in local storage for future use.
-            this.storage.set(authTokenKey, this.authToken)
+            if (this.storage) {
+              this.storage.set(authTokenKey, this.authToken)
+            }
           } catch (err) {
             this.connectPromise = null
             this.setState(DecoderState.Failed)
