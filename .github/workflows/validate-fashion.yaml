@@ -32,15 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Annotate
-        uses: docker://speechly/cli:latest
-        with:
-          args: annotate -a ${{ secrets.APPID_FASHION_EVAL }} --input demos/fashion-ecommerce/config/test_utterances.txt --output /github/home/annotated_utterances.txt --reference-date 2021-11-25
-        env:
-          SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
       - name: Evaluate
         uses: docker://speechly/cli:latest
         with:
-          args: evaluate --input /github/home/annotated_utterances.txt --ground-truth demos/fashion-ecommerce/config/ground_truth.txt
+          args: evaluate nlu ${{ secrets.APPID_FASHION_EVAL }} demos/fashion-ecommerce/config/ground_truth.txt
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}
