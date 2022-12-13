@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-ui",
+      "comment": "Improved recovery after connection loss.",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-ui"
+}
