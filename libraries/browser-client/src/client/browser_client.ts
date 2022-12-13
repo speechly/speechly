@@ -493,6 +493,7 @@ export class BrowserClient {
       case DecoderState.Failed:
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.stopStream()
+        this.listeningPromise = null
         break
     }
   }
