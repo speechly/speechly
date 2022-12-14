@@ -137,7 +137,9 @@ export class CloudDecoder {
           await this.apiClient.initialize(this.apiUrl, this.authToken, this.sampleRate, this.debug)
         } catch (err) {
           this.connectPromise = null
-          this.setState(DecoderState.Failed)
+          if (!(err instanceof WebsocketError && err.code === 1000)) {
+            this.setState(DecoderState.Failed)
+          }
           throw err
         }
         this.advanceState(DecoderState.Connected)
