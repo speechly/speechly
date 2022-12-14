@@ -172,6 +172,9 @@ interface SpeechProviderState {
  * @public
  */
 export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechProviderState> {
+  // Client instance stored for immediate access - React 18 will mount, unmount and mount in rapid succession
+  client?: BrowserClient = undefined
+
   constructor(props: SpeechProviderProps) {
     super(props)
     this.state = {
@@ -305,7 +308,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
 
   async componentWillUnmount(): Promise<void> {
     try {
-      await this.state.client?.close()
+      await this.client?.close()
     } catch {
       // Nothing to do with the error here, so ignoring it is fine.
     }
@@ -314,29 +317,29 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
   private readonly createClient = (clientOptions: SpeechProviderProps): void => {
     // Postpone connect
     const effectiveOpts = { ...clientOptions, connect: false }
-    const client = new BrowserClient(effectiveOpts)
+    this.client = new BrowserClient(effectiveOpts)
 
-    client.onStateChange(this.onClientStateChange)
-    client.onSegmentChange(this.onSegmentChange)
+    this.client.onStateChange(this.onClientStateChange)
+    this.client.onSegmentChange(this.onSegmentChange)
 
-    client.onTranscript(this.onTranscript)
-    client.onEntity(this.onEntity)
-    client.onIntent(this.onIntent)
+    this.client.onTranscript(this.onTranscript)
+    this.client.onEntity(this.onEntity)
+    this.client.onIntent(this.onIntent)
 
     if (!(clientOptions.disableTentative ?? false)) {
-      client.onTentativeIntent(this.onTentativeIntent)
-      client.onTentativeTranscript(this.onTentativeTranscript)
-      client.onTentativeEntities(this.onTentativeEntities)
+      this.client.onTentativeIntent(this.onTentativeIntent)
+      this.client.onTentativeTranscript(this.onTentativeTranscript)
+      this.client.onTentativeEntities(this.onTentativeEntities)
     }
 
     // Connect now to pre-warm backend if not explicitely told not to
     if (clientOptions.connect !== false) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      client.initialize()
+      this.client.initialize()
     }
 
     this.setState({
-      client: client,
+      client: this.client,
     })
   }
 
