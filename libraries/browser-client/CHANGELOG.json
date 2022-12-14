@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.6.2",
+      "tag": "@speechly/browser-client_v2.6.2",
+      "date": "Wed, 14 Dec 2022 12:04:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "BrowserClient.initialize() immediately throws a sane error and sets the client to FAILED state if called offline. User-initiated BrowserClient.close() is performed immediately, without waiting for backend to acknowledge. This eliminates confusing errors when called offline. Fixed resuming listening after offline call to BrowserClient.close(). Added an already stopped check to BrowserClient.stopStream() to prevent confusing downstream errors."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.6.1",
       "tag": "@speechly/browser-client_v2.6.1",
       "date": "Wed, 16 Nov 2022 12:35:00 GMT",

@@ -3,9 +3,9 @@
   "version": "1.0.1",
   "private": true,
   "dependencies": {
-    "@speechly/react-client": "^2.2.0",
+    "@speechly/react-client": "^2.2.1",
     "@speechly/react-ui": "^2.7.2",
-    "@speechly/browser-ui": "^6.0.4",
+    "@speechly/browser-ui": "^6.0.5",
     "react": "^18",
     "react-dom": "^18",
     "react-scripts": "^4.0.3",

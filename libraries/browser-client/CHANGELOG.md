@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Wed, 16 Nov 2022 12:35:00 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Dec 2022 12:04:27 GMT and should not be manually modified.
+
+## 2.6.2
+Wed, 14 Dec 2022 12:04:27 GMT
+
+### Patches
+
+- BrowserClient.initialize() immediately throws a sane error and sets the client to FAILED state if called offline. User-initiated BrowserClient.close() is performed immediately, without waiting for backend to acknowledge. This eliminates confusing errors when called offline. Fixed resuming listening after offline call to BrowserClient.close(). Added an already stopped check to BrowserClient.stopStream() to prevent confusing downstream errors.
 
 ## 2.6.1
 Wed, 16 Nov 2022 12:35:00 GMT

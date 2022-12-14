@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-client
 
-This log was last generated on Mon, 17 Oct 2022 07:57:20 GMT and should not be manually modified.
+This log was last generated on Wed, 14 Dec 2022 12:04:27 GMT and should not be manually modified.
+
+## 2.2.1
+Wed, 14 Dec 2022 12:04:27 GMT
+
+### Patches
+
+- Improved recovery after connection loss. Improved behaviour with React 18 mount, unmount, mount upon app start.
 
 ## 2.2.0
 Mon, 17 Oct 2022 07:57:20 GMT
