@@ -459,9 +459,8 @@ export class CloudDecoder {
   }
 
   private async reconnect(): Promise<void> {
-    if (this.debug) {
-      console.log('[Decoder]', 'Reconnecting...', this.connectAttempt)
-    }
+    console.log('Speechly reconnecting')
+
     this.connectPromise = null
     if (this.connectAttempt < this.maxReconnectAttemptCount) {
       await this.sleep(this.getReconnectDelayMs(this.connectAttempt++))
