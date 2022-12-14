@@ -236,15 +236,17 @@ class WebsocketClient {
     // Reset audioprocessor so it won't try to send audio the first thing when reconnect happens. This will lead to a reconnect loop.
     this.audioProcessor?.reset()
 
+    // We don't want any more messages from the closing websocket
+    this.websocket.removeEventListener('open', this.onWebsocketOpen)
+    this.websocket.removeEventListener('message', this.onWebsocketMessage)
+    this.websocket.removeEventListener('error', this.onWebsocketError)
+    this.websocket.removeEventListener('close', this.onWebsocketClose)
+
     // If we're here due to a call to onWebSocket
     if (userInitiated) {
       this.websocket.close(code, reason)
     }
 
-    this.websocket.removeEventListener('open', this.onWebsocketOpen)
-    this.websocket.removeEventListener('message', this.onWebsocketMessage)
-    this.websocket.removeEventListener('error', this.onWebsocketError)
-    this.websocket.removeEventListener('close', this.onWebsocketClose)
     this.websocket = undefined
 
     this.workerCtx.postMessage({
