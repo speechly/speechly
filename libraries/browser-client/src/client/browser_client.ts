@@ -1,6 +1,6 @@
 import { DecoderState, EventCallbacks, DecoderOptions, ContextOptions, VadDefaultOptions, AudioProcessorParameters, StreamOptions, StreamDefaultOptions, DecoderDefaultOptions, ResolvedDecoderOptions, VadOptions, ErrAlreadyStarted, ErrAlreadyStopped } from './types'
 import { CloudDecoder } from './decoder'
-import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent } from '../speechly'
+import { ErrDeviceNotSupported, DefaultSampleRate, Segment, Word, Entity, Intent, WebsocketError } from '../speechly'
 
 import audioworklet from '../microphone/audioworklet'
 
@@ -81,12 +81,29 @@ export class BrowserClient {
     if (this.initialized) {
       return
     }
-    this.initialized = true
-
     if (this.debug) {
       console.log('[BrowserClient]', 'initializing')
     }
-    await this.decoder.connect()
+
+    this.initialized = true
+
+    try {
+      await this.decoder.connect()
+    } catch (err) {
+      this.initialized = false
+      if (err instanceof WebsocketError) {
+        if (err.code === 1000) {
+          if (this.debug) {
+            console.log('[BrowserClient]', 'Early close of websocket.')
+          }
+          return
+        }
+        throw Error(`Unable to connect. Most likely there is no connection to network. Websocket error code: ${err.code}`)
+      } else {
+        throw err
+      }
+    }
+
     try {
       const opts: AudioContextOptions = {}
       if (this.nativeResamplingSupported) {
@@ -119,6 +136,7 @@ export class BrowserClient {
         }
       }
     } catch {
+      this.initialized = false
       throw ErrDeviceNotSupported
     }
 
@@ -428,8 +446,10 @@ export class BrowserClient {
    * Use `startStream` to resume audio processing afterwards.
    */
   async stopStream(): Promise<void> {
-    this.isStreaming = false
-    await this.decoder.stopStream()
+    if (this.isStreaming) {
+      this.isStreaming = false
+      await this.decoder.stopStream()
+    }
   }
 
   private async queueTask(task: () => Promise<any>): Promise<any> {
@@ -479,6 +499,8 @@ export class BrowserClient {
       case DecoderState.Failed:
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.stopStream()
+        this.active = false
+        this.listeningPromise = null
         break
     }
   }
@@ -501,6 +523,9 @@ export class BrowserClient {
    * processors.
    */
   async close(): Promise<void> {
+    if (this.debug) {
+      console.log('[BrowserClient]', 'close')
+    }
     await this.detach()
     if (this.speechlyNode !== null) {
       this.speechlyNode?.port.close()
@@ -512,6 +537,7 @@ export class BrowserClient {
     }
     await this.decoder.close()
     this.initialized = false
+    this.listeningPromise = null
   }
 
   private async sleep(ms: number): Promise<void> {

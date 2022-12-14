@@ -11,7 +11,6 @@
   export let microphonestate: string = undefined;
   export let remsize = "1.0rem";
   export let position = "fixed";
-  export let appid = undefined;
   export let customcssurl = undefined;
   export let customtypography = undefined;
 
@@ -70,6 +69,7 @@
           visibility = true;
         }
         showAllowButton = true;
+        page = PagePriming
         break;
       case MessageType.speechstate:
         onClientStateChange(e.data.state)
@@ -82,13 +82,6 @@
           case AudioSourceState.NoAudioConsent:
           case AudioSourceState.NoBrowserSupport:
             showError(e.data.audioSourceState);
-            break;
-          default:
-            switch (e.data.state) {
-              case DecoderState.Failed:
-                showError(e.data.state);
-                break;
-            }
             break;
         }
         break;
@@ -234,11 +227,7 @@
       {:else}
         <h2>Failed to connect to Speechly</h2>
         <p>
-          {#if appid}
-            Please check that your application (App ID: {appid}) has been successfully deployed.
-          {:else}
-            Please check that your application has been successfully deployed.
-          {/if}
+          Please check your internet connection. If the problem persists, please try again later.
         </p>
         <options>
           <button on:click={closeSelf} class="button button-primary">Ok, got it</button>

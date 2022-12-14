@@ -1,4 +1,5 @@
 import { AudioProcessorParameters, ContextOptions, StreamOptions, VadOptions } from '../client'
+import { WebsocketError } from '../speechly'
 
 /**
  * The interface for response returned by WebSocket client.
@@ -191,7 +192,7 @@ export type ResponseCallback = (response: WebsocketResponse) => void
  * @internal
  */
 // eslint-disable-next-line @typescript-eslint/member-delimiter-style
-export type CloseCallback = (err: { code: number; reason: string; wasClean: boolean }) => void
+export type CloseCallback = (err: WebsocketError) => void
 
 /**
  * The interface for a client for Speechly SLU WebSocket API.

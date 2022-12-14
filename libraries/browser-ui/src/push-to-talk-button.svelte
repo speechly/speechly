@@ -89,6 +89,7 @@
     if (introPopup === null && el !== null) {
       introPopup = el;
       el.addEventListener(MessageType.requeststartmicrophone, async() => {
+        await client.initialize()
         await microphone.initialize()
         await client.attach(microphone.mediaStream)
       });
@@ -147,13 +148,13 @@
             // Make sure you call `initialize` from a user action handler (e.g. from a button press handler).
             try {
               const initStartTime = Date.now();
+              await client.initialize()
               await microphone.initialize()
               await client.attach(microphone.mediaStream)
               // Long init time suggests permission dialog --> prevent listening start
               holdListenActive = Date.now() - initStartTime < PERMISSION_PRE_GRANTED_TRESHOLD_MS;
             } catch (e) {
-              console.error("Speechly initialization failed", e);
-              client = null;
+              console.error("Speechly initialization failed - ", e);
               holdListenActive = false;
             }
           } else {

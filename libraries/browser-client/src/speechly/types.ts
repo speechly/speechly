@@ -12,6 +12,21 @@ export const ErrDeviceNotSupported = new Error('Current device does not support 
  */
 export const ErrAppIdChangeWithoutProjectLogin = new Error('AppId changed without project login')
 
+export class WebsocketError extends Error {
+  code: number
+  wasClean: boolean
+
+  constructor(reason: string, code: number, wasClean: boolean, ...params: any) {
+    // Pass remaining arguments (including vendor specific ones) to parent constructor
+    super(...params)
+
+    this.name = `WebsocketError code ${code}`
+    this.message = reason
+    this.code = code
+    this.wasClean = wasClean
+  }
+}
+
 /**
  * Default sample rate for microphone streams.
  * @public

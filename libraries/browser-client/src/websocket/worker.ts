@@ -199,10 +199,8 @@ class WebsocketClient {
     this.audioProcessor.setSendAudio(false)
     this.isContextStarted = false
 
-    if (this.websocket) {
-      const StopEventJSON = JSON.stringify({ event: 'stop' })
-      this.send(StopEventJSON)
-    }
+    const StopEventJSON = JSON.stringify({ event: 'stop' })
+    this.send(StopEventJSON)
   }
 
   switchContext(contextOptions?: ContextOptions): void {
@@ -227,46 +225,47 @@ class WebsocketClient {
     this.send(JSON.stringify(message))
   }
 
-  closeWebsocket(websocketCode: number = 1005, reason: string = 'No Status Received'): void {
-    if (this.debug) {
-      console.log('[WebSocketClient]', 'Websocket closing')
-    }
-
+  closeWebsocket(code: number = 1005, reason: string = 'No Status Received', wasClean: boolean = true, userInitiated: boolean = true): void {
     if (!this.websocket) {
-      throw Error('WebSocket is undefined')
-    }
-
-    this.websocket.close(websocketCode, reason)
-  }
-
-  // WebSocket's close handler, called e.g. when
-  // - normal close (code 1000)
-  // - network unreachable or unable to (re)connect (code 1006)
-  // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
-  private readonly onWebsocketClose = (event: CloseEvent): void => {
-    if (!this.websocket) {
-      throw Error('WebSocket is undefined')
+      console.warn('WebSocket already closed')
+      return
+    } else if (this.debug) {
+      console.log('[WebSocketClient]', userInitiated ? 'Websocket close requested' : 'Websocket closed')
     }
 
     // Reset audioprocessor so it won't try to send audio the first thing when reconnect happens. This will lead to a reconnect loop.
     this.audioProcessor?.reset()
 
-    if (this.debug) {
-      console.log('[WebSocketClient]', 'onWebsocketClose')
-    }
-
+    // We don't want any more messages from the closing websocket
     this.websocket.removeEventListener('open', this.onWebsocketOpen)
     this.websocket.removeEventListener('message', this.onWebsocketMessage)
     this.websocket.removeEventListener('error', this.onWebsocketError)
     this.websocket.removeEventListener('close', this.onWebsocketClose)
+
+    // If we're here due to a call to onWebSocket
+    if (userInitiated) {
+      this.websocket.close(code, reason)
+    }
+
     this.websocket = undefined
 
     this.workerCtx.postMessage({
       type: WorkerSignal.Closed,
-      code: event.code,
-      reason: event.reason,
-      wasClean: event.wasClean,
+      code,
+      reason,
+      wasClean,
     })
+  }
+
+  // WebSocket's close handler, called when encountering a non user-initiated close, e.g.
+  // - network unreachable or unable to (re)connect (code 1006)
+  // List of CloseEvent.code values: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
+  private readonly onWebsocketClose = (event: CloseEvent): void => {
+    if (this.debug) {
+      console.log('[WebSocketClient]', 'onWebsocketClose')
+    }
+
+    this.closeWebsocket(event.code, event.reason, event.wasClean, false)
   }
 
   private readonly onWebsocketOpen = (_event: Event): void => {
@@ -313,7 +312,8 @@ class WebsocketClient {
     }
 
     if (this.websocket.readyState !== this.websocket.OPEN) {
-      throw new Error(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+      console.warn(`Expected OPEN Websocket state, but got ${this.websocket.readyState}`)
+      return
     }
 
     try {
@@ -346,7 +346,7 @@ ctx.onmessage = function (e) {
       websocketClient.setSharedArrayBuffers(e.data.controlSAB, e.data.dataSAB)
       break
     case ControllerSignal.CLOSE:
-      websocketClient.closeWebsocket(1000, 'Close requested by client')
+      websocketClient.closeWebsocket(1000, 'Close requested by client', true, true)
       break
     case ControllerSignal.startStream:
       websocketClient.startStream(e.data.streamOptions)
