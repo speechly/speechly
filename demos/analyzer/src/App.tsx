@@ -24,10 +24,16 @@ interface ClassifiedSpeechSegment extends SpeechSegment {
 
 function App() {
   const { segment, clientState, microphoneState, listening, attachMicrophone, start, stop } = useSpeechContext();
-  const [selectedId, setSelectedId] = useState<number | undefined>();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
+  const [selectedSegmentId, setSelectedSegmentId] = useState<number | undefined>();
+  const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
   const [tag, setTag] = useState("");
+  const [files, setFiles] = useState([
+    { name: "example-1", buffer: new ArrayBuffer(0) },
+    { name: "example-2", buffer: new ArrayBuffer(0) },
+    { name: "example-3", buffer: new ArrayBuffer(0) },
+  ]);
 
   const getClassification = async (text: string, labels: string[] = tags): Promise<Classification | undefined> => {
     try {
@@ -97,9 +103,18 @@ function App() {
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
     if (!tag) return;
-
     setTags((current) => [...current, tag.trim()]);
     setTag("");
+  };
+
+  const handleFileAdd = async (file: File) => {
+    const buffer = await file.arrayBuffer();
+    setFiles((current) => [...current, { name: file.name, buffer }]);
+  };
+
+  const handleSelectFile = (i: number) => {
+    console.log("Todo: upload file for transcription", files[i]);
+    setSelectedFileId(i);
   };
 
   return (
@@ -121,30 +136,19 @@ function App() {
               </button>
             </form>
           </div>
-          <h4 className="Sidebar__title">Sample audios</h4>
-          <button type="button" className="Sidebar__item">
-            <AudioFile width={18} height={18} />
-            filename goes here
-          </button>
-          <button type="button" className="Sidebar__item">
-            <AudioFile width={18} height={18} />
-            filename goes here
-          </button>
-          <button type="button" className="Sidebar__item">
-            <AudioFile width={18} height={18} />
-            filename goes here
-          </button>
-          <button type="button" className="Sidebar__item">
-            <AudioFile width={18} height={18} />
-            filename goes here
-          </button>
-          <h4 className="Sidebar__title">Custom audio</h4>
-          <FileInput
-            acceptMimes={"audio"}
-            onFileSelected={function (file: File): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <h4 className="Sidebar__title">Audio files</h4>
+          {files.map(({ name }, i) => (
+            <button
+              type="button"
+              className={clsx("Sidebar__item", selectedFileId === i && "Sidebar__item--selected")}
+              key={name}
+              onClick={() => handleSelectFile(i)}
+            >
+              <AudioFile width={18} height={18} />
+              {name}
+            </button>
+          ))}
+          <FileInput acceptMimes={"audio/wav"} onFileSelected={handleFileAdd} />
           {clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started ? (
             <button type="button" className="Sidebar__mic" onPointerDown={start} onPointerUp={stop}>
               <Mic /> {listening ? "Listening…" : "Hold to talk"}
@@ -167,9 +171,9 @@ function App() {
           )}
           {speechSegments?.map(({ contextId, id, words, classification, isFinal }, i) => (
             <div
-              className={clsx("Segment", selectedId === i && "Segment--selected")}
+              className={clsx("Segment", selectedSegmentId === i && "Segment--selected")}
               key={`${contextId}-${id}`}
-              onClick={() => setSelectedId(i)}
+              onClick={() => setSelectedSegmentId(i)}
             >
               <div className="Transcript">
                 {words.map((word) => (
@@ -182,31 +186,32 @@ function App() {
             </div>
           ))}
         </div>
-        <div className={clsx("Details", selectedId !== undefined && "Details--open")}>
+        <div className={clsx("Details", selectedSegmentId !== undefined && "Details--open")}>
           <div className="Details__header">
             Speech segment details
-            <button type="button" className="Details__close" onClick={() => setSelectedId(undefined)}>
+            <button type="button" className="Details__close" onClick={() => setSelectedSegmentId(undefined)}>
               <Close />
             </button>
           </div>
-          {selectedId !== undefined && (
+          {selectedSegmentId !== undefined && (
             <>
               <h4 className="Details__title">Basics</h4>
               <div className="Details__content">
                 <div>language: en-US</div>
-                <div>words: {speechSegments[selectedId].words.length}</div>
+                <div>words: {speechSegments[selectedSegmentId].words.length}</div>
                 <div>
                   duration:{" "}
                   {formatDuration(
-                    speechSegments[selectedId].words[speechSegments[selectedId].words.length - 1]?.endTimestamp
+                    speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
+                      ?.endTimestamp
                   )}
                 </div>
               </div>
               <h4 className="Details__title">Classifications</h4>
               <div className="Details__content">
-                {speechSegments[selectedId].classification?.labels.map((label, i) => (
+                {speechSegments[selectedSegmentId].classification?.labels.map((label, i) => (
                   <div key={i}>
-                    {label}: {((speechSegments[selectedId].classification?.scores[i] || 0) * 100).toFixed(2)}%
+                    {label}: {((speechSegments[selectedSegmentId].classification?.scores[i] || 0) * 100).toFixed(2)}%
                   </div>
                 ))}
               </div>
