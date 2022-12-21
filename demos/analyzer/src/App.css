@@ -1,0 +1,268 @@
+@import './modern-normalize.min.css';
+
+body {
+  overflow: hidden;
+}
+
+.App {
+  display: grid;
+  grid-template-columns: 320px 1fr auto;
+  height: calc(100vh - 48px);
+  position: relative;
+}
+
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  border-right: 1px solid var(--border);
+}
+
+.Sidebar__title {
+  font-weight: 500;
+  margin: 24px 24px 4px;
+}
+
+.Sidebar__item {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 24px 0;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 18px;
+  color: inherit;
+}
+
+.Sidebar__item svg {
+  fill: currentColor
+}
+
+.Sidebar__item:hover {
+  background-color: var(--hover);
+}
+
+.Sidebar__item--selected {
+  background-color: var(--accent-lighter) !important;
+}
+
+.Sidebar .FileInput {
+  margin: 12px 24px;
+}
+
+.Sidebar__mic {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--accent);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--day);
+  padding: 12px 16px;
+  margin: 8px 24px;
+  transition: var(--ease);
+}
+
+.Sidebar__mic:hover {
+  background-color: var(--accent-light);
+}
+
+.Sidebar__mic:active {
+  background-color: var(--accent-light);
+  box-shadow: 0 0 8px var(--accent-light);
+}
+
+.Sidebar__mic svg {
+  fill: currentColor;
+}
+
+.Tag__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 24px 0;
+}
+
+.Tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--accent-lighter);
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 4px 8px;
+  line-height: 16px;
+}
+
+.Tag svg {
+  cursor: pointer;
+  fill: currentColor;
+  border-radius: 20px;
+  transition: var(--ease);
+}
+
+.Tag svg:hover {
+  background-color: var(--hover-dark);
+  box-shadow: 0 0 0 1px var(--hover-dark);
+}
+
+.Tag__form {
+  margin-top: 8px;
+  position: relative;
+  width: 100%;
+}
+
+.Tag__form input {
+  font-size: 13px;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  background-color: var(--day);
+  color: var(--night);
+  padding: 8px 12px;
+  border-radius: 4px;
+  line-height: 18px;
+  width: 100%;
+  transition: var(--ease);
+}
+
+.Tag__form input:focus {
+  outline: 2px solid var(--accent);
+}
+
+.Tag__form button {
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 12px;
+  border: none;
+  background-color: var(--accent);
+  color: var(--day);
+  font-weight: 500;
+  line-height: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: var(--ease);
+}
+
+.Tag__form button:hover {
+  background-color: var(--accent-light);
+}
+
+.Tag__form button:disabled {
+  cursor: auto;
+  background-color: var(--border);
+}
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  padding: 12px 0;
+}
+
+.EmptyState {
+  margin: auto;
+  text-align: center;
+  padding: 48px;
+  color: var(--dim);
+}
+
+.EmptyState__title {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+.Segment {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 24px;
+  transition: var(--ease);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.Segment:hover {
+  cursor: pointer;
+  background-color: var(--hover);
+}
+
+.Segment--selected {
+  border-top-color: var(--border);
+  border-bottom-color: var(--border);
+}
+
+.Segment svg {
+  flex-shrink: 0;
+}
+
+.Transcript {
+  line-height: 1.5;
+  margin-right: auto;
+}
+
+.Details {
+  background-color: var(--day);
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  width: 320px;
+  margin-right: -320px;
+  transition: var(--ease);
+  position: relative;
+}
+
+.Details--open {
+  margin-right: 0;
+}
+
+.Details__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 20px 24px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.Details__close {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 100px;
+  transition: var(--ease);
+  color: inherit;
+}
+
+.Details__close:hover {
+  background-color: var(--hover);
+  box-shadow: 0 0 0 8px var(--hover);
+}
+
+.Details__close svg {
+  fill: currentColor;
+  display: block;
+}
+
+.Details__title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 24px 24px 8px;
+}
+
+.Details__content {
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 24px;
+}
