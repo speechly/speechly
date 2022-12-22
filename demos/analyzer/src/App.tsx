@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IntroPopup } from "@speechly/react-ui";
-import formatDuration from "format-duration";
 import clsx from "clsx";
+import formatDuration from "format-duration";
+import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { FileInput } from "./FileInput";
 import { ReactComponent as Spinner } from "./assets/3-dots-fade-black-36.svg";
 import { ReactComponent as Check } from "./assets/check.svg";
@@ -13,6 +14,7 @@ import { ReactComponent as MicOff } from "./assets/mic-off.svg";
 import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
 import { ReactComponent as Empty } from "./assets/empty.svg";
 import podcast1 from "./assets/podcast1.wav";
+import "react-h5-audio-player/lib/styles.css";
 import "./App.css";
 
 interface Classification {
@@ -42,7 +44,7 @@ function App() {
   const [counter, setCounter] = useState(0);
   const [audioSource, setAudioSource] = useState("");
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
-  const audioRef: { current: HTMLAudioElement | null } = useRef(null);
+  const audioRef: { current: AudioPlayer | null } = useRef(null);
 
   useEffect(() => {
     return () => stopCounter();
@@ -120,9 +122,9 @@ function App() {
   const updateAudioSource = (src: string) => {
     setAudioSource(src);
     if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.load();
-      audioRef.current.play();
+      audioRef.current.audio.current?.pause();
+      audioRef.current.audio.current?.load();
+      audioRef.current.audio.current?.play();
     }
   };
 
@@ -244,9 +246,17 @@ function App() {
             </button>
           )}
           <div className="Player">
-            <audio controls ref={audioRef}>
-              <source src={audioSource} />
-            </audio>
+            <AudioPlayer
+              ref={audioRef}
+              src={audioSource}
+              layout="horizontal-reverse"
+              showJumpControls={false}
+              showDownloadProgress={false}
+              customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
+              customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.VOLUME]}
+              customAdditionalControls={[]}
+              hasDefaultKeyBindings={false}
+            />
           </div>
         </div>
         <div className="Main">

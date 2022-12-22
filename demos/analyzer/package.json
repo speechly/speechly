@@ -11,6 +11,7 @@
     "format-duration": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-h5-audio-player": "^3.8.6",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },

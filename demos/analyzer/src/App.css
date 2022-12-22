@@ -173,8 +173,8 @@ body {
 }
 
 .Player {
+  border-top: 1px solid var(--border);
   margin-top: auto;
-  padding: 16px;
 }
 
 .Player audio {
@@ -308,4 +308,58 @@ body {
   font-size: 14px;
   line-height: 1.75;
   margin: 0 24px;
+}
+
+.rhap_container {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 20px 20px 20px 18px;
+}
+
+.rhap_controls-section {
+  flex-grow: 0;
+  margin-right: 0 !important;
+}
+
+.rhap_main-controls-button {
+  margin: 0;
+}
+
+.rhap_time {
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.rhap_progress-bar {
+  background-color: var(--border);
+  height: 4px;
+}
+
+.rhap_progress-indicator {
+  box-shadow: none;
+  background-color: var(--accent);
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  top: -5px;
+}
+
+.rhap_progress-filled {
+  background-color: var(--accent);
+}
+
+.rhap_button-clear {
+  color: var(--night);
+}
+
+.rhap_volume-container {
+  flex-basis: auto;
+}
+
+.rhap_volume-button {
+  margin-right: 0;
+}
+
+.rhap_volume-bar-area {
+  display: none;
 }
