@@ -3,6 +3,7 @@ import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from 
 import { IntroPopup } from "@speechly/react-ui";
 import formatDuration from "format-duration";
 import clsx from "clsx";
+import { FileInput } from "./FileInput";
 import { ReactComponent as Spinner } from "./assets/3-dots-fade-black-36.svg";
 import { ReactComponent as Check } from "./assets/check.svg";
 import { ReactComponent as Arrow } from "./assets/arrow.svg";
@@ -11,8 +12,8 @@ import { ReactComponent as Mic } from "./assets/mic.svg";
 import { ReactComponent as MicOff } from "./assets/mic-off.svg";
 import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
 import { ReactComponent as Empty } from "./assets/empty.svg";
+import podcast1 from "./assets/podcast1.wav";
 import "./App.css";
-import { FileInput } from "./FileInput";
 
 interface Classification {
   labels: string[];
@@ -23,18 +24,21 @@ interface ClassifiedSpeechSegment extends SpeechSegment {
   classification?: Classification;
 }
 
+interface FileOrUrl {
+  name: string;
+  file?: File;
+  src?: string;
+}
+
 function App() {
-  const { segment, clientState, microphoneState, listening, attachMicrophone, start, stop } = useSpeechContext();
+  const { client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
+    useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedSegmentId, setSelectedSegmentId] = useState<number | undefined>();
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
   const [tag, setTag] = useState("");
-  const [files, setFiles] = useState([
-    { name: "example-1", buffer: new ArrayBuffer(0) },
-    { name: "example-2", buffer: new ArrayBuffer(0) },
-    { name: "example-3", buffer: new ArrayBuffer(0) },
-  ]);
+  const [files, setFiles] = useState<FileOrUrl[]>([{ name: "podcast 1", src: podcast1 }]);
   const [counter, setCounter] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
 
@@ -115,14 +119,36 @@ function App() {
   };
 
   const handleFileAdd = async (file: File) => {
-    const buffer = await file.arrayBuffer();
-    setFiles((current) => [...current, { name: file.name, buffer }]);
+    setFiles((current) => [...current, { name: file.name, file }]);
   };
 
-  const handleSelectFile = (i: number) => {
+  const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
-    console.log("Todo: upload file for transcription", files[i]);
     setSelectedFileId(i);
+
+    const fileSrc = files[i].src;
+    if (fileSrc) {
+      const response = await fetch(fileSrc, {
+        headers: {
+          "Content-Type": "audio/mpeg;audio/x-wav;audio/m4a",
+          Accept: "audio/mpeg;audio/x-wav;audio/m4a",
+        },
+        cache: "no-store",
+      });
+      if (!response.ok) {
+        console.error("Could't find file");
+      }
+      const buffer = await response.arrayBuffer();
+      await client?.uploadAudioData(buffer);
+      return;
+    }
+
+    const fileFile = files[i].file;
+    if (fileFile) {
+      const buffer = await fileFile.arrayBuffer();
+      await client?.uploadAudioData(buffer);
+      return;
+    }
   };
 
   const startCounter = () => {
@@ -157,8 +183,6 @@ function App() {
     }
   };
 
-  console.log(microphoneState);
-
   return (
     <>
       <div className="App">
@@ -190,7 +214,7 @@ function App() {
               {name}
             </button>
           ))}
-          <FileInput acceptMimes={"audio/wav"} onFileSelected={handleFileAdd} />
+          <FileInput acceptMimes={"audio/x-wav, audio/mpeg"} onFileSelected={handleFileAdd} />
           {clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started ? (
             <button
               type="button"
