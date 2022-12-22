@@ -40,7 +40,9 @@ function App() {
   const [tag, setTag] = useState("");
   const [files, setFiles] = useState<FileOrUrl[]>([{ name: "podcast 1", src: podcast1 }]);
   const [counter, setCounter] = useState(0);
+  const [audioSource, setAudioSource] = useState("");
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
+  const audioRef: { current: HTMLAudioElement | null } = useRef(null);
 
   useEffect(() => {
     return () => stopCounter();
@@ -122,6 +124,15 @@ function App() {
     setFiles((current) => [...current, { name: file.name, file }]);
   };
 
+  const updateAudioSource = (src: string) => {
+    setAudioSource(src);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+  };
+
   const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
     setSelectedFileId(i);
@@ -130,14 +141,15 @@ function App() {
     if (fileSrc) {
       const response = await fetch(fileSrc, {
         headers: {
-          "Content-Type": "audio/mpeg;audio/x-wav;audio/m4a",
-          Accept: "audio/mpeg;audio/x-wav;audio/m4a",
+          "Content-Type": "audio/mpeg;audio/wav",
+          Accept: "audio/mpeg;audio/wav",
         },
         cache: "no-store",
       });
       if (!response.ok) {
         console.error("Could't find file");
       }
+      updateAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
       await client?.uploadAudioData(buffer);
       return;
@@ -146,6 +158,9 @@ function App() {
     const fileFile = files[i].file;
     if (fileFile) {
       const buffer = await fileFile.arrayBuffer();
+      const blob = new Blob([buffer], { type: fileFile.type });
+      const url = window.URL.createObjectURL(blob);
+      updateAudioSource(url);
       await client?.uploadAudioData(buffer);
       return;
     }
@@ -214,7 +229,7 @@ function App() {
               {name}
             </button>
           ))}
-          <FileInput acceptMimes={"audio/x-wav, audio/mpeg"} onFileSelected={handleFileAdd} />
+          <FileInput acceptMimes={"audio/wav;audio/mpeg"} onFileSelected={handleFileAdd} />
           {clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started ? (
             <button
               type="button"
@@ -235,6 +250,11 @@ function App() {
               Use microphone
             </button>
           )}
+          <div className="Player">
+            <audio controls ref={audioRef}>
+              <source src={audioSource} />
+            </audio>
+          </div>
         </div>
         <div className="Main">
           {!speechSegments.length && (

@@ -17,7 +17,6 @@ body {
   flex-shrink: 0;
   height: 100%;
   border-right: 1px solid var(--border);
-  padding-bottom: 24px;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -77,7 +76,7 @@ body {
   font-weight: 500;
   color: var(--day);
   padding: 12px 16px;
-  margin: 8px 24px;
+  margin: 8px 24px 24px;
   transition: var(--ease);
   height: 44px;
 }
@@ -169,9 +168,18 @@ body {
 }
 
 .Tag__form button:disabled {
-  cursor: auto;
   background-color: var(--border);
-  box-shadow: none;
+  pointer-events: none;
+}
+
+.Player {
+  margin-top: auto;
+  padding: 16px;
+}
+
+.Player audio {
+  width: 100%;
+  background-color: transparent;
 }
 
 .Main {
