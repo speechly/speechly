@@ -230,8 +230,13 @@ body {
   border-bottom-color: var(--border);
 }
 
+.Segment__status {
+  width: 20px;
+}
+
 .Segment svg {
   flex-shrink: 0;
+  display: block;
 }
 
 .Transcript {

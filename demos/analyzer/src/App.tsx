@@ -270,8 +270,10 @@ function App() {
                   <span key={word.index}>{word.value} </span>
                 ))}
               </div>
-              {isFinal && !classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
-              {isFinal && classification && <Check fill="#11A16C" />}
+              <div className="Segment__status">
+                {isFinal && !classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {isFinal && classification && <Check fill="#11A16C" />}
+              </div>
               <Arrow fill="#7d8fa1" />
             </div>
           ))}
