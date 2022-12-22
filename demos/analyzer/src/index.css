@@ -44,6 +44,10 @@ body {
   background-color: var(--day);
 }
 
+button:focus, a:focus {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .intercom-app,
 .intercom-lightweight-app {
   display: none !important;
