@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IntroPopup } from "@speechly/react-ui";
 import formatDuration from "format-duration";
@@ -8,6 +8,7 @@ import { ReactComponent as Check } from "./assets/check.svg";
 import { ReactComponent as Arrow } from "./assets/arrow.svg";
 import { ReactComponent as Close } from "./assets/close.svg";
 import { ReactComponent as Mic } from "./assets/mic.svg";
+import { ReactComponent as MicOff } from "./assets/mic-off.svg";
 import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
 import { ReactComponent as Empty } from "./assets/empty.svg";
 import "./App.css";
@@ -34,6 +35,12 @@ function App() {
     { name: "example-2", buffer: new ArrayBuffer(0) },
     { name: "example-3", buffer: new ArrayBuffer(0) },
   ]);
+  const [counter, setCounter] = useState(0);
+  const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
+
+  useEffect(() => {
+    return () => stopCounter();
+  }, []);
 
   const getClassification = async (text: string, labels: string[] = tags): Promise<Classification | undefined> => {
     try {
@@ -113,9 +120,44 @@ function App() {
   };
 
   const handleSelectFile = (i: number) => {
+    if (selectedFileId === i) return;
     console.log("Todo: upload file for transcription", files[i]);
     setSelectedFileId(i);
   };
+
+  const startCounter = () => {
+    if (intervalRef.current) return;
+    intervalRef.current = setInterval(() => {
+      setCounter((prevCounter) => prevCounter + 1);
+    }, 10);
+  };
+
+  const stopCounter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      setCounter(0);
+      intervalRef.current = null;
+    }
+  };
+
+  const handleDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (listening) {
+      stopCounter();
+      stop();
+    } else {
+      startCounter();
+      start();
+    }
+  };
+
+  const handleUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (listening && counter > 100) {
+      stopCounter();
+      stop();
+    }
+  };
+
+  console.log(microphoneState);
 
   return (
     <>
@@ -150,12 +192,23 @@ function App() {
           ))}
           <FileInput acceptMimes={"audio/wav"} onFileSelected={handleFileAdd} />
           {clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started ? (
-            <button type="button" className="Sidebar__mic" onPointerDown={start} onPointerUp={stop}>
-              <Mic /> {listening ? "Listening…" : "Hold to talk"}
+            <button
+              type="button"
+              className={clsx("Sidebar__mic", listening && "Sidebar__mic--active")}
+              onPointerDown={handleDown}
+              onPointerUp={handleUp}
+            >
+              <Mic width={24} height={24} />
             </button>
           ) : (
             <button type="button" className="Sidebar__mic" onClick={attachMicrophone}>
-              <Mic /> Use microphone
+              {microphoneState === AudioSourceState.NoAudioConsent ||
+              microphoneState === AudioSourceState.NoBrowserSupport ? (
+                <MicOff />
+              ) : (
+                <Mic />
+              )}
+              Use microphone
             </button>
           )}
         </div>

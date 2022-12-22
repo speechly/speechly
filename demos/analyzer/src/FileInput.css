@@ -6,8 +6,8 @@
   gap: 8px;
   text-align: center;
   border: 1px dashed var(--border);
-  font-size: 15px;
-  padding: 16px;
+  font-size: 16px;
+  padding: 24px;
   border-radius: 4px;
   transition: var(--ease);
 }
@@ -29,5 +29,5 @@
 
 .FileInput small {
   color: var(--dim);
-  font-size: 12px;
+  font-size: 13px;
 }

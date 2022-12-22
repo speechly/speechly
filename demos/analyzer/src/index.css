@@ -12,7 +12,8 @@
   --accent-lighter: hsl(202, 100%, 93%);
   --hover: rgba(15, 25, 35, .06);
   --hover-dark: rgba(15, 25, 35, .12);
-  --ease: all .15s ease
+  --ease: all .15s ease;
+  --danger: #eb5547;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,7 +28,8 @@
     --accent-lighter: hsl(202, 90%, 20%);
     --hover: rgba(255, 255, 255, .06);
     --hover-dark: rgba(255, 255, 255, .12);
-    --ease: all .15s ease
+    --ease: all .15s ease;
+    --danger: #ed6a5e;
   }
 }
 

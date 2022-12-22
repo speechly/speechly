@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import clsx from "clsx";
-import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
+import { ReactComponent as Upload } from "./assets/upload.svg";
 import "./FileInput.css";
 
 interface Props {
@@ -39,7 +39,7 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
       onDragEnd={() => setIsActive(false)}
       onClick={() => fileInputRef.current?.click()}
     >
-      <AudioFile width={24} height={24} />
+      <Upload />
       <span>Select your own audio file</span>
       <small>or drag and drop it here</small>
       <input
