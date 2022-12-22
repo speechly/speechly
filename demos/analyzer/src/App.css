@@ -17,6 +17,15 @@ body {
   flex-shrink: 0;
   height: 100%;
   border-right: 1px solid var(--border);
+  padding-bottom: 24px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .Sidebar__title {
@@ -80,7 +89,6 @@ body {
 .Sidebar__mic--active {
   background-color: var(--danger) !important;
 }
-
 
 .Sidebar__mic svg {
   fill: currentColor;
@@ -172,6 +180,14 @@ body {
   flex-grow: 1;
   height: 100%;
   padding: 12px 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Main::-webkit-scrollbar {
+  display: none;
 }
 
 .EmptyState {
@@ -223,6 +239,14 @@ body {
   margin-right: -320px;
   transition: var(--ease);
   position: relative;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Details::-webkit-scrollbar {
+  display: none;
 }
 
 .Details--open {
@@ -233,6 +257,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background-color: var(--day);
   padding: 20px 20px 20px 24px;
   border-bottom: 1px solid var(--border);
   font-weight: 500;
