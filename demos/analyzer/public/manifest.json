@@ -1,6 +1,6 @@
 {
-  "short_name": "Instant Messaging",
-  "name": "Speechly Instant Messaging Demo",
+  "short_name": "Speech Analyzer",
+  "name": "Speechly Speech Analyzer Demo",
   "icons": [
     {
       "src": "favicon.ico",
