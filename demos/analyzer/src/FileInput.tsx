@@ -19,29 +19,36 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
     }
   }, [onFileSelected]);
 
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const file = e.dataTransfer.files[0];
+    if (acceptMimes.includes(file.type)) {
+      onFileSelected(file);
+    }
+    e.stopPropagation();
+    e.preventDefault();
+    setIsActive(false);
+  };
+
+  const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsActive(true);
+  };
+
   const classes = clsx("FileInput", isActive && "FileInput--active");
 
   return (
     <div
       className={classes}
-      onDrop={(e) => {
-        onFileSelected(e.dataTransfer.files[0]);
-        e.stopPropagation();
-        e.preventDefault();
-        setIsActive(false);
-      }}
-      onDragOver={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        setIsActive(true);
-      }}
+      onDrop={handleDrop}
+      onDragOver={handleDrag}
       onDragLeave={() => setIsActive(false)}
       onDragEnd={() => setIsActive(false)}
       onClick={() => fileInputRef.current?.click()}
     >
       <Upload />
       <span>Select your own audio file</span>
-      <small>or drag and drop it here</small>
+      <small>MP3 or WAV, max 5 min long</small>
       <input
         ref={fileInputRef}
         accept={acceptMimes}
