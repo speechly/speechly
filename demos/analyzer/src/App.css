@@ -177,9 +177,9 @@ body {
   margin-top: auto;
 }
 
-.Player audio {
-  width: 100%;
-  background-color: transparent;
+.Player--disabled .rhap_container {
+  opacity: 0.5;
+  filter: grayscale(1);
 }
 
 .Main {

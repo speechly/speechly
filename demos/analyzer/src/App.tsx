@@ -124,7 +124,9 @@ function App() {
     if (audioRef.current) {
       audioRef.current.audio.current?.pause();
       audioRef.current.audio.current?.load();
-      audioRef.current.audio.current?.play();
+      setTimeout(() => {
+        audioRef.current?.audio.current?.play();
+      }, 150);
     }
   };
 
@@ -245,7 +247,7 @@ function App() {
               Use microphone
             </button>
           )}
-          <div className="Player">
+          <div className={clsx("Player", !audioSource && "Player--disabled")}>
             <AudioPlayer
               ref={audioRef}
               src={audioSource}
