@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IntroPopup } from "@speechly/react-ui";
 import formatDuration from "format-duration";
@@ -48,66 +48,59 @@ function App() {
     return () => stopCounter();
   }, []);
 
-  const getClassification = async (text: string, labels: string[] = tags): Promise<Classification | undefined> => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/classify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text,
-          labels,
-        }),
-      });
-      if (response.status !== 200) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-      const parsed = (await response.json()) as Classification;
-      return parsed;
-    } catch (error) {
-      let message = "Unknown error";
-      if (error instanceof Error) message = error.message;
-      console.error("Error:", message);
-    }
-  };
-
-  const classifyAndUpdateSegment = useCallback(
-    async (ss: SpeechSegment) => {
-      const text = ss.words.map((word) => word.value).join(" ");
-      const classification = await getClassification(text);
-      const newArray = [...speechSegments];
-      const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
-      if (idx === -1) return;
-      newArray[idx] = { ...ss, classification };
-      setSpeechSegments(newArray);
-    },
-    [speechSegments]
-  );
-
-  const updateOrAddSegment = useCallback(
-    (ss: SpeechSegment) => {
-      const idx = speechSegments.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
-      if (idx > -1) {
-        const newArray = [...speechSegments];
-        newArray[idx] = ss;
-        setSpeechSegments(newArray);
-      } else {
-        setSpeechSegments([ss, ...speechSegments]);
-      }
-    },
-    [speechSegments]
-  );
-
   useEffect(() => {
+    const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
+      const text = ss.words.map((word) => word.value).join(" ");
+      try {
+        const response = await fetch("http://127.0.0.1:8000/classify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text,
+            labels,
+          }),
+        });
+        if (response.status !== 200) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+        const classification = (await response.json()) as Classification;
+        setSpeechSegments((current) => {
+          const newArray = [...current];
+          const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
+          if (idx > -1) {
+            newArray[idx] = { ...ss, classification };
+          }
+          return newArray;
+        });
+      } catch (error) {
+        let message = "Unknown error";
+        if (error instanceof Error) message = error.message;
+        console.error("Error:", message);
+      }
+    };
+
+    const updateOrAddSegment = (ss: SpeechSegment) => {
+      setSpeechSegments((current) => {
+        const newArray = [...current];
+        const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
+        if (idx > -1) {
+          newArray[idx] = ss;
+        } else {
+          newArray.push(ss);
+        }
+        return newArray;
+      });
+    };
+
     if (segment) {
       updateOrAddSegment(segment);
       if (segment.isFinal) {
-        classifyAndUpdateSegment(segment);
+        classifySegment(segment, tags);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [segment]);
+  }, [segment, tags]);
 
   const handleRemoveTag = (tag: string) => {
     setTags((current) => current.filter((t) => t !== tag));
