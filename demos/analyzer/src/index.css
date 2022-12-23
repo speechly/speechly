@@ -8,6 +8,7 @@
   --border: #d6dbe1;
   --border-dark: #bec7d0;
   --accent: hsl(202, 100%, 49%);
+  --accent-25: hsla(202, 100%, 49%, 0.25);
   --accent-light: hsl(202, 100%, 54%);
   --accent-lighter: hsl(202, 100%, 93%);
   --hover: rgba(15, 25, 35, .06);
@@ -24,6 +25,7 @@
     --border: #1f2d3b;
     --border-dark: #30465c;
     --accent: hsl(202, 90%, 54%);
+    --accent-25: hsl(202, 90%, 54%, 0.3);
     --accent-light: hsl(202, 90%, 64%);
     --accent-lighter: hsl(202, 90%, 20%);
     --hover: rgba(255, 255, 255, .06);

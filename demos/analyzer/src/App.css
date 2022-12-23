@@ -348,10 +348,15 @@ body {
 .rhap_progress-indicator {
   box-shadow: none;
   background-color: var(--accent);
-  width: 14px;
-  height: 14px;
-  margin-left: -7px;
-  top: -5px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  top: -4px;
+  transition: box-shadow .15s ease;
+}
+
+.rhap_progress-indicator:active {
+  box-shadow: 0 0 0 2px var(--accent-25);
 }
 
 .rhap_progress-filled {
@@ -363,7 +368,8 @@ body {
 }
 
 .rhap_volume-container {
-  flex-basis: auto;
+  flex-basis: 0;
+  transition: all .25s ease;
 }
 
 .rhap_volume-button {
@@ -371,5 +377,27 @@ body {
 }
 
 .rhap_volume-bar-area {
-  display: none;
+  visibility: hidden;
+}
+
+.rhap_volume-container:hover {
+  flex-basis: 80px;
+}
+
+.rhap_volume-container:hover .rhap_volume-bar-area {
+  visibility: visible;
+}
+
+.rhap_volume-bar {
+  background-color: var(--border);
+}
+
+.rhap_volume-filled,
+.rhap_volume-indicator {
+  background-color: var(--accent);
+  box-shadow: none;
+}
+
+.rhap_volume-indicator:active {
+  box-shadow: 0 0 0 2px var(--accent-25);
 }

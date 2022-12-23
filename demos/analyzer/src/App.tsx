@@ -72,7 +72,9 @@ function App() {
           const newArray = [...current];
           const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
           if (idx > -1) {
-            newArray[idx] = { ...ss, classification };
+            const newSegment = { ...ss, classification };
+            newArray[idx] = newSegment;
+            console.log(newSegment);
           }
           return newArray;
         });
@@ -102,7 +104,8 @@ function App() {
         classifySegment(segment, tags);
       }
     }
-  }, [segment, tags]);
+    // eslint-disable-next-line
+  }, [segment]);
 
   const handleRemoveTag = (tag: string) => {
     setTags((current) => current.filter((t) => t !== tag));
@@ -257,6 +260,7 @@ function App() {
               customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
               customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.VOLUME]}
               customAdditionalControls={[]}
+              showFilledVolume
               hasDefaultKeyBindings={false}
             />
           </div>
@@ -307,7 +311,7 @@ function App() {
                   duration:{" "}
                   {formatDuration(
                     speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
-                      ?.endTimestamp
+                      ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp
                   )}
                 </div>
               </div>
