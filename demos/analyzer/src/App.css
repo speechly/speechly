@@ -180,8 +180,11 @@ body {
 }
 
 .Player {
-  border-top: 1px solid var(--border);
+  position: sticky;
+  bottom: 0;
   margin-top: auto;
+  border-top: 1px solid var(--border);
+  background-color: var(--day);
 }
 
 .Player--disabled .rhap_container {
