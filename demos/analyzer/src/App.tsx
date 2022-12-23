@@ -36,7 +36,7 @@ function App() {
   const { client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
-  const [selectedSegmentId, setSelectedSegmentId] = useState<number | undefined>();
+  const [selectedSegmentId, setSelectedSegmentId] = useState<number>(-1);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
   const [tag, setTag] = useState("");
@@ -287,7 +287,7 @@ function App() {
                 ))}
               </div>
               <div className="Segment__status">
-                {isFinal && !classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {!classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
                 {isFinal && classification && <Check fill="#11A16C" />}
               </div>
               <Arrow fill="#7d8fa1" />
@@ -297,42 +297,68 @@ function App() {
         <div className={clsx("Details", selectedSegmentId !== undefined && "Details--open")}>
           <div className="Details__header">
             Speech segment details
-            <button type="button" className="Details__close" onClick={() => setSelectedSegmentId(undefined)}>
+            <button type="button" className="Details__close" onClick={() => setSelectedSegmentId(-1)}>
               <Close />
             </button>
           </div>
-          {selectedSegmentId !== undefined && (
-            <>
-              <h4 className="Details__title">Basics</h4>
-              <div className="Details__content">
-                <div>language: en-US</div>
-                <div>words: {speechSegments[selectedSegmentId].words.length}</div>
+          <h4 className="Details__title">Basics</h4>
+          {speechSegments[selectedSegmentId] && (
+            <div className="Details__content">
+              <div className="Details__row">
+                <div>language</div>
+                <div>en-US</div>
+              </div>
+              <div className="Details__row">
+                <div>words</div>
+                <div>{speechSegments[selectedSegmentId].words.length}</div>
+              </div>
+              <div className="Details__row">
+                <div>duration</div>
                 <div>
-                  duration:{" "}
-                  {formatDuration(
-                    speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
-                      ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp
-                  )}
+                  {speechSegments[selectedSegmentId].isFinal
+                    ? formatDuration(
+                        speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
+                          ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp
+                      )
+                    : "–"}
                 </div>
               </div>
-              <h4 className="Details__title">Classifications</h4>
-              <div className="Details__content">
-                {speechSegments[selectedSegmentId].classification?.labels.map((label, i) => (
-                  <div key={i}>
-                    {label}: {((speechSegments[selectedSegmentId].classification?.scores[i] || 0) * 100).toFixed(2)}%
-                  </div>
-                ))}
-              </div>
-              <h4 className="Details__title">Acoustic info</h4>
-              <div className="Details__content">
-                <div>mm:ss, property: xx%</div>
-                <div>mm:ss, property: xx%</div>
-                <div>mm:ss, property: xx%</div>
-                <div>mm:ss, property: xx%</div>
-                <div>mm:ss, property: xx%</div>
-              </div>
-            </>
+            </div>
           )}
+          <h4 className="Details__title">Classifications</h4>
+          {speechSegments[selectedSegmentId] && (
+            <div className="Details__content">
+              {speechSegments[selectedSegmentId].classification?.labels.map((label, i) => (
+                <div key={i} className="Details__row">
+                  <div>{label}</div>
+                  <div>{((speechSegments[selectedSegmentId].classification?.scores[i] || 0) * 100).toFixed(2)}%</div>
+                </div>
+              ))}
+            </div>
+          )}
+          <h4 className="Details__title">Audio events</h4>
+          <div className="Details__content">
+            <div className="Details__row">
+              <div>mm:ss</div>
+              <div>property</div>
+              <div>xx%</div>
+            </div>
+            <div className="Details__row">
+              <div>mm:ss</div>
+              <div>property</div>
+              <div>xx%</div>
+            </div>
+            <div className="Details__row">
+              <div>mm:ss</div>
+              <div>property</div>
+              <div>xx%</div>
+            </div>
+            <div className="Details__row">
+              <div>mm:ss</div>
+              <div>property</div>
+              <div>xx%</div>
+            </div>
+          </div>
         </div>
       </div>
       <IntroPopup />

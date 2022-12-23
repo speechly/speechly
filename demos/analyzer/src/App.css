@@ -320,6 +320,15 @@ body {
   margin: 0 24px;
 }
 
+.Details__row {
+  display: table-row;
+}
+
+.Details__row div {
+  display: table-cell;
+  padding-right: 16px;
+}
+
 .rhap_container {
   background-color: transparent;
   box-shadow: none;
