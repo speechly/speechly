@@ -13,7 +13,8 @@ import { ReactComponent as Mic } from "./assets/mic.svg";
 import { ReactComponent as MicOff } from "./assets/mic-off.svg";
 import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
 import { ReactComponent as Empty } from "./assets/empty.svg";
-import podcast1 from "./assets/podcast1.wav";
+import sample1 from "./assets/ndgt.wav";
+import sample2 from "./assets/after-life.mp3";
 import "react-h5-audio-player/lib/styles.css";
 import "./App.css";
 
@@ -40,7 +41,10 @@ function App() {
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
   const [tag, setTag] = useState("");
-  const [files, setFiles] = useState<FileOrUrl[]>([{ name: "podcast 1", src: podcast1 }]);
+  const [files, setFiles] = useState<FileOrUrl[]>([
+    { name: "Neil deGrasse Tyson", src: sample1 },
+    { name: "After Life Cafe Scene", src: sample2 },
+  ]);
   const [counter, setCounter] = useState(0);
   const [audioSource, setAudioSource] = useState("");
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
