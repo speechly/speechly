@@ -68,13 +68,13 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const classification = (await response.json()) as Classification;
+        const newSegment = { ...ss, classification };
+        console.log(newSegment);
         setSpeechSegments((current) => {
           const newArray = [...current];
           const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
           if (idx > -1) {
-            const newSegment = { ...ss, classification };
             newArray[idx] = newSegment;
-            console.log(newSegment);
           }
           return newArray;
         });
@@ -135,7 +135,9 @@ function App() {
 
   const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
+    if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
+    setSpeechSegments([]);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -266,7 +268,7 @@ function App() {
           </div>
         </div>
         <div className="Main">
-          {!speechSegments.length && (
+          {!speechSegments.length && !audioSource && (
             <div className="EmptyState">
               <Empty />
               <h2 className="EmptyState__title">Select an audio file to get started</h2>
