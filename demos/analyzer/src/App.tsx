@@ -223,7 +223,7 @@ function App() {
               onClick={() => handleSelectFile(i)}
             >
               <AudioFile width={18} height={18} />
-              {name}
+              <span>{name}</span>
             </button>
           ))}
           <FileInput acceptMimes={"audio/wav;audio/mpeg"} onFileSelected={handleFileAdd} />

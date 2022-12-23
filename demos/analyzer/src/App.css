@@ -47,7 +47,14 @@ body {
   color: inherit;
 }
 
+.Sidebar__item span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .Sidebar__item svg {
+  flex-shrink: 0;
   fill: currentColor
 }
 
