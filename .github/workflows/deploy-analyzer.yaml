@@ -1,4 +1,4 @@
-name: deploy moderation
+name: deploy analyzer
 on:
   push:
     branches:
