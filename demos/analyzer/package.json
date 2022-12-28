@@ -10,16 +10,16 @@
     "@speechly/logkit": ">=1.0.0",
     "clsx": "^1.2.1",
     "format-duration": "^3.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "typescript": "^4.6.4",
     "react-h5-audio-player": "^3.8.6",
-    "typescript": "^4.9.4",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@types/node": "^16.18.10",
-    "@types/react": "^18.0.26",
-    "@types/react-dom": "^18.0.9",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "react-scripts": "5.0.1"
   },
   "scripts": {
@@ -43,5 +43,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "files": [
+    "build/**/*"
+  ]
 }

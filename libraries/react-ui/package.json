@@ -46,7 +46,7 @@
     "@types/pubsub-js": "^1.8.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/styled-components": "^5.1.7",
+    "@types/styled-components": "^5.1.26",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3"
   },
@@ -59,7 +59,7 @@
     "@speechly/browser-ui": "^6.0.5",
     "pubsub-js": "^1.9.2",
     "react-spring": "^9.4.4",
-    "styled-components": ">=5.3.3"
+    "styled-components": ">=5.3.6"
   },
   "files": [
     "lib/**/*", "src/**/*"
