@@ -10,7 +10,7 @@ import "./index.css";
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <SpeechProvider appId="a194bb09-dca0-451a-8f0f-d29b49a4c446">
+    <SpeechProvider appId="eb9300c4-94fc-47be-8534-dbae216d5d6e">
       <LogKit appName="analyzer" appVersion={110}>
         <DemoNavigation />
         <App />
