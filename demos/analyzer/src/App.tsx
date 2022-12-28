@@ -33,14 +33,16 @@ interface FileOrUrl {
   src?: string;
 }
 
+const maxTags = 8;
+
 function App() {
   const { client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedSegmentId, setSelectedSegmentId] = useState<number>(-1);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
+  const [tagValue, setTagValue] = useState("");
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
-  const [tag, setTag] = useState("");
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: "Neil deGrasse Tyson", src: sample1 },
     { name: "After Life Cafe Scene", src: sample2 },
@@ -112,9 +114,10 @@ function App() {
 
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!tag) return;
-    setTags((current) => [...current, tag.trim()]);
-    setTag("");
+    if (!tagValue || tags.length >= maxTags) return;
+    if (tags.includes(tagValue)) return setTagValue("");
+    setTags((current) => [...current, tagValue.trim()]);
+    setTagValue("");
   };
 
   const handleFileAdd = async (file: File) => {
@@ -212,10 +215,16 @@ function App() {
               </div>
             ))}
             <form className="Tag__form" onSubmit={handleAddTag}>
-              <input type="text" placeholder="Add a label" value={tag} onChange={(e) => setTag(e.target.value)} />
-              <button type="submit" disabled={tag === ""}>
+              <input
+                type="text"
+                placeholder="Add a label"
+                value={tagValue}
+                onChange={(e) => setTagValue(e.target.value)}
+              />
+              <button type="submit" disabled={!tagValue || tags.length >= maxTags}>
                 Add
               </button>
+              {tagValue && tags.length >= maxTags && <p>Max {maxTags} labels allowed</p>}
             </form>
           </div>
           <h4 className="Sidebar__title">Audio files</h4>

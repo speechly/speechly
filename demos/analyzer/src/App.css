@@ -179,6 +179,13 @@ body {
   pointer-events: none;
 }
 
+.Tag__form p {
+  font-size: 13px;
+  color: var(--danger);
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
 .Player {
   position: sticky;
   bottom: 0;
