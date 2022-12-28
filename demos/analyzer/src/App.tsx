@@ -58,15 +58,10 @@ function App() {
     const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(" ");
       try {
-        const response = await fetch("http://127.0.0.1:8000/classify", {
+        const response = await fetch("https://staging.speechly.com/text-classifier-api/classify", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            text,
-            labels,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, labels }),
         });
         if (response.status !== 200) {
           throw new Error(`${response.status} ${response.statusText}`);
