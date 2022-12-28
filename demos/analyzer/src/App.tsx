@@ -311,10 +311,6 @@ function App() {
           {speechSegments[selectedSegmentId] && (
             <div className="Details__content">
               <div className="Details__row">
-                <div>language</div>
-                <div>en-US</div>
-              </div>
-              <div className="Details__row">
                 <div>words</div>
                 <div>{speechSegments[selectedSegmentId].words.length}</div>
               </div>
@@ -324,7 +320,8 @@ function App() {
                   {speechSegments[selectedSegmentId].isFinal
                     ? formatDuration(
                         speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
-                          ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp
+                          ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp,
+                        { ms: true }
                       )
                     : "–"}
                 </div>
@@ -342,29 +339,6 @@ function App() {
               ))}
             </div>
           )}
-          <h4 className="Details__title">Audio events</h4>
-          <div className="Details__content">
-            <div className="Details__row">
-              <div>mm:ss</div>
-              <div>property</div>
-              <div>xx%</div>
-            </div>
-            <div className="Details__row">
-              <div>mm:ss</div>
-              <div>property</div>
-              <div>xx%</div>
-            </div>
-            <div className="Details__row">
-              <div>mm:ss</div>
-              <div>property</div>
-              <div>xx%</div>
-            </div>
-            <div className="Details__row">
-              <div>mm:ss</div>
-              <div>property</div>
-              <div>xx%</div>
-            </div>
-          </div>
         </div>
       </div>
       <IntroPopup />
