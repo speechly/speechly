@@ -294,7 +294,7 @@ function App() {
               </div>
               <div className="Segment__details">
                 <span>Classifications:</span>
-                {!classifications && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
                 {classifications && (
                   <>
                     {classifications.map(({ label, score }, i) => (
@@ -307,7 +307,7 @@ function App() {
               </div>
               <div className="Segment__details">
                 <span>Audio events:</span>
-                {!audioEvents && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {!audioEvents && <Spinner width={16} height={16} fill="#7d8fa1" />}
                 {audioEvents && (
                   <>
                     {audioEvents.map(({ label, score }, i) => (
