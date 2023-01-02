@@ -224,7 +224,7 @@ body {
 
 .EmptyState__title {
   font-size: 24px;
-  letter-spacing: -0.02em;
+  font-weight: 500;
 }
 
 .Segment {

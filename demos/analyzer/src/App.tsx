@@ -280,7 +280,7 @@ function App() {
               <Empty />
               <h2 className="EmptyState__title">Select an audio file to get started</h2>
               <p className="EmptyState__description">
-                Use one of our sample audios, upload your own files or use the device microphone.
+                Try out the audio analyzer with our sample audios, your own audio files or use the device microphone.
               </p>
             </div>
           )}
