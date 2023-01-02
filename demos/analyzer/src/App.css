@@ -223,9 +223,17 @@ body {
   color: var(--dim);
 }
 
+.EmptyState__icon {
+  margin-bottom: 8px;
+}
+
 .EmptyState__title {
   font-size: 24px;
   font-weight: 500;
+}
+
+.EmptyState__description {
+  line-height: 1.5;
 }
 
 .Segment {

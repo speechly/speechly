@@ -278,10 +278,10 @@ function App() {
         <div className="Main">
           {!speechSegments.length && !audioSource && (
             <div className="EmptyState">
-              <Empty />
+              <Empty className="EmptyState__icon" />
               <h2 className="EmptyState__title">Select an audio file to get started</h2>
               <p className="EmptyState__description">
-                Try out the audio analyzer with our sample audios, your own audio files or use the device microphone.
+                Analyze audio files to get classifications and acoustic information for each speech segment.
               </p>
             </div>
           )}
