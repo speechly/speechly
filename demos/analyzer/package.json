@@ -9,7 +9,6 @@
     "@speechly/react-ui": "^2.7.2",
     "@speechly/logkit": ">=1.0.0",
     "clsx": "^1.2.1",
-    "format-duration": "^3.0.1",
     "react": "^18",
     "react-dom": "^18",
     "typescript": "^4.6.4",

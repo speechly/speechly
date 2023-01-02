@@ -203,8 +203,9 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  gap: 24px;
   height: 100%;
-  padding: 12px 0;
+  padding: 24px;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -229,111 +230,32 @@ body {
 
 .Segment {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 15px 24px;
-  transition: var(--ease);
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 4px;
 }
 
-.Segment:hover {
-  cursor: pointer;
-  background-color: var(--hover);
-}
-
-.Segment--selected {
-  border-top-color: var(--border);
-  border-bottom-color: var(--border);
-}
-
-.Segment__status {
-  width: 20px;
-}
-
-.Segment svg {
-  flex-shrink: 0;
-  display: block;
-}
-
-.Transcript {
+.Segment__transcript {
   line-height: 1.5;
   margin-right: auto;
+  margin-bottom: 8px;
 }
 
-.Details {
-  background-color: var(--day);
-  flex-shrink: 0;
-  border-left: 1px solid var(--border);
-  width: 320px;
-  margin-right: -320px;
-  transition: var(--ease);
-  position: relative;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
-}
-
-.Details::-webkit-scrollbar {
-  display: none;
-}
-
-.Details--open {
-  margin-right: 0;
-}
-
-.Details__header {
+.Segment__details {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  background-color: var(--day);
-  padding: 20px 20px 20px 24px;
-  border-bottom: 1px solid var(--border);
-  font-weight: 500;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dim);
+  margin-top: 8px;
 }
 
-.Details__close {
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  border-radius: 100px;
-  transition: var(--ease);
-  color: inherit;
-}
-
-.Details__close:hover {
-  background-color: var(--hover);
-  box-shadow: 0 0 0 8px var(--hover);
-}
-
-.Details__close svg {
-  fill: currentColor;
+.Segment__details svg {
+  flex-shrink: 0;
   display: block;
-}
-
-.Details__title {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 24px 24px 8px;
-}
-
-.Details__content {
-  font-size: 14px;
-  line-height: 1.75;
-  margin: 0 24px;
-}
-
-.Details__row {
-  display: table-row;
-}
-
-.Details__row div {
-  display: table-cell;
-  padding-right: 16px;
 }
 
 .rhap_container {

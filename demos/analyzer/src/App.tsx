@@ -2,12 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
 import { IntroPopup } from "@speechly/react-ui";
 import clsx from "clsx";
-import formatDuration from "format-duration";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import { FileInput } from "./FileInput";
 import { ReactComponent as Spinner } from "./assets/3-dots-fade-black-36.svg";
-import { ReactComponent as Check } from "./assets/check.svg";
-import { ReactComponent as Arrow } from "./assets/arrow.svg";
 import { ReactComponent as Close } from "./assets/close.svg";
 import { ReactComponent as Mic } from "./assets/mic.svg";
 import { ReactComponent as MicOff } from "./assets/mic-off.svg";
@@ -39,7 +36,6 @@ function App() {
   const { client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
-  const [selectedSegmentId, setSelectedSegmentId] = useState<number>(-1);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tagValue, setTagValue] = useState("");
   const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
@@ -184,7 +180,7 @@ function App() {
     }
   };
 
-  const handleDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handleDown = (_e: React.PointerEvent<HTMLButtonElement>) => {
     if (listening) {
       stopCounter();
       stop();
@@ -194,7 +190,7 @@ function App() {
     }
   };
 
-  const handleUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+  const handleUp = (_e: React.PointerEvent<HTMLButtonElement>) => {
     if (listening && counter > 100) {
       stopCounter();
       stop();
@@ -284,64 +280,28 @@ function App() {
               </p>
             </div>
           )}
-          {speechSegments?.map(({ contextId, id, words, classification, isFinal }, i) => (
-            <div
-              className={clsx("Segment", selectedSegmentId === i && "Segment--selected")}
-              key={`${contextId}-${id}`}
-              onClick={() => setSelectedSegmentId(i)}
-            >
-              <div className="Transcript">
+          {speechSegments?.map(({ contextId, id, words, classification }, _i) => (
+            <div className="Segment" key={`${contextId}-${id}`}>
+              <div className="Segment__transcript">
                 {words.map((word) => (
                   <span key={word.index}>{word.value} </span>
                 ))}
               </div>
-              <div className="Segment__status">
+              <div className="Segment__details">
+                <span>Classifications:</span>
                 {!classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
-                {isFinal && classification && <Check fill="#11A16C" />}
+                {classification && (
+                  <>
+                    {classification.labels.map((label, i) => (
+                      <span key={`${label}-${i}`}>
+                        {label}: {((classification.scores[i] || 0) * 100).toFixed(2)}%
+                      </span>
+                    ))}
+                  </>
+                )}
               </div>
-              <Arrow fill="#7d8fa1" />
             </div>
           ))}
-        </div>
-        <div className={clsx("Details", selectedSegmentId > -1 && "Details--open")}>
-          <div className="Details__header">
-            Speech segment details
-            <button type="button" className="Details__close" onClick={() => setSelectedSegmentId(-1)}>
-              <Close />
-            </button>
-          </div>
-          <h4 className="Details__title">Basics</h4>
-          {speechSegments[selectedSegmentId] && (
-            <div className="Details__content">
-              <div className="Details__row">
-                <div>words</div>
-                <div>{speechSegments[selectedSegmentId].words.length}</div>
-              </div>
-              <div className="Details__row">
-                <div>duration</div>
-                <div>
-                  {speechSegments[selectedSegmentId].isFinal
-                    ? formatDuration(
-                        speechSegments[selectedSegmentId].words[speechSegments[selectedSegmentId].words.length - 1]
-                          ?.endTimestamp - speechSegments[selectedSegmentId].words[0]?.startTimestamp,
-                        { ms: true }
-                      )
-                    : "–"}
-                </div>
-              </div>
-            </div>
-          )}
-          <h4 className="Details__title">Classifications</h4>
-          {speechSegments[selectedSegmentId] && (
-            <div className="Details__content">
-              {speechSegments[selectedSegmentId].classification?.labels.map((label, i) => (
-                <div key={i} className="Details__row">
-                  <div>{label}</div>
-                  <div>{((speechSegments[selectedSegmentId].classification?.scores[i] || 0) * 100).toFixed(2)}%</div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
       <IntroPopup />
