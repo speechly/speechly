@@ -70,7 +70,6 @@ function App() {
         }
         const classification = (await response.json()) as Classification;
         const newSegment = { ...ss, classification };
-        console.log(newSegment);
         setSpeechSegments((current) => {
           const newArray = [...current];
           const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
@@ -304,7 +303,7 @@ function App() {
             </div>
           ))}
         </div>
-        <div className={clsx("Details", selectedSegmentId !== undefined && "Details--open")}>
+        <div className={clsx("Details", selectedSegmentId > -1 && "Details--open")}>
           <div className="Details__header">
             Speech segment details
             <button type="button" className="Details__close" onClick={() => setSelectedSegmentId(-1)}>
