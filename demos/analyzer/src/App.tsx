@@ -15,13 +15,9 @@ import sample2 from "./assets/after-life.mp3";
 import "react-h5-audio-player/lib/styles.css";
 import "./App.css";
 
-interface Classification {
-  labels: string[];
-  scores: number[];
-}
-
 interface ClassifiedSpeechSegment extends SpeechSegment {
-  classification?: Classification;
+  classifications?: { label: string; score: number }[];
+  audioEvents?: { label: string; score: number }[];
 }
 
 interface FileOrUrl {
@@ -33,7 +29,7 @@ interface FileOrUrl {
 const maxTags = 8;
 
 function App() {
-  const { client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
+  const { appId, client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
@@ -59,13 +55,22 @@ function App() {
         const response = await fetch("https://staging.speechly.com/text-classifier-api/classify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, labels }),
+          body: JSON.stringify({ text, labels, appId }),
         });
         if (response.status !== 200) {
           throw new Error(`${response.status} ${response.statusText}`);
         }
-        const classification = (await response.json()) as Classification;
-        const newSegment = { ...ss, classification };
+        const json = await response.json();
+        // Temp
+        const labelsArr = json["labels"] as string[];
+        const scoresArr = json["scores"] as number[];
+        const data = labelsArr.map((v, i) => {
+          return {
+            label: v,
+            score: scoresArr[i],
+          };
+        });
+        const newSegment = { ...ss, classifications: data, audioEvents: data };
         setSpeechSegments((current) => {
           const newArray = [...current];
           const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
@@ -280,7 +285,7 @@ function App() {
               </p>
             </div>
           )}
-          {speechSegments?.map(({ contextId, id, words, classification }, _i) => (
+          {speechSegments?.map(({ contextId, id, words, classifications, audioEvents }, _i) => (
             <div className="Segment" key={`${contextId}-${id}`}>
               <div className="Segment__transcript">
                 {words.map((word) => (
@@ -289,12 +294,25 @@ function App() {
               </div>
               <div className="Segment__details">
                 <span>Classifications:</span>
-                {!classification && <Spinner width={20} height={16} fill="#7d8fa1" />}
-                {classification && (
+                {!classifications && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {classifications && (
                   <>
-                    {classification.labels.map((label, i) => (
+                    {classifications.map(({ label, score }, i) => (
                       <span key={`${label}-${i}`}>
-                        {label}: {((classification.scores[i] || 0) * 100).toFixed(2)}%
+                        {label}: {(score * 100).toFixed(2)}%
+                      </span>
+                    ))}
+                  </>
+                )}
+              </div>
+              <div className="Segment__details">
+                <span>Audio events:</span>
+                {!audioEvents && <Spinner width={20} height={16} fill="#7d8fa1" />}
+                {audioEvents && (
+                  <>
+                    {audioEvents.map(({ label, score }, i) => (
+                      <span key={`${label}-${i}`}>
+                        {label}: {(score * 100).toFixed(2)}%
                       </span>
                     ))}
                   </>
