@@ -6,10 +6,12 @@ body {
 
 .App {
   display: grid;
-  grid-template-columns: 320px 1fr auto;
+  grid-template-columns: 320px 1fr;
   height: calc(100vh - 48px);
   position: relative;
 }
+
+/* Sidebar */
 
 .Sidebar {
   display: flex;
@@ -186,18 +188,7 @@ body {
   margin-bottom: 0;
 }
 
-.Player {
-  position: sticky;
-  bottom: 0;
-  margin-top: auto;
-  border-top: 1px solid var(--border);
-  background-color: var(--day);
-}
-
-.Player--disabled .rhap_container {
-  opacity: 0.5;
-  filter: grayscale(1);
-}
+/* Main content */
 
 .Main {
   display: flex;
@@ -264,6 +255,21 @@ body {
 .Segment__details svg {
   flex-shrink: 0;
   display: block;
+}
+
+/* Audio player */
+
+.Player {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  background-color: var(--day);
+}
+
+.Player--disabled .rhap_container {
+  opacity: 0.5;
+  filter: grayscale(1);
 }
 
 .rhap_container {
