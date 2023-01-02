@@ -15,9 +15,14 @@ import sample2 from "./assets/after-life.mp3";
 import "react-h5-audio-player/lib/styles.css";
 import "./App.css";
 
+interface Classification {
+  label: string;
+  score: number;
+}
+
 interface ClassifiedSpeechSegment extends SpeechSegment {
-  classifications?: { label: string; score: number }[];
-  audioEvents?: { label: string; score: number }[];
+  classifications?: Classification[];
+  audioEvents?: Classification[];
 }
 
 interface FileOrUrl {
@@ -49,6 +54,19 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
+      setSpeechSegments((current) => {
+        const newArray = [...current];
+        const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
+        if (idx > -1) {
+          newArray[idx] = ss;
+        } else {
+          newArray.push(ss);
+        }
+        return newArray;
+      });
+    };
+
     const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(" ");
       try {
@@ -61,42 +79,18 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
-        // Temp
-        const labelsArr = json["labels"] as string[];
-        const scoresArr = json["scores"] as number[];
-        const data = labelsArr.map((v, i) => {
-          return {
-            label: v,
-            score: scoresArr[i],
-          };
-        });
-        const newSegment = { ...ss, classifications: data, audioEvents: data };
-        setSpeechSegments((current) => {
-          const newArray = [...current];
-          const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
-          if (idx > -1) {
-            newArray[idx] = newSegment;
-          }
-          return newArray;
-        });
+        const classifications = json["classifications"] as Classification[];
+        const audioEvents = [
+          { label: "foo", score: 0.666 },
+          { label: "bar", score: 0.333 },
+        ] as Classification[];
+        const newSegment = { ...ss, classifications, audioEvents };
+        updateOrAddSegment(newSegment);
       } catch (error) {
         let message = "Unknown error";
         if (error instanceof Error) message = error.message;
         console.error("Error:", message);
       }
-    };
-
-    const updateOrAddSegment = (ss: SpeechSegment) => {
-      setSpeechSegments((current) => {
-        const newArray = [...current];
-        const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
-        if (idx > -1) {
-          newArray[idx] = ss;
-        } else {
-          newArray.push(ss);
-        }
-        return newArray;
-      });
     };
 
     if (segment) {
