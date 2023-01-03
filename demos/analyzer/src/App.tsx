@@ -48,6 +48,7 @@ function App() {
   const [audioSource, setAudioSource] = useState("");
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const audioRef: { current: AudioPlayer | null } = useRef(null);
+  const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
 
   useEffect(() => {
     return () => stopCounter();
@@ -79,11 +80,28 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
+        const SAMPLE_SIZE = 16;
+        let audioEvents = [] as Classification[];
+        const startSample = ss.words[0].startTimestamp * SAMPLE_SIZE;
+        const endSample = ss.words[ss.words.length - 1].endTimestamp * SAMPLE_SIZE;
+        if (endSample - startSample > 16000) {
+          let samplesSlice = detectionBuffer.slice(startSample, endSample);
+          let formData = new FormData();
+          let blob = new Blob([samplesSlice], {type: "octet/stream"});
+          formData.append('audio', blob);
+          formData.append('appId', appId!);
+          const audioDetResponse = await fetch("https://staging.speechly.com/text-classifier-api/classifyAudio", {
+            method: "POST",
+            body: formData,
+          });
+          if (audioDetResponse.status !== 200) {
+            throw new Error(`${response.status} ${response.statusText}`);
+          }
+          const json2 = await audioDetResponse.json();
+          audioEvents = json2["classifications"] as Classification[];
+        }
+
         const classifications = json["classifications"] as Classification[];
-        const audioEvents = [
-          { label: "foo", score: 0.666 },
-          { label: "bar", score: 0.333 },
-        ] as Classification[];
         const newSegment = { ...ss, classifications, audioEvents };
         updateOrAddSegment(newSegment);
       } catch (error) {
@@ -129,6 +147,13 @@ function App() {
     }
   };
 
+  const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
+    const audioCtx = new AudioContext({sampleRate: 16000,});
+    const decodedBuffer = await audioCtx.decodeAudioData(buffer)
+    const samples = decodedBuffer.getChannelData(0);
+    setDetectionBuffer(samples)
+  }
+
   const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
     if (clientState === DecoderState.Active) return;
@@ -149,6 +174,7 @@ function App() {
       }
       updateAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
+      await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
       return;
     }
@@ -159,6 +185,7 @@ function App() {
       const blob = new Blob([buffer], { type: fileFile.type });
       const url = window.URL.createObjectURL(blob);
       updateAudioSource(url);
+      await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
       return;
     }
