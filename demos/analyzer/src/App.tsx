@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import { IntroPopup } from '@speechly/react-ui';
@@ -7,8 +7,7 @@ import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { FileInput } from './FileInput';
 import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
 import { ReactComponent as Close } from './assets/close.svg';
-// import { ReactComponent as Mic } from './assets/mic.svg';
-// import { ReactComponent as MicOff } from './assets/mic-off.svg';
+import { ReactComponent as Mic } from './assets/mic.svg';
 import { ReactComponent as AudioFile } from './assets/audio-file.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/ndgt.wav';
@@ -41,8 +40,7 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 
 function App() {
-  const { appId, client, segment, clientState, listening, start, stop } =
-    useSpeechContext();
+  const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tagValue, setTagValue] = useState('');
@@ -77,21 +75,17 @@ function App() {
       if (audioDetResponse.status !== 200) {
         throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
       }
-      const json2 = await audioDetResponse.json();
-      console.log(json2);
-      // audioEvents = json2['classifications'] as Classification[];
-    }
+      const json = await audioDetResponse.json();
+      console.log(json);
+      // audioEvents = json['classifications'] as Classification[];
+    };
 
     if (clientState > 2) {
       const initialValue = 0;
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
-      console.log(newSum);
 
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
-        console.log('sending audio for analysis!');
-        console.log(micBuffer);
-        const buf = new Float32Array(micBuffer.map(a => Array.from(a)).flat());
-        console.log(buf);
+        const buf = new Float32Array(micBuffer.map((a) => Array.from(a)).flat());
         classifyBuffer(buf);
         setMicBuffer([]);
       }
@@ -99,7 +93,6 @@ function App() {
   }, [micBuffer]);
 
   useEffect(() => {
-    console.log('updateing clientStateRef.current to', clientState);
     clientStateRef.current = clientState;
     if (clientState <= 2) {
       setMicBuffer([]);
@@ -281,7 +274,6 @@ function App() {
 
   const handleStop = async () => {
     await stop();
-    await ourMic.close();
     await ac.suspend();
   };
 
@@ -326,16 +318,10 @@ function App() {
           <button
             type="button"
             className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
-            onClick={handleStart}
+            onPointerDown={handleStart}
+            onPointerUp={handleStop}
           >
-            Start
-          </button>
-          <button
-            type="button"
-            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
-            onClick={handleStop}
-          >
-            Stop
+            <Mic />
           </button>
           <div className={clsx('Player', !audioSource && 'Player--disabled')}>
             <AudioPlayer
