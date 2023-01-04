@@ -187,7 +187,7 @@ function App() {
 
   const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
     const audioCtx = new AudioContext({ sampleRate: 16000 });
-    const decodedBuffer = await audioCtx.decodeAudioData(buffer);
+    const decodedBuffer = await audioCtx.decodeAudioData(buffer.slice(0));
     const samples = decodedBuffer.getChannelData(0);
     setDetectionBuffer(samples);
   };
@@ -212,8 +212,8 @@ function App() {
       }
       updateAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
-      await client?.uploadAudioData(buffer);
       await updateDetectionBuffer(buffer);
+      await client?.uploadAudioData(buffer);
       return;
     }
 
@@ -223,8 +223,8 @@ function App() {
       const blob = new Blob([buffer], { type: fileFile.type });
       const url = window.URL.createObjectURL(blob);
       updateAudioSource(url);
-      await client?.uploadAudioData(buffer);
       await updateDetectionBuffer(buffer);
+      await client?.uploadAudioData(buffer);
       return;
     }
   };
