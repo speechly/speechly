@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
-import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
+import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import { IntroPopup } from '@speechly/react-ui';
 import clsx from 'clsx';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { FileInput } from './FileInput';
 import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
 import { ReactComponent as Close } from './assets/close.svg';
-import { ReactComponent as Mic } from './assets/mic.svg';
-import { ReactComponent as MicOff } from './assets/mic-off.svg';
+// import { ReactComponent as Mic } from './assets/mic.svg';
+// import { ReactComponent as MicOff } from './assets/mic-off.svg';
 import { ReactComponent as AudioFile } from './assets/audio-file.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/ndgt.wav';
@@ -33,11 +33,15 @@ interface FileOrUrl {
 }
 
 const maxTags = 8;
+const AUDIO_ANALYSIS_CHUNK_SIZE = 16000 * 3;
+
+const ourMic = new BrowserMicrophone();
+const ac = new AudioContext({ sampleRate: 16000 });
+const sp = ac.createScriptProcessor();
+sp.connect(ac.destination);
 
 function App() {
-  const ourMic = new BrowserMicrophone();
-
-  const { appId, client, segment, clientState, microphone, microphoneState, listening, attachMicrophone, start, stop } =
+  const { appId, client, segment, clientState, listening, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
@@ -54,20 +58,53 @@ function App() {
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
 
-  const ac = new AudioContext({ sampleRate: 16000 });
-  const sp = ac.createScriptProcessor();
+  const clientStateRef = useRef(clientState);
 
   useEffect(() => {
     return () => stopCounter();
   }, []);
 
   useEffect(() => {
+    const classifyBuffer = async (buf: Float32Array): Promise<void> => {
+      let formData = new FormData();
+      let blob = new Blob([buf], { type: 'octet/stream' });
+      formData.append('audio', blob);
+      formData.append('appId', appId!);
+      const audioDetResponse = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
+        method: 'POST',
+        body: formData,
+      });
+      if (audioDetResponse.status !== 200) {
+        throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
+      }
+      const json2 = await audioDetResponse.json();
+      console.log(json2);
+      // audioEvents = json2['classifications'] as Classification[];
+    }
+
     if (clientState > 2) {
       const initialValue = 0;
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
       console.log(newSum);
+
+      if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
+        console.log('sending audio for analysis!');
+        console.log(micBuffer);
+        const buf = new Float32Array(micBuffer.map(a => Array.from(a)).flat());
+        console.log(buf);
+        classifyBuffer(buf);
+        setMicBuffer([]);
+      }
     }
   }, [micBuffer]);
+
+  useEffect(() => {
+    console.log('updateing clientStateRef.current to', clientState);
+    clientStateRef.current = clientState;
+    if (clientState <= 2) {
+      setMicBuffer([]);
+    }
+  }, [clientState]);
 
   useEffect(() => {
     const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
@@ -110,7 +147,7 @@ function App() {
             body: formData,
           });
           if (audioDetResponse.status !== 200) {
-            throw new Error(`${response.status} ${response.statusText}`);
+            throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
           }
           const json2 = await audioDetResponse.json();
           audioEvents = json2['classifications'] as Classification[];
@@ -221,21 +258,12 @@ function App() {
     }
   };
 
-  const handleAudioProcess = useCallback((event: AudioProcessingEvent) => {
-    const samples = event.inputBuffer.getChannelData(0);
-    setMicBuffer((current) => [...current, samples]);
-  }, []);
-
-  useEffect(() => {
-    if (clientState > 2) {
-      sp.addEventListener('audioprocess', handleAudioProcess);
-    } else {
-      sp.removeEventListener('audioprocess', handleAudioProcess);
-      setMicBuffer([]);
+  const handleAudioProcess = (event: AudioProcessingEvent) => {
+    if (clientStateRef.current > 2) {
+      const samples = event.inputBuffer.getChannelData(0);
+      setMicBuffer((current) => [...current, samples]);
     }
-  }, [clientState]);
-
-  sp.connect(ac.destination);
+  };
 
   const handleStart = async () => {
     if (!ourMic.mediaStream) {
@@ -246,6 +274,7 @@ function App() {
         node.connect(sp);
         await ac.resume();
       }
+      sp.addEventListener('audioprocess', handleAudioProcess);
     }
     await start();
   };
