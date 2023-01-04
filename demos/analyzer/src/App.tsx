@@ -213,8 +213,8 @@ function App() {
       }
       updateAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
-      await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
+      await updateDetectionBuffer(buffer);
       return;
     }
 
@@ -224,8 +224,8 @@ function App() {
       const blob = new Blob([buffer], { type: fileFile.type });
       const url = window.URL.createObjectURL(blob);
       updateAudioSource(url);
-      await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
+      await updateDetectionBuffer(buffer);
       return;
     }
   };
