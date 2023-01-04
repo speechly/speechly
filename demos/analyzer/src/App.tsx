@@ -39,6 +39,8 @@ const ac = new AudioContext({ sampleRate: 16000 });
 const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 
+let recorder: MediaRecorder;
+
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
@@ -52,6 +54,7 @@ function App() {
   const [audioSource, setAudioSource] = useState('');
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
+  const [recData, setRecData] = useState<Blob>();
   const [audioEvents, setAudioEvents] = useState<Classification[]>([]);
   const audioRef: { current: AudioPlayer | null } = useRef(null);
   const clientStateRef = useRef(clientState);
@@ -87,6 +90,16 @@ function App() {
       }
     }
   }, [micBuffer, clientState, classifyBuffer]);
+
+  useEffect(() => {
+    if (recData) {
+      const src = URL.createObjectURL(recData);
+      const timeStr = new Date().toISOString().split('T').join(' at ').substring(0, 22);
+      const name = `Recording ${timeStr}`;
+      setFiles((current) => [...current, { name, src }]);
+      setRecData(undefined);
+    }
+  }, [recData]);
 
   useEffect(() => {
     clientStateRef.current = clientState;
@@ -245,17 +258,26 @@ function App() {
       }
       sp.addEventListener('audioprocess', handleAudioProcess);
     }
+
+    if (ourMic.mediaStream) {
+      recorder = new MediaRecorder(ourMic.mediaStream);
+      recorder.start();
+      recorder.ondataavailable = (e) => setRecData(e.data);
+    }
+
     if (selectedFileId !== undefined) {
       setSpeechSegments([]);
       setAudioEvents([]);
       setSelectedFileId(undefined);
     }
+
     await start();
   };
 
   const handleStop = async () => {
     await stop();
     await ac.suspend();
+    recorder.stop();
   };
 
   return (
