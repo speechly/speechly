@@ -49,18 +49,12 @@ function App() {
     { name: 'Neil deGrasse Tyson', src: sample1 },
     { name: 'After Life Cafe Scene', src: sample2 },
   ]);
-  const [counter, setCounter] = useState(0);
   const [audioSource, setAudioSource] = useState('');
-  const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const audioRef: { current: AudioPlayer | null } = useRef(null);
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
 
   const clientStateRef = useRef(clientState);
-
-  useEffect(() => {
-    return () => stopCounter();
-  }, []);
 
   useEffect(() => {
     const classifyBuffer = async (buf: Float32Array): Promise<void> => {
@@ -233,21 +227,6 @@ function App() {
       await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
       return;
-    }
-  };
-
-  const startCounter = () => {
-    if (intervalRef.current) return;
-    intervalRef.current = setInterval(() => {
-      setCounter((prevCounter) => prevCounter + 1);
-    }, 10);
-  };
-
-  const stopCounter = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      setCounter(0);
-      intervalRef.current = null;
     }
   };
 
