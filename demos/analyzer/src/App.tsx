@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
-import { IntroPopup } from '@speechly/react-ui';
 import clsx from 'clsx';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { FileInput } from './FileInput';
@@ -257,115 +256,112 @@ function App() {
   };
 
   return (
-    <>
-      <div className="App">
-        <div className="Sidebar">
-          <h4 className="Sidebar__title">Classifications</h4>
-          <div className="Tag__container">
-            {tags.map((tag, i) => (
-              <div className="Tag" key={`${tag}-${i}`}>
-                {tag}
-                <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
-              </div>
-            ))}
-            <form className="Tag__form" onSubmit={handleAddTag}>
-              <input
-                type="text"
-                placeholder="Add a label"
-                value={tagValue}
-                onChange={(e) => setTagValue(e.target.value)}
-              />
-              <button type="submit" disabled={!tagValue || tags.length >= maxTags}>
-                Add
-              </button>
-              {tagValue && tags.length >= maxTags && <p>Max {maxTags} labels allowed</p>}
-            </form>
-          </div>
-          <h4 className="Sidebar__title">Audio files</h4>
-          {files.map(({ name }, i) => (
-            <button
-              type="button"
-              className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
-              key={name}
-              onClick={() => handleSelectFile(i)}
-            >
-              <AudioFile width={18} height={18} />
-              <span>{name}</span>
-            </button>
+    <div className="App">
+      <div className="Sidebar">
+        <h4 className="Sidebar__title">Classifications</h4>
+        <div className="Tag__container">
+          {tags.map((tag, i) => (
+            <div className="Tag" key={`${tag}-${i}`}>
+              {tag}
+              <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
+            </div>
           ))}
-          <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
+          <form className="Tag__form" onSubmit={handleAddTag}>
+            <input
+              type="text"
+              placeholder="Add a label"
+              value={tagValue}
+              onChange={(e) => setTagValue(e.target.value)}
+            />
+            <button type="submit" disabled={!tagValue || tags.length >= maxTags}>
+              Add
+            </button>
+            {tagValue && tags.length >= maxTags && <p>Max {maxTags} labels allowed</p>}
+          </form>
+        </div>
+        <h4 className="Sidebar__title">Audio files</h4>
+        {files.map(({ name }, i) => (
           <button
             type="button"
-            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
-            onPointerDown={handleStart}
-            onPointerUp={handleStop}
+            className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
+            key={name}
+            onClick={() => handleSelectFile(i)}
           >
-            <Mic />
+            <AudioFile width={18} height={18} />
+            <span>{name}</span>
           </button>
-          <div className={clsx('Player', !audioSource && 'Player--disabled')}>
-            <AudioPlayer
-              ref={audioRef}
-              src={audioSource}
-              layout="horizontal-reverse"
-              showJumpControls={false}
-              showDownloadProgress={false}
-              customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
-              customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.VOLUME]}
-              customAdditionalControls={[]}
-              showFilledVolume
-              hasDefaultKeyBindings={false}
-            />
-          </div>
-        </div>
-        <div className="Main">
-          {!speechSegments.length && !audioSource && (
-            <div className="EmptyState">
-              <Empty className="EmptyState__icon" />
-              <h2 className="EmptyState__title">Select an audio file to get started</h2>
-              <p className="EmptyState__description">
-                Analyze audio files to get classifications and acoustic information for each speech segment.
-              </p>
-            </div>
-          )}
-          {speechSegments?.map(({ contextId, id, words, classifications, audioEvents }, _i) => (
-            <div className="Segment" key={`${contextId}-${id}`}>
-              <div className="Segment__transcript">
-                {words.map((word) => (
-                  <span key={word.index}>{word.value} </span>
-                ))}
-              </div>
-              <div className="Segment__details">
-                <span>Classifications:</span>
-                {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-                {classifications && (
-                  <>
-                    {classifications.map(({ label, score }, i) => (
-                      <span key={`${label}-${i}`}>
-                        {label}: {(score * 100).toFixed(2)}%
-                      </span>
-                    ))}
-                  </>
-                )}
-              </div>
-              <div className="Segment__details">
-                <span>Audio events:</span>
-                {!audioEvents && <Spinner width={16} height={16} fill="#7d8fa1" />}
-                {audioEvents && (
-                  <>
-                    {audioEvents.map(({ label, score }, i) => (
-                      <span key={`${label}-${i}`}>
-                        {label}: {(score * 100).toFixed(2)}%
-                      </span>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
+        ))}
+        <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
+        <button
+          type="button"
+          className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
+          onPointerDown={handleStart}
+          onPointerUp={handleStop}
+        >
+          <Mic />
+        </button>
+        <div className={clsx('Player', !audioSource && 'Player--disabled')}>
+          <AudioPlayer
+            ref={audioRef}
+            src={audioSource}
+            layout="horizontal-reverse"
+            showJumpControls={false}
+            showDownloadProgress={false}
+            customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
+            customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.VOLUME]}
+            customAdditionalControls={[]}
+            showFilledVolume
+            hasDefaultKeyBindings={false}
+          />
         </div>
       </div>
-      <IntroPopup />
-    </>
+      <div className="Main">
+        {!speechSegments.length && !audioSource && (
+          <div className="EmptyState">
+            <Empty className="EmptyState__icon" />
+            <h2 className="EmptyState__title">Select an audio file to get started</h2>
+            <p className="EmptyState__description">
+              Analyze audio files to get classifications and acoustic information for each speech segment.
+            </p>
+          </div>
+        )}
+        {speechSegments?.map(({ contextId, id, words, classifications, audioEvents }, _i) => (
+          <div className="Segment" key={`${contextId}-${id}`}>
+            <div className="Segment__transcript">
+              {words.map((word) => (
+                <span key={word.index}>{word.value} </span>
+              ))}
+            </div>
+            <div className="Segment__details">
+              <span>Classifications:</span>
+              {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
+              {classifications && (
+                <>
+                  {classifications.map(({ label, score }, i) => (
+                    <span key={`${label}-${i}`}>
+                      {label}: {(score * 100).toFixed(2)}%
+                    </span>
+                  ))}
+                </>
+              )}
+            </div>
+            <div className="Segment__details">
+              <span>Audio events:</span>
+              {!audioEvents && <Spinner width={16} height={16} fill="#7d8fa1" />}
+              {audioEvents && (
+                <>
+                  {audioEvents.map(({ label, score }, i) => (
+                    <span key={`${label}-${i}`}>
+                      {label}: {(score * 100).toFixed(2)}%
+                    </span>
+                  ))}
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
