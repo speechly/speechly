@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "/analyzer/",
   "dependencies": {
+    "@speechly/browser-client": "^2.6.2",
     "@speechly/demo-navigation": "^0.1.37",
     "@speechly/react-client": "^2.2.1",
     "@speechly/react-ui": "^2.7.2",

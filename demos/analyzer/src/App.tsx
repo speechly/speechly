@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
-import { IntroPopup } from "@speechly/react-ui";
-import clsx from "clsx";
-import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
-import { FileInput } from "./FileInput";
-import { ReactComponent as Spinner } from "./assets/3-dots-fade-black-36.svg";
-import { ReactComponent as Close } from "./assets/close.svg";
-import { ReactComponent as Mic } from "./assets/mic.svg";
-import { ReactComponent as MicOff } from "./assets/mic-off.svg";
-import { ReactComponent as AudioFile } from "./assets/audio-file.svg";
-import { ReactComponent as Empty } from "./assets/empty.svg";
-import sample1 from "./assets/ndgt.wav";
-import sample2 from "./assets/after-life.mp3";
-import "react-h5-audio-player/lib/styles.css";
-import "./App.css";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { BrowserMicrophone } from '@speechly/browser-client';
+import { AudioSourceState, DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
+import { IntroPopup } from '@speechly/react-ui';
+import clsx from 'clsx';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import { FileInput } from './FileInput';
+import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
+import { ReactComponent as Close } from './assets/close.svg';
+import { ReactComponent as Mic } from './assets/mic.svg';
+import { ReactComponent as MicOff } from './assets/mic-off.svg';
+import { ReactComponent as AudioFile } from './assets/audio-file.svg';
+import { ReactComponent as Empty } from './assets/empty.svg';
+import sample1 from './assets/ndgt.wav';
+import sample2 from './assets/after-life.mp3';
+import 'react-h5-audio-player/lib/styles.css';
+import './App.css';
 
 interface Classification {
   label: string;
@@ -34,25 +35,39 @@ interface FileOrUrl {
 const maxTags = 8;
 
 function App() {
-  const { appId, client, segment, clientState, microphoneState, listening, attachMicrophone, start, stop } =
+  const ourMic = new BrowserMicrophone();
+
+  const { appId, client, segment, clientState, microphone, microphoneState, listening, attachMicrophone, start, stop } =
     useSpeechContext();
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
-  const [tagValue, setTagValue] = useState("");
-  const [tags, setTags] = useState(["neutral", "happy", "sad", "cheerful", "disgusted"]);
+  const [tagValue, setTagValue] = useState('');
+  const [tags, setTags] = useState(['neutral', 'happy', 'sad', 'cheerful', 'disgusted']);
   const [files, setFiles] = useState<FileOrUrl[]>([
-    { name: "Neil deGrasse Tyson", src: sample1 },
-    { name: "After Life Cafe Scene", src: sample2 },
+    { name: 'Neil deGrasse Tyson', src: sample1 },
+    { name: 'After Life Cafe Scene', src: sample2 },
   ]);
   const [counter, setCounter] = useState(0);
-  const [audioSource, setAudioSource] = useState("");
+  const [audioSource, setAudioSource] = useState('');
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const audioRef: { current: AudioPlayer | null } = useRef(null);
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
+  const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
+
+  const ac = new AudioContext({ sampleRate: 16000 });
+  const sp = ac.createScriptProcessor();
 
   useEffect(() => {
     return () => stopCounter();
   }, []);
+
+  useEffect(() => {
+    if (clientState > 2) {
+      const initialValue = 0;
+      const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
+      console.log(newSum);
+    }
+  }, [micBuffer]);
 
   useEffect(() => {
     const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
@@ -69,11 +84,11 @@ function App() {
     };
 
     const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
-      const text = ss.words.map((word) => word.value).join(" ");
+      const text = ss.words.map((word) => word.value).join(' ');
       try {
-        const response = await fetch("https://staging.speechly.com/text-classifier-api/classify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const response = await fetch('https://staging.speechly.com/text-classifier-api/classify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, labels, appId }),
         });
         if (response.status !== 200) {
@@ -87,27 +102,27 @@ function App() {
         if (endSample - startSample > 16000) {
           let samplesSlice = detectionBuffer.slice(startSample, endSample);
           let formData = new FormData();
-          let blob = new Blob([samplesSlice], {type: "octet/stream"});
+          let blob = new Blob([samplesSlice], { type: 'octet/stream' });
           formData.append('audio', blob);
           formData.append('appId', appId!);
-          const audioDetResponse = await fetch("https://staging.speechly.com/text-classifier-api/classifyAudio", {
-            method: "POST",
+          const audioDetResponse = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
+            method: 'POST',
             body: formData,
           });
           if (audioDetResponse.status !== 200) {
             throw new Error(`${response.status} ${response.statusText}`);
           }
           const json2 = await audioDetResponse.json();
-          audioEvents = json2["classifications"] as Classification[];
+          audioEvents = json2['classifications'] as Classification[];
         }
 
-        const classifications = json["classifications"] as Classification[];
+        const classifications = json['classifications'] as Classification[];
         const newSegment = { ...ss, classifications, audioEvents };
         updateOrAddSegment(newSegment);
       } catch (error) {
-        let message = "Unknown error";
+        let message = 'Unknown error';
         if (error instanceof Error) message = error.message;
-        console.error("Error:", message);
+        console.error('Error:', message);
       }
     };
 
@@ -127,9 +142,9 @@ function App() {
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
     if (!tagValue || tags.length >= maxTags) return;
-    if (tags.includes(tagValue)) return setTagValue("");
+    if (tags.includes(tagValue)) return setTagValue('');
     setTags((current) => [...current, tagValue.trim()]);
-    setTagValue("");
+    setTagValue('');
   };
 
   const handleFileAdd = async (file: File) => {
@@ -148,11 +163,11 @@ function App() {
   };
 
   const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
-    const audioCtx = new AudioContext({sampleRate: 16000,});
-    const decodedBuffer = await audioCtx.decodeAudioData(buffer)
+    const audioCtx = new AudioContext({ sampleRate: 16000 });
+    const decodedBuffer = await audioCtx.decodeAudioData(buffer);
     const samples = decodedBuffer.getChannelData(0);
-    setDetectionBuffer(samples)
-  }
+    setDetectionBuffer(samples);
+  };
 
   const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
@@ -164,10 +179,10 @@ function App() {
     if (fileSrc) {
       const response = await fetch(fileSrc, {
         headers: {
-          "Content-Type": "audio/mpeg;audio/wav",
-          Accept: "audio/mpeg;audio/wav",
+          'Content-Type': 'audio/mpeg;audio/wav',
+          Accept: 'audio/mpeg;audio/wav',
         },
-        cache: "no-store",
+        cache: 'no-store',
       });
       if (!response.ok) {
         console.error("Could't find file");
@@ -206,21 +221,39 @@ function App() {
     }
   };
 
-  const handleDown = (_e: React.PointerEvent<HTMLButtonElement>) => {
-    if (listening) {
-      stopCounter();
-      stop();
+  const handleAudioProcess = useCallback((event: AudioProcessingEvent) => {
+    const samples = event.inputBuffer.getChannelData(0);
+    setMicBuffer((current) => [...current, samples]);
+  }, []);
+
+  useEffect(() => {
+    if (clientState > 2) {
+      sp.addEventListener('audioprocess', handleAudioProcess);
     } else {
-      startCounter();
-      start();
+      sp.removeEventListener('audioprocess', handleAudioProcess);
+      setMicBuffer([]);
     }
+  }, [clientState]);
+
+  sp.connect(ac.destination);
+
+  const handleStart = async () => {
+    if (!ourMic.mediaStream) {
+      await ourMic.initialize();
+      if (ourMic.mediaStream) {
+        await client?.attach(ourMic.mediaStream);
+        const node = ac.createMediaStreamSource(ourMic.mediaStream);
+        node.connect(sp);
+        await ac.resume();
+      }
+    }
+    await start();
   };
 
-  const handleUp = (_e: React.PointerEvent<HTMLButtonElement>) => {
-    if (listening && counter > 100) {
-      stopCounter();
-      stop();
-    }
+  const handleStop = async () => {
+    await stop();
+    await ourMic.close();
+    await ac.suspend();
   };
 
   return (
@@ -252,7 +285,7 @@ function App() {
           {files.map(({ name }, i) => (
             <button
               type="button"
-              className={clsx("Sidebar__item", selectedFileId === i && "Sidebar__item--selected")}
+              className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
               key={name}
               onClick={() => handleSelectFile(i)}
             >
@@ -260,28 +293,22 @@ function App() {
               <span>{name}</span>
             </button>
           ))}
-          <FileInput acceptMimes={"audio/wav;audio/mpeg"} onFileSelected={handleFileAdd} />
-          {clientState >= DecoderState.Connected && microphoneState === AudioSourceState.Started ? (
-            <button
-              type="button"
-              className={clsx("Sidebar__mic", listening && "Sidebar__mic--active")}
-              onPointerDown={handleDown}
-              onPointerUp={handleUp}
-            >
-              <Mic width={24} height={24} />
-            </button>
-          ) : (
-            <button type="button" className="Sidebar__mic" onClick={attachMicrophone}>
-              {microphoneState === AudioSourceState.NoAudioConsent ||
-              microphoneState === AudioSourceState.NoBrowserSupport ? (
-                <MicOff />
-              ) : (
-                <Mic />
-              )}
-              Use microphone
-            </button>
-          )}
-          <div className={clsx("Player", !audioSource && "Player--disabled")}>
+          <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
+          <button
+            type="button"
+            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
+            onClick={handleStart}
+          >
+            Start
+          </button>
+          <button
+            type="button"
+            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
+            onClick={handleStop}
+          >
+            Stop
+          </button>
+          <div className={clsx('Player', !audioSource && 'Player--disabled')}>
             <AudioPlayer
               ref={audioRef}
               src={audioSource}
