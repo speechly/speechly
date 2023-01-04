@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import clsx from 'clsx';
+import formatDuration from 'format-duration';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import { FileInput } from './FileInput';
 import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
@@ -21,7 +22,6 @@ interface Classification {
 
 interface ClassifiedSpeechSegment extends SpeechSegment {
   classifications?: Classification[];
-  audioEvents?: Classification[];
 }
 
 interface FileOrUrl {
@@ -31,7 +31,8 @@ interface FileOrUrl {
 }
 
 const maxTags = 8;
-const AUDIO_ANALYSIS_CHUNK_SIZE = 16000 * 3;
+const CHUNK_MS = 3000;
+const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -49,14 +50,14 @@ function App() {
     { name: 'After Life Cafe Scene', src: sample2 },
   ]);
   const [audioSource, setAudioSource] = useState('');
-  const audioRef: { current: AudioPlayer | null } = useRef(null);
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
-
+  const [audioEvents, setAudioEvents] = useState<Classification[]>([]);
+  const audioRef: { current: AudioPlayer | null } = useRef(null);
   const clientStateRef = useRef(clientState);
 
-  useEffect(() => {
-    const classifyBuffer = async (buf: Float32Array): Promise<void> => {
+  const classifyBuffer = useCallback(
+    async (buf: Float32Array): Promise<void> => {
       let formData = new FormData();
       let blob = new Blob([buf], { type: 'octet/stream' });
       formData.append('audio', blob);
@@ -69,21 +70,23 @@ function App() {
         throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
       }
       const json = await audioDetResponse.json();
-      console.log(json);
-      // audioEvents = json['classifications'] as Classification[];
-    };
+      const audioEvents = json['classifications'] as Classification[];
+      setAudioEvents((current) => [...current, ...audioEvents]);
+    },
+    [appId]
+  );
 
+  useEffect(() => {
     if (clientState > 2) {
       const initialValue = 0;
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
-
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
         const buf = new Float32Array(micBuffer.map((a) => Array.from(a)).flat());
         classifyBuffer(buf);
         setMicBuffer([]);
       }
     }
-  }, [micBuffer]);
+  }, [micBuffer, clientState, classifyBuffer]);
 
   useEffect(() => {
     clientStateRef.current = clientState;
@@ -91,6 +94,20 @@ function App() {
       setMicBuffer([]);
     }
   }, [clientState]);
+
+  useEffect(() => {
+    const chunk = (data: Float32Array, length: number) => {
+      let result = [];
+      for (var i = 0; i < data.length; i += length) {
+        result.push(data.subarray(i, i + length));
+      }
+      return result;
+    };
+    if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
+      const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
+      chunks.map((c) => classifyBuffer(c));
+    }
+  }, [detectionBuffer, classifyBuffer]);
 
   useEffect(() => {
     const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
@@ -118,29 +135,8 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
-        const SAMPLE_SIZE = 16;
-        let audioEvents = [] as Classification[];
-        const startSample = ss.words[0].startTimestamp * SAMPLE_SIZE;
-        const endSample = ss.words[ss.words.length - 1].endTimestamp * SAMPLE_SIZE;
-        if (endSample - startSample > 16000) {
-          let samplesSlice = detectionBuffer.slice(startSample, endSample);
-          let formData = new FormData();
-          let blob = new Blob([samplesSlice], { type: 'octet/stream' });
-          formData.append('audio', blob);
-          formData.append('appId', appId!);
-          const audioDetResponse = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
-            method: 'POST',
-            body: formData,
-          });
-          if (audioDetResponse.status !== 200) {
-            throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
-          }
-          const json2 = await audioDetResponse.json();
-          audioEvents = json2['classifications'] as Classification[];
-        }
-
         const classifications = json['classifications'] as Classification[];
-        const newSegment = { ...ss, classifications, audioEvents };
+        const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
       } catch (error) {
         let message = 'Unknown error';
@@ -197,6 +193,7 @@ function App() {
     if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
     setSpeechSegments([]);
+    setAudioEvents([]);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -258,7 +255,7 @@ function App() {
   return (
     <div className="App">
       <div className="Sidebar">
-        <h4 className="Sidebar__title">Classifications</h4>
+        <h4 className="Sidebar__title">Text classification labels</h4>
         <div className="Tag__container">
           {tags.map((tag, i) => (
             <div className="Tag" key={`${tag}-${i}`}>
@@ -319,13 +316,13 @@ function App() {
         {!speechSegments.length && !audioSource && (
           <div className="EmptyState">
             <Empty className="EmptyState__icon" />
-            <h2 className="EmptyState__title">Select an audio file to get started</h2>
+            <h2 className="EmptyState__title">Get text and audio classifications</h2>
             <p className="EmptyState__description">
-              Analyze audio files to get classifications and acoustic information for each speech segment.
+              Use one of our sample files, upload your own audio or use the microphone.
             </p>
           </div>
         )}
-        {speechSegments?.map(({ contextId, id, words, classifications, audioEvents }, _i) => (
+        {speechSegments?.map(({ contextId, id, words, classifications }) => (
           <div className="Segment" key={`${contextId}-${id}`}>
             <div className="Segment__transcript">
               {words.map((word) => (
@@ -333,33 +330,27 @@ function App() {
               ))}
             </div>
             <div className="Segment__details">
-              <span>Classifications:</span>
+              <span>Text classification:</span>
               {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-              {classifications && (
-                <>
-                  {classifications.map(({ label, score }, i) => (
-                    <span key={`${label}-${i}`}>
-                      {label}: {(score * 100).toFixed(2)}%
-                    </span>
-                  ))}
-                </>
-              )}
-            </div>
-            <div className="Segment__details">
-              <span>Audio events:</span>
-              {!audioEvents && <Spinner width={16} height={16} fill="#7d8fa1" />}
-              {audioEvents && (
-                <>
-                  {audioEvents.map(({ label, score }, i) => (
-                    <span key={`${label}-${i}`}>
-                      {label}: {(score * 100).toFixed(2)}%
-                    </span>
-                  ))}
-                </>
-              )}
+              {classifications &&
+                classifications.map(({ label, score }, i) => (
+                  <span key={`${label}-${i}`}>
+                    {label}: {(score * 100).toFixed(2)}%
+                  </span>
+                ))}
             </div>
           </div>
         ))}
+        <div className="Main__details">
+          {audioEvents &&
+            audioEvents.map(({ label, score }, i) => (
+              <span key={`${label}-${i}`}>
+                {formatDuration(i * CHUNK_MS)}&nbsp;
+                {label}&nbsp;
+                {(score * 100).toFixed(2)}%
+              </span>
+            ))}
+        </div>
       </div>
     </div>
   );

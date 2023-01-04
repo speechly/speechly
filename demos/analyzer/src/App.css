@@ -194,9 +194,9 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  gap: 24px;
+  padding-top: 24px;
+  position: relative;
   height: 100%;
-  padding: 24px;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -205,6 +205,21 @@ body {
 
 .Main::-webkit-scrollbar {
   display: none;
+}
+
+.Main__details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  background-color: var(--day);
+  border-top: 1px solid var(--border);
+  padding: 24px;
+  color: var(--dim);
+  font-size: 14px;
 }
 
 .EmptyState {
@@ -233,6 +248,7 @@ body {
   border: 1px solid var(--border);
   padding: 20px;
   border-radius: 4px;
+  margin: 0 24px 24px;
 }
 
 .Segment__transcript {
