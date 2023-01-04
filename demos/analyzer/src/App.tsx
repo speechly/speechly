@@ -77,7 +77,7 @@ function App() {
   );
 
   useEffect(() => {
-    if (clientState > 2) {
+    if (micBuffer.length && clientState > 2) {
       const initialValue = 0;
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
@@ -103,6 +103,7 @@ function App() {
       }
       return result;
     };
+
     if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
       const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
       chunks.map((c) => classifyBuffer(c));
@@ -218,7 +219,7 @@ function App() {
     if (fileFile) {
       const buffer = await fileFile.arrayBuffer();
       const blob = new Blob([buffer], { type: fileFile.type });
-      const url = window.URL.createObjectURL(blob);
+      const url = URL.createObjectURL(blob);
       updateAudioSource(url);
       await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
@@ -243,6 +244,11 @@ function App() {
         await ac.resume();
       }
       sp.addEventListener('audioprocess', handleAudioProcess);
+    }
+    if (selectedFileId !== undefined) {
+      setSpeechSegments([]);
+      setAudioEvents([]);
+      setSelectedFileId(undefined);
     }
     await start();
   };
