@@ -31,14 +31,13 @@ interface FileOrUrl {
 }
 
 const maxTags = 8;
-const CHUNK_MS = 5000;
+const CHUNK_MS = 3000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
 const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
-
 let recorder: MediaRecorder;
 
 function App() {
@@ -57,7 +56,6 @@ function App() {
   const [recData, setRecData] = useState<Blob>();
   const [audioEvents, setAudioEvents] = useState<Classification[]>([]);
   const audioRef: { current: AudioPlayer | null } = useRef(null);
-  const clientStateRef = useRef(clientState);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -106,7 +104,6 @@ function App() {
   }, [recData]);
 
   useEffect(() => {
-    clientStateRef.current = clientState;
     if (clientState <= 2) {
       setMicBuffer([]);
     }
@@ -242,26 +239,22 @@ function App() {
     }
   };
 
-  const handleAudioProcess = (event: AudioProcessingEvent) => {
-    if (clientStateRef.current > 2) {
-      const samples = event.inputBuffer.getChannelData(0);
-      setMicBuffer((current) => [...current, samples]);
-    }
-  };
-
   const handleStart = async () => {
     if (!ourMic.mediaStream) {
       await ourMic.initialize();
       if (ourMic.mediaStream) {
         await client?.attach(ourMic.mediaStream);
-        const node = ac.createMediaStreamSource(ourMic.mediaStream);
-        node.connect(sp);
-        await ac.resume();
       }
-      sp.addEventListener('audioprocess', handleAudioProcess);
     }
 
     if (ourMic.mediaStream) {
+      const node = ac.createMediaStreamSource(ourMic.mediaStream);
+      node.connect(sp);
+      await ac.resume();
+      sp.onaudioprocess = (e) => {
+        const samples = e.inputBuffer.getChannelData(0);
+        setMicBuffer((current) => [...current, samples]);
+      };
       recorder = new MediaRecorder(ourMic.mediaStream);
       recorder.start();
       recorder.ondataavailable = (e) => setRecData(e.data);
