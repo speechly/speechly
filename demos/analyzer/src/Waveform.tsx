@@ -10,7 +10,7 @@ import './Waveform.css';
 
 interface Props {
   url: string;
-  data?: Classification[];
+  data?: Classification[][];
 }
 
 const formWaveSurferOptions = (ref: any) => ({
@@ -31,7 +31,7 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
   const [playing, setPlay] = useState(false);
   const [volume, setVolume] = useState(0.5);
-  const [selectedData, setSelectedData] = useState<Classification>();
+  const [selectedData, setSelectedData] = useState<Classification[]>();
 
   useEffect(() => {
     setPlay(false);
@@ -47,16 +47,25 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
       }
     });
 
-    wavesurfer.current?.on('region-in', (e) => {
-      setSelectedData(e.data);
-    });
+    const unassing = (data: any) => Object.values(data) as Classification[];
 
-    wavesurfer.current?.on('region-mouseenter', (e) => {
-      setSelectedData(e.data);
+    wavesurfer.current?.on('region-in', (e) => {
+      const arr = unassing(e.data);
+      setSelectedData(arr);
     });
 
     wavesurfer.current?.on('region-click', (e) => {
-      setSelectedData(e.data);
+      const arr = unassing(e.data);
+      setSelectedData(arr);
+      if (!wavesurfer.current?.isPlaying()) {
+        wavesurfer.current?.play();
+      }
+    });
+
+    wavesurfer.current?.on('region-mouseenter', (e) => {
+      if (wavesurfer.current?.isPlaying()) return;
+      const arr = unassing(e.data);
+      setSelectedData(arr);
     });
 
     return () => wavesurfer.current?.destroy();
@@ -67,10 +76,11 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
   useEffect(() => {
     if (wavesurfer.current && data?.length) {
       wavesurfer.current.regions.clear();
-      data.forEach((r, i) => {
+      data.forEach((d, i) => {
         const chunkSec = CHUNK_MS / 1000;
         const t = i * chunkSec;
-        const region = { start: t, end: t + chunkSec, data: { label: r.label, score: r.score }, drag: false };
+        const obj = Object.assign({}, d);
+        const region = { start: t, end: t + chunkSec, data: { ...obj }, drag: false };
         wavesurfer.current?.regions.add(region);
       });
     }
@@ -96,11 +106,12 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
       <div className="Waveform__data">
         <span>Audio classification:</span>
         {!selectedData && <Spinner width={16} height={16} fill="#7d8fa1" />}
-        {selectedData && (
-          <span>
-            {selectedData.label}: {(selectedData.score * 100).toFixed(2)}%
-          </span>
-        )}
+        {selectedData &&
+          selectedData.map(({ label, score }, i) => (
+            <span key={`${label}-${i}`}>
+              {label}: {(score * 100).toFixed(2)}%
+            </span>
+          ))}
       </div>
       <div className="Waveform__inner" id="waveform" ref={waveformRef} />
       <div className="Waveform__controls">

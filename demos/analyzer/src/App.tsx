@@ -54,7 +54,7 @@ function App() {
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
   const [recData, setRecData] = useState<Blob>();
-  const [audioEvents, setAudioEvents] = useState<Classification[]>([]);
+  const [audioEvents, setAudioEvents] = useState<Classification[][]>([[]]);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -72,7 +72,7 @@ function App() {
         }
         const json = await response.json();
         const audioEvents = json['classifications'] as Classification[];
-        setAudioEvents((current) => [...current, ...audioEvents]);
+        setAudioEvents((current) => [...current, [...audioEvents]]);
       } catch (err) {
         console.error(err);
       }
