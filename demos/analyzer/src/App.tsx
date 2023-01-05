@@ -57,6 +57,7 @@ function App() {
   const [recData, setRecData] = useState<Blob>();
   const [audioEvents, setAudioEvents] = useState<Classification[][]>([]);
   const [peakData, setPeakData] = useState<Array<number>>([]);
+  const [showEmptyState, setShowEmptyState] = useState(true);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -166,6 +167,7 @@ function App() {
     };
 
     if (segment) {
+      setShowEmptyState(false);
       updateOrAddSegment(segment);
       if (segment.isFinal) {
         classifySegment(segment, tags);
@@ -318,7 +320,7 @@ function App() {
           <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
         </div>
         <div className="Main">
-          {!speechSegments.length && !audioSource && (
+          {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
               <h2 className="EmptyState__title">Get text and audio classifications</h2>
