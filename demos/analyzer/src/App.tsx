@@ -265,83 +265,85 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="Sidebar">
-        <h4 className="Sidebar__title">Text classification labels</h4>
-        <div className="Tag__container">
-          {tags.map((tag, i) => (
-            <div className="Tag" key={`${tag}-${i}`}>
-              {tag}
-              <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
-            </div>
-          ))}
-          <form className="Tag__form" onSubmit={handleAddTag}>
-            <input
-              type="text"
-              placeholder="Add a label"
-              value={tagValue}
-              onChange={(e) => setTagValue(e.target.value)}
-            />
-            <button type="submit" disabled={!tagValue || tags.length >= MAX_TAGS}>
-              Add
+    <>
+      <div className="App">
+        <div className="Sidebar">
+          <h4 className="Sidebar__title">Text classification labels</h4>
+          <div className="Tag__container">
+            {tags.map((tag, i) => (
+              <div className="Tag" key={`${tag}-${i}`}>
+                {tag}
+                <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
+              </div>
+            ))}
+            <form className="Tag__form" onSubmit={handleAddTag}>
+              <input
+                type="text"
+                placeholder="Add a label"
+                value={tagValue}
+                onChange={(e) => setTagValue(e.target.value)}
+              />
+              <button type="submit" disabled={!tagValue || tags.length >= MAX_TAGS}>
+                Add
+              </button>
+              {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
+            </form>
+          </div>
+          <h4 className="Sidebar__title">Audio files</h4>
+          {files.map(({ name }, i) => (
+            <button
+              type="button"
+              className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
+              key={name}
+              onClick={() => handleSelectFile(i)}
+            >
+              <AudioFile width={18} height={18} />
+              <span>{name}</span>
             </button>
-            {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
-          </form>
-        </div>
-        <h4 className="Sidebar__title">Audio files</h4>
-        {files.map(({ name }, i) => (
+          ))}
+          <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
           <button
             type="button"
-            className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
-            key={name}
-            onClick={() => handleSelectFile(i)}
+            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
+            onPointerDown={handleStart}
+            onPointerUp={handleStop}
           >
-            <AudioFile width={18} height={18} />
-            <span>{name}</span>
+            <Mic />
           </button>
-        ))}
-        <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
-        <button
-          type="button"
-          className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
-          onPointerDown={handleStart}
-          onPointerUp={handleStop}
-        >
-          <Mic />
-        </button>
-      </div>
-      <div className="Main">
-        {!speechSegments.length && !audioSource && (
-          <div className="EmptyState">
-            <Empty className="EmptyState__icon" />
-            <h2 className="EmptyState__title">Get text and audio classifications</h2>
-            <p className="EmptyState__description">
-              Use one of our sample files, upload your own audio or use the microphone.
-            </p>
-          </div>
-        )}
-        {speechSegments?.map(({ contextId, id, words, classifications }) => (
-          <div className="Segment" key={`${contextId}-${id}`}>
-            <div className="Segment__transcript">
-              {words.map((word) => (
-                <span key={word.index}>{word.value} </span>
-              ))}
+        </div>
+        <div className="Main">
+          {!speechSegments.length && !audioSource && (
+            <div className="EmptyState">
+              <Empty className="EmptyState__icon" />
+              <h2 className="EmptyState__title">Get text and audio classifications</h2>
+              <p className="EmptyState__description">
+                Use one of our sample files, upload your own audio or use the microphone.
+              </p>
             </div>
-            <div className="Segment__details">
-              <span>Text classification:</span>
-              {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-              {classifications &&
-                classifications.map(({ label, score }, i) => (
-                  <span key={`${label}-${i}`}>
-                    {label}: {(score * 100).toFixed(2)}%
-                  </span>
+          )}
+          {speechSegments?.map(({ contextId, id, words, classifications }) => (
+            <div className="Segment" key={`${contextId}-${id}`}>
+              <div className="Segment__transcript">
+                {words.map((word) => (
+                  <span key={word.index}>{word.value} </span>
                 ))}
+              </div>
+              <div className="Segment__details">
+                <span>Text classification:</span>
+                {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
+                {classifications &&
+                  classifications.map(({ label, score }, i) => (
+                    <span key={`${label}-${i}`}>
+                      {label}: {(score * 100).toFixed(2)}%
+                    </span>
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
-        <div className="Player">{audioSource && <Waveform url={audioSource} data={audioEvents} />}</div>
+          ))}
+        </div>
       </div>
-    </div>
+      <div className="Player">{audioSource && <Waveform url={audioSource} data={audioEvents} />}</div>
+    </>
   );
 }
 

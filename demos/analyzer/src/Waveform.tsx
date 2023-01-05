@@ -18,6 +18,7 @@ const formWaveSurferOptions = (ref: any) => ({
   waveColor: '#7d8fa1',
   progressColor: '#009efa',
   cursorColor: 'red',
+  height: 100,
   barWidth: 3,
   barRadius: 3,
   responsive: true,

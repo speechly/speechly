@@ -1,5 +1,6 @@
 .Waveform {
   width: 100%;
+  padding: 20px 8px;
 }
 
 .Waveform__data {
@@ -8,7 +9,6 @@
   justify-content: center;
   gap: 8px;
   height: 20px;
-  margin-bottom: 16px;
 }
 
 .Waveform__data span {
@@ -18,12 +18,15 @@
   text-align: center;
 }
 
+.Waveform__inner {
+  margin: 16px 0;
+}
+
 .Waveform__controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-top: 16px;
 }
 
 .Waveform__volume {
@@ -67,7 +70,6 @@
 
 
 .Waveform .wavesurfer-handle {
-  width: 1px !important;
+  width: 0.5px !important;
   background-color: var(--hover-dark) !important;
 }
-
