@@ -1,6 +1,7 @@
 .Waveform {
   width: 100%;
-  padding: 20px 8px;
+  padding: 16px 20px 20px;
+  overflow: hidden;
 }
 
 .Waveform__data {
@@ -18,8 +19,20 @@
   text-align: center;
 }
 
-.Waveform__inner {
-  margin: 16px 0;
+.Waveform__waveform {
+  background-color: var(--dawn);
+  border-radius: 4px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.Waveform__waveform > wave {
+  overflow: hidden !important;
+}
+
+.Waveform__timeline {
+  margin-bottom: 16px;
+  opacity: .75;
 }
 
 .Waveform__controls {
@@ -63,7 +76,7 @@
 }
 
 .Waveform__playPause:disabled {
-  background-color: var(--dim);
+  background-color: var(--border-dark);
   pointer-events: none;
 }
 
@@ -77,5 +90,5 @@
 
 .Waveform .wavesurfer-handle {
   width: 0.5px !important;
-  background-color: var(--hover-dark) !important;
+  background-color: var(--hover-darker) !important;
 }

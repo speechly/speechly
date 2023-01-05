@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import clsx from 'clsx';
+import formatDuration from 'format-duration';
 import { Waveform } from './Waveform';
 import { FileInput } from './FileInput';
 import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
@@ -328,6 +329,9 @@ function App() {
           )}
           {speechSegments?.map(({ contextId, id, words, classifications }) => (
             <div className="Segment" key={`${contextId}-${id}`}>
+              <div className="Segment__timestamp">
+                {!isNaN(words[0]?.startTimestamp) && formatDuration(words[0]?.startTimestamp)}
+              </div>
               <div className="Segment__transcript">
                 {words.map((word) => (
                   <span key={word.index}>{word.value} </span>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
+import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { CHUNK_MS, Classification } from './App';
 import { ReactComponent as Play } from './assets/play.svg';
 import { ReactComponent as Pause } from './assets/pause.svg';
@@ -14,8 +15,8 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const formWaveSurferOptions = (ref: any) => ({
-  container: ref,
+const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
+  container: containerRef,
   waveColor: '#7d8fa1',
   progressColor: '#009efa',
   cursorColor: 'red',
@@ -25,18 +26,26 @@ const formWaveSurferOptions = (ref: any) => ({
   responsive: true,
   normalize: true,
   partialRender: true,
-  plugins: [RegionsPlugin.create({ dragSelection: false, snapToGridInterval: 1 })],
+  plugins: [
+    RegionsPlugin.create({ snapToGridInterval: 1 }),
+    TimelinePlugin.create({
+      container: timelineRef,
+      height: 16,
+      notchPercentHeight: 50,
+    }),
+  ],
 });
 
 export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
+  const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [selectedData, setSelectedData] = useState<Classification[]>();
 
   useEffect(() => {
-    const options = formWaveSurferOptions(waveformRef.current);
+    const options = formWaveSurferOptions(waveformRef.current, timelineRef.current);
     wavesurfer.current = WaveSurfer.create(options);
     if (!url) {
       if (peaks?.length) {
@@ -49,9 +58,6 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
     wavesurfer.current.on('ready', () => {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
-        if (!peaks?.length) {
-          wavesurfer.current.play();
-        }
       }
     });
 
@@ -124,7 +130,8 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
           </>
         )}
       </div>
-      <div className="Waveform__inner" id="waveform" ref={waveformRef} />
+      <div className="Waveform__waveform" id="waveform" ref={waveformRef} />
+      <div className="Waveform__timeline" id="timeline" ref={timelineRef} />
       <div className="Waveform__controls">
         {children}
         <button onClick={handlePlayPause} className="Waveform__playPause" disabled={!url}>

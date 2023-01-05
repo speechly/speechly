@@ -154,7 +154,7 @@ body {
 }
 
 .Tag__form button:disabled {
-  background-color: var(--border);
+  background-color: var(--border-dark);
   pointer-events: none;
 }
 
@@ -213,16 +213,21 @@ body {
 .Segment {
   display: flex;
   flex-direction: column;
+  gap: 8px;
   border: 1px solid var(--border);
   padding: 20px;
   border-radius: 4px;
   margin: 0 24px 24px;
 }
 
+.Segment__timestamp {
+  font-size: 14px;
+  color: var(--dim);
+}
+
 .Segment__transcript {
   line-height: 1.5;
   margin-right: auto;
-  margin-bottom: 8px;
 }
 
 .Segment__details {
@@ -233,7 +238,6 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: var(--dim);
-  margin-top: 8px;
 }
 
 .Segment__details svg {
