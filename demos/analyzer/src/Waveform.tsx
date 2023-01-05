@@ -2,16 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
 import { CHUNK_MS, Classification } from './App';
-import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
-import { ReactComponent as Play } from './assets/play-circle.svg';
-import { ReactComponent as Pause } from './assets/pause-circle.svg';
+import { ReactComponent as Play } from './assets/play.svg';
+import { ReactComponent as Pause } from './assets/pause.svg';
 import { ReactComponent as VolumeUp } from './assets/volume.svg';
 import './Waveform.css';
 
 interface Props {
-  url: string;
-  peaks: number[];
+  url?: string;
+  peaks?: number[];
   data?: Classification[][];
+  children?: React.ReactNode;
 }
 
 const formWaveSurferOptions = (ref: any) => ({
@@ -28,7 +28,7 @@ const formWaveSurferOptions = (ref: any) => ({
   plugins: [RegionsPlugin.create({ dragSelection: false, snapToGridInterval: 1 })],
 });
 
-export const Waveform: React.FC<Props> = ({ url, peaks, data }) => {
+export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,12 +38,20 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data }) => {
   useEffect(() => {
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-    wavesurfer.current.load(url, peaks);
+    if (!url) {
+      if (peaks?.length) {
+        wavesurfer.current.load('foo', peaks, undefined, peaks.length / 128);
+      }
+    } else {
+      wavesurfer.current.load(url);
+    }
 
     wavesurfer.current.on('ready', () => {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
-        wavesurfer.current.play();
+        if (!peaks?.length) {
+          wavesurfer.current.play();
+        }
       }
     });
 
@@ -75,10 +83,11 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data }) => {
     return () => wavesurfer.current?.destroy();
 
     // eslint-disable-next-line
-  }, [url]);
+  }, [url, peaks]);
 
   useEffect(() => {
     if (wavesurfer.current && data?.length) {
+      console.log(data);
       wavesurfer.current.regions.clear();
       data.forEach((d, i) => {
         const chunkSec = CHUNK_MS / 1000;
@@ -105,19 +114,22 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data }) => {
   return (
     <div className="Waveform">
       <div className="Waveform__data">
-        <span>Audio classification:</span>
-        {!selectedData && <Spinner width={16} height={16} fill="#7d8fa1" />}
-        {selectedData &&
-          selectedData.map(({ label, score }, i) => (
-            <span key={`${label}-${i}`}>
-              {label}: {(score * 100).toFixed(2)}%
-            </span>
-          ))}
+        {selectedData && (
+          <>
+            <span>Audio classification:</span>
+            {selectedData.map(({ label, score }, i) => (
+              <span key={`${label}-${i}`}>
+                {label}: {(score * 100).toFixed(2)}%
+              </span>
+            ))}
+          </>
+        )}
       </div>
       <div className="Waveform__inner" id="waveform" ref={waveformRef} />
       <div className="Waveform__controls">
-        <button onClick={handlePlayPause} className="Waveform__pauseBtn">
-          {isPlaying ? <Pause /> : <Play />}
+        {children}
+        <button onClick={handlePlayPause} className="Waveform__playPause" disabled={!url}>
+          {isPlaying ? <Pause width={28} height={28} /> : <Play width={28} height={28} />}
         </button>
         <div className="Waveform__volume">
           <VolumeUp />

@@ -79,36 +79,6 @@ body {
   margin: 16px 24px;
 }
 
-.Sidebar__mic {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--accent);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--day);
-  padding: 12px 16px;
-  margin: 8px 24px 24px;
-  transition: var(--ease);
-  height: 44px;
-}
-
-.Sidebar__mic:hover {
-  box-shadow: inset 0 0 0 100px var(--hover-dark);
-}
-
-.Sidebar__mic--active {
-  background-color: var(--danger) !important;
-}
-
-.Sidebar__mic svg {
-  fill: currentColor;
-}
-
 .Tag__container {
   display: flex;
   flex-wrap: wrap;
@@ -269,4 +239,35 @@ body {
 .Segment__details svg {
   flex-shrink: 0;
   display: block;
+}
+
+.Microphone {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 100px;
+  background-color: var(--accent);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--day);
+  padding: 12px;
+  transition: var(--ease);
+}
+
+.Microphone:hover {
+  box-shadow: inset 0 0 0 100px var(--hover-dark);
+}
+
+.Microphone--active {
+  background-color: var(--danger) !important;
+  transform: scale(1.1);
+  outline: var(--danger) solid 2px;
+  outline-offset: 2px;
+}
+
+.Microphone svg {
+  fill: currentColor;
 }

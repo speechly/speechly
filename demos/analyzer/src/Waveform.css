@@ -26,7 +26,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .Waveform__volume {
@@ -42,22 +42,29 @@
   fill: var(--night);
 }
 
-.Waveform__pauseBtn {
+.Waveform__playPause {
   cursor: pointer;
   outline: none;
   border: none;
-  background-color: transparent;
-  padding: 0;
-}
-
-.Waveform__pauseBtn svg {
-  display: block;
-  fill: var(--night);
+  background-color: var(--night);
+  border-radius: 100px;
+  padding: 10px;
   transition: var(--ease);
+  color: var(--day);
 }
 
-.Waveform__pauseBtn:hover svg {
-  fill: var(--dim)
+.Waveform__playPause:hover {
+  background-color: var(--dim);
+}
+
+.Waveform__playPause svg {
+  display: block;
+  fill: currentColor;
+}
+
+.Waveform__playPause:disabled {
+  background-color: var(--dim);
+  pointer-events: none;
 }
 
 .Waveform .wavesurfer-region {
@@ -67,7 +74,6 @@
 .Waveform .wavesurfer-region:hover {
   background-color: var(--hover) !important;
 }
-
 
 .Waveform .wavesurfer-handle {
   width: 0.5px !important;

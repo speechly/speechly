@@ -50,11 +50,11 @@ function App() {
     { name: 'Neil deGrasse Tyson', src: sample1 },
     { name: 'After Life Cafe Scene', src: sample2 },
   ]);
-  const [audioSource, setAudioSource] = useState('');
+  const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
   const [recData, setRecData] = useState<Blob>();
-  const [audioEvents, setAudioEvents] = useState<Classification[][]>([[]]);
+  const [audioEvents, setAudioEvents] = useState<Classification[][]>([]);
   const [peakData, setPeakData] = useState<Array<number>>([]);
 
   const classifyBuffer = useCallback(
@@ -72,8 +72,8 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
-        const audioEvents = json['classifications'] as Classification[];
-        setAudioEvents((current) => [...current, [...audioEvents]]);
+        const classifications = json['classifications'] as Classification[];
+        setAudioEvents((current) => [...current, [...classifications]]);
       } catch (err) {
         console.error(err);
       }
@@ -87,30 +87,12 @@ function App() {
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
         const buf = new Float32Array(micBuffer.map((a) => Array.from(a)).flat());
-        console.log('buf.length = ', buf.length);
         classifyBuffer(buf);
-
-        // console.log('setting blob to contain buffer');
-        // const buf16 = new Int16Array(buf.length);
-        // for (let i = 0; i < buf.length; i++) {
-        //   buf16[i] = (buf[i] * 32768);
-        // }
-        // console.log('buf16 begin', buf16.slice(0, 10));
-        
-        const blob = new Blob([buf], { type: 'audio/webm;codecs=pcm' });
-        console.log('blob is', blob);
-        const url = URL.createObjectURL(blob);
-        console.log('url is', url);
-        setAudioSource(url);
-
         const peaks = [] as Array<number>;
         for (let i = 0; i < buf.length; i += 128) {
-          peaks.push(Math.max(
-            ...Array.from(buf.slice(i, i + 128).map(x => Math.abs(x)))
-          ));
+          peaks.push(Math.max(...Array.from(buf.slice(i, i + 128).map((x) => Math.abs(x)))));
         }
-        setPeakData(prevPeaks => [...prevPeaks, ...peaks]);
-
+        setPeakData((prevPeaks) => [...prevPeaks, ...peaks]);
         setMicBuffer([]);
       }
     }
@@ -121,6 +103,7 @@ function App() {
       const src = URL.createObjectURL(recData);
       const timeStr = new Date().toISOString().split('T').join(' at ').substring(0, 22);
       const name = `Recording ${timeStr}`;
+      // setAudioSource(src);
       setFiles((current) => [...current, { name, src }]);
       setRecData(undefined);
     }
@@ -217,8 +200,10 @@ function App() {
     if (selectedFileId === i) return;
     if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
+    setAudioSource(undefined);
     setSpeechSegments([]);
     setAudioEvents([]);
+    setPeakData([]);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -252,6 +237,8 @@ function App() {
   };
 
   const handleStart = async () => {
+    if (clientState === DecoderState.Active) return;
+
     if (!ourMic.mediaStream) {
       await ourMic.initialize();
       if (ourMic.mediaStream) {
@@ -273,10 +260,12 @@ function App() {
       recorder.ondataavailable = (e) => setRecData(e.data);
     }
 
-    if (selectedFileId !== undefined) {
+    if (speechSegments.length) {
+      setSelectedFileId(undefined);
+      setAudioSource(undefined);
       setSpeechSegments([]);
       setAudioEvents([]);
-      setSelectedFileId(undefined);
+      setPeakData([]);
     }
 
     await start();
@@ -326,14 +315,6 @@ function App() {
             </button>
           ))}
           <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
-          <button
-            type="button"
-            className={clsx('Sidebar__mic', listening && 'Sidebar__mic--active')}
-            onPointerDown={handleStart}
-            onPointerUp={handleStop}
-          >
-            <Mic />
-          </button>
         </div>
         <div className="Main">
           {!speechSegments.length && !audioSource && (
@@ -366,7 +347,18 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="Player">{audioSource && <Waveform url={audioSource} peaks={peakData} data={audioEvents} />}</div>
+      <div className="Player">
+        <Waveform url={audioSource} peaks={peakData} data={audioEvents}>
+          <button
+            type="button"
+            className={clsx('Microphone', listening && 'Microphone--active')}
+            onPointerDown={handleStart}
+            onPointerUp={handleStop}
+          >
+            <Mic />
+          </button>
+        </Waveform>
+      </div>
     </>
   );
 }
