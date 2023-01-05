@@ -10,6 +10,7 @@ import './Waveform.css';
 
 interface Props {
   url: string;
+  peaks: number[];
   data?: Classification[][];
 }
 
@@ -27,7 +28,7 @@ const formWaveSurferOptions = (ref: any) => ({
   plugins: [RegionsPlugin.create({ dragSelection: false, snapToGridInterval: 1 })],
 });
 
-export const Waveform: React.FC<Props> = ({ url, data }) => {
+export const Waveform: React.FC<Props> = ({ url, peaks, data }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,7 +38,7 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
   useEffect(() => {
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-    wavesurfer.current.load(url);
+    wavesurfer.current.load(url, peaks);
 
     wavesurfer.current.on('ready', () => {
       if (wavesurfer.current) {

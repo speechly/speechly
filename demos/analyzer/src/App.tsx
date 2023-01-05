@@ -28,7 +28,7 @@ interface FileOrUrl {
   src?: string;
 }
 
-export const CHUNK_MS = 1000;
+export const CHUNK_MS = 2000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 const TEXT_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classify';
 const AUDIO_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classifyAudio';
@@ -55,6 +55,7 @@ function App() {
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
   const [recData, setRecData] = useState<Blob>();
   const [audioEvents, setAudioEvents] = useState<Classification[][]>([[]]);
+  const [peakData, setPeakData] = useState<Array<number>>([]);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -86,7 +87,30 @@ function App() {
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
         const buf = new Float32Array(micBuffer.map((a) => Array.from(a)).flat());
+        console.log('buf.length = ', buf.length);
         classifyBuffer(buf);
+
+        // console.log('setting blob to contain buffer');
+        // const buf16 = new Int16Array(buf.length);
+        // for (let i = 0; i < buf.length; i++) {
+        //   buf16[i] = (buf[i] * 32768);
+        // }
+        // console.log('buf16 begin', buf16.slice(0, 10));
+        
+        const blob = new Blob([buf], { type: 'audio/webm;codecs=pcm' });
+        console.log('blob is', blob);
+        const url = URL.createObjectURL(blob);
+        console.log('url is', url);
+        setAudioSource(url);
+
+        const peaks = [] as Array<number>;
+        for (let i = 0; i < buf.length; i += 128) {
+          peaks.push(Math.max(
+            ...Array.from(buf.slice(i, i + 128).map(x => Math.abs(x)))
+          ));
+        }
+        setPeakData(prevPeaks => [...prevPeaks, ...peaks]);
+
         setMicBuffer([]);
       }
     }
@@ -342,7 +366,7 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="Player">{audioSource && <Waveform url={audioSource} data={audioEvents} />}</div>
+      <div className="Player">{audioSource && <Waveform url={audioSource} peaks={peakData} data={audioEvents} />}</div>
     </>
   );
 }
