@@ -101,9 +101,9 @@ function App() {
   useEffect(() => {
     if (recData) {
       const src = URL.createObjectURL(recData);
+      setAudioSource(src);
       const timeStr = new Date().toISOString().split('T').join(' at ').substring(0, 22);
       const name = `Recording ${timeStr}`;
-      // setAudioSource(src);
       setFiles((current) => [...current, { name, src }]);
       setRecData(undefined);
     }

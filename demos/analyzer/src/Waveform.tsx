@@ -87,7 +87,6 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
 
   useEffect(() => {
     if (wavesurfer.current && data?.length) {
-      console.log(data);
       wavesurfer.current.regions.clear();
       data.forEach((d, i) => {
         const chunkSec = CHUNK_MS / 1000;
@@ -97,7 +96,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [data]);
+  }, [url, data]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
