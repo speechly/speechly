@@ -31,7 +31,7 @@ interface FileOrUrl {
 }
 
 const maxTags = 8;
-const CHUNK_MS = 3000;
+const CHUNK_MS = 5000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 
 const ourMic = new BrowserMicrophone();
@@ -65,16 +65,20 @@ function App() {
       let blob = new Blob([buf], { type: 'octet/stream' });
       formData.append('audio', blob);
       formData.append('appId', appId!);
-      const audioDetResponse = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
-        method: 'POST',
-        body: formData,
-      });
-      if (audioDetResponse.status !== 200) {
-        throw new Error(`${audioDetResponse.status} ${audioDetResponse.statusText}`);
+      try {
+        const response = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
+          method: 'POST',
+          body: formData,
+        });
+        if (response.status !== 200) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+        const json = await response.json();
+        const audioEvents = json['classifications'] as Classification[];
+        setAudioEvents((current) => [...current, ...audioEvents]);
+      } catch (err) {
+        console.error(err);
       }
-      const json = await audioDetResponse.json();
-      const audioEvents = json['classifications'] as Classification[];
-      setAudioEvents((current) => [...current, ...audioEvents]);
     },
     [appId]
   );
@@ -152,10 +156,8 @@ function App() {
         const classifications = json['classifications'] as Classification[];
         const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
-      } catch (error) {
-        let message = 'Unknown error';
-        if (error instanceof Error) message = error.message;
-        console.error('Error:', message);
+      } catch (err) {
+        console.error(err);
       }
     };
 
