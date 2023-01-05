@@ -207,19 +207,13 @@ body {
   display: none;
 }
 
-.Main__details {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
+.Player {
   position: sticky;
   bottom: 0;
   margin-top: auto;
   background-color: var(--day);
   border-top: 1px solid var(--border);
   padding: 24px;
-  color: var(--dim);
-  font-size: 14px;
 }
 
 .EmptyState {
@@ -271,112 +265,4 @@ body {
 .Segment__details svg {
   flex-shrink: 0;
   display: block;
-}
-
-/* Audio player */
-
-.Player {
-  position: sticky;
-  bottom: 0;
-  margin-top: auto;
-  border-top: 1px solid var(--border);
-  background-color: var(--day);
-}
-
-.Player--disabled .rhap_container {
-  opacity: 0.5;
-  filter: grayscale(1);
-}
-
-.rhap_container {
-  background-color: transparent;
-  box-shadow: none;
-  padding: 16px 12px 16px 18px;
-}
-
-.rhap_controls-section {
-  flex-grow: 0;
-  margin-right: 0 !important;
-}
-
-.rhap_main-controls-button {
-  margin: 0;
-}
-
-.rhap_time {
-  font-size: 13px;
-  color: var(--dim);
-}
-
-.rhap_progress-bar {
-  background-color: var(--border);
-  height: 4px;
-}
-
-.rhap_progress-indicator {
-  box-shadow: none;
-  background-color: var(--accent);
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
-  top: -4px;
-  transition: box-shadow .15s ease;
-}
-
-.rhap_progress-indicator:active {
-  box-shadow: 0 0 0 2px var(--accent-25);
-}
-
-.rhap_progress-filled {
-  background-color: var(--accent);
-}
-
-.rhap_button-clear {
-  color: var(--night);
-}
-
-.rhap_volume-container {
-  flex-basis: 0;
-  transition: all .3s ease;
-  padding: 8px;
-}
-
-.rhap_volume-button {
-  margin-right: 0;
-  width: 24px;
-  height: 24px;
-}
-
-.rhap_volume-button svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-.rhap_volume-bar-area {
-  visibility: hidden;
-  position: relative;
-}
-
-.rhap_volume-container:hover {
-  flex-basis: 96px;
-}
-
-.rhap_volume-container:hover .rhap_volume-bar-area {
-  visibility: visible;
-  margin-left: 8px;
-}
-
-.rhap_volume-bar {
-  background-color: var(--border);
-}
-
-.rhap_volume-filled,
-.rhap_volume-indicator {
-  background-color: var(--accent);
-  box-shadow: none;
-}
-
-.rhap_volume-indicator:active {
-  box-shadow: 0 0 0 2px var(--accent-25);
 }

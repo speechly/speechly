@@ -1,0 +1,73 @@
+.Waveform {
+  width: 100%;
+}
+
+.Waveform__data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 20px;
+  margin-bottom: 16px;
+}
+
+.Waveform__data span {
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.Waveform__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.Waveform__volume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.Waveform__volume svg {
+  display: block;
+  flex-shrink: 0;
+  fill: var(--night);
+}
+
+.Waveform__pauseBtn {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+.Waveform__pauseBtn svg {
+  display: block;
+  fill: var(--night);
+  transition: var(--ease);
+}
+
+.Waveform__pauseBtn:hover svg {
+  fill: var(--dim)
+}
+
+.Waveform .wavesurfer-region {
+  background-color: transparent !important;
+}
+
+.Waveform .wavesurfer-region:hover {
+  background-color: var(--hover) !important;
+}
+
+
+.Waveform .wavesurfer-handle {
+  width: 1px !important;
+  background-color: var(--hover-dark) !important;
+}
+

@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import clsx from 'clsx';
-import formatDuration from 'format-duration';
-import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import { Waveform } from './Waveform';
 import { FileInput } from './FileInput';
 import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
 import { ReactComponent as Close } from './assets/close.svg';
@@ -12,10 +11,9 @@ import { ReactComponent as AudioFile } from './assets/audio-file.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/ndgt.wav';
 import sample2 from './assets/after-life.mp3';
-import 'react-h5-audio-player/lib/styles.css';
 import './App.css';
 
-interface Classification {
+export interface Classification {
   label: string;
   score: number;
 }
@@ -30,12 +28,11 @@ interface FileOrUrl {
   src?: string;
 }
 
+export const CHUNK_MS = 1000;
+const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 const TEXT_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classify';
 const AUDIO_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classifyAudio';
-
-const maxTags = 8;
-const CHUNK_MS = 1000;
-const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
+const MAX_TAGS = 8;
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -58,7 +55,6 @@ function App() {
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
   const [recData, setRecData] = useState<Blob>();
   const [audioEvents, setAudioEvents] = useState<Classification[]>([]);
-  const audioRef: { current: AudioPlayer | null } = useRef(null);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -176,7 +172,7 @@ function App() {
 
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!tagValue || tags.length >= maxTags) return;
+    if (!tagValue || tags.length >= MAX_TAGS) return;
     if (tags.includes(tagValue)) return setTagValue('');
     setTags((current) => [...current, tagValue.trim()]);
     setTagValue('');
@@ -184,17 +180,6 @@ function App() {
 
   const handleFileAdd = async (file: File) => {
     setFiles((current) => [...current, { name: file.name, file }]);
-  };
-
-  const updateAudioSource = (src: string) => {
-    setAudioSource(src);
-    if (audioRef.current) {
-      audioRef.current.audio.current?.pause();
-      audioRef.current.audio.current?.load();
-      setTimeout(() => {
-        audioRef.current?.audio.current?.play();
-      }, 150);
-    }
   };
 
   const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
@@ -223,7 +208,7 @@ function App() {
       if (!response.ok) {
         console.error("Could't find file");
       }
-      updateAudioSource(fileSrc);
+      setAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
       await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
@@ -235,7 +220,7 @@ function App() {
       const buffer = await fileFile.arrayBuffer();
       const blob = new Blob([buffer], { type: fileFile.type });
       const url = URL.createObjectURL(blob);
-      updateAudioSource(url);
+      setAudioSource(url);
       await updateDetectionBuffer(buffer);
       await client?.uploadAudioData(buffer);
       return;
@@ -297,10 +282,10 @@ function App() {
               value={tagValue}
               onChange={(e) => setTagValue(e.target.value)}
             />
-            <button type="submit" disabled={!tagValue || tags.length >= maxTags}>
+            <button type="submit" disabled={!tagValue || tags.length >= MAX_TAGS}>
               Add
             </button>
-            {tagValue && tags.length >= maxTags && <p>Max {maxTags} labels allowed</p>}
+            {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
           </form>
         </div>
         <h4 className="Sidebar__title">Audio files</h4>
@@ -324,20 +309,6 @@ function App() {
         >
           <Mic />
         </button>
-        <div className={clsx('Player', !audioSource && 'Player--disabled')}>
-          <AudioPlayer
-            ref={audioRef}
-            src={audioSource}
-            layout="horizontal-reverse"
-            showJumpControls={false}
-            showDownloadProgress={false}
-            customControlsSection={[RHAP_UI.MAIN_CONTROLS]}
-            customProgressBarSection={[RHAP_UI.PROGRESS_BAR, RHAP_UI.VOLUME]}
-            customAdditionalControls={[]}
-            showFilledVolume
-            hasDefaultKeyBindings={false}
-          />
-        </div>
       </div>
       <div className="Main">
         {!speechSegments.length && !audioSource && (
@@ -368,16 +339,7 @@ function App() {
             </div>
           </div>
         ))}
-        <div className="Main__details">
-          {audioEvents &&
-            audioEvents.map(({ label, score }, i) => (
-              <span key={`${label}-${i}`}>
-                {formatDuration(i * CHUNK_MS)}&nbsp;
-                {label}&nbsp;
-                {(score * 100).toFixed(2)}%
-              </span>
-            ))}
-        </div>
+        <div className="Player">{audioSource && <Waveform url={audioSource} data={audioEvents} />}</div>
       </div>
     </div>
   );
