@@ -30,12 +30,11 @@ const formWaveSurferOptions = (ref: any) => ({
 export const Waveform: React.FC<Props> = ({ url, data }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
-  const [playing, setPlay] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [selectedData, setSelectedData] = useState<Classification[]>();
 
   useEffect(() => {
-    setPlay(false);
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
     wavesurfer.current.load(url);
@@ -44,19 +43,22 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
       if (wavesurfer.current) {
         wavesurfer.current.setVolume(volume);
         wavesurfer.current.play();
-        setVolume(volume);
       }
     });
 
-    const unassing = (data: any) => Object.values(data) as Classification[];
+    wavesurfer.current.on('play', () => setIsPlaying(true));
+    wavesurfer.current.on('pause', () => setIsPlaying(false));
+    wavesurfer.current.on('volume', (e) => setVolume(e));
+
+    const unassign = (data: any) => Object.values(data) as Classification[];
 
     wavesurfer.current?.on('region-in', (e) => {
-      const arr = unassing(e.data);
+      const arr = unassign(e.data);
       setSelectedData(arr);
     });
 
     wavesurfer.current?.on('region-click', (e) => {
-      const arr = unassing(e.data);
+      const arr = unassign(e.data);
       setSelectedData(arr);
       if (!wavesurfer.current?.isPlaying()) {
         wavesurfer.current?.play();
@@ -65,7 +67,7 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
 
     wavesurfer.current?.on('region-mouseenter', (e) => {
       if (wavesurfer.current?.isPlaying()) return;
-      const arr = unassing(e.data);
+      const arr = unassign(e.data);
       setSelectedData(arr);
     });
 
@@ -88,16 +90,13 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
   }, [data]);
 
   const handlePlayPause = () => {
-    setPlay(!playing);
     wavesurfer.current?.playPause();
   };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
     const newVolume = +target.value;
-
     if (newVolume) {
-      setVolume(newVolume);
       wavesurfer.current?.setVolume(newVolume || 1);
     }
   };
@@ -117,7 +116,7 @@ export const Waveform: React.FC<Props> = ({ url, data }) => {
       <div className="Waveform__inner" id="waveform" ref={waveformRef} />
       <div className="Waveform__controls">
         <button onClick={handlePlayPause} className="Waveform__pauseBtn">
-          {playing ? <Play /> : <Pause />}
+          {isPlaying ? <Pause /> : <Play />}
         </button>
         <div className="Waveform__volume">
           <VolumeUp />
