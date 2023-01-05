@@ -30,8 +30,11 @@ interface FileOrUrl {
   src?: string;
 }
 
+const TEXT_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classify';
+const AUDIO_CLASSIFIER_URL = 'https://staging.speechly.com/text-classifier-api/classifyAudio';
+
 const maxTags = 8;
-const CHUNK_MS = 3000;
+const CHUNK_MS = 1000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 
 const ourMic = new BrowserMicrophone();
@@ -64,7 +67,7 @@ function App() {
       formData.append('audio', blob);
       formData.append('appId', appId!);
       try {
-        const response = await fetch('https://staging.speechly.com/text-classifier-api/classifyAudio', {
+        const response = await fetch(AUDIO_CLASSIFIER_URL, {
           method: 'POST',
           body: formData,
         });
@@ -141,7 +144,7 @@ function App() {
     const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
       try {
-        const response = await fetch('https://staging.speechly.com/text-classifier-api/classify', {
+        const response = await fetch(TEXT_CLASSIFIER_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ text, labels, appId }),
@@ -252,7 +255,8 @@ function App() {
       node.connect(sp);
       await ac.resume();
       sp.onaudioprocess = (e) => {
-        const samples = e.inputBuffer.getChannelData(0);
+        const samples = new Float32Array(e.inputBuffer.length);
+        e.inputBuffer.copyFromChannel(samples, 0, 0);
         setMicBuffer((current) => [...current, samples]);
       };
       recorder = new MediaRecorder(ourMic.mediaStream);
