@@ -29,7 +29,14 @@ interface FileOrUrl {
   src?: string;
 }
 
-export const CHUNK_MS = 2000;
+export interface AudioRegionLabels {
+  index: number;
+  start: number;
+  end: number;
+  classifications: Classification[];
+}
+
+const CHUNK_MS = 2000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
 const TEXT_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classify';
 const AUDIO_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classifyAudio';
@@ -55,10 +62,11 @@ function App() {
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
   const [recData, setRecData] = useState<Blob>();
-  const [audioEvents, setAudioEvents] = useState<Classification[][]>([]);
+  const [audioEvents, setAudioEvents] = useState<AudioRegionLabels[]>([]);
   const [peakData, setPeakData] = useState<Array<number>>([]);
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
+  const [nextRegion, setNextRegion] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
 
@@ -67,7 +75,7 @@ function App() {
   }, []);
 
   const classifyBuffer = useCallback(
-    async (buf: Float32Array): Promise<void> => {
+    async (index: number, buf: Float32Array): Promise<void> => {
       let formData = new FormData();
       let blob = new Blob([buf], { type: 'octet/stream' });
       formData.append('audio', blob);
@@ -82,7 +90,9 @@ function App() {
         }
         const json = await response.json();
         const classifications = json['classifications'] as Classification[];
-        setAudioEvents((current) => [...current, [...classifications]]);
+        const chunkSec = CHUNK_MS / 1000;
+        const start = index * chunkSec;
+        setAudioEvents((current) => [...current, { index, start, end: start + chunkSec, classifications }]);
       } catch (err) {
         console.error(err);
       }
@@ -96,7 +106,8 @@ function App() {
       const newSum = micBuffer.map((b) => b.length).reduce((a, b) => a + b, initialValue);
       if (newSum >= AUDIO_ANALYSIS_CHUNK_SIZE) {
         const buf = new Float32Array(micBuffer.map((a) => Array.from(a)).flat());
-        classifyBuffer(buf);
+        classifyBuffer(nextRegion, buf);
+        setNextRegion((current) => current + 1);
         const peaks = [] as Array<number>;
         for (let i = 0; i < buf.length; i += 128) {
           peaks.push(Math.max(...Array.from(buf.slice(i, i + 128).map((x) => Math.abs(x)))));
@@ -105,7 +116,7 @@ function App() {
         setMicBuffer([]);
       }
     }
-  }, [micBuffer, clientState, classifyBuffer]);
+  }, [micBuffer, clientState, classifyBuffer, nextRegion]);
 
   useEffect(() => {
     if (recData) {
@@ -135,7 +146,7 @@ function App() {
 
     if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
       const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
-      chunks.map((c) => classifyBuffer(c));
+      chunks.map((c, i) => classifyBuffer(i, c));
     }
   }, [detectionBuffer, classifyBuffer]);
 
@@ -398,7 +409,7 @@ function App() {
         </div>
       </div>
       <div className="Player">
-        <Waveform url={audioSource} peaks={peakData} data={audioEvents}>
+        <Waveform url={audioSource} peaks={peakData} regionData={audioEvents}>
           <button
             type="button"
             className={clsx('Microphone', listening && 'Microphone--active')}
