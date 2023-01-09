@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import clsx from 'clsx';
@@ -58,6 +58,12 @@ function App() {
   const [audioEvents, setAudioEvents] = useState<Classification[][]>([]);
   const [peakData, setPeakData] = useState<Array<number>>([]);
   const [showEmptyState, setShowEmptyState] = useState(true);
+  const [counter, setCounter] = useState(0);
+  const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
+
+  useEffect(() => {
+    return () => stopCounter();
+  }, []);
 
   const classifyBuffer = useCallback(
     async (buf: Float32Array): Promise<void> => {
@@ -239,6 +245,21 @@ function App() {
     }
   };
 
+  const startCounter = () => {
+    if (intervalRef.current) return;
+    intervalRef.current = setInterval(() => {
+      setCounter((prevCounter) => prevCounter + 1);
+    }, 10);
+  };
+
+  const stopCounter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      setCounter(0);
+      intervalRef.current = null;
+    }
+  };
+
   const handleStart = async () => {
     if (clientState === DecoderState.Active) return;
 
@@ -271,13 +292,24 @@ function App() {
       setPeakData([]);
     }
 
-    await start();
+    if (listening) {
+      stopCounter();
+      await stop();
+      await ac.suspend();
+      recorder.stop();
+    } else {
+      startCounter();
+      await start();
+    }
   };
 
   const handleStop = async () => {
-    await stop();
-    await ac.suspend();
-    recorder.stop();
+    if (listening && counter > 100) {
+      stopCounter();
+      await stop();
+      await ac.suspend();
+      recorder.stop();
+    }
   };
 
   return (
