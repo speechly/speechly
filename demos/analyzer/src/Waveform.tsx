@@ -32,6 +32,10 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
       container: timelineRef,
       height: 16,
       notchPercentHeight: 50,
+      primaryColor: '#516170',
+      secondaryColor: '#516170',
+      primaryFontColor: '#516170',
+      secondaryFontColor: '#516170',
     }),
   ],
 });
