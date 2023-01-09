@@ -219,6 +219,7 @@ body {
   border-radius: 4px;
   margin: 0 24px 24px;
   scroll-margin-block: 24px;
+  transition: var(--ease);
 }
 
 .Segment__timestamp {
@@ -244,6 +245,10 @@ body {
 .Segment__details svg {
   flex-shrink: 0;
   display: block;
+}
+
+.Segment--active {
+  background-color: var(--hover);
 }
 
 .Microphone {

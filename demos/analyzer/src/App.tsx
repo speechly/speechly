@@ -344,6 +344,8 @@ function App() {
     const el = mainRef.current?.children.item(idx);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.toggle('Segment--active');
+      setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
     }
   };
 
