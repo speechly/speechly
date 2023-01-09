@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
-import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
+import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { CHUNK_MS, Classification } from './App';
 import { ReactComponent as Play } from './assets/play.svg';
@@ -21,13 +21,14 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
   progressColor: '#009efa',
   cursorColor: 'red',
   height: 100,
-  barWidth: 3,
+  barWidth: 2,
   barRadius: 3,
+  barGap: 2,
   responsive: true,
   normalize: true,
   partialRender: true,
   plugins: [
-    RegionsPlugin.create({ snapToGridInterval: 1 }),
+    RegionsPlugin.create({ snapToGridInterval: 1, dragSelection: false }),
     TimelinePlugin.create({
       container: timelineRef,
       height: 16,
@@ -71,22 +72,19 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
 
     const unassign = (data: any) => Object.values(data) as Classification[];
 
-    wavesurfer.current?.on('region-in', (e) => {
-      const arr = unassign(e.data);
+    wavesurfer.current?.on('region-in', (region: Region) => {
+      const arr = unassign(region.data);
       setSelectedData(arr);
     });
 
-    wavesurfer.current?.on('region-click', (e) => {
-      const arr = unassign(e.data);
-      setSelectedData(arr);
-      if (!wavesurfer.current?.isPlaying()) {
-        wavesurfer.current?.play();
-      }
+    wavesurfer.current?.on('region-click', (region: Region, e: Event) => {
+      e.stopPropagation();
+      region.wavesurfer.play(region.start);
     });
 
-    wavesurfer.current?.on('region-mouseenter', (e) => {
+    wavesurfer.current?.on('region-mouseenter', (region: Region) => {
       if (wavesurfer.current?.isPlaying()) return;
-      const arr = unassign(e.data);
+      const arr = unassign(region.data);
       setSelectedData(arr);
     });
 
