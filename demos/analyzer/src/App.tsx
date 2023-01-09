@@ -336,6 +336,7 @@ function App() {
   };
 
   const scrollToSegment = (start = -100) => {
+    if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
     const nearest = speechSegmentsRef.current?.reduce((a, b) =>
       Math.abs(a.words[0].endTimestamp - start * 1000) < Math.abs(b.words[0].endTimestamp - start * 1000) ? a : b
     );
