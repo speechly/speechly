@@ -86,10 +86,10 @@
 }
 
 .Waveform .wavesurfer-region:hover {
-  background-color: var(--hover) !important;
+  background-color: var(--accent-25) !important;
 }
 
 .Waveform .wavesurfer-handle {
   width: 0.5px !important;
-  background-color: var(--hover-darker) !important;
+  background-color: var(--dim) !important;
 }
