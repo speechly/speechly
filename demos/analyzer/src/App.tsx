@@ -359,7 +359,7 @@ function App() {
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
-              <h2 className="EmptyState__title">Get text and audio classifications</h2>
+              <h2 className="EmptyState__title">Speech and audio analysis</h2>
               <p className="EmptyState__description">
                 Use one of our sample files, upload your own audio or use the microphone.
               </p>
