@@ -1,0 +1,36 @@
+.FileInput {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  padding: 24px;
+  border-radius: 4px;
+  transition: var(--ease);
+}
+
+.FileInput:hover {
+  border-color: var(--border-dark);
+}
+
+.FileInput--active {
+  background-color: var(--accent-lighter);
+  border-color: var(--accent);
+  border-style: solid;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.FileInput__icon {
+  fill: currentColor
+}
+
+.FileInput__title {
+  font-size: 16px;
+}
+
+.FileInput__description {
+  color: var(--dim);
+  font-size: 13px;
+}

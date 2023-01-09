@@ -1,0 +1,95 @@
+.Waveform {
+  width: 100%;
+  padding: 16px 20px 20px;
+  overflow: hidden;
+}
+
+.Waveform__data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 20px;
+}
+
+.Waveform__data span {
+  color: var(--dim);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.Waveform__waveform {
+  background-color: var(--dawn);
+  border-radius: 4px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.Waveform__waveform > wave {
+  overflow: hidden !important;
+}
+
+.Waveform__timeline {
+  height: 16px;
+  margin-bottom: 16px;
+  opacity: .75;
+}
+
+.Waveform__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Waveform__volume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.Waveform__volume svg {
+  display: block;
+  flex-shrink: 0;
+  fill: var(--night);
+}
+
+.Waveform__playPause {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: var(--night);
+  border-radius: 100px;
+  padding: 10px;
+  transition: var(--ease);
+  color: var(--day);
+}
+
+.Waveform__playPause:hover {
+  background-color: var(--dim);
+}
+
+.Waveform__playPause svg {
+  display: block;
+  fill: currentColor;
+}
+
+.Waveform__playPause:disabled {
+  background-color: var(--border-dark);
+  pointer-events: none;
+}
+
+.Waveform .wavesurfer-region {
+  background-color: transparent !important;
+}
+
+.Waveform .wavesurfer-region:hover {
+  background-color: var(--accent-25) !important;
+}
+
+.Waveform .wavesurfer-handle {
+  width: 0.5px !important;
+  background-color: var(--dim) !important;
+}

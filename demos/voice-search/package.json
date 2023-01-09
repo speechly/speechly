@@ -10,7 +10,8 @@
     "@speechly/logkit": ">=1.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "modern-normalize": "~1.1.0"
   },
   "devDependencies": {
     "react-scripts": "^4.0.3",

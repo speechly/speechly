@@ -450,6 +450,10 @@
     {
       "packageName": "moderation",
       "projectFolder": "demos/moderation"
+    },
+    {
+      "packageName": "analyzer",
+      "projectFolder": "demos/analyzer"
     }
     // {
     //   /**
