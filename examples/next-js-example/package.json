@@ -13,7 +13,7 @@
     "react": "^18",
     "react-dom": "^18",
     "@speechly/react-client": "^2.2.1",
-    "@speechly/react-ui": "^2.7.2"
+    "@speechly/react-ui": "^2.7.3"
   },
   "devDependencies": {
     "@types/node": "^14",
