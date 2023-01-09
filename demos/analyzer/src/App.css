@@ -218,7 +218,7 @@ body {
   padding: 20px;
   border-radius: 4px;
   margin: 0 24px 24px;
-  scroll-margin-block-end: 24px;
+  scroll-margin-block: 24px;
 }
 
 .Segment__timestamp {
