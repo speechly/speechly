@@ -60,6 +60,7 @@ function App() {
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
+  const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
 
   useEffect(() => {
     return () => stopCounter();
@@ -175,6 +176,7 @@ function App() {
     if (segment) {
       setShowEmptyState(false);
       updateOrAddSegment(segment);
+      segmentEndRef.current?.scrollIntoView();
       if (segment.isFinal) {
         if (tags.length) {
           classifySegment(segment, tags);
@@ -389,6 +391,7 @@ function App() {
               )}
             </div>
           ))}
+          <div ref={segmentEndRef} />
         </div>
       </div>
       <div className="Player">
