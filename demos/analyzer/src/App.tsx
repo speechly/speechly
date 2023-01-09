@@ -368,7 +368,7 @@ function App() {
           {speechSegments?.map(({ contextId, id, words, classifications }) => (
             <div className="Segment" key={`${contextId}-${id}`}>
               <div className="Segment__timestamp">
-                {!isNaN(words[0]?.startTimestamp) && formatDuration(words[0]?.startTimestamp)}
+                {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
               </div>
               <div className="Segment__transcript">
                 {words.map((word) => (
