@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
-import { CHUNK_MS, Classification } from './App';
+import { CHUNK_MS, AudioRegionLabels, Classification } from './App';
 import { ReactComponent as Play } from './assets/play.svg';
 import { ReactComponent as Pause } from './assets/pause.svg';
 import { ReactComponent as VolumeUp } from './assets/volume.svg';
@@ -11,7 +11,7 @@ import './Waveform.css';
 interface Props {
   url?: string;
   peaks?: number[];
-  data?: Classification[][];
+  data?: AudioRegionLabels[];
   children?: React.ReactNode;
 }
 
@@ -96,10 +96,11 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
   useEffect(() => {
     if (wavesurfer.current && data?.length) {
       wavesurfer.current.regions.clear();
+      data.sort((a,b) => { return a.index - b.index });
       data.forEach((d, i) => {
         const chunkSec = CHUNK_MS / 1000;
         const t = i * chunkSec;
-        const obj = Object.assign({}, d);
+        const obj = Object.assign({}, d.labels);
         const region = { start: t, end: t + chunkSec, data: { ...obj }, drag: false };
         wavesurfer.current?.regions.add(region);
       });
