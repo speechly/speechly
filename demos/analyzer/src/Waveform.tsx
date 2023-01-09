@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
-import { CHUNK_MS, AudioRegionLabels, Classification } from './App';
+import { AudioRegionLabels, Classification } from './App';
 import { ReactComponent as Play } from './assets/play.svg';
 import { ReactComponent as Pause } from './assets/pause.svg';
 import { ReactComponent as VolumeUp } from './assets/volume.svg';
@@ -11,7 +11,7 @@ import './Waveform.css';
 interface Props {
   url?: string;
   peaks?: number[];
-  data?: AudioRegionLabels[];
+  regionData?: AudioRegionLabels[];
   children?: React.ReactNode;
 }
 
@@ -41,7 +41,7 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
   ],
 });
 
-export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
+export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
@@ -94,18 +94,16 @@ export const Waveform: React.FC<Props> = ({ url, peaks, data, children }) => {
   }, [url, peaks]);
 
   useEffect(() => {
-    if (wavesurfer.current && data?.length) {
+    if (wavesurfer.current && regionData?.length) {
       wavesurfer.current.regions.clear();
-      data.sort((a,b) => { return a.index - b.index });
-      data.forEach((d, i) => {
-        const chunkSec = CHUNK_MS / 1000;
-        const t = i * chunkSec;
-        const obj = Object.assign({}, d.labels);
-        const region = { start: t, end: t + chunkSec, data: { ...obj }, drag: false };
+      regionData.sort((a, b) => a.index - b.index);
+      regionData.forEach(({ start, end, classifications }) => {
+        const obj = Object.assign({}, classifications);
+        const region = { start, end, data: { ...obj }, drag: false };
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [url, data]);
+  }, [url, regionData]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
