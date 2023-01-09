@@ -259,19 +259,29 @@ body {
   color: var(--day);
   padding: 12px;
   transition: var(--ease);
+  position: relative;
 }
 
 .Microphone:hover {
   box-shadow: inset 0 0 0 100px var(--hover-dark);
 }
 
+.Microphone svg {
+  fill: currentColor;
+}
+
 .Microphone--active {
   background-color: var(--danger) !important;
   transform: scale(1.1);
-  outline: var(--danger) solid 2px;
-  outline-offset: 2px;
 }
 
-.Microphone svg {
-  fill: currentColor;
+.Microphone--active::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+  border-radius: 100px;
+  border: var(--danger) solid 2px;
 }
