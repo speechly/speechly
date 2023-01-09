@@ -140,7 +140,7 @@ function App() {
   }, [detectionBuffer, classifyBuffer]);
 
   useEffect(() => {
-    const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
+    const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment, scrollIntoView = false) => {
       setSpeechSegments((current) => {
         const newArray = [...current];
         const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
@@ -148,6 +148,10 @@ function App() {
           newArray[idx] = ss;
         } else {
           newArray.push(ss);
+          segmentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (scrollIntoView) {
+          segmentEndRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
         return newArray;
       });
@@ -167,7 +171,7 @@ function App() {
         const json = await response.json();
         const classifications = json['classifications'] as Classification[];
         const newSegment = { ...ss, classifications };
-        updateOrAddSegment(newSegment);
+        updateOrAddSegment(newSegment, true);
       } catch (err) {
         console.error(err);
       }
@@ -176,12 +180,11 @@ function App() {
     if (segment) {
       setShowEmptyState(false);
       updateOrAddSegment(segment);
-      segmentEndRef.current?.scrollIntoView();
       if (segment.isFinal) {
         if (tags.length) {
           classifySegment(segment, tags);
         } else {
-          updateOrAddSegment(segment);
+          updateOrAddSegment(segment, true);
         }
       }
     }
