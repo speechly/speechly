@@ -176,7 +176,11 @@ function App() {
       setShowEmptyState(false);
       updateOrAddSegment(segment);
       if (segment.isFinal) {
-        classifySegment(segment, tags);
+        if (tags.length) {
+          classifySegment(segment, tags);
+        } else {
+          updateOrAddSegment(segment);
+        }
       }
     }
     // eslint-disable-next-line
@@ -371,16 +375,18 @@ function App() {
                   <span key={word.index}>{word.value} </span>
                 ))}
               </div>
-              <div className="Segment__details">
-                <span>Text classification:</span>
-                {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-                {classifications &&
-                  classifications.map(({ label, score }, i) => (
-                    <span key={`${label}-${i}`}>
-                      {label}: {(score * 100).toFixed(2)}%
-                    </span>
-                  ))}
-              </div>
+              {tags.length > 0 && (
+                <div className="Segment__details">
+                  <span>Text classification:</span>
+                  {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
+                  {classifications &&
+                    classifications.map(({ label, score }, i) => (
+                      <span key={`${label}-${i}`}>
+                        {label}: {(score * 100).toFixed(2)}%
+                      </span>
+                    ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
