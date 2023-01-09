@@ -1,6 +1,6 @@
 {
-  "short_name": "Speech Analyzer",
-  "name": "Speechly Speech Analyzer Demo",
+  "short_name": "Speech and Audio Analysis",
+  "name": "Speechly Speech and Audio Analysis Demo",
   "icons": [
     {
       "src": "favicon.ico",

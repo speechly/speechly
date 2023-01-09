@@ -46,7 +46,7 @@ function App() {
   const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useState(['profane', 'political', 'threatening', 'about money', 'neutral']);
+  const [tags, setTags] = useState(['profane', 'violent', 'about money', 'neutral']);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Neil deGrasse Tyson', src: sample1 },
     { name: 'After Life Cafe Scene', src: sample2 },
