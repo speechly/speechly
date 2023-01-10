@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
+import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
 import formatDuration from 'format-duration';
 import { Waveform } from './Waveform';
@@ -50,7 +51,7 @@ let recorder: MediaRecorder;
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
-  const [speechSegments, setSpeechSegments] = useState<ClassifiedSpeechSegment[]>([]);
+  const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tagValue, setTagValue] = useState('');
   // const [tags, setTags] = useState(['profane', 'violent', 'about money', 'neutral']);
@@ -70,6 +71,7 @@ function App() {
   const [nextRegion, setNextRegion] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
+  const mainRef: { current: HTMLDivElement | null } = useRef(null);
 
   useEffect(() => {
     return () => stopCounter();
@@ -98,7 +100,7 @@ function App() {
         console.error(err);
       }
     },
-    [appId]
+    [appId, setAudioEvents]
   );
 
   useEffect(() => {
@@ -311,6 +313,7 @@ function App() {
       setSpeechSegments([]);
       setAudioEvents([]);
       setPeakData([]);
+      setNextRegion(0);
     }
 
     if (listening) {
@@ -331,6 +334,18 @@ function App() {
       await ac.suspend();
       recorder.stop();
     }
+  };
+
+  const scrollToSegment = (start: number) => {
+    if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
+    const position = start * 1000;
+    const idx = speechSegmentsRef.current.findIndex((s) => position <= s.words[s.words.length - 1].endTimestamp);
+    if (idx === -1) return;
+    const el = mainRef.current?.children.item(idx);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.toggle('Segment--active');
+    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
   };
 
   return (
@@ -372,7 +387,7 @@ function App() {
           ))}
           <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
         </div>
-        <div className="Main">
+        <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
@@ -411,7 +426,7 @@ function App() {
         </div>
       </div>
       <div className="Player">
-        <Waveform url={audioSource} peaks={peakData} regionData={audioEvents}>
+        <Waveform url={audioSource} peaks={peakData} regionData={audioEvents} onRegionClick={scrollToSegment}>
           <button
             type="button"
             className={clsx('Microphone', listening && 'Microphone--active')}

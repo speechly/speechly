@@ -15358,6 +15358,14 @@ packages:
       - zdog
     dev: false
 
+  /react-usestateref/1.0.8_react@18.2.0:
+    resolution: {integrity: sha512-whaE6H0XGarFKwZ3EYbpHBsRRCLZqdochzg/C7e+b6VFMTA3LS3K4ZfpI4NT40iy83jG89rGXrw70P9iDfOdsA==}
+    peerDependencies:
+      react: '>16.0.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react/16.14.0:
     resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
     engines: {node: '>=0.10.0'}
@@ -19008,7 +19016,7 @@ packages:
     dev: false
 
   file:projects/analyzer.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-l2l2urgShuL2OxQ5Ne4bJB98eHJTg2QETy9GC+gO/6N62rHmlK7NvgkTEjw+rxcgYgDKJ32y6tTBDYROdeVGPg==, tarball: file:projects/analyzer.tgz}
+    resolution: {integrity: sha512-bLWALa7fooYRQ8XcgigOSydaWaiiEHI3+xhb/uR6/8dPmFj8gwqVK9WFE3jJNvTn7qdP5dW832eb84tw5rohfw==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
@@ -19024,6 +19032,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-h5-audio-player: 3.8.6_react-dom@18.2.0+react@18.2.0
       react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
+      react-usestateref: 1.0.8_react@18.2.0
       typescript: 4.9.4
       wavefile: 11.0.0
       wavesurfer.js: 6.4.0
@@ -19173,7 +19182,7 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-7c6xIBuxxIb9a7kuZVyfUAIHI+/5Aw6vr4P/Uw1lEXEnoPUb07H5B5ySf55kl2E3y+j5XPwxGt5ZeEnvNoa5FA==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-6Ga+StTTZfbkyePNN52HJ+6R6qqaxIkA5qJXAyYXeVXtDeveqxACvTEe3j+3iju3NKU0ESscEQOL+RWby10cBA==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
@@ -19211,7 +19220,7 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-fCp2KlEPtPtWaE7Rhxq5W1hlFQ6jxBhK/Jtf8aEKM8blC8iuJ9+PUOJceGHYefJ3NsLzGrb/LCHuds1VQWhIRg==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-0nP5nKypwTanhbqMCod6t89eQC/M6VXjQKhrVvXhXHMbAGik+BSRA86dBSHmSYsM0ZB7Vc/WqTZzHaLa2ytsnw==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
@@ -19268,7 +19277,7 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-niF99K83lrhSnXD926quM/TUH87ZNwxpekWNvC5o57asuL4yDqweYzn68d/yB4xKr+0KfQSSFbrk7H0HDzyCXg==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-hMAP8wZi95STqScd6yuJoazH5EUiUz0w2tkM9wFWNW2hlAozbpjg8cFVg+Fdj6f+VGsUfX7zhDWE7m/ozRldXA==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
@@ -19360,7 +19369,7 @@ packages:
     dev: false
 
   file:projects/next-js-example.tgz:
-    resolution: {integrity: sha512-k40piINyQTfi8MWr/YMvlaNTq+zRqsSbQowIdiSJmpGowP/BG3xZqMTcpt3WZD88TXloa63LMO2LF5H0wPBEMQ==, tarball: file:projects/next-js-example.tgz}
+    resolution: {integrity: sha512-QXmq0tISD0WxzBRpeFePSy7pOeRrPIG6o9gL6U8Ks4XePcHZBSFr5LW0irb0bEnuS6l50bmKXC/AhZe3MjTITA==, tarball: file:projects/next-js-example.tgz}
     name: '@rush-temp/next-js-example'
     version: 0.0.0
     dependencies:
@@ -19440,7 +19449,7 @@ packages:
     dev: false
 
   file:projects/react-ui-example.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-lI5oz4jpjGUrRhX9xzahXxp3/N0ROtHCzTEtJOVtTB7d6mx2M0i0GQSymd0RvkFpT0qOED7p2xx1ibiZSuVVKg==, tarball: file:projects/react-ui-example.tgz}
+    resolution: {integrity: sha512-kqbxMsM5L12vVGSiHHAfD4AvXmpnsxXOprZ+XcPhmuXe1GmtXdgMKdvIKu+XRKaAvWbu+aP0JCwTCf6WnZ5nnA==, tarball: file:projects/react-ui-example.tgz}
     id: file:projects/react-ui-example.tgz
     name: '@rush-temp/react-ui-example'
     version: 0.0.0
@@ -19512,7 +19521,7 @@ packages:
     dev: false
 
   file:projects/react-voice-forms-example.tgz_ts-node@10.9.1+typescript@4.9.4:
-    resolution: {integrity: sha512-y6plAtSC7cGP8sdPV/BErCJ7XaUTI1+w+LMGKiUX2eY0Bbl18mcCuLyeckibsvxgGwTzNCjbgoP5zy/KJHW00w==, tarball: file:projects/react-voice-forms-example.tgz}
+    resolution: {integrity: sha512-4vnEmiDzZbl7kvWHqWhdZdMg13wuGlB7gt2Oyhn7kXgMNZg8zQ5Un/eDy+N+gUa16nXSy+9di0odEeblkOL1vQ==, tarball: file:projects/react-voice-forms-example.tgz}
     id: file:projects/react-voice-forms-example.tgz
     name: '@rush-temp/react-voice-forms-example'
     version: 0.0.0
@@ -19556,7 +19565,7 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-nNLK3/SeEu06ZIwPU6a4ct5nNIfXTWi+PJ/G5sXtyMPANp+UmJ0TJ+ps1ltZBg7RiBVDiasOLPO/mTgdFy3dZQ==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-4fsiA10qJdcH/4BPaCAqJjH7HM9I1MsTI4gqovBD2Nu5DodFleG3IcsX3/2GCWgTr3wMPuWhMTv5vnG5HAE9kg==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
@@ -19611,7 +19620,7 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-sTaeHcKGuhJUfSQKJmCxvPgtDdG7RVyb4zWBBakarG35WF92XnbcrkowB7XlrKSh8ZN6J2YNMNgoFFVQ23ysNw==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-G4f0EmCa1p4oCwftS27r2rHDyANKgF3RIxYSzKWBm/dwB5POAeAgTCSTISESdpdTccI1d6lG7rwheKo1wHGgmg==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
@@ -19651,7 +19660,7 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-vB0PhoLphDXAC3s9W5I39eEiO7w6wKfv5IplMLRiyDw21naO8VW4i79aU+Ff1ASlkC0a9C1hXnbM71oCgTK00A==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-TH64EuDqXBMdg4V9xqaAAK7r1ZbPxHIP0gSRy+xyK4sFW350Kl/Za3Jlqz6JcPz5QDve5JNEcDJHoPE3cpDiZA==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0

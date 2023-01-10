@@ -13,6 +13,7 @@ interface Props {
   peaks?: number[];
   regionData?: AudioRegionLabels[];
   children?: React.ReactNode;
+  onRegionClick?: (start: number) => void;
 }
 
 const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
@@ -41,7 +42,7 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
   ],
 });
 
-export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children }) => {
+export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, onRegionClick }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
@@ -80,6 +81,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children }) 
     wavesurfer.current?.on('region-click', (region: Region, e: Event) => {
       e.stopPropagation();
       region.wavesurfer.play(region.start);
+      onRegionClick && onRegionClick(region.start);
     });
 
     wavesurfer.current?.on('region-mouseenter', (region: Region) => {
