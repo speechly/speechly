@@ -313,6 +313,7 @@ function App() {
       setSpeechSegments([]);
       setAudioEvents([]);
       setPeakData([]);
+      setNextRegion(0);
     }
 
     if (listening) {
