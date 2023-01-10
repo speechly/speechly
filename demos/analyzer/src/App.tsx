@@ -335,18 +335,16 @@ function App() {
     }
   };
 
-  const scrollToSegment = (start = -100) => {
+  const scrollToSegment = (start: number) => {
     if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
-    const nearest = speechSegmentsRef.current?.reduce((a, b) =>
-      Math.abs(a.words[0].endTimestamp - start * 1000) < Math.abs(b.words[0].endTimestamp - start * 1000) ? a : b
-    );
-    const idx = speechSegmentsRef.current?.findIndex((s) => s.contextId === nearest.contextId && s.id === nearest.id);
+    const position = start * 1000;
+    const idx = speechSegmentsRef.current.findIndex((s) => position <= s.words[s.words.length - 1].endTimestamp);
+    if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      el.classList.toggle('Segment--active');
-      setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
-    }
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.toggle('Segment--active');
+    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
   };
 
   return (
