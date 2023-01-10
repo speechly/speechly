@@ -11,8 +11,9 @@ import { ReactComponent as Close } from './assets/close.svg';
 import { ReactComponent as Mic } from './assets/mic.svg';
 import { ReactComponent as AudioFile } from './assets/audio-file.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
-import sample1 from './assets/ndgt.wav';
-import sample2 from './assets/after-life.mp3';
+import sample1 from './assets/t1-trailer.wav';
+import sample2 from './assets/tiktok-cumbia.wav';
+import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
 
 export interface Classification {
@@ -57,8 +58,9 @@ function App() {
   // const [tags, setTags] = useState(['profane', 'violent', 'about money', 'neutral']);
   const [tags, setTags] = useState<string[]>([]);
   const [files, setFiles] = useState<FileOrUrl[]>([
-    { name: 'Neil deGrasse Tyson', src: sample1 },
-    { name: 'After Life Cafe Scene', src: sample2 },
+    { name: 'Terminator 1 Trailer', src: sample1 },
+    { name: 'DJ Gecko Cumbia Music', src: sample2 },
+    { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
