@@ -348,7 +348,7 @@ function App() {
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.classList.toggle('Segment--active');
-    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
+    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS - 500);
   };
 
   return (
