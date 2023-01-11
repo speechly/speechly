@@ -222,6 +222,10 @@ body {
   transition: var(--ease);
 }
 
+.Segment--active {
+  background-color: var(--hover);
+}
+
 .Segment__timestamp {
   font-size: 14px;
   color: var(--dim);
@@ -247,8 +251,8 @@ body {
   display: block;
 }
 
-.Segment--active {
-  background-color: var(--hover);
+.Segment__end {
+  scroll-margin-block: 24px;
 }
 
 .Microphone {

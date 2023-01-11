@@ -156,7 +156,9 @@ function App() {
   }, [detectionBuffer, classifyBuffer]);
 
   useEffect(() => {
-    const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment, scrollIntoView = false) => {
+    const scrollToSegmentsEnd = () => segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+
+    const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
       setSpeechSegments((current) => {
         const newArray = [...current];
         const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
@@ -164,10 +166,6 @@ function App() {
           newArray[idx] = ss;
         } else {
           newArray.push(ss);
-          segmentEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
-        if (scrollIntoView) {
-          segmentEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
         return newArray;
       });
@@ -187,7 +185,8 @@ function App() {
         const json = await response.json();
         const classifications = json['classifications'] as Classification[];
         const newSegment = { ...ss, classifications };
-        updateOrAddSegment(newSegment, true);
+        updateOrAddSegment(newSegment);
+        scrollToSegmentsEnd();
       } catch (err) {
         console.error(err);
       }
@@ -196,12 +195,14 @@ function App() {
     if (segment) {
       setShowEmptyState(false);
       updateOrAddSegment(segment);
+      scrollToSegmentsEnd();
       if (segment.isFinal) {
         if (tags.length) {
           classifySegment(segment, tags);
         } else {
-          updateOrAddSegment(segment, true);
+          updateOrAddSegment(segment);
         }
+        scrollToSegmentsEnd();
       }
     }
     // eslint-disable-next-line
@@ -347,7 +348,7 @@ function App() {
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.classList.toggle('Segment--active');
-    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS);
+    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS - 500);
   };
 
   return (
@@ -424,7 +425,7 @@ function App() {
               )}
             </div>
           ))}
-          <div ref={segmentEndRef} />
+          <div ref={segmentEndRef} className="Segment__end" />
         </div>
       </div>
       <div className="Player">
