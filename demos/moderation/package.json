@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/moderation/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.38",
+    "@speechly/demo-navigation": "^0.1.39",
     "@speechly/react-client": "^2.2.1",
     "@speechly/logkit": ">=1.0.0",
     "react": "^18",
