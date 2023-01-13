@@ -1,11 +1,11 @@
 .App {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 48px);
+  min-height: calc(100vh - 64px);
 }
 
 .Header {
-  background-color: #00050A;
+  background-color: var(--header);
 }
 
 .Header__inner {
@@ -37,7 +37,7 @@
   --plyr-font-family: 'Inter', sans-serif;
   --plyr-font-size-small: 14px;
 
-  background-color: #00050A;
+  background-color: var(--header);
   position: sticky;
   top: 0;
   z-index: 10;
