@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/moderation/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.37",
+    "@speechly/demo-navigation": "^0.1.38",
     "@speechly/react-client": "^2.2.1",
     "@speechly/logkit": ">=1.0.0",
     "react": "^18",
@@ -16,19 +16,14 @@
     "plyr-react": "4.0.0-alpha.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^25",
     "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

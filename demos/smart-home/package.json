@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "smart-home",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.37",
+    "@speechly/demo-navigation": "^0.1.38",
     "@speechly/react-client": "^2.2.1",
     "@speechly/react-ui": "^2.7.3",
     "@speechly/logkit": ">=1.0.0",
@@ -16,16 +16,12 @@
     "react-image-webp": "^0.7.0",
     "react-map-interaction": "^2.0.0",
     "react-refresh": "^0.9.0",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "react-spring": "^9.4.4",
     "styled-components": ">=5.3.3",
     "typescript": "^4.6.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^25",
     "@types/node": "^14",
     "@types/pubsub-js": "^1.8.1",
     "@types/react": "^18",
@@ -35,7 +31,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

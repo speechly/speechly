@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/fashion/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.1.37",
+    "@speechly/demo-navigation": "^0.1.38",
     "@speechly/react-client": "^2.2.1",
     "@speechly/react-ui": "^2.7.3",
     "@speechly/logkit": ">=1.0.0",
@@ -17,10 +17,6 @@
     "classnames": "~2.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^25",
     "@types/node": "^14",
     "@types/node-fetch": "^2.5.7",
     "@types/react": "^18",
@@ -29,7 +25,7 @@
     "@types/pubsub-js": "^1.8.1",
     "csvtojson": "^2.0.10",
     "node-fetch": "^2.6.1",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "ts-node": ">=9.0.0",
     "typescript": "^4.6.4"
   },
@@ -41,7 +37,6 @@
     "build": "react-scripts build",
     "release": "pnpm build && set -o allexport;. ./.env;set +o allexport && gsutil -m cp -r build/* $REACT_APP__DEPLOY_PROD_URI",
     "staging": "pnpm build && set -o allexport;. ./.env;set +o allexport && rsync -avz --delete build/ $REACT_APP__DEPLOY_STAGING_URI",
-    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
