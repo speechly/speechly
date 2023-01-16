@@ -23,6 +23,7 @@ specifiers:
   '@rush-temp/react-voice-forms-example': file:./projects/react-voice-forms-example.tgz
   '@rush-temp/smart-home': file:./projects/smart-home.tgz
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
+  '@rush-temp/transcription': file:./projects/transcription.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
   '@speechly/demo-navigation': ^0.1.37
   '@testing-library/jest-dom': ^4.2.4
@@ -72,6 +73,7 @@ specifiers:
   react-openai-api: ^1.0.2
   react-refresh: ^0.9.0
   react-spring: ^9.4.4
+  react-usestateref: ^1.0.8
   rimraf: ^3.0.2
   rollup: ^2.63.0
   rollup-plugin-copy-watch: '>=0.0.1'
@@ -121,6 +123,7 @@ dependencies:
   '@rush-temp/react-voice-forms-example': file:projects/react-voice-forms-example.tgz_ts-node@10.9.1+typescript@4.9.4
   '@rush-temp/smart-home': file:projects/smart-home.tgz_ts-node@10.9.1
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.9.1
+  '@rush-temp/transcription': file:projects/transcription.tgz_ts-node@10.9.1
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.9.1
   '@speechly/demo-navigation': 0.1.37
   '@testing-library/jest-dom': 4.2.4
@@ -170,6 +173,7 @@ dependencies:
   react-openai-api: 1.0.2_axios@0.21.4
   react-refresh: 0.9.0
   react-spring: 9.5.5
+  react-usestateref: 1.0.8
   rimraf: 3.0.2
   rollup: 2.79.1
   rollup-plugin-copy-watch: 0.0.1
@@ -6327,7 +6331,7 @@ packages:
     dev: false
 
   /compose-function/3.0.3:
-    resolution: {integrity: sha512-xzhzTJ5eC+gmIzvZq+C3kCJHsp9os6tJkrigDRZclyGtOKINbZtE8n1Tzmeh32jW+BUDPbvZpibwvJHBLGMVwg==}
+    resolution: {integrity: sha1-ntZ18TzFRQHTCVCkhv9qe6OrGF8=}
     dependencies:
       arity-n: 1.0.4
     dev: false
@@ -6420,7 +6424,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
     dev: false
 
   /cookie/0.5.0:
@@ -7444,7 +7448,7 @@ packages:
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
   /ejs/2.7.4:
@@ -9029,7 +9033,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -12034,7 +12038,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -12061,7 +12065,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
     dev: false
 
   /merge-stream/2.0.0:
@@ -13035,7 +13039,7 @@ packages:
     dev: false
 
   /path-to-regexp/0.1.7:
-    resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
+    resolution: {integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=}
     dev: false
 
   /path-type/4.0.0:
@@ -15358,6 +15362,12 @@ packages:
       - zdog
     dev: false
 
+  /react-usestateref/1.0.8:
+    resolution: {integrity: sha512-whaE6H0XGarFKwZ3EYbpHBsRRCLZqdochzg/C7e+b6VFMTA3LS3K4ZfpI4NT40iy83jG89rGXrw70P9iDfOdsA==}
+    peerDependencies:
+      react: '>16.0.0'
+    dev: false
+
   /react-usestateref/1.0.8_react@18.2.0:
     resolution: {integrity: sha512-whaE6H0XGarFKwZ3EYbpHBsRRCLZqdochzg/C7e+b6VFMTA3LS3K4ZfpI4NT40iy83jG89rGXrw70P9iDfOdsA==}
     peerDependencies:
@@ -15727,11 +15737,11 @@ packages:
     dev: false
 
   /rework-visit/1.0.0:
-    resolution: {integrity: sha512-W6V2fix7nCLUYX1v6eGPrBOZlc03/faqzP4sUxMAJMBMOPYhfV/RyLegTufn5gJKaOITyi+gvf0LXDZ9NzkHnQ==}
+    resolution: {integrity: sha1-mUWygD8hni96ygCtuLyfZA+ELJo=}
     dev: false
 
   /rework/1.0.1:
-    resolution: {integrity: sha512-eEjL8FdkdsxApd0yWVZgBGzfCQiT8yqSc2H1p4jpZpQdtz7ohETiDMoje5PlM8I9WgkqkreVxFUKYOiJdVWDXw==}
+    resolution: {integrity: sha1-MIBqhBNCtUUQqkEQhQzUhTQUSqc=}
     dependencies:
       convert-source-map: 0.3.5
       css: 2.2.4
@@ -17632,7 +17642,7 @@ packages:
     dev: false
 
   /tty-browserify/0.0.0:
-    resolution: {integrity: sha512-JVa5ijo+j/sOoHGjw0sxw734b1LhBkQ3bvUGNdxnVXDCX81Yx7TFgnZygxrIIWn23hbfTaMYLwRmAxFyDuFmIw==}
+    resolution: {integrity: sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=}
     dev: false
 
   /type-check/0.3.2:
@@ -17975,7 +17985,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -19655,6 +19665,58 @@ packages:
       - utf-8-validate
       - webpack-cli
       - webpack-command
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: false
+
+  file:projects/transcription.tgz_ts-node@10.9.1:
+    resolution: {integrity: sha512-a+3754vyLIbWRj0YXBsrO/t2BH2T4R/NtW2l/yXWEjm2706IP5hkOFkPGcq4p/gKuFXrauXOwHx4YpcRLYU4Rw==, tarball: file:projects/transcription.tgz}
+    id: file:projects/transcription.tgz
+    name: '@rush-temp/transcription'
+    version: 0.0.0
+    dependencies:
+      '@speechly/demo-navigation': 0.1.37_react-dom@18.2.0+react@18.2.0
+      '@types/node': 14.18.33
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.9
+      '@types/wavesurfer.js': 6.0.3
+      clsx: 1.2.1
+      format-duration: 3.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
+      react-usestateref: 1.0.8_react@18.2.0
+      typescript: 4.9.4
+      wavesurfer.js: 6.4.0
+      web-vitals: 2.1.4
+    transitivePeerDependencies:
+      - '@babel/plugin-syntax-flow'
+      - '@babel/plugin-transform-react-jsx'
+      - '@parcel/css'
+      - '@swc/core'
+      - '@types/babel__core'
+      - '@types/webpack'
+      - bufferutil
+      - canvas
+      - clean-css
+      - csso
+      - debug
+      - esbuild
+      - fibers
+      - node-notifier
+      - node-sass
+      - rework
+      - rework-visit
+      - sass
+      - sass-embedded
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - uglify-js
+      - utf-8-validate
+      - vue-template-compiler
+      - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
     dev: false
