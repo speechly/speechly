@@ -35,7 +35,7 @@ const ourMic = new BrowserMicrophone();
 let recorder: MediaRecorder;
 
 function App() {
-  const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
+  const { client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<SpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
