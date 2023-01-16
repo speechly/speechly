@@ -387,7 +387,7 @@ function App() {
               <span>{name}</span>
             </button>
           ))}
-          <FileInput acceptMimes={'audio/wav;audio/mpeg'} onFileSelected={handleFileAdd} />
+          <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
         <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
