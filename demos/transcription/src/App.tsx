@@ -9,9 +9,8 @@ import { FileInput } from './FileInput';
 import { ReactComponent as Mic } from './assets/mic.svg';
 import { ReactComponent as AudioFile } from './assets/audio-file.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
-import sample1 from './assets/t1-trailer.wav';
-import sample2 from './assets/tiktok-cumbia.wav';
-import sample3 from './assets/walmart-ps5.mp3';
+import sample1 from './assets/podcast.wav';
+import sample2 from './assets/ndgt.wav';
 import './App.css';
 
 export interface Classification {
@@ -39,9 +38,8 @@ function App() {
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<SpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
-    { name: 'Terminator 1 Trailer', src: sample1 },
-    { name: 'DJ Gecko Cumbia Music', src: sample2 },
-    { name: 'Buying Walmart’s Display PS5', src: sample3 },
+    { name: 'Speechly Podcast: Adam Cheyer', src: sample1 },
+    { name: "Neil deGrasse Tyson: Future '38", src: sample2 },
   ]);
   const [audioSource, setAudioSource] = useState<string>();
   const [recData, setRecData] = useState<Blob>();
@@ -217,7 +215,7 @@ function App() {
               <span>{name}</span>
             </button>
           ))}
-          <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
+          <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
         <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
@@ -225,7 +223,11 @@ function App() {
               <Empty className="EmptyState__icon" />
               <h2 className="EmptyState__title">Transcribe speech and audio files</h2>
               <p className="EmptyState__description">
-                Use one of our sample files, upload your own audio or use the microphone.
+                This demo uses the{' '}
+                <a href="https://docs.speechly.com/basics/models" target="_blank" rel="nofollow noopener noreferrer">
+                  large-highaccuracy
+                </a>{' '}
+                off-the-shelf speech recognition model
               </p>
             </div>
           )}

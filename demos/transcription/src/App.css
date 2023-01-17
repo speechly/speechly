@@ -124,6 +124,14 @@ body {
   line-height: 1.5;
 }
 
+.EmptyState__description a {
+  color: inherit;
+}
+
+.EmptyState__description a:hover {
+  color: var(--accent);
+}
+
 .Segment {
   display: flex;
   flex-direction: column;
