@@ -35,11 +35,17 @@ public class SpeechlyHandler {
                         SpeechlyDecoder.DecoderFactory_GetBundleId(this.factory));
                 System.out.println("Instantiating decoder!");
                 this.decoder = SpeechlyDecoder.DecoderFactory_GetDecoder(this.factory, "");
-                // set decoder block multiplier
+            } catch (DecoderException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                // set decoder block multiplier to a value >= 1, larger values will
+                // up to some point reduce CPU load, but as a result latency increases.
                 SpeechlyDecoder.Decoder_SetParamI(this.decoder,
                         SpeechlyDecoder.SPEECHLY_DECODER_BLOCK_MULTIPLIER_I, 8);
             } catch (DecoderException e) {
-                throw new RuntimeException(e);
+                // this is non fatal
+                System.out.println("Failed to set decoder block multiplier.");
             }
         }
     }
