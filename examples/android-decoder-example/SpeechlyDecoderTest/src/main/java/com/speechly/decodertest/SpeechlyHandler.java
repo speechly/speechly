@@ -35,6 +35,9 @@ public class SpeechlyHandler {
                         SpeechlyDecoder.DecoderFactory_GetBundleId(this.factory));
                 System.out.println("Instantiating decoder!");
                 this.decoder = SpeechlyDecoder.DecoderFactory_GetDecoder(this.factory, "");
+                // set decoder block multiplier
+                SpeechlyDecoder.Decoder_SetParamI(this.decoder,
+                        SpeechlyDecoder.SPEECHLY_DECODER_BLOCK_MULTIPLIER_I, 8);
             } catch (DecoderException e) {
                 throw new RuntimeException(e);
             }
