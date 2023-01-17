@@ -11,6 +11,7 @@ import "./plyr.css";
 
 const playerOptions: Plyr.Options = {
   controls: ["play", "progress", "current-time", "mute", "volume"],
+  volume: 0.5,
   invertTime: false,
   keyboard: { focused: false, global: false }
 };
