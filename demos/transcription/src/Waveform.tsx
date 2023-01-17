@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import formatDuration from 'format-duration';
 import WaveSurfer from 'wavesurfer.js';
 import { ReactComponent as Play } from './assets/play.svg';
 import { ReactComponent as Pause } from './assets/pause.svg';
 import { ReactComponent as VolumeUp } from './assets/volume.svg';
 import './Waveform.css';
-import formatDuration from 'format-duration';
 
 interface Props {
   url?: string;
