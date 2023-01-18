@@ -454,6 +454,10 @@
     {
       "packageName": "analyzer",
       "projectFolder": "demos/analyzer"
+    },
+    {
+      "packageName": "transcription",
+      "projectFolder": "demos/transcription"
     }
     // {
     //   /**

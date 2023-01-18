@@ -1,0 +1,65 @@
+.Waveform {
+  width: 100%;
+  padding: 16px 20px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.Waveform__time {
+  color: var(--dim);
+  font-size: 14px;
+  font-family: sans-serif;
+  font-variant-numeric: tabular-nums;
+  min-width: 32px;
+  text-align: center;
+}
+
+.Waveform__waveform {
+  background-color: var(--day);
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+  border-radius: 1px;
+  outline: 4px solid var(--day);
+  position: relative;
+}
+
+.Waveform__volume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.Waveform__volume svg {
+  display: block;
+  flex-shrink: 0;
+  fill: var(--night);
+}
+
+.Waveform__playPause {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: var(--night);
+  border-radius: 100px;
+  padding: 10px;
+  transition: var(--ease);
+  color: var(--day);
+}
+
+.Waveform__playPause:hover {
+  background-color: var(--dim);
+}
+
+.Waveform__playPause svg {
+  display: block;
+  fill: currentColor;
+}
+
+.Waveform__playPause:disabled {
+  background-color: var(--border-dark);
+  pointer-events: none;
+}
