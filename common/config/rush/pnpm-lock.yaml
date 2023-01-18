@@ -25,7 +25,7 @@ specifiers:
   '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/transcription': file:./projects/transcription.tgz
   '@rush-temp/voice-search': file:./projects/voice-search.tgz
-  '@speechly/demo-navigation': ^0.1.40
+  '@speechly/demo-navigation': ^0.2.2
   '@tsconfig/svelte': ^1.0.0
   '@types/base-64': ^0.1.3
   '@types/jest': ^25
@@ -122,7 +122,7 @@ dependencies:
   '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_ts-node@10.9.1
   '@rush-temp/transcription': file:projects/transcription.tgz_ts-node@10.9.1
   '@rush-temp/voice-search': file:projects/voice-search.tgz_ts-node@10.9.1
-  '@speechly/demo-navigation': 0.1.40
+  '@speechly/demo-navigation': 0.2.2
   '@tsconfig/svelte': 1.0.13
   '@types/base-64': 0.1.3
   '@types/jest': 25.2.3
@@ -3244,8 +3244,8 @@ packages:
       '@sinonjs/commons': 1.8.5
     dev: false
 
-  /@speechly/demo-navigation/0.1.40:
-    resolution: {integrity: sha512-hA8tXjwz3Q8HObmWal2JjmtcvcZp0ADJEbwjgR7evyyR6w5LTP0jrDOmQ1J0/ibDf8JUkDuNJQH0IGSPsSUBag==}
+  /@speechly/demo-navigation/0.2.2:
+    resolution: {integrity: sha512-32LjMw/QQvHStRAFi88on5VXt+JVW6CG2WGJ5eqK/9LYAzEXjSn1XRyGMW8nL6BPka/S6vb7srD8mftpAwUvFg==}
     dev: false
 
   /@surma/rollup-plugin-off-main-thread/1.4.2:
@@ -6300,7 +6300,7 @@ packages:
     dev: false
 
   /compose-function/3.0.3:
-    resolution: {integrity: sha1-ntZ18TzFRQHTCVCkhv9qe6OrGF8=}
+    resolution: {integrity: sha512-xzhzTJ5eC+gmIzvZq+C3kCJHsp9os6tJkrigDRZclyGtOKINbZtE8n1Tzmeh32jW+BUDPbvZpibwvJHBLGMVwg==}
     dependencies:
       arity-n: 1.0.4
     dev: false
@@ -6393,7 +6393,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: false
 
   /cookie/0.5.0:
@@ -7417,7 +7417,7 @@ packages:
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
   /ejs/2.7.4:
@@ -9002,7 +9002,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -12007,7 +12007,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -12034,7 +12034,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: false
 
   /merge-stream/2.0.0:
@@ -13008,7 +13008,7 @@ packages:
     dev: false
 
   /path-to-regexp/0.1.7:
-    resolution: {integrity: sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=}
+    resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
     dev: false
 
   /path-type/4.0.0:
@@ -15706,11 +15706,11 @@ packages:
     dev: false
 
   /rework-visit/1.0.0:
-    resolution: {integrity: sha1-mUWygD8hni96ygCtuLyfZA+ELJo=}
+    resolution: {integrity: sha512-W6V2fix7nCLUYX1v6eGPrBOZlc03/faqzP4sUxMAJMBMOPYhfV/RyLegTufn5gJKaOITyi+gvf0LXDZ9NzkHnQ==}
     dev: false
 
   /rework/1.0.1:
-    resolution: {integrity: sha1-MIBqhBNCtUUQqkEQhQzUhTQUSqc=}
+    resolution: {integrity: sha512-eEjL8FdkdsxApd0yWVZgBGzfCQiT8yqSc2H1p4jpZpQdtz7ohETiDMoje5PlM8I9WgkqkreVxFUKYOiJdVWDXw==}
     dependencies:
       convert-source-map: 0.3.5
       css: 2.2.4
@@ -17611,7 +17611,7 @@ packages:
     dev: false
 
   /tty-browserify/0.0.0:
-    resolution: {integrity: sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=}
+    resolution: {integrity: sha512-JVa5ijo+j/sOoHGjw0sxw734b1LhBkQ3bvUGNdxnVXDCX81Yx7TFgnZygxrIIWn23hbfTaMYLwRmAxFyDuFmIw==}
     dev: false
 
   /type-check/0.3.2:
@@ -17954,7 +17954,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -18995,12 +18995,12 @@ packages:
     dev: false
 
   file:projects/analyzer.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-jGvqL/Y7LsLESG3ynGe99FgjLnEfS7NMxYcZ/E8o+DpR2RI8UNYnZgYxVqyd/JuHimJTzTsx8wnKPelUFd6cOQ==, tarball: file:projects/analyzer.tgz}
+    resolution: {integrity: sha512-oraLWnOt2YXsx8zf0XIkGEHqfnnoX2JZwZa5YaSjbVUQjSs/y1qyDxTeNZq9g6El12MR/OzgnuJlIpONiLMy+Q==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -19161,12 +19161,12 @@ packages:
     dev: false
 
   file:projects/ecommerce-checkout.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-MWCl5xOcuyfyThHKGnX/h7pI8Qgo9A4Ggb0siq6edOR6QWC815ErxaNLLapGmMuortB6yW2h3xHjVyUg+6ENZA==, tarball: file:projects/ecommerce-checkout.tgz}
+    resolution: {integrity: sha512-a6Z2a6e/oLULKkCmcSGG4rCOpw22MpnbYimYDx8+E7LIIKbgxXzaNYiJDV7S1MxaYN2WEiDzOIAkTFQS3Hs5pQ==, tarball: file:projects/ecommerce-checkout.tgz}
     id: file:projects/ecommerce-checkout.tgz
     name: '@rush-temp/ecommerce-checkout'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19212,11 +19212,11 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz:
-    resolution: {integrity: sha512-Q0ZZZBXOjW8BWAVFMVJyEmw9lQTttmlpGKbPawVyvwf5f6PkcnzOzV8Od1Du3DDlVaqDA9Ulpwr+PEALcOdW8Q==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-v8oFHfJvr2sbdjZr+nulPNFvaadBnDpjAvMpFg+22jqQOzrNCDIfPQPI32HLfMNpDAyAVRjAnuXTmgkPXGkXZA==, tarball: file:projects/fashion-ecommerce.tgz}
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19281,12 +19281,12 @@ packages:
     dev: false
 
   file:projects/flight-booking.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-KlkceKGDPBWop2Yy9b6LhXJ106MkrlwSTOpomQfsPBPnOkGIqjOtcvkJN3TbmwfoOh+r5qu6n8+gdqHiuKQ6yQ==, tarball: file:projects/flight-booking.tgz}
+    resolution: {integrity: sha512-t+eiB2/NUKqO5jFNG4PzlYrziGHutnu2QuXFNc/oHkl6FhZwvCd+of4EB/gIBCSswVKQi9uaMglOEOPSyM/I5g==, tarball: file:projects/flight-booking.tgz}
     id: file:projects/flight-booking.tgz
     name: '@rush-temp/flight-booking'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19345,12 +19345,12 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-wWHA8p8cHTa+ofk90x9wsOIiyzhIN+ynF6yccjBDyqy1+zEg7h4qAAr50dXtwOj8kCmzO7doSrztM+vfVUpdnw==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-TKoZZHfHAcsdbaHysPzgGxzpd1tHNAoAeCDIG6D5K1bBZq/H2qtj2UzOy8Wsq9yBiIlBiW1wTsCyDs5jA/nTcA==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19595,12 +19595,12 @@ packages:
     dev: false
 
   file:projects/smart-home.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-Ait8ZUCGlMmVVGKi7YOYVcU0rCBeBv3quZSRfoHiG+cHwVmBR6TBCxb0dSZ7pFs10yROvNuDailKA14jXOyEVw==, tarball: file:projects/smart-home.tgz}
+    resolution: {integrity: sha512-H6jSTaCrFcWD5lpq7eR5rjerEOyxh6Krj31RT9coWqXtEw1tVR802K8zMmyPepyJ2Z4d7fO5hugjAFA3Hjpoeg==, tarball: file:projects/smart-home.tgz}
     id: file:projects/smart-home.tgz
     name: '@rush-temp/smart-home'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19663,12 +19663,12 @@ packages:
     dev: false
 
   file:projects/speech-to-text.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-1xI3ctDQmg3djWw7KxFQ9kEwofKb/TbLvqYiqE1Bf59Si/RSYjw5MnWy/ci2y/ksKVZ3P1+Mwsw+1upsk1jmsg==, tarball: file:projects/speech-to-text.tgz}
+    resolution: {integrity: sha512-AGX7GZ04vGzOcM/QoOpb5yhM7FJ93vlgkMDwdhRKppWr2khzowhFx8DKSPiN6HgkVZMk2TpsG1i+fNocOijcTQ==, tarball: file:projects/speech-to-text.tgz}
     id: file:projects/speech-to-text.tgz
     name: '@rush-temp/speech-to-text'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -19715,12 +19715,12 @@ packages:
     dev: false
 
   file:projects/transcription.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-s0/iHFHPOrJkYs9M+PuUYh0yXBtDfqJyHgX2iL+UGQUD1XxAN26dLA9TjwSe6Hz0wRReEvjoBlYTLs9Vo8zISw==, tarball: file:projects/transcription.tgz}
+    resolution: {integrity: sha512-KKo7MnRKz1r61oPeRsuV4iLjqkycqAw8dyEQ6X8nTj5braW3T0TsivrtqN0lJCNwb8PpYBVddY03kMvoSo2rzA==, tarball: file:projects/transcription.tgz}
     id: file:projects/transcription.tgz
     name: '@rush-temp/transcription'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -19767,12 +19767,12 @@ packages:
     dev: false
 
   file:projects/voice-search.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-SV+i6didXDJVItInK6DqATa2OZp0H7yJ4nJHtrWowk+pBgtShbBRpDYmtzy8cr4NK/tnyKxOjWWVdvNmSOlJJw==, tarball: file:projects/voice-search.tgz}
+    resolution: {integrity: sha512-gzcpW9vokMcnTocmeS5VA1SssusBADUj2yGWuEWhmYPcn6RlsLjkIW/cXBcId8Qwk9bfakvLmRX76etGEbGypA==, tarball: file:projects/voice-search.tgz}
     id: file:projects/voice-search.tgz
     name: '@rush-temp/voice-search'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.1.40
+      '@speechly/demo-navigation': 0.2.2
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
