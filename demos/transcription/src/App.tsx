@@ -189,8 +189,7 @@ function App() {
 
   const scrollToSegment = (start: number) => {
     if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
-    const position = start * 1000;
-    const idx = speechSegmentsRef.current.findIndex((s) => position <= s.words[s.words.length - 1].endTimestamp);
+    const idx = speechSegmentsRef.current.findIndex((s) => start <= s.words[s.words.length - 1].endTimestamp);
     if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
     if (!el) return;

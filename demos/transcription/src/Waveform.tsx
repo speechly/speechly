@@ -53,7 +53,8 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek }) => {
     wavesurfer.current.on('seek', (e) => {
       const ct = wavesurfer.current?.getCurrentTime();
       if (!ct) return;
-      onSeek && onSeek(Math.ceil(ct));
+      setCurrentTime(ct * 1000);
+      onSeek && onSeek(ct * 1000);
     });
 
     return () => wavesurfer.current?.destroy();
