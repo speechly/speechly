@@ -38,6 +38,15 @@ public class SpeechlyHandler {
             } catch (DecoderException e) {
                 throw new RuntimeException(e);
             }
+            try {
+                // set decoder block multiplier to a value >= 1, larger values will
+                // up to some point reduce CPU load, but as a result latency increases.
+                SpeechlyDecoder.Decoder_SetParamI(this.decoder,
+                        SpeechlyDecoder.SPEECHLY_DECODER_BLOCK_MULTIPLIER_I, 8);
+            } catch (DecoderException e) {
+                // this is non fatal
+                System.out.println("Failed to set decoder block multiplier.");
+            }
         }
     }
 

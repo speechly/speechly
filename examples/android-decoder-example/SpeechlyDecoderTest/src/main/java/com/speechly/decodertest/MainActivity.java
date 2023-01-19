@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isBound;
     private boolean simulateRealtime = false;
 
-    private final String modelFile = "41045787-9dda-4c82-a22d-4ed9650a7304.b527496c049e.tflite.bundle";
+    // name of the model bundle file in src/main/assets
+    private final String modelFile = "model.bundle";
 
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection connection = new ServiceConnection() {
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.transcribe_audio)).setEnabled(false);
 
         // load audio file
-        ShortBuffer sampleBuf = Utils.loadAudioFile(this, "speechly-podcast-short.wav");
+        ShortBuffer sampleBuf = Utils.loadAudioFile(this, "speechly-podcast.wav");
         int numSamples = sampleBuf.limit();
         System.out.println("Got " + numSamples + " samples.");
 
