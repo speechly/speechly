@@ -64,7 +64,7 @@ body {
 
 .Sidebar__item svg {
   flex-shrink: 0;
-  fill: currentColor
+  fill: currentColor;
 }
 
 .Sidebar__item:hover {
@@ -236,6 +236,15 @@ body {
   margin-right: auto;
 }
 
+.Segment__word {
+  opacity: 0.5;
+  transition: var(--ease);
+}
+
+.Segment__word--highlighted {
+  opacity: 1;
+}
+
 .Segment__details {
   display: flex;
   align-items: center;
@@ -286,7 +295,7 @@ body {
 }
 
 .Microphone--active::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -4px;
   right: -4px;

@@ -158,6 +158,15 @@ body {
   margin-right: auto;
 }
 
+.Segment__word {
+  opacity: 0.5;
+  transition: var(--ease);
+}
+
+.Segment__word--highlighted {
+  opacity: 1;
+}
+
 .Segment__end {
   scroll-margin-block: 24px;
 }

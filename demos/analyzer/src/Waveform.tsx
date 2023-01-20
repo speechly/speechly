@@ -13,7 +13,8 @@ interface Props {
   peaks?: number[];
   regionData?: AudioRegionLabels[];
   children?: React.ReactNode;
-  onRegionClick?: (start: number) => void;
+  onRegionClick?: (time: number) => void;
+  onUpdate?: (time: number) => void;
 }
 
 const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
@@ -42,7 +43,7 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
   ],
 });
 
-export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, onRegionClick }) => {
+export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, onRegionClick, onUpdate }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
@@ -70,6 +71,9 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
     wavesurfer.current.on('play', () => setIsPlaying(true));
     wavesurfer.current.on('pause', () => setIsPlaying(false));
     wavesurfer.current.on('volume', (e) => setVolume(e));
+    wavesurfer.current.on('audioprocess', (e) => {
+      onUpdate && onUpdate(e * 1000);
+    });
 
     const unassign = (data: any) => Object.values(data) as Classification[];
 
@@ -81,7 +85,8 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
     wavesurfer.current?.on('region-click', (region: Region, e: Event) => {
       e.stopPropagation();
       region.wavesurfer.play(region.start);
-      onRegionClick && onRegionClick(region.start);
+      onRegionClick && onRegionClick(region.start * 1000);
+      onUpdate && onUpdate(region.start * 1000);
     });
 
     wavesurfer.current?.on('region-mouseenter', (region: Region) => {

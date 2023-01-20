@@ -70,6 +70,7 @@ function App() {
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
+  const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
@@ -338,10 +339,9 @@ function App() {
     }
   };
 
-  const scrollToSegment = (start: number) => {
+  const scrollToSegment = (time: number) => {
     if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
-    const position = start * 1000;
-    const idx = speechSegmentsRef.current.findIndex((s) => position <= s.words[s.words.length - 1].endTimestamp);
+    const idx = speechSegmentsRef.current.findIndex((s) => time <= s.words[s.words.length - 1].endTimestamp);
     if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
     if (!el) return;
@@ -407,7 +407,15 @@ function App() {
               </div>
               <div className="Segment__transcript">
                 {words.map((word) => (
-                  <span key={word.index}>{word.value} </span>
+                  <span
+                    key={word.index}
+                    className={clsx(
+                      currentTime && 'Segment__word',
+                      currentTime && currentTime >= word.startTimestamp && 'Segment__word--highlighted'
+                    )}
+                  >
+                    {word.value}{' '}
+                  </span>
                 ))}
               </div>
               {tags.length > 0 && (
@@ -428,7 +436,13 @@ function App() {
         </div>
       </div>
       <div className="Player">
-        <Waveform url={audioSource} peaks={peakData} regionData={audioEvents} onRegionClick={scrollToSegment}>
+        <Waveform
+          url={audioSource}
+          peaks={peakData}
+          regionData={audioEvents}
+          onRegionClick={scrollToSegment}
+          onUpdate={(ct) => setCurrentTime(ct)}
+        >
           <button
             type="button"
             className={clsx('Microphone', listening && 'Microphone--active')}
