@@ -9,7 +9,8 @@ import './Waveform.css';
 interface Props {
   url?: string;
   children?: React.ReactNode;
-  onSeek?: (start: number) => void;
+  onSeek?: (time: number) => void;
+  onUpdate?: (time: number) => void;
 }
 
 const formWaveSurferOptions = (containerRef: any) => ({
@@ -26,7 +27,7 @@ const formWaveSurferOptions = (containerRef: any) => ({
   barGap: 2,
 });
 
-export const Waveform: React.FC<Props> = ({ url, children, onSeek }) => {
+export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) => {
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -49,12 +50,16 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek }) => {
     wavesurfer.current.on('play', () => setIsPlaying(true));
     wavesurfer.current.on('pause', () => setIsPlaying(false));
     wavesurfer.current.on('volume', (e) => setVolume(e));
-    wavesurfer.current.on('audioprocess', (e) => setCurrentTime(e * 1000));
+    wavesurfer.current.on('audioprocess', (e) => {
+      setCurrentTime(e * 1000);
+      onUpdate && onUpdate(e * 1000);
+    });
     wavesurfer.current.on('seek', (e) => {
       const ct = wavesurfer.current?.getCurrentTime();
       if (!ct) return;
       setCurrentTime(ct * 1000);
       onSeek && onSeek(ct * 1000);
+      onUpdate && onUpdate(ct * 1000);
     });
 
     return () => wavesurfer.current?.destroy();
