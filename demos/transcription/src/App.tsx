@@ -66,7 +66,8 @@ function App() {
   }, [recData]);
 
   useEffect(() => {
-    const scrollToSegmentsEnd = () => segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    const scrollToSegmentsEnd = () =>
+      !currentTime && segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
 
     const updateOrAddSegment = (ss: SpeechSegment) => {
       setSpeechSegments((current) => {
@@ -112,6 +113,7 @@ function App() {
     if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
     setAudioSource(undefined);
+    setCurrentTime(undefined);
     setSpeechSegments([]);
 
     const fileSrc = files[i].src;
@@ -177,6 +179,7 @@ function App() {
     if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
+      setCurrentTime(undefined);
       setSpeechSegments([]);
     }
 

@@ -156,7 +156,8 @@ function App() {
   }, [detectionBuffer, classifyBuffer]);
 
   useEffect(() => {
-    const scrollToSegmentsEnd = () => segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    const scrollToSegmentsEnd = () =>
+      !currentTime && segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
 
     const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
       setSpeechSegments((current) => {
@@ -246,6 +247,7 @@ function App() {
     if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
     setAudioSource(undefined);
+    setCurrentTime(undefined);
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
@@ -323,6 +325,7 @@ function App() {
     if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
+      setCurrentTime(undefined);
       setSpeechSegments([]);
       setAudioEvents([]);
       setPeakData([]);
