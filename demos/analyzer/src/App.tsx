@@ -156,7 +156,8 @@ function App() {
   }, [detectionBuffer, classifyBuffer]);
 
   useEffect(() => {
-    const scrollToSegmentsEnd = () => segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    const scrollToSegmentsEnd = () =>
+      !currentTime && segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
 
     const updateOrAddSegment = (ss: SpeechSegment | ClassifiedSpeechSegment) => {
       setSpeechSegments((current) => {
@@ -208,6 +209,16 @@ function App() {
     // eslint-disable-next-line
   }, [segment]);
 
+  useEffect(() => {
+    if (currentTime) {
+      const idx = speechSegmentsRef.current.findIndex((s) => currentTime <= s.words[s.words.length - 1].endTimestamp);
+      if (idx === -1) return;
+      const el = mainRef.current?.children.item(idx);
+      if (!el) return;
+      el.scrollIntoView();
+    }
+  }, [currentTime, speechSegmentsRef]);
+
   const handleRemoveTag = (tag: string) => {
     setTags((current) => current.filter((t) => t !== tag));
   };
@@ -236,6 +247,7 @@ function App() {
     if (clientState === DecoderState.Active) return;
     setSelectedFileId(i);
     setAudioSource(undefined);
+    setCurrentTime(undefined);
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
@@ -313,6 +325,7 @@ function App() {
     if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
+      setCurrentTime(undefined);
       setSpeechSegments([]);
       setAudioEvents([]);
       setPeakData([]);
@@ -339,15 +352,14 @@ function App() {
     }
   };
 
-  const scrollToSegment = (time: number) => {
+  const highlightSegment = (time: number) => {
     if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
     const idx = speechSegmentsRef.current.findIndex((s) => time <= s.words[s.words.length - 1].endTimestamp);
     if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
     if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.classList.toggle('Segment--active');
-    setTimeout(() => el.classList.toggle('Segment--active'), CHUNK_MS - 500);
+    setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
 
   return (
@@ -440,7 +452,7 @@ function App() {
           url={audioSource}
           peaks={peakData}
           regionData={audioEvents}
-          onRegionClick={scrollToSegment}
+          onRegionClick={highlightSegment}
           onUpdate={(ct) => setCurrentTime(ct)}
         >
           <button
