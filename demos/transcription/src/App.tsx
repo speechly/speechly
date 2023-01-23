@@ -93,6 +93,16 @@ function App() {
     // eslint-disable-next-line
   }, [segment]);
 
+  useEffect(() => {
+    if (currentTime) {
+      const idx = speechSegmentsRef.current.findIndex((s) => currentTime <= s.words[s.words.length - 1].endTimestamp);
+      if (idx === -1) return;
+      const el = mainRef.current?.children.item(idx);
+      if (!el) return;
+      el.scrollIntoView();
+    }
+  }, [currentTime, speechSegmentsRef]);
+
   const handleFileAdd = async (file: File) => {
     setFiles((current) => [...current, { name: file.name, file }]);
   };
@@ -188,13 +198,12 @@ function App() {
     }
   };
 
-  const scrollToSegment = (time: number) => {
+  const highlightSegment = (time: number) => {
     if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
     const idx = speechSegmentsRef.current.findIndex((s) => time <= s.words[s.words.length - 1].endTimestamp);
     if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
     if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.classList.toggle('Segment--active');
     setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
@@ -256,7 +265,7 @@ function App() {
         </div>
       </div>
       <div className="Player">
-        <Waveform url={audioSource} onSeek={scrollToSegment} onUpdate={(ct) => setCurrentTime(ct)}>
+        <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={(ct) => setCurrentTime(ct)}>
           <button
             type="button"
             className={clsx('Microphone', listening && 'Microphone--active')}
