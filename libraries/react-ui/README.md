@@ -14,16 +14,15 @@
 <br/><br/>
 </div>
 
+# Speechly React UI components
+
 ![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-# Speechly React UI components
-
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface  to a React or Next.js app.
 
-> If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
-
+If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
 
 ## Before you start
 
@@ -92,3 +91,7 @@ Navigate to http://localhost:3000 to see your app running!
 
 - [API reference](https://github.com/speechly/speechly/tree/main/libraries/react-ui/docs) (GitHub)
 - [UI components](https://docs.speechly.com/ui-components/) (Docs)
+
+## Contributing
+
+See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).

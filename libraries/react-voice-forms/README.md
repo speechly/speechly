@@ -16,9 +16,11 @@
 
 # Speechly voice form components for React
 
+Ready made form components that can be controlled with voice, tap, pointer and keyboard. Voice form components are an experimental feature.
+
 Also check out the [full documentation](https://docs.speechly.com/client-libraries/voice-forms/)!
 
-### Using Voice form components
+### Usage
 
 Add `@speechly/react-voice-forms` dependency to the project:
 
@@ -46,10 +48,11 @@ Place the form components inside your `SpeechProvider` block:
 </SpeechProvider>
 ```
 
-### Styling Voice form components
+### Styling
 
 Add a `voice-form-theme-mui.css` to your `src` folder, then include it in `index.tsx`:
 
 ```
 import "voice-form-theme-mui.css";
 ```
+

@@ -15,7 +15,11 @@
 <br/><br/>
 </div>
 
-Speechly monorepository contains Speechly's web related [libraries](#libraries), [demos](#demos) and [example apps](#examples).
+# Speechly
+
+Speechly offers Automatic Speech Recognition (ASR) and Natural Language Understanding (NLU) tools, SDKs and APIs. Easily integrate Speechly into your product and deploy on-device, on-premise or in the cloud.
+
+This monorepository contains Speechly's web related [libraries](#libraries), [demos](#demos) and [examples](#examples).
 
 ## Libraries
 
@@ -29,7 +33,6 @@ Speechly UI libraries provide UI components to support building a voice-enabled,
 | [/libraries/react-client](/libraries/react-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client) | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) | React API for natural spoken language understanding. |
 | [/libraries/browser-ui](/libraries/browser-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-ui.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-ui) | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) | Web components for controlling listening and showing speech-to-text transcription. |
 | [/libraries/react-ui](/libraries/react-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui) | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) | React components for controlling listening and showing speech-to-text transcription. |
-| [/libraries/react-voice-forms](/libraries/react-voice-forms) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-voice-forms.svg)](https://badge.fury.io/js/%40speechly%2Freact-voice-forms) | [@speechly/react-voice-forms](https://www.npmjs.com/package/@speechly/react-voice-forms) | React form components with built-in support for voice and multi-modal input. |
 
 ## Demos
 

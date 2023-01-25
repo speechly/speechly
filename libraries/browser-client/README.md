@@ -14,19 +14,19 @@
 <br/><br/>
 </div>
 
-# Speechly browser client
+# Speechly Browser Client
 
 ![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
-> 🚧 Browser Client v2.0 is a breaking change. Read more about the major changes and how to upgrade from our blog: https://speechly.com/blog/speechly-browser-client-v2-released
-
-With the browser-client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
+With the Speechly browser client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
 
 Check out the [browser-client-example](https://github.com/speechly/speechly/tree/main/examples/browser-client-example) repository for a demo app built using this client.
 
-NOTE: If you are using React, you can use our [React client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
+🚧 Browser client `v2.0` is a breaking change. Read more about the major changes and how to upgrade from [our blog post](https://speechly.com/blog/speechly-browser-client-v2-released).
+
+⚡️ If you are using React, you can use our [React client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
 
 ## API Documentation
 

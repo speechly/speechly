@@ -14,7 +14,7 @@
 <br/><br/>
 </div>
 
-# React client for Speechly SLU API
+# Speechly React Client
 
 ![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client)

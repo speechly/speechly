@@ -14,16 +14,16 @@
 <br/><br/>
 </div>
 
-# Speechly Browser UI components
+# Speechly Browser UI Components
 
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app. See these CodePens for a preview:
 
 - [Speech-to-text CodePen](https://codepen.io/speechly/pen/VwzoMrW)
 - [Sneaker Shop CodePen](https://codepen.io/speechly/pen/dyzxVzv)
 
-> If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
+If you want to build a custom interface for you web app, you may want to check out [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client) ([npm](https://www.npmjs.com/package/@speechly/browser-client)) for direct access to Speechly API.
 
-## Introduction To Components
+## Introduction to components
 
 - [Push-To-Talk Button](https://docs.speechly.com/ui-components/push-to-talk-button/) provides a button to control listening on/off. It comes integrated with [browser-client](https://github.com/speechly/speechly/tree/main/libraries/browser-client).
 - [Big Transcript](https://docs.speechly.com/ui-components/big-transcript/) is an overlay-style component that displays real-time speech-to-text transcript and feedback to the user. Recognized entities are highlighted.
@@ -35,7 +35,7 @@ Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/u
 - [UI component gallery and API](https://docs.speechly.com/ui-components/)
 - [Basic Speechly usage](https://docs.speechly.com/client-libraries/usage/)
 
-## Browser Usage
+## Browser usage
 
 Include the Web Components from a CDN that mirrors [`@speechly/browser-ui`](https://www.npmjs.com/package/@speechly/browser-ui) npm package. The script tags register `push-to-talk-button`, `big-transcript` and `intro-popup` with the browser's customElement registry so you can use them like regular tags.
 
@@ -89,7 +89,7 @@ The build steps are needed if you want to contibute to the development of the co
 
 * [Node](https://nodejs.org/) (tested with v14.16.1+)
 
-### Built With
+### Built with
 
 * [Typescript](https://www.typescriptlang.org/)
 * [Rush](https://rushjs.io/) We use Rush to build the dependencies from the monorepository.
@@ -132,3 +132,7 @@ ls core/
 - [Speechly Dashboard](https://api.speechly.com/dashboard/) for creating and configuring a Speechly app id.
 - [docs.speechly.com](https://docs.speechly.com)
 - [speechly.com](https://speechly.com) 
+
+## Contributing
+
+See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
