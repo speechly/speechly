@@ -20,7 +20,7 @@
 
 # React client for Speechly SLU API
 
-![Release build](https://github.com/speechly/react-client/workflows/Release%20build/badge.svg)
+![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 

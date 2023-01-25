@@ -21,7 +21,7 @@
 
 # Speechly browser client
 
-![Release build](https://github.com/speechly/browser-client/workflows/Release%20build/badge.svg?branch=master&event=release)
+![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
