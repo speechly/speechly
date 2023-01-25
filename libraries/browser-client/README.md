@@ -1,4 +1,5 @@
 <div align="center" markdown="1">
+<br/>
 
 ![speechly-logo-duo-black](https://user-images.githubusercontent.com/2579244/193574443-130d16d6-76f1-4401-90f2-0ed753b39bc0.svg)
 
@@ -11,7 +12,8 @@
 [Blog](https://www.speechly.com/blog/)
 &ensp;&middot;&ensp;
 [Login](https://api.speechly.com/dashboard/)
-<br/><br/>
+
+<br/>
 </div>
 
 # Speechly Browser Client
