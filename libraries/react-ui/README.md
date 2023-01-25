@@ -1,33 +1,30 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com">
-   <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
-</a>
+<br/>
 
-### Real-time automatic speech recognition and natural language understanding tools in one flexible API
+![speechly-logo-duo-black](https://user-images.githubusercontent.com/2579244/193574443-130d16d6-76f1-4401-90f2-0ed753b39bc0.svg)
 
 [Website](https://www.speechly.com/)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
 [Docs](https://docs.speechly.com/)
-&ensp;|&ensp;
-[Discussions](https://github.com/speechly/speechly/discussions)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
+[Support](https://github.com/speechly/speechly/discussions)
+&ensp;&middot;&ensp;
 [Blog](https://www.speechly.com/blog/)
-&ensp;|&ensp;
-[Podcast](https://anchor.fm/the-speechly-podcast)
+&ensp;&middot;&ensp;
+[Login](https://api.speechly.com/dashboard/)
 
----
+<br/>
 </div>
-
-![Release build](https://github.com/speechly/react-ui/workflows/Release%20build/badge.svg)
-[![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
-[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
 # Speechly React UI components
 
+![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
+[![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
+[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface  to a React or Next.js app.
 
-> If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
-
+If you want to build a custom interface for you web app, you may want to check out [react-client](https://github.com/speechly/speechly/tree/main/libraries/react-client) library for direct access to Speechly API.
 
 ## Before you start
 
@@ -96,3 +93,7 @@ Navigate to http://localhost:3000 to see your app running!
 
 - [API reference](https://github.com/speechly/speechly/tree/main/libraries/react-ui/docs) (GitHub)
 - [UI components](https://docs.speechly.com/ui-components/) (Docs)
+
+## Contributing
+
+See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).

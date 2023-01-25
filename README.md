@@ -1,27 +1,27 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com/#gh-light-mode-only">
-   <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
-</a>
-<a href="https://www.speechly.com/#gh-dark-mode-only">
-   <img src="https://d33wubrfki0l68.cloudfront.net/5622420d87a4aad61e39418e6be5024c56d4cd1d/94452/img/speechly-logo-duo-white.svg" height="48" />
-</a>
+<br/>
 
-### Real-time automatic speech recognition and natural language understanding tools in one flexible API
+![speechly-logo-duo-black](https://user-images.githubusercontent.com/2579244/193574443-130d16d6-76f1-4401-90f2-0ed753b39bc0.svg#gh-light-mode-only)
+![speechly-logo-duo-white](https://user-images.githubusercontent.com/2579244/193574464-e682b2ce-dd48-4f70-88d4-a1fc5241fa47.svg#gh-dark-mode-only)
 
 [Website](https://www.speechly.com/)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
 [Docs](https://docs.speechly.com/)
-&ensp;|&ensp;
-[Discussions](https://github.com/speechly/speechly/discussions)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
+[Support](https://github.com/speechly/speechly/discussions)
+&ensp;&middot;&ensp;
 [Blog](https://www.speechly.com/blog/)
-&ensp;|&ensp;
-[Podcast](https://anchor.fm/the-speechly-podcast)
+&ensp;&middot;&ensp;
+[Login](https://api.speechly.com/dashboard/)
 
----
+<br/>
 </div>
 
-Speechly monorepository contains Speechly's web related [libraries](#libraries), [demos](#demos) and [example apps](#examples).
+# Speechly
+
+Speechly offers Automatic Speech Recognition (ASR) and Natural Language Understanding (NLU) tools, SDKs and APIs. Easily integrate Speechly into your product and deploy on-device, on-premise or in the cloud.
+
+This monorepository contains Speechly's web related [libraries](#libraries), [demos](#demos) and [examples](#examples).
 
 ## Libraries
 
@@ -35,7 +35,6 @@ Speechly UI libraries provide UI components to support building a voice-enabled,
 | [/libraries/react-client](/libraries/react-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client) | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) | React API for natural spoken language understanding. |
 | [/libraries/browser-ui](/libraries/browser-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-ui.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-ui) | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) | Web components for controlling listening and showing speech-to-text transcription. |
 | [/libraries/react-ui](/libraries/react-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui) | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) | React components for controlling listening and showing speech-to-text transcription. |
-| [/libraries/react-voice-forms](/libraries/react-voice-forms) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-voice-forms.svg)](https://badge.fury.io/js/%40speechly%2Freact-voice-forms) | [@speechly/react-voice-forms](https://www.npmjs.com/package/@speechly/react-voice-forms) | React form components with built-in support for voice and multi-modal input. |
 
 ## Demos
 

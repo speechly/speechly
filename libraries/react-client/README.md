@@ -1,26 +1,24 @@
 <div align="center" markdown="1">
-<a href="https://www.speechly.com">
-   <img src="https://d33wubrfki0l68.cloudfront.net/f15fc952956e1952d6bd23661b7a7ee6b775faaa/c1b30/img/speechly-logo-duo-black.svg" height="48" />
-</a>
+<br/>
 
-### Real-time automatic speech recognition and natural language understanding tools in one flexible API
+![speechly-logo-duo-black](https://user-images.githubusercontent.com/2579244/193574443-130d16d6-76f1-4401-90f2-0ed753b39bc0.svg)
 
 [Website](https://www.speechly.com/)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
 [Docs](https://docs.speechly.com/)
-&ensp;|&ensp;
-[Discussions](https://github.com/speechly/speechly/discussions)
-&ensp;|&ensp;
+&ensp;&middot;&ensp;
+[Support](https://github.com/speechly/speechly/discussions)
+&ensp;&middot;&ensp;
 [Blog](https://www.speechly.com/blog/)
-&ensp;|&ensp;
-[Podcast](https://anchor.fm/the-speechly-podcast)
+&ensp;&middot;&ensp;
+[Login](https://api.speechly.com/dashboard/)
 
----
+<br/>
 </div>
 
-# React client for Speechly SLU API
+# Speechly React Client
 
-![Release build](https://github.com/speechly/react-client/workflows/Release%20build/badge.svg)
+![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
 [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client)
 [![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
 
