@@ -1,6 +1,6 @@
 # Transcription Demo
 
-This demo accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time.
+The transcription demo accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time. Highlighting the following Speechly features: Live Audio Transcription, Pre-recorded Audio Transcription, Interim Results, Segmentation and Timestamps.
 
 https://demos.speechly.com/transcription/
 

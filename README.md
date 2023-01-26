@@ -42,9 +42,9 @@ This monorepository contains the source code of Speechly demos available at [htt
 
 | Folder | Description |
 | ------ | ------- |
-| [/demos/moderation](/demos/moderation) | [Moderation](https://demos.speechly.com/moderation) demonstrates how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature. |
-| [/demos/transcription](/demos/transcription) | [Transcription](https://demos.speechly.com/transcription) demonstrates Speechly's transcription, segmentation and timestamping features. |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Voice Interfaces](https://demos.speechly.com/fashion/) demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
+| [/demos/moderation](/demos/moderation) | The [moderation demo](https://demos.speechly.com/moderation) highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time. |
+| [/demos/transcription](/demos/transcription) | The [transcription demo](https://demos.speechly.com/transcription) accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time. |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | The [voice interfaces demo](https://demos.speechly.com/fashion/) enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. |
 
 ## Examples
 

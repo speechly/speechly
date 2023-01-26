@@ -1,6 +1,6 @@
 # Voice Interfaces Demo
 
-This demo enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections.
+The voice interfaces demo enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. Highlighting the following Speechly features: Natural Language Understanding, Intent & Entity Detection, Live Audio Transcription, Interim Results & Voice UI Components.
 
 https://demos.speechly.com/fashion/
 

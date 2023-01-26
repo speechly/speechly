@@ -1,6 +1,6 @@
 # Moderation Demo
 
-The moderation demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.
+The moderation demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time. Highlighting the following Speechly features: Natural Language Understanding, Intent & Entity Detection, Pre-recorded Audio Transcription, Segmentation and Timestamps.
 
 https://demos.speechly.com/moderation/
 
