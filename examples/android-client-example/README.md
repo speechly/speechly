@@ -1,6 +1,6 @@
 # Speechly Android Client Example
 
-This repository contains an example app for filtering data using [Speechly Android Client](https://github.com/speechly/android-client).
+This repository contains an example app for filtering GitHub repositories using [Speechly Android Client](https://github.com/speechly/android-client).
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # Speechly iOS Client Example
 
-This repository contains an example app for filtering data using [Speechly iOS Client](https://github.com/speechly/ios-client).
+This repository contains an example app for filtering filtering GitHub repositories using [Speechly iOS Client](https://github.com/speechly/ios-client).
 
 Built with:
 
