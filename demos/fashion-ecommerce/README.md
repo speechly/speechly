@@ -1,23 +1,50 @@
-# Voice Ecommerce Demo
+# Voice Interfaces Demo
 
-Fashion-themed voice ecommerce demo.
+The voice interfaces demo enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. Highlighting the following Speechly features: Natural Language Understanding, Intent & Entity Detection, Live Audio Transcription, Interim Results & Voice UI Components.
 
-## Requirements
+https://demos.speechly.com/fashion/
 
-- node v12.16.1+
-- pnpm 5.1.5
-- Speechly CLI tool for deploying the Speechly config. [See the installation docs.](https://docs.speechly.com/dev-tools/command-line-client/?platform=macos)
+## Prerequisites
 
-## Installing and running
+* [Node.js](https://nodejs.org/) v12.16.1 or later
+* [pnpm](https://pnpm.io/) or [Rush](https://rushjs.io/)
+
+This project was built with [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client) and [Speechly React UI](https://www.npmjs.com/package/@speechly/react-ui).
+
+## Installation and running (stand-alone)
+
+1\. Copy this project using [degit](https://github.com/Rich-Harris/degit) (or download manually)
+
+```bash
+npx degit speechly/speechly/demos/fashion-ecommerce fashion
 ```
+
+2\. Install dependencies
+
+```bash
 pnpm install
+```
+
+3\. Start development server
+
+```bash
 pnpm start
 ```
 
-## Installing and running in the Rush monorepo
-```
+## Installation and running (within Rush monorepository)
+
+If you run the demo from within `speechly` monorepository, the steps are as follows.
+
+1\. Install and build dependencies
+
+```bash
 rush update
 rush build
+```
+
+2\. Start development server
+
+```bash
 rushx start
 ```
 

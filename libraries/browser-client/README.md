@@ -18,9 +18,9 @@
 
 # Speechly Browser Client
 
-![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
-[![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)
-[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+![build](https://img.shields.io/github/actions/workflow/status/speechly/speechly/build.yaml?branch=main&logo=github)
+[![npm](https://img.shields.io/npm/v/@speechly/browser-client?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/browser-client)
+[![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
 With the Speechly browser client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
 

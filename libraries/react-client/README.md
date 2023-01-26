@@ -18,9 +18,9 @@
 
 # Speechly React Client
 
-![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
-[![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client)
-[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+![build](https://img.shields.io/github/actions/workflow/status/speechly/speechly/build.yaml?branch=main&logo=github)
+[![npm](https://img.shields.io/npm/v/@speechly/react-client?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/react-client)
+[![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
 This repository contains source code for the React client for [Speechly](https://www.speechly.com/?utm_source=github&utm_medium=react-client&utm_campaign=text) SLU API. Speechly allows you to easily build applications with voice-enabled UIs.
 

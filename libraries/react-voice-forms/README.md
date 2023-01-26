@@ -18,6 +18,10 @@
 
 # Speechly voice form components for React
 
+![build](https://img.shields.io/github/actions/workflow/status/speechly/speechly/build.yaml?branch=main&logo=github)
+[![npm](https://img.shields.io/npm/v/@speechly/react-voice-forms?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/react-voice-forms)
+[![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
+
 Ready made form components that can be controlled with voice, tap, pointer and keyboard. Voice form components are an experimental feature.
 
 Also check out the [full documentation](https://docs.speechly.com/client-libraries/voice-forms/)!
