@@ -44,7 +44,7 @@ This monorepository contains the source code of Speechly demos available at [htt
 | ------ | ------- |
 | [/demos/moderation](/demos/moderation) | [Moderation](https://demos.speechly.com/moderation) demonstrates how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature. |
 | [/demos/transcription](/demos/transcription) | [Transcription](https://demos.speechly.com/transcription) demonstrates Speechly's transcription, segmentation and timestamping features. |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Voice Interfaces](https://demos.speechly.com/fashion/) app demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Voice Interfaces](https://demos.speechly.com/fashion/) demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
 
 ## Examples
 
