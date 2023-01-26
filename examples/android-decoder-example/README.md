@@ -18,7 +18,7 @@ To use the Speechly Decoder library you need a model bundle. Download a **Tensor
 speechly download YOUR_APP_ID . --model tflite
 ```
 
-### Copy the example app
+## Copy the example app
 
 Copy the example app using [degit](https://github.com/Rich-Harris/degit):
 
@@ -27,7 +27,7 @@ npx degit speechly/speechly/examples/android-decoder-example my-android-app
 cd my-android-app
 ```
 
-### Add dependencies
+## Add dependencies
 
 Put `SpeechlyDecoder.aar` in a directory that gradle can find. For example, add a `flatDir` field to the repositories section in your `settings.gradle`:
 
@@ -70,6 +70,10 @@ In `MainActicity.java` update the model bundle resource:
 this.bundle = loadAssetToByteBuffer("YOUR_MODEL_BUNDLE.tflite.bundle");
 ```
 
-### Run the app
+## Run the app
 
 Run the app and grant it microphone permissions when prompted.
+
+## API reference
+
+[Speechly Decoder API](https://docs.speechly.com/reference/decoder/)

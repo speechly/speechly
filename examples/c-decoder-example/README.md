@@ -44,4 +44,4 @@ Your transcript will appear in the terminal.
 
 ## API reference
 
-[Speechly Decoder API](https://funny-kashata-6dcdf0.netlify.app/reference/decoder/)
+[Speechly Decoder API](https://docs.speechly.com/reference/decoder/)
