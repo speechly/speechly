@@ -1,29 +1,31 @@
 # Moderation Demo
 
+The moderation demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.
+
 https://demos.speechly.com/moderation/
 
-Demonstrates how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature.
+## Prerequisites
 
-## Requirements
+* [Node.js](https://nodejs.org/) v16.13.0 or later
+* [npm](https://npmjs.com/) or [Rush](https://rushjs.io/)
 
-* [Node](https://nodejs.org/) (tested with v16.13.0)
+This project was built with [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/) and [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client).
 
-### Built With
+## Installation and running (stand-alone)
 
-* [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client)
-* [Typescript](https://www.typescriptlang.org/)
-
-Speechly React Client wraps [Speechly Browser Client](https://www.npmjs.com/package/@speechly/react-voice-forms/browser-client) that provides websocket connectivity and audio handling.
-
-## Installation And Running (stand-alone)
-
-1. Install NPM packages
+1\. Copy this project using [degit](https://github.com/Rich-Harris/degit) (or download manually)
 
 ```bash
-npm i
+npx degit speechly/speechly/demos/moderation moderation
 ```
 
-2. Start development server
+2\. Install dependencies
+
+```bash
+npm install
+```
+
+3\. Start development server
 
 ```bash
 npm start
@@ -31,18 +33,18 @@ npm start
 
 Alternatively you can use `pnpm` instead of `npm`.
 
-## Installation And Running (within Rush monorepository)
+## Installation and running (within Rush monorepository)
 
-If you run the demo from within `speechly` monorepository, the steps are as follows:
+If you run the demo from within `speechly` monorepository, the steps are as follows.
 
-1. Install and build dependencies
+1\. Install and build dependencies
 
 ```bash
 rush update
 rush build
 ```
 
-2. Start development server
+2\. Start development server
 
 ```bash
 rushx start
