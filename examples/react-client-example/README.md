@@ -7,7 +7,7 @@ Built with:
 - [speechly-react-client](https://github.com/speechly/react-client)
 - [create-react-app](https://github.com/facebook/create-react-app).
 
-Check it out at https://speechly.github.io/browser-client-example/.
+Check it out at https://speechly.github.io/react-example-repo-filtering/.
 
 ## Run it locally
 
