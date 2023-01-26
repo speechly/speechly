@@ -18,6 +18,10 @@
 
 # Speechly Browser UI Components
 
+![build](https://img.shields.io/github/actions/workflow/status/speechly/speechly/build.yaml?branch=main&logo=github)
+[![npm](https://img.shields.io/npm/v/@speechly/browser-ui?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/browser-ui)
+[![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
+
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface to a web site or app. See these CodePens for a preview:
 
 - [Speech-to-text CodePen](https://codepen.io/speechly/pen/VwzoMrW)

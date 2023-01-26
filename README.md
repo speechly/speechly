@@ -31,10 +31,10 @@ Speechly UI libraries provide UI components to support building a voice-enabled,
 
 | Folder | Version | npm package | Description |
 | ------ | ------- |------- | ------- |
-| [/libraries/browser-client](/libraries/browser-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-client.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-client)| [@speechly/browser-client](https://www.npmjs.com/package/@speechly/browser-client) | JavaScript API for natural spoken language understanding. |
-| [/libraries/react-client](/libraries/react-client) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-client.svg)](https://badge.fury.io/js/%40speechly%2Freact-client) | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) | React API for natural spoken language understanding. |
-| [/libraries/browser-ui](/libraries/browser-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Fbrowser-ui.svg)](https://badge.fury.io/js/%40speechly%2Fbrowser-ui) | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) | Web components for controlling listening and showing speech-to-text transcription. |
-| [/libraries/react-ui](/libraries/react-ui) | [![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui) | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) | React components for controlling listening and showing speech-to-text transcription. |
+| [/libraries/browser-client](/libraries/browser-client) | ![npm](https://img.shields.io/npm/v/@speechly/browser-client?label) | [@speechly/browser-client](https://www.npmjs.com/package/@speechly/browser-client) | JavaScript API for natural spoken language understanding. |
+| [/libraries/react-client](/libraries/react-client) | ![npm](https://img.shields.io/npm/v/@speechly/react-client?label)  | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) | React API for natural spoken language understanding. |
+| [/libraries/browser-ui](/libraries/browser-ui) | ![npm](https://img.shields.io/npm/v/@speechly/browser-ui?label)  | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) | Web components for controlling listening and showing speech-to-text transcription. |
+| [/libraries/react-ui](/libraries/react-ui) | ![npm](https://img.shields.io/npm/v/@speechly/react-ui?label)  | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) | React components for controlling listening and showing speech-to-text transcription. |
 
 ## Demos
 

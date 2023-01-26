@@ -18,9 +18,9 @@
 
 # Speechly React UI components
 
-![Rush build](https://github.com/speechly/speechly/actions/workflows/build.yaml/badge.svg)
-[![npm version](https://badge.fury.io/js/%40speechly%2Freact-ui.svg)](https://badge.fury.io/js/%40speechly%2Freact-ui)
-[![License](http://img.shields.io/:license-mit-blue.svg)](LICENSE)
+![build](https://img.shields.io/github/actions/workflow/status/speechly/speechly/build.yaml?branch=main&logo=github)
+[![npm](https://img.shields.io/npm/v/@speechly/react-ui?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/react-ui)
+[![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
 Ready made Speechly [UI components](https://docs.speechly.com/client-libraries/ui-components/) to build a reactive voice interface  to a React or Next.js app.
 
