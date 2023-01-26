@@ -38,17 +38,13 @@ Speechly UI libraries provide UI components to support building a voice-enabled,
 
 ## Demos
 
-This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's `react-client`, `react-ui` and `react-voice-forms` libraries. Each of the demo subfolder is a stand-alone node project. See the demos' subfolders for more information.
+This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's [`react-client`](libraries/react-client/) and [`react-ui`](libraries/react-ui/). Each of the demo subfolder is a stand-alone project. See the demos' README for further instructions.
 
 | Folder | Description |
 | ------ | ------- |
 | [/demos/moderation](/demos/moderation) | [Moderation](https://demos.speechly.com/moderation) demonstrates how to use Speechly for profanity moderation and highlights Speechly’s timestamp feature. |
 | [/demos/transcription](/demos/transcription) | [Transcription](https://demos.speechly.com/transcription) demonstrates Speechly's transcription, segmentation and timestamping features. |
-| [/demos/voice-search](/demos/voice-search) | [Voice Search](https://demos.speechly.com/voice-search) demonstrates how to use Speechly and Google Custom Search API to create a voice-enabled search enginge. |
-| [/demos/speech-to-text](/demos/speech-to-text) | [Speech-to-Text](https://demos.speechly.com/speech-to-text) app demonstrates Speechly API's automatic speech recognition (ASR). |
-| [/demos/smart-home](/demos/smart-home) | [Smart Home](https://smarthome.speechly.com) app demonstrates updating GUI in real-time by reacting to  intents and entities provided by Speechly API's streaming Natural Language Understanding (NLU). |
-| [/demos/flight-booking](/demos/flight-booking) | [Flight Booking](https://demos.speechly.com/booking) app demonstrates use of [`react-voice-forms`](./libraries/react-voice-forms) library to create a voice-enabled interface with text input field, dropdown and checkbox components. |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Fashion Store](https://fashion.speechly.com) app demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
+| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | [Voice Interfaces](https://demos.speechly.com/fashion/) app demonstrates browsing a large inventory of goods using with voice-enabled category filters. |
 
 ## Examples
 
@@ -56,8 +52,10 @@ Example applications can be used to validate correct behaviour of client and UI 
 
 | Folder | Description |
 | ------ | ------- |
-| [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client) |
-| [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client) |
+| [/examples/ios-decoder-example](/examples/ios-decoder-example) | An example iOS app for using the Speechly Decoder library for on-device transcription.|
+| [/examples/android-decoder-example](/examples/android-decoder-example) | An example Android app for using the Speechly Decoder library for on-device transcription. |
+| [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client). |
+| [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client). |
 | [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
 | [/examples/next-js-example](/examples/next-js-example) | A two-page Next.js site bootstrapped with `yarn create next-app --typescript` with Speechly UI components on them. |
 
@@ -100,10 +98,11 @@ rush change -b origin/main
 
 ## Learn more
 
-- [Quick Start Guide](https://docs.speechly.com/quick-start/) – Get started on developing with Speechly for the web
-- [Developer Documentation](https://docs.speechly.com/) – Browse the latest developer documentation, including tutorials, sample code and API reference
-- [Speechly Demos](https://www.speechly.com/demos/) – Get inspired and see what you can build with Speechly
-- [Speechly Dashboard](https://www.speechly.com/dashboard) – Where you create, configure and deploy your Speechly applications
+- [Quick Start Guide](https://docs.speechly.com/basics/getting-started/) – Learn how to create a Speechly application and transcribe both live and pre-recorded audio.
+- [Developer Documentation](https://docs.speechly.com) – Browse the latest developer documentation, including sample code and reference docs.
+- [Speechly Demos](https://demos.speechly.com) – Get inspired and see what you can build with Speechly.
+- [Speechly Dashboard](https://api.speechly.com/dashboard) – Create, edit and manage your Speechly applications & projects.
+- [Speechly CLI](https://docs.speechly.com/features/cli) – Interact with Speechly from the comfort of your CLI.
 
 ## Related repositories
 
