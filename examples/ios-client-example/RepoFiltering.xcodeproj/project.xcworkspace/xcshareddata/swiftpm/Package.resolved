@@ -1,0 +1,106 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "speechly-api",
+        "repositoryURL": "https://github.com/speechly/api.git",
+        "state": {
+          "branch": null,
+          "revision": "424d09e1f0971f9fa191e86e4b30d6db73ae8094",
+          "version": "0.4.5"
+        }
+      },
+      {
+        "package": "grpc-swift",
+        "repositoryURL": "https://github.com/grpc/grpc-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "5cc08ebf77e68598bfe4c793927d0f2838598607",
+          "version": "1.6.1"
+        }
+      },
+      {
+        "package": "speechly-ios-client",
+        "repositoryURL": "https://github.com/speechly/ios-client.git",
+        "state": {
+          "branch": null,
+          "revision": "039974d22b96f2255a33d3242f4d6137b9fed4d6",
+          "version": "0.3.1"
+        }
+      },
+      {
+        "package": "SnapKit",
+        "repositoryURL": "https://github.com/SnapKit/SnapKit.git",
+        "state": {
+          "branch": null,
+          "revision": "d458564516e5676af9c70b4f4b2a9178294f1bc6",
+          "version": "5.0.1"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
+          "version": "1.4.2"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "51c3fc2e4a0fcdf4a25089b288dd65b73df1b0ef",
+          "version": "2.37.0"
+        }
+      },
+      {
+        "package": "swift-nio-extras",
+        "repositoryURL": "https://github.com/apple/swift-nio-extras.git",
+        "state": {
+          "branch": null,
+          "revision": "f73ca5ee9c6806800243f1ac415fcf82de9a4c91",
+          "version": "1.10.2"
+        }
+      },
+      {
+        "package": "swift-nio-http2",
+        "repositoryURL": "https://github.com/apple/swift-nio-http2.git",
+        "state": {
+          "branch": null,
+          "revision": "6e94a7be32891d1b303a3fcfde8b5bf64d162e74",
+          "version": "1.19.1"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
+        "state": {
+          "branch": null,
+          "revision": "52a486ff6de9bc3e26bf634c5413c41c5fa89ca5",
+          "version": "2.17.2"
+        }
+      },
+      {
+        "package": "swift-nio-transport-services",
+        "repositoryURL": "https://github.com/apple/swift-nio-transport-services.git",
+        "state": {
+          "branch": null,
+          "revision": "8ab824b140d0ebcd87e9149266ddc353e3705a3e",
+          "version": "1.11.4"
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "7e2c5f3cbbeea68e004915e3a8961e20bd11d824",
+          "version": "1.18.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

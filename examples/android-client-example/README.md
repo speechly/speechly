@@ -2,23 +2,20 @@
 
 This repository contains an example app for filtering data using [Speechly Android Client](https://github.com/speechly/android-client).
 
-## Install
+## Installation
 
-1. Create and deploy your own Speechly application, following [our quick start tutorial](https://docs.speechly.com/quick-start/).
-2. Clone the `android-repo-filtering` repository.
-3. Open the project in Android Studio.
-4. After you've deployed your Speechly app, update the `appId` in [MainActivity.kt](app/src/main/kotlin/com/speechly/example/MainActivity.kt).
-5. Build and run the project on a real device.
-
-<img src="https://raw.githubusercontent.com/speechly/android-repo-filtering/master/assets/screenshot01.png" width="240" height="426" />
+1. Download this example app, e.g. using [degit](https://github.com/Rich-Harris/degit) `npx degit speechly/speechly/examples/android-client-example android-example`.
+2. Open the project in Android Studio.
+3. Create and deploy your own Speechly application, following [our quick start tutorial](https://docs.speechly.com/quick-start/).
+4. Use the configuration from [speechly_app_configuration.sal](speechly_app_configuration.sal), remember to declare the entities and intents.
+5. Deploy your Speechly application and update the `appId` in [MainActivity.kt](app/src/main/kotlin/com/speechly/example/MainActivity.kt).
+6. Build and run the project on a real device.
 
 ## Usage
 
-try out the following phrases:
+Finally you are ready to run the app, you can try out the following phrases:
 
 - Show me all Python repos
 - Sort by followers
 - Clear the filters
  
-<img src="https://raw.githubusercontent.com/speechly/android-repo-filtering/master/assets/screenshot02.png" width="240" height="426" />
-
