@@ -54,10 +54,11 @@ Example applications can be used to validate correct behaviour of client and UI 
 | ------ | ------- |
 | [/examples/ios-decoder-example](/examples/ios-decoder-example) | An example iOS app for using the Speechly Decoder library for on-device transcription.|
 | [/examples/android-decoder-example](/examples/android-decoder-example) | An example Android app for using the Speechly Decoder library for on-device transcription. |
-| [/examples/browser-client-example](/examples/browser-client-example) | A simple example application built with [browser-client](https://www.npmjs.com/package/@speechly/browser-client). |
-| [/examples/react-client-example](/examples/react-client-example) | A simple example application built with [react-client](https://www.npmjs.com/package/@speechly/react-client). |
-| [/examples/react-ui-example](/examples/react-ui-example) | An example showcasing UI components in React. |
-| [/examples/next-js-example](/examples/next-js-example) | A two-page Next.js site bootstrapped with `yarn create next-app --typescript` with Speechly UI components on them. |
+| [/examples/browser-client-example](/examples/browser-client-example) | An example JavaScript app built with [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client). |
+| [/examples/react-client-example](/examples/react-client-example) | An example React app built with [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client). |
+| [/examples/android-client-example](/examples/android-client-example) | An example Android app for filtering data built with [Speechly Android Client](https://github.com/speechly/android-client). |
+| [/examples/react-ui-example](/examples/react-ui-example) | An example React app showcasing UI components in React. |
+| [/examples/next-js-example](/examples/next-js-example) | A simple Next.js site bootstrapped with [Create Next App](https://nextjs.org/docs/api-reference/create-next-app) using Speechly UI components. |
 
 ## How to get help?
 
