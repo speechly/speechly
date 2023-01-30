@@ -1,0 +1,27 @@
+languages = [
+    Go
+    TypeScript
+    Python
+]
+
+sort_fields = [
+    name
+    language
+    followers
+    stars
+    forks
+]
+
+results = [
+    items
+    results
+    repos
+    repositories
+]
+
+*filter show {me} {[all | only]} $languages(language) {$results}
+*filter filter {$results} by $languages(language) {language}
+
+*sort [sort | order] {the} {$results} by $sort_fields(sort_field)
+
+*reset [reset | remove] {[the | all]} {filters} {to default}
