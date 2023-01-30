@@ -4,8 +4,8 @@ This is a simple demo showcasing usage of [Speechly API](https://www.speechly.co
 
 Built with:
 
-- [speechly-react-client](https://github.com/speechly/react-client)
-- [create-react-app](https://github.com/facebook/create-react-app).
+- [Speechly React Client](https://github.com/speechly/speechly/tree/main/libraries/react-client)
+- [Create React App](https://github.com/facebook/create-react-app).
 
 Check it out at https://speechly.github.io/react-example-repo-filtering/.
 

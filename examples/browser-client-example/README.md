@@ -4,9 +4,9 @@ This is a simple demo showcasing usage of [Speechly API](https://www.speechly.co
 
 Built with:
 
-- [speechly-browser-client](https://github.com/speechly/browser-client)
+- [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client)
 - [TypeScript](https://www.typescriptlang.org)
-- [create-react-app](https://github.com/facebook/create-react-app).
+- [Create React App](https://github.com/facebook/create-react-app).
 
 A working demo of this example can be found here: https://speechly.github.io/browser-client-example/ 
 
