@@ -108,6 +108,6 @@ rush change -b origin/main
 
 ## Related repositories
 
-- [Android Client Library](https://github.com/speechly/android-client)
-- [iOS Client Library](https://github.com/speechly/ios-client)
+- [Speechly Android Client](https://github.com/speechly/android-client)
+- [Speechly iOS Client](https://github.com/speechly/ios-client)
 - [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)

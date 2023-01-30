@@ -1,6 +1,6 @@
-# browser-client-example
+# Speechly Browser Client Example
 
-This is a simple demo showcasing usage of [Speechly API](https://www.speechly.com/?utm_source=github&utm_medium=browser-client-example&utm_campaign=header). Speechly configuration for the app can be found in [speechly_config.sal](speechly_config.sal).
+This is a simple demo showcasing usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client).
 
 Built with:
 
@@ -8,7 +8,20 @@ Built with:
 - [TypeScript](https://www.typescriptlang.org)
 - [Create React App](https://github.com/facebook/create-react-app).
 
-A working demo of this example can be found here: https://speechly.github.io/browser-client-example/ 
+A working demo of this example can be found at https://speechly.github.io/browser-client-example/ 
+
+## Before you start
+
+Create and deploy your own Speechly application, following [our quick start tutorial](https://docs.speechly.com/quick-start/).
+
+Use the configuration from [speechly_config.sal](speechly_config.sal), remember to declare the entities and intents.
+
+Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+
+```bash
+npx degit speechly/speechly/examples/browser-client-example my-app
+cd my-app
+```
 
 ## Run it locally
 
@@ -26,7 +39,7 @@ npm start
 
 You can check out the code in [index.ts](src/index.ts) and the layout in [index.html](public/index.html).
 
-To use your own appId with this example, run the following prior to `npm start`:
+To use your own **App ID** with this example, run the following prior to `npm start`:
 
 ```shell
 # Configure your Speechly app ID
@@ -39,6 +52,6 @@ export REACT_APP_LANGUAGE="your-app-language"
 export REACT_APP_TIMEZONE="your-app-timezone"
 ```
 
-For instructions on how to get started on the Speechly free tier and obtain your appId, please see the [Quick Start Guide](https://docs.speechly.com/quick-start).
+## Contributing
 
-Note that this example is part of a monorepository that uses [rush](https://rush.js) and [pnpm](https://pnpm.io) as build tools. If you are interested in contributing, please check the instructions in the [root level README](../../README.md#how-to-use-this-repository).
+Note that this example is part of a monorepository that uses [rush](https://rush.js) and [pnpm](https://pnpm.io) as build tools. If you are interested in contributing, please check the instructions in the [root level README](../../README.md#how-to-use-this-rush-monorepository).

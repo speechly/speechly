@@ -22,17 +22,13 @@
 [![npm](https://img.shields.io/npm/v/@speechly/browser-client?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/browser-client)
 [![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
-With the Speechly browser client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Voice API.
+With the Speechly browser client you can add voice features to any website. It handles authentication, audio capture, network streaming and connection management with the Speechly Streaming API.
 
-Check out the [browser-client-example](https://github.com/speechly/speechly/tree/main/examples/browser-client-example) repository for a demo app built using this client.
+If you are using React, you can use the [Speechly React Client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
+
+Check out the [browser client example](https://github.com/speechly/speechly/tree/main/examples/browser-client-example) for an example app built using this client.
 
 🚧 Browser client `v2.0` is a breaking change. Read more about the major changes and how to upgrade from [our blog post](https://speechly.com/blog/speechly-browser-client-v2-released).
-
-⚡️ If you are using React, you can use our [React client](https://github.com/speechly/speechly/tree/main/libraries/react-client) instead. It provides the same functionalities, but provides a programming model that is idiomatic to React.
-
-## API Documentation
-
-- [API documentation (TypeDoc generated)](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md)
 
 ## Using in web sites built with eg. rollup
 
@@ -153,8 +149,9 @@ Please use a HTML server to view the example. Running it as a file will not work
 
 ## Documentation
 
-- [API documentation](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) in GitHub
-- [Basic usage in docs.speechly.com](https://docs.speechly.com/?utm_source=github&utm_medium=browser-client&utm_campaign=text) for more information.
+- [API reference](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) (GitHub)
+- [Basic usage](https://dreamy-cori-a02de1.netlify.app/client-libraries/usage/) (Docs)
+- [Example application](https://github.com/speechly/speechly/tree/main/examples/browser-client-example)
 
 ## Contributing
 
