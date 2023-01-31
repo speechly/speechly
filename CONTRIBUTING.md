@@ -21,7 +21,7 @@ yarn run precommit
 
 ## Test setup
 
-You can use the [browser-client-example](https://github.com/speechly/browser-client-example) as your test setup. You will need a Speechly app ID to go with it.
+You can use the [Speechly Browser Client Example](https://github.com/speechly/speechly/tree/main/examples/browser-client-example) as your test setup. You will need a Speechly App ID to go with it.
 
 You can set it up by using `yarn link`:
 

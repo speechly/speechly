@@ -22,9 +22,9 @@
 [![npm](https://img.shields.io/npm/v/@speechly/react-client?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/react-client)
 [![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
-This repository contains source code for the React client for [Speechly](https://www.speechly.com/?utm_source=github&utm_medium=react-client&utm_campaign=text) SLU API. Speechly allows you to easily build applications with voice-enabled UIs.
+With the Speechly React client you can add voice features to any React project. It handles authentication, audio capture, network streaming and connection management with the Speechly Streaming API.
 
-Check out [Speechly documentation](https://docs.speechly.com//client-libraries/react-client/?utm_source=github&utm_medium=react-client&utm_campaign=text) for a tutorial on how to build a voice filtering app using this client.
+Check out the [react client example](https://github.com/speechly/speechly/tree/main/examples/react-client-example) for an example app built using this client.
 
 ## Before you start
 
@@ -95,9 +95,9 @@ Navigate to http://localhost:3000 to see your app running!
 ## Documentation
 
 - [API reference](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) (GitHub)
-- [Basic usage](https://docs.speechly.com/client-libraries/usage/?platform=React) (Docs)
-- [Advanced usage](https://docs.speechly.com/client-libraries/using-react-client/) (Docs)
-- Check out the [react-example-repo-filtering](https://github.com/speechly/react-example-repo-filtering) repository for a example app built using this client.
+- [Basic usage](https://dreamy-cori-a02de1.netlify.app/client-libraries/usage/?platform=React) (Docs)
+- [Advanced usage](https://dreamy-cori-a02de1.netlify.app/client-libraries/using-react-client/) (Docs)
+- [Example application](https://github.com/speechly/speechly/tree/main/examples/react-client-example)
 
 ## Contributing
 

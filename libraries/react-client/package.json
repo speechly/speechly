@@ -1,7 +1,7 @@
 {
   "name": "@speechly/react-client",
   "version": "2.2.1",
-  "description": "React client for Speechly SLU API",
+  "description": "React client for Speechly Streaming API",
   "keywords": [
     "react",
     "reactjs",
@@ -42,7 +42,7 @@
     "directory": "libraries/react-client"
   },
   "bugs": {
-    "url": "https://github.com/speechly/react-client/issues"
+    "url": "https://github.com/speechly/speechly/issues"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
