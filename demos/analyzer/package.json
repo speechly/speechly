@@ -4,9 +4,9 @@
   "private": true,
   "homepage": "/analyzer/",
   "dependencies": {
-    "@speechly/browser-client": "^2.6.2",
+    "@speechly/browser-client": "^2.6.3",
     "@speechly/demo-navigation": "^0.2.2",
-    "@speechly/react-client": "^2.2.1",
+    "@speechly/react-client": "^2.2.2",
     "@speechly/logkit": ">=1.0.0",
     "clsx": "^1.2.1",
     "format-duration": "^3.0.1",

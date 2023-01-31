@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@speechly/react-client": "^2.2.1",
+    "@speechly/react-client": "^2.2.2",
     "@speechly/react-ui": "^2.7.3",
     "react": "^18",
     "react-dom": "^18",

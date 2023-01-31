@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-client
 
-This log was last generated on Wed, 14 Dec 2022 12:04:27 GMT and should not be manually modified.
+This log was last generated on Tue, 31 Jan 2023 09:43:23 GMT and should not be manually modified.
+
+## 2.2.2
+Tue, 31 Jan 2023 09:43:23 GMT
+
+### Patches
+
+- Update documentation
 
 ## 2.2.1
 Wed, 14 Dec 2022 12:04:27 GMT
