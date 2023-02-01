@@ -55,7 +55,10 @@ function App() {
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useState(['profane', 'violent', 'about money', 'neutral']);
+  const [tags, setTags] = useState([
+    'a derogatory comment based on sexual orientation',
+    'a derogatory comment based on faith',
+  ]);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
