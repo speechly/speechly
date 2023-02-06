@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/voice-search/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.2.2",
+    "@speechly/demo-navigation": "^0.2.6",
     "@speechly/react-client": "^2.2.2",
     "@speechly/react-ui": "^2.7.3",
     "@speechly/logkit": ">=1.0.0",
