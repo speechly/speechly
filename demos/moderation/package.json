@@ -6,7 +6,6 @@
   "dependencies": {
     "@speechly/demo-navigation": "^0.2.11",
     "@speechly/react-client": "^2.2.2",
-    "@speechly/logkit": ">=1.0.0",
     "react": "^18",
     "react-dom": "^18",
     "typescript": "^4.6.4",

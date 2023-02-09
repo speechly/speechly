@@ -2,23 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { SpeechProvider } from "@speechly/react-client";
+import { SpeechProvider } from '@speechly/react-client';
 import * as serviceWorker from './serviceWorker';
-import { LogKit } from "@speechly/logkit"
 import { DemoNavigation } from '@speechly/demo-navigation';
 
 const appId = '2e6e6718-8d2d-419a-a89e-92802f5ff3bd';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <SpeechProvider appId={appId}>
-      <LogKit appName="ecommerce-checkout" appVersion={110} >
-        <DemoNavigation />
-        <App />
-      </LogKit>
+      <DemoNavigation />
+      <App />
     </SpeechProvider>
   </React.StrictMode>
 );

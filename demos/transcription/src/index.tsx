@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { DemoNavigation } from '@speechly/demo-navigation';
-import { LogKit } from '@speechly/logkit';
 import { SpeechProvider } from '@speechly/react-client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -11,10 +10,8 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <SpeechProvider appId="9fedda54-8213-4435-9876-04dce16d9743">
-      <LogKit appName="transcription" appVersion={110}>
-        <DemoNavigation />
-        <App />
-      </LogKit>
+      <DemoNavigation />
+      <App />
     </SpeechProvider>
   </React.StrictMode>
 );
