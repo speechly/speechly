@@ -1,5 +1,4 @@
 import { SpeechProvider } from '@speechly/react-client';
-import { LogKit } from '@speechly/logkit';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
