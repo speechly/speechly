@@ -4,11 +4,10 @@
   "private": true,
   "homepage": "booking",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.2.6",
+    "@speechly/demo-navigation": "^0.2.11",
     "@speechly/react-client": "^2.2.2",
     "@speechly/react-ui": "^2.7.3",
     "@speechly/react-voice-forms": "1.3.5",
-    "@speechly/logkit": ">=1.0.0",
     "react": "^18",
     "react-dom": "^18"
   },

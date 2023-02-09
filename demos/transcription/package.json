@@ -5,9 +5,8 @@
   "homepage": "/transcription/",
   "dependencies": {
     "@speechly/browser-client": "^2.6.3",
-    "@speechly/demo-navigation": "^0.2.6",
+    "@speechly/demo-navigation": "^0.2.11",
     "@speechly/react-client": "^2.2.2",
-    "@speechly/logkit": ">=1.0.0",
     "clsx": "^1.2.1",
     "format-duration": "^3.0.1",
     "react": "^18",

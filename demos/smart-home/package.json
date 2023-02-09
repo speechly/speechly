@@ -4,10 +4,9 @@
   "private": true,
   "homepage": "smart-home",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.2.6",
+    "@speechly/demo-navigation": "^0.2.11",
     "@speechly/react-client": "^2.2.2",
     "@speechly/react-ui": "^2.7.3",
-    "@speechly/logkit": ">=1.0.0",
     "prop-types": "^15.7.2",
     "pubsub-js": "^1.9.2",
     "query-string": "^6.13.8",

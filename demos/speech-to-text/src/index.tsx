@@ -1,20 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import { SpeechProvider } from "@speechly/react-client";
-import * as serviceWorker from "./serviceWorker";
-import { LogKit } from "@speechly/logkit";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import { SpeechProvider } from '@speechly/react-client';
+import * as serviceWorker from './serviceWorker';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <SpeechProvider appId="6f1c7eaa-53fa-495e-9319-4ceacfa88cfe">
-      <LogKit appName="speech-to-text" appVersion={110} >
-        <App />
-      </LogKit>
+      <App />
     </SpeechProvider>
   </React.StrictMode>
 );
