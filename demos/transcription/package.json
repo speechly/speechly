@@ -5,7 +5,7 @@
   "homepage": "/transcription/",
   "dependencies": {
     "@speechly/browser-client": "^2.6.3",
-    "@speechly/demo-navigation": "^0.2.11",
+    "@speechly/demo-navigation": "^0.2.12",
     "@speechly/react-client": "^2.2.2",
     "clsx": "^1.2.1",
     "format-duration": "^3.0.1",
