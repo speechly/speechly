@@ -63,7 +63,7 @@ jobs:
           cp -r demos/voice-search/build/ tmp-upload-staging-area/voice-search &&
           cp -r demos/moderation/build/ tmp-upload-staging-area/moderation &&
           cp -r demos/analyzer/build/ tmp-upload-staging-area/analyzer &&
-          cp -r demos/transcription/build/ tmp-upload-staging-area/transcription &&
+          cp -r demos/transcription/build/ tmp-upload-staging-area/transcription
       - name: Authenticate to GCS
         uses: google-github-actions/auth@v0.4.0
         with:
