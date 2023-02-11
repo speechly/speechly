@@ -1,17 +1,5 @@
-# Common consensus is to not check in your dependencies into Git.
-node_modules/
-
-# Ignore distribution code.
-build/
-
-# Ignore ESLint cache
-.eslintcache
-
-# Ignore package-lock.json since we're using yarn
-package-lock.json
-
-# Ignore api-extractor temp files
-temp/
-
-# Ignore IDE configs
-.vscode/
+/node_modules
+/.parcel*
+/dist
+.DS_Store
+.env*

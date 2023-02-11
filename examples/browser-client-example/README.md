@@ -1,57 +1,36 @@
 # Speechly Browser Client Example
 
-This is a simple demo showcasing usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client).
-
-Built with:
-
-- [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client)
-- [TypeScript](https://www.typescriptlang.org)
-- [Create React App](https://github.com/facebook/create-react-app).
-
-A working demo of this example can be found at https://speechly.github.io/browser-client-example/ 
+Example web application showcasing the usage of [Speechly browser client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly browser client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), [Typescript](https://www.typescriptlang.org) and [Parcel](https://parceljs.org/).
 
 ## Before you start
 
-Create and deploy your own Speechly application, following [our quick start tutorial](https://docs.speechly.com/quick-start/).
+To get started with Speechly, you'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
 
-Use the configuration from [speechly_config.sal](speechly_config.sal), remember to declare the entities and intents.
+## Run locally
 
-Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+Add your **App ID** into `src/app.ts`. You can find your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
 
-```bash
-npx degit speechly/speechly/examples/browser-client-example my-app
-cd my-app
+```ts
+const client = new BrowserClient({
+  appId: 'YOUR-APP-ID',
+  logSegments: true,
+  debug: true,
+  vad: { enabled: isVadEnabled },
+});
 ```
 
-## Run it locally
+Install dependencies: 
 
-```shell
-# Install dependencies
+```
 npm install
+```
 
-# Runs the demo in the development mode.
-# Open http://localhost:3000 to view it in the browser.
-#
-# The page will reload if you make edits.
-# You will also see any lint errors in the console.
+Start development server:
+
+```
 npm start
 ```
 
-You can check out the code in [index.ts](src/index.ts) and the layout in [index.html](public/index.html).
+## Open in StackBlitz
 
-To use your own **App ID** with this example, run the following prior to `npm start`:
-
-```shell
-# Configure your Speechly app ID
-export REACT_APP_APP_ID="your-app-id"
-
-# Configure your Speechly app language
-export REACT_APP_LANGUAGE="your-app-language"
-
-# OPTIONAL Configure your Speechly app timezone for Date entities. By default using the timezone of the browser.
-export REACT_APP_TIMEZONE="your-app-timezone"
-```
-
-## Contributing
-
-Note that this example is part of a monorepository that uses [rush](https://rush.js) and [pnpm](https://pnpm.io) as build tools. If you are interested in contributing, please check the instructions in the [root level README](../../README.md#how-to-use-this-rush-monorepository).
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/speechly/speechly/tree/main/examples/browser-client-example)
