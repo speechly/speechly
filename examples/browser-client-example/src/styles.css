@@ -30,7 +30,7 @@ body {
   margin: 1.5rem 0;
 }
 
-.toolbar #clear {
+.toolbar > *:last-child {
   margin-left: auto;
 }
 
@@ -43,10 +43,6 @@ input::file-selector-button {
 button,
 input {
   font-size: 0.875rem;
-}
-
-input::fille-select-text {
-  color: Red;
 }
 
 .segment {
@@ -87,11 +83,4 @@ pre {
 code {
   font-size: 0.8125rem;
   padding: 0 !important;
-}
-
-hr {
-  height: 1px;
-  background-color: #e5e5e5;
-  border: none;
-  margin-top: 0.75rem;
 }

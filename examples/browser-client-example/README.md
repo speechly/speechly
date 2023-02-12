@@ -1,6 +1,6 @@
 # Speechly Browser Client Example
 
-Example web application showcasing the usage of [Speechly browser client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly browser client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), [Typescript](https://www.typescriptlang.org) and [Parcel](https://parceljs.org/).
+Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), [Typescript](https://www.typescriptlang.org) and [Parcel](https://parceljs.org/).
 
 ## Before you start
 
@@ -40,3 +40,7 @@ npm start
 By default, NLU features are disabled and Speechly operates in speech-to-text mode. To enable them, you’ll need to provide a configuration for your application. The example application will list the intent and entities for each speech segment below the transcript.
 
 [See our docs to learn more](https://docs.speechly.com/features/intents-entities).
+
+## Documentation
+
+- [API reference](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) (GitHub)

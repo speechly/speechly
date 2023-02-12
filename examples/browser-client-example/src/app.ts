@@ -1,10 +1,17 @@
-import { BrowserClient, BrowserMicrophone, Segment, stateToString } from '@speechly/browser-client';
+import {
+  BrowserClient,
+  BrowserMicrophone,
+  Entity,
+  Intent,
+  Segment,
+  stateToString,
+} from '@speechly/browser-client';
 import formatDuration from 'format-duration';
 
 let isVadEnabled = false;
 let speechSegments: Segment[] = [];
 
-const mic = new BrowserMicrophone();
+const microphone = new BrowserMicrophone();
 const client = new BrowserClient({
   appId: 'YOUR-APP-ID',
   logSegments: true,
@@ -23,10 +30,10 @@ const clientState = document.getElementById('clientState') as HTMLSpanElement;
 const micState = document.getElementById('micState') as HTMLSpanElement;
 
 const initMic = async () => {
-  if (!mic.mediaStream) {
-    await mic.initialize();
-    if (mic.mediaStream) {
-      await client.attach(mic.mediaStream);
+  if (!microphone.mediaStream) {
+    await microphone.initialize();
+    if (microphone.mediaStream) {
+      await client.attach(microphone.mediaStream);
     }
   }
 };
@@ -67,11 +74,12 @@ const renderTranscript = (segment: Segment) => {
   return segment.words.map((w) => w.value).join(' ');
 };
 
-const renderSegmentDetails = (segment: Segment) => {
-  if (!segment.intent.intent) return '';
+const renderSegmentDetails = (intent: Intent, entities: Entity[]) => {
+  if (!intent) return '';
+  const entitiesList = entities.map((e) => `${e.value} (${e.type})`).join(', ');
   return `<div class="segment-details">
-    intent: ${segment.intent.intent}
-    ${segment.entities.length ? ` · entities: ${segment.entities.map((e) => `${e.value} (${e.type})`)}` : ''}
+    intent: ${intent}
+    ${entitiesList ? ` · entities: ${entitiesList}` : ''}
   </div>`;
 };
 
@@ -81,7 +89,7 @@ const renderSegment = (segment: Segment) => {
     <div>${timestamp}</div>
     <div class="segment-content">
       <div>${renderTranscript(segment)}</div>
-      ${renderSegmentDetails(segment)}
+      ${renderSegmentDetails(segment.intent, segment.entities)}
     </div>
   </div>`;
 };
@@ -90,13 +98,12 @@ const renderOutput = (segment: Segment) => {
   return `<code>${JSON.stringify(segment, undefined, 2)}</code>`;
 };
 
-mic.onStateChange((state) => {
-  micState.innerText = state.toLowerCase();
+microphone.onStateChange((state) => {
+  micState.innerText = state;
 });
 
 client.onStateChange((state) => {
-  clientState.innerHTML = stateToString(state).toLowerCase();
-  tentative.innerText = state > 2 ? '…' : '';
+  clientState.innerHTML = stateToString(state);
 });
 
 client.onSegmentChange((segment) => {
@@ -104,11 +111,7 @@ client.onSegmentChange((segment) => {
   tentative.innerText = renderTranscript(segment);
   if (segment.isFinal) {
     debugOut.innerHTML += renderOutput(segment);
-    if (speechSegments.length && segment.contextId !== speechSegments[speechSegments.length - 1].contextId) {
-      transcript.innerHTML += `<hr/>`;
-    }
     transcript.innerHTML += renderSegment(segment);
-    tentative.innerText = '…';
     speechSegments.push(segment);
   }
 });
