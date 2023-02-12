@@ -404,14 +404,6 @@
       "projectFolder": "libraries/logkit"
     },
     {
-      "packageName": "@speechly/browser-client-example",
-      "projectFolder": "examples/browser-client-example"
-    },
-    {
-      "packageName": "@speechly/react-client-example",
-      "projectFolder": "examples/react-client-example"
-    },
-    {
       "packageName": "@speechly/react-ui-example",
       "projectFolder": "examples/react-ui-example"
     },
