@@ -1,14 +1,12 @@
 {
   "name": "browser-client-example",
   "version": "1.0.0",
-  "description": "Example application using Speechly browser-client",
+  "private": true,
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
     "build": "parcel build"
   },
-  "author": "Speechly",
-  "license": "MIT",
   "dependencies": {
     "@speechly/browser-client": "^2.6.3",
     "format-duration": "^3.0.2",
