@@ -8,7 +8,14 @@ To get started with Speechly, you'll need a [Speechly account](https://api.speec
 
 ## Run locally
 
-Add your **App ID** into `src/index.tsx`. You can find your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
+Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+
+```bash
+npx degit speechly/speechly/examples/react-client-example my-app
+cd my-app
+```
+
+Add the **App ID** of your Speechly application into `src/index.tsx`: 
 
 ```tsx
 <SpeechProvider
@@ -19,15 +26,17 @@ Add your **App ID** into `src/index.tsx`. You can find your App ID from [Speechl
 >
 ```
 
+You can find your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
+
 Install dependencies: 
 
-```
+```bash
 npm install
 ```
 
 Start development server:
 
-```
+```bash
 npm start
 ```
 
