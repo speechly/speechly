@@ -1,6 +1,6 @@
 {
-  "name": "browser-client-example",
-  "version": "1.0.0",
+  "name": "@speechly/browser-client-example",
+  "version": "0.1.0",
   "private": true,
   "source": "src/index.html",
   "scripts": {
