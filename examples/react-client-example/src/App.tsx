@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SpeechSegment, stateToString, useSpeechContext } from '@speechly/react-client';
 import { SegmentItem } from './SegmentItem';
-import './App.css';
 
 function App() {
   const [isVadEnabled, setIsVadEnabled] = useState(false);

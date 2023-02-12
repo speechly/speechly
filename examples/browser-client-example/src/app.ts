@@ -9,11 +9,10 @@ import {
 import formatDuration from 'format-duration';
 
 let isVadEnabled = false;
-let speechSegments: Segment[] = [];
 
 const microphone = new BrowserMicrophone();
 const client = new BrowserClient({
-  appId: 'YOUR-APP-ID',
+  appId: 'd7cfc4a0-cfb7-4859-a53d-9f9e404a1f19',
   logSegments: true,
   debug: true,
   vad: { enabled: isVadEnabled },
@@ -75,10 +74,10 @@ const renderTranscript = (segment: Segment) => {
 };
 
 const renderSegmentDetails = (intent: Intent, entities: Entity[]) => {
-  if (!intent) return '';
+  if (!intent.intent) return '';
   const entitiesList = entities.map((e) => `${e.value} (${e.type})`).join(', ');
   return `<div class="segment-details">
-    intent: ${intent}
+    intent: ${intent.intent}
     ${entitiesList ? ` · entities: ${entitiesList}` : ''}
   </div>`;
 };
@@ -112,7 +111,7 @@ client.onSegmentChange((segment) => {
   if (segment.isFinal) {
     debugOut.innerHTML += renderOutput(segment);
     transcript.innerHTML += renderSegment(segment);
-    speechSegments.push(segment);
+    tentative.innerText = '';
   }
 });
 
