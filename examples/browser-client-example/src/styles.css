@@ -51,7 +51,7 @@ input {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .segment-content {

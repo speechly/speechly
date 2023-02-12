@@ -12,7 +12,7 @@ let isVadEnabled = false;
 
 const microphone = new BrowserMicrophone();
 const client = new BrowserClient({
-  appId: 'd7cfc4a0-cfb7-4859-a53d-9f9e404a1f19',
+  appId: 'YOUR-APP-ID',
   logSegments: true,
   debug: true,
   vad: { enabled: isVadEnabled },
