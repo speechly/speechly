@@ -235,11 +235,11 @@ function App() {
               <Empty className="EmptyState__icon" />
               <h2 className="EmptyState__title">Transcribe speech and audio files</h2>
               <p className="EmptyState__description">
-                This demo uses the{' '}
+                This demo uses our off-the-shelf{' '}
                 <a href="https://docs.speechly.com/basics/models" target="_blank" rel="nofollow noopener noreferrer">
                   large-highaccuracy
                 </a>{' '}
-                off-the-shelf speech recognition model
+                speech recognition model
               </p>
             </div>
           )}
