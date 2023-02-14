@@ -1,6 +1,6 @@
 # Speechly Browser Client Example
 
-Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), vanilla JavaScript and [Parcel](https://parceljs.org/).
+Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), JavaScript and [Parcel](https://parceljs.org/).
 
 ## Getting started
 
