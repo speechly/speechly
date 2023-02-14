@@ -40,10 +40,6 @@ Start development server:
 npm start
 ```
 
-## Open in StackBlitz
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/speechly/speechly/tree/main/examples/browser-client-example)
-
 ## Enabling NLU features
 
 By default, NLU features are disabled and Speechly operates in speech-to-text mode. To enable them, you’ll need to provide a configuration for your application. The example application will list the intent and entities for each speech segment below the transcript.
