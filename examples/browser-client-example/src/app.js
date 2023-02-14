@@ -1,4 +1,4 @@
-import { BrowserClient, BrowserMicrophone, Entity, Intent, Segment, stateToString } from '@speechly/browser-client';
+import { BrowserClient, BrowserMicrophone, stateToString } from '@speechly/browser-client';
 import formatDuration from 'format-duration';
 
 let isVadEnabled = false;
