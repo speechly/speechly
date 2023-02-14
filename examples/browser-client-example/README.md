@@ -2,9 +2,9 @@
 
 Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), vanilla JavaScript and [Parcel](https://parceljs.org/).
 
-## Before you start
+## Getting started
 
-To get started with Speechly, you'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
+You'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
 
 ## Installation
 
