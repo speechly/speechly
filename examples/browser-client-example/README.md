@@ -6,16 +6,16 @@ Example web application showcasing the usage of [Speechly Browser Client](https:
 
 To get started with Speechly, you'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
 
-## Run locally
+## Installation
 
-Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+Copy the example app using [degit](https://github.com/Rich-Harris/degit).
 
 ```bash
 npx degit speechly/speechly/examples/browser-client-example my-app
 cd my-app
 ```
 
-Add the **App ID** of your Speechly application into `src/app.js`.
+Add the **App ID** of your Speechly application into `src/app.js`. Get your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
 
 ```ts
 const client = new BrowserClient({
@@ -26,17 +26,10 @@ const client = new BrowserClient({
 });
 ```
 
-You can find your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
-
-Install dependencies: 
+Install dependencies and start development server.
 
 ```bash
 npm install
-```
-
-Start development server:
-
-```bash
 npm start
 ```
 

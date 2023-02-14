@@ -6,16 +6,16 @@ Example web application showcasing the usage of [Speechly React Client](https://
 
 To get started with Speechly, you'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
 
-## Run locally
+## Installation
 
-Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+Copy the example app using [degit](https://github.com/Rich-Harris/degit), or open it in [StackBlitz](https://stackblitz.com/github/speechly/speechly/tree/main/examples/react-client-example).
 
 ```bash
 npx degit speechly/speechly/examples/react-client-example my-app
 cd my-app
 ```
 
-Add the **App ID** of your Speechly application into `src/index.tsx`: 
+Add the **App ID** of your Speechly application into `src/index.tsx`. Get your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command. 
 
 ```tsx
 <SpeechProvider
@@ -26,23 +26,12 @@ Add the **App ID** of your Speechly application into `src/index.tsx`:
 >
 ```
 
-You can find your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command.
-
-Install dependencies: 
+Install dependencies and start development server.
 
 ```bash
 npm install
-```
-
-Start development server:
-
-```bash
 npm start
 ```
-
-## Open in StackBlitz
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/speechly/speechly/tree/main/examples/react-client-example)
 
 ## Enabling NLU features
 
