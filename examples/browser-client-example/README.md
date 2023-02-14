@@ -1,6 +1,6 @@
 # Speechly Browser Client Example
 
-Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), [Typescript](https://www.typescriptlang.org) and [Parcel](https://parceljs.org/).
+Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), vanilla JavaScript and [Parcel](https://parceljs.org/).
 
 ## Before you start
 
@@ -15,7 +15,7 @@ npx degit speechly/speechly/examples/browser-client-example my-app
 cd my-app
 ```
 
-Add the **App ID** of your Speechly application into `src/app.ts`.
+Add the **App ID** of your Speechly application into `src/app.js`.
 
 ```ts
 const client = new BrowserClient({

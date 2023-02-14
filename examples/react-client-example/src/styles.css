@@ -7,7 +7,7 @@ body {
 
 .app {
   display: grid;
-  grid-template-columns: 3fr minmax(480px, 2fr);
+  grid-template-columns: 3fr 2fr;
   height: 100vh;
 }
 
@@ -28,12 +28,13 @@ body {
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin: 1.5rem 0;
 }
 
-.toolbar > *:last-child {
-  margin-left: auto;
+.toolbar > input {
+  margin-right: auto;
 }
 
 button,

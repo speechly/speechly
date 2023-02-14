@@ -1,11 +1,4 @@
-import {
-  BrowserClient,
-  BrowserMicrophone,
-  Entity,
-  Intent,
-  Segment,
-  stateToString,
-} from '@speechly/browser-client';
+import { BrowserClient, BrowserMicrophone, Entity, Intent, Segment, stateToString } from '@speechly/browser-client';
 import formatDuration from 'format-duration';
 
 let isVadEnabled = false;
@@ -18,15 +11,15 @@ const client = new BrowserClient({
   vad: { enabled: isVadEnabled },
 });
 
-const vadBtn = document.getElementById('vad') as HTMLButtonElement;
-const micBtn = document.getElementById('mic') as HTMLButtonElement;
-const clearBtn = document.getElementById('clear') as HTMLButtonElement;
-const fileInput = document.getElementById('file') as HTMLInputElement;
-const transcript = document.getElementById('transcript') as HTMLDivElement;
-const tentative = document.getElementById('tentative') as HTMLDivElement;
-const debugOut = document.getElementById('debug') as HTMLPreElement;
-const clientState = document.getElementById('clientState') as HTMLSpanElement;
-const micState = document.getElementById('micState') as HTMLSpanElement;
+const vadBtn = document.getElementById('vad');
+const micBtn = document.getElementById('mic');
+const clearBtn = document.getElementById('clear');
+const fileInput = document.getElementById('file');
+const transcript = document.getElementById('transcript');
+const tentative = document.getElementById('tentative');
+const debugOut = document.getElementById('debug');
+const clientState = document.getElementById('clientState');
+const micState = document.getElementById('micState');
 
 const initMic = async () => {
   if (!microphone.mediaStream) {
@@ -69,11 +62,11 @@ const handleClearPress = () => {
   clearBtn.disabled = true;
 };
 
-const renderTranscript = (segment: Segment) => {
+const renderTranscript = (segment) => {
   return segment.words.map((w) => w.value).join(' ');
 };
 
-const renderSegmentDetails = (intent: Intent, entities: Entity[]) => {
+const renderSegmentDetails = (intent, entities) => {
   if (!intent.intent) return '';
   const entitiesList = entities.map((e) => `${e.value} (${e.type})`).join(', ');
   return `<div class="segment-details">
@@ -82,7 +75,7 @@ const renderSegmentDetails = (intent: Intent, entities: Entity[]) => {
   </div>`;
 };
 
-const renderSegment = (segment: Segment) => {
+const renderSegment = (segment) => {
   const timestamp = formatDuration(segment.words[segment.words.length - 1].endTimestamp);
   return `<div class="segment">
     <div>${timestamp}</div>
@@ -93,7 +86,7 @@ const renderSegment = (segment: Segment) => {
   </div>`;
 };
 
-const renderOutput = (segment: Segment) => {
+const renderOutput = (segment) => {
   return `<code>${JSON.stringify(segment, undefined, 2)}</code>`;
 };
 
