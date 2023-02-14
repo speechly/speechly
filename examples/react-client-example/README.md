@@ -4,7 +4,7 @@ Example web application showcasing the usage of [Speechly React Client](https://
 
 ## Getting started
 
-You'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started.
+You'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Speechly application that's using a Conformer model. Follow our [quick start guide](https://docs.speechly.com/basics/getting-started) to get started with Speechly.
 
 ## Installation
 
@@ -15,9 +15,12 @@ npx degit speechly/speechly/examples/react-client-example my-app
 cd my-app
 ```
 
-Add the **App ID** of your Speechly application into `src/index.tsx`. Get your App ID from [Speechly Dashboard](https://api.speechly.com/dashboard/) or by using [Speechly CLI](https://docs.speechly.com/features/cli) `list` command. 
+Add the **App ID** of your Speechly application into `src/index.tsx`.
 
 ```tsx
+// Get your App ID from Speechly Dashboard (https://api.speechly.com/dashboard/)
+// or by using Speechly CLI `list` command.
+
 <SpeechProvider
   appId="YOUR-APP-ID"
   debug={true}
