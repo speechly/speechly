@@ -8,7 +8,7 @@ You'll need a [Speechly account](https://api.speechly.com/dashboard/) and a Spee
 
 ## Installation
 
-Copy the example app using [degit](https://github.com/Rich-Harris/degit).
+Open in [CodeSandbox](https://codesandbox.io/s/github/speechly/speechly/tree/main/examples/browser-client-example?file=/README.md), or copy the example app using [degit](https://github.com/Rich-Harris/degit).
 
 ```bash
 npx degit speechly/speechly/examples/browser-client-example my-app
