@@ -15,7 +15,7 @@ npx degit speechly/speechly/examples/browser-client-example my-app
 cd my-app
 ```
 
-Add the **App ID** of your Speechly application into `src/app.js`.
+Add the **App ID** of your Speechly application into `app.js`.
 
 ```ts
 const client = new BrowserClient({
