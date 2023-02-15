@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speechly Browser Client Example</title>
+    <link rel="stylesheet" href="/node_modules/modern-normalize/modern-normalize.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src=" app.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <div class="left">
+        <h1 class="title">Speechly Browser Client Example</h1>
+        <div class="status">
+          <code>Client: <span id="clientState"></span></code>
+          <code>&middot;</code>
+          <code>Microphone: <span id="micState">Stopped</span></code>
+        </div>
+        <div class="toolbar">
+          <button id="vad">Enable VAD</button>
+          <button id="mic">Start microphone</button>
+          <input id="file" type="file" accept=".mp3, .wav" />
+          <button id="clear" disabled>Clear</button>
+        </div>
+        <div id="transcript"></div>
+        <div id="tentative" class="tentative"></div>
+      </div>
+      <div class="right">
+        <pre id="debug"></pre>
+      </div>
+    </div>
+  </body>
+</html>
