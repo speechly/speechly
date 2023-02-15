@@ -18,11 +18,8 @@ cd my-app
 Add the **App ID** of your Speechly application into `src/index.tsx`.
 
 ```tsx
-// Get your App ID from Speechly Dashboard (https://api.speechly.com/dashboard/)
-// or by using Speechly CLI `list` command.
-
 <SpeechProvider
-  appId="YOUR-APP-ID"
+  appId="YOUR-APP-ID" // Get your App ID from: https://api.speechly.com/dashboard/
   debug={true}
   logSegments={true}
   vad={{ enabled: false }}
