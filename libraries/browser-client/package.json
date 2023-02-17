@@ -1,7 +1,7 @@
 {
   "name": "@speechly/browser-client",
   "version": "2.6.3",
-  "description": "Browser client for Speechly Streaming API",
+  "description": "JavaScript client for Speechly Streaming API",
   "keywords": [
     "client",
     "voice",

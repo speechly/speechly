@@ -1,6 +1,6 @@
 # Speechly React Client Example
 
-Example web application showcasing the usage of [Speechly React Client](https://github.com/speechly/speechly/tree/main/libraries/react-client). Built with [Speechly React Client](https://github.com/speechly/speechly/tree/main/libraries/react-client), [Typescript](https://www.typescriptlang.org) and [Create React App](https://create-react-app.dev/).
+Example React app showcasing the usage of Speechly React Client. Built with [Speechly React Client](https://github.com/speechly/speechly/tree/main/libraries/react-client), [Typescript](https://www.typescriptlang.org) and [Create React App](https://create-react-app.dev/).
 
 ## Getting started
 
@@ -41,4 +41,6 @@ By default, NLU features are disabled and Speechly operates in speech-to-text mo
 
 ## Documentation
 
+- [Building a React app using Speechly React Client](https://docs.speechly.com/reference/client-libraries/react-client#react-to-api-updates)
 - [API reference](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) (GitHub)
+- [NPM package](https://www.npmjs.com/package/@speechly/react-client)

@@ -1,6 +1,6 @@
 # Speechly Browser Client Example
 
-Example web application showcasing the usage of [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client). Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), JavaScript and [Parcel](https://parceljs.org/).
+Example web app showcasing the usage of Speechly Browser Client. Built with [Speechly Browser Client](https://github.com/speechly/speechly/tree/main/libraries/browser-client), JavaScript and [Parcel](https://parceljs.org/).
 
 ## Getting started
 
@@ -41,4 +41,6 @@ By default, NLU features are disabled and Speechly operates in speech-to-text mo
 
 ## Documentation
 
+- [Building a web app using Speechly Browser Client](https://docs.speechly.com/reference/client-libraries/browser-client)
 - [API reference](https://github.com/speechly/speechly/blob/main/libraries/browser-client/docs/classes/client.BrowserClient.md) (GitHub)
+- [NPM package](https://www.npmjs.com/package/@speechly/browser-client)

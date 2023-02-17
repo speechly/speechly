@@ -22,84 +22,94 @@
 [![npm](https://img.shields.io/npm/v/@speechly/react-client?color=cb3837&logo=npm)](https://www.npmjs.com/package/@speechly/react-client)
 [![license](http://img.shields.io/:license-mit-blue.svg)](/LICENSE)
 
-With the Speechly React client you can add voice features to any React project. It handles authentication, audio capture, network streaming and connection management with the Speechly Streaming API.
+Add voice features to any React app with Speechly React Client. It handles authentication, audio capture, network streaming and connection management with the Speechly [Streaming API](https://docs.speechly.com/reference/streaming-api).
 
-Check out the [react client example](https://github.com/speechly/speechly/tree/main/examples/react-client-example) for an example app built using this client.
+## Documentation
 
-## Before you start
+- [Getting started with Speechly](https://docs.speechly.com/basics/getting-started/)
+- [Building a React app using Speechly React Client](https://docs.speechly.com/reference/client-libraries/react-client)
+- [View example application](https://github.com/speechly/speechly/tree/main/examples/react-client-example)
+- [API reference](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md)
+  
+## Install
 
-Make sure you have created and deployed a Speechly application. Take note of the **App ID**, you'll need it shortly.
-
-You'll also need a React app. Use your existing app, or create a new one using:
+Using npm:
 
 ```bash
-npx create-react-app my-app
-```
-
-## Installation
-
-Install Speechly React client:
-
-```
 npm install @speechly/react-client
 ```
 
-Import `SpeechProvider` and wrap the app with it, passing the **App ID** of your Speechly application:
+Using yarn:
 
-```jsx
-// index.js
-import { SpeechProvider } from '@speechly/react-client';
-
-<React.StrictMode>
-  <SpeechProvider appId="YOUR_APP_ID">
-    <App />
-  </SpeechProvider>
-</React.StrictMode>
+```bash
+yarn add @speechly/react-client
 ```
-
-See [`SpeechProviderProps`](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/interfaces/context.SpeechProviderProps.md) for all available properties.
 
 ## Usage
 
-Import the `useSpeechContext` hook, create a button to initialize the microphone, another button for toggling the microphone and then display the transcript:
+Wrap your app with the `SpeechProvider` context provider:
 
 ```jsx
-// App.js
+import { SpeechProvider } from '@speechly/react-client';
+
+// Get your App ID from Speechly Dashboard (https://api.speechly.com/dashboard/)
+// or by using Speechly CLI `list` command.
+
+<SpeechProvider
+  appId="YOUR-APP-ID"
+  debug
+  logSegments
+>
+  <App />
+</SpeechProvider>
+```
+
+Capture browser microphone audio:
+
+```jsx
 import { useSpeechContext } from '@speechly/react-client';
 
 function App() {
-  const { segment, listening, attachMicrophone, start, stop } = useSpeechContext();
+  const { listening, segment, attachMicrophone, start, stop } = useSpeechContext();
+
+  // Make sure that you call `attachMicrophone` from a user initiated
+  // action handler, like a button press.
+
+  const handleClick = async () => {
+    if (listening) {
+      await stop();
+    } else {
+      await attachMicrophone();
+      await start();
+    }
+  };
 
   return (
-    <div className="App">
-      <button onClick={attachMicrophone}>Initialize microphone</button>
-      <button onPointerDown={start} onPointerUp={stop}>
-        {listening ? 'Listening…' : 'Push to talk'}
-      </button>
-      <p>
-        {segment && segment.words.map(word => word.value).join(' ')}
-      </p>
-    </div>
+    <button onClick={handleClick}>
+      Start/stop microphone
+    </button>
   );
 }
 ```
 
-Start the development server:
+React to API updates:
 
+```jsx
+// Use `segment.isFinal` to check the segment state. When `false`,the segment might
+// be updated several times. When `true`, the segment won’t be updated anymore and 
+// subsequent callbacks within the same audio context refer to the next segment.
+
+useEffect(() => {
+  if (segment) {
+    console.log('Tentative segment:', segment)
+    if (segment.isFinal) {
+      console.log('Final segment:', segment)
+    }
+  }
+}, [segment]);
 ```
-npm run start
-```
-
-Navigate to http://localhost:3000 to see your app running!
-
-## Documentation
-
-- [API reference](https://github.com/speechly/speechly/blob/main/libraries/react-client/docs/classes/context.SpeechProvider.md) (GitHub)
-- [Basic usage](https://dreamy-cori-a02de1.netlify.app/client-libraries/usage/?platform=React) (Docs)
-- [Advanced usage](https://dreamy-cori-a02de1.netlify.app/client-libraries/using-react-client/) (Docs)
-- [Example application](https://github.com/speechly/speechly/tree/main/examples/react-client-example)
 
 ## Contributing
 
-See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
-
+- See contribution guide in [CONTRIBUTING.md](https://github.com/speechly/speechly/blob/main/CONTRIBUTING.md).
+- Ask questions on [GitHub Discussions](https://github.com/speechly/speechly/discussions)
