@@ -2,6 +2,18 @@
   "name": "@speechly/browser-client",
   "entries": [
     {
+      "version": "2.6.4",
+      "tag": "@speechly/browser-client_v2.6.4",
+      "date": "Fri, 17 Feb 2023 08:52:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update documentation"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.6.3",
       "tag": "@speechly/browser-client_v2.6.3",
       "date": "Tue, 31 Jan 2023 09:43:23 GMT",

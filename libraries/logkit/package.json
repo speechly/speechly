@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "dependencies": {
-    "@speechly/react-client": "^2.2.2"
+    "@speechly/react-client": "^2.2.3"
   },
   "peerDependencies": {
     "react": ">=16.9.0",

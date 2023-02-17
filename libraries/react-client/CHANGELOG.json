@@ -2,6 +2,23 @@
   "name": "@speechly/react-client",
   "entries": [
     {
+      "version": "2.2.3",
+      "tag": "@speechly/react-client_v2.2.3",
+      "date": "Fri, 17 Feb 2023 08:52:12 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Update documentation"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@speechly/browser-client\" from `^2.6.3` to `^2.6.4`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.2.2",
       "tag": "@speechly/react-client_v2.2.2",
       "date": "Tue, 31 Jan 2023 09:43:23 GMT",

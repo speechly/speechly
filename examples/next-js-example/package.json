@@ -12,7 +12,7 @@
     "next": "~12.1.5",
     "react": "^18",
     "react-dom": "^18",
-    "@speechly/react-client": "^2.2.2",
+    "@speechly/react-client": "^2.2.3",
     "@speechly/react-ui": "^2.7.3"
   },
   "devDependencies": {
