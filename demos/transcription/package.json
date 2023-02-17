@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/transcription/",
   "dependencies": {
-    "@speechly/browser-client": "^2.6.4",
+    "@speechly/browser-client": "^2.6.5",
     "@speechly/demo-navigation": "^0.2.13",
     "@speechly/react-client": "^2.2.3",
     "clsx": "^1.2.1",
