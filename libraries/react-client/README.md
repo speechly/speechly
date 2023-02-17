@@ -64,7 +64,7 @@ import { SpeechProvider } from '@speechly/react-client';
 </SpeechProvider>
 ```
 
-Create a button and capture microphone audio:
+Capture browser microphone audio:
 
 ```jsx
 import { useSpeechContext } from '@speechly/react-client';
@@ -92,7 +92,7 @@ function App() {
 }
 ```
 
-React to the updates from the API:
+React to API updates:
 
 ```jsx
 // Use `segment.isFinal` to check the segment state. When `false`,the segment might

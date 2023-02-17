@@ -76,7 +76,7 @@ const client = new BrowserClient({
 });
 ```
 
-Create a button and capture microphone audio:
+Capture browser microphone audio:
 
 ```js
 const myButton = document.getElementById('myButton');
@@ -102,7 +102,7 @@ const handleClick = async () => {
 myButton.addEventListener('click', handleClick);
 ```
 
-React to the updates from the API:
+React to API updates:
 
 ```js
 // Use `segment.isFinal` to check the segment state. When `false`,the segment might
