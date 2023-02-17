@@ -50,8 +50,6 @@ yarn add @speechly/browser-client
 
 Using unpkg CDN:
 
-CDN
-
 ```html
 <script type="module">
   import { BrowserClient, BrowserMicrophone } from "//unpkg.com/@speechly/browser-client?module=true"
