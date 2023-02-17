@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/browser-client",
+      "comment": "Update documentation",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/browser-client"
+}
