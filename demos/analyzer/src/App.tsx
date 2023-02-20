@@ -154,8 +154,9 @@ function App() {
       });
     };
 
-    const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
+    const classifySegment = async (ss: SpeechSegment, tags: TextLabel[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
+      const labels = tags.flatMap((t) => t.label);
       try {
         const response = await fetch(TEXT_CLASSIFIER_URL, {
           method: 'POST',
@@ -166,7 +167,12 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
-        const classifications = json['classifications'] as Classification[];
+        const rawClassifications = json['classifications'] as Classification[];
+        const classifications = rawClassifications.map((c) => {
+          const match = tags.find((t) => t.label == c.label);
+          if (match) return { ...c, severity: match.severity };
+          return c;
+        });
         const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
@@ -181,8 +187,7 @@ function App() {
       scrollToSegmentsEnd();
       if (segment.isFinal) {
         if (tags.length) {
-          const labels = tags.flatMap((t) => t.label);
-          classifySegment(segment, labels);
+          classifySegment(segment, tags);
         } else {
           updateOrAddSegment(segment);
         }

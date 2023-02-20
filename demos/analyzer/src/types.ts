@@ -2,6 +2,7 @@ import { SpeechSegment } from '@speechly/react-client';
 
 export interface Classification {
   label: string;
+  severity: Severity;
   score: number;
 }
 

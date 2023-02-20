@@ -5,15 +5,17 @@ import { TextLabel } from '../types';
 import './Tag.css';
 
 interface Props extends TextLabel {
-  onRemove: React.MouseEventHandler;
+  onRemove?: React.MouseEventHandler;
+  size?: 'normal' | 'small';
 }
 
-export const Tag: React.FC<Props> = ({ label, severity = 'neutral', onRemove }) => {
-  const classes = clsx('Tag', `Tag--${severity}`);
+export const Tag: React.FC<Props> = ({ label, severity = 'neutral', size = 'normal', onRemove }) => {
+  const classes = clsx('Tag', `Tag--${severity}`, `Tag--${size}`);
+
   return (
     <div className={classes}>
       <span>{label}</span>
-      <CloseIcon width={16} height={16} onClick={onRemove} />
+      {onRemove && <CloseIcon width={16} height={16} onClick={onRemove} />}
     </div>
   );
 };

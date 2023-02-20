@@ -19,9 +19,6 @@
   align-items: center;
   gap: 4px;
   color: var(--label-color);
-  border-radius: 4px;
-  font-size: 14px;
-  padding: 4px 6px 4px 8px;
   line-height: 20px;
 }
 
@@ -41,6 +38,18 @@
 .Tag svg:hover {
   background-color: var(--hover-dark);
   box-shadow: 0 0 0 1px var(--hover-dark);
+}
+
+.Tag--normal {
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 4px 6px 4px 8px;
+}
+
+.Tag--small {
+  border-radius: 3px;
+  font-size: 13px;
+  padding: 0 5px;
 }
 
 .Tag--neutral {
