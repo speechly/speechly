@@ -27,39 +27,40 @@ This monorepository contains Speechly's web related [libraries](#libraries), [de
 
 Speechly client libraries provide the natural Spoken Language Understanding API for web applications. They handle audio capturing and streaming, authentication, and network connection to Speechly cloud API.
 
-Speechly UI libraries provide UI components to support building a voice-enabled, multimodal apps.
-
-| Folder | Version | npm package | Description |
-| ------ | ------- |------- | ------- |
+| Folder                                                 | Version                                                             | npm package                                                                        | Description                                               |
+| ------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | [/libraries/browser-client](/libraries/browser-client) | ![npm](https://img.shields.io/npm/v/@speechly/browser-client?label) | [@speechly/browser-client](https://www.npmjs.com/package/@speechly/browser-client) | JavaScript API for natural spoken language understanding. |
-| [/libraries/react-client](/libraries/react-client) | ![npm](https://img.shields.io/npm/v/@speechly/react-client?label)  | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client) | React API for natural spoken language understanding. |
-| [/libraries/browser-ui](/libraries/browser-ui) | ![npm](https://img.shields.io/npm/v/@speechly/browser-ui?label)  | [@speechly/browser-ui](https://www.npmjs.com/package/@speechly/browser-ui) | Web components for controlling listening and showing speech-to-text transcription. |
-| [/libraries/react-ui](/libraries/react-ui) | ![npm](https://img.shields.io/npm/v/@speechly/react-ui?label)  | [@speechly/react-ui](https://www.npmjs.com/package/@speechly/react-ui) | React components for controlling listening and showing speech-to-text transcription. |
+| [/libraries/react-client](/libraries/react-client)     | ![npm](https://img.shields.io/npm/v/@speechly/react-client?label)   | [@speechly/react-client](https://www.npmjs.com/package/@speechly/react-client)     | React API for natural spoken language understanding.      |
+
+### Related repositories
+
+- [Speechly Android Client](https://github.com/speechly/android-client)
+- [Speechly iOS Client](https://github.com/speechly/ios-client)
+- [Speechly Unity Client](https://github.com/speechly/speechly-unity-dotnet)
+- [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)
 
 ## Demos
 
 This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's [`react-client`](libraries/react-client/) and [`react-ui`](libraries/react-ui/). Each of the demo subfolder is a stand-alone project. See the demos' README for further instructions.
 
-| Folder | Description |
-| ------ | ------- |
-| [/demos/moderation](/demos/moderation) | The [moderation demo](https://demos.speechly.com/moderation) highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time. |
-| [/demos/transcription](/demos/transcription) | The [transcription demo](https://demos.speechly.com/transcription) accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time. |
+| Folder                                               | Description                                                                                                                                                                                                                                   |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [/demos/moderation](/demos/moderation)               | The [moderation demo](https://demos.speechly.com/moderation) highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.                                                    |
+| [/demos/transcription](/demos/transcription)         | The [transcription demo](https://demos.speechly.com/transcription) accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time.                                                     |
 | [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | The [voice interfaces demo](https://demos.speechly.com/fashion/) enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. |
 
 ## Examples
 
-Example applications can be used to validate correct behaviour of client and UI libraries. They may come handy as learning tools as well.
+Example applications to get you started developing with Speechly.
 
-| Folder | Description |
-| ------ | ------- |
-| [/examples/browser-client-example](/examples/browser-client-example) | An example JavaScript app built with [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client). |
-| [/examples/react-client-example](/examples/react-client-example) | An example React app built with [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client). |
-| [/examples/react-ui-example](/examples/react-ui-example) | An example React app showcasing UI components in React. |
-| [/examples/next-js-example](/examples/next-js-example) | A simple Next.js site bootstrapped with [Create Next App](https://nextjs.org/docs/api-reference/create-next-app) using Speechly UI components. |
-| [/examples/ios-decoder-example](/examples/ios-decoder-example) | An example iOS app for using the Speechly Decoder library for on-device transcription.|
-| [/examples/ios-client-example](/examples/ios-client-example) | An example iOS app for filtering GitHub repositories built with [Speechly iOS Client](https://github.com/speechly/ios-client). |
-| [/examples/android-decoder-example](/examples/android-decoder-example) | An example Android app for using the Speechly Decoder library for on-device transcription. |
-| [/examples/android-client-example](/examples/android-client-example) | An example Android app for filtering GitHub repositories built with [Speechly Android Client](https://github.com/speechly/android-client). |
+| Folder                                                                 | Description                                                                                                                                |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [/examples/browser-client-example](/examples/browser-client-example)   | An example JavaScript app built with [Speechly Browser Client](https://www.npmjs.com/package/@speechly/browser-client).                    |
+| [/examples/react-client-example](/examples/react-client-example)       | An example React app built with [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client).                             |
+| [/examples/ios-decoder-example](/examples/ios-decoder-example)         | An example iOS app for using the Speechly Decoder library for on-device transcription.                                                     |
+| [/examples/ios-client-example](/examples/ios-client-example)           | An example iOS app for filtering GitHub repositories built with [Speechly iOS Client](https://github.com/speechly/ios-client).             |
+| [/examples/android-decoder-example](/examples/android-decoder-example) | An example Android app for using the Speechly Decoder library for on-device transcription.                                                 |
+| [/examples/android-client-example](/examples/android-client-example)   | An example Android app for filtering GitHub repositories built with [Speechly Android Client](https://github.com/speechly/android-client). |
 
 ## How to get help?
 
@@ -105,9 +106,3 @@ rush change -b origin/main
 - [Speechly Demos](https://demos.speechly.com) – Get inspired and see what you can build with Speechly.
 - [Speechly Dashboard](https://api.speechly.com/dashboard) – Create, edit and manage your Speechly applications & projects.
 - [Speechly CLI](https://docs.speechly.com/features/cli) – Interact with Speechly from the comfort of your CLI.
-
-## Related repositories
-
-- [Speechly Android Client](https://github.com/speechly/android-client)
-- [Speechly iOS Client](https://github.com/speechly/ios-client)
-- [Speechly API gRPC protos and pre-compiled stubs](https://github.com/speechly/api)
