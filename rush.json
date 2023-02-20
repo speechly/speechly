@@ -48,7 +48,6 @@
      * The default value is "local".
      */
     // "pnpmStore": "local",
-
     /**
      * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
      * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
@@ -60,7 +59,6 @@
      * It is strongly recommended to set strictPeerDependencies=true.
      */
     // "strictPeerDependencies": true,
-
     /**
      * Configures the strategy used to select versions during installation.
      *
@@ -74,7 +72,6 @@
      * will recalculate all version selections.
      */
     // "resolutionStrategy": "fast",
-
     /**
      * If true, then `rush install` will report an error if manual modifications
      * were made to the PNPM shrinkwrap file without running "rush update" afterwards.
@@ -92,7 +89,6 @@
      * The default value is false.
      */
     // "preventManualShrinkwrapChanges": true,
-
     /**
      * If true, then `rush install` will use the PNPM workspaces feature to perform the
      * install.
@@ -242,14 +238,12 @@
     //   "[^@]+@users\\.noreply\\.github\\.com",
     //   "travis@example\\.org"
     // ],
-
     /**
      * When Rush reports that the address is malformed, the notice can include an example
      * of a recommended email.  Make sure it conforms to one of the allowedEmailRegExps
      * expressions.
      */
     // "sampleEmail": "mrexample@users.noreply.github.com",
-
     /**
      * The commit message to use when committing changes during 'rush publish'.
      *
@@ -258,7 +252,6 @@
      * in the commit message, and then customize Rush's message to contain that string.
      */
     // "versionBumpCommitMessage": "Bump versions [skip ci]",
-
     /**
      * The commit message to use when committing changes during 'rush version'.
      *
@@ -290,7 +283,7 @@
      * The default branch name. This tells "rush change" which remote branch to compare against.
      * The default value is "master"
      */
-    "defaultBranch": "main",
+    "defaultBranch": "main"
 
     /**
      * The default remote. This tells "rush change" which remote to compare against if the remote URL is
@@ -339,14 +332,14 @@
    * For more details and instructions, see this article:  https://rushjs.io/pages/advanced/installation_variants/
    */
   "variants": [
-		// {
-		// 	"variantName": "react16",
-		// 	"description": "Build this repo using the React 16"
-		// },
-		// {
-		// 	"variantName": "react18",
-		// 	"description": "Build this repo using the React 18"
-		// }
+    // {
+    // 	"variantName": "react16",
+    // 	"description": "Build this repo using the React 16"
+    // },
+    // {
+    // 	"variantName": "react18",
+    // 	"description": "Build this repo using the React 18"
+    // }
   ],
   /**
    * Rush can collect anonymous telemetry about everyday developer activity such as
@@ -385,35 +378,8 @@
       "shouldPublish": true
     },
     {
-      "packageName": "@speechly/browser-ui",
-      "projectFolder": "libraries/browser-ui",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@speechly/react-ui",
-      "projectFolder": "libraries/react-ui",
-      "shouldPublish": true
-    },
-    {
-      "packageName": "@speechly/react-voice-forms",
-      "projectFolder": "libraries/react-voice-forms",
-      "shouldPublish": true
-    },
-    {
       "packageName": "@speechly/logkit",
       "projectFolder": "libraries/logkit"
-    },
-    {
-      "packageName": "@speechly/react-ui-example",
-      "projectFolder": "examples/react-ui-example"
-    },
-    {
-      "packageName": "@speechly/next-js-example",
-      "projectFolder": "examples/next-js-example"
-    },
-    {
-      "packageName": "@speechly/react-voice-forms-example",
-      "projectFolder": "examples/react-voice-forms-example"
     },
     {
       "packageName": "fashion-ecommerce",
