@@ -41,40 +41,6 @@ body {
   margin: 24px 24px 4px;
 }
 
-.Sidebar__item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 2px 24px 0;
-  border: none;
-  background-color: transparent;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 20px;
-  color: inherit;
-}
-
-.Sidebar__item span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.Sidebar__item svg {
-  flex-shrink: 0;
-  fill: currentColor;
-}
-
-.Sidebar__item:hover {
-  background-color: var(--hover);
-}
-
-.Sidebar__item--selected {
-  background-color: var(--accent-lighter) !important;
-}
-
 .Sidebar .FileInput {
   margin: 16px 24px;
 }
@@ -84,30 +50,6 @@ body {
   flex-wrap: wrap;
   gap: 4px;
   margin: 8px 24px 0;
-}
-
-.Tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background-color: var(--accent-lighter);
-  border-radius: 4px;
-  font-size: 14px;
-  padding: 4px 6px 4px 8px;
-  line-height: 20px;
-}
-
-.Tag svg {
-  cursor: pointer;
-  fill: currentColor;
-  border-radius: 20px;
-  transition: var(--ease);
-  flex-shrink: 0;
-}
-
-.Tag svg:hover {
-  background-color: var(--hover-dark);
-  box-shadow: 0 0 0 1px var(--hover-dark);
 }
 
 .Tag__form {
@@ -185,6 +127,10 @@ body {
   display: none;
 }
 
+.Main__lastItem {
+  scroll-margin-block: 24px;
+}
+
 .Player {
   margin-top: auto;
   background-color: var(--day);
@@ -209,60 +155,6 @@ body {
 
 .EmptyState__description {
   line-height: 1.5;
-}
-
-.Segment {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid var(--border);
-  padding: 20px;
-  border-radius: 4px;
-  margin: 0 24px 24px;
-  scroll-margin-block: 24px;
-  transition: var(--ease);
-}
-
-.Segment--active {
-  background-color: var(--hover);
-}
-
-.Segment__timestamp {
-  font-size: 14px;
-  color: var(--dim);
-}
-
-.Segment__transcript {
-  line-height: 1.5;
-  margin-right: auto;
-}
-
-.Segment__word {
-  opacity: 0.5;
-  transition: var(--ease);
-}
-
-.Segment__word--highlighted {
-  opacity: 1;
-}
-
-.Segment__details {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0 8px;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--dim);
-}
-
-.Segment__details svg {
-  flex-shrink: 0;
-  display: block;
-}
-
-.Segment__end {
-  scroll-margin-block: 24px;
 }
 
 .Microphone {

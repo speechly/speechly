@@ -1,0 +1,23 @@
+.Tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--accent-lighter);
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 4px 6px 4px 8px;
+  line-height: 20px;
+}
+
+.Tag svg {
+  cursor: pointer;
+  fill: currentColor;
+  border-radius: 20px;
+  transition: var(--ease);
+  flex-shrink: 0;
+}
+
+.Tag svg:hover {
+  background-color: var(--hover-dark);
+  box-shadow: 0 0 0 1px var(--hover-dark);
+}

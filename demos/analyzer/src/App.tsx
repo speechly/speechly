@@ -3,40 +3,18 @@ import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
-import formatDuration from 'format-duration';
-import { Waveform } from './Waveform';
-import { FileInput } from './FileInput';
-import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
-import { ReactComponent as Close } from './assets/close.svg';
-import { ReactComponent as Mic } from './assets/mic.svg';
-import { ReactComponent as AudioFile } from './assets/audio-file.svg';
+import { Waveform } from './components/Waveform';
+import { FileInput } from './components/FileInput';
+import { AudioFile } from './components/AudioFile';
+import { SegmentItem } from './components/SegmentItem';
+import { Tag } from './components/Tag';
+import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl } from './types';
+import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
-
-export interface Classification {
-  label: string;
-  score: number;
-}
-
-interface ClassifiedSpeechSegment extends SpeechSegment {
-  classifications?: Classification[];
-}
-
-interface FileOrUrl {
-  name: string;
-  file?: File;
-  src?: string;
-}
-
-export interface AudioRegionLabels {
-  index: number;
-  start: number;
-  end: number;
-  classifications: Classification[];
-}
 
 const CHUNK_MS = 2000;
 const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
@@ -372,10 +350,7 @@ function App() {
           <h4 className="Sidebar__title">Text classification labels</h4>
           <div className="Tag__container">
             {tags.map((tag, i) => (
-              <div className="Tag" key={`${tag}-${i}`}>
-                {tag}
-                <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
-              </div>
+              <Tag key={`${tag}-${i}`} onClick={() => handleRemoveTag(tag)} label={tag} />
             ))}
             <form className="Tag__form" onSubmit={handleAddTag}>
               <input
@@ -392,15 +367,7 @@ function App() {
           </div>
           <h4 className="Sidebar__title">Audio files</h4>
           {files.map(({ name }, i) => (
-            <button
-              type="button"
-              className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
-              key={name}
-              onClick={() => handleSelectFile(i)}
-            >
-              <AudioFile width={18} height={18} />
-              <span>{name}</span>
-            </button>
+            <AudioFile key={name} label={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)} />
           ))}
           <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
@@ -414,40 +381,15 @@ function App() {
               </p>
             </div>
           )}
-          {speechSegments?.map(({ contextId, id, words, classifications }) => (
-            <div className="Segment" key={`${contextId}-${id}`}>
-              <div className="Segment__timestamp">
-                {isNaN(words[0]?.endTimestamp) && '···'}
-                {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
-              </div>
-              <div className="Segment__transcript">
-                {words.map((word) => (
-                  <span
-                    key={word.index}
-                    className={clsx(
-                      currentTime && 'Segment__word',
-                      currentTime && currentTime >= word.startTimestamp && 'Segment__word--highlighted'
-                    )}
-                  >
-                    {word.value}{' '}
-                  </span>
-                ))}
-              </div>
-              {tags.length > 0 && (
-                <div className="Segment__details">
-                  <span>Text classification:</span>
-                  {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-                  {classifications &&
-                    classifications.map(({ label, score }, i) => (
-                      <span key={`${label}-${i}`}>
-                        {label}: {(score * 100).toFixed(2)}%
-                      </span>
-                    ))}
-                </div>
-              )}
-            </div>
+          {speechSegments?.map((segment) => (
+            <SegmentItem
+              key={`${segment.contextId}-${segment.id}`}
+              currentTime={currentTime}
+              segment={segment}
+              showDetails={tags.length > 0}
+            />
           ))}
-          <div ref={segmentEndRef} className="Segment__end" />
+          <div ref={segmentEndRef} className="Main__lastItem" />
         </div>
       </div>
       <div className="Player">
@@ -464,7 +406,7 @@ function App() {
             onPointerDown={handleStart}
             onPointerUp={handleStop}
           >
-            <Mic />
+            <MicIcon />
           </button>
         </Waveform>
       </div>
