@@ -21,3 +21,10 @@ export interface AudioRegionLabels {
   end: number;
   classifications: Classification[];
 }
+
+export type Severity = 'positive' | 'neutral' | 'negative';
+
+export interface TextLabel {
+  label: string;
+  severity: Severity;
+}

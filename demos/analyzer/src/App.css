@@ -45,20 +45,20 @@ body {
   margin: 16px 24px;
 }
 
-.Tag__container {
+.Tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin: 8px 24px 0;
 }
 
-.Tag__form {
+.TagForm {
   margin-top: 8px;
   position: relative;
   width: 100%;
 }
 
-.Tag__form input {
+.TagForm__input {
   font-size: 14px;
   font-family: inherit;
   border: 1px solid var(--border);
@@ -71,12 +71,26 @@ body {
   transition: var(--ease);
 }
 
-.Tag__form input:focus {
+.TagForm__input:focus {
   outline: 2px solid var(--accent);
   outline-offset: -1px;
 }
 
-.Tag__form button {
+.TagForm__options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.TagForm__options div {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.TagForm button {
   cursor: pointer;
   position: absolute;
   right: 5px;
@@ -92,16 +106,16 @@ body {
   transition: var(--ease);
 }
 
-.Tag__form button:hover {
+.TagForm button:hover {
   box-shadow: inset 0 0 0 100px var(--hover-dark);
 }
 
-.Tag__form button:disabled {
+.TagForm button:disabled {
   background-color: var(--border-dark);
   pointer-events: none;
 }
 
-.Tag__form p {
+.TagForm p {
   font-size: 13px;
   color: var(--danger);
   margin-top: 8px;

@@ -8,7 +8,7 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
-import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl } from './types';
+import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl, Severity, TextLabel } from './types';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/t1-trailer.wav';
@@ -32,10 +32,11 @@ function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
+  const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useState([
-    'a derogatory comment based on sexual orientation',
-    'a derogatory comment based on faith',
+  const [tags, setTags] = useState<TextLabel[]>([
+    { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
+    { label: 'a derogatory comment based on faith', severity: 'negative' },
   ]);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
@@ -180,7 +181,8 @@ function App() {
       scrollToSegmentsEnd();
       if (segment.isFinal) {
         if (tags.length) {
-          classifySegment(segment, tags);
+          const labels = tags.flatMap((t) => t.label);
+          classifySegment(segment, labels);
         } else {
           updateOrAddSegment(segment);
         }
@@ -200,16 +202,30 @@ function App() {
     }
   }, [currentTime, speechSegmentsRef]);
 
-  const handleRemoveTag = (tag: string) => {
-    setTags((current) => current.filter((t) => t !== tag));
+  const handleRemoveTag = (label: string) => {
+    setTags((current) => current.filter((t) => t.label !== label));
   };
 
-  const handleAddTag = (e: React.FormEvent) => {
+  const handleFormChange = (e: React.FormEvent<HTMLFormElement>) => {
+    const target = e.currentTarget as typeof e.currentTarget & {
+      label: { value: string };
+      severity: { value: Severity };
+    };
+    const isDuplicate = tags.find((t) => t.label === target.label.value);
+    const enabled = !!target.label.value && !!target.severity.value && tags.length < MAX_TAGS && !isDuplicate;
+    setIsAddTagEnabled(enabled);
+  };
+
+  const handleAddTag = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!tagValue || tags.length >= MAX_TAGS) return;
-    if (tags.includes(tagValue)) return setTagValue('');
-    setTags((current) => [...current, tagValue.trim()]);
+    const target = e.currentTarget as typeof e.currentTarget & {
+      label: { value: string };
+      severity: { value: Severity };
+    };
+    const newTag = { label: target.label.value, severity: target.severity.value };
+    setTags((current) => [...current, newTag]);
     setTagValue('');
+    setIsAddTagEnabled(false);
   };
 
   const handleFileAdd = async (file: File) => {
@@ -343,23 +359,40 @@ function App() {
     setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
 
+  const severities: Severity[] = ['positive', 'neutral', 'negative'];
+
   return (
     <>
       <div className="App">
         <div className="Sidebar">
           <h4 className="Sidebar__title">Text classification labels</h4>
-          <div className="Tag__container">
+          <div className="Tags">
             {tags.map((tag, i) => (
-              <Tag key={`${tag}-${i}`} onClick={() => handleRemoveTag(tag)} label={tag} />
+              <Tag
+                key={`${tag.label}-${i}`}
+                onRemove={() => handleRemoveTag(tag.label)}
+                label={tag.label}
+                severity={tag.severity}
+              />
             ))}
-            <form className="Tag__form" onSubmit={handleAddTag}>
+            <form className="TagForm" onSubmit={handleAddTag} onChange={handleFormChange}>
               <input
+                className="TagForm__input"
+                name="label"
                 type="text"
                 placeholder="Add a label"
                 value={tagValue}
                 onChange={(e) => setTagValue(e.target.value)}
               />
-              <button type="submit" disabled={!tagValue || tags.length >= MAX_TAGS}>
+              <div className="TagForm__options">
+                {severities.map((s) => (
+                  <div>
+                    <input type="radio" name="severity" id={s} value={s} />
+                    <label htmlFor={s}>{s}</label>
+                  </div>
+                ))}
+              </div>
+              <button type="submit" disabled={!isAddTagEnabled}>
                 Add
               </button>
               {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}

@@ -1,12 +1,33 @@
+:root {
+  --label-neutral: hsl(202, 96%, 92%);
+  --label-negative: hsl(0, 96%, 94%);
+  --label-positive: hsl(120, 80%, 90%);
+  --label-color: rgba(0, 0, 0, 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --label-neutral: hsl(202, 90%, 20%);
+    --label-negative: hsl(340, 80%, 18%);
+    --label-positive: hsl(140, 90%, 16%);
+    --label-color: rgba(255, 255, 255, 0.85);
+  }
+}
+
 .Tag {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background-color: var(--accent-lighter);
+  color: var(--label-color);
   border-radius: 4px;
   font-size: 14px;
   padding: 4px 6px 4px 8px;
   line-height: 20px;
+}
+
+.Tag span,
+.Tag svg {
+  mix-blend-mode: luminosity;
 }
 
 .Tag svg {
@@ -20,4 +41,16 @@
 .Tag svg:hover {
   background-color: var(--hover-dark);
   box-shadow: 0 0 0 1px var(--hover-dark);
+}
+
+.Tag--neutral {
+  background-color: var(--label-neutral);
+}
+
+.Tag--positive {
+  background-color: var(--label-positive);
+}
+
+.Tag--negative {
+  background-color: var(--label-negative);
 }
