@@ -1,20 +1,22 @@
 import clsx from 'clsx';
 import React from 'react';
 import { ReactComponent as CloseIcon } from '../assets/close.svg';
-import { TextLabel } from '../types';
+import { Severity, TextLabel } from '../types';
 import './Tag.css';
 
-interface Props extends TextLabel {
+interface Props {
   onRemove?: React.MouseEventHandler;
   size?: 'normal' | 'small';
+  children?: React.ReactNode;
+  severity: Severity;
 }
 
-export const Tag: React.FC<Props> = ({ label, severity = 'neutral', size = 'normal', onRemove }) => {
-  const classes = clsx('Tag', `Tag--${severity}`, `Tag--${size}`);
+export const Tag: React.FC<Props> = ({ children, severity, size, onRemove }) => {
+  const classes = clsx('Tag', severity && `Tag--${severity}`, size && `Tag--${size}`);
 
   return (
     <div className={classes}>
-      <span>{label}</span>
+      <span>{children}</span>
       {onRemove && <CloseIcon width={16} height={16} onClick={onRemove} />}
     </div>
   );

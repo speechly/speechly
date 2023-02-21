@@ -3,6 +3,7 @@ import formatDuration from 'format-duration';
 import clsx from 'clsx';
 import { Tag } from './Tag';
 import { ClassifiedSpeechSegment } from '../types';
+import { TAG_THRESHOLD } from '../variables';
 import { ReactComponent as Spinner } from '../assets/3-dots-fade-black-36.svg';
 import './SegmentItem.css';
 
@@ -38,15 +39,15 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
         <div className="Segment__details">
           <span>Text classification:</span>
           {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-          {classifications &&
-            classifications.map(({ label, score, severity }, i) => (
-              <Tag
-                key={`${label}-${i}`}
-                label={`${label}: ${(score * 100).toFixed(2)}%`}
-                severity={severity}
-                size="small"
-              />
-            ))}
+          {classifications?.map(({ label, score, severity }, i) => (
+            <Tag
+              key={`${label}-${i}`}
+              severity={score > TAG_THRESHOLD ? severity : undefined}
+              size={score > TAG_THRESHOLD ? 'small' : undefined}
+            >
+              {label}: {(score * 100).toFixed(2)}%
+            </Tag>
+          ))}
         </div>
       )}
     </div>

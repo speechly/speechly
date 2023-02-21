@@ -11,16 +11,11 @@ import { Tag } from './components/Tag';
 import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl, Severity, TextLabel } from './types';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
+import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL, MAX_TAGS } from './variables';
 import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
-
-const CHUNK_MS = 2000;
-const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
-const TEXT_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classify';
-const AUDIO_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classifyAudio';
-const MAX_TAGS = 8;
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -169,7 +164,7 @@ function App() {
         const json = await response.json();
         const rawClassifications = json['classifications'] as Classification[];
         const classifications = rawClassifications.map((c) => {
-          const match = tags.find((t) => t.label == c.label);
+          const match = tags.find((t) => t.label === c.label);
           if (match) return { ...c, severity: match.severity };
           return c;
         });
@@ -376,9 +371,11 @@ function App() {
               <Tag
                 key={`${tag.label}-${i}`}
                 onRemove={() => handleRemoveTag(tag.label)}
-                label={tag.label}
                 severity={tag.severity}
-              />
+                size="normal"
+              >
+                {tag.label}
+              </Tag>
             ))}
             <form className="TagForm" onSubmit={handleAddTag} onChange={handleFormChange}>
               <input
@@ -405,7 +402,9 @@ function App() {
           </div>
           <h4 className="Sidebar__title">Audio files</h4>
           {files.map(({ name }, i) => (
-            <AudioFile key={name} label={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)} />
+            <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+              {name}
+            </AudioFile>
           ))}
           <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
