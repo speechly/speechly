@@ -8,10 +8,24 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
-import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl, Severity, TextLabel } from './types';
+import {
+  AudioRegionLabels,
+  Classification,
+  ClassifiedSpeechSegment,
+  FileOrUrl,
+  Severity,
+  TextLabel,
+} from './utils/types';
+import {
+  AUDIO_CLASSIFIER_URL,
+  CHUNK_MS,
+  AUDIO_ANALYSIS_CHUNK_SIZE,
+  TEXT_CLASSIFIER_URL,
+  MAX_TAGS,
+} from './utils/variables';
+import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
-import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL, MAX_TAGS } from './variables';
 import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
@@ -23,16 +37,18 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
+const defaultTags: TextLabel[] = [
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
+  { label: 'a derogatory comment based on faith', severity: 'negative' },
+];
+
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useState<TextLabel[]>([
-    { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
-    { label: 'a derogatory comment based on faith', severity: 'negative' },
-  ]);
+  const [tags, setTags] = useLocalStorage<TextLabel[]>('textLabels', defaultTags);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
@@ -203,7 +219,8 @@ function App() {
   }, [currentTime, speechSegmentsRef]);
 
   const handleRemoveTag = (label: string) => {
-    setTags((current) => current.filter((t) => t.label !== label));
+    const newTags = tags.filter((t) => t.label !== label);
+    setTags(newTags);
   };
 
   const handleFormChange = (e: React.FormEvent<HTMLFormElement>) => {
@@ -222,8 +239,9 @@ function App() {
       label: { value: string };
       severity: { value: Severity };
     };
-    const newTag = { label: target.label.value, severity: target.severity.value };
-    setTags((current) => [...current, newTag]);
+    const tag = { label: target.label.value, severity: target.severity.value };
+    const newTags = [...tags, tag];
+    setTags(newTags);
     setTagValue('');
     setIsAddTagEnabled(false);
   };
@@ -388,7 +406,7 @@ function App() {
               />
               <div className="TagForm__options">
                 {severities.map((s) => (
-                  <div>
+                  <div key={s}>
                     <input type="radio" name="severity" id={s} value={s} />
                     <label htmlFor={s}>{s}</label>
                   </div>
