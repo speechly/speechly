@@ -41,7 +41,7 @@ Speechly client libraries provide the natural Spoken Language Understanding API 
 
 ## Demos
 
-This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's [`react-client`](libraries/react-client/) and [`react-ui`](libraries/react-ui/). Each of the demo subfolder is a stand-alone project. See the demos' README for further instructions.
+This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's [`react-client`](libraries/react-client/) and [`react-ui`](https://www.npmjs.com/package/@speechly/react-ui). Each of the demo subfolder is a stand-alone project. See the demos' README for further instructions.
 
 | Folder                                               | Description                                                                                                                                                                                                                                   |
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
