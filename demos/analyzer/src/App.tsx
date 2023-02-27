@@ -8,14 +8,7 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
-import {
-  AudioRegionLabels,
-  Classification,
-  ClassifiedSpeechSegment,
-  FileOrUrl,
-  Severity,
-  TextLabel,
-} from './utils/types';
+import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl, Severity } from './utils/types';
 import {
   AUDIO_CLASSIFIER_URL,
   CHUNK_MS,
@@ -37,9 +30,9 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
-const defaultTags: TextLabel[] = [
-  { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
-  { label: 'a derogatory comment based on faith', severity: 'negative' },
+const defaultTags: Classification[] = [
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
+  { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
 ];
 
 function App() {
@@ -48,7 +41,7 @@ function App() {
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useLocalStorage<TextLabel[]>('textLabels', defaultTags);
+  const [tags, setTags] = useLocalStorage<Classification[]>('textLabels', defaultTags);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
@@ -165,7 +158,7 @@ function App() {
       });
     };
 
-    const classifySegment = async (ss: SpeechSegment, tags: TextLabel[]): Promise<void> => {
+    const classifySegment = async (ss: SpeechSegment, tags: Classification[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
       const labels = tags.flatMap((t) => t.label);
       try {
@@ -239,7 +232,7 @@ function App() {
       label: { value: string };
       severity: { value: Severity };
     };
-    const tag = { label: target.label.value, severity: target.severity.value };
+    const tag = { label: target.label.value, severity: target.severity.value, score: 0 };
     const newTags = [...tags, tag];
     setTags(newTags);
     setTagValue('');

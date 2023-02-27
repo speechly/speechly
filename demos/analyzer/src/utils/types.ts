@@ -1,5 +1,7 @@
 import { SpeechSegment } from '@speechly/react-client';
 
+export type Severity = 'positive' | 'neutral' | 'negative' | undefined;
+
 export interface Classification {
   label: string;
   severity: Severity;
@@ -21,11 +23,4 @@ export interface AudioRegionLabels {
   start: number;
   end: number;
   classifications: Classification[];
-}
-
-export type Severity = 'positive' | 'neutral' | 'negative' | undefined;
-
-export interface TextLabel {
-  label: string;
-  severity: Severity;
 }
