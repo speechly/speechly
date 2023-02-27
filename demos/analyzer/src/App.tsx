@@ -15,6 +15,7 @@ import {
   AUDIO_ANALYSIS_CHUNK_SIZE,
   TEXT_CLASSIFIER_URL,
   MAX_TAGS,
+  TAG_THRESHOLD,
 } from './utils/variables';
 import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
@@ -57,13 +58,25 @@ function App() {
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
+  const [violationCount, setViolationCount] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
 
   useEffect(() => {
-    return () => stopCounter();
+    return () => {
+      stopCounter();
+      setViolationCount(0);
+    };
   }, []);
+
+  useEffect(() => {
+    if (violationCount >= 3) {
+      const message = 'That’s 3 negative text labels. Disciplinary actions will be taken if you continue like this.';
+      window.alert(message);
+      setViolationCount(0);
+    }
+  }, [violationCount]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -177,9 +190,11 @@ function App() {
           if (match) return { ...c, severity: match.severity };
           return c;
         });
+        const updatedCount = classifications.filter((x) => x.severity === 'negative' && x.score > TAG_THRESHOLD).length;
         const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
+        setViolationCount((current) => current + updatedCount);
       } catch (err) {
         console.error(err);
       }
@@ -259,6 +274,7 @@ function App() {
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
+    setViolationCount(0);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -338,6 +354,7 @@ function App() {
       setAudioEvents([]);
       setPeakData([]);
       setNextRegion(0);
+      setViolationCount(0);
     }
 
     if (listening) {
