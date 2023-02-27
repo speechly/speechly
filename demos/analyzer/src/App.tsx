@@ -3,46 +3,33 @@ import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
-import formatDuration from 'format-duration';
-import { Waveform } from './Waveform';
-import { FileInput } from './FileInput';
-import { ReactComponent as Spinner } from './assets/3-dots-fade-black-36.svg';
-import { ReactComponent as Close } from './assets/close.svg';
-import { ReactComponent as Mic } from './assets/mic.svg';
-import { ReactComponent as AudioFile } from './assets/audio-file.svg';
+import { Waveform } from './components/Waveform';
+import { FileInput } from './components/FileInput';
+import { AudioFile } from './components/AudioFile';
+import { SegmentItem } from './components/SegmentItem';
+import { Tag } from './components/Tag';
+import {
+  AudioRegionLabels,
+  Classification,
+  ClassifiedSpeechSegment,
+  FileOrUrl,
+  Severity,
+  TextLabel,
+} from './utils/types';
+import {
+  AUDIO_CLASSIFIER_URL,
+  CHUNK_MS,
+  AUDIO_ANALYSIS_CHUNK_SIZE,
+  TEXT_CLASSIFIER_URL,
+  MAX_TAGS,
+} from './utils/variables';
+import { useLocalStorage } from './utils/useLocalStorage';
+import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
-
-export interface Classification {
-  label: string;
-  score: number;
-}
-
-interface ClassifiedSpeechSegment extends SpeechSegment {
-  classifications?: Classification[];
-}
-
-interface FileOrUrl {
-  name: string;
-  file?: File;
-  src?: string;
-}
-
-export interface AudioRegionLabels {
-  index: number;
-  start: number;
-  end: number;
-  classifications: Classification[];
-}
-
-const CHUNK_MS = 2000;
-const AUDIO_ANALYSIS_CHUNK_SIZE = 16 * CHUNK_MS;
-const TEXT_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classify';
-const AUDIO_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classifyAudio';
-const MAX_TAGS = 8;
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -50,15 +37,18 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
+const defaultTags: TextLabel[] = [
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
+  { label: 'a derogatory comment based on faith', severity: 'negative' },
+];
+
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
+  const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
   const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useState([
-    'a derogatory comment based on sexual orientation',
-    'a derogatory comment based on faith',
-  ]);
+  const [tags, setTags] = useLocalStorage<TextLabel[]>('textLabels', defaultTags);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
@@ -175,8 +165,9 @@ function App() {
       });
     };
 
-    const classifySegment = async (ss: SpeechSegment, labels: string[]): Promise<void> => {
+    const classifySegment = async (ss: SpeechSegment, tags: TextLabel[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
+      const labels = tags.flatMap((t) => t.label);
       try {
         const response = await fetch(TEXT_CLASSIFIER_URL, {
           method: 'POST',
@@ -187,7 +178,12 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const json = await response.json();
-        const classifications = json['classifications'] as Classification[];
+        const rawClassifications = json['classifications'] as Classification[];
+        const classifications = rawClassifications.map((c) => {
+          const match = tags.find((t) => t.label === c.label);
+          if (match) return { ...c, severity: match.severity };
+          return c;
+        });
         const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
@@ -222,16 +218,32 @@ function App() {
     }
   }, [currentTime, speechSegmentsRef]);
 
-  const handleRemoveTag = (tag: string) => {
-    setTags((current) => current.filter((t) => t !== tag));
+  const handleRemoveTag = (label: string) => {
+    const newTags = tags.filter((t) => t.label !== label);
+    setTags(newTags);
   };
 
-  const handleAddTag = (e: React.FormEvent) => {
+  const handleFormChange = (e: React.FormEvent<HTMLFormElement>) => {
+    const target = e.currentTarget as typeof e.currentTarget & {
+      label: { value: string };
+      severity: { value: Severity };
+    };
+    const isDuplicate = tags.find((t) => t.label === target.label.value);
+    const enabled = !!target.label.value && !!target.severity.value && tags.length < MAX_TAGS && !isDuplicate;
+    setIsAddTagEnabled(enabled);
+  };
+
+  const handleAddTag = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!tagValue || tags.length >= MAX_TAGS) return;
-    if (tags.includes(tagValue)) return setTagValue('');
-    setTags((current) => [...current, tagValue.trim()]);
+    const target = e.currentTarget as typeof e.currentTarget & {
+      label: { value: string };
+      severity: { value: Severity };
+    };
+    const tag = { label: target.label.value, severity: target.severity.value };
+    const newTags = [...tags, tag];
+    setTags(newTags);
     setTagValue('');
+    setIsAddTagEnabled(false);
   };
 
   const handleFileAdd = async (file: File) => {
@@ -365,26 +377,42 @@ function App() {
     setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
 
+  const severities: Severity[] = ['positive', 'neutral', 'negative'];
+
   return (
     <>
       <div className="App">
         <div className="Sidebar">
           <h4 className="Sidebar__title">Text classification labels</h4>
-          <div className="Tag__container">
+          <div className="Tags">
             {tags.map((tag, i) => (
-              <div className="Tag" key={`${tag}-${i}`}>
-                {tag}
-                <Close width={16} height={16} onClick={() => handleRemoveTag(tag)} />
-              </div>
+              <Tag
+                key={`${tag.label}-${i}`}
+                onRemove={() => handleRemoveTag(tag.label)}
+                severity={tag.severity}
+                size="normal"
+              >
+                {tag.label}
+              </Tag>
             ))}
-            <form className="Tag__form" onSubmit={handleAddTag}>
+            <form className="TagForm" onSubmit={handleAddTag} onChange={handleFormChange}>
               <input
+                className="TagForm__input"
+                name="label"
                 type="text"
                 placeholder="Add a label"
                 value={tagValue}
                 onChange={(e) => setTagValue(e.target.value)}
               />
-              <button type="submit" disabled={!tagValue || tags.length >= MAX_TAGS}>
+              <div className="TagForm__options">
+                {severities.map((s) => (
+                  <div key={s}>
+                    <input type="radio" name="severity" id={s} value={s} />
+                    <label htmlFor={s}>{s}</label>
+                  </div>
+                ))}
+              </div>
+              <button type="submit" disabled={!isAddTagEnabled}>
                 Add
               </button>
               {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
@@ -392,15 +420,9 @@ function App() {
           </div>
           <h4 className="Sidebar__title">Audio files</h4>
           {files.map(({ name }, i) => (
-            <button
-              type="button"
-              className={clsx('Sidebar__item', selectedFileId === i && 'Sidebar__item--selected')}
-              key={name}
-              onClick={() => handleSelectFile(i)}
-            >
-              <AudioFile width={18} height={18} />
-              <span>{name}</span>
-            </button>
+            <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+              {name}
+            </AudioFile>
           ))}
           <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
@@ -414,40 +436,15 @@ function App() {
               </p>
             </div>
           )}
-          {speechSegments?.map(({ contextId, id, words, classifications }) => (
-            <div className="Segment" key={`${contextId}-${id}`}>
-              <div className="Segment__timestamp">
-                {isNaN(words[0]?.endTimestamp) && '···'}
-                {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
-              </div>
-              <div className="Segment__transcript">
-                {words.map((word) => (
-                  <span
-                    key={word.index}
-                    className={clsx(
-                      currentTime && 'Segment__word',
-                      currentTime && currentTime >= word.startTimestamp && 'Segment__word--highlighted'
-                    )}
-                  >
-                    {word.value}{' '}
-                  </span>
-                ))}
-              </div>
-              {tags.length > 0 && (
-                <div className="Segment__details">
-                  <span>Text classification:</span>
-                  {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-                  {classifications &&
-                    classifications.map(({ label, score }, i) => (
-                      <span key={`${label}-${i}`}>
-                        {label}: {(score * 100).toFixed(2)}%
-                      </span>
-                    ))}
-                </div>
-              )}
-            </div>
+          {speechSegments?.map((segment) => (
+            <SegmentItem
+              key={`${segment.contextId}-${segment.id}`}
+              currentTime={currentTime}
+              segment={segment}
+              showDetails={tags.length > 0}
+            />
           ))}
-          <div ref={segmentEndRef} className="Segment__end" />
+          <div ref={segmentEndRef} className="Main__lastItem" />
         </div>
       </div>
       <div className="Player">
@@ -464,7 +461,7 @@ function App() {
             onPointerDown={handleStart}
             onPointerUp={handleStop}
           >
-            <Mic />
+            <MicIcon />
           </button>
         </Waveform>
       </div>

@@ -12,10 +12,10 @@
   --accent-25: hsla(202, 100%, 49%, 0.25);
   --accent-light: hsl(202, 100%, 54%);
   --accent-lighter: hsl(202, 100%, 93%);
-  --hover: rgba(15, 25, 35, .06);
-  --hover-dark: rgba(15, 25, 35, .12);
-  --hover-darker: rgba(15, 25, 35, .24);
-  --ease: all .15s ease;
+  --hover: rgba(15, 25, 35, 0.06);
+  --hover-dark: rgba(15, 25, 35, 0.12);
+  --hover-darker: rgba(15, 25, 35, 0.24);
+  --ease: all 0.15s ease;
   --danger: #eb5547;
 }
 
@@ -31,10 +31,10 @@
     --accent-25: hsl(202, 90%, 54%, 0.3);
     --accent-light: hsl(202, 90%, 64%);
     --accent-lighter: hsl(202, 90%, 20%);
-    --hover: rgba(255, 255, 255, .06);
-    --hover-dark: rgba(255, 255, 255, .12);
-    --hover-darker: rgba(255, 255, 255, .24);
-    --ease: all .15s ease;
+    --hover: rgba(255, 255, 255, 0.06);
+    --hover-dark: rgba(255, 255, 255, 0.12);
+    --hover-darker: rgba(255, 255, 255, 0.24);
+    --ease: all 0.15s ease;
     --danger: #ed6a5e;
   }
 }
@@ -50,7 +50,8 @@ body {
   background-color: var(--day);
 }
 
-button:focus, a:focus {
+button:focus,
+a:focus {
   -webkit-tap-highlight-color: transparent;
 }
 
