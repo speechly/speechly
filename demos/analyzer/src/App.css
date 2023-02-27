@@ -41,82 +41,24 @@ body {
   margin: 24px 24px 4px;
 }
 
-.Sidebar__item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 2px 24px 0;
-  border: none;
-  background-color: transparent;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 14px;
-  line-height: 20px;
-  color: inherit;
-}
-
-.Sidebar__item span {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.Sidebar__item svg {
-  flex-shrink: 0;
-  fill: currentColor;
-}
-
-.Sidebar__item:hover {
-  background-color: var(--hover);
-}
-
-.Sidebar__item--selected {
-  background-color: var(--accent-lighter) !important;
-}
-
 .Sidebar .FileInput {
   margin: 16px 24px;
 }
 
-.Tag__container {
+.Tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin: 8px 24px 0;
 }
 
-.Tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background-color: var(--accent-lighter);
-  border-radius: 4px;
-  font-size: 14px;
-  padding: 4px 6px 4px 8px;
-  line-height: 20px;
-}
-
-.Tag svg {
-  cursor: pointer;
-  fill: currentColor;
-  border-radius: 20px;
-  transition: var(--ease);
-  flex-shrink: 0;
-}
-
-.Tag svg:hover {
-  background-color: var(--hover-dark);
-  box-shadow: 0 0 0 1px var(--hover-dark);
-}
-
-.Tag__form {
-  margin-top: 8px;
+.TagForm {
+  margin-top: 12px;
   position: relative;
   width: 100%;
 }
 
-.Tag__form input {
+.TagForm__input {
   font-size: 14px;
   font-family: inherit;
   border: 1px solid var(--border);
@@ -129,12 +71,27 @@ body {
   transition: var(--ease);
 }
 
-.Tag__form input:focus {
+.TagForm__input:focus {
   outline: 2px solid var(--accent);
   outline-offset: -1px;
 }
 
-.Tag__form button {
+.TagForm__options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  margin-top: 8px;
+  text-transform: capitalize;
+}
+
+.TagForm__options div {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.TagForm button {
   cursor: pointer;
   position: absolute;
   right: 5px;
@@ -150,16 +107,16 @@ body {
   transition: var(--ease);
 }
 
-.Tag__form button:hover {
+.TagForm button:hover {
   box-shadow: inset 0 0 0 100px var(--hover-dark);
 }
 
-.Tag__form button:disabled {
+.TagForm button:disabled {
   background-color: var(--border-dark);
   pointer-events: none;
 }
 
-.Tag__form p {
+.TagForm p {
   font-size: 13px;
   color: var(--danger);
   margin-top: 8px;
@@ -183,6 +140,10 @@ body {
 
 .Main::-webkit-scrollbar {
   display: none;
+}
+
+.Main__lastItem {
+  scroll-margin-block: 24px;
 }
 
 .Player {
@@ -209,60 +170,6 @@ body {
 
 .EmptyState__description {
   line-height: 1.5;
-}
-
-.Segment {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid var(--border);
-  padding: 20px;
-  border-radius: 4px;
-  margin: 0 24px 24px;
-  scroll-margin-block: 24px;
-  transition: var(--ease);
-}
-
-.Segment--active {
-  background-color: var(--hover);
-}
-
-.Segment__timestamp {
-  font-size: 14px;
-  color: var(--dim);
-}
-
-.Segment__transcript {
-  line-height: 1.5;
-  margin-right: auto;
-}
-
-.Segment__word {
-  opacity: 0.5;
-  transition: var(--ease);
-}
-
-.Segment__word--highlighted {
-  opacity: 1;
-}
-
-.Segment__details {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0 8px;
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--dim);
-}
-
-.Segment__details svg {
-  flex-shrink: 0;
-  display: block;
-}
-
-.Segment__end {
-  scroll-margin-block: 24px;
 }
 
 .Microphone {

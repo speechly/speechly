@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState } from "react";
-import clsx from "clsx";
-import { ReactComponent as Upload } from "./assets/upload.svg";
-import "./FileInput.css";
+import React, { useCallback, useRef, useState } from 'react';
+import clsx from 'clsx';
+import { ReactComponent as Upload } from '../assets/upload.svg';
+import './FileInput.css';
 
 interface Props {
   acceptMimes: string;
@@ -35,7 +35,7 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
     setIsActive(true);
   };
 
-  const classes = clsx("FileInput", isActive && "FileInput--active");
+  const classes = clsx('FileInput', isActive && 'FileInput--active');
 
   return (
     <div
@@ -54,7 +54,7 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
         accept={acceptMimes}
         disabled={disabled}
         onChange={onChange}
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
         type="file"
       />
     </div>

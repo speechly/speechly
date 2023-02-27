@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
-import { AudioRegionLabels, Classification } from './App';
-import { ReactComponent as Play } from './assets/play.svg';
-import { ReactComponent as Pause } from './assets/pause.svg';
-import { ReactComponent as VolumeUp } from './assets/volume.svg';
+import { AudioRegionLabels, Classification } from '../utils/types';
+import { ReactComponent as Play } from '../assets/play.svg';
+import { ReactComponent as Pause } from '../assets/pause.svg';
+import { ReactComponent as VolumeUp } from '../assets/volume.svg';
 import './Waveform.css';
 
 interface Props {
