@@ -129,7 +129,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
       <div className="Waveform__data">
         {selectedData && (
           <>
-            <span>Audio classification:</span>
+            <span>Audio events:</span>
             {selectedData.map(({ label, score }, i) => (
               <span key={`${label}-${i}`}>
                 {label}: {(score * 100).toFixed(2)}%

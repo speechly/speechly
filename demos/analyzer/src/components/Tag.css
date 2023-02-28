@@ -13,16 +13,24 @@
 }
 
 .Tag {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 4px;
   color: var(--dim);
+}
+
+.Tag__content {
   font-size: 14px;
+  line-height: 18px;
+}
+
+.Tag__content small {
+  font-size: 13px;
+  margin-left: 4px;
 }
 
 .Tag svg {
   cursor: pointer;
-  fill: currentColor;
   border-radius: 20px;
   transition: var(--ease);
   flex-shrink: 0;
@@ -35,13 +43,11 @@
 
 .Tag--normal {
   border-radius: 4px;
-  line-height: 18px;
   padding: 5px 6px 5px 8px;
 }
 
 .Tag--small {
   border-radius: 3px;
-  line-height: 18px;
   padding: 1px 4px;
 }
 

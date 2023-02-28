@@ -1,0 +1,50 @@
+.ToggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ToggleSwitch__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.ToggleSwitch__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border-dark);
+  transition: 0.2s;
+  border-radius: 100px;
+}
+
+.ToggleSwitch__slider::before {
+  position: absolute;
+  content: '';
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--day);
+  transition: 0.2s;
+  border-radius: 100px;
+}
+
+.ToggleSwitch__input:checked + .ToggleSwitch__slider {
+  background-color: var(--accent);
+}
+
+.ToggleSwitch__input:focus + .ToggleSwitch__slider {
+  box-shadow: 0 0 1px var(--accent);
+}
+
+.ToggleSwitch__input:checked + .ToggleSwitch__slider:before {
+  transform: translateX(20px);
+}

@@ -45,82 +45,19 @@ body {
   margin: 16px 24px;
 }
 
-.Tags {
+.Sidebar .Tags {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin: 8px 24px 0;
+  margin: 8px 24px;
 }
 
-.TagForm {
-  margin-top: 12px;
-  position: relative;
-  width: 100%;
+.Sidebar .Workflows {
+  margin: 0 24px;
 }
 
-.TagForm__input {
-  font-size: 14px;
-  font-family: inherit;
-  border: 1px solid var(--border);
-  background-color: var(--day);
-  color: var(--night);
-  padding: 8px 12px;
-  border-radius: 4px;
-  line-height: 18px;
-  width: 100%;
-  transition: var(--ease);
-}
-
-.TagForm__input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
-}
-
-.TagForm__options {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  margin-top: 8px;
-  text-transform: capitalize;
-}
-
-.TagForm__options div {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.TagForm button {
-  cursor: pointer;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  font-size: 12px;
-  border: none;
-  background-color: var(--accent);
-  color: var(--day);
-  font-weight: 500;
-  line-height: 18px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: var(--ease);
-}
-
-.TagForm button:hover {
-  box-shadow: inset 0 0 0 100px var(--hover-dark);
-}
-
-.TagForm button:disabled {
-  background-color: var(--border-dark);
-  pointer-events: none;
-}
-
-.TagForm p {
-  font-size: 13px;
-  color: var(--danger);
-  margin-top: 8px;
-  margin-bottom: 0;
+.Sidebar .Form {
+  margin: 6px 24px 0;
 }
 
 /* Main content */
@@ -193,10 +130,6 @@ body {
   box-shadow: inset 0 0 0 100px var(--hover-dark);
 }
 
-.Microphone svg {
-  fill: currentColor;
-}
-
 .Microphone--active {
   background-color: var(--danger) !important;
   transform: scale(1.1);
@@ -211,4 +144,9 @@ body {
   left: -4px;
   border-radius: 100px;
   border: var(--danger) solid 2px;
+}
+
+.Microphone:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }

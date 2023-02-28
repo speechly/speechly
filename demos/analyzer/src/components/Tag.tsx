@@ -16,7 +16,7 @@ export const Tag: React.FC<Props> = ({ children, severity, size, onRemove }) => 
 
   return (
     <div className={classes}>
-      <span>{children}</span>
+      <div className="Tag__content">{children}</div>
       {onRemove && <CloseIcon width={16} height={16} onClick={onRemove} />}
     </div>
   );

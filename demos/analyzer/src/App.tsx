@@ -8,15 +8,15 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
-import { AudioRegionLabels, Classification, ClassifiedSpeechSegment, FileOrUrl, Severity } from './utils/types';
 import {
-  AUDIO_CLASSIFIER_URL,
-  CHUNK_MS,
-  AUDIO_ANALYSIS_CHUNK_SIZE,
-  TEXT_CLASSIFIER_URL,
-  MAX_TAGS,
-  TAG_THRESHOLD,
-} from './utils/variables';
+  AudioRegionLabels,
+  Classification,
+  ClassifiedSpeechSegment,
+  FileOrUrl,
+  Severity,
+  Workflow,
+} from './utils/types';
+import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL } from './utils/variables';
 import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
@@ -24,6 +24,9 @@ import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
+import { WorkflowItem } from './components/WorkflowItem';
+import { WorkflowForm } from './components/WorkflowForm';
+import { EventForm } from './components/EventForm';
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -32,22 +35,23 @@ sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
 const defaultTags: Classification[] = [
-  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
-  { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', threshold: 0.75, score: 0 },
+  { label: 'a derogatory comment based on faith', severity: 'negative', threshold: 0.75, score: 0 },
 ];
+
+const defaultWorkflows: Workflow[] = [{ count: 3, event: defaultTags[0], action: 'warn' }];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
-  const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
-  const [tagValue, setTagValue] = useState('');
   const [tags, setTags] = useLocalStorage<Classification[]>('textLabels', defaultTags);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
+  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflows', defaultWorkflows);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -58,7 +62,6 @@ function App() {
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
-  const [violationCount, setViolationCount] = useState(0);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
@@ -66,17 +69,8 @@ function App() {
   useEffect(() => {
     return () => {
       stopCounter();
-      setViolationCount(0);
     };
   }, []);
-
-  useEffect(() => {
-    if (violationCount >= 3) {
-      const message = 'That’s 3 negative text labels. Disciplinary actions will be taken if you continue like this.';
-      window.alert(message);
-      setViolationCount(0);
-    }
-  }, [violationCount]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -187,14 +181,12 @@ function App() {
         const rawClassifications = json['classifications'] as Classification[];
         const classifications = rawClassifications.map((c) => {
           const match = tags.find((t) => t.label === c.label);
-          if (match) return { ...c, severity: match.severity };
+          if (match) return { ...c, severity: match.severity, threshold: match.threshold };
           return c;
         });
-        const updatedCount = classifications.filter((x) => x.severity === 'negative' && x.score > TAG_THRESHOLD).length;
         const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
-        setViolationCount((current) => current + updatedCount);
       } catch (err) {
         console.error(err);
       }
@@ -226,32 +218,43 @@ function App() {
     }
   }, [currentTime, speechSegmentsRef]);
 
-  const handleRemoveTag = (label: string) => {
+  const handleRemoveEvent = (label: string) => {
     const newTags = tags.filter((t) => t.label !== label);
     setTags(newTags);
   };
 
-  const handleFormChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddEvent = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.currentTarget as typeof e.currentTarget & {
       label: { value: string };
       severity: { value: Severity };
+      threshold: { value: string };
     };
-    const isDuplicate = tags.find((t) => t.label === target.label.value);
-    const enabled = !!target.label.value && !!target.severity.value && tags.length < MAX_TAGS && !isDuplicate;
-    setIsAddTagEnabled(enabled);
-  };
-
-  const handleAddTag = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const target = e.currentTarget as typeof e.currentTarget & {
-      label: { value: string };
-      severity: { value: Severity };
+    const tag = {
+      label: target.label.value,
+      severity: target.severity.value,
+      threshold: Number(target.threshold.value) / 100,
+      score: 0,
     };
-    const tag = { label: target.label.value, severity: target.severity.value, score: 0 };
     const newTags = [...tags, tag];
     setTags(newTags);
-    setTagValue('');
-    setIsAddTagEnabled(false);
+  };
+
+  const handleRemoveWorkflow = (label: string) => {
+    const newWorkflows = workflows.filter((w) => w.event.label !== label);
+    setWorkflows(newWorkflows);
+  };
+
+  const handleAddWorkflow = (e: React.FormEvent<HTMLFormElement>) => {
+    const target = e.currentTarget as typeof e.currentTarget & {
+      count: { value: number };
+      event: { value: string };
+      action: { value: string };
+    };
+    const event = tags.find((t) => t.label === target.event.value);
+    if (!event) return;
+    const workflow = { count: Number(target.count.value), event, action: target.action.value };
+    const newWorkflows = [...workflows, workflow];
+    setWorkflows(newWorkflows);
   };
 
   const handleFileAdd = async (file: File) => {
@@ -274,7 +277,6 @@ function App() {
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
-    setViolationCount(0);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -354,7 +356,6 @@ function App() {
       setAudioEvents([]);
       setPeakData([]);
       setNextRegion(0);
-      setViolationCount(0);
     }
 
     if (listening) {
@@ -387,47 +388,36 @@ function App() {
     setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
 
-  const severities: Severity[] = ['positive', 'neutral', 'negative'];
-
   return (
     <>
       <div className="App">
         <div className="Sidebar">
-          <h4 className="Sidebar__title">Text classification labels</h4>
+          <h4 className="Sidebar__title">Text events</h4>
           <div className="Tags">
-            {tags.map((tag, i) => (
+            {tags.map((tag) => (
               <Tag
-                key={`${tag.label}-${i}`}
-                onRemove={() => handleRemoveTag(tag.label)}
+                key={`event-${tag.label}`}
+                onRemove={() => handleRemoveEvent(tag.label)}
                 severity={tag.severity}
                 size="normal"
               >
-                {tag.label}
+                <span>{tag.label}</span>
+                <small>{tag.threshold * 100}%</small>
               </Tag>
             ))}
-            <form className="TagForm" onSubmit={handleAddTag} onChange={handleFormChange}>
-              <input
-                className="TagForm__input"
-                name="label"
-                type="text"
-                placeholder="Add a label"
-                value={tagValue}
-                onChange={(e) => setTagValue(e.target.value)}
-              />
-              <div className="TagForm__options">
-                {severities.map((s) => (
-                  <div key={s}>
-                    <input type="radio" name="severity" id={s} value={s} />
-                    <label htmlFor={s}>{s}</label>
-                  </div>
-                ))}
-              </div>
-              <button type="submit" disabled={!isAddTagEnabled}>
-                Add
-              </button>
-              {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
-            </form>
           </div>
+          <EventForm onSubmit={handleAddEvent} tags={tags} />
+          <h4 className="Sidebar__title">Workflows</h4>
+          <div className="Workflows">
+            {workflows?.map((rule) => (
+              <WorkflowItem
+                key={`rule-${rule.event.label}`}
+                rule={rule}
+                onDelete={() => handleRemoveWorkflow(rule.event.label)}
+              />
+            ))}
+          </div>
+          <WorkflowForm tags={tags} onSubmit={handleAddWorkflow} />
           <h4 className="Sidebar__title">Audio files</h4>
           {files.map(({ name }, i) => (
             <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>

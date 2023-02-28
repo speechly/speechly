@@ -21,7 +21,6 @@
 
 .AudioFile svg {
   flex-shrink: 0;
-  fill: currentColor;
 }
 
 .AudioFile:hover {

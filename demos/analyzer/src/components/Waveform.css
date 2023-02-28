@@ -33,7 +33,7 @@
 .Waveform__timeline {
   height: 16px;
   margin-bottom: 16px;
-  opacity: .75;
+  opacity: 0.75;
 }
 
 .Waveform__controls {
@@ -73,7 +73,6 @@
 
 .Waveform__playPause svg {
   display: block;
-  fill: currentColor;
 }
 
 .Waveform__playPause:disabled {

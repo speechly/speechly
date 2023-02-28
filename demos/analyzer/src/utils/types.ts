@@ -6,6 +6,7 @@ export interface Classification {
   label: string;
   severity: Severity;
   score: number;
+  threshold: number;
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
@@ -23,4 +24,10 @@ export interface AudioRegionLabels {
   start: number;
   end: number;
   classifications: Classification[];
+}
+
+export interface Workflow {
+  count: number;
+  event: Classification;
+  action: string;
 }
