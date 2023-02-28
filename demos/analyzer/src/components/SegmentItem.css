@@ -14,9 +14,46 @@
   background-color: var(--hover);
 }
 
+.Segment__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .Segment__timestamp {
   font-size: 14px;
   color: var(--dim);
+  margin-right: auto;
+}
+
+.Segment__action {
+  border: 1.5px solid transparent;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  margin: -3px 0;
+}
+
+.Segment__action--warn {
+  color: darkorange;
+  border-color: darkorange;
+}
+
+.Segment__action--mute {
+  color: tomato;
+  border-color: tomato;
+}
+
+.Segment__action--ban {
+  color: crimson;
+  border-color: crimson;
+}
+
+.Segment__action--reward {
+  color: green;
+  border-color: green;
 }
 
 .Segment__transcript {

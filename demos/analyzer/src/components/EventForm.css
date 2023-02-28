@@ -1,0 +1,8 @@
+.EventForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr 52px;
+}
+
+.EventForm .Form__input:first-child {
+  grid-column: 1/4;
+}

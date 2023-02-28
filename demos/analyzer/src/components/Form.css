@@ -14,17 +14,17 @@
 .Form__select::after {
   position: absolute;
   top: 50%;
-  right: 12px;
+  right: 8px;
   display: inline-block;
   content: '';
   width: 0;
   height: 0;
-  margin-top: -2px;
+  margin-top: -1px;
   pointer-events: none;
-  border-top: 5px solid;
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  border-left: 5px solid transparent;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
 }
 
 .Form__input input,
@@ -38,12 +38,12 @@
   font-family: inherit;
   font-size: 14px;
   line-height: 20px;
-  padding: 5px 11px;
+  padding: 5px 9px;
   width: 100%;
 }
 
 .Form__select select {
-  padding-right: 23px;
+  padding-right: 18px;
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -51,7 +51,7 @@
 }
 
 .Form__input input[type='number'] {
-  padding-right: 6px;
+  padding-right: 5px;
 }
 
 .Form button {

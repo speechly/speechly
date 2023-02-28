@@ -38,26 +38,29 @@ body {
 
 .Sidebar__title {
   font-weight: 500;
-  margin: 24px 24px 4px;
+  margin: 24px 24px 6px;
 }
 
-.Sidebar .FileInput {
-  margin: 16px 24px;
-}
-
-.Sidebar .Tags {
+.Sidebar__grid {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin: 8px 24px;
 }
 
-.Sidebar .Workflows {
-  margin: 0 24px;
+.Sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 4px 24px;
+}
+
+.Sidebar .FileInput {
+  margin: 16px 24px 32px;
 }
 
 .Sidebar .Form {
-  margin: 6px 24px 0;
+  margin: 4px 24px;
 }
 
 /* Main content */

@@ -11,6 +11,7 @@ export interface Classification {
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
   classifications?: Classification[];
+  extra?: string[];
 }
 
 export interface FileOrUrl {

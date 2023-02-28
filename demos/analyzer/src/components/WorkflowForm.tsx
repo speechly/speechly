@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Classification } from '../utils/types';
 import './Form.css';
+import './WorkflowForm.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
+  const [count, setCount] = useState(0);
   const actions = ['warn', 'mute', 'ban', 'reward'];
   const inputRef: { current: HTMLInputElement | null } = useRef(null);
 
@@ -17,9 +19,18 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
   };
 
   return (
-    <form className="Form" onSubmit={handleSubmit}>
+    <form className="WorkflowForm Form" onSubmit={handleSubmit}>
       <div className="Form__input">
-        <input ref={inputRef} name="count" type="number" min={0} max={10} step={1} />
+        <input
+          name="count"
+          type="number"
+          min={0}
+          max={10}
+          step={1}
+          placeholder="count"
+          value={count || ''}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
       </div>
       <div className="Form__select">
         <select name="event">
@@ -39,7 +50,10 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           ))}
         </select>
       </div>
-      <button type="submit">Add</button>
+      <button type="submit" disabled={!count}>
+        Add
+      </button>
+      {inputRef.current?.value}
     </form>
   );
 };

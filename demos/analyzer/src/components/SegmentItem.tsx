@@ -13,13 +13,20 @@ interface Props {
 }
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
-  const { words, classifications } = segment;
+  const { words, classifications, extra } = segment;
 
   return (
     <div className="Segment">
-      <div className="Segment__timestamp">
-        {isNaN(words[0]?.endTimestamp) && '···'}
-        {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
+      <div className="Segment__header">
+        <div className="Segment__timestamp">
+          {isNaN(words[0]?.endTimestamp) && '···'}
+          {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
+        </div>
+        {extra?.map((e) => (
+          <span key={e} className={`Segment__action Segment__action--${e}`}>
+            {e}
+          </span>
+        ))}
       </div>
       <div className="Segment__transcript">
         {words.map((word) => (

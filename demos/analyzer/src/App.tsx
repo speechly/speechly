@@ -184,7 +184,7 @@ function App() {
           if (match) return { ...c, severity: match.severity, threshold: match.threshold };
           return c;
         });
-        const newSegment = { ...ss, classifications };
+        const newSegment = { ...ss, classifications, extra: [] };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
@@ -209,6 +209,22 @@ function App() {
   }, [segment]);
 
   useEffect(() => {
+    const isAllFinal = speechSegments.every((s) => s.isFinal);
+    if (!isAllFinal) return;
+    workflows.forEach((w) => {
+      const matches = speechSegments.filter((s) =>
+        s.classifications?.every((c) => c.label === w.event.label && c.score > c.threshold)
+      );
+      if (matches.length >= w.count) {
+        const item = matches[matches.length - 1];
+        item.extra?.push(w.action);
+        console.log(item);
+      }
+    });
+    // eslint-disable-next-line
+  }, [speechSegments]);
+
+  useEffect(() => {
     if (currentTime) {
       const idx = speechSegmentsRef.current.findIndex((s) => currentTime <= s.words[s.words.length - 1].endTimestamp);
       if (idx === -1) return;
@@ -218,8 +234,8 @@ function App() {
     }
   }, [currentTime, speechSegmentsRef]);
 
-  const handleRemoveEvent = (label: string) => {
-    const newTags = tags.filter((t) => t.label !== label);
+  const handleRemoveEvent = (idx: number) => {
+    const newTags = tags.filter((_, i) => i !== idx);
     setTags(newTags);
   };
 
@@ -239,8 +255,8 @@ function App() {
     setTags(newTags);
   };
 
-  const handleRemoveWorkflow = (label: string) => {
-    const newWorkflows = workflows.filter((w) => w.event.label !== label);
+  const handleRemoveWorkflow = (idx: number) => {
+    const newWorkflows = workflows.filter((_, i) => i !== idx);
     setWorkflows(newWorkflows);
   };
 
@@ -393,11 +409,11 @@ function App() {
       <div className="App">
         <div className="Sidebar">
           <h4 className="Sidebar__title">Text events</h4>
-          <div className="Tags">
-            {tags.map((tag) => (
+          <div className="Sidebar__grid">
+            {tags.map((tag, i) => (
               <Tag
-                key={`event-${tag.label}`}
-                onRemove={() => handleRemoveEvent(tag.label)}
+                key={`event-${tag.label}-${i}`}
+                onRemove={() => handleRemoveEvent(i)}
                 severity={tag.severity}
                 size="normal"
               >
@@ -408,22 +424,24 @@ function App() {
           </div>
           <EventForm onSubmit={handleAddEvent} tags={tags} />
           <h4 className="Sidebar__title">Workflows</h4>
-          <div className="Workflows">
-            {workflows?.map((rule) => (
+          <div className="Sidebar__list">
+            {workflows?.map((rule, i) => (
               <WorkflowItem
-                key={`rule-${rule.event.label}`}
+                key={`rule-${rule.event.label}-${i}`}
                 rule={rule}
-                onDelete={() => handleRemoveWorkflow(rule.event.label)}
+                onDelete={() => handleRemoveWorkflow(i)}
               />
             ))}
           </div>
           <WorkflowForm tags={tags} onSubmit={handleAddWorkflow} />
           <h4 className="Sidebar__title">Audio files</h4>
-          {files.map(({ name }, i) => (
-            <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
-              {name}
-            </AudioFile>
-          ))}
+          <div className="Sidebar__list">
+            {files.map(({ name }, i) => (
+              <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+                {name}
+              </AudioFile>
+            ))}
+          </div>
           <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
         </div>
         <div className="Main" ref={mainRef}>

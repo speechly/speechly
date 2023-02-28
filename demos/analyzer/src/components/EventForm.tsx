@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Classification, Severity } from '../utils/types';
 import { MAX_TAGS } from '../utils/variables';
 import './Form.css';
+import './EventForm.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
@@ -10,27 +11,31 @@ interface Props {
 
 export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
   const [label, setLabel] = useState('');
-  const [isEnabled, setEnabled] = useState(false);
-  const severities: Severity[] = ['positive', 'neutral', 'negative'];
+  const [threshold, setThreshold] = useState(0);
+  const severities: Severity[] = ['negative', 'neutral', 'positive'];
 
-  const handleTagLabel = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setLabel(value);
-    const isDuplicate = tags.find((t) => t.label === value);
-    setEnabled(!!value && !isDuplicate);
+  const isAddEnabled = () => {
+    const isDuplicate = tags.find((t) => t.label === label);
+    return label && threshold && !isDuplicate;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(e);
     setLabel('');
-    setEnabled(false);
+    setThreshold(0);
   };
 
   return (
-    <form className="Form" onSubmit={handleSubmit}>
-      <div className="Form__input" style={{ width: '100%' }}>
-        <input name="label" type="text" placeholder="Add a label" value={label} onChange={handleTagLabel} />
+    <form className="EventForm Form" onSubmit={handleSubmit}>
+      <div className="Form__input">
+        <input
+          name="label"
+          type="text"
+          placeholder="event label"
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
+        />
       </div>
       <div className="Form__select">
         <select name="severity">
@@ -42,9 +47,18 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
         </select>
       </div>
       <div className="Form__input">
-        <input name="threshold" type="number" defaultValue={75} min={0} max={100} step={5} />
+        <input
+          name="threshold"
+          type="number"
+          min={0}
+          max={100}
+          step={5}
+          placeholder="threshold"
+          value={threshold || ''}
+          onChange={(e) => setThreshold(Number(e.target.value))}
+        />
       </div>
-      <button type="submit" disabled={!isEnabled}>
+      <button type="submit" disabled={!isAddEnabled()}>
         Add
       </button>
       {label && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
