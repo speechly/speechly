@@ -8,16 +8,11 @@
   margin: 0 24px 24px;
   scroll-margin-block: 24px;
   transition: var(--ease);
+  position: relative;
 }
 
 .Segment--active {
   background-color: var(--hover);
-}
-
-.Segment__header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 .Segment__timestamp {
@@ -26,34 +21,39 @@
   margin-right: auto;
 }
 
+.Segment__actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+}
+
 .Segment__action {
-  border: 1.5px solid transparent;
-  padding: 3px 7px;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 16px;
-  margin: -3px 0;
+  line-height: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
 }
 
 .Segment__action--warn {
-  color: darkorange;
-  border-color: darkorange;
+  background-color: darkorange;
 }
 
 .Segment__action--mute {
-  color: tomato;
-  border-color: tomato;
+  background-color: tomato;
 }
 
 .Segment__action--ban {
-  color: crimson;
-  border-color: crimson;
+  background-color: crimson;
 }
 
 .Segment__action--reward {
-  color: green;
-  border-color: green;
+  background-color: green;
 }
 
 .Segment__transcript {

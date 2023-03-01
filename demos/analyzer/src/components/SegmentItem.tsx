@@ -17,11 +17,11 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
 
   return (
     <div className="Segment">
-      <div className="Segment__header">
-        <div className="Segment__timestamp">
-          {isNaN(words[0]?.endTimestamp) && '···'}
-          {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
-        </div>
+      <div className="Segment__timestamp">
+        {isNaN(words[0]?.endTimestamp) && '···'}
+        {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
+      </div>
+      <div className="Segment__actions">
         {classifications?.map((c) =>
           c.workflows?.map((w, i) =>
             w.sum === w.count ? (
