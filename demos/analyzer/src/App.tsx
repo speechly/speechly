@@ -185,25 +185,35 @@ function App() {
         const json = await response.json();
         const rawClassifications = json['classifications'] as Classification[];
 
-        const classifications = rawClassifications.map((c) => {
-          const newWorkflows = workflows.map((w) => {
-            if (c.label === w.eventLabel) {
-              return { ...w, sum: w.sum + 1 };
-            } else {
-              return w;
-            }
-          });
-          setWorkflows(newWorkflows);
-
-          const workflow = newWorkflows.find((w) => w.eventLabel === c.label && c.score >= w.threshold);
-          const severity = tags.find((t) => t.label === c.label)?.severity;
-          if (workflow && severity) {
-            return { ...c, ...(severity && { severity }), workflows: newWorkflows };
+        const updatedClassifications = rawClassifications.map((c) => {
+          const workflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
+          if (workflow) {
+            const severity = tags.find((t) => t.label === c.label)?.severity;
+            return { ...c, ...(severity && { severity }) };
           }
           return c;
         });
 
-        const newSegment = { ...ss, classifications };
+        const updatedWorkflows = updatedClassifications
+          .flatMap((c) => {
+            const newWorkflows = workflows.map((w) =>
+              w.eventLabel === c.label && w.threshold <= c.score && w.threshold <= c.score ? { ...w, sum: ++w.sum } : w
+            );
+            setWorkflows(newWorkflows);
+            const sorted = Array.from(newWorkflows).sort((a, b) => (a.count > b.count ? 1 : -1));
+            console.log(sorted);
+            const filtered = sorted
+              .filter((w) => w.eventLabel === c.label && w.threshold <= c.score && w.sum === w.count)
+              .at(-1);
+            return filtered;
+          })
+          .filter((n) => n);
+
+        const newSegment = {
+          ...ss,
+          classifications: updatedClassifications,
+          ...(updatedWorkflows && { workflows: updatedWorkflows }),
+        };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {

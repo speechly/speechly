@@ -7,11 +7,11 @@ export interface Classification {
   label: string;
   score: number;
   severity?: Severity;
-  workflows?: Workflow[];
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
   classifications?: Classification[];
+  workflows?: Workflow[];
 }
 
 export interface FileOrUrl {
