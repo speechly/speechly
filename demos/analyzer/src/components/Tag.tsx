@@ -5,19 +5,30 @@ import { Severity } from '../utils/types';
 import './Tag.css';
 
 interface Props {
-  onRemove?: React.MouseEventHandler;
+  label: string;
   size?: 'normal' | 'small';
   children?: React.ReactNode;
-  severity: Severity;
+  severity?: Severity;
+  score?: number;
+  onRemove?: React.MouseEventHandler;
 }
 
-export const Tag: React.FC<Props> = ({ children, severity, size, onRemove }) => {
+export const Tag: React.FC<Props> = ({ label, score, severity, size, onRemove }) => {
   const classes = clsx('Tag', severity && `Tag--${severity}`, size && `Tag--${size}`);
 
   return (
     <div className={classes}>
-      <div className="Tag__content">{children}</div>
-      {onRemove && <CloseIcon width={16} height={16} onClick={onRemove} />}
+      <div className="Tag__content">
+        <span>{label}</span>
+        {score && <small>: {(score * 100).toFixed(2)}%</small>}
+      </div>
+      {onRemove && (
+        <CloseIcon
+          width={16}
+          height={16}
+          onClick={onRemove}
+        />
+      )}
     </div>
   );
 };

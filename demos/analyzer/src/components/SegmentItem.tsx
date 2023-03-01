@@ -59,9 +59,9 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
               key={label}
               severity={score > threshold ? severity : undefined}
               size={score > threshold ? 'small' : undefined}
-            >
-              {label}: {(score * 100).toFixed(2)}%
-            </Tag>
+              label={label}
+              score={score}
+            />
           ))}
         </div>
       )}

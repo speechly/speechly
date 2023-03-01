@@ -1,6 +1,6 @@
 import { SpeechSegment } from '@speechly/react-client';
 
-export type Severity = 'positive' | 'neutral' | 'negative' | undefined;
+export type Severity = 'positive' | 'neutral' | 'negative';
 export type Action = 'warn' | 'mute' | 'ban' | 'reward';
 
 export interface Classification {

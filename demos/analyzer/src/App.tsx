@@ -399,16 +399,14 @@ function App() {
         <div className="Sidebar">
           <h4 className="Sidebar__title">Text events</h4>
           <div className="Sidebar__grid">
-            {tags.map(({ label, severity, threshold }, i) => (
+            {tags.map(({ label, severity }, i) => (
               <Tag
                 key={`event-${label}-${i}`}
                 onRemove={() => handleRemoveEvent(i)}
                 severity={severity}
                 size="normal"
-              >
-                <span>{label}</span>
-                <small>&gt; {threshold * 100}%</small>
-              </Tag>
+                label={label}
+              />
             ))}
           </div>
           <EventForm

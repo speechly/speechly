@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
+import { Tag } from './Tag';
 import { AudioRegionLabels, Classification } from '../utils/types';
 import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
@@ -131,19 +132,43 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
           <>
             <span>Audio events:</span>
             {selectedData.map(({ label, score }, i) => (
-              <span key={`${label}-${i}`}>
-                {label}: {(score * 100).toFixed(2)}%
-              </span>
+              <Tag
+                key={`${label}-${i}`}
+                label={label}
+                score={score}
+              />
             ))}
           </>
         )}
       </div>
-      <div className="Waveform__waveform" id="waveform" ref={waveformRef} />
-      <div className="Waveform__timeline" id="timeline" ref={timelineRef} />
+      <div
+        className="Waveform__waveform"
+        id="waveform"
+        ref={waveformRef}
+      />
+      <div
+        className="Waveform__timeline"
+        id="timeline"
+        ref={timelineRef}
+      />
       <div className="Waveform__controls">
         {children}
-        <button onClick={handlePlayPause} className="Waveform__playPause" disabled={!url}>
-          {isPlaying ? <Pause width={28} height={28} /> : <Play width={28} height={28} />}
+        <button
+          onClick={handlePlayPause}
+          className="Waveform__playPause"
+          disabled={!url}
+        >
+          {isPlaying ? (
+            <Pause
+              width={28}
+              height={28}
+            />
+          ) : (
+            <Play
+              width={28}
+              height={28}
+            />
+          )}
         </button>
         <div className="Waveform__volume">
           <VolumeUp />
