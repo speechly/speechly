@@ -40,7 +40,9 @@ const defaultTags: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
 ];
 
-const defaultWorkflows: Workflow[] = [{ count: 3, eventLabel: defaultTags[0].label, threshold: 0.75, action: 'warn' }];
+const defaultWorkflows: Workflow[] = [
+  { count: 3, eventLabel: defaultTags[0].label, threshold: 0.75, action: 'warn', sum: 0 },
+];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
@@ -53,7 +55,7 @@ function App() {
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
   const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
-  const [workflowSums, setWorkflowSums] = useState<number[]>([]);
+  // const [workflowSums, setWorkflowSums] = useState<number[]>([]);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -71,6 +73,7 @@ function App() {
   useEffect(() => {
     return () => {
       stopCounter();
+      resetWorkflowSums();
     };
   }, []);
 
@@ -136,14 +139,6 @@ function App() {
   }, [clientState]);
 
   useEffect(() => {
-    setWorkflowSums(Array(workflows.length).fill(0));
-  }, [workflows]);
-
-  useEffect(() => {
-    console.log(workflowSums);
-  }, [workflowSums]);
-
-  useEffect(() => {
     const chunk = (data: Float32Array, length: number) => {
       let result = [];
       for (var i = 0; i < data.length; i += length) {
@@ -191,21 +186,21 @@ function App() {
         const rawClassifications = json['classifications'] as Classification[];
 
         const classifications = rawClassifications.map((c) => {
+          const newWorkflows = workflows.map((w) => {
+            if (c.label === w.eventLabel) {
+              return { ...w, sum: w.sum + 1 };
+            } else {
+              return w;
+            }
+          });
+          setWorkflows(newWorkflows);
+
+          const workflow = newWorkflows.find((w) => w.eventLabel === c.label && c.score >= w.threshold);
           const severity = tags.find((t) => t.label === c.label)?.severity;
-          const idx = workflows.findIndex((w) => w.eventLabel === c.label && c.score >= w.threshold);
-          if (idx > -1) {
-            const wf = workflows[idx];
-            const newSums = [...workflowSums];
-            newSums[idx]++;
-            setWorkflowSums(newSums);
-            return {
-              ...c,
-              ...(severity && { severity }),
-              ...(newSums[idx] == wf.count && { action: wf.action }),
-            };
-          } else {
-            return c;
+          if (workflow && severity) {
+            return { ...c, ...(severity && { severity }), workflows: newWorkflows };
           }
+          return c;
         });
 
         const newSegment = { ...ss, classifications };
@@ -261,6 +256,11 @@ function App() {
     setTags(newTags);
   };
 
+  const resetWorkflowSums = () => {
+    const newWorkflows = workflows.map((w) => ({ ...w, sum: 0 }));
+    setWorkflows(newWorkflows);
+  };
+
   const handleRemoveWorkflow = (idx: number) => {
     const newWorkflows = workflows.filter((_, i) => i !== idx);
     setWorkflows(newWorkflows);
@@ -278,6 +278,7 @@ function App() {
       threshold: Number(target.threshold.value) / 100,
       eventLabel: target.event.value,
       action: target.action.value,
+      sum: 0,
     };
     const newWorkflows = [...workflows, workflow];
     setWorkflows(newWorkflows);
@@ -303,6 +304,7 @@ function App() {
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
+    resetWorkflowSums();
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -382,6 +384,7 @@ function App() {
       setAudioEvents([]);
       setPeakData([]);
       setNextRegion(0);
+      resetWorkflowSums();
     }
 
     if (listening) {

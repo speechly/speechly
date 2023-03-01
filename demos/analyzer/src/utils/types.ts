@@ -7,7 +7,7 @@ export interface Classification {
   label: string;
   score: number;
   severity?: Severity;
-  action?: Action;
+  workflows?: Workflow[];
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
@@ -32,4 +32,5 @@ export interface Workflow {
   eventLabel: string;
   threshold: number;
   action: Action;
+  sum: number;
 }

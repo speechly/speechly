@@ -14,7 +14,6 @@ interface Props {
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
   const { words, classifications } = segment;
-  const actions = classifications?.filter((c) => c.action);
 
   return (
     <div className="Segment">
@@ -23,14 +22,18 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
           {isNaN(words[0]?.endTimestamp) && '···'}
           {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
         </div>
-        {actions?.map(({ action }) => (
-          <span
-            key={action}
-            className={`Segment__action Segment__action--${action}`}
-          >
-            {action}
-          </span>
-        ))}
+        {classifications?.map((c) =>
+          c.workflows?.map((w, i) =>
+            w.sum === w.count ? (
+              <span
+                key={`action-${w.eventLabel}-${w.sum}-${i}`}
+                className={`Segment__action Segment__action--${w.action}`}
+              >
+                {w.action}
+              </span>
+            ) : null
+          )
+        )}
       </div>
       <div className="Segment__transcript">
         {words.map(({ index, startTimestamp, value }) => (

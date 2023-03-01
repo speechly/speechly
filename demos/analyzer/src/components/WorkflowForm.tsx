@@ -55,7 +55,6 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           type="number"
           min={0}
           max={100}
-          step={5}
           placeholder="threshold"
           value={threshold || ''}
           onChange={(e) => setThreshold(Number(e.target.value))}
