@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
-  const { words, classifications, extra } = segment;
+  const { words, classifications, actions } = segment;
 
   return (
     <div className="Segment">
@@ -22,29 +22,38 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
           {isNaN(words[0]?.endTimestamp) && '···'}
           {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
         </div>
-        {extra?.map((e) => (
-          <span key={e} className={`Segment__action Segment__action--${e}`}>
-            {e}
+        {actions?.map((action) => (
+          <span
+            key={action}
+            className={`Segment__action Segment__action--${action}`}
+          >
+            {action}
           </span>
         ))}
       </div>
       <div className="Segment__transcript">
-        {words.map((word) => (
+        {words.map(({ index, startTimestamp, value }) => (
           <span
-            key={word.index}
+            key={index}
             className={clsx(
               currentTime && 'Segment__word',
-              currentTime && currentTime >= word.startTimestamp && 'Segment__word--highlighted'
+              currentTime && currentTime >= startTimestamp && 'Segment__word--highlighted'
             )}
           >
-            {word.value}{' '}
+            {value}{' '}
           </span>
         ))}
       </div>
       {showDetails && (
         <div className="Segment__details">
           <span>Text events:</span>
-          {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
+          {!classifications && (
+            <Spinner
+              width={16}
+              height={16}
+              fill="#7d8fa1"
+            />
+          )}
           {classifications?.map(({ label, score, threshold, severity }, i) => (
             <Tag
               key={label}

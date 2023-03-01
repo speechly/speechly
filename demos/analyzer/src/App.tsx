@@ -9,6 +9,7 @@ import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
 import {
+  Action,
   AudioRegionLabels,
   Classification,
   ClassifiedSpeechSegment,
@@ -39,19 +40,19 @@ const defaultTags: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', threshold: 0.75, score: 0 },
 ];
 
-const defaultWorkflows: Workflow[] = [{ count: 3, event: defaultTags[0], action: 'warn' }];
+const defaultWorkflows: Workflow[] = [{ count: 3, eventLabel: defaultTags[0].label, action: 'warn', sum: 0 }];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
-  const [tags, setTags] = useLocalStorage<Classification[]>('textLabels', defaultTags);
+  const [tags, setTags] = useLocalStorage<Classification[]>('textEvents', defaultTags);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
-  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflows', defaultWorkflows);
+  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -184,7 +185,8 @@ function App() {
           if (match) return { ...c, severity: match.severity, threshold: match.threshold };
           return c;
         });
-        const newSegment = { ...ss, classifications, extra: [] };
+        const newSegment = { ...ss, classifications };
+
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
@@ -207,22 +209,6 @@ function App() {
     }
     // eslint-disable-next-line
   }, [segment]);
-
-  useEffect(() => {
-    const isAllFinal = speechSegments.every((s) => s.isFinal);
-    if (!isAllFinal) return;
-    workflows.forEach((w) => {
-      const matches = speechSegments.filter((s) =>
-        s.classifications?.every((c) => c.label === w.event.label && c.score > c.threshold)
-      );
-      if (matches.length >= w.count) {
-        const item = matches[matches.length - 1];
-        item.extra?.push(w.action);
-        console.log(item);
-      }
-    });
-    // eslint-disable-next-line
-  }, [speechSegments]);
 
   useEffect(() => {
     if (currentTime) {
@@ -264,11 +250,14 @@ function App() {
     const target = e.currentTarget as typeof e.currentTarget & {
       count: { value: number };
       event: { value: string };
-      action: { value: string };
+      action: { value: Action };
     };
-    const event = tags.find((t) => t.label === target.event.value);
-    if (!event) return;
-    const workflow = { count: Number(target.count.value), event, action: target.action.value };
+    const workflow = {
+      count: Number(target.count.value),
+      eventLabel: target.event.value,
+      action: target.action.value,
+      sum: 0,
+    };
     const newWorkflows = [...workflows, workflow];
     setWorkflows(newWorkflows);
   };
@@ -410,41 +399,59 @@ function App() {
         <div className="Sidebar">
           <h4 className="Sidebar__title">Text events</h4>
           <div className="Sidebar__grid">
-            {tags.map((tag, i) => (
+            {tags.map(({ label, severity, threshold }, i) => (
               <Tag
-                key={`event-${tag.label}-${i}`}
+                key={`event-${label}-${i}`}
                 onRemove={() => handleRemoveEvent(i)}
-                severity={tag.severity}
+                severity={severity}
                 size="normal"
               >
-                <span>{tag.label}</span>
-                <small>{tag.threshold * 100}%</small>
+                <span>{label}</span>
+                <small>&gt; {threshold * 100}%</small>
               </Tag>
             ))}
           </div>
-          <EventForm onSubmit={handleAddEvent} tags={tags} />
+          <EventForm
+            onSubmit={handleAddEvent}
+            tags={tags}
+          />
           <h4 className="Sidebar__title">Workflows</h4>
           <div className="Sidebar__list">
-            {workflows?.map((rule, i) => (
+            {workflows?.map(({ action, eventLabel, count }, i) => (
               <WorkflowItem
-                key={`rule-${rule.event.label}-${i}`}
-                rule={rule}
+                key={`rule-${eventLabel}-${action}-${i}`}
+                label={eventLabel}
+                count={count}
+                action={action}
                 onDelete={() => handleRemoveWorkflow(i)}
               />
             ))}
           </div>
-          <WorkflowForm tags={tags} onSubmit={handleAddWorkflow} />
+          <WorkflowForm
+            tags={tags}
+            onSubmit={handleAddWorkflow}
+          />
           <h4 className="Sidebar__title">Audio files</h4>
           <div className="Sidebar__list">
             {files.map(({ name }, i) => (
-              <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+              <AudioFile
+                key={name}
+                isSelected={selectedFileId === i}
+                onClick={() => handleSelectFile(i)}
+              >
                 {name}
               </AudioFile>
             ))}
           </div>
-          <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
+          <FileInput
+            acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
+            onFileSelected={handleFileAdd}
+          />
         </div>
-        <div className="Main" ref={mainRef}>
+        <div
+          className="Main"
+          ref={mainRef}
+        >
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
@@ -462,7 +469,10 @@ function App() {
               showDetails={tags.length > 0}
             />
           ))}
-          <div ref={segmentEndRef} className="Main__lastItem" />
+          <div
+            ref={segmentEndRef}
+            className="Main__lastItem"
+          />
         </div>
       </div>
       <div className="Player">

@@ -19,7 +19,10 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
   };
 
   return (
-    <form className="WorkflowForm Form" onSubmit={handleSubmit}>
+    <form
+      className="WorkflowForm Form"
+      onSubmit={handleSubmit}
+    >
       <div className="Form__input">
         <input
           name="count"
@@ -34,9 +37,12 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
       </div>
       <div className="Form__select">
         <select name="event">
-          {tags.map((tag) => (
-            <option key={tag.label} value={tag.label}>
-              {tag.label}
+          {tags.map(({ label }) => (
+            <option
+              key={label}
+              value={label}
+            >
+              {label}
             </option>
           ))}
         </select>
@@ -44,13 +50,19 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
       <div className="Form__select">
         <select name="action">
           {actions.map((action) => (
-            <option key={action} value={action}>
+            <option
+              key={action}
+              value={action}
+            >
               {action}
             </option>
           ))}
         </select>
       </div>
-      <button type="submit" disabled={!count}>
+      <button
+        type="submit"
+        disabled={!count}
+      >
         Add
       </button>
       {inputRef.current?.value}
