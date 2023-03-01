@@ -48,6 +48,7 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--night);
   background-color: var(--day);
+  position: relative;
 }
 
 button:focus,

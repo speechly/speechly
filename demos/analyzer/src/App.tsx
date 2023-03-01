@@ -8,6 +8,10 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
+import { WorkflowItem } from './components/WorkflowItem';
+import { WorkflowForm } from './components/WorkflowForm';
+import { EventForm } from './components/EventForm';
+import { Popover } from './components/Popover';
 import {
   Action,
   AudioRegionLabels,
@@ -25,9 +29,6 @@ import sample1 from './assets/t1-trailer.wav';
 import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
-import { WorkflowItem } from './components/WorkflowItem';
-import { WorkflowForm } from './components/WorkflowForm';
-import { EventForm } from './components/EventForm';
 
 const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
@@ -431,7 +432,15 @@ function App() {
     <>
       <div className="App">
         <div className="Sidebar">
-          <h4 className="Sidebar__title">Text events</h4>
+          <div className="Sidebar__title">
+            <h4>Text events</h4>
+            <Popover label="Add event">
+              <EventForm
+                onSubmit={handleAddEvent}
+                tags={tags}
+              />
+            </Popover>
+          </div>
           <div className="Sidebar__grid">
             {tags.map(({ label, severity }, i) => (
               <Tag
@@ -443,11 +452,15 @@ function App() {
               />
             ))}
           </div>
-          <EventForm
-            onSubmit={handleAddEvent}
-            tags={tags}
-          />
-          <h4 className="Sidebar__title">Workflows</h4>
+          <div className="Sidebar__title">
+            <h4>Workflows</h4>
+            <Popover label="Add workflow">
+              <WorkflowForm
+                tags={tags}
+                onSubmit={handleAddWorkflow}
+              />
+            </Popover>
+          </div>
           <div className="Sidebar__list">
             {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
               <WorkflowItem
@@ -460,10 +473,6 @@ function App() {
               />
             ))}
           </div>
-          <WorkflowForm
-            tags={tags}
-            onSubmit={handleAddWorkflow}
-          />
           <h4 className="Sidebar__title">Audio files</h4>
           <div className="Sidebar__list">
             {files.map(({ name }, i) => (

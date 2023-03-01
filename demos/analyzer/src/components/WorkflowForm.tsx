@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Classification } from '../utils/types';
 import './Form.css';
-import './WorkflowForm.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;

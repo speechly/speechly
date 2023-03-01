@@ -37,8 +37,15 @@ body {
 }
 
 .Sidebar__title {
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin: 24px 24px 6px;
+}
+
+.Sidebar__title h4 {
+  margin: 0;
+  font-weight: 500;
 }
 
 .Sidebar__grid {

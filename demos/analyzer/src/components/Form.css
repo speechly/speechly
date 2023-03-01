@@ -1,7 +1,6 @@
 .Form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
+  display: grid;
+  gap: 8px;
 }
 
 .Form__input,
@@ -38,7 +37,7 @@
   font-family: inherit;
   font-size: 14px;
   line-height: 20px;
-  padding: 5px 9px;
+  padding: 7px 11px;
   width: 100%;
 }
 
@@ -61,11 +60,12 @@
   color: var(--day);
   cursor: pointer;
   flex-grow: 1;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  padding: 6px 8px;
+  padding: 8px;
   transition: var(--ease);
+  margin-top: 8px;
 }
 
 .Form button:hover {

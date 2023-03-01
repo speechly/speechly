@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Classification, Severity } from '../utils/types';
 import { MAX_TAGS } from '../utils/variables';
 import './Form.css';
-import './EventForm.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;

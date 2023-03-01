@@ -1,0 +1,75 @@
+.Popover {
+  display: inline-block;
+  position: relative;
+}
+
+.Popover__trigger {
+  border: 1px solid var(--hover-dark);
+  background-color: var(--dawn);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 8px;
+  line-height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.Popover__trigger:hover {
+  box-shadow: inset 0 0 0 100px var(--hover);
+}
+
+.Popover__container {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+.Popover__container--active {
+  visibility: visible;
+  z-index: 90;
+  opacity: 1;
+  pointer-events: visible;
+}
+
+.Popover__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--hover-dark);
+}
+
+.Popover__menu {
+  border-radius: 8px;
+  background: var(--day);
+  margin: 8px 0;
+  width: 400px;
+  padding: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  box-shadow: 0 4px 16px 0 var(--hover-dark);
+  z-index: 100;
+
+  transition-property: transform, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+
+  transform: translate(-50%, -50%) scale(0.9);
+  transform-origin: center;
+  display: block;
+  opacity: 0;
+}
+
+.Popover__menu--active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.Popover__menu h2 {
+  margin-top: 0;
+  font-size: 20px;
+}
