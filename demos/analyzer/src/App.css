@@ -51,7 +51,7 @@ body {
 .Sidebar__list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   margin: 4px 24px;
 }
 

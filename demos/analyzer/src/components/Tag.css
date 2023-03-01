@@ -1,7 +1,7 @@
 :root {
   --label-neutral: hsl(202, 100%, 93%);
   --label-negative: hsl(0, 95%, 94%);
-  --label-positive: hsl(120, 80%, 90%);
+  --label-positive: hsl(120, 75%, 92%);
 }
 
 @media (prefers-color-scheme: dark) {
