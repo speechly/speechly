@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Classification } from '../utils/types';
 import './Form.css';
 import './WorkflowForm.css';
@@ -10,12 +10,14 @@ interface Props {
 
 export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
   const [count, setCount] = useState(0);
+  const [threshold, setThreshold] = useState(0);
   const actions = ['warn', 'mute', 'ban', 'reward'];
-  const inputRef: { current: HTMLInputElement | null } = useRef(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(e);
+    setCount(0);
+    setThreshold(0);
   };
 
   return (
@@ -47,6 +49,18 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           ))}
         </select>
       </div>
+      <div className="Form__input">
+        <input
+          name="threshold"
+          type="number"
+          min={0}
+          max={100}
+          step={5}
+          placeholder="threshold"
+          value={threshold || ''}
+          onChange={(e) => setThreshold(Number(e.target.value))}
+        />
+      </div>
       <div className="Form__select">
         <select name="action">
           {actions.map((action) => (
@@ -61,11 +75,10 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
       </div>
       <button
         type="submit"
-        disabled={!count}
+        disabled={!count || !threshold}
       >
         Add
       </button>
-      {inputRef.current?.value}
     </form>
   );
 };

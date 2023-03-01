@@ -5,14 +5,13 @@ export type Action = 'warn' | 'mute' | 'ban' | 'reward';
 
 export interface Classification {
   label: string;
-  severity: Severity;
   score: number;
-  threshold: number;
+  severity?: Severity;
+  action?: Action;
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
   classifications?: Classification[];
-  actions?: Action[];
 }
 
 export interface FileOrUrl {
@@ -30,7 +29,7 @@ export interface AudioRegionLabels {
 
 export interface Workflow {
   count: number;
-  sum: number;
   eventLabel: string;
+  threshold: number;
   action: Action;
 }

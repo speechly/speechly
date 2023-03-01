@@ -11,23 +11,24 @@ interface Props {
 
 export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
   const [label, setLabel] = useState('');
-  const [threshold, setThreshold] = useState(0);
   const severities: Severity[] = ['negative', 'neutral', 'positive'];
 
   const isAddEnabled = () => {
     const isDuplicate = tags.find((t) => t.label === label);
-    return label && threshold && !isDuplicate;
+    return label && !isDuplicate;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(e);
     setLabel('');
-    setThreshold(0);
   };
 
   return (
-    <form className="EventForm Form" onSubmit={handleSubmit}>
+    <form
+      className="EventForm Form"
+      onSubmit={handleSubmit}
+    >
       <div className="Form__input">
         <input
           name="label"
@@ -40,25 +41,19 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
       <div className="Form__select">
         <select name="severity">
           {severities.map((severity) => (
-            <option key={severity} value={severity}>
+            <option
+              key={severity}
+              value={severity}
+            >
               {severity}
             </option>
           ))}
         </select>
       </div>
-      <div className="Form__input">
-        <input
-          name="threshold"
-          type="number"
-          min={0}
-          max={100}
-          step={5}
-          placeholder="threshold"
-          value={threshold || ''}
-          onChange={(e) => setThreshold(Number(e.target.value))}
-        />
-      </div>
-      <button type="submit" disabled={!isAddEnabled()}>
+      <button
+        type="submit"
+        disabled={!isAddEnabled()}
+      >
         Add
       </button>
       {label && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}

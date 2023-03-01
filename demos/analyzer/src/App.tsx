@@ -36,11 +36,11 @@ sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
 const defaultTags: Classification[] = [
-  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', threshold: 0.75, score: 0 },
-  { label: 'a derogatory comment based on faith', severity: 'negative', threshold: 0.75, score: 0 },
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
+  { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
 ];
 
-const defaultWorkflows: Workflow[] = [{ count: 3, eventLabel: defaultTags[0].label, action: 'warn', sum: 0 }];
+const defaultWorkflows: Workflow[] = [{ count: 3, eventLabel: defaultTags[0].label, threshold: 0.75, action: 'warn' }];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
@@ -53,6 +53,7 @@ function App() {
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
   const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
+  const [workflowSums, setWorkflowSums] = useState<number[]>([]);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -135,6 +136,14 @@ function App() {
   }, [clientState]);
 
   useEffect(() => {
+    setWorkflowSums(Array(workflows.length).fill(0));
+  }, [workflows]);
+
+  useEffect(() => {
+    console.log(workflowSums);
+  }, [workflowSums]);
+
+  useEffect(() => {
     const chunk = (data: Float32Array, length: number) => {
       let result = [];
       for (var i = 0; i < data.length; i += length) {
@@ -180,13 +189,26 @@ function App() {
         }
         const json = await response.json();
         const rawClassifications = json['classifications'] as Classification[];
-        const classifications = rawClassifications.map((c) => {
-          const match = tags.find((t) => t.label === c.label);
-          if (match) return { ...c, severity: match.severity, threshold: match.threshold };
-          return c;
-        });
-        const newSegment = { ...ss, classifications };
 
+        const classifications = rawClassifications.map((c) => {
+          const severity = tags.find((t) => t.label === c.label)?.severity;
+          const idx = workflows.findIndex((w) => w.eventLabel === c.label && c.score >= w.threshold);
+          if (idx > -1) {
+            const wf = workflows[idx];
+            const newSums = [...workflowSums];
+            newSums[idx]++;
+            setWorkflowSums(newSums);
+            return {
+              ...c,
+              ...(severity && { severity }),
+              ...(newSums[idx] == wf.count && { action: wf.action }),
+            };
+          } else {
+            return c;
+          }
+        });
+
+        const newSegment = { ...ss, classifications };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
@@ -229,12 +251,10 @@ function App() {
     const target = e.currentTarget as typeof e.currentTarget & {
       label: { value: string };
       severity: { value: Severity };
-      threshold: { value: string };
     };
     const tag = {
       label: target.label.value,
       severity: target.severity.value,
-      threshold: Number(target.threshold.value) / 100,
       score: 0,
     };
     const newTags = [...tags, tag];
@@ -249,14 +269,15 @@ function App() {
   const handleAddWorkflow = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.currentTarget as typeof e.currentTarget & {
       count: { value: number };
+      threshold: { value: number };
       event: { value: string };
       action: { value: Action };
     };
     const workflow = {
       count: Number(target.count.value),
+      threshold: Number(target.threshold.value) / 100,
       eventLabel: target.event.value,
       action: target.action.value,
-      sum: 0,
     };
     const newWorkflows = [...workflows, workflow];
     setWorkflows(newWorkflows);
@@ -415,11 +436,12 @@ function App() {
           />
           <h4 className="Sidebar__title">Workflows</h4>
           <div className="Sidebar__list">
-            {workflows?.map(({ action, eventLabel, count }, i) => (
+            {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
               <WorkflowItem
                 key={`rule-${eventLabel}-${action}-${i}`}
-                label={eventLabel}
                 count={count}
+                label={eventLabel}
+                threshold={threshold}
                 action={action}
                 onDelete={() => handleRemoveWorkflow(i)}
               />

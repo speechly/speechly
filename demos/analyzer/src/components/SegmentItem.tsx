@@ -13,7 +13,8 @@ interface Props {
 }
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
-  const { words, classifications, actions } = segment;
+  const { words, classifications } = segment;
+  const actions = classifications?.filter((c) => c.action);
 
   return (
     <div className="Segment">
@@ -22,7 +23,7 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
           {isNaN(words[0]?.endTimestamp) && '···'}
           {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
         </div>
-        {actions?.map((action) => (
+        {actions?.map(({ action }) => (
           <span
             key={action}
             className={`Segment__action Segment__action--${action}`}
@@ -54,13 +55,13 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
               fill="#7d8fa1"
             />
           )}
-          {classifications?.map(({ label, score, threshold, severity }, i) => (
+          {classifications?.map(({ label, score, severity }) => (
             <Tag
               key={label}
-              severity={score > threshold ? severity : undefined}
-              size={score > threshold ? 'small' : undefined}
               label={label}
               score={score}
+              severity={severity ? severity : undefined}
+              size={severity ? 'small' : undefined}
             />
           ))}
         </div>

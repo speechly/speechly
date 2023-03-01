@@ -5,15 +5,16 @@ import './WorkflowItem.css';
 interface Props {
   onDelete: React.MouseEventHandler;
   count: number;
-  action: Action;
   label: string;
+  threshold: number;
+  action: Action;
 }
 
-export const WorkflowItem: React.FC<Props> = ({ count, action, label, onDelete }) => {
+export const WorkflowItem: React.FC<Props> = ({ count, label, threshold, action, onDelete }) => {
   return (
     <div className="WorkflowItem">
       <span>
-        {count} &times; {label} &rarr; {action}
+        {count} &times; {label} &gt; {threshold * 100}% &rarr; {action}
       </span>
       <DeleteIcon onClick={onDelete} />
     </div>
