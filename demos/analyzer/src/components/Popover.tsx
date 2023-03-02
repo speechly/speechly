@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import clsx from 'clsx';
+import { useTransition } from 'transition-hook';
 import { ReactComponent as AddIcon } from '../assets/add.svg';
 import './Popover.css';
 
@@ -11,6 +13,8 @@ interface Props {
 
 export const Popover: React.FC<Props> = ({ title, children, close }) => {
   const [isVisible, setVisible] = useState(false);
+  const { stage, shouldMount } = useTransition(isVisible, 200);
+  const classes = clsx('Popover', stage === 'enter' && 'Popover--visible');
 
   useEffect(() => {
     if (close) {
@@ -30,9 +34,9 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
           height={16}
         />
       </button>
-      {isVisible &&
+      {shouldMount &&
         createPortal(
-          <div className="Popover">
+          <div className={classes}>
             <div
               className="Popover__bg"
               onClick={() => setVisible(!isVisible)}

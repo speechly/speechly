@@ -29,6 +29,12 @@
 
 .Popover {
   z-index: 100;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.Popover--visible {
+  opacity: 1;
 }
 
 .Popover__bg {

@@ -13894,6 +13894,16 @@ packages:
       punycode: 2.1.1
     dev: false
 
+  /transition-hook/1.5.2_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-zVW5wP+hzOCk56jU5V5GAIsuaf+gZv43pzxyimXQ74JnD1yoprxTfzoPjr0yjC/Mrc9JyCh3Wb6UhXD+8dlO4w==}
+    peerDependencies:
+      react: ^16.8.0  || ^17.0.0
+      react-dom: ^16.8.0  || ^17.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /tryer/1.0.1:
     resolution: {integrity: sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==}
     dev: false
@@ -14959,7 +14969,7 @@ packages:
     dev: false
 
   file:projects/analyzer.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-NBApXXoSAqSEkilMZvybPe3uVByWBucGeWgZl2DPAKf2mYy01qsx/gM8bT5ZTalTe6wgvSAr9k54evGUFdCDjg==, tarball: file:projects/analyzer.tgz}
+    resolution: {integrity: sha512-2h8SWyLM7RCmK7c4vqEfIAGquLQHoDgXfS4OQVYCCY6AdByvvpgd+uLEx55aETiGE2m9sq0X3pKJSMhuKsBKzg==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
@@ -14976,6 +14986,7 @@ packages:
       react-h5-audio-player: 3.8.6_react-dom@18.2.0+react@18.2.0
       react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
       react-usestateref: 1.0.8_react@18.2.0
+      transition-hook: 1.5.2_react-dom@18.2.0+react@18.2.0
       typescript: 4.9.4
       wavefile: 11.0.0
       wavesurfer.js: 6.4.0
