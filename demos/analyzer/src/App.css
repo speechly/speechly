@@ -40,34 +40,38 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 24px 24px 6px;
+  margin: 24px 24px 8px;
+  min-height: 24px;
 }
 
 .Sidebar__title h4 {
   margin: 0;
   font-weight: 500;
+  line-height: 20px;
+}
+
+.Sidebar__grid,
+.Sidebar__list {
+  display: flex;
+  gap: 4px;
+  margin: 0 24px;
 }
 
 .Sidebar__grid {
-  display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  margin: 8px 24px;
 }
 
 .Sidebar__list {
-  display: flex;
   flex-direction: column;
-  gap: 4px;
-  margin: 4px 24px;
+}
+
+.Sidebar__empty {
+  font-size: 14px;
+  color: var(--dim);
 }
 
 .Sidebar .FileInput {
   margin: 16px 24px 32px;
-}
-
-.Sidebar .Form {
-  margin: 4px 24px;
 }
 
 /* Main content */

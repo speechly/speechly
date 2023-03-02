@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import clsx from 'clsx';
 import { ReactComponent as AddIcon } from '../assets/add.svg';
 import './Popover.css';
 
@@ -11,13 +10,11 @@ interface Props {
 }
 
 export const Popover: React.FC<Props> = ({ title, children, close }) => {
-  const [isActive, setActive] = useState(close);
-  const popoverClasses = clsx('Popover', isActive && 'Popover--active');
-  const contentClasses = clsx('Popover__content', isActive && 'Popover__content--active');
+  const [isVisible, setVisible] = useState(false);
 
   useEffect(() => {
     if (close) {
-      setActive(false);
+      setVisible(false);
     }
   }, [close]);
 
@@ -25,7 +22,7 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
     <>
       <button
         className="Popover__trigger"
-        onClick={() => setActive(!isActive)}
+        onClick={() => setVisible(!isVisible)}
       >
         <span>Add</span>
         <AddIcon
@@ -33,19 +30,20 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
           height={16}
         />
       </button>
-      {createPortal(
-        <div className={popoverClasses}>
-          <div
-            className="Popover__bg"
-            onClick={() => setActive(!isActive)}
-          />
-          <div className={contentClasses}>
-            <h2>{title}</h2>
-            {children}
-          </div>
-        </div>,
-        document.body
-      )}
+      {isVisible &&
+        createPortal(
+          <div className="Popover">
+            <div
+              className="Popover__bg"
+              onClick={() => setVisible(!isVisible)}
+            />
+            <div className="Popover__content">
+              <h2>{title}</h2>
+              {children}
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 };

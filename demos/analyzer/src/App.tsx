@@ -444,15 +444,19 @@ function App() {
             </Popover>
           </div>
           <div className="Sidebar__grid">
-            {textEvents.map(({ label, severity }, i) => (
-              <Tag
-                key={`event-${label}-${i}`}
-                onRemove={() => handleRemoveEvent(i)}
-                severity={severity}
-                size="normal"
-                label={label}
-              />
-            ))}
+            {textEvents.length ? (
+              textEvents.map(({ label, severity }, i) => (
+                <Tag
+                  key={`event-${label}-${i}`}
+                  onRemove={() => handleRemoveEvent(i)}
+                  severity={severity}
+                  size="normal"
+                  label={label}
+                />
+              ))
+            ) : (
+              <span className="Sidebar__empty">No text events</span>
+            )}
           </div>
           <div className="Sidebar__title">
             <h4>Workflows</h4>
@@ -467,18 +471,24 @@ function App() {
             </Popover>
           </div>
           <div className="Sidebar__list">
-            {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
-              <WorkflowItem
-                key={`rule-${eventLabel}-${action}-${i}`}
-                count={count}
-                label={eventLabel}
-                threshold={threshold}
-                action={action}
-                onDelete={() => handleRemoveWorkflow(i)}
-              />
-            ))}
+            {workflows.length ? (
+              workflows?.map(({ count, eventLabel, threshold, action }, i) => (
+                <WorkflowItem
+                  key={`rule-${eventLabel}-${action}-${i}`}
+                  count={count}
+                  label={eventLabel}
+                  threshold={threshold}
+                  action={action}
+                  onDelete={() => handleRemoveWorkflow(i)}
+                />
+              ))
+            ) : (
+              <span className="Sidebar__empty">No workflows</span>
+            )}
           </div>
-          <h4 className="Sidebar__title">Audio files</h4>
+          <div className="Sidebar__title">
+            <h4>Audio files</h4>
+          </div>
           <div className="Sidebar__list">
             {files.map(({ name }, i) => (
               <AudioFile
