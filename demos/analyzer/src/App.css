@@ -24,6 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  padding: 24px;
   height: 100%;
   border-right: 1px solid var(--border);
   overflow-y: auto;
@@ -36,33 +37,43 @@ body {
   display: none;
 }
 
+.Sidebar__section {
+  margin-top: 24px;
+}
+
 .Sidebar__title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 24px 24px 8px;
-  min-height: 24px;
+  padding-top: 16px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.Sidebar__title:first-of-type {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
 }
 
 .Sidebar__title h4 {
   margin: 0;
   font-weight: 500;
-  line-height: 20px;
-}
-
-.Sidebar__grid,
-.Sidebar__list {
-  display: flex;
-  gap: 4px;
-  margin: 0 24px;
+  line-height: 24px;
 }
 
 .Sidebar__grid {
+  display: flex;
   flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0;
 }
 
 .Sidebar__list {
+  display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .Sidebar__empty {
@@ -71,7 +82,7 @@ body {
 }
 
 .Sidebar .FileInput {
-  margin: 16px 24px 32px;
+  margin-top: 16px;
 }
 
 /* Main content */

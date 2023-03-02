@@ -16,7 +16,11 @@ export const WorkflowItem: React.FC<Props> = ({ count, label, threshold, action,
       <span>
         {count} &times; {label} &gt; {threshold * 100}% &rarr; {action}
       </span>
-      <DeleteIcon onClick={onDelete} />
+      <DeleteIcon
+        onClick={onDelete}
+        width={18}
+        height={18}
+      />
     </div>
   );
 };

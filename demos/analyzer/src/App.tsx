@@ -443,9 +443,9 @@ function App() {
               />
             </Popover>
           </div>
-          <div className="Sidebar__grid">
-            {textEvents.length ? (
-              textEvents.map(({ label, severity }, i) => (
+          {textEvents.length ? (
+            <div className="Sidebar__grid">
+              {textEvents.map(({ label, severity }, i) => (
                 <Tag
                   key={`event-${label}-${i}`}
                   onRemove={() => handleRemoveEvent(i)}
@@ -453,11 +453,11 @@ function App() {
                   size="normal"
                   label={label}
                 />
-              ))
-            ) : (
-              <span className="Sidebar__empty">No text events</span>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <span className="Sidebar__empty">No text events</span>
+          )}
           <div className="Sidebar__title">
             <h4>Workflows</h4>
             <Popover
@@ -470,9 +470,9 @@ function App() {
               />
             </Popover>
           </div>
-          <div className="Sidebar__list">
-            {workflows.length ? (
-              workflows?.map(({ count, eventLabel, threshold, action }, i) => (
+          {workflows.length ? (
+            <div className="Sidebar__list">
+              {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
                 <WorkflowItem
                   key={`rule-${eventLabel}-${action}-${i}`}
                   count={count}
@@ -481,11 +481,11 @@ function App() {
                   action={action}
                   onDelete={() => handleRemoveWorkflow(i)}
                 />
-              ))
-            ) : (
-              <span className="Sidebar__empty">No workflows</span>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <span className="Sidebar__empty">No workflows</span>
+          )}
           <div className="Sidebar__title">
             <h4>Audio files</h4>
           </div>
