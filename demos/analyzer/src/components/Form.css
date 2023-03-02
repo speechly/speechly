@@ -47,6 +47,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  text-transform: capitalize;
 }
 
 .Form__input input[type='number'] {
@@ -73,7 +74,7 @@
 }
 
 .Form button:disabled {
-  background-color: var(--border-dark);
+  opacity: 0.4;
   pointer-events: none;
 }
 

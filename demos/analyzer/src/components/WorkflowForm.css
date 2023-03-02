@@ -1,8 +1,0 @@
-.WorkflowForm {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.WorkflowForm button {
-  grid-column: 1/3;
-}

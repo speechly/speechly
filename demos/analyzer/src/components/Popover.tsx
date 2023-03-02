@@ -1,43 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
+import { ReactComponent as AddIcon } from '../assets/add.svg';
 import './Popover.css';
 
 interface Props {
-  label?: string;
+  title: string;
   children: React.ReactNode;
+  close?: boolean;
 }
 
-const Menu: React.FC<Props> = ({ children }) => {
-  return createPortal(<div className="Popover__menu">{children}</div>, document.body);
-};
+export const Popover: React.FC<Props> = ({ title, children, close }) => {
+  const [isActive, setActive] = useState(close);
+  const popoverClasses = clsx('Popover', isActive && 'Popover--active');
+  const contentClasses = clsx('Popover__content', isActive && 'Popover__content--active');
 
-export const Popover: React.FC<Props> = ({ label, children }) => {
-  const [isActive, setActive] = useState(false);
-  const menuClasses = clsx('Popover__menu', isActive && 'Popover__menu--active');
-  const bgClasses = clsx('Popover__container', isActive && 'Popover__container--active');
+  useEffect(() => {
+    if (close) {
+      setActive(false);
+    }
+  }, [close]);
 
   return (
-    <div className="Popover">
+    <>
       <button
         className="Popover__trigger"
         onClick={() => setActive(!isActive)}
       >
-        {label}
+        <span>Add</span>
+        <AddIcon
+          width={16}
+          height={16}
+        />
       </button>
       {createPortal(
-        <div className={bgClasses}>
+        <div className={popoverClasses}>
           <div
             className="Popover__bg"
             onClick={() => setActive(!isActive)}
           />
-          <div className={menuClasses}>
-            <h2>{label}</h2>
+          <div className={contentClasses}>
+            <h2>{title}</h2>
             {children}
           </div>
         </div>,
         document.body
       )}
-    </div>
+    </>
   );
 };

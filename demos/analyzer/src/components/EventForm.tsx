@@ -14,7 +14,7 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
 
   const isAddEnabled = () => {
     const isDuplicate = tags.find((t) => t.label === label);
-    return label && !isDuplicate;
+    return label && !isDuplicate && tags.length < MAX_TAGS;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,12 +27,13 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
     <form
       className="EventForm Form"
       onSubmit={handleSubmit}
+      noValidate
     >
       <div className="Form__input">
         <input
           name="label"
           type="text"
-          placeholder="event label"
+          placeholder="Event label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
         />

@@ -23,6 +23,7 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
     <form
       className="WorkflowForm Form"
       onSubmit={handleSubmit}
+      noValidate
     >
       <div className="Form__input">
         <input
@@ -31,13 +32,16 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           min={0}
           max={10}
           step={1}
-          placeholder="count"
+          placeholder="Count"
           value={count || ''}
           onChange={(e) => setCount(Number(e.target.value))}
         />
       </div>
       <div className="Form__select">
-        <select name="event">
+        <select
+          name="event"
+          style={{ textTransform: 'none' }}
+        >
           {tags.map(({ label }) => (
             <option
               key={label}
@@ -54,7 +58,8 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           type="number"
           min={0}
           max={100}
-          placeholder="threshold"
+          step={5}
+          placeholder="Threshold"
           value={threshold || ''}
           onChange={(e) => setThreshold(Number(e.target.value))}
         />
