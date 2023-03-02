@@ -5,16 +5,16 @@ import './Form.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
-  tags: Classification[];
+  textEvents: Classification[];
 }
 
-export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
+export const EventForm: React.FC<Props> = ({ textEvents: textEvents, onSubmit }) => {
   const [label, setLabel] = useState('');
   const severities: Severity[] = ['negative', 'neutral', 'positive'];
 
   const isAddEnabled = () => {
-    const isDuplicate = tags.find((t) => t.label === label);
-    return label && !isDuplicate && tags.length < MAX_TAGS;
+    const isDuplicate = textEvents.find((t) => t.label === label);
+    return label && !isDuplicate && textEvents.length < MAX_TAGS;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
 
   return (
     <form
-      className="EventForm Form"
+      className="Form"
       onSubmit={handleSubmit}
       noValidate
     >
@@ -56,7 +56,7 @@ export const EventForm: React.FC<Props> = ({ tags, onSubmit }) => {
       >
         Add
       </button>
-      {label && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
+      {label && textEvents.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
     </form>
   );
 };

@@ -36,20 +36,19 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
-const defaultTags: Classification[] = [
+const defaultTextEvents: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
   { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
 ];
-
 const defaultWorkflows: Workflow[] = [
-  { count: 2, eventLabel: defaultTags[0].label, threshold: 0.7, action: 'warn', sum: 0 },
+  { count: 2, eventLabel: defaultTextEvents[0].label, threshold: 0.7, action: 'warn', sum: 0 },
 ];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
-  const [tags, setTags] = useLocalStorage<Classification[]>('textEvents', defaultTags);
+  const [textEvents, setTextEvents] = useLocalStorage<Classification[]>('textEvents', defaultTextEvents);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
@@ -174,9 +173,9 @@ function App() {
       });
     };
 
-    const classifySegment = async (ss: SpeechSegment, tags: Classification[]): Promise<void> => {
+    const classifySegment = async (ss: SpeechSegment, textEvents: Classification[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
-      const labels = tags.flatMap((t) => t.label);
+      const labels = textEvents.flatMap((t) => t.label);
       try {
         const response = await fetch(TEXT_CLASSIFIER_URL, {
           method: 'POST',
@@ -192,7 +191,7 @@ function App() {
         const updatedClassifications = rawClassifications.map((c) => {
           const workflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
           if (workflow) {
-            const severity = tags.find((t) => t.label === c.label)?.severity;
+            const severity = textEvents.find((t) => t.label === c.label)?.severity;
             return { ...c, ...(severity && { severity }) };
           }
           return c;
@@ -229,8 +228,8 @@ function App() {
       updateOrAddSegment(segment);
       scrollToSegmentsEnd();
       if (segment.isFinal) {
-        if (tags.length) {
-          classifySegment(segment, tags);
+        if (textEvents.length) {
+          classifySegment(segment, textEvents);
         } else {
           updateOrAddSegment(segment);
         }
@@ -251,8 +250,7 @@ function App() {
   }, [currentTime, speechSegmentsRef]);
 
   const handleRemoveEvent = (idx: number) => {
-    const newTags = tags.filter((_, i) => i !== idx);
-    setTags(newTags);
+    setTextEvents(textEvents.filter((_, i) => i !== idx));
   };
 
   const handleAddEvent = (e: React.FormEvent<HTMLFormElement>) => {
@@ -260,24 +258,21 @@ function App() {
       label: { value: string };
       severity: { value: Severity };
     };
-    const tag = {
+    const newEvent = {
       label: target.label.value,
       severity: target.severity.value,
       score: 0,
     };
-    const newTags = [...tags, tag];
-    setTags(newTags);
+    setTextEvents([...textEvents, newEvent]);
     setClosePopover(true);
   };
 
   const resetWorkflowSums = () => {
-    const newWorkflows = workflows.map((w) => ({ ...w, sum: 0 }));
-    setWorkflows(newWorkflows);
+    setWorkflows(workflows.map((w) => ({ ...w, sum: 0 })));
   };
 
   const handleRemoveWorkflow = (idx: number) => {
-    const newWorkflows = workflows.filter((_, i) => i !== idx);
-    setWorkflows(newWorkflows);
+    setWorkflows(workflows.filter((_, i) => i !== idx));
   };
 
   const handleAddWorkflow = (e: React.FormEvent<HTMLFormElement>) => {
@@ -444,12 +439,12 @@ function App() {
             >
               <EventForm
                 onSubmit={handleAddEvent}
-                tags={tags}
+                textEvents={textEvents}
               />
             </Popover>
           </div>
           <div className="Sidebar__grid">
-            {tags.map(({ label, severity }, i) => (
+            {textEvents.map(({ label, severity }, i) => (
               <Tag
                 key={`event-${label}-${i}`}
                 onRemove={() => handleRemoveEvent(i)}
@@ -466,7 +461,7 @@ function App() {
               close={closePopover}
             >
               <WorkflowForm
-                tags={tags}
+                textEvents={textEvents}
                 onSubmit={handleAddWorkflow}
               />
             </Popover>
@@ -518,7 +513,7 @@ function App() {
               key={`${segment.contextId}-${segment.id}`}
               currentTime={currentTime}
               segment={segment}
-              showDetails={tags.length > 0}
+              showDetails={textEvents.length > 0}
             />
           ))}
           <div

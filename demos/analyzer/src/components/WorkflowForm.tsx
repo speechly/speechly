@@ -4,10 +4,10 @@ import './Form.css';
 
 interface Props {
   onSubmit: React.FormEventHandler<HTMLFormElement>;
-  tags: Classification[];
+  textEvents: Classification[];
 }
 
-export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
+export const WorkflowForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
   const [count, setCount] = useState(0);
   const [threshold, setThreshold] = useState(0);
   const actions = ['warn', 'mute', 'ban', 'reward'];
@@ -21,7 +21,7 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
 
   return (
     <form
-      className="WorkflowForm Form"
+      className="Form"
       onSubmit={handleSubmit}
       noValidate
     >
@@ -42,7 +42,7 @@ export const WorkflowForm: React.FC<Props> = ({ tags, onSubmit }) => {
           name="event"
           style={{ textTransform: 'none' }}
         >
-          {tags.map(({ label }) => (
+          {textEvents.map(({ label }) => (
             <option
               key={label}
               value={label}
