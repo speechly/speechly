@@ -8,7 +8,7 @@ interface Props {
   textEvents: Classification[];
 }
 
-export const EventForm: React.FC<Props> = ({ textEvents: textEvents, onSubmit }) => {
+export const EventForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
   const [label, setLabel] = useState('');
   const severities: Severity[] = ['negative', 'neutral', 'positive'];
 
