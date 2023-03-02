@@ -37,12 +37,12 @@ sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
 const defaultTags: Classification[] = [
-  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
 ];
 
 const defaultWorkflows: Workflow[] = [
-  { count: 3, eventLabel: defaultTags[0].label, threshold: 0.75, action: 'warn', sum: 0 },
+  { count: 2, eventLabel: defaultTags[0].label, threshold: 0.7, action: 'warn', sum: 0 },
 ];
 
 function App() {
@@ -66,6 +66,7 @@ function App() {
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
+  const [closePopover, setClosePopover] = useState(false);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
@@ -77,6 +78,8 @@ function App() {
       resetWorkflowSums();
     };
   }, []);
+
+  useEffect(() => () => setClosePopover(false), [closePopover]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -202,7 +205,6 @@ function App() {
             );
             setWorkflows(newWorkflows);
             const sorted = Array.from(newWorkflows).sort((a, b) => (a.count > b.count ? 1 : -1));
-            console.log(sorted);
             const filtered = sorted
               .filter((w) => w.eventLabel === c.label && w.threshold <= c.score && w.sum === w.count)
               .at(-1);
@@ -265,6 +267,7 @@ function App() {
     };
     const newTags = [...tags, tag];
     setTags(newTags);
+    setClosePopover(true);
   };
 
   const resetWorkflowSums = () => {
@@ -293,6 +296,7 @@ function App() {
     };
     const newWorkflows = [...workflows, workflow];
     setWorkflows(newWorkflows);
+    setClosePopover(true);
   };
 
   const handleFileAdd = async (file: File) => {
@@ -434,7 +438,10 @@ function App() {
         <div className="Sidebar">
           <div className="Sidebar__title">
             <h4>Text events</h4>
-            <Popover label="Add event">
+            <Popover
+              title="Add text event"
+              close={closePopover}
+            >
               <EventForm
                 onSubmit={handleAddEvent}
                 tags={tags}
@@ -454,7 +461,10 @@ function App() {
           </div>
           <div className="Sidebar__title">
             <h4>Workflows</h4>
-            <Popover label="Add workflow">
+            <Popover
+              title="Add workflow"
+              close={closePopover}
+            >
               <WorkflowForm
                 tags={tags}
                 onSubmit={handleAddWorkflow}
