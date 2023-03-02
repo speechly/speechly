@@ -19,6 +19,8 @@ export const WorkflowForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
     setThreshold(0);
   };
 
+  const isAddEnabled = !count || !threshold || !textEvents.length;
+
   return (
     <form
       className="Form"
@@ -78,7 +80,7 @@ export const WorkflowForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
       </div>
       <button
         type="submit"
-        disabled={!count || !threshold}
+        disabled={isAddEnabled}
       >
         Add
       </button>
