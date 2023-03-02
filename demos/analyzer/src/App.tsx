@@ -56,7 +56,6 @@ function App() {
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
   const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
-  // const [workflowSums, setWorkflowSums] = useState<number[]>([]);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -77,6 +76,7 @@ function App() {
       stopCounter();
       resetWorkflowSums();
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => () => setClosePopover(false), [closePopover]);
