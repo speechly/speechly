@@ -22,10 +22,6 @@
   box-shadow: 0 0 0 1px var(--accent);
 }
 
-.FileInput__icon {
-  fill: currentColor
-}
-
 .FileInput__title {
   font-size: 16px;
 }

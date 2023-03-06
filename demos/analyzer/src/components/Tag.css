@@ -1,7 +1,7 @@
 :root {
   --label-neutral: hsl(202, 100%, 93%);
   --label-negative: hsl(0, 95%, 94%);
-  --label-positive: hsl(120, 80%, 90%);
+  --label-positive: hsl(120, 75%, 92%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,16 +13,24 @@
 }
 
 .Tag {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 4px;
   color: var(--dim);
+}
+
+.Tag__content {
   font-size: 14px;
+  line-height: 18px;
+}
+
+.Tag__content small {
+  font-size: 13.5px;
+  line-height: 1;
 }
 
 .Tag svg {
   cursor: pointer;
-  fill: currentColor;
   border-radius: 20px;
   transition: var(--ease);
   flex-shrink: 0;
@@ -35,13 +43,11 @@
 
 .Tag--normal {
   border-radius: 4px;
-  line-height: 18px;
   padding: 5px 6px 5px 8px;
 }
 
 .Tag--small {
   border-radius: 3px;
-  line-height: 18px;
   padding: 1px 4px;
 }
 

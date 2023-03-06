@@ -3,7 +3,6 @@ import formatDuration from 'format-duration';
 import clsx from 'clsx';
 import { Tag } from './Tag';
 import { ClassifiedSpeechSegment } from '../utils/types';
-import { TAG_THRESHOLD } from '../utils/variables';
 import { ReactComponent as Spinner } from '../assets/3-dots-fade-black-36.svg';
 import './SegmentItem.css';
 
@@ -14,7 +13,7 @@ interface Props {
 }
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
-  const { words, classifications } = segment;
+  const { words, classifications, workflows } = segment;
 
   return (
     <div className="Segment">
@@ -22,31 +21,47 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
         {isNaN(words[0]?.endTimestamp) && '···'}
         {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
       </div>
-      <div className="Segment__transcript">
-        {words.map((word) => (
+      <div className="Segment__actions">
+        {workflows?.map((w, i) => (
           <span
-            key={word.index}
+            key={`action-${w.eventLabel}-${w.sum}-${i}`}
+            className={`Segment__action Segment__action--${w.action}`}
+          >
+            {w.action}
+          </span>
+        ))}
+      </div>
+      <div className="Segment__transcript">
+        {words.map(({ index, startTimestamp, value }) => (
+          <span
+            key={index}
             className={clsx(
               currentTime && 'Segment__word',
-              currentTime && currentTime >= word.startTimestamp && 'Segment__word--highlighted'
+              currentTime && currentTime >= startTimestamp && 'Segment__word--highlighted'
             )}
           >
-            {word.value}{' '}
+            {value}{' '}
           </span>
         ))}
       </div>
       {showDetails && (
         <div className="Segment__details">
-          <span>Text classification:</span>
-          {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-          {classifications?.map(({ label, score, severity }, i) => (
+          <span>Text events:</span>
+          {!classifications && (
+            <Spinner
+              width={16}
+              height={16}
+              fill="#7d8fa1"
+            />
+          )}
+          {classifications?.map(({ label, score, severity }) => (
             <Tag
               key={label}
-              severity={score > TAG_THRESHOLD ? severity : undefined}
-              size={score > TAG_THRESHOLD ? 'small' : undefined}
-            >
-              {label}: {(score * 100).toFixed(2)}%
-            </Tag>
+              label={label}
+              score={score}
+              severity={severity ? severity : undefined}
+              size={severity ? 'small' : undefined}
+            />
           ))}
         </div>
       )}

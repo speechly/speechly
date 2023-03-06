@@ -8,21 +8,20 @@ import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
 import { SegmentItem } from './components/SegmentItem';
 import { Tag } from './components/Tag';
+import { WorkflowItem } from './components/WorkflowItem';
+import { WorkflowForm } from './components/WorkflowForm';
+import { EventForm } from './components/EventForm';
+import { Popover } from './components/Popover';
 import {
+  Action,
   AudioRegionLabels,
   Classification,
   ClassifiedSpeechSegment,
   FileOrUrl,
   Severity,
-  TextLabel,
+  Workflow,
 } from './utils/types';
-import {
-  AUDIO_CLASSIFIER_URL,
-  CHUNK_MS,
-  AUDIO_ANALYSIS_CHUNK_SIZE,
-  TEXT_CLASSIFIER_URL,
-  MAX_TAGS,
-} from './utils/variables';
+import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL } from './utils/variables';
 import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
@@ -37,23 +36,25 @@ const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
 let recorder: MediaRecorder;
 
-const defaultTags: TextLabel[] = [
-  { label: 'a derogatory comment based on sexual orientation', severity: 'negative' },
-  { label: 'a derogatory comment based on faith', severity: 'negative' },
+const defaultTextEvents: Classification[] = [
+  { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
+  { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
+];
+const defaultWorkflows: Workflow[] = [
+  { count: 2, eventLabel: defaultTextEvents[0].label, threshold: 0.7, action: 'warn', sum: 0 },
 ];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
-  const [isAddTagEnabled, setIsAddTagEnabled] = useState(false);
-  const [tagValue, setTagValue] = useState('');
-  const [tags, setTags] = useLocalStorage<TextLabel[]>('textLabels', defaultTags);
+  const [textEvents, setTextEvents] = useLocalStorage<Classification[]>('textEvents', defaultTextEvents);
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Terminator 1 Trailer', src: sample1 },
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
+  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -63,14 +64,21 @@ function App() {
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
+  const [closePopover, setClosePopover] = useState(false);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
 
   useEffect(() => {
-    return () => stopCounter();
+    return () => {
+      stopCounter();
+      resetWorkflowSums();
+    };
+    // eslint-disable-next-line
   }, []);
+
+  useEffect(() => () => setClosePopover(false), [closePopover]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -165,9 +173,9 @@ function App() {
       });
     };
 
-    const classifySegment = async (ss: SpeechSegment, tags: TextLabel[]): Promise<void> => {
+    const classifySegment = async (ss: SpeechSegment, textEvents: Classification[]): Promise<void> => {
       const text = ss.words.map((word) => word.value).join(' ');
-      const labels = tags.flatMap((t) => t.label);
+      const labels = textEvents.flatMap((t) => t.label);
       try {
         const response = await fetch(TEXT_CLASSIFIER_URL, {
           method: 'POST',
@@ -179,12 +187,35 @@ function App() {
         }
         const json = await response.json();
         const rawClassifications = json['classifications'] as Classification[];
-        const classifications = rawClassifications.map((c) => {
-          const match = tags.find((t) => t.label === c.label);
-          if (match) return { ...c, severity: match.severity };
+
+        const updatedClassifications = rawClassifications.map((c) => {
+          const workflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
+          if (workflow) {
+            const severity = textEvents.find((t) => t.label === c.label)?.severity;
+            return { ...c, ...(severity && { severity }) };
+          }
           return c;
         });
-        const newSegment = { ...ss, classifications };
+
+        const updatedWorkflows = updatedClassifications
+          .flatMap((c) => {
+            const newWorkflows = workflows.map((w) =>
+              w.eventLabel === c.label && w.threshold <= c.score && w.threshold <= c.score ? { ...w, sum: ++w.sum } : w
+            );
+            setWorkflows(newWorkflows);
+            const sorted = Array.from(newWorkflows).sort((a, b) => (a.count > b.count ? 1 : -1));
+            const filtered = sorted
+              .filter((w) => w.eventLabel === c.label && w.threshold <= c.score && w.sum === w.count)
+              .at(-1);
+            return filtered;
+          })
+          .filter((n) => n);
+
+        const newSegment = {
+          ...ss,
+          classifications: updatedClassifications,
+          ...(updatedWorkflows && { workflows: updatedWorkflows }),
+        };
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
@@ -197,8 +228,8 @@ function App() {
       updateOrAddSegment(segment);
       scrollToSegmentsEnd();
       if (segment.isFinal) {
-        if (tags.length) {
-          classifySegment(segment, tags);
+        if (textEvents.length) {
+          classifySegment(segment, textEvents);
         } else {
           updateOrAddSegment(segment);
         }
@@ -218,32 +249,49 @@ function App() {
     }
   }, [currentTime, speechSegmentsRef]);
 
-  const handleRemoveTag = (label: string) => {
-    const newTags = tags.filter((t) => t.label !== label);
-    setTags(newTags);
+  const handleRemoveEvent = (idx: number) => {
+    setTextEvents(textEvents.filter((_, i) => i !== idx));
   };
 
-  const handleFormChange = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddEvent = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.currentTarget as typeof e.currentTarget & {
       label: { value: string };
       severity: { value: Severity };
     };
-    const isDuplicate = tags.find((t) => t.label === target.label.value);
-    const enabled = !!target.label.value && !!target.severity.value && tags.length < MAX_TAGS && !isDuplicate;
-    setIsAddTagEnabled(enabled);
+    const newEvent = {
+      label: target.label.value,
+      severity: target.severity.value,
+      score: 0,
+    };
+    setTextEvents([...textEvents, newEvent]);
+    setClosePopover(true);
   };
 
-  const handleAddTag = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const resetWorkflowSums = () => {
+    setWorkflows(workflows.map((w) => ({ ...w, sum: 0 })));
+  };
+
+  const handleRemoveWorkflow = (idx: number) => {
+    setWorkflows(workflows.filter((_, i) => i !== idx));
+  };
+
+  const handleAddWorkflow = (e: React.FormEvent<HTMLFormElement>) => {
     const target = e.currentTarget as typeof e.currentTarget & {
-      label: { value: string };
-      severity: { value: Severity };
+      count: { value: number };
+      threshold: { value: number };
+      event: { value: string };
+      action: { value: Action };
     };
-    const tag = { label: target.label.value, severity: target.severity.value };
-    const newTags = [...tags, tag];
-    setTags(newTags);
-    setTagValue('');
-    setIsAddTagEnabled(false);
+    const workflow = {
+      count: Number(target.count.value),
+      threshold: Number(target.threshold.value) / 100,
+      eventLabel: target.event.value,
+      action: target.action.value,
+      sum: 0,
+    };
+    const newWorkflows = [...workflows, workflow];
+    setWorkflows(newWorkflows);
+    setClosePopover(true);
   };
 
   const handleFileAdd = async (file: File) => {
@@ -266,6 +314,7 @@ function App() {
     setSpeechSegments([]);
     setAudioEvents([]);
     setPeakData([]);
+    resetWorkflowSums();
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -345,6 +394,7 @@ function App() {
       setAudioEvents([]);
       setPeakData([]);
       setNextRegion(0);
+      resetWorkflowSums();
     }
 
     if (listening) {
@@ -377,56 +427,88 @@ function App() {
     setTimeout(() => el.classList.toggle('Segment--active'), 1000);
   };
 
-  const severities: Severity[] = ['positive', 'neutral', 'negative'];
-
   return (
     <>
       <div className="App">
         <div className="Sidebar">
-          <h4 className="Sidebar__title">Text classification labels</h4>
-          <div className="Tags">
-            {tags.map((tag, i) => (
-              <Tag
-                key={`${tag.label}-${i}`}
-                onRemove={() => handleRemoveTag(tag.label)}
-                severity={tag.severity}
-                size="normal"
-              >
-                {tag.label}
-              </Tag>
-            ))}
-            <form className="TagForm" onSubmit={handleAddTag} onChange={handleFormChange}>
-              <input
-                className="TagForm__input"
-                name="label"
-                type="text"
-                placeholder="Add a label"
-                value={tagValue}
-                onChange={(e) => setTagValue(e.target.value)}
+          <div className="Sidebar__title">
+            <h4>Text events</h4>
+            <Popover
+              title="Add text event"
+              close={closePopover}
+            >
+              <EventForm
+                onSubmit={handleAddEvent}
+                textEvents={textEvents}
               />
-              <div className="TagForm__options">
-                {severities.map((s) => (
-                  <div key={s}>
-                    <input type="radio" name="severity" id={s} value={s} />
-                    <label htmlFor={s}>{s}</label>
-                  </div>
-                ))}
-              </div>
-              <button type="submit" disabled={!isAddTagEnabled}>
-                Add
-              </button>
-              {tagValue && tags.length >= MAX_TAGS && <p>Max {MAX_TAGS} labels allowed</p>}
-            </form>
+            </Popover>
           </div>
-          <h4 className="Sidebar__title">Audio files</h4>
-          {files.map(({ name }, i) => (
-            <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
-              {name}
-            </AudioFile>
-          ))}
-          <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
+          {textEvents.length ? (
+            <div className="Sidebar__grid">
+              {textEvents.map(({ label, severity }, i) => (
+                <Tag
+                  key={`event-${label}-${i}`}
+                  onRemove={() => handleRemoveEvent(i)}
+                  severity={severity}
+                  size="normal"
+                  label={label}
+                />
+              ))}
+            </div>
+          ) : (
+            <span className="Sidebar__empty">No text events</span>
+          )}
+          <div className="Sidebar__title">
+            <h4>Workflows</h4>
+            <Popover
+              title="Add workflow"
+              close={closePopover}
+            >
+              <WorkflowForm
+                textEvents={textEvents}
+                onSubmit={handleAddWorkflow}
+              />
+            </Popover>
+          </div>
+          {workflows.length ? (
+            <div className="Sidebar__list">
+              {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
+                <WorkflowItem
+                  key={`rule-${eventLabel}-${action}-${i}`}
+                  count={count}
+                  label={eventLabel}
+                  threshold={threshold}
+                  action={action}
+                  onDelete={() => handleRemoveWorkflow(i)}
+                />
+              ))}
+            </div>
+          ) : (
+            <span className="Sidebar__empty">No workflows</span>
+          )}
+          <div className="Sidebar__title">
+            <h4>Audio files</h4>
+          </div>
+          <div className="Sidebar__list">
+            {files.map(({ name }, i) => (
+              <AudioFile
+                key={name}
+                isSelected={selectedFileId === i}
+                onClick={() => handleSelectFile(i)}
+              >
+                {name}
+              </AudioFile>
+            ))}
+          </div>
+          <FileInput
+            acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
+            onFileSelected={handleFileAdd}
+          />
         </div>
-        <div className="Main" ref={mainRef}>
+        <div
+          className="Main"
+          ref={mainRef}
+        >
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
@@ -441,10 +523,13 @@ function App() {
               key={`${segment.contextId}-${segment.id}`}
               currentTime={currentTime}
               segment={segment}
-              showDetails={tags.length > 0}
+              showDetails={textEvents.length > 0}
             />
           ))}
-          <div ref={segmentEndRef} className="Main__lastItem" />
+          <div
+            ref={segmentEndRef}
+            className="Main__lastItem"
+          />
         </div>
       </div>
       <div className="Player">

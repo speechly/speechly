@@ -1,13 +1,17 @@
 import { SpeechSegment } from '@speechly/react-client';
 
+export type Severity = 'positive' | 'neutral' | 'negative';
+export type Action = 'warn' | 'mute' | 'ban' | 'reward';
+
 export interface Classification {
   label: string;
-  severity: Severity;
   score: number;
+  severity?: Severity;
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
   classifications?: Classification[];
+  workflows?: Workflow[];
 }
 
 export interface FileOrUrl {
@@ -23,9 +27,10 @@ export interface AudioRegionLabels {
   classifications: Classification[];
 }
 
-export type Severity = 'positive' | 'neutral' | 'negative' | undefined;
-
-export interface TextLabel {
-  label: string;
-  severity: Severity;
+export interface Workflow {
+  count: number;
+  eventLabel: string;
+  threshold: number;
+  action: Action;
+  sum: number;
 }

@@ -1,6 +1,6 @@
 .Waveform {
   width: 100%;
-  padding: 16px 20px 20px;
+  padding: 12px 24px 16px;
   overflow: hidden;
 }
 
@@ -22,7 +22,7 @@
 .Waveform__waveform {
   background-color: var(--dawn);
   border-radius: 4px;
-  margin-top: 16px;
+  margin-top: 12px;
   overflow: hidden;
 }
 
@@ -32,8 +32,8 @@
 
 .Waveform__timeline {
   height: 16px;
-  margin-bottom: 16px;
-  opacity: .75;
+  margin-bottom: 12px;
+  opacity: 0.75;
 }
 
 .Waveform__controls {
@@ -73,7 +73,6 @@
 
 .Waveform__playPause svg {
   display: block;
-  fill: currentColor;
 }
 
 .Waveform__playPause:disabled {

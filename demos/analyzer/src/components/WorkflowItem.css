@@ -1,0 +1,31 @@
+.WorkflowItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.WorkflowItem svg {
+  color: var(--dim);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: var(--ease);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.WorkflowItem svg:hover {
+  color: var(--night);
+  background-color: var(--hover-dark);
+  box-shadow: 0 0 0 2px var(--hover-dark);
+}
+
+.WorkflowItem .ToggleSwitch {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.WorkflowItem--disabled {
+  color: var(--dim);
+}

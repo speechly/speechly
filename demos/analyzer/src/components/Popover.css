@@ -1,0 +1,62 @@
+.Popover__trigger {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--dawn);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 6px 4px 10px;
+  line-height: 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--hover-dark);
+  color: var(--night);
+}
+
+.Popover__trigger:hover {
+  box-shadow: inset 0 0 0 1px var(--hover-dark), inset 0 0 0 100px var(--hover);
+}
+
+.Popover,
+.Popover__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.Popover {
+  z-index: 100;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.Popover--visible {
+  opacity: 1;
+  backdrop-filter: blur(1px);
+}
+
+.Popover__bg {
+  background-color: var(--hover);
+}
+
+.Popover__content {
+  border-radius: 8px;
+  background: var(--day);
+  width: 400px;
+  padding: 24px 28px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+
+  box-shadow: 0 16px 32px -8px var(--hover), 0 0 8px var(--hover);
+  transform: translate(-50%, -40%);
+  z-index: 200;
+}
+
+.Popover__content h2 {
+  margin-top: 0;
+  font-size: 20px;
+}

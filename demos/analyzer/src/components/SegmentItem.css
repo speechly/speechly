@@ -8,6 +8,7 @@
   margin: 0 24px 24px;
   scroll-margin-block: 24px;
   transition: var(--ease);
+  position: relative;
 }
 
 .Segment--active {
@@ -17,6 +18,42 @@
 .Segment__timestamp {
   font-size: 14px;
   color: var(--dim);
+  margin-right: auto;
+}
+
+.Segment__actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+}
+
+.Segment__action {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+.Segment__action--warn {
+  background-color: darkorange;
+}
+
+.Segment__action--mute {
+  background-color: tomato;
+}
+
+.Segment__action--ban {
+  background-color: crimson;
+}
+
+.Segment__action--reward {
+  background-color: green;
 }
 
 .Segment__transcript {

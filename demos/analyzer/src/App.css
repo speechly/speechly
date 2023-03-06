@@ -24,6 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  padding: 24px;
   height: 100%;
   border-right: 1px solid var(--border);
   overflow-y: auto;
@@ -36,91 +37,52 @@ body {
   display: none;
 }
 
+.Sidebar__section {
+  margin-top: 24px;
+}
+
 .Sidebar__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.Sidebar__title:first-of-type {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
+}
+
+.Sidebar__title h4 {
+  margin: 0;
   font-weight: 500;
-  margin: 24px 24px 4px;
+  line-height: 24px;
 }
 
-.Sidebar .FileInput {
-  margin: 16px 24px;
-}
-
-.Tags {
+.Sidebar__grid {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin: 8px 24px 0;
+  margin: 4px 0;
 }
 
-.TagForm {
-  margin-top: 12px;
-  position: relative;
-  width: 100%;
+.Sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.TagForm__input {
+.Sidebar__empty {
   font-size: 14px;
-  font-family: inherit;
-  border: 1px solid var(--border);
-  background-color: var(--day);
-  color: var(--night);
-  padding: 8px 12px;
-  border-radius: 4px;
-  line-height: 18px;
-  width: 100%;
-  transition: var(--ease);
+  color: var(--dim);
 }
 
-.TagForm__input:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: -1px;
-}
-
-.TagForm__options {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  margin-top: 8px;
-  text-transform: capitalize;
-}
-
-.TagForm__options div {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.TagForm button {
-  cursor: pointer;
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  font-size: 12px;
-  border: none;
-  background-color: var(--accent);
-  color: var(--day);
-  font-weight: 500;
-  line-height: 18px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: var(--ease);
-}
-
-.TagForm button:hover {
-  box-shadow: inset 0 0 0 100px var(--hover-dark);
-}
-
-.TagForm button:disabled {
-  background-color: var(--border-dark);
-  pointer-events: none;
-}
-
-.TagForm p {
-  font-size: 13px;
-  color: var(--danger);
-  margin-top: 8px;
-  margin-bottom: 0;
+.Sidebar .FileInput {
+  margin-top: 16px;
 }
 
 /* Main content */
@@ -193,10 +155,6 @@ body {
   box-shadow: inset 0 0 0 100px var(--hover-dark);
 }
 
-.Microphone svg {
-  fill: currentColor;
-}
-
 .Microphone--active {
   background-color: var(--danger) !important;
   transform: scale(1.1);
@@ -211,4 +169,9 @@ body {
   left: -4px;
   border-radius: 100px;
   border: var(--danger) solid 2px;
+}
+
+.Microphone:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
