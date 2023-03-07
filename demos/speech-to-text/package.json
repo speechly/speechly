@@ -4,7 +4,7 @@
   "private": true,
   "homepage": "/speech-to-text/",
   "dependencies": {
-    "@speechly/demo-navigation": "^0.2.13",
+    "@speechly/demo-navigation": "^0.2.14",
     "@speechly/react-client": "^2.2.3",
     "@speechly/react-ui": "^2.7.3",
     "react": "^18",
