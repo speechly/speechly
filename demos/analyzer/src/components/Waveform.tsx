@@ -125,15 +125,30 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
     }
   };
 
+  const audioEvents = selectedData?.filter((i) => i.type === 'audioevent');
+  const toneOfVoice = selectedData?.filter((i) => i.type === 'toneofvoice');
+
   return (
     <div className="Waveform">
       <div className="Waveform__data">
-        {selectedData && (
+        {toneOfVoice && (
+          <>
+            <span>Tone of voice:</span>
+            {toneOfVoice.map(({ label, score }, i) => (
+              <Tag
+                key={`tone-${label}-${i}`}
+                label={label}
+                score={score}
+              />
+            ))}
+          </>
+        )}
+        {audioEvents && (
           <>
             <span>Audio events:</span>
-            {selectedData.map(({ label, score }, i) => (
+            {audioEvents.map(({ label, score }, i) => (
               <Tag
-                key={`${label}-${i}`}
+                key={`event-${label}-${i}`}
                 label={label}
                 score={score}
               />
