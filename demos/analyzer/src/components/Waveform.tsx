@@ -137,19 +137,20 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
             {toneOfVoice.map(({ label, score }, i) => (
               <Tag
                 key={`tone-${label}-${i}`}
-                label={label}
+                label={label.toLowerCase()}
                 score={score}
               />
             ))}
           </>
         )}
+        {toneOfVoice && audioEvents && <span>&middot;</span>}
         {audioEvents && (
           <>
             <span>Audio events:</span>
             {audioEvents.map(({ label, score }, i) => (
               <Tag
                 key={`event-${label}-${i}`}
-                label={label}
+                label={label.toLowerCase()}
                 score={score}
               />
             ))}
