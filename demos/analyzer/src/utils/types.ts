@@ -7,6 +7,7 @@ export interface Classification {
   label: string;
   score: number;
   severity?: Severity;
+  type?: 'toneofvoice' | 'audioevent';
 }
 
 export interface ClassifiedSpeechSegment extends SpeechSegment {
