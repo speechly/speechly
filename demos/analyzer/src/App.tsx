@@ -155,7 +155,6 @@ function App() {
 
     if (!detectionBuffer.length) return;
     if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
-      console.log('eka');
       const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
       chunks.map((c, i) => classifyBuffer(i, c));
       return;
