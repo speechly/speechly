@@ -21,10 +21,7 @@ body {
 /* Sidebar */
 
 .Sidebar {
-  display: flex;
-  flex-direction: column;
   flex-shrink: 0;
-  padding: 24px;
   height: 100%;
   border-right: 1px solid var(--border);
   overflow-y: auto;
@@ -38,23 +35,21 @@ body {
 }
 
 .Sidebar__section {
-  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.Sidebar__section:first-of-type {
+  border-top: none;
 }
 
 .Sidebar__title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
-  margin-top: 16px;
-  margin-bottom: 8px;
-  border-top: 1px solid var(--border);
-}
-
-.Sidebar__title:first-of-type {
-  padding-top: 0;
-  margin-top: 0;
-  border-top: none;
 }
 
 .Sidebar__title h4 {
@@ -76,13 +71,8 @@ body {
   gap: 2px;
 }
 
-.Sidebar__empty {
-  font-size: 14px;
-  color: var(--dim);
-}
-
 .Sidebar .FileInput {
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 /* Main content */
