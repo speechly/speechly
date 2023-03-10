@@ -89,6 +89,14 @@
   background-color: var(--accent-25) !important;
 }
 
+.Waveform .wavesurfer-region[data-id^='highlight'] {
+  background-color: rgb(235, 85, 71, 0.25) !important;
+}
+
+.Waveform .wavesurfer-region[data-id^='highlight']:hover {
+  background-color: rgb(235, 85, 71, 0.375) !important;
+}
+
 .Waveform .wavesurfer-handle {
   width: 0.5px !important;
   background-color: var(--dim) !important;

@@ -106,9 +106,17 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
     if (wavesurfer.current && regionData?.length) {
       wavesurfer.current.regions.clear();
       regionData.sort((a, b) => a.index - b.index);
-      regionData.forEach(({ start, end, classifications }) => {
+      regionData.forEach(({ start, end, classifications }, idx) => {
         const obj = Object.assign({}, classifications);
-        const region = { start, end, data: { ...obj }, drag: false };
+        const negativeTones = ['shouting', 'angry'];
+        const isNegativeTone = classifications.some((t) => t.type === 'toneofvoice' && negativeTones.includes(t.label));
+        const region = {
+          ...(isNegativeTone && { id: `highlight-${idx}` }),
+          start,
+          end,
+          data: { ...obj },
+          drag: false,
+        };
         wavesurfer.current?.regions.add(region);
       });
     }
