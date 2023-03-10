@@ -21,7 +21,13 @@ import {
   Severity,
   Workflow,
 } from './utils/types';
-import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL } from './utils/variables';
+import {
+  AUDIO_CLASSIFIER_URL,
+  CHUNK_MS,
+  AUDIO_ANALYSIS_CHUNK_SIZE,
+  TEXT_CLASSIFIER_URL,
+  TAG_THRESHOLD,
+} from './utils/variables';
 import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
@@ -196,12 +202,15 @@ function App() {
         const rawClassifications = json['classifications'] as Classification[];
 
         const updatedClassifications = rawClassifications.map((c) => {
-          const workflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
-          if (workflow) {
+          if (workflows.length) {
+            const hasWorkflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
             const severity = textEvents.find((t) => t.label === c.label)?.severity;
-            return { ...c, ...(severity && { severity }) };
+            return hasWorkflow ? { ...c, ...(severity && { severity }) } : c;
+          } else {
+            const hasClassification = textEvents.find((t) => t.label === c.label && TAG_THRESHOLD <= c.score);
+            const severity = textEvents.find((t) => t.label === c.label)?.severity;
+            return hasClassification ? { ...c, ...(severity && { severity }) } : c;
           }
-          return c;
         });
 
         const updatedWorkflows = updatedClassifications
