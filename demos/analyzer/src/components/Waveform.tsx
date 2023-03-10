@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSpeechContext } from '@speechly/react-client';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
@@ -46,6 +47,7 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
 });
 
 export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, onRegionClick, onUpdate }) => {
+  const { listening } = useSpeechContext();
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
@@ -107,6 +109,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
       setSelectedData(undefined);
       setIsPlaying(false);
     }
+    if (wavesurfer.current && regionData?.length && !listening) {
       wavesurfer.current.regions.clear();
       regionData.sort((a, b) => a.index - b.index);
       regionData.forEach(({ start, end, classifications }, idx) => {
@@ -124,7 +127,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [url, regionData]);
+  }, [url, regionData, listening]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
