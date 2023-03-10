@@ -102,6 +102,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   }, [url, peaks]);
 
   useEffect(() => {
+    if (wavesurfer.current && regionData?.length === 0) setSelectedData(undefined);
     if (wavesurfer.current && regionData?.length) {
       wavesurfer.current.regions.clear();
       regionData.sort((a, b) => a.index - b.index);
