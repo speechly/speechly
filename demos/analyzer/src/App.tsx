@@ -46,9 +46,6 @@ const defaultTextEvents: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
   { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
 ];
-const defaultWorkflows: Workflow[] = [
-  { count: 2, eventLabel: defaultTextEvents[0].label, threshold: 0.7, action: 'warn', sum: 0 },
-];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
@@ -60,7 +57,7 @@ function App() {
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
-  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
+  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', []);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
