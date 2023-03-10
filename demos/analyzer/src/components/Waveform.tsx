@@ -203,7 +203,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
             name="volume"
             min="0.01"
             max="1"
-            step=".025"
+            step="0.01"
             onChange={onVolumeChange}
             defaultValue={volume}
           />
