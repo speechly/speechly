@@ -10,11 +10,11 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 0 8px;
-  min-height: 20px;
+  min-height: 22px;
+  color: var(--dim);
 }
 
 .Waveform__data span {
-  color: var(--dim);
   font-size: 14px;
   line-height: 20px;
   text-align: center;
