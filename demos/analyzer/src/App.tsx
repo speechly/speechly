@@ -21,7 +21,13 @@ import {
   Severity,
   Workflow,
 } from './utils/types';
-import { AUDIO_CLASSIFIER_URL, CHUNK_MS, AUDIO_ANALYSIS_CHUNK_SIZE, TEXT_CLASSIFIER_URL } from './utils/variables';
+import {
+  AUDIO_CLASSIFIER_URL,
+  CHUNK_MS,
+  AUDIO_ANALYSIS_CHUNK_SIZE,
+  TEXT_CLASSIFIER_URL,
+  TAG_THRESHOLD,
+} from './utils/variables';
 import { useLocalStorage } from './utils/useLocalStorage';
 import { ReactComponent as MicIcon } from './assets/mic.svg';
 import { ReactComponent as Empty } from './assets/empty.svg';
@@ -40,9 +46,6 @@ const defaultTextEvents: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
   { label: 'a derogatory comment based on sexual orientation', severity: 'negative', score: 0 },
 ];
-const defaultWorkflows: Workflow[] = [
-  { count: 2, eventLabel: defaultTextEvents[0].label, threshold: 0.7, action: 'warn', sum: 0 },
-];
 
 function App() {
   const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
@@ -54,7 +57,7 @@ function App() {
     { name: 'DJ Gecko Cumbia Music', src: sample2 },
     { name: 'Buying Walmart’s Display PS5', src: sample3 },
   ]);
-  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', defaultWorkflows);
+  const [workflows, setWorkflows] = useLocalStorage<Workflow[]>('workflowRules', []);
   const [audioSource, setAudioSource] = useState<string>();
   const [detectionBuffer, setDetectionBuffer] = useState<Float32Array>(new Float32Array());
   const [micBuffer, setMicBuffer] = useState<Float32Array[]>([]);
@@ -150,9 +153,15 @@ function App() {
       return result;
     };
 
+    if (!detectionBuffer.length) return;
     if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
       const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
       chunks.map((c, i) => classifyBuffer(i, c));
+      return;
+    }
+    if (detectionBuffer.length < AUDIO_ANALYSIS_CHUNK_SIZE) {
+      classifyBuffer(0, detectionBuffer);
+      return;
     }
   }, [detectionBuffer, classifyBuffer]);
 
@@ -189,12 +198,15 @@ function App() {
         const rawClassifications = json['classifications'] as Classification[];
 
         const updatedClassifications = rawClassifications.map((c) => {
-          const workflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
-          if (workflow) {
+          if (workflows.length) {
+            const hasWorkflow = workflows.find((w) => w.eventLabel === c.label && w.threshold <= c.score);
             const severity = textEvents.find((t) => t.label === c.label)?.severity;
-            return { ...c, ...(severity && { severity }) };
+            return hasWorkflow ? { ...c, ...(severity && { severity }) } : c;
+          } else {
+            const hasClassification = textEvents.find((t) => t.label === c.label && TAG_THRESHOLD <= c.score);
+            const severity = textEvents.find((t) => t.label === c.label)?.severity;
+            return hasClassification ? { ...c, ...(severity && { severity }) } : c;
           }
-          return c;
         });
 
         const updatedWorkflows = updatedClassifications
@@ -431,79 +443,81 @@ function App() {
     <>
       <div className="App">
         <div className="Sidebar">
-          <div className="Sidebar__title">
-            <h4>Text events</h4>
-            <Popover
-              title="Add text event"
-              close={closePopover}
-            >
-              <EventForm
-                onSubmit={handleAddEvent}
-                textEvents={textEvents}
-              />
-            </Popover>
-          </div>
-          {textEvents.length ? (
-            <div className="Sidebar__grid">
-              {textEvents.map(({ label, severity }, i) => (
-                <Tag
-                  key={`event-${label}-${i}`}
-                  onRemove={() => handleRemoveEvent(i)}
-                  severity={severity}
-                  size="normal"
-                  label={label}
-                />
-              ))}
-            </div>
-          ) : (
-            <span className="Sidebar__empty">No text events</span>
-          )}
-          <div className="Sidebar__title">
-            <h4>Workflows</h4>
-            <Popover
-              title="Add workflow"
-              close={closePopover}
-            >
-              <WorkflowForm
-                textEvents={textEvents}
-                onSubmit={handleAddWorkflow}
-              />
-            </Popover>
-          </div>
-          {workflows.length ? (
-            <div className="Sidebar__list">
-              {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
-                <WorkflowItem
-                  key={`rule-${eventLabel}-${action}-${i}`}
-                  count={count}
-                  label={eventLabel}
-                  threshold={threshold}
-                  action={action}
-                  onDelete={() => handleRemoveWorkflow(i)}
-                />
-              ))}
-            </div>
-          ) : (
-            <span className="Sidebar__empty">No workflows</span>
-          )}
-          <div className="Sidebar__title">
-            <h4>Audio files</h4>
-          </div>
-          <div className="Sidebar__list">
-            {files.map(({ name }, i) => (
-              <AudioFile
-                key={name}
-                isSelected={selectedFileId === i}
-                onClick={() => handleSelectFile(i)}
+          <div className="Sidebar__section">
+            <div className="Sidebar__title">
+              <h4>Text events</h4>
+              <Popover
+                title="Add text event"
+                close={closePopover}
               >
-                {name}
-              </AudioFile>
-            ))}
+                <EventForm
+                  onSubmit={handleAddEvent}
+                  textEvents={textEvents}
+                />
+              </Popover>
+            </div>
+            {textEvents.length ? (
+              <div className="Sidebar__grid">
+                {textEvents.map(({ label, severity }, i) => (
+                  <Tag
+                    key={`event-${label}-${i}`}
+                    onRemove={() => handleRemoveEvent(i)}
+                    severity={severity}
+                    size="normal"
+                    label={label}
+                  />
+                ))}
+              </div>
+            ) : null}
           </div>
-          <FileInput
-            acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
-            onFileSelected={handleFileAdd}
-          />
+          <div className="Sidebar__section">
+            <div className="Sidebar__title">
+              <h4>Workflows</h4>
+              <Popover
+                title="Add workflow"
+                close={closePopover}
+              >
+                <WorkflowForm
+                  textEvents={textEvents}
+                  onSubmit={handleAddWorkflow}
+                />
+              </Popover>
+            </div>
+            {workflows.length ? (
+              <div className="Sidebar__list">
+                {workflows?.map(({ count, eventLabel, threshold, action }, i) => (
+                  <WorkflowItem
+                    key={`rule-${eventLabel}-${action}-${i}`}
+                    count={count}
+                    label={eventLabel}
+                    threshold={threshold}
+                    action={action}
+                    onDelete={() => handleRemoveWorkflow(i)}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <div className="Sidebar__section">
+            <div className="Sidebar__title">
+              <h4>Audio files</h4>
+            </div>
+            <div className="Sidebar__list">
+              {files.map(({ name }, i) => (
+                <AudioFile
+                  key={name}
+                  isSelected={selectedFileId === i}
+                  onClick={() => handleSelectFile(i)}
+                >
+                  {name}
+                </AudioFile>
+              ))}
+            </div>
+            <FileInput
+              acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
+              onFileSelected={handleFileAdd}
+            />
+          </div>
         </div>
         <div
           className="Main"

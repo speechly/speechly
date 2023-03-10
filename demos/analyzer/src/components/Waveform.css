@@ -1,6 +1,6 @@
 .Waveform {
   width: 100%;
-  padding: 12px 24px 16px;
+  padding: 12px 20px 16px;
   overflow: hidden;
 }
 
@@ -8,12 +8,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 20px;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  min-height: 22px;
+  color: var(--dim);
 }
 
 .Waveform__data span {
-  color: var(--dim);
   font-size: 14px;
   line-height: 20px;
   text-align: center;
@@ -86,6 +87,14 @@
 
 .Waveform .wavesurfer-region:hover {
   background-color: var(--accent-25) !important;
+}
+
+.Waveform .wavesurfer-region[data-id^='highlight'] {
+  background-color: rgb(235, 85, 71, 0.25) !important;
+}
+
+.Waveform .wavesurfer-region[data-id^='highlight']:hover {
+  background-color: rgb(235, 85, 71, 0.375) !important;
 }
 
 .Waveform .wavesurfer-handle {

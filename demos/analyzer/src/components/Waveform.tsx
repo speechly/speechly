@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSpeechContext } from '@speechly/react-client';
 import WaveSurfer from 'wavesurfer.js';
 import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { Tag } from './Tag';
 import { AudioRegionLabels, Classification } from '../utils/types';
+import { NEGATIVE_TONES } from '../utils/variables';
 import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
 import { ReactComponent as VolumeUp } from '../assets/volume.svg';
@@ -45,6 +47,7 @@ const formWaveSurferOptions = (containerRef: any, timelineRef: any) => ({
 });
 
 export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, onRegionClick, onUpdate }) => {
+  const { listening } = useSpeechContext();
   const waveformRef: { current: HTMLDivElement | null } = useRef(null);
   const timelineRef: { current: HTMLDivElement | null } = useRef(null);
   const wavesurfer: { current: WaveSurfer | null } = useRef(null);
@@ -102,16 +105,29 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   }, [url, peaks]);
 
   useEffect(() => {
-    if (wavesurfer.current && regionData?.length) {
+    if (wavesurfer.current && regionData?.length === 0) {
+      setSelectedData(undefined);
+      setIsPlaying(false);
+    }
+    if (wavesurfer.current && regionData?.length && !listening) {
       wavesurfer.current.regions.clear();
       regionData.sort((a, b) => a.index - b.index);
-      regionData.forEach(({ start, end, classifications }) => {
+      regionData.forEach(({ start, end, classifications }, idx) => {
         const obj = Object.assign({}, classifications);
-        const region = { start, end, data: { ...obj }, drag: false };
+        const isNegativeTone = classifications.some(
+          (t) => t.type === 'toneofvoice' && NEGATIVE_TONES.includes(t.label)
+        );
+        const region = {
+          ...(isNegativeTone && { id: `highlight-${idx}` }),
+          start,
+          end,
+          data: { ...obj },
+          drag: false,
+        };
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [url, regionData]);
+  }, [url, regionData, listening]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
@@ -139,6 +155,8 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
                 key={`tone-${label}-${i}`}
                 label={label.toLowerCase()}
                 score={score}
+                severity={NEGATIVE_TONES.includes(label) ? 'negative' : undefined}
+                size={NEGATIVE_TONES.includes(label) ? 'small' : undefined}
               />
             ))}
           </>
@@ -194,7 +212,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
             name="volume"
             min="0.01"
             max="1"
-            step=".025"
+            step="0.01"
             onChange={onVolumeChange}
             defaultValue={volume}
           />

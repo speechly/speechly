@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { useTransition } from 'transition-hook';
 import { ReactComponent as AddIcon } from '../assets/add.svg';
+import { ReactComponent as CloseIcon } from '../assets/close.svg';
 import './Popover.css';
 
 interface Props {
@@ -39,9 +40,13 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
           <div className={classes}>
             <div
               className="Popover__bg"
-              onClick={() => setVisible(!isVisible)}
+              onClick={() => setVisible(false)}
             />
             <div className="Popover__content">
+              <CloseIcon
+                className="Popover__close"
+                onClick={() => setVisible(false)}
+              />
               <h2>{title}</h2>
               {children}
             </div>

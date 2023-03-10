@@ -43,6 +43,7 @@ export const WorkflowForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
         <select
           name="event"
           style={{ textTransform: 'none' }}
+          disabled={textEvents.length === 0}
         >
           {textEvents.map(({ label }) => (
             <option
