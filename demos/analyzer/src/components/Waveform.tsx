@@ -5,7 +5,6 @@ import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { Tag } from './Tag';
 import { AudioRegionLabels, Classification } from '../utils/types';
-import { NEGATIVE_TONES } from '../utils/variables';
 import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
 import { ReactComponent as VolumeUp } from '../assets/volume.svg';
@@ -114,11 +113,9 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
       regionData.sort((a, b) => a.index - b.index);
       regionData.forEach(({ start, end, classifications }, idx) => {
         const obj = Object.assign({}, classifications);
-        const isNegativeTone = classifications.some(
-          (t) => t.type === 'toneofvoice' && NEGATIVE_TONES.includes(t.label)
-        );
+        const isAngry = classifications.some((t) => t.type === 'toneofvoice' && t.label.startsWith('ang'));
         const region = {
-          ...(isNegativeTone && { id: `highlight-${idx}` }),
+          ...(isAngry && { id: `highlight-${idx}` }),
           start,
           end,
           data: { ...obj },
@@ -155,8 +152,8 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
                 key={`tone-${label}-${i}`}
                 label={label.toLowerCase()}
                 score={score}
-                severity={NEGATIVE_TONES.includes(label) ? 'negative' : undefined}
-                size={NEGATIVE_TONES.includes(label) ? 'small' : undefined}
+                severity={label.startsWith('ang') ? 'negative' : undefined}
+                size={label.startsWith('ang') ? 'small' : undefined}
               />
             ))}
           </>

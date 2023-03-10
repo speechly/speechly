@@ -4,4 +4,3 @@ export const TEXT_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api
 export const AUDIO_CLASSIFIER_URL = 'https://api.speechly.com/text-classifier-api/classifyAudio';
 export const MAX_TAGS = 8;
 export const TAG_THRESHOLD = 0.75;
-export const NEGATIVE_TONES = ['shouting', 'angry'];
