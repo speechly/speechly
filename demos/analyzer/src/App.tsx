@@ -150,12 +150,14 @@ function App() {
       return result;
     };
 
+    if (!detectionBuffer.length) return;
     if (detectionBuffer.length >= AUDIO_ANALYSIS_CHUNK_SIZE) {
+      console.log('eka');
       const chunks = chunk(detectionBuffer, AUDIO_ANALYSIS_CHUNK_SIZE);
       chunks.map((c, i) => classifyBuffer(i, c));
       return;
     }
-    if (detectionBuffer.length > 0 && detectionBuffer.length < AUDIO_ANALYSIS_CHUNK_SIZE) {
+    if (detectionBuffer.length < AUDIO_ANALYSIS_CHUNK_SIZE) {
       classifyBuffer(0, detectionBuffer);
       return;
     }
