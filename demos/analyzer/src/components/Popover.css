@@ -45,7 +45,7 @@
 .Popover__content {
   border-radius: 8px;
   background: var(--day);
-  width: 400px;
+  width: 480px;
   padding: 24px 32px 32px;
   position: absolute;
   top: 40%;
