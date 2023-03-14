@@ -37,6 +37,7 @@ export const WorkflowForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
           placeholder="Count"
           value={count || ''}
           onChange={(e) => setCount(Number(e.target.value))}
+          autoFocus
         />
       </div>
       <div className="Form__select">
