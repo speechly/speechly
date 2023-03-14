@@ -14,7 +14,7 @@ interface Props {
 
 export const Dialog: React.FC<Props> = ({ title, children, close }) => {
   const [isVisible, setVisible] = useState(false);
-  const { stage, shouldMount } = useTransition(isVisible, 200);
+  const { stage, shouldMount } = useTransition(isVisible, 150);
   const classes = clsx('Dialog', stage === 'enter' && 'Dialog--visible');
 
   useEffect(() => {
