@@ -4,10 +4,11 @@
   gap: 8px;
   padding: 8px 0;
   font-size: 14px;
+  color: var(--night);
 }
 
 .WorkflowItem svg {
-  color: var(--dim);
+  opacity: 0.6;
   cursor: pointer;
   border-radius: 20px;
   transition: var(--ease);
@@ -16,16 +17,7 @@
 }
 
 .WorkflowItem svg:hover {
-  color: var(--night);
+  opacity: 1;
   background-color: var(--hover-dark);
   box-shadow: 0 0 0 2px var(--hover-dark);
-}
-
-.WorkflowItem .ToggleSwitch {
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
-.WorkflowItem--disabled {
-  color: var(--dim);
 }

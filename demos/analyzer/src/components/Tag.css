@@ -30,6 +30,7 @@
 }
 
 .Tag svg {
+  opacity: 0.6;
   cursor: pointer;
   border-radius: 20px;
   transition: var(--ease);
@@ -37,8 +38,9 @@
 }
 
 .Tag svg:hover {
+  opacity: 1;
   background-color: var(--hover-dark);
-  box-shadow: 0 0 0 1px var(--hover-dark);
+  box-shadow: 0 0 0 2px var(--hover-dark);
 }
 
 .Tag--normal {
