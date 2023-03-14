@@ -47,7 +47,9 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
       onClick={() => fileInputRef.current?.click()}
     >
       <Upload className="FileInput__icon" />
-      <span className="FileInput__title">Select your own audio file</span>
+      <span className="FileInput__title">
+        Drag and drop an audio file, or <u>browse</u>
+      </span>
       <span className="FileInput__description">MP3 or WAV, max 5 min long</span>
       <input
         ref={fileInputRef}
