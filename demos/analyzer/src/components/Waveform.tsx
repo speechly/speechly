@@ -126,7 +126,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [url, regionData, listening]);
+  }, [url, regionData, listening, showTOV]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
