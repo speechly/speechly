@@ -36,6 +36,7 @@ export const EventForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
           placeholder="Event label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
+          autoFocus
         />
       </div>
       <div className="Form__select">

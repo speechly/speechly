@@ -2,13 +2,15 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   text-align: center;
   border: 1px dashed var(--border);
   padding: 24px;
   border-radius: 4px;
   transition: var(--ease);
+  height: 200px;
 }
 
 .FileInput:hover {
@@ -26,7 +28,15 @@
   font-size: 16px;
 }
 
+.FileInput__title span {
+  color: var(--accent);
+}
+
+.FileInput__title span:hover {
+  text-decoration: underline;
+}
+
 .FileInput__description {
   color: var(--dim);
-  font-size: 13px;
+  font-size: 14px;
 }

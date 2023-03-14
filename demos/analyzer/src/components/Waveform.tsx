@@ -5,6 +5,7 @@ import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { Tag } from './Tag';
 import { AudioRegionLabels, Classification } from '../utils/types';
+import { getParam } from '../utils/queryParams';
 import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
 import { ReactComponent as VolumeUp } from '../assets/volume.svg';
@@ -53,6 +54,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [selectedData, setSelectedData] = useState<Classification[]>();
+  const showTOV = !!JSON.parse(getParam('tov') || 'false');
 
   useEffect(() => {
     const options = formWaveSurferOptions(waveformRef.current, timelineRef.current);
@@ -115,7 +117,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         const obj = Object.assign({}, classifications);
         const isAngry = classifications.some((t) => t.type === 'toneofvoice' && t.label.startsWith('ang'));
         const region = {
-          ...(isAngry && { id: `highlight-${idx}` }),
+          ...(isAngry && showTOV && { id: `highlight-${idx}` }),
           start,
           end,
           data: { ...obj },
@@ -124,7 +126,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         wavesurfer.current?.regions.add(region);
       });
     }
-  }, [url, regionData, listening]);
+  }, [url, regionData, listening, showTOV]);
 
   const handlePlayPause = () => {
     wavesurfer.current?.playPause();
@@ -139,7 +141,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   };
 
   const audioEvents = selectedData?.filter((i) => i.type === 'audioevent');
-  const toneOfVoice = selectedData?.filter((i) => i.type === 'toneofvoice');
+  const toneOfVoice = showTOV && selectedData?.filter((i) => i.type === 'toneofvoice');
 
   return (
     <div className="Waveform">

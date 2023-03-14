@@ -1,4 +1,4 @@
-import { ReactComponent as DeleteIcon } from '../assets/delete.svg';
+import { ReactComponent as CloseIcon } from '../assets/close.svg';
 import { Action } from '../utils/types';
 import './WorkflowItem.css';
 
@@ -16,7 +16,7 @@ export const WorkflowItem: React.FC<Props> = ({ count, label, threshold, action,
       <span>
         {count} &times; {label} &gt; {threshold * 100}% &rarr; {action}
       </span>
-      <DeleteIcon
+      <CloseIcon
         onClick={onDelete}
         width={18}
         height={18}
