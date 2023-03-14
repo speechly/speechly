@@ -9,6 +9,7 @@ import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
 import { ReactComponent as VolumeUp } from '../assets/volume.svg';
 import './Waveform.css';
+import { getParam } from '../utils/queryParams';
 
 interface Props {
   url?: string;
@@ -53,6 +54,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [selectedData, setSelectedData] = useState<Classification[]>();
+  const showTOV = !!JSON.parse(getParam('tov') || 'false');
 
   useEffect(() => {
     const options = formWaveSurferOptions(waveformRef.current, timelineRef.current);
@@ -115,7 +117,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         const obj = Object.assign({}, classifications);
         const isAngry = classifications.some((t) => t.type === 'toneofvoice' && t.label.startsWith('ang'));
         const region = {
-          ...(isAngry && { id: `highlight-${idx}` }),
+          ...(isAngry && showTOV && { id: `highlight-${idx}` }),
           start,
           end,
           data: { ...obj },
@@ -139,7 +141,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   };
 
   const audioEvents = selectedData?.filter((i) => i.type === 'audioevent');
-  const toneOfVoice = selectedData?.filter((i) => i.type === 'toneofvoice');
+  const toneOfVoice = showTOV && selectedData?.filter((i) => i.type === 'toneofvoice');
 
   return (
     <div className="Waveform">
