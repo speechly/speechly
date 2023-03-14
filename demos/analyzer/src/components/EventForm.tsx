@@ -33,7 +33,7 @@ export const EventForm: React.FC<Props> = ({ textEvents, onSubmit }) => {
         <input
           name="label"
           type="text"
-          placeholder="Event label"
+          placeholder="Semantic label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           autoFocus

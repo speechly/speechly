@@ -148,7 +148,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
       <div className="Waveform__data">
         {toneOfVoice && (
           <>
-            <span>Tone of voice:</span>
+            <span>Tone-of-voice labels:</span>
             {toneOfVoice.map(({ label, score }, i) => (
               <Tag
                 key={`tone-${label}-${i}`}
@@ -163,7 +163,7 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
         {toneOfVoice && audioEvents && <span>&middot;</span>}
         {audioEvents && (
           <>
-            <span>Audio events:</span>
+            <span>Audio event labels:</span>
             {audioEvents.map(({ label, score }, i) => (
               <Tag
                 key={`event-${label}-${i}`}

@@ -46,7 +46,7 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
       </div>
       {showDetails && (
         <div className="Segment__details">
-          <span>Text events:</span>
+          <span>Semantic labels:</span>
           {!classifications && (
             <Spinner
               width={16}
