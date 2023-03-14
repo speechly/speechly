@@ -308,6 +308,7 @@ function App() {
 
   const handleFileAdd = async (file: File) => {
     setFiles((current) => [...current, { name: file.name, file }]);
+    setClosePopover(true);
   };
 
   const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
@@ -501,6 +502,15 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Audio files</h4>
+              <Popover
+                title="Upload an audio file"
+                close={closePopover}
+              >
+                <FileInput
+                  acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
+                  onFileSelected={handleFileAdd}
+                />
+              </Popover>
             </div>
             <div className="Sidebar__list">
               {files.map(({ name }, i) => (
@@ -513,10 +523,6 @@ function App() {
                 </AudioFile>
               ))}
             </div>
-            <FileInput
-              acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
-              onFileSelected={handleFileAdd}
-            />
           </div>
         </div>
         <div
