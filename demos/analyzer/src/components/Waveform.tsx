@@ -5,11 +5,11 @@ import RegionsPlugin, { Region } from 'wavesurfer.js/src/plugin/regions';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
 import { Tag } from './Tag';
 import { AudioRegionLabels, Classification } from '../utils/types';
+import { getParam } from '../utils/queryParams';
 import { ReactComponent as Play } from '../assets/play.svg';
 import { ReactComponent as Pause } from '../assets/pause.svg';
 import { ReactComponent as VolumeUp } from '../assets/volume.svg';
 import './Waveform.css';
-import { getParam } from '../utils/queryParams';
 
 interface Props {
   url?: string;
