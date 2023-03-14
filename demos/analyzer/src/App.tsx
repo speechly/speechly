@@ -11,7 +11,7 @@ import { Tag } from './components/Tag';
 import { WorkflowItem } from './components/WorkflowItem';
 import { WorkflowForm } from './components/WorkflowForm';
 import { EventForm } from './components/EventForm';
-import { Popover } from './components/Popover';
+import { Dialog } from './components/Dialog';
 import {
   Action,
   AudioRegionLabels,
@@ -67,7 +67,7 @@ function App() {
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [counter, setCounter] = useState(0);
   const [nextRegion, setNextRegion] = useState(0);
-  const [closePopover, setClosePopover] = useState(false);
+  const [closeDialog, setCloseDialog] = useState(false);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
@@ -81,7 +81,7 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => () => setClosePopover(false), [closePopover]);
+  useEffect(() => () => setCloseDialog(false), [closeDialog]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -276,7 +276,7 @@ function App() {
       score: 0,
     };
     setTextEvents([...textEvents, newEvent]);
-    setClosePopover(true);
+    setCloseDialog(true);
   };
 
   const resetWorkflowSums = () => {
@@ -303,12 +303,12 @@ function App() {
     };
     const newWorkflows = [...workflows, workflow];
     setWorkflows(newWorkflows);
-    setClosePopover(true);
+    setCloseDialog(true);
   };
 
   const handleFileAdd = async (file: File) => {
     setFiles((current) => [...current, { name: file.name, file }]);
-    setClosePopover(true);
+    setCloseDialog(true);
   };
 
   const updateDetectionBuffer = async (buffer: ArrayBuffer) => {
@@ -447,15 +447,15 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Text events</h4>
-              <Popover
+              <Dialog
                 title="Add text event"
-                close={closePopover}
+                close={closeDialog}
               >
                 <EventForm
                   onSubmit={handleAddEvent}
                   textEvents={textEvents}
                 />
-              </Popover>
+              </Dialog>
             </div>
             {textEvents.length ? (
               <div className="Sidebar__grid">
@@ -474,15 +474,15 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Workflows</h4>
-              <Popover
+              <Dialog
                 title="Add workflow"
-                close={closePopover}
+                close={closeDialog}
               >
                 <WorkflowForm
                   textEvents={textEvents}
                   onSubmit={handleAddWorkflow}
                 />
-              </Popover>
+              </Dialog>
             </div>
             {workflows.length ? (
               <div className="Sidebar__list">
@@ -502,15 +502,15 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Audio files</h4>
-              <Popover
+              <Dialog
                 title="Upload an audio file"
-                close={closePopover}
+                close={closeDialog}
               >
                 <FileInput
                   acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
                   onFileSelected={handleFileAdd}
                 />
-              </Popover>
+              </Dialog>
             </div>
             <div className="Sidebar__list">
               {files.map(({ name }, i) => (

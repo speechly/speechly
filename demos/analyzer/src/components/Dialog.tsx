@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useTransition } from 'transition-hook';
 import { ReactComponent as AddIcon } from '../assets/add.svg';
 import { ReactComponent as CloseIcon } from '../assets/close.svg';
-import './Popover.css';
+import './Dialog.css';
 
 interface Props {
   title: string;
@@ -12,10 +12,10 @@ interface Props {
   close?: boolean;
 }
 
-export const Popover: React.FC<Props> = ({ title, children, close }) => {
+export const Dialog: React.FC<Props> = ({ title, children, close }) => {
   const [isVisible, setVisible] = useState(false);
   const { stage, shouldMount } = useTransition(isVisible, 200);
-  const classes = clsx('Popover', stage === 'enter' && 'Popover--visible');
+  const classes = clsx('Dialog', stage === 'enter' && 'Dialog--visible');
 
   useEffect(() => {
     if (close) {
@@ -26,7 +26,7 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
   return (
     <>
       <button
-        className="Popover__trigger"
+        className="Dialog__trigger"
         onClick={() => setVisible(!isVisible)}
       >
         <span>Add</span>
@@ -39,12 +39,12 @@ export const Popover: React.FC<Props> = ({ title, children, close }) => {
         createPortal(
           <div className={classes}>
             <div
-              className="Popover__bg"
+              className="Dialog__bg"
               onClick={() => setVisible(false)}
             />
-            <div className="Popover__content">
+            <div className="Dialog__content">
               <CloseIcon
-                className="Popover__close"
+                className="Dialog__close"
                 onClick={() => setVisible(false)}
               />
               <h2>{title}</h2>
