@@ -446,9 +446,9 @@ function App() {
         <div className="Sidebar">
           <div className="Sidebar__section">
             <div className="Sidebar__title">
-              <h4>Text events</h4>
+              <h4>Semantic labels</h4>
               <Dialog
-                title="Add text event"
+                title="Add a semantic label"
                 close={closeDialog}
               >
                 <EventForm
@@ -475,7 +475,7 @@ function App() {
             <div className="Sidebar__title">
               <h4>Workflows</h4>
               <Dialog
-                title="Add workflow"
+                title="Add a workflow"
                 close={closeDialog}
               >
                 <WorkflowForm
