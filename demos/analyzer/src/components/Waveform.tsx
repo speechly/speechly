@@ -141,12 +141,12 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
   };
 
   const audioEvents = selectedData?.filter((i) => i.type === 'audioevent');
-  const toneOfVoice = showTOV && selectedData?.filter((i) => i.type === 'toneofvoice');
+  const toneOfVoice = selectedData?.filter((i) => i.type === 'toneofvoice');
 
   return (
     <div className="Waveform">
       <div className="Waveform__data">
-        {toneOfVoice && (
+        {showTOV && toneOfVoice && toneOfVoice?.length > 0 && (
           <>
             <span>Tone-of-voice labels:</span>
             {toneOfVoice.map(({ label, score }, i) => (
@@ -158,9 +158,9 @@ export const Waveform: React.FC<Props> = ({ url, peaks, regionData, children, on
                 size={label.startsWith('ang') ? 'small' : undefined}
               />
             ))}
+            <span>&middot;</span>
           </>
         )}
-        {toneOfVoice && audioEvents && <span>&middot;</span>}
         {audioEvents && (
           <>
             <span>Audio event labels:</span>
