@@ -24,8 +24,8 @@
      * instead of the latest version.
      */
     // "@speechly/browser-client": "1.5.0",
-    // "react": "^18",
-    // "react-dom": "^18"
+    "react": "^18",
+    "react-dom": "^18"
   },
 
   /**
