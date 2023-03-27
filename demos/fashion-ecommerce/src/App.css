@@ -1,3 +1,57 @@
 .App {
   background-color: #fff;
 }
+
+.Microphone {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100px;
+  background-color: #009ffa;
+  color: #fff;
+  padding: 18px;
+  box-shadow: 0 0 16px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.15s ease;
+}
+
+.Microphone:hover {
+  background-color: #008fe1;
+  box-shadow: 0 0 16px 4px rgba(0, 0, 0, 0.2);
+}
+
+.Microphone--active {
+  background-color: #eb5547;
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 0 16px 4px rgba(0, 0, 0, 0.2);
+}
+
+.Microphone--active::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
+  border-radius: 100px;
+  border: #eb5547 solid 2px;
+  transition: all 0.15s ease;
+}
+
+.Microphone--active:hover {
+  background-color: #e94030;
+}
+
+.Microphone--active:hover::before {
+  border-color: #e94030;
+}
+
+.Microphone:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
