@@ -94,8 +94,6 @@ void read_transcript(DecoderHandle* decoder)
 
 int main(int argc, char *argv[])
 {
-    int err;
-
     void* model;
     size_t model_len;
 
@@ -111,6 +109,16 @@ int main(int argc, char *argv[])
 
     // Instantiate a decoder object.
     DecoderHandle* decoder = DecoderFactory_GetDecoder(factory, NULL, NULL);
+
+    // Set input block size multiplier, larger values make the decoding more CPU friendly,
+    // but increase latency.
+    DecoderError err;
+    Decoder_SetParamI(decoder, SPEECHLY_DECODER_BLOCK_MULTIPLIER_I, 10, &err);
+    if (err.error_code != 0) {
+        // this is non-fatal, some model bundles do not permit setting this parameter.
+        printf("Failed to set block multiplier.\n");
+    }
+
     printf("Decoder ready!\n");
 
     // Load audio file. In this example the file *must* be a RIFF wav file with
@@ -126,6 +134,9 @@ int main(int argc, char *argv[])
     // It is also possible to run the functions feed_audio and read_transcript
     // concurrently in two threads. This is useful for real-time situations in which
     // it is important to show the transcript while receiving more audio.
+
+    // Note that the library is internally multithreaded, and even when used as below,
+    // it will run concurrently on two CPU cores.
 
     printf("Writing samples...\n");
     feed_audio(sample_bytes, sample_bytes_len, decoder);
