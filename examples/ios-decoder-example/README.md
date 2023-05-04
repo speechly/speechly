@@ -2,31 +2,48 @@
 
 An example iOS app for using the Speechly Decoder library for on-device transcription.
 
-**Note:** on-device transcription is only available on [Enterprise plans](https://www.speechly.com/pricing)
+> **Note**  
+> Deploying Speechly on-device is only available on [Enterprise plans](https://www.speechly.com/pricing)
 
 ## Before you start
 
-Make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
+Before starting, make sure you have:
 
-You will also need a **Core ML** model bundle and the `SpeechlyDecoder.xcframework` library.
+- Created a Speechly application. For on-device use, only `small` models are currently supported.
+- You will also need the **Core ML** model bundle and the **Speechly Decoder** iOS library.
 
-## Download model bundle
+## Download model bundle and library
 
-To use the Speechly Decoder library you need a model bundle. Download a **Core ML** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
+Log in to [Speechly Dashboard](https://api.speechly.com/dashboard) and select your **Application**.
 
-```bash 
-speechly download YOUR_APP_ID . --model coreml
+#### Model bundle
+
+1. In the **Overeviw** tab, go to the **Model** section
+1. Click the **Core ML** model bundle to download it
+
+#### Speechly Decoder library
+
+1. In the **Integrate** tab, go to the **Speechly On-device SDKs** section
+1. Click the **Download SDK** to download it
+
+## Copy the example app
+
+Copy the example app using [degit](https://github.com/Rich-Harris/degit):
+
+```bash
+npx degit speechly/speechly/examples/ios-decoder-example my-ios-app
+cd my-ios-app
 ```
 
 ## Add dependencies
 
 Open `Decoder.xcodeproj` and add both `SpeechlyDecoder.xcframework` and `YOUR_MODEL_BUNDLE.coreml.bundle` to the Xcode project by dragging and dropping it from Finder into the **Frameworks** folder:
 
-![xcode 1](https://funny-kashata-6dcdf0.netlify.app/assets/images/xcode-1-a7c9b49f11553d05f134f20c74d5f538.png)
+![xcode 1](https://docs.speechly.com/assets/images/xcode-1-a7c9b49f11553d05f134f20c74d5f538.png)
 
 Make sure **Copy items if needed**, **Create groups** and **Add to targets** are selected:
 
-![xcode 2](https://funny-kashata-6dcdf0.netlify.app/assets/images/xcode-2-a0769b3a2c091d6301e2bb67aeb86f12.png)
+![xcode 2](https://docs.speechly.com/assets/images/xcode-2-a0769b3a2c091d6301e2bb67aeb86f12.png)
 
 In `Decoder/SpeechlyManager.swift` update the model bundle resource URL:
 

@@ -2,21 +2,29 @@
 
 An example Android app for using the Speechly Decoder library for on-device transcription.
 
-**Note:** on-device transcription is only available on [Enterprise plans](https://www.speechly.com/pricing)
+> **Note**  
+> Deploying Speechly on-device is only available on [Enterprise plans](https://www.speechly.com/pricing)
 
 ## Before you start
 
-Make sure you have created and deployed a Speechly application. For on-device use, only `small` models are supported.
+Before starting, make sure you have:
 
-You will also need a **TensorFlow Lite** model bundle and the `SpeechlyDecoder.aar` library.
+- Created a Speechly application. For on-device use, only `small` models are currently supported.
+- You will also need the **TensorFlow Lite** model bundle and the **Speechly Decoder** Android library.
 
-## Download model bundle
+## Download model bundle and library
 
-To use the Speechly Decoder library you need a model bundle. Download a **TensorFlow Lite** model bundle from [Speechly Dashboard](https://api.speechly.com/dashboard) or using [Speechly CLI](https://github.com/speechly/cli):
+Log in to [Speechly Dashboard](https://api.speechly.com/dashboard) and select your **Application**.
 
-```bash 
-speechly download YOUR_APP_ID . --model tflite
-```
+#### Model bundle
+
+1. In the **Overeviw** tab, go to the **Model** section
+1. Click the **TensorFlow Lite** model bundle to download it
+
+#### Speechly Decoder library
+
+1. In the **Integrate** tab, go to the **Speechly On-device SDKs** section
+1. Click the **Download SDK** to download it
 
 ## Copy the example app
 
@@ -31,7 +39,7 @@ cd my-android-app
 
 Put `SpeechlyDecoder.aar` in a directory that gradle can find. For example, add a `flatDir` field to the repositories section in your `settings.gradle`:
 
-```bash
+```groovy
 pluginManagement {
     repositories {
         flatDir {
@@ -43,7 +51,7 @@ pluginManagement {
 
 In your `build.gradle` dependencies section add:
 
-```bash
+```groovy
 dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.9.0'
     implementation(name:'SpeechlyDecoder', ext:'aar')
@@ -52,7 +60,7 @@ dependencies {
 
 If the file is packaged as part of the application, it may be good to ensure that it is not compressed when building the `.apk` by updating the android section in your `build.gradle`:
 
-```bash
+```groovy
 android {
     aaptOptions {
         noCompress 'bundle''
