@@ -6,7 +6,7 @@
   "dependencies": {
     "@speechly/browser-client": "^2.6.5",
     "@speechly/demo-navigation": "^0.2.14",
-    "@speechly/react-client": "^2.2.3",
+    "@speechly/react-client": "^2.2.4",
     "clsx": "^1.2.1",
     "format-duration": "^3.0.1",
     "react": "^18",

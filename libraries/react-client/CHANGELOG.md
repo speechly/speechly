@@ -1,6 +1,13 @@
 # Change Log - @speechly/react-client
 
-This log was last generated on Fri, 17 Feb 2023 08:52:12 GMT and should not be manually modified.
+This log was last generated on Tue, 09 May 2023 07:43:45 GMT and should not be manually modified.
+
+## 2.2.4
+Tue, 09 May 2023 07:43:45 GMT
+
+### Patches
+
+- Fix `microphone` being undefined
 
 ## 2.2.3
 Fri, 17 Feb 2023 08:52:12 GMT

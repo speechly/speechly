@@ -2,6 +2,18 @@
   "name": "@speechly/react-client",
   "entries": [
     {
+      "version": "2.2.4",
+      "tag": "@speechly/react-client_v2.2.4",
+      "date": "Tue, 09 May 2023 07:43:45 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Fix `microphone` being undefined"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.2.3",
       "tag": "@speechly/react-client_v2.2.3",
       "date": "Fri, 17 Feb 2023 08:52:12 GMT",
