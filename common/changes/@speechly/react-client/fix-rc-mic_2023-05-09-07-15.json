@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@speechly/react-client",
+      "comment": "Fix `microphone` being undefined",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@speechly/react-client"
+}
