@@ -1,5 +1,11 @@
 import React from 'react'
-import { DecoderOptions, DecoderState, BrowserClient, BrowserMicrophone, AudioSourceState } from '@speechly/browser-client'
+import {
+  DecoderOptions,
+  DecoderState,
+  BrowserClient,
+  BrowserMicrophone,
+  AudioSourceState,
+} from '@speechly/browser-client'
 
 import {
   Word,
@@ -267,6 +273,7 @@ export class SpeechProvider extends React.Component<SpeechProviderProps, SpeechP
           tentativeIntent: this.state.tentativeIntent,
           intent: this.state.intent,
           client: this.state.client,
+          microphone: this.state.microphone,
         }}
       >
         {this.props.children}
