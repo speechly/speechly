@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
@@ -36,11 +35,9 @@ import sample2 from './assets/tiktok-cumbia.wav';
 import sample3 from './assets/walmart-ps5.mp3';
 import './App.css';
 
-const ourMic = new BrowserMicrophone();
 const ac = new AudioContext({ sampleRate: 16000 });
 const sp = ac.createScriptProcessor();
 sp.connect(ac.destination);
-let recorder: MediaRecorder;
 
 const defaultTextEvents: Classification[] = [
   { label: 'a derogatory comment based on faith', severity: 'negative', score: 0 },
@@ -48,7 +45,8 @@ const defaultTextEvents: Classification[] = [
 ];
 
 function App() {
-  const { appId, client, segment, clientState, listening, start, stop } = useSpeechContext();
+  const { appId, client, segment, clientState, listening, microphone, attachMicrophone, start, stop } =
+    useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<ClassifiedSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [textEvents, setTextEvents] = useLocalStorage<Classification[]>('textEvents', defaultTextEvents);
@@ -72,6 +70,7 @@ function App() {
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
+  const recorder: { current: MediaRecorder | undefined } = useRef(undefined);
 
   useEffect(() => {
     return () => {
@@ -81,7 +80,33 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => () => setCloseDialog(false), [closeDialog]);
+  useEffect(() => {
+    return () => setCloseDialog(false);
+  }, [closeDialog]);
+
+  useEffect(() => {
+    const createStream = async (stream: MediaStream) => {
+      const node = ac.createMediaStreamSource(stream);
+      node.connect(sp);
+      await ac.resume();
+      sp.onaudioprocess = (e) => {
+        const samples = new Float32Array(e.inputBuffer.length);
+        e.inputBuffer.copyFromChannel(samples, 0, 0);
+        setMicBuffer((current) => [...current, samples]);
+      };
+    };
+
+    const startRecorder = (stream: MediaStream) => {
+      recorder.current = new MediaRecorder(stream);
+      recorder.current.start();
+      recorder.current.ondataavailable = (e) => setRecData(e.data);
+    };
+
+    if (microphone?.mediaStream) {
+      createStream(microphone.mediaStream);
+      startRecorder(microphone.mediaStream);
+    }
+  }, [microphone?.mediaStream]);
 
   const classifyBuffer = useCallback(
     async (index: number, buf: Float32Array): Promise<void> => {
@@ -378,27 +403,6 @@ function App() {
   const handleStart = async () => {
     if (clientState === DecoderState.Active) return;
 
-    if (!ourMic.mediaStream) {
-      await ourMic.initialize();
-      if (ourMic.mediaStream) {
-        await client?.attach(ourMic.mediaStream);
-      }
-    }
-
-    if (ourMic.mediaStream) {
-      const node = ac.createMediaStreamSource(ourMic.mediaStream);
-      node.connect(sp);
-      await ac.resume();
-      sp.onaudioprocess = (e) => {
-        const samples = new Float32Array(e.inputBuffer.length);
-        e.inputBuffer.copyFromChannel(samples, 0, 0);
-        setMicBuffer((current) => [...current, samples]);
-      };
-      recorder = new MediaRecorder(ourMic.mediaStream);
-      recorder.start();
-      recorder.ondataavailable = (e) => setRecData(e.data);
-    }
-
     if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
@@ -413,11 +417,11 @@ function App() {
     if (listening) {
       stopCounter();
       await stop();
-      await ac.suspend();
-      recorder.stop();
+      recorder.current?.stop();
     } else {
-      startCounter();
+      await attachMicrophone();
       await start();
+      startCounter();
     }
   };
 
@@ -426,7 +430,7 @@ function App() {
       stopCounter();
       await stop();
       await ac.suspend();
-      recorder.stop();
+      recorder.current?.stop();
     }
   };
 
@@ -447,14 +451,8 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Semantic labels</h4>
-              <Dialog
-                title="Add a semantic label"
-                close={closeDialog}
-              >
-                <EventForm
-                  onSubmit={handleAddEvent}
-                  textEvents={textEvents}
-                />
+              <Dialog title="Add a semantic label" close={closeDialog}>
+                <EventForm onSubmit={handleAddEvent} textEvents={textEvents} />
               </Dialog>
             </div>
             {textEvents.length ? (
@@ -474,14 +472,8 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Workflows</h4>
-              <Dialog
-                title="Add a workflow"
-                close={closeDialog}
-              >
-                <WorkflowForm
-                  textEvents={textEvents}
-                  onSubmit={handleAddWorkflow}
-                />
+              <Dialog title="Add a workflow" close={closeDialog}>
+                <WorkflowForm textEvents={textEvents} onSubmit={handleAddWorkflow} />
               </Dialog>
             </div>
             {workflows.length ? (
@@ -502,33 +494,20 @@ function App() {
           <div className="Sidebar__section">
             <div className="Sidebar__title">
               <h4>Audio files</h4>
-              <Dialog
-                title="Upload an audio file"
-                close={closeDialog}
-              >
-                <FileInput
-                  acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4"
-                  onFileSelected={handleFileAdd}
-                />
+              <Dialog title="Upload an audio file" close={closeDialog}>
+                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/m4a,audio/mp4" onFileSelected={handleFileAdd} />
               </Dialog>
             </div>
             <div className="Sidebar__list">
               {files.map(({ name }, i) => (
-                <AudioFile
-                  key={name}
-                  isSelected={selectedFileId === i}
-                  onClick={() => handleSelectFile(i)}
-                >
+                <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
                   {name}
                 </AudioFile>
               ))}
             </div>
           </div>
         </div>
-        <div
-          className="Main"
-          ref={mainRef}
-        >
+        <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
               <Empty className="EmptyState__icon" />
@@ -546,10 +525,7 @@ function App() {
               showDetails={textEvents.length > 0}
             />
           ))}
-          <div
-            ref={segmentEndRef}
-            className="Main__lastItem"
-          />
+          <div ref={segmentEndRef} className="Main__lastItem" />
         </div>
       </div>
       <div className="Player">
