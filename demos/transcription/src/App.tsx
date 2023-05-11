@@ -226,7 +226,7 @@ function App() {
         <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
-              <Empty className="EmptyState__icon" />
+              <Empty className="EmptyState__icon" width={180} />
               <h2 className="EmptyState__title">Transcribe speech and audio files</h2>
               <p className="EmptyState__description">
                 This demo uses our off-the-shelf{' '}

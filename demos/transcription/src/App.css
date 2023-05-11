@@ -116,8 +116,8 @@ body {
 }
 
 .EmptyState__title {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .EmptyState__description {
@@ -126,6 +126,7 @@ body {
 
 .EmptyState__description a {
   color: inherit;
+  text-underline-offset: 2px;
 }
 
 .EmptyState__description a:hover {
