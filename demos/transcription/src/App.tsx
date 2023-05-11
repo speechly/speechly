@@ -67,8 +67,9 @@ function App() {
       const name = `Recording ${timeStr}`;
       setFiles((current) => [...current, { name, src }]);
       setRecData(undefined);
+      setSelectedFileId(files.length);
     }
-  }, [recData]);
+  }, [recData, files.length]);
 
   useEffect(() => {
     const scrollToSegmentsEnd = () =>

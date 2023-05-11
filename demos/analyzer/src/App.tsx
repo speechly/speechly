@@ -160,8 +160,9 @@ function App() {
       const name = `Recording at ${timeStr}`;
       setFiles((current) => [...current, { name, src }]);
       setRecData(undefined);
+      setSelectedFileId(files.length);
     }
-  }, [recData]);
+  }, [recData, files.length]);
 
   useEffect(() => {
     if (clientState <= 2) {
