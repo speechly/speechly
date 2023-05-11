@@ -510,7 +510,7 @@ function App() {
         <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
-              <Empty className="EmptyState__icon" />
+              <Empty className="EmptyState__icon" width={180} />
               <h2 className="EmptyState__title">Speech and audio analysis</h2>
               <p className="EmptyState__description">
                 Use one of our sample files, upload your own audio or use the microphone.
