@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-import { BrowserMicrophone } from '@speechly/browser-client';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
@@ -30,11 +29,8 @@ export interface AudioRegionLabels {
   end: number;
 }
 
-const ourMic = new BrowserMicrophone();
-let recorder: MediaRecorder;
-
 function App() {
-  const { client, segment, clientState, listening, start, stop } = useSpeechContext();
+  const { client, segment, clientState, listening, microphone, attachMicrophone, start, stop } = useSpeechContext();
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<SpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
@@ -49,10 +45,19 @@ function App() {
   const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
+  const recorder: { current: MediaRecorder | undefined } = useRef(undefined);
 
   useEffect(() => {
     return () => stopCounter();
   }, []);
+
+  useEffect(() => {
+    if (microphone?.mediaStream) {
+      recorder.current = new MediaRecorder(microphone.mediaStream);
+      recorder.current.start();
+      recorder.current.ondataavailable = (e) => setRecData(e.data);
+    }
+  }, [microphone?.mediaStream]);
 
   useEffect(() => {
     if (recData) {
@@ -62,8 +67,9 @@ function App() {
       const name = `Recording ${timeStr}`;
       setFiles((current) => [...current, { name, src }]);
       setRecData(undefined);
+      setSelectedFileId(files.length);
     }
-  }, [recData]);
+  }, [recData, files.length]);
 
   useEffect(() => {
     const scrollToSegmentsEnd = () =>
@@ -111,6 +117,7 @@ function App() {
   const handleSelectFile = async (i: number) => {
     if (selectedFileId === i) return;
     if (clientState === DecoderState.Active) return;
+
     setSelectedFileId(i);
     setAudioSource(undefined);
     setCurrentTime(undefined);
@@ -163,19 +170,6 @@ function App() {
   const handleStart = async () => {
     if (clientState === DecoderState.Active) return;
 
-    if (!ourMic.mediaStream) {
-      await ourMic.initialize();
-      if (ourMic.mediaStream) {
-        await client?.attach(ourMic.mediaStream);
-      }
-    }
-
-    if (ourMic.mediaStream) {
-      recorder = new MediaRecorder(ourMic.mediaStream);
-      recorder.start();
-      recorder.ondataavailable = (e) => setRecData(e.data);
-    }
-
     if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
@@ -186,10 +180,11 @@ function App() {
     if (listening) {
       stopCounter();
       await stop();
-      recorder.stop();
+      recorder.current?.stop();
     } else {
-      startCounter();
+      await attachMicrophone();
       await start();
+      startCounter();
     }
   };
 
@@ -197,7 +192,7 @@ function App() {
     if (listening && counter > 100) {
       stopCounter();
       await stop();
-      recorder.stop();
+      recorder.current?.stop();
     }
   };
 
@@ -232,7 +227,7 @@ function App() {
         <div className="Main" ref={mainRef}>
           {!speechSegments.length && showEmptyState && (
             <div className="EmptyState">
-              <Empty className="EmptyState__icon" />
+              <Empty className="EmptyState__icon" width={180} />
               <h2 className="EmptyState__title">Transcribe speech and audio files</h2>
               <p className="EmptyState__description">
                 This demo uses our off-the-shelf{' '}

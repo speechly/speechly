@@ -48,6 +48,9 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--night);
   background-color: var(--day);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 button:focus,

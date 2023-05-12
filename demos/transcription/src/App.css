@@ -37,7 +37,7 @@ body {
 }
 
 .Sidebar__title {
-  font-weight: 500;
+  font-weight: 700;
   margin: 24px 24px 4px;
 }
 
@@ -116,8 +116,8 @@ body {
 }
 
 .EmptyState__title {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .EmptyState__description {
@@ -126,6 +126,7 @@ body {
 
 .EmptyState__description a {
   color: inherit;
+  text-underline-offset: 2px;
 }
 
 .EmptyState__description a:hover {
@@ -181,7 +182,7 @@ body {
   border-radius: 100px;
   background-color: var(--accent);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--day);
   padding: 12px;
   transition: var(--ease);

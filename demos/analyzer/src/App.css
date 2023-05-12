@@ -54,7 +54,7 @@ body {
 
 .Sidebar__title h4 {
   margin: 0;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 24px;
 }
 
@@ -112,12 +112,17 @@ body {
 }
 
 .EmptyState__title {
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .EmptyState__description {
   line-height: 1.5;
+}
+
+.EmptyState__description a {
+  color: inherit;
+  text-underline-offset: 2px;
 }
 
 .Microphone {
@@ -130,7 +135,7 @@ body {
   border-radius: 100px;
   background-color: var(--accent);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--day);
   padding: 12px;
   transition: var(--ease);
