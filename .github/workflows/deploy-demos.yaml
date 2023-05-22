@@ -5,13 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'demos/ecommerce-checkout/**'
       - 'demos/fashion-ecommerce/**'
-      - 'demos/fast-food/**'
-      - 'demos/flight-booking/**'
-      - 'demos/smart-home/**'
-      - 'demos/speech-to-text/**'
-      - 'demos/voice-search/**'
+      - 'demos/transcription/**'
       - 'demos/moderation/**'
       - 'demos/analyzer/**'
 
@@ -49,18 +44,9 @@ jobs:
         run: node common/scripts/install-run-rush.js link
       - name: Build Project
         run: node common/scripts/install-run-rush.js rebuild --verbose
-        env:
-          REACT_APP_VOICE_SEARCH_API_KEY: ${{ secrets.VOICE_SEARCH_API_KEY }}
-          REACT_APP_VOICE_SEARCH_ENGINE_ID: ${{ secrets.VOICE_SEARCH_ENGINE_ID }}
-          REACT_APP_INSTANT_MESSAGING_OPENAI_API_KEY: ${{ secrets.INSTANT_MESSAGING_OPENAI_API_KEY }}
       - name: Prepare deployment directory
         run: mkdir -p tmp-upload-staging-area &&
-          cp -r demos/ecommerce-checkout/build/ tmp-upload-staging-area/checkout &&
           cp -r demos/fashion-ecommerce/build/ tmp-upload-staging-area/fashion &&
-          cp -r demos/flight-booking/build/ tmp-upload-staging-area/booking &&
-          cp -r demos/smart-home/build/ tmp-upload-staging-area/smart-home &&
-          cp -r demos/speech-to-text/build/ tmp-upload-staging-area/speech-to-text &&
-          cp -r demos/voice-search/build/ tmp-upload-staging-area/voice-search &&
           cp -r demos/moderation/build/ tmp-upload-staging-area/moderation &&
           cp -r demos/analyzer/build/ tmp-upload-staging-area/analyzer &&
           cp -r demos/transcription/build/ tmp-upload-staging-area/transcription
@@ -74,23 +60,4 @@ jobs:
         with:
           path: tmp-upload-staging-area
           destination: ${{ secrets.SPEECHLY_DEMOS_BUCKET }}
-          parent: false
-      - name: Patch voice-search root
-        run: sed -i -- "s#/voice-search/#/#" demos/voice-search/package.json
-      - name: Build Voicesearch Standalone
-        run: node common/scripts/install-run-rush.js rebuild --verbose --only 'voice-search'
-        env:
-          REACT_APP_VOICE_SEARCH_API_KEY: ${{ secrets.VOICE_SEARCH_API_KEY }}
-          REACT_APP_VOICE_SEARCH_ENGINE_ID: ${{ secrets.VOICE_SEARCH_ENGINE_ID }}
-          REACT_APP_VOICE_SEARCH_DEPLOYMENT: 'STANDALONE'
-      - name: Prepare deployment directory (voicesearch.ai)
-        run: mkdir -p tmp-upload-staging-area &&
-          cp -r demos/voice-search/build/ tmp-upload-staging-area/voicesearch.ai &&
-          sed -i -- "s#demos.speechly.com#voicesearch.ai#g" tmp-upload-staging-area/*/index.html &&
-          sed -i -- "s#</head>#<script>!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console\&\&console.error\&\&console.error(\"Segment snippet included twice.\");else{analytics.invoked=!0;analytics.methods=[\"trackSubmit\",\"trackClick\",\"trackLink\",\"trackForm\",\"pageview\",\"identify\",\"reset\",\"group\",\"track\",\"ready\",\"alias\",\"debug\",\"page\",\"once\",\"off\",\"on\",\"addSourceMiddleware\",\"addIntegrationMiddleware\",\"setAnonymousId\",\"addDestinationMiddleware\"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement(\"script\");t.type=\"text/javascript\";t.async=!0;t.src=\"https://cdn.segment.com/analytics.js/v1/\" + key + \"/analytics.min.js\";var n=document.getElementsByTagName(\"script\")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey=\"wR1kLZa6OZJesflNLNxKvJOd61RIjaFi\";;analytics.SNIPPET_VERSION=\"4.15.3\";analytics.load(\"wR1kLZa6OZJesflNLNxKvJOd61RIjaFi\");analytics.page();}}();</script></head>#" tmp-upload-staging-area/*/index.html
-      - name: Upload demos to GCS (voicesearch.ai)
-        uses: google-github-actions/upload-cloud-storage@v0.4.0
-        with:
-          path: tmp-upload-staging-area/voicesearch.ai
-          destination: ${{ secrets.SPEECHLY_VOICESEARCH_BUCKET }}
           parent: false

@@ -7,19 +7,13 @@ specifiers:
   '@rollup/plugin-typescript': ~8.3.2
   '@rush-temp/analyzer': file:./projects/analyzer.tgz
   '@rush-temp/browser-client': file:./projects/browser-client.tgz
-  '@rush-temp/ecommerce-checkout': file:./projects/ecommerce-checkout.tgz
   '@rush-temp/fashion-ecommerce': file:./projects/fashion-ecommerce.tgz
-  '@rush-temp/flight-booking': file:./projects/flight-booking.tgz
   '@rush-temp/logkit': file:./projects/logkit.tgz
   '@rush-temp/moderation': file:./projects/moderation.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
-  '@rush-temp/smart-home': file:./projects/smart-home.tgz
-  '@rush-temp/speech-to-text': file:./projects/speech-to-text.tgz
   '@rush-temp/transcription': file:./projects/transcription.tgz
-  '@rush-temp/voice-search': file:./projects/voice-search.tgz
   '@speechly/demo-navigation': ^0.2.14
   '@speechly/react-ui': ^2.7.5
-  '@speechly/react-voice-forms': 1.3.5
   '@types/base-64': ^0.1.3
   '@types/jest': ^25
   '@types/node': ^14
@@ -32,7 +26,6 @@ specifiers:
   '@types/wavesurfer.js': ^6.0.3
   '@typescript-eslint/eslint-plugin': ^5
   '@typescript-eslint/parser': ^5
-  axios: ^0.21.1
   base-64: ^0.1.0
   classnames: ~2.3.1
   clsx: ^1.2.1
@@ -49,20 +42,13 @@ specifiers:
   format-duration: ^3.0.1
   jest: 26.6.0
   minimist: ^1.2.5
-  modern-normalize: ~1.1.0
   node-fetch: ^2.6.1
   plyr-react: 4.0.0-alpha.1
   prettier: ^2.1.2
-  prop-types: ^15.7.2
   pubsub-js: ^1.9.2
-  query-string: ^6.13.8
   react: ^18
   react-device-detect: ^1.14.0
   react-dom: ^18
-  react-image-webp: ^0.7.0
-  react-map-interaction: ^2.0.0
-  react-openai-api: ^1.0.2
-  react-refresh: ^0.9.0
   react-spring: ^9.4.4
   react-usestateref: ^1.0.8
   rimraf: ^3.0.2
@@ -70,7 +56,6 @@ specifiers:
   rollup-plugin-terser: ^7.0.2
   rollup-plugin-web-worker-loader: ~1.6.1
   sentence-case: ~3.0.4
-  source-map-explorer: ^2.5.2
   styled-components: '>=5.3.3'
   transition-hook: ^1.5.2
   ts-jest: 26.5.6
@@ -90,21 +75,15 @@ dependencies:
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
   '@rollup/plugin-typescript': 8.3.4_905125611895ceb1b1b2fc58dab912cd
-  '@rush-temp/analyzer': file:projects/analyzer.tgz_eslint@7.32.0+ts-node@10.9.1
+  '@rush-temp/analyzer': file:projects/analyzer.tgz_ts-node@10.9.1
   '@rush-temp/browser-client': file:projects/browser-client.tgz_ts-node@10.9.1
-  '@rush-temp/ecommerce-checkout': file:projects/ecommerce-checkout.tgz_eslint@7.32.0+ts-node@10.9.1
   '@rush-temp/fashion-ecommerce': file:projects/fashion-ecommerce.tgz_eslint@7.32.0
-  '@rush-temp/flight-booking': file:projects/flight-booking.tgz_eslint@7.32.0+ts-node@10.9.1
   '@rush-temp/logkit': file:projects/logkit.tgz
   '@rush-temp/moderation': file:projects/moderation.tgz_ts-node@10.9.1
   '@rush-temp/react-client': file:projects/react-client.tgz
-  '@rush-temp/smart-home': file:projects/smart-home.tgz_eslint@7.32.0+ts-node@10.9.1
-  '@rush-temp/speech-to-text': file:projects/speech-to-text.tgz_eslint@7.32.0+ts-node@10.9.1
   '@rush-temp/transcription': file:projects/transcription.tgz_ts-node@10.9.1
-  '@rush-temp/voice-search': file:projects/voice-search.tgz_eslint@7.32.0+ts-node@10.9.1
   '@speechly/demo-navigation': 0.2.14
   '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-  '@speechly/react-voice-forms': 1.3.5_react@18.2.0
   '@types/base-64': 0.1.3
   '@types/jest': 25.2.3
   '@types/node': 14.18.33
@@ -117,7 +96,6 @@ dependencies:
   '@types/wavesurfer.js': 6.0.3
   '@typescript-eslint/eslint-plugin': 5.43.0_bc9e82abe18864dc1bbed2546a832049
   '@typescript-eslint/parser': 5.43.0_eslint@7.32.0+typescript@4.9.4
-  axios: 0.21.4
   base-64: 0.1.0
   classnames: 2.3.2
   clsx: 1.2.1
@@ -134,20 +112,13 @@ dependencies:
   format-duration: 3.0.1
   jest: 26.6.0_ts-node@10.9.1
   minimist: 1.2.7
-  modern-normalize: 1.1.0
   node-fetch: 2.6.7
   plyr-react: 4.0.0-alpha.1_react-dom@18.2.0+react@18.2.0
   prettier: 2.7.1
-  prop-types: 15.8.1
   pubsub-js: 1.9.4
-  query-string: 6.14.1
   react: 18.2.0
   react-device-detect: 1.17.0_react-dom@18.2.0+react@18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-image-webp: 0.7.0
-  react-map-interaction: 2.1.0_prop-types@15.8.1+react@18.2.0
-  react-openai-api: 1.0.2_9600c6325dd30b1815a1414ccdd088fe
-  react-refresh: 0.9.0
   react-spring: 9.5.5_react-dom@18.2.0+react@18.2.0
   react-usestateref: 1.0.8_react@18.2.0
   rimraf: 3.0.2
@@ -155,7 +126,6 @@ dependencies:
   rollup-plugin-terser: 7.0.2_rollup@2.79.1
   rollup-plugin-web-worker-loader: 1.6.1_rollup@2.79.1
   sentence-case: 3.0.4
-  source-map-explorer: 2.5.3
   styled-components: 5.3.6_react-dom@18.2.0+react@18.2.0
   transition-hook: 1.5.2_react-dom@18.2.0+react@18.2.0
   ts-jest: 26.5.6_jest@26.6.0+typescript@4.9.4
@@ -2819,15 +2789,6 @@ packages:
       - encoding
     dev: false
 
-  /@speechly/react-client/2.2.3_react@18.2.0:
-    resolution: {integrity: sha512-eLj1XqZIXZY8rHRNDzxzTPW+DHatoJjHVZ1eHcT4dh5JyQb+emqhf21r51zWZ8XWSqkAsjtD1RvYri9kAKoYfg==}
-    peerDependencies:
-      react: '>=16.9.0'
-    dependencies:
-      '@speechly/browser-client': 2.6.5
-      react: 18.2.0
-    dev: false
-
   /@speechly/react-ui/2.7.5_68b84df93deb6f260d90827a39a1a38f:
     resolution: {integrity: sha512-PM/FApxQ9hftmI4a35olw6je/6xBvgm0sN8zWtb6q8am1Mj4yUqmsbSYpNGHXFmBrzI16hYp+TA/Ra245a7Iiw==}
     peerDependencies:
@@ -2851,15 +2812,6 @@ packages:
       - react-zdog
       - three
       - zdog
-    dev: false
-
-  /@speechly/react-voice-forms/1.3.5_react@18.2.0:
-    resolution: {integrity: sha512-HeRpBQrno8OaZUoQamkkbnBGL2t+N78gcYowrSP44+z9EgL+zG57iU9uzBbeQbfuW+VbWA7/+k1x2BsVbMCstQ==}
-    peerDependencies:
-      react: '>=16.9.0'
-    dependencies:
-      '@speechly/react-client': 2.2.3_react@18.2.0
-      react: 18.2.0
     dev: false
 
   /@stdlib/array-float32/0.0.6:
@@ -5239,14 +5191,6 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /axios/0.21.4:
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
-    dependencies:
-      follow-redirects: 1.15.2
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /axobject-query/2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: false
@@ -5617,12 +5561,6 @@ packages:
     resolution: {integrity: sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==}
     dependencies:
       node-int64: 0.4.0
-    dev: false
-
-  /btoa/1.2.1:
-    resolution: {integrity: sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==}
-    engines: {node: '>= 0.4.0'}
-    hasBin: true
     dev: false
 
   /buffer-from/1.1.2:
@@ -7713,11 +7651,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       to-regex-range: 5.0.1
-    dev: false
-
-  /filter-obj/1.1.0:
-    resolution: {integrity: sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ==}
-    engines: {node: '>=0.10.0'}
     dev: false
 
   /finalhandler/1.2.0:
@@ -10437,11 +10370,6 @@ packages:
     hasBin: true
     dev: false
 
-  /modern-normalize/1.1.0:
-    resolution: {integrity: sha512-2lMlY1Yc1+CUy0gw4H95uNN7vjbpoED7NNRSBHE25nWfLBdmMzFCsPshlzbxHz+gYMcBEUN8V4pU16prcdPSgA==}
-    engines: {node: '>=6'}
-    dev: false
-
   /ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: false
@@ -10756,14 +10684,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       mimic-fn: 2.1.0
-    dev: false
-
-  /open/7.4.2:
-    resolution: {integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==}
-    engines: {node: '>=8'}
-    dependencies:
-      is-docker: 2.2.1
-      is-wsl: 2.2.0
     dev: false
 
   /open/8.4.0:
@@ -11948,16 +11868,6 @@ packages:
       side-channel: 1.0.4
     dev: false
 
-  /query-string/6.14.1:
-    resolution: {integrity: sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw==}
-    engines: {node: '>=6'}
-    dependencies:
-      decode-uri-component: 0.2.0
-      filter-obj: 1.1.0
-      split-on-first: 1.1.0
-      strict-uri-encode: 2.0.0
-    dev: false
-
   /querystringify/2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
     dev: false
@@ -12060,18 +11970,6 @@ packages:
       ua-parser-js: 0.7.32
     dev: false
 
-  /react-dom/16.14.0_react@16.14.0:
-    resolution: {integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==}
-    peerDependencies:
-      react: ^16.14.0
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      prop-types: 15.8.1
-      react: 16.14.0
-      scheduler: 0.19.1
-    dev: false
-
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -12086,13 +11984,6 @@ packages:
     resolution: {integrity: sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==}
     dev: false
 
-  /react-image-webp/0.7.0:
-    resolution: {integrity: sha512-XV6KZlKcLxDNa0371iVC74JULuZJChdY5hhrnOONITWEEYGpwsX+QaONeCTTFMjQaqv0z32+rjGC0EQSw+O19Q==}
-    dependencies:
-      react: 16.14.0
-      react-dom: 16.14.0_react@16.14.0
-    dev: false
-
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -12105,35 +11996,8 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-map-interaction/2.1.0_prop-types@15.8.1+react@18.2.0:
-    resolution: {integrity: sha512-bD6Gz2nuf60HF4WAYfBOjsqttrFlTd1u/TrCQSxdl3KITiTpTxr1vvLIr1k+NR2w3Jln+gux+oWDbjnh8Dhv7w==}
-    peerDependencies:
-      prop-types: '>=15.0.0'
-      react: '>=16.3.0'
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
-  /react-openai-api/1.0.2_9600c6325dd30b1815a1414ccdd088fe:
-    resolution: {integrity: sha512-jpyVrBmZryD3QbFLIW+6ltTRZ3En9m+ypppXS/selyKJ8URElP0Z/0YGqYHZ/X6oX9ryQdq/W435Mv1afsWbgQ==}
-    peerDependencies:
-      axios: ^0.21.1
-      react: ^16.8.0
-      react-dom: ^16.8.0
-    dependencies:
-      axios: 0.21.4
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /react-refresh/0.11.0:
     resolution: {integrity: sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
-  /react-refresh/0.9.0:
-    resolution: {integrity: sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -12261,15 +12125,6 @@ packages:
       react: '>16.0.0'
     dependencies:
       react: 18.2.0
-    dev: false
-
-  /react/16.14.0:
-    resolution: {integrity: sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      prop-types: 15.8.1
     dev: false
 
   /react/18.2.0:
@@ -12556,13 +12411,6 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: false
 
-  /rimraf/2.6.3:
-    resolution: {integrity: sha512-mwqeW5XsA2qAejG46gYdENaxXjx9onRNCfn7L0duuP4hCuTIi/QO7PDK07KJfp1d+izWPrzEJDcSqBa0OZQriA==}
-    hasBin: true
-    dependencies:
-      glob: 7.2.3
-    dev: false
-
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
     hasBin: true
@@ -12689,13 +12537,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       xmlchars: 2.2.0
-    dev: false
-
-  /scheduler/0.19.1:
-    resolution: {integrity: sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
     dev: false
 
   /scheduler/0.23.0:
@@ -12976,25 +12817,6 @@ packages:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
     dev: false
 
-  /source-map-explorer/2.5.3:
-    resolution: {integrity: sha512-qfUGs7UHsOBE5p/lGfQdaAj/5U/GWYBw2imEpD6UQNkqElYonkow8t+HBL1qqIl3CuGZx7n8/CQo4x1HwSHhsg==}
-    engines: {node: '>=12'}
-    hasBin: true
-    dependencies:
-      btoa: 1.2.1
-      chalk: 4.1.2
-      convert-source-map: 1.9.0
-      ejs: 3.1.8
-      escape-html: 1.0.3
-      glob: 7.2.3
-      gzip-size: 6.0.0
-      lodash: 4.17.21
-      open: 7.4.2
-      source-map: 0.7.4
-      temp: 0.9.4
-      yargs: 16.2.0
-    dev: false
-
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
@@ -13113,11 +12935,6 @@ packages:
       - supports-color
     dev: false
 
-  /split-on-first/1.1.0:
-    resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
-    engines: {node: '>=6'}
-    dev: false
-
   /split-string/3.1.0:
     resolution: {integrity: sha512-NzNVhJDYpwceVVii8/Hu6DKfD2G+NrQHlS/V/qgv763EYudVwEcMQNxd2lh+0VrUByXN/oJkl5grOhYWvQUYiw==}
     engines: {node: '>=0.10.0'}
@@ -13173,11 +12990,6 @@ packages:
     resolution: {integrity: sha512-rT00SPnTVyRsaSz5zgSPma/aHSOic5U1prhYdRy5HS2kTZviFpmDgzilbtsJsxiroqACmayynDN/9VzIbX5DOw==}
     dependencies:
       duplexer: 0.1.2
-    dev: false
-
-  /strict-uri-encode/2.0.0:
-    resolution: {integrity: sha512-QwiXZgpRcKkhTj2Scnn++4PKtWsH0kpzZ62L2R6c/LUVYv7hVnZqcg2+sMuT6R7Jusu1vviK/MFsu6kNJfWlEQ==}
-    engines: {node: '>=4'}
     dev: false
 
   /string-argv/0.1.2:
@@ -13503,14 +13315,6 @@ packages:
   /temp-dir/2.0.0:
     resolution: {integrity: sha512-aoBAniQmmwtcKp/7BzsH8Cxzv8OL736p7v1ihGb5e9DJ9kTwGWHrQrVB5+lfVDzfGrdRzXch+ig7LHaY1JTOrg==}
     engines: {node: '>=8'}
-    dev: false
-
-  /temp/0.9.4:
-    resolution: {integrity: sha512-yYrrsWnrXMcdsnu/7YMYAofM1ktpL5By7vZhf15CrXijWWrEYZks5AXBudalfSWJLlnen/QUJUB5aoB0kqZUGA==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      mkdirp: 0.5.6
-      rimraf: 2.6.3
     dev: false
 
   /tempy/0.6.0:
@@ -14740,14 +14544,13 @@ packages:
       commander: 2.20.3
     dev: false
 
-  file:projects/analyzer.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-RMhRK5Lg9U9kWjfF9gAiwidzAhZ/bQJuqJ9d28TquD7dBblEgmMG48yhTuv1GcNJLoZ+PcJhY6GNC4C9vfVgvw==, tarball: file:projects/analyzer.tgz}
+  file:projects/analyzer.tgz_ts-node@10.9.1:
+    resolution: {integrity: sha512-PVhadMGUmKSng3X5dCWUOSR2FOyBrrIqCxHfH66GhEpyz4L4xkfmbgK+EIsmmuiEAQeDyAUpAh8bEJE6Nbbb9g==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
     dependencies:
       '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -14766,7 +14569,6 @@ packages:
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
-      - '@react-three/fiber'
       - '@swc/core'
       - '@types/babel__core'
       - '@types/webpack'
@@ -14777,22 +14579,15 @@ packages:
       - debug
       - encoding
       - esbuild
-      - eslint
       - fibers
-      - konva
       - node-notifier
       - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
       - rework
       - rework-visit
       - sass
       - sass-embedded
       - sockjs-client
       - supports-color
-      - three
       - ts-node
       - type-fest
       - uglify-js
@@ -14801,7 +14596,6 @@ packages:
       - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
-      - zdog
     dev: false
 
   file:projects/browser-client.tgz_ts-node@10.9.1:
@@ -14852,67 +14646,8 @@ packages:
       - webpack
     dev: false
 
-  file:projects/ecommerce-checkout.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-JUxfoZxJjWofYWJOyjnid6BRIq2BK8v4WgkdEGj7peZD4eTE5GD1bTz93oYStcnrNoaQCDPZiyOAbYPNYcFvxA==, tarball: file:projects/ecommerce-checkout.tgz}
-    id: file:projects/ecommerce-checkout.tgz
-    name: '@rush-temp/ecommerce-checkout'
-    version: 0.0.0
-    dependencies:
-      '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-      '@speechly/react-voice-forms': 1.3.5_react@18.2.0
-      '@types/node': 14.18.33
-      '@types/react': 18.0.26
-      '@types/react-dom': 18.0.9
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
-      source-map-explorer: 2.5.3
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@babel/plugin-syntax-flow'
-      - '@babel/plugin-transform-react-jsx'
-      - '@parcel/css'
-      - '@react-three/fiber'
-      - '@swc/core'
-      - '@types/babel__core'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - clean-css
-      - csso
-      - debug
-      - encoding
-      - esbuild
-      - eslint
-      - fibers
-      - konva
-      - node-notifier
-      - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
-      - rework
-      - rework-visit
-      - sass
-      - sass-embedded
-      - sockjs-client
-      - supports-color
-      - three
-      - ts-node
-      - type-fest
-      - uglify-js
-      - utf-8-validate
-      - vue-template-compiler
-      - webpack-cli
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-      - zdog
-    dev: false
-
   file:projects/fashion-ecommerce.tgz_eslint@7.32.0:
-    resolution: {integrity: sha512-PsNEJyFPjWgyF88UOVg5sSbvkz8XovIsYW2UEh8SmSmrs5NXB1CP1nKj3P5blCT9mWFogNDsef4ScLYp1IXW1w==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-lVn1x1eA+/XfS22EpCkzQIOemFqNyt/lBNq+CvlviXhPbxfhhOxsI4WJrz44Jv/BAlXEWnDfBhl5Qz6Fv2SHDg==, tarball: file:projects/fashion-ecommerce.tgz}
     id: file:projects/fashion-ecommerce.tgz
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
@@ -14979,67 +14714,8 @@ packages:
       - zdog
     dev: false
 
-  file:projects/flight-booking.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-kIE4UXHgCkpg96uytl6Hiv4C9z5UApDoftnMyD6PbcTynwnepHRM8Ia9vKbqsgj9ZiJWPudCZlfyZX65ULPSag==, tarball: file:projects/flight-booking.tgz}
-    id: file:projects/flight-booking.tgz
-    name: '@rush-temp/flight-booking'
-    version: 0.0.0
-    dependencies:
-      '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-      '@speechly/react-voice-forms': 1.3.5_react@18.2.0
-      '@types/node': 14.18.33
-      '@types/react': 18.0.26
-      '@types/react-dom': 18.0.9
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
-      source-map-explorer: 2.5.3
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@babel/plugin-syntax-flow'
-      - '@babel/plugin-transform-react-jsx'
-      - '@parcel/css'
-      - '@react-three/fiber'
-      - '@swc/core'
-      - '@types/babel__core'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - clean-css
-      - csso
-      - debug
-      - encoding
-      - esbuild
-      - eslint
-      - fibers
-      - konva
-      - node-notifier
-      - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
-      - rework
-      - rework-visit
-      - sass
-      - sass-embedded
-      - sockjs-client
-      - supports-color
-      - three
-      - ts-node
-      - type-fest
-      - uglify-js
-      - utf-8-validate
-      - vue-template-compiler
-      - webpack-cli
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-      - zdog
-    dev: false
-
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-cbI3juhP+Y7QrNxbrOTmRYYywDTH/eCUG++lUXe4c5l2H8NMUJflp0CKYUZjVhFFP5jUsejhkQoGa50erRnnFA==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-nHfCSXPV4NjP6IX2pgg4AXHZ1QUw3PADqOgC+sfKZoDVEJ/uEmEkc8P7gknyY0sxdVYyvC1ft0Nxfg3FpnqHBg==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
@@ -15052,7 +14728,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-xOWHh6+xNWlb6oChgqfYVUZPRPt+0TPmS0jzBCbHDJ8dKqu76BRjDIcamfPc8Ae/MeEv8nhuIS9P+4G/hoerhg==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-4isg9PD8Udq011t9PRBxLm6OA4OwOwkSjWGozIF2evi3/HH5zBTLJl6zwsnwIgMsmup6pU+D//5ygnRmSY/Tgw==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -15135,134 +14811,8 @@ packages:
       - webpack
     dev: false
 
-  file:projects/smart-home.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-NiHFCki5SF68VVZBwSFPFOL4xfergSDQIT0/O6Mvo66Xglb4+JFiGDRg1nWu7XVcKw7LZhjMoD+vODHo9zHobQ==, tarball: file:projects/smart-home.tgz}
-    id: file:projects/smart-home.tgz
-    name: '@rush-temp/smart-home'
-    version: 0.0.0
-    dependencies:
-      '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-      '@types/node': 14.18.33
-      '@types/pubsub-js': 1.8.3
-      '@types/react': 18.0.26
-      '@types/react-dom': 18.0.9
-      '@types/styled-components': 5.1.26
-      prop-types: 15.8.1
-      pubsub-js: 1.9.4
-      query-string: 6.14.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-image-webp: 0.7.0
-      react-map-interaction: 2.1.0_prop-types@15.8.1+react@18.2.0
-      react-refresh: 0.9.0
-      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
-      react-spring: 9.5.5_react-dom@18.2.0+react@18.2.0
-      styled-components: 5.3.6_react-dom@18.2.0+react@18.2.0
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@babel/plugin-syntax-flow'
-      - '@babel/plugin-transform-react-jsx'
-      - '@parcel/css'
-      - '@react-three/fiber'
-      - '@swc/core'
-      - '@types/babel__core'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - clean-css
-      - csso
-      - debug
-      - encoding
-      - esbuild
-      - eslint
-      - fibers
-      - konva
-      - node-notifier
-      - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
-      - rework
-      - rework-visit
-      - sass
-      - sass-embedded
-      - sockjs-client
-      - supports-color
-      - three
-      - ts-node
-      - type-fest
-      - uglify-js
-      - utf-8-validate
-      - vue-template-compiler
-      - webpack-cli
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-      - zdog
-    dev: false
-
-  file:projects/speech-to-text.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-LKwXoYqIzjCfehwhDGjMxLD19oxcfSPyuJvuYAEMvMvHWhjk52G60AO7pRHMyIjVKnFXM+a1Z1zg0aU0cHNEuA==, tarball: file:projects/speech-to-text.tgz}
-    id: file:projects/speech-to-text.tgz
-    name: '@rush-temp/speech-to-text'
-    version: 0.0.0
-    dependencies:
-      '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-      '@types/node': 14.18.33
-      '@types/react': 18.0.26
-      '@types/react-dom': 18.0.9
-      axios: 0.21.4
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-openai-api: 1.0.2_9600c6325dd30b1815a1414ccdd088fe
-      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@babel/plugin-syntax-flow'
-      - '@babel/plugin-transform-react-jsx'
-      - '@parcel/css'
-      - '@react-three/fiber'
-      - '@swc/core'
-      - '@types/babel__core'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - clean-css
-      - csso
-      - debug
-      - encoding
-      - esbuild
-      - eslint
-      - fibers
-      - konva
-      - node-notifier
-      - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
-      - rework
-      - rework-visit
-      - sass
-      - sass-embedded
-      - sockjs-client
-      - supports-color
-      - three
-      - ts-node
-      - type-fest
-      - uglify-js
-      - utf-8-validate
-      - vue-template-compiler
-      - webpack-cli
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-      - zdog
-    dev: false
-
   file:projects/transcription.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-fyCiw/hE+xjz9X1VnyfEL+QN7dya6ZeDkdX/Gc74CCsp0hjO1M2BqRhbfP8LtXQOae1zdf6hFxs8eSq9u5DQ/w==, tarball: file:projects/transcription.tgz}
+    resolution: {integrity: sha512-mAC9AC+Jr+MYwA4ZYWfyoMBI7dh9y6jqo6vn5Y/McCEM5tk/oqM4lMl7mbjvDXx5xfBV/71xC/+SwCBMtqhofQ==, tarball: file:projects/transcription.tgz}
     id: file:projects/transcription.tgz
     name: '@rush-temp/transcription'
     version: 0.0.0
@@ -15312,62 +14862,4 @@ packages:
       - webpack-cli
       - webpack-hot-middleware
       - webpack-plugin-serve
-    dev: false
-
-  file:projects/voice-search.tgz_eslint@7.32.0+ts-node@10.9.1:
-    resolution: {integrity: sha512-3JpcHR1JX2DtRzPaGu5zWFUWGA+2BGYFQVZLB+M+tSI3lF20G59JvEhnT0v54kuGA6eKFlhmcf9BkzC9cxkSHw==, tarball: file:projects/voice-search.tgz}
-    id: file:projects/voice-search.tgz
-    name: '@rush-temp/voice-search'
-    version: 0.0.0
-    dependencies:
-      '@speechly/demo-navigation': 0.2.14
-      '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
-      '@types/node': 14.18.33
-      '@types/react': 18.0.26
-      '@types/react-dom': 18.0.9
-      modern-normalize: 1.1.0
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
-      typescript: 4.9.4
-    transitivePeerDependencies:
-      - '@babel/plugin-syntax-flow'
-      - '@babel/plugin-transform-react-jsx'
-      - '@parcel/css'
-      - '@react-three/fiber'
-      - '@swc/core'
-      - '@types/babel__core'
-      - '@types/webpack'
-      - bufferutil
-      - canvas
-      - clean-css
-      - csso
-      - debug
-      - encoding
-      - esbuild
-      - eslint
-      - fibers
-      - konva
-      - node-notifier
-      - node-sass
-      - react-is
-      - react-konva
-      - react-native
-      - react-zdog
-      - rework
-      - rework-visit
-      - sass
-      - sass-embedded
-      - sockjs-client
-      - supports-color
-      - three
-      - ts-node
-      - type-fest
-      - uglify-js
-      - utf-8-validate
-      - vue-template-compiler
-      - webpack-cli
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-      - zdog
     dev: false
