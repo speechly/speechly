@@ -386,26 +386,6 @@
       "projectFolder": "demos/fashion-ecommerce"
     },
     {
-      "packageName": "ecommerce-checkout",
-      "projectFolder": "demos/ecommerce-checkout"
-    },
-    {
-      "packageName": "smart-home",
-      "projectFolder": "demos/smart-home"
-    },
-    {
-      "packageName": "flight-booking",
-      "projectFolder": "demos/flight-booking"
-    },
-    {
-      "packageName": "speech-to-text",
-      "projectFolder": "demos/speech-to-text"
-    },
-    {
-      "packageName": "voice-search",
-      "projectFolder": "demos/voice-search"
-    },
-    {
       "packageName": "moderation",
       "projectFolder": "demos/moderation"
     },
