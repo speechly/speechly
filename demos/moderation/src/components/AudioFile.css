@@ -5,12 +5,11 @@
   gap: 4px;
   border: none;
   background-color: transparent;
-  border-radius: 4px;
-  padding: 8px 6px;
-  margin: 0 -6px;
+  padding: 10px 24px;
   font-size: 14px;
   line-height: 20px;
   color: inherit;
+  transition: var(--ease);
 }
 
 .AudioFile span {
@@ -28,5 +27,5 @@
 }
 
 .AudioFile--selected {
-  background-color: var(--accent-lighter) !important;
+  background-color: var(--accent-light) !important;
 }

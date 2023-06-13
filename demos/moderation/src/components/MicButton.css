@@ -1,0 +1,56 @@
+.MicButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.MicButton__button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 100px;
+  background-color: var(--night);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--day);
+  padding: 16px;
+  transition: var(--ease);
+  position: relative;
+}
+
+.MicButton__button:hover {
+  box-shadow: 0 0 0 8px var(--hover-dark);
+}
+
+.MicButton__button--active {
+  color: #fff;
+  background-color: var(--accent);
+  animation: pulsate 2s ease infinite;
+}
+
+.MicButton__button--active:hover {
+  animation-play-state: paused;
+}
+
+.MicButton__description {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@keyframes pulsate {
+  0% {
+    box-shadow: 0 0 0 8px var(--accent-light);
+  }
+  50% {
+    box-shadow: 0 0 0 12px var(--accent-light);
+  }
+  100% {
+    box-shadow: 0 0 0 8px var(--accent-light);
+  }
+}

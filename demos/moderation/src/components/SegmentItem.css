@@ -3,9 +3,10 @@
   flex-direction: column;
   gap: 8px;
   border: 1px solid var(--border);
+  background-color: var(--day);
   padding: 20px;
-  border-radius: 4px;
-  margin: 0 24px 24px;
+  border-radius: 5px;
+  margin: 8px 24px;
   scroll-margin-block: 24px;
   transition: var(--ease);
 }

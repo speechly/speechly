@@ -18,6 +18,6 @@
 .Tag--negative {
   border-radius: 3px;
   padding: 1px 4px;
-  background-color: tomato;
+  background-color: var(--danger);
   color: #fff;
 }

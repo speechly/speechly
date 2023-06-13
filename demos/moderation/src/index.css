@@ -1,5 +1,5 @@
-@import url('https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('./modern-normalize.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
   --night: #0f1923;
@@ -8,16 +8,13 @@
   --dim: #516170;
   --border: #d6dbe1;
   --border-dark: #bec7d0;
-  --accent: hsl(202, 100%, 49%);
-  --accent-25: hsla(202, 100%, 49%, 0.25);
-  --accent-light: hsl(202, 100%, 54%);
-  --accent-lighter: hsl(202, 100%, 93%);
+  --accent: hsl(204, 98%, 45%);
+  --accent-light: hsl(203, 96%, 92%);
   --hover: rgba(15, 25, 35, 0.06);
   --hover-dark: rgba(15, 25, 35, 0.12);
-  --hover-darker: rgba(15, 25, 35, 0.24);
   --ease: all 0.15s ease;
-  --danger: #eb5547;
-  --label-negative: hsl(0, 95%, 94%);
+  --danger: hsl(5, 80%, 60%);
+  --label-negative: hsl(0, 93%, 94%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,16 +25,13 @@
     --dim: #7d8fa1;
     --border: #1f2d3b;
     --border-dark: #30465c;
-    --accent: hsl(202, 90%, 54%);
-    --accent-25: hsl(202, 90%, 54%, 0.3);
-    --accent-light: hsl(202, 90%, 64%);
-    --accent-lighter: hsl(202, 90%, 20%);
+    --accent: hsl(204, 90%, 55%);
+    --accent-light: hsl(204, 90%, 20%);
     --hover: rgba(255, 255, 255, 0.06);
     --hover-dark: rgba(255, 255, 255, 0.12);
-    --hover-darker: rgba(255, 255, 255, 0.24);
     --ease: all 0.15s ease;
-    --danger: #ed6a5e;
-    --label-negative: hsl(340, 80%, 18%);
+    --danger: hsl(355, 70%, 60%);
+    --label-negative: hsl(325, 20%, 12%);
   }
 }
 
@@ -46,7 +40,7 @@ html {
 }
 
 body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', sans-serif;
   text-rendering: optimizeLegibility;
   color: var(--night);
   background-color: var(--day);

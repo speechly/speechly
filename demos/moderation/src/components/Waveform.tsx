@@ -15,8 +15,8 @@ interface Props {
 
 const formWaveSurferOptions = (containerRef: any) => ({
   container: containerRef,
-  waveColor: '#7d8fa1',
-  progressColor: '#009efa',
+  waveColor: '#7d8fa199',
+  progressColor: '#0289e3',
   cursorColor: 'red',
   responsive: true,
   normalize: true,
@@ -25,6 +25,7 @@ const formWaveSurferOptions = (containerRef: any) => ({
   barMinHeight: 1,
   barWidth: 2,
   barGap: 2,
+  barRadius: 2,
 });
 
 export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) => {
@@ -72,11 +73,12 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
   };
 
   const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { target } = e;
-    const newVolume = +target.value;
-    if (newVolume) {
-      wavesurfer.current?.setVolume(newVolume || 1);
-    }
+    wavesurfer.current?.setVolume(e.target.valueAsNumber);
+    // const { target } = e;
+    // const newVolume = +target.valueAsNumber;
+    // if (newVolume) {
+    //   wavesurfer.current?.setVolume(newVolume || 1);
+    // }
   };
 
   return (
@@ -96,11 +98,10 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
         <VolumeUp />
         <input
           type="range"
-          id="volume"
           name="volume"
-          min="0.01"
+          min="0"
           max="1"
-          step="0.01"
+          step="0.025"
           onChange={onVolumeChange}
           defaultValue={volume}
         />

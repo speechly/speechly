@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
-import clsx from 'clsx';
 import { AudioFile } from './components/AudioFile';
 import { FileInput } from './components/FileInput';
+import { MicButton } from './components/MicButton';
 import { SegmentItem } from './components/SegmentItem';
+import { TabItem, Tabs } from './components/Tabs';
 import { Waveform } from './components/Waveform';
 import { AbuseLabelingResponse, FileOrUrl, LabeledSpeechSegment } from './utils/types';
 import { ABUSE_LABELING_URL } from './utils/variables';
-import { ReactComponent as Empty } from './assets/empty.svg';
-import { ReactComponent as Mic } from './assets/mic.svg';
+import { ReactComponent as EmptyIllustration } from './assets/empty.svg';
 import sample2 from './assets/ndgt.wav';
 import sample1 from './assets/podcast.wav';
 import './App.css';
+import clsx from 'clsx';
 
 function App() {
   const { appId, client, segment, clientState, listening, microphone, attachMicrophone, start, stop } =
@@ -227,7 +228,7 @@ function App() {
       <div className="App">
         <div className="Sidebar">
           <h4 className="Sidebar__title">Recordings</h4>
-          <div className="Sidebar__content">
+          <div className="Sidebar__content--wide">
             {files.map(({ name }, i) => (
               <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
                 {name}
@@ -236,40 +237,42 @@ function App() {
           </div>
           <h4 className="Sidebar__title">Input</h4>
           <div className="Sidebar__content">
-            <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
-            <button
-              type="button"
-              className={clsx('Microphone', listening && 'Microphone--active')}
-              onPointerDown={handleStart}
-              onPointerUp={handleStop}
-            >
-              <Mic />
-            </button>
+            <Tabs>
+              <TabItem title="Audio file">
+                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
+              </TabItem>
+              <TabItem title="Microphone">
+                <MicButton isListening={listening} onPointerDown={handleStart} onPointerUp={handleStop} />
+              </TabItem>
+            </Tabs>
           </div>
         </div>
         <div className="Main" ref={mainRef}>
-          {!speechSegments.length && showEmptyState && (
-            <div className="EmptyState">
-              <Empty className="EmptyState__icon" width={180} />
-              <h2 className="EmptyState__title">Voice chat moderation</h2>
-              <p className="EmptyState__description">
-                Use one of the sample files, upload your own audio or use the microphone.
-              </p>
-            </div>
-          )}
-          {speechSegments?.map((segment) => (
-            <SegmentItem
-              key={`${segment.contextId}-${segment.id}`}
-              currentTime={currentTime}
-              segment={segment}
-              showDetails={true}
-            />
-          ))}
-          <div ref={segmentEndRef} className="Segment__end" />
+          <div className="Main__inner">
+            {speechSegments?.map((segment) => (
+              <SegmentItem
+                key={`${segment.contextId}-${segment.id}`}
+                currentTime={currentTime}
+                segment={segment}
+                showDetails={true}
+              />
+            ))}
+            {!speechSegments.length && showEmptyState ? (
+              <div className="EmptyState">
+                <EmptyIllustration className="EmptyState__icon" width={180} />
+                <h2 className="EmptyState__title">Voice chat moderation</h2>
+                <p className="EmptyState__description">
+                  Use one of the sample recordings, upload your own audio or use the microphone.
+                </p>
+              </div>
+            ) : (
+              <div ref={segmentEndRef} className="Segment__end" />
+            )}
+          </div>
+          <div className={clsx('Player', (audioSource || !showEmptyState) && 'Player--visible')}>
+            <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={(ct) => setCurrentTime(ct)} />
+          </div>
         </div>
-      </div>
-      <div className="Player">
-        <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={(ct) => setCurrentTime(ct)} />
       </div>
     </>
   );

@@ -1,0 +1,51 @@
+.Tabs {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.Tabs__nav {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.Tabs__content {
+  flex-grow: 1;
+  min-height: 144px;
+}
+
+.Tab__title {
+  cursor: pointer;
+  appearance: button;
+  border: none;
+  background-color: var(--day);
+  color: var(--dim);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 10px;
+  width: 100%;
+  transition: var(--ease);
+}
+
+.Tab__title:first-child {
+  border-top-left-radius: 4px;
+}
+
+.Tab__title:last-child {
+  border-top-right-radius: 4px;
+}
+
+.Tab__title:hover {
+  color: var(--night);
+}
+
+.Tab__title:disabled {
+  cursor: auto;
+  background-color: var(--day);
+  color: var(--night);
+  box-shadow: inset 0 -2px 0 var(--night);
+}
