@@ -1,7 +1,5 @@
-import clsx from 'clsx';
 import React from 'react';
-import { ReactComponent as CloseIcon } from '../assets/close.svg';
-import { Severity } from '../utils/types';
+import clsx from 'clsx';
 import './Tag.css';
 
 interface Props {

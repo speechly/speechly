@@ -1,18 +1,18 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DecoderState, SpeechSegment, useSpeechContext } from '@speechly/react-client';
 import useStateRef from 'react-usestateref';
 import clsx from 'clsx';
-import { Waveform } from './components/Waveform';
-import { FileInput } from './components/FileInput';
 import { AudioFile } from './components/AudioFile';
-import { ReactComponent as Mic } from './assets/mic.svg';
-import { ReactComponent as Empty } from './assets/empty.svg';
-import sample1 from './assets/podcast.wav';
-import sample2 from './assets/ndgt.wav';
-import './App.css';
+import { FileInput } from './components/FileInput';
 import { SegmentItem } from './components/SegmentItem';
+import { Waveform } from './components/Waveform';
+import { AbuseLabelingResponse, FileOrUrl } from './utils/types';
 import { ABUSE_LABELING_URL } from './utils/variables';
-import { Classification, ClassificationResponse, FileOrUrl } from './utils/types';
+import { ReactComponent as Empty } from './assets/empty.svg';
+import { ReactComponent as Mic } from './assets/mic.svg';
+import sample2 from './assets/ndgt.wav';
+import sample1 from './assets/podcast.wav';
+import './App.css';
 
 function App() {
   const { appId, client, segment, clientState, listening, microphone, attachMicrophone, start, stop } =
@@ -85,7 +85,7 @@ function App() {
         if (response.status !== 200) {
           throw new Error(`${response.status} ${response.statusText}`);
         }
-        const { results } = (await response.json()) as ClassificationResponse;
+        const { results } = (await response.json()) as AbuseLabelingResponse;
         const sortedLabels = results[0].labels.sort((a, b) => b.score - a.score);
         console.log(sortedLabels);
 

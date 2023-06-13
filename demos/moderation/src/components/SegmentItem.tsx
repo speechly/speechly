@@ -2,18 +2,18 @@ import React from 'react';
 import formatDuration from 'format-duration';
 import clsx from 'clsx';
 import { Tag } from './Tag';
-import { ClassifiedSpeechSegment } from '../utils/types';
+import { LabeledSpeechSegment } from '../utils/types';
 import { ReactComponent as Spinner } from '../assets/3-dots-fade-black-36.svg';
 import './SegmentItem.css';
 
 interface Props {
-  segment: ClassifiedSpeechSegment;
+  segment: LabeledSpeechSegment;
   currentTime?: number;
   showDetails: boolean;
 }
 
 export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
-  const { words, classifications, isFlagged } = segment;
+  const { words, abuseLabels, isFlagged } = segment;
 
   return (
     <div className={clsx('Segment', isFlagged && 'Segment__flagged')}>
@@ -37,8 +37,8 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
       {showDetails && (
         <div className="Segment__details">
           <span>Abuse labels:</span>
-          {!classifications && <Spinner width={16} height={16} fill="#7d8fa1" />}
-          {classifications?.map(({ label, score, flagged }) => (
+          {!abuseLabels && <Spinner width={16} height={16} fill="#7d8fa1" />}
+          {abuseLabels?.map(({ label, score, flagged }) => (
             <Tag key={label} label={label} score={score} isFlagged={flagged} />
           ))}
         </div>

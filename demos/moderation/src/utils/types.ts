@@ -1,25 +1,22 @@
 import { SpeechSegment } from '@speechly/react-client';
 
-export type Severity = 'positive' | 'neutral' | 'negative';
-export type Action = 'warn' | 'mute' | 'ban' | 'reward';
-
-export interface ClassificationResponse {
+export interface AbuseLabelingResponse {
   results: {
     text: string;
-    labels: Classification[];
+    labels: AbuseLabel[];
     flagged: boolean;
     flags: string[];
   }[];
 }
 
-export interface Classification {
+export interface AbuseLabel {
   label: string;
   score: number;
   flagged: boolean;
 }
 
-export interface ClassifiedSpeechSegment extends SpeechSegment {
-  classifications?: Classification[];
+export interface LabeledSpeechSegment extends SpeechSegment {
+  abuseLabels?: AbuseLabel[];
   isFlagged?: boolean;
 }
 
