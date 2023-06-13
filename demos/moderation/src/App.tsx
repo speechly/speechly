@@ -6,7 +6,7 @@ import { AudioFile } from './components/AudioFile';
 import { FileInput } from './components/FileInput';
 import { SegmentItem } from './components/SegmentItem';
 import { Waveform } from './components/Waveform';
-import { AbuseLabelingResponse, FileOrUrl } from './utils/types';
+import { AbuseLabelingResponse, FileOrUrl, LabeledSpeechSegment } from './utils/types';
 import { ABUSE_LABELING_URL } from './utils/variables';
 import { ReactComponent as Empty } from './assets/empty.svg';
 import { ReactComponent as Mic } from './assets/mic.svg';
@@ -86,14 +86,16 @@ function App() {
           throw new Error(`${response.status} ${response.statusText}`);
         }
         const { results } = (await response.json()) as AbuseLabelingResponse;
+        if (!results.length) {
+          throw new Error('no abuse labeling results found');
+        }
         const sortedLabels = results[0].labels.sort((a, b) => b.score - a.score);
-        console.log(sortedLabels);
-
-        const newSegment = {
+        const newSegment: LabeledSpeechSegment = {
           ...ss,
-          classifications: sortedLabels,
+          abuseLabels: sortedLabels,
           isFlagged: results[0].flagged,
         };
+
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
