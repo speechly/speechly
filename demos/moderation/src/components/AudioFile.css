@@ -1,0 +1,32 @@
+.AudioFile {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background-color: transparent;
+  border-radius: 4px;
+  padding: 8px 6px;
+  margin: 0 -6px;
+  font-size: 14px;
+  line-height: 20px;
+  color: inherit;
+}
+
+.AudioFile span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.AudioFile svg {
+  flex-shrink: 0;
+}
+
+.AudioFile:hover {
+  background-color: var(--hover);
+}
+
+.AudioFile--selected {
+  background-color: var(--accent-lighter) !important;
+}

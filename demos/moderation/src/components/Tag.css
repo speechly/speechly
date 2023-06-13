@@ -1,0 +1,23 @@
+.Tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--dim);
+}
+
+.Tag__content {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.Tag__content small {
+  font-size: 13.5px;
+  line-height: 1;
+}
+
+.Tag--negative {
+  border-radius: 3px;
+  padding: 1px 4px;
+  background-color: tomato;
+  color: #fff;
+}

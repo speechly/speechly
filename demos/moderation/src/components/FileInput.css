@@ -1,0 +1,43 @@
+.FileInput {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  padding: 24px 16px;
+  border-radius: 4px;
+  transition: var(--ease);
+}
+
+.FileInput:hover {
+  background-color: var(--dawn);
+  border-color: var(--border-dark);
+}
+
+.FileInput--active {
+  background-color: var(--accent-lighter);
+  border-color: var(--accent);
+  border-style: solid;
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.FileInput__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.FileInput__title span {
+  color: var(--accent);
+}
+
+.FileInput__title span:hover {
+  text-decoration: underline;
+}
+
+.FileInput__description {
+  color: var(--dim);
+  font-size: 12px;
+}

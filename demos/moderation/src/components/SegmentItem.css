@@ -1,0 +1,95 @@
+.Segment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--border);
+  padding: 20px;
+  border-radius: 4px;
+  margin: 0 24px 24px;
+  scroll-margin-block: 24px;
+  transition: var(--ease);
+  position: relative;
+}
+
+.Segment--active {
+  background-color: var(--hover);
+}
+
+.Segment__flagged {
+  background-color: var(--label-negative);
+  border-color: var(--hover-dark);
+}
+
+.Segment__timestamp {
+  font-size: 14px;
+  color: var(--dim);
+  margin-right: auto;
+}
+
+.Segment__actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+}
+
+.Segment__action {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+.Segment__action--warn {
+  background-color: darkorange;
+}
+
+.Segment__action--mute {
+  background-color: tomato;
+}
+
+.Segment__action--ban {
+  background-color: crimson;
+}
+
+.Segment__action--reward {
+  background-color: green;
+}
+
+.Segment__transcript {
+  line-height: 1.5;
+  margin-right: auto;
+}
+
+.Segment__word {
+  opacity: 0.5;
+  transition: var(--ease);
+}
+
+.Segment__word--highlighted {
+  opacity: 1;
+}
+
+.Segment__details {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dim);
+}
+
+.Segment__details svg {
+  flex-shrink: 0;
+  display: block;
+}
+
+.Segment__end {
+  scroll-margin-block: 24px;
+}
