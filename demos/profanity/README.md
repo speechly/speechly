@@ -1,8 +1,16 @@
-# Moderation Demo
+# Profanity Demo
 
-The moderation demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time. Highlighting the following Speechly features: Natural Language Understanding, Intent & Entity Detection, Pre-recorded Audio Transcription, Segmentation and Timestamps.
+The profanity demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.
 
-https://demos.speechly.com/moderation/
+Speechly features:
+
+- Natural language understanding
+- Intent & entity detection
+- Live audio transcription
+- Interim results
+- Voice ui components
+
+https://demos.speechly.com/profanity/
 
 ## Prerequisites
 
@@ -16,7 +24,7 @@ This project was built with [React](https://reactjs.org/), [Typescript](https://
 1\. Copy this project using [degit](https://github.com/Rich-Harris/degit) (or download manually)
 
 ```bash
-npx degit speechly/speechly/demos/moderation moderation
+npx degit speechly/speechly/demos/profanity profanity
 ```
 
 2\. Install dependencies
