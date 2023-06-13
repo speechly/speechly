@@ -1,6 +1,14 @@
 # Voice Interfaces Demo
 
-The voice interfaces demo enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. Highlighting the following Speechly features: Natural Language Understanding, Intent & Entity Detection, Live Audio Transcription, Interim Results & Voice UI Components.
+The voice interfaces demo enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. 
+
+Speechly features:
+
+- Natural language understanding
+- Intent & entity detection
+- Live audio transcription
+- Interim results
+- Voice UI components
 
 https://demos.speechly.com/fashion/
 
@@ -127,3 +135,5 @@ ls config
 # Try the app with custom inventory
 pnpm start
 ```
+
+Please see [root level README](../../README.md#how-to-use-this-rush-monorepository) for instructions on how to set up [Rush](https://rushjs.io/).

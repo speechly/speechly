@@ -4,11 +4,11 @@ The profanity demo highlights profanities from various audio clips and labels th
 
 Speechly features:
 
-- Natural language understanding
 - Intent & entity detection
-- Live audio transcription
+- Pre-recorded audio transcription
 - Interim results
-- Voice ui components
+- Segmentation
+- Timestamps
 
 https://demos.speechly.com/profanity/
 
@@ -58,5 +58,4 @@ rush build
 rushx start
 ```
 
-Please see [root level README](../../README.md#how-to-use-this-repository) and [the demos README](../README.md)
-for instructions on how to set up [Rush](https://rushjs.io/).
+Please see [root level README](../../README.md#how-to-use-this-rush-monorepository) for instructions on how to set up [Rush](https://rushjs.io/).
