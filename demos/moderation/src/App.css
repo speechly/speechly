@@ -38,7 +38,7 @@ body {
 }
 
 .Sidebar__title {
-  font-weight: 700;
+  font-weight: 600;
   padding: 12px 24px 8px;
   margin: 0;
 }
@@ -111,7 +111,7 @@ body {
 
 .EmptyState__title {
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .EmptyState__description {

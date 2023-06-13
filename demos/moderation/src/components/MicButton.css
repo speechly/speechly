@@ -16,10 +16,8 @@
   border: none;
   border-radius: 100px;
   background-color: var(--night);
-  font-size: 15px;
-  font-weight: 700;
   color: var(--day);
-  padding: 16px;
+  padding: 14px;
   transition: var(--ease);
   position: relative;
 }

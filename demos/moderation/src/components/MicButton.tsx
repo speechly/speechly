@@ -18,7 +18,7 @@ export const MicButton: React.FC<Props> = ({ isListening, onPointerDown, onPoint
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
       >
-        <MicIcon />
+        <MicIcon width={28} height={28} />
       </button>
       <span className="MicButton__description">{isListening ? 'Listening…' : 'Press to talk'}</span>
     </div>
