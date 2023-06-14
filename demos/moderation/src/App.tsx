@@ -16,7 +16,7 @@ import sample2 from './assets/seaofthieves.mp3';
 import './App.css';
 
 function App() {
-  const { appId, client, segment, clientState, listening, microphone, attachMicrophone, start, stop } =
+  const { appId, client, segment, listening, clientState, microphone, attachMicrophone, start, stop } =
     useSpeechContext();
   const [activeSegmentIndex, setActiveSegmentIndex, activeSegmentIndexRef] = useStateRef(-1);
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<LabeledSpeechSegment[]>([]);
@@ -27,17 +27,12 @@ function App() {
   ]);
   const [audioSource, setAudioSource] = useState<string>();
   const [recData, setRecData] = useState<Blob>();
+  const [isVadEnabled, setIsVadEnabled] = useState(false);
   const [showEmptyState, setShowEmptyState] = useState(true);
-  const [counter, setCounter] = useState(0);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
-  const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
   const mainRef: { current: HTMLDivElement | null } = useRef(null);
   const recorder: { current: MediaRecorder | undefined } = useRef(undefined);
-
-  useEffect(() => {
-    return () => stopCounter();
-  }, []);
 
   useEffect(() => {
     if (microphone?.mediaStream) {
@@ -182,23 +177,21 @@ function App() {
     }
   };
 
-  const startCounter = () => {
-    if (intervalRef.current) return;
-    intervalRef.current = setInterval(() => {
-      setCounter((prevCounter) => prevCounter + 1);
-    }, 10);
-  };
-
-  const stopCounter = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      setCounter(0);
-      intervalRef.current = null;
+  const handleStopStart = async () => {
+    if (isVadEnabled) {
+      recorder.current?.stop();
+      await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
+      setIsVadEnabled(!isVadEnabled);
+      return;
     }
-  };
 
-  const handleStart = async () => {
-    if (clientState === DecoderState.Active) return;
+    if (clientState === DecoderState.Active) {
+      await stop();
+      recorder.current?.stop();
+    } else {
+      await attachMicrophone();
+      await start();
+    }
 
     if (speechSegments.length) {
       setSelectedFileId(undefined);
@@ -206,24 +199,23 @@ function App() {
       setCurrentTime(undefined);
       setSpeechSegments([]);
     }
+  };
 
-    if (listening) {
-      stopCounter();
-      await stop();
+  const handleVadCheck = async () => {
+    if (clientState === DecoderState.Active) return;
+
+    if (isVadEnabled) {
       recorder.current?.stop();
     } else {
       await attachMicrophone();
-      await start();
-      startCounter();
+      setSelectedFileId(undefined);
+      setAudioSource(undefined);
+      setCurrentTime(undefined);
+      setSpeechSegments([]);
     }
-  };
 
-  const handleStop = async () => {
-    if (listening && counter > 100) {
-      stopCounter();
-      await stop();
-      recorder.current?.stop();
-    }
+    await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
+    setIsVadEnabled(!isVadEnabled);
   };
 
   const highlightSegment = (seekTime: number) => {
@@ -242,10 +234,19 @@ function App() {
           <div className="Sidebar__content">
             <Tabs>
               <TabItem title="Audio file">
-                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
+                <FileInput
+                  acceptMimes="audio/wav,audio/mpeg,audio/mp4"
+                  onFileSelected={handleFileAdd}
+                  disabled={clientState === DecoderState.Active}
+                />
               </TabItem>
               <TabItem title="Microphone">
-                <MicButton isListening={listening} onPointerDown={handleStart} onPointerUp={handleStop} />
+                <MicButton
+                  isListening={isVadEnabled ? clientState === DecoderState.Active : listening}
+                  isVadEnabled={isVadEnabled}
+                  onStartStop={handleStopStart}
+                  onVadCheck={handleVadCheck}
+                />
               </TabItem>
             </Tabs>
           </div>

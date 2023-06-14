@@ -9,7 +9,7 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <SpeechProvider appId="6e0d5a0c-880c-4ffd-8229-01a3b7c75a12">
+    <SpeechProvider appId="6e0d5a0c-880c-4ffd-8229-01a3b7c75a12" vad={{ enabled: false }}>
       <DemoNavigation />
       <App />
     </SpeechProvider>

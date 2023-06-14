@@ -32,6 +32,7 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation();
     e.preventDefault();
+    if (disabled) return;
     setIsActive(true);
   };
 

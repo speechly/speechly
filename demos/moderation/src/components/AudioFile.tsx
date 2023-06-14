@@ -9,10 +9,8 @@ interface Props extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export const AudioFile: React.FC<Props> = ({ children, isSelected, onClick }) => {
-  const classes = clsx('AudioFile', isSelected && 'AudioFile--selected');
-
   return (
-    <button type="button" className={classes} onClick={onClick}>
+    <button type="button" className={clsx('AudioFile', isSelected && 'AudioFile--selected')} onClick={onClick}>
       <AudioFileIcon width={18} height={18} />
       <span>{children}</span>
     </button>
