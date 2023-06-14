@@ -1,2 +1,2 @@
 model: large-highaccuracy
-silence_triggered_segmentation: 720
+silence_triggered_segmentation: 360
