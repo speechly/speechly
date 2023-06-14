@@ -22,12 +22,12 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
         {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}
       </div>
       <div className="Segment__transcript">
-        {words.map(({ index, startTimestamp, value }) => (
+        {words.map(({ index, endTimestamp, value }) => (
           <span
             key={index}
             className={clsx(
               currentTime && 'Segment__word',
-              currentTime && currentTime >= startTimestamp && 'Segment__word--highlighted'
+              currentTime && currentTime >= endTimestamp && 'Segment__word--highlighted'
             )}
           >
             {value}{' '}

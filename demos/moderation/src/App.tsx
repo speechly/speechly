@@ -18,7 +18,8 @@ import clsx from 'clsx';
 function App() {
   const { appId, client, segment, clientState, listening, microphone, attachMicrophone, start, stop } =
     useSpeechContext();
-  const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<SpeechSegment[]>([]);
+  const [activeSegmentIndex, setActiveSegmentIndex, activeSegmentIndexRef] = useStateRef(-1);
+  const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<LabeledSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
     { name: 'Speechly Podcast: Adam Cheyer', src: sample1 },
@@ -59,8 +60,10 @@ function App() {
   }, [recData, files.length]);
 
   useEffect(() => {
-    const scrollToSegmentsEnd = () =>
-      !currentTime && segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    const scrollToSegmentsEnd = () => {
+      if (activeSegmentIndexRef.current !== -1) return;
+      segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    };
 
     const updateOrAddSegment = (ss: SpeechSegment) => {
       setSpeechSegments((current) => {
@@ -115,15 +118,24 @@ function App() {
     // eslint-disable-next-line
   }, [segment]);
 
+  const isTimeInSegment = (time: number, segment: LabeledSpeechSegment) => {
+    if (!segment.isFinal) return false;
+    return time > segment.words[0].endTimestamp && time < segment.words[segment.words.length - 1].startTimestamp;
+  };
+
   useEffect(() => {
-    if (currentTime) {
-      const idx = speechSegmentsRef.current.findIndex((s) => currentTime <= s.words[s.words.length - 1].endTimestamp);
-      if (idx === -1) return;
-      const el = mainRef.current?.children.item(idx);
-      if (!el) return;
-      el.scrollIntoView();
-    }
-  }, [currentTime, speechSegmentsRef]);
+    if (!currentTime) return;
+    const idx = speechSegmentsRef.current.findIndex((segment) => isTimeInSegment(currentTime, segment));
+    if (idx === -1 || idx === activeSegmentIndexRef.current) return;
+    setActiveSegmentIndex(idx);
+  }, [currentTime, speechSegmentsRef, activeSegmentIndexRef, setActiveSegmentIndex]);
+
+  useEffect(() => {
+    if (activeSegmentIndex === -1) return;
+    const el = mainRef.current?.children.item(activeSegmentIndex);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth' });
+  }, [activeSegmentIndex]);
 
   const handleFileAdd = async (file: File) => {
     setFiles((current) => [...current, { name: file.name, file }]);
@@ -211,9 +223,8 @@ function App() {
     }
   };
 
-  const highlightSegment = (time: number) => {
-    if (!speechSegmentsRef.current.every((s) => s.isFinal)) return;
-    const idx = speechSegmentsRef.current.findIndex((s) => time <= s.words[s.words.length - 1].endTimestamp);
+  const highlightSegment = (seekTime: number) => {
+    const idx = speechSegmentsRef.current.findIndex((segment) => isTimeInSegment(seekTime, segment));
     if (idx === -1) return;
     const el = mainRef.current?.children.item(idx);
     if (!el) return;
@@ -273,7 +284,7 @@ function App() {
             </div>
           )}
           <div className={clsx('Player', (audioSource || !showEmptyState) && 'Player--visible')}>
-            <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={(ct) => setCurrentTime(ct)} />
+            <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={setCurrentTime} />
           </div>
         </div>
       </div>
