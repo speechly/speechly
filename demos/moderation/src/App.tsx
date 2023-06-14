@@ -234,11 +234,7 @@ function App() {
           <div className="Sidebar__content">
             <Tabs>
               <TabItem title="Audio file">
-                <FileInput
-                  acceptMimes="audio/wav,audio/mpeg,audio/mp4"
-                  onFileSelected={handleFileAdd}
-                  disabled={clientState === DecoderState.Active}
-                />
+                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
               </TabItem>
               <TabItem title="Microphone">
                 <MicButton
