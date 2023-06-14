@@ -103,17 +103,15 @@ body {
   padding: 48px;
 }
 
-.EmptyState__icon {
-  margin-bottom: 8px;
-}
-
 .EmptyState__title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 16px 0;
 }
 
 .EmptyState__description {
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--dim);
   max-width: 50ch;
 }

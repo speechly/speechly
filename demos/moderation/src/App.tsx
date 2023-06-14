@@ -267,7 +267,7 @@ function App() {
             <EmptyIllustration className="EmptyState__icon" width={180} />
             <h2 className="EmptyState__title">Voice chat moderation</h2>
             <p className="EmptyState__description">
-              Use one of the sample recordings, upload your own audio or use the microphone.
+              Use one of the sample recordings, upload your own audio or use the microphone to get started.
             </p>
           </div>
         )}
