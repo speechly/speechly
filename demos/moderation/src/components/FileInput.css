@@ -1,21 +1,17 @@
-:root {
-  --accent-shadow: color-mix(in hsl, var(--accent) 25%, var(--accent-light));
-}
-
 .FileInput {
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  text-align: center;
-  padding: 24px;
-  transition: var(--ease);
-  width: 100%;
-  height: 100%;
+  cursor: pointer;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  padding: 24px;
+  text-align: center;
+  transition: var(--ease);
+  width: 100%;
+  height: 160px;
 }
 
 .FileInput:hover {
