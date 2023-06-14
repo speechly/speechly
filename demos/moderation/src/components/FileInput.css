@@ -23,14 +23,7 @@
   border-color: var(--border-dark);
 }
 
-.FileInput--active {
-  background-color: var(--accent-light);
-  box-shadow: 0 0 0 1px var(--accent), inset 0 0 0 1px var(--accent);
-  color: var(--accent);
-}
-
 .FileInput__title {
-  color: var(--night);
   font-size: 14px;
   font-weight: 500;
 }
@@ -38,4 +31,10 @@
 .FileInput__description {
   color: var(--dim);
   font-size: 12px;
+}
+
+.FileInput--active {
+  background-color: var(--accent-light);
+  box-shadow: 0 0 0 1px var(--accent), inset 0 0 0 1px var(--accent);
+  color: var(--accent);
 }

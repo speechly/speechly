@@ -35,11 +35,9 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
     setIsActive(true);
   };
 
-  const classes = clsx('FileInput', isActive && 'FileInput--active');
-
   return (
     <div
-      className={classes}
+      className={clsx('FileInput', isActive && 'FileInput--active')}
       onDrop={handleDrop}
       onDragOver={handleDrag}
       onDragLeave={() => setIsActive(false)}
@@ -47,7 +45,7 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
       onClick={() => fileInputRef.current?.click()}
     >
       <Upload className="FileInput__icon" width={28} height={28} />
-      <span className="FileInput__title">Use your own audio file</span>
+      <span className="FileInput__title">{isActive ? 'Drop here to upload' : 'Use your own audio file'}</span>
       <span className="FileInput__description">English audio only, max 5 min</span>
       <input
         ref={fileInputRef}
