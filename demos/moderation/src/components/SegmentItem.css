@@ -6,16 +6,21 @@
   background-color: var(--day);
   padding: 20px;
   border-radius: 5px;
-  margin: 8px 24px;
+  margin: 16px 0;
   scroll-margin-block: 24px;
   transition: var(--ease);
 }
 
 .Segment--active {
-  background-color: var(--hover);
+  box-shadow: inset 0 0 0 1000px var(--hover);
 }
 
-.Segment__flagged {
+.Segment--flagged {
+  background-color: var(--label-negative);
+  border-color: var(--hover-dark);
+}
+
+.Segment--flagged {
   background-color: var(--label-negative);
   border-color: var(--hover-dark);
 }
@@ -56,5 +61,5 @@
 }
 
 .Segment__end {
-  scroll-margin-block: 24px;
+  scroll-margin-block: calc(2 * var(--player-height));
 }

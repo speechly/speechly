@@ -16,7 +16,7 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
   const { words, abuseLabels, isFlagged } = segment;
 
   return (
-    <div className={clsx('Segment', isFlagged && 'Segment__flagged')}>
+    <div className={clsx('Segment', isFlagged && 'Segment--flagged')}>
       <div className="Segment__timestamp">
         {isNaN(words[0]?.endTimestamp) && '···'}
         {!isNaN(words[0]?.endTimestamp) && formatDuration(words[0]?.endTimestamp)}

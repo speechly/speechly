@@ -72,13 +72,8 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
     wavesurfer.current?.playPause();
   };
 
-  const onVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     wavesurfer.current?.setVolume(e.target.valueAsNumber);
-    // const { target } = e;
-    // const newVolume = +target.valueAsNumber;
-    // if (newVolume) {
-    //   wavesurfer.current?.setVolume(newVolume || 1);
-    // }
   };
 
   return (
@@ -87,13 +82,9 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
       <button onClick={handlePlayPause} className="Waveform__playPause" disabled={!url}>
         {isPlaying ? <Pause width={28} height={28} /> : <Play width={28} height={28} />}
       </button>
-      <div className="Waveform__time" style={{ marginLeft: 8 }}>
-        {currentTime && formatDuration(currentTime)}
-      </div>
+      <div className="Waveform__time">{currentTime && formatDuration(currentTime)}</div>
       <div className="Waveform__waveform" id="waveform" ref={waveformRef} />
-      <div className="Waveform__time" style={{ marginRight: 8 }}>
-        {duration && formatDuration(duration)}
-      </div>
+      <div className="Waveform__time">{duration && formatDuration(duration)}</div>
       <div className="Waveform__volume">
         <VolumeUp />
         <input
@@ -102,7 +93,7 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
           min="0"
           max="1"
           step="0.025"
-          onChange={onVolumeChange}
+          onChange={handleVolumeChange}
           defaultValue={volume}
         />
       </div>

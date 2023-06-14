@@ -96,7 +96,7 @@ function App() {
           abuseLabels: sortedLabels,
           isFlagged: results[0].flagged,
         };
-
+        console.log(newSegment);
         updateOrAddSegment(newSegment);
         scrollToSegmentsEnd();
       } catch (err) {
@@ -110,8 +110,6 @@ function App() {
       scrollToSegmentsEnd();
       if (segment.isFinal) {
         labelSegment(segment);
-        updateOrAddSegment(segment);
-        scrollToSegmentsEnd();
       }
     }
     // eslint-disable-next-line
@@ -227,48 +225,53 @@ function App() {
     <>
       <div className="App">
         <div className="Sidebar">
-          <h4 className="Sidebar__title">Recordings</h4>
-          <div className="Sidebar__content--wide">
-            {files.map(({ name }, i) => (
-              <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
-                {name}
-              </AudioFile>
-            ))}
+          <div className="Sidebar__section">
+            {/* <h4 className="Sidebar__title">Input</h4> */}
+            <div className="Sidebar__content">
+              <Tabs>
+                <TabItem title="Audio file">
+                  <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
+                </TabItem>
+                <TabItem title="Microphone">
+                  <MicButton isListening={listening} onPointerDown={handleStart} onPointerUp={handleStop} />
+                </TabItem>
+              </Tabs>
+            </div>
           </div>
-          <h4 className="Sidebar__title">Input</h4>
-          <div className="Sidebar__content">
-            <Tabs>
-              <TabItem title="Audio file">
-                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
-              </TabItem>
-              <TabItem title="Microphone">
-                <MicButton isListening={listening} onPointerDown={handleStart} onPointerUp={handleStop} />
-              </TabItem>
-            </Tabs>
+          <div className="Sidebar__section">
+            <h4 className="Sidebar__title">Recordings</h4>
+            <div>
+              {files.map(({ name }, i) => (
+                <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+                  {name}
+                </AudioFile>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="Main" ref={mainRef}>
-          <div className="Main__inner">
-            {speechSegments?.map((segment) => (
-              <SegmentItem
-                key={`${segment.contextId}-${segment.id}`}
-                currentTime={currentTime}
-                segment={segment}
-                showDetails={true}
-              />
-            ))}
-            {!speechSegments.length && showEmptyState ? (
-              <div className="EmptyState">
-                <EmptyIllustration className="EmptyState__icon" width={180} />
-                <h2 className="EmptyState__title">Voice chat moderation</h2>
-                <p className="EmptyState__description">
-                  Use one of the sample recordings, upload your own audio or use the microphone.
-                </p>
-              </div>
-            ) : (
+        <div className="Main">
+          {!speechSegments.length && showEmptyState && (
+            <div className="EmptyState">
+              <EmptyIllustration className="EmptyState__icon" width={180} />
+              <h2 className="EmptyState__title">Voice chat moderation</h2>
+              <p className="EmptyState__description">
+                Use one of the sample recordings, upload your own audio or use the microphone.
+              </p>
+            </div>
+          )}
+          {speechSegments.length > 0 && (
+            <div className="Main__inner" ref={mainRef}>
+              {speechSegments.map((segment) => (
+                <SegmentItem
+                  key={`${segment.contextId}-${segment.id}`}
+                  currentTime={currentTime}
+                  segment={segment}
+                  showDetails={true}
+                />
+              ))}
               <div ref={segmentEndRef} className="Segment__end" />
-            )}
-          </div>
+            </div>
+          )}
           <div className={clsx('Player', (audioSource || !showEmptyState) && 'Player--visible')}>
             <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={(ct) => setCurrentTime(ct)} />
           </div>

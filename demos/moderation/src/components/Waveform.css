@@ -1,15 +1,14 @@
 .Waveform {
-  width: 100%;
-  padding: 16px 24px;
-  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  overflow: hidden;
+  width: 100%;
 }
 
 .Waveform__time {
   color: var(--dim);
-  font-size: 14px;
+  font-size: 13.5px;
   font-variant-numeric: tabular-nums;
   min-width: 32px;
   text-align: center;
@@ -28,7 +27,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: stretch;
   color: var(--night);
+  padding: 16px;
 }
 
 .Waveform__volume svg {
@@ -56,6 +57,7 @@
   background-color: var(--night);
   border-radius: 100px;
   padding: 10px;
+  margin: 0 16px;
   transition: var(--ease);
   color: var(--day);
 }

@@ -26,7 +26,7 @@ body {
   flex-shrink: 0;
   height: 100%;
   border-right: 1px solid var(--border);
-  padding-block: 12px;
+  padding: 8px 0;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -37,29 +37,27 @@ body {
   display: none;
 }
 
+.Sidebar__section {
+  padding: 16px 0;
+}
+
 .Sidebar__title {
   font-weight: 600;
-  padding: 12px 24px 8px;
+  padding: 0 24px 8px;
   margin: 0;
 }
 
 .Sidebar__content {
-  display: grid;
-  padding: 0 24px 12px;
-}
-
-.Sidebar__content--wide {
-  display: grid;
-  padding-bottom: 12px;
+  padding: 0 24px;
 }
 
 /* Main content */
 
 .Main {
   background-color: var(--dawn);
-  flex-grow: 1;
+  display: grid;
+  grid-template-rows: auto min-content;
   position: relative;
-  height: 100%;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -71,38 +69,38 @@ body {
 }
 
 .Main__inner {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  min-height: 100%;
-  padding: 16px 0;
+  padding: 8px 24px;
 }
 
 /* Player */
 
 .Player {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   margin-top: auto;
   background-color: var(--day);
   border-top: 1px solid var(--border);
-  transition: var(--ease);
+  padding: 0 8px;
   height: 0;
   opacity: 0;
-  transform: translateY(100px);
-  position: sticky;
-  bottom: 0;
+  transition: var(--ease);
+  transform: translateY(var(--player-height));
 }
 
 .Player--visible {
-  height: auto;
+  height: var(--player-height);
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Empty state */
 
 .EmptyState {
   margin: auto;
   text-align: center;
   padding: 48px;
-  color: var(--dim);
 }
 
 .EmptyState__icon {
@@ -110,19 +108,12 @@ body {
 }
 
 .EmptyState__title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
 }
 
 .EmptyState__description {
   line-height: 1.5;
-}
-
-.EmptyState__description a {
-  color: inherit;
-  text-underline-offset: 2px;
-}
-
-.EmptyState__description a:hover {
-  color: var(--accent);
+  color: var(--dim);
+  max-width: 50ch;
 }

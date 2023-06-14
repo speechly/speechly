@@ -20,7 +20,9 @@ export const MicButton: React.FC<Props> = ({ isListening, onPointerDown, onPoint
       >
         <MicIcon width={28} height={28} />
       </button>
-      <span className="MicButton__description">{isListening ? 'Listening…' : 'Press to talk'}</span>
+      <span className={clsx('MicButton__description', isListening && 'MicButton__description--active')}>
+        {isListening ? 'Listening…' : 'Press to talk'}
+      </span>
     </div>
   );
 };

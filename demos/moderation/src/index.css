@@ -15,6 +15,7 @@
   --ease: all 0.15s ease;
   --danger: hsl(5, 80%, 60%);
   --label-negative: hsl(0, 93%, 94%);
+  --player-height: 80px;
 }
 
 @media (prefers-color-scheme: dark) {

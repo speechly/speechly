@@ -41,6 +41,10 @@
   font-size: 14px;
 }
 
+.MicButton__description--active {
+  color: var(--accent);
+}
+
 @keyframes pulsate {
   0% {
     box-shadow: 0 0 0 8px var(--accent-light);

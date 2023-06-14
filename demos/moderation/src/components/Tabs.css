@@ -12,7 +12,7 @@
 }
 
 .Tabs__content {
-  flex-grow: 1;
+  display: grid;
   min-height: 144px;
 }
 

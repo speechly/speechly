@@ -46,9 +46,9 @@ export const FileInput: React.FC<Props> = ({ acceptMimes, disabled = false, onFi
       onDragEnd={() => setIsActive(false)}
       onClick={() => fileInputRef.current?.click()}
     >
-      <Upload className="FileInput__icon" width={24} height={24} />
-      <span className="FileInput__title">Choose an audio file</span>
-      <span className="FileInput__description">MP3 or WAV, max 5 min long</span>
+      <Upload className="FileInput__icon" width={28} height={28} />
+      <span className="FileInput__title">Use your own audio file</span>
+      <span className="FileInput__description">English audio only, max 5 min</span>
       <input
         ref={fileInputRef}
         accept={acceptMimes}
