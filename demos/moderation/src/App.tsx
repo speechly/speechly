@@ -11,8 +11,8 @@ import { Waveform } from './components/Waveform';
 import { AbuseLabelingResponse, FileOrUrl, LabeledSpeechSegment } from './utils/types';
 import { ABUSE_LABELING_URL } from './utils/variables';
 import { ReactComponent as EmptyIllustration } from './assets/empty.svg';
-import sample2 from './assets/ndgt.wav';
-import sample1 from './assets/podcast.wav';
+import sample1 from './assets/warzone.mp3';
+import sample2 from './assets/seaofthieves.mp3';
 import './App.css';
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<LabeledSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
-    { name: 'Speechly Podcast: Adam Cheyer', src: sample1 },
-    { name: "Neil deGrasse Tyson: Future '38", src: sample2 },
+    { name: 'Warzone 2.0: Get Away From Me', src: sample1 },
+    { name: 'Sea of Thieves: English Meet French', src: sample2 },
   ]);
   const [audioSource, setAudioSource] = useState<string>();
   const [recData, setRecData] = useState<Blob>();
