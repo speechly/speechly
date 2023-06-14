@@ -9,10 +9,9 @@ import './SegmentItem.css';
 interface Props {
   segment: LabeledSpeechSegment;
   currentTime?: number;
-  showDetails: boolean;
 }
 
-export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails }) => {
+export const SegmentItem: React.FC<Props> = ({ segment, currentTime }) => {
   const { words, abuseLabels, isFlagged } = segment;
 
   return (
@@ -34,15 +33,13 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime, showDetails
           </span>
         ))}
       </div>
-      {showDetails && (
-        <div className="Segment__details">
-          <span>Abuse labels:</span>
-          {!abuseLabels && <Spinner width={16} height={16} fill="#7d8fa1" />}
-          {abuseLabels?.map(({ label, score, flagged }) => (
-            <Tag key={label} label={label} score={score} isFlagged={flagged} />
-          ))}
-        </div>
-      )}
+      <div className="Segment__details">
+        <span>Abuse labels:</span>
+        {abuseLabels === undefined && <Spinner width={16} height={16} fill="#7d8fa1" />}
+        {abuseLabels?.map(({ label, score, flagged }) => (
+          <Tag key={label} label={label} score={score} isFlagged={flagged} />
+        ))}
+      </div>
     </div>
   );
 };

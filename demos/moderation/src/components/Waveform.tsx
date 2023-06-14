@@ -39,7 +39,13 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
   useEffect(() => {
     const options = formWaveSurferOptions(waveformRef.current);
     wavesurfer.current = WaveSurfer.create(options);
-    if (url) wavesurfer.current.load(url);
+
+    if (url) {
+      wavesurfer.current.load(url);
+    } else {
+      setCurrentTime(undefined);
+      setDuration(undefined);
+    }
 
     wavesurfer.current.on('ready', () => {
       if (wavesurfer.current) {

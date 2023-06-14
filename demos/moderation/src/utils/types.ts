@@ -25,9 +25,3 @@ export interface FileOrUrl {
   file?: File;
   src?: string;
 }
-
-export interface AudioRegionLabels {
-  index: number;
-  start: number;
-  end: number;
-}
