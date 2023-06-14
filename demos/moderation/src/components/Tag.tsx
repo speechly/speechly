@@ -5,7 +5,7 @@ import './Tag.css';
 interface Props {
   label: string;
   isFlagged?: boolean;
-  score?: number;
+  score: number;
 }
 
 export const Tag: React.FC<Props> = ({ label, score, isFlagged }) => {
@@ -13,10 +13,7 @@ export const Tag: React.FC<Props> = ({ label, score, isFlagged }) => {
 
   return (
     <div className={classes}>
-      <div className="Tag__content">
-        <span>{label}</span>
-        {score && <small>: {score}</small>}
-      </div>
+      {label}: <small>{score.toFixed(3)}</small>
     </div>
   );
 };
