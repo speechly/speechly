@@ -43,6 +43,7 @@ export const Waveform: React.FC<Props> = ({ url, children, onSeek, onUpdate }) =
     if (url) {
       wavesurfer.current.load(url);
     } else {
+      setIsPlaying(false);
       setCurrentTime(undefined);
       setDuration(undefined);
     }

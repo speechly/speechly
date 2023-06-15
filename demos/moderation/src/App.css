@@ -58,18 +58,19 @@ body {
   display: grid;
   grid-template-rows: auto min-content;
   position: relative;
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
 
-.Main::-webkit-scrollbar {
+.Main__inner::-webkit-scrollbar {
   display: none;
 }
 
 .Main__inner {
   padding: 8px 24px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Player */
@@ -79,7 +80,6 @@ body {
   bottom: 0;
   display: flex;
   align-items: center;
-  margin-top: auto;
   background-color: var(--day);
   border-top: 1px solid var(--border);
   padding: 0 8px;

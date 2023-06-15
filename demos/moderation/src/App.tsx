@@ -116,7 +116,7 @@ function App() {
   const isTimeInRange = (time: number, segment: LabeledSpeechSegment) => {
     if (!segment.isFinal) return false;
     return (
-      Math.round(time) > segment.words[0].endTimestamp &&
+      Math.round(time) > segment.words[0].startTimestamp &&
       Math.round(time) < segment.words[segment.words.length - 1].endTimestamp
     );
   };
