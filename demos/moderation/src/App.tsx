@@ -13,6 +13,7 @@ import { ABUSE_LABELING_URL } from './utils/variables';
 import { ReactComponent as EmptyIllustration } from './assets/empty.svg';
 import sample1 from './assets/warzone.mp3';
 import sample2 from './assets/seaofthieves.mp3';
+import sample3 from './assets/valorant.mp3';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<LabeledSpeechSegment[]>([]);
   const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
   const [files, setFiles] = useState<FileOrUrl[]>([
+    { name: 'Valorant: Strafing Argument', src: sample3 },
     { name: 'Warzone 2.0: Get Away From Me', src: sample1 },
     { name: 'Sea of Thieves: English Meet French', src: sample2 },
   ]);
