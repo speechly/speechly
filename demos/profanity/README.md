@@ -1,31 +1,30 @@
-# Moderation Demo
+# Profanity Demo
 
-The moderation demo accurately transcribes audio using our off-the-shelf speech recognition model and then uses our Abuse Labeling API to flag abusive language. 
+The profanity demo highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.
 
 Speechly features:
 
-- Abuse Labeling
-- Live audio transcription
+- Intent & entity detection
 - Pre-recorded audio transcription
 - Interim results
 - Segmentation
 - Timestamps
 
-https://demos.speechly.com/moderation/
+https://demos.speechly.com/profanity/
 
 ## Prerequisites
 
 * [Node.js](https://nodejs.org/) v16.13.0 or later
 * [npm](https://npmjs.com/) or [Rush](https://rushjs.io/)
 
-This project was built with [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/), [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client) and [Wafesurfer.js](https://wavesurfer-js.org/).
+This project was built with [React](https://reactjs.org/), [Typescript](https://www.typescriptlang.org/) and [Speechly React Client](https://www.npmjs.com/package/@speechly/react-client).
 
 ## Installation and running (stand-alone)
 
 1\. Copy this project using [degit](https://github.com/Rich-Harris/degit) (or download manually)
 
 ```bash
-npx degit speechly/speechly/demos/transcription transcription
+npx degit speechly/speechly/demos/profanity profanity
 ```
 
 2\. Install dependencies

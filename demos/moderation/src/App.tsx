@@ -1,162 +1,289 @@
-import React, { useEffect, useRef, useState } from "react";
-import Plyr, { APITypes } from "plyr-react";
-import { DecoderState, SpeechSegment, useSpeechContext } from "@speechly/react-client";
-import classNames from "classnames";
-import { Segment } from "./Segment";
-import { Cover } from "./Cover";
-import { Spinner } from "./Spinner";
-import { blankAudio, demoAudios } from "./demoContent";
-import "./App.css";
-import "./plyr.css";
+import { useEffect, useRef, useState } from 'react';
+import { DecoderState, useSpeechContext } from '@speechly/react-client';
+import useStateRef from 'react-usestateref';
+import clsx from 'clsx';
+import { AudioFile } from './components/AudioFile';
+import { FileInput } from './components/FileInput';
+import { MicButton } from './components/MicButton';
+import { SegmentItem } from './components/SegmentItem';
+import { TabItem, Tabs } from './components/Tabs';
+import { Waveform } from './components/Waveform';
+import { AbuseLabelingResponse, FileOrUrl, LabeledSpeechSegment } from './utils/types';
+import { ABUSE_LABELING_URL } from './utils/variables';
+import { ReactComponent as EmptyIllustration } from './assets/empty.svg';
+import sample1 from './assets/warzone.mp3';
+import sample2 from './assets/seaofthieves.mp3';
+import sample3 from './assets/valorant.mp3';
+import './App.css';
 
-const playerOptions: Plyr.Options = {
-  controls: ["play", "progress", "current-time", "mute", "volume"],
-  volume: 0.5,
-  invertTime: false,
-  keyboard: { focused: false, global: false }
-};
-
-const App = () => {
-  const { segment, client, clientState } = useSpeechContext();
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [currentItem, setCurrentItem] = useState<number>();
-  const [sluResults, setSluResults] = useState<Map<string, Map<number, SpeechSegment>>>(new Map());
-  const ref = useRef<APITypes>(null);
-
-  const handleTimeUpdate = (event: any) => {
-    const player = event?.detail?.plyr as Plyr
-    if (player.source === null) return
-    setCurrentTime(player?.currentTime * 1000)
-  }
+function App() {
+  const { appId, client, segment, listening, clientState, microphone, attachMicrophone, start, stop } =
+    useSpeechContext();
+  const [activeSegmentIndex, setActiveSegmentIndex, activeSegmentIndexRef] = useStateRef(-1);
+  const [speechSegments, setSpeechSegments, speechSegmentsRef] = useStateRef<LabeledSpeechSegment[]>([]);
+  const [selectedFileId, setSelectedFileId] = useState<number | undefined>();
+  const [files, setFiles] = useState<FileOrUrl[]>([
+    { name: 'Valorant: Strafing Argument', src: sample3 },
+    { name: 'Warzone 2.0: Get Away From Me', src: sample1 },
+    { name: 'Sea of Thieves: English Meet French', src: sample2 },
+  ]);
+  const [audioSource, setAudioSource] = useState<string>();
+  const [recData, setRecData] = useState<Blob>();
+  const [isVadEnabled, setIsVadEnabled] = useState(false);
+  const [showEmptyState, setShowEmptyState] = useState(true);
+  const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
+  const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
+  const mainRef: { current: HTMLDivElement | null } = useRef(null);
+  const recorder: { current: MediaRecorder | undefined } = useRef(undefined);
 
   useEffect(() => {
-    window.addEventListener("timeupdate", handleTimeUpdate);
-    return () => {
-      window.removeEventListener("timeupdate", handleTimeUpdate)
+    if (microphone?.mediaStream) {
+      recorder.current = new MediaRecorder(microphone.mediaStream);
+      recorder.current.start();
+      recorder.current.ondataavailable = (e) => setRecData(e.data);
     }
-  })
+  }, [microphone?.mediaStream]);
 
-  /**
-   * Add contextIds to a map that maintains addition order.
-   * This keeps them neatly in cronological ordered, which is needed when VAD is used
-   */
   useEffect(() => {
-    if (client) {
-      client.onStart((contextId: string) => {
-        setSluResults(oldSegments => oldSegments.set(contextId, new Map()));
-      })
+    if (recData) {
+      const src = URL.createObjectURL(recData);
+      setAudioSource(src);
+      const timeStr = new Date().toISOString().split('T').join(' at ').substring(0, 22);
+      const name = `Recording ${timeStr}`;
+      setFiles((current) => [...current, { name, src }]);
+      setRecData(undefined);
+      setSelectedFileId(files.length);
     }
-  }, [client])
+  }, [recData, files.length]);
 
   useEffect(() => {
-    const sendAudioToSpeechly = async (i: number) => {
-      const response = await fetch(demoAudios[i].audioSrc.sources[0].src, {
+    const scrollToSegmentsEnd = () => {
+      if (activeSegmentIndexRef.current !== -1) return;
+      segmentEndRef.current?.scrollIntoView({ behavior: 'auto', block: 'end' });
+    };
+
+    const updateOrAddSegment = (ss: LabeledSpeechSegment) => {
+      setSpeechSegments((current) => {
+        const newArray = [...current];
+        const idx = newArray.findIndex((item) => item.contextId === ss.contextId && item.id === ss.id);
+        if (idx > -1) {
+          newArray[idx] = ss;
+        } else {
+          newArray.push(ss);
+        }
+        return newArray;
+      });
+    };
+
+    const labelSegment = async (ss: LabeledSpeechSegment) => {
+      const text = ss.words.map((word) => word.value).join(' ');
+      try {
+        const response = await fetch(ABUSE_LABELING_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texts: [text], appId }),
+        });
+        if (response.status !== 200) {
+          throw new Error(`${response.status} ${response.statusText}`);
+        }
+        const { results } = (await response.json()) as AbuseLabelingResponse;
+        if (!results.length) {
+          throw new Error('no abuse labeling results found');
+        }
+        const sortedLabels = results[0].labels.sort((a, b) => b.score - a.score);
+        const newSegment: LabeledSpeechSegment = {
+          ...ss,
+          abuseLabels: sortedLabels,
+          isFlagged: results[0].flagged,
+        };
+        console.log(newSegment);
+        updateOrAddSegment(newSegment);
+        scrollToSegmentsEnd();
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (segment) {
+      setShowEmptyState(false);
+      updateOrAddSegment(segment);
+      scrollToSegmentsEnd();
+      if (segment.isFinal) {
+        labelSegment(segment);
+      }
+    }
+    // eslint-disable-next-line
+  }, [segment]);
+
+  const isTimeInRange = (time: number, segment: LabeledSpeechSegment) => {
+    if (!segment.isFinal) return false;
+    return (
+      Math.round(time) > segment.words[0].startTimestamp &&
+      Math.round(time) < segment.words[segment.words.length - 1].endTimestamp
+    );
+  };
+
+  useEffect(() => {
+    if (!currentTime) return;
+    const idx = speechSegmentsRef.current.findIndex((segment) => isTimeInRange(currentTime, segment));
+    if (idx === -1 || idx === activeSegmentIndexRef.current) return;
+    setActiveSegmentIndex(idx);
+  }, [currentTime, speechSegmentsRef, activeSegmentIndexRef, setActiveSegmentIndex]);
+
+  useEffect(() => {
+    if (activeSegmentIndex === -1) return;
+    const el = mainRef.current?.children.item(activeSegmentIndex);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth' });
+  }, [activeSegmentIndex]);
+
+  const handleFileAdd = async (file: File) => {
+    setFiles((current) => [...current, { name: file.name, file }]);
+  };
+
+  const handleSelectFile = async (i: number) => {
+    if (selectedFileId === i) return;
+    if (clientState === DecoderState.Active) return;
+
+    setSelectedFileId(i);
+    setAudioSource(undefined);
+    setCurrentTime(undefined);
+    setSpeechSegments([]);
+
+    const fileSrc = files[i].src;
+    if (fileSrc) {
+      const response = await fetch(fileSrc, {
         headers: {
-          "Content-Type": "audio/mpeg;audio/wav;audio/m4a",
-          "Accept": "audio/mpeg;audio/wav;audio/m4a"
+          'Content-Type': 'audio/mpeg;audio/wav',
+          Accept: 'audio/mpeg;audio/wav',
         },
-        cache: "no-store"
+        cache: 'no-store',
       });
       if (!response.ok) {
         console.error("Could't find file");
-        setCurrentItem(undefined);
-      };
-      const buffer =  await response.arrayBuffer();
-      await client?.uploadAudioData(buffer);
-    }
-    if (client && currentItem !== undefined) {
-      sendAudioToSpeechly(currentItem);
-    }
-  }, [currentItem, client])
-
-  useEffect(() => {
-    if (segment) {
-      setSluResults(oldSegments => {
-        oldSegments.get(segment.contextId)?.set(segment.id, segment)
-        return oldSegments
-      });
-      if (segment.isFinal) {
-        // Auto-start playback once we have one full segment received
-        const player = (ref?.current?.plyr as Plyr);
-        if (player.paused && segment.id === 0) player.play();
       }
+      setAudioSource(fileSrc);
+      const buffer = await response.arrayBuffer();
+      await client?.uploadAudioData(buffer);
+      return;
     }
-  // eslint-disable-next-line
-  }, [segment]);
 
-  const handleCoverClick = (i: number) => {
-    // client?.close();
-    if (i === currentItem) return
-    setCurrentItem(i);
-    setSluResults(new Map());
-  }
+    const fileFile = files[i].file;
+    if (fileFile) {
+      const buffer = await fileFile.arrayBuffer();
+      const blob = new Blob([buffer], { type: fileFile.type });
+      const url = URL.createObjectURL(blob);
+      setAudioSource(url);
+      await client?.uploadAudioData(buffer);
+      return;
+    }
+  };
 
-  const handleSegmentClick = (ms: number) => {
-    const player = (ref?.current?.plyr as Plyr);
-    player.currentTime = ms / 1000
-    player.play();
-  }
+  const handleStopStart = async () => {
+    if (isVadEnabled) {
+      recorder.current?.stop();
+      await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
+      setIsVadEnabled(!isVadEnabled);
+      return;
+    }
 
-  const playerClasses = classNames({
-    "Player__inner": true,
-    "Player__inner--disabled": currentItem === undefined
-  });
+    if (clientState === DecoderState.Active) {
+      await stop();
+      recorder.current?.stop();
+    } else {
+      await attachMicrophone();
+      await start();
+    }
+
+    if (speechSegments.length) {
+      setSelectedFileId(undefined);
+      setAudioSource(undefined);
+      setCurrentTime(undefined);
+      setSpeechSegments([]);
+    }
+  };
+
+  const handleVadCheck = async () => {
+    if (clientState === DecoderState.Active) return;
+
+    if (isVadEnabled) {
+      recorder.current?.stop();
+    } else {
+      await attachMicrophone();
+      setSelectedFileId(undefined);
+      setAudioSource(undefined);
+      setCurrentTime(undefined);
+      setSpeechSegments([]);
+    }
+
+    await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
+    setIsVadEnabled(!isVadEnabled);
+  };
+
+  const highlightSegment = (seekTime: number) => {
+    const idx = speechSegmentsRef.current.findIndex((segment) => isTimeInRange(seekTime, segment));
+    if (idx === -1) return;
+    const el = mainRef.current?.children.item(idx);
+    if (!el) return;
+    el.classList.toggle('Segment--active');
+    setTimeout(() => el.classList.toggle('Segment--active'), 1000);
+  };
 
   return (
     <div className="App">
-      <div className="Header">
-        <div className="Header__inner">
-          {demoAudios.map((item, i) =>
-            <Cover
-              key={item.title + i}
-              title={item.title}
-              duration={item.duration}
-              thumbnail={item.thumbnail}
-              isSelected={i === currentItem}
-              onClick={() => handleCoverClick(i)}
-            />
-          )}
-        </div>
-      </div>
-      <div className="Player">
-        <div className={playerClasses}>
-          <Plyr
-            ref={ref}
-            source={currentItem === undefined ? blankAudio : demoAudios[currentItem].audioSrc}
-            options={playerOptions}
-          />
-        </div>
-      </div>
-      <div className="Content">
-        {sluResults.size > 0 && (
-          <div className="Transcripts">
-            {Array.from(sluResults.values()).map((segments) =>
-              Array.from(segments.values()).map((segment) =>
-                <Segment
-                  key={`${segment.contextId}/${segment.id}`}
-                  words={segment.words}
-                  intent={segment.intent}
-                  entities={segment.entities}
-                  currentTime={currentTime}
-                  onClick={handleSegmentClick}
-                  isFinal={segment.isFinal}
+      <div className="Sidebar">
+        <div className="Sidebar__section">
+          <div className="Sidebar__content">
+            <Tabs>
+              <TabItem title="Audio file">
+                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
+              </TabItem>
+              <TabItem title="Microphone">
+                <MicButton
+                  isListening={isVadEnabled ? clientState === DecoderState.Active : listening}
+                  isVadEnabled={isVadEnabled}
+                  onStartStop={handleStopStart}
+                  onVadCheck={handleVadCheck}
                 />
+              </TabItem>
+            </Tabs>
+          </div>
+        </div>
+        <div className="Sidebar__section">
+          <h4 className="Sidebar__title">Recordings</h4>
+          <div>
+            {files.map(({ name }, i) => (
+              <AudioFile key={name} isSelected={selectedFileId === i} onClick={() => handleSelectFile(i)}>
+                {name}
+              </AudioFile>
             ))}
           </div>
+        </div>
+      </div>
+      <div className="Main">
+        {!speechSegments.length && showEmptyState && (
+          <div className="EmptyState">
+            <EmptyIllustration className="EmptyState__icon" width={180} />
+            <h2 className="EmptyState__title">Voice chat moderation</h2>
+            <p className="EmptyState__description">
+              Use one of the sample recordings, upload your own audio or use the microphone to get started.
+            </p>
+          </div>
         )}
-        <div className="Empty">
-          {currentItem === undefined && sluResults.size === 0 && (
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" width={32} height={32} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx={12} cy={12} r={10} /><polyline points="16 12 12 8 8 12" /><line x1={12} y1={16} x2={12} y2={8} /></svg>
-              <h3>Choose an audio source to get started</h3>
-              <p>Warning: this demo contains profanities and hate speech.</p>
-            </div>
-          )}
-          {clientState > DecoderState.Connected && <Spinner />}
+        {speechSegments.length > 0 && (
+          <div className="Main__inner" ref={mainRef}>
+            {speechSegments.map((segment) => (
+              <SegmentItem key={`${segment.contextId}-${segment.id}`} currentTime={currentTime} segment={segment} />
+            ))}
+            <div ref={segmentEndRef} className="Segment__end" />
+          </div>
+        )}
+        <div className={clsx('Player', (audioSource || !showEmptyState) && 'Player--visible')}>
+          <Waveform url={audioSource} onSeek={highlightSegment} onUpdate={setCurrentTime} />
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default App
+export default App;

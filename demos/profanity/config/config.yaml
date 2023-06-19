@@ -1,0 +1,42 @@
+lang: en-US
+templates: |
+  
+  *non_offensive you always did have a high opinion of yourself John *offensive dutch always said you were an arrogant [son of a bitch](profanity)
+  *offensive dutch always said you were an arrogant [son of a bitch](profanity) *non_offensive because he was about right
+  *non_offensive because he was about right 
+  
+  *non_offensive your talking like a song from the lion king stop that it makes no sense *non_offensive or does it make perfect sense
+  *non_offensive or does it make perfect sense *non_offensive what the
+  *non_offensive what the *offensive see that's the type of i'm gonna kick your [ass](profanity)
+  *offensive see that's the type of i'm gonna kick your [ass](profanity) *offensive if my [ass](profanity) is going to be kicked then it will be kicked well
+  *offensive if my [ass](profanity) is going to be kicked then it will be kicked well *non_offensive oh
+  *non_offensive oh 
+  
+  *offensive i'm sorry but that's just [fucking](profanity) disgusting *non_offensive you have just out right sexually harassed a man recorded it and decided to put it on tiktok
+  *non_offensive you have just out right sexually harassed a man recorded it and decided to put it on tiktok *non_offensive how dare you force him to do something like that
+  *non_offensive how dare you force him to do something like that *non_offensive he clearly didn't want to take his shirt off he clearly felt uncomfortable in that situation and you proceeded to go ahead with it
+  *non_offensive he clearly didn't want to take his shirt off he clearly felt uncomfortable in that situation and you proceeded to go ahead with it *offensive if that was him and some of his other friends trying to pull your shirt up to look at your bra 
+  *offensive if that was him and some of his other friends trying to pull your shirt up to look at your bra  *offensive whole different story you'd want him [fucking](profanity) jailed wouldn't you
+  *offensive whole different story you'd want him [fucking](profanity) jailed wouldn't you 
+  
+  *offensive you mess with my nut brennan randy here is gonna eat your [dick](profanity) *non_offensive like kobayashi
+  *non_offensive like kobayashi *non_offensive i've seen him do it
+  *non_offensive i've seen him do it *offensive you've actually seen him eat a man's [penis](profanity)
+  *offensive you've actually seen him eat a man's [penis](profanity) *non_offensive it was in international waters so they couldn't prosecute him but i saw it
+  *non_offensive it was in international waters so they couldn't prosecute him but i saw it *offensive i tell you right now i'll nail it i'll pull it off okay
+  *offensive i tell you right now i'll nail it i'll pull it off okay *non_offensive wait {a second} why you want this so bad brennan are you trying to get mom and dad back together or something
+  *non_offensive wait {a second} why you want this so bad brennan are you trying to get mom and dad back together or something *non_offensive why do i want this
+  *non_offensive why do i want this *non_offensive yeah
+  *non_offensive yeah *non_offensive cause i wanna make bank bro
+  *non_offensive cause i wanna make bank bro *offensive i wanna get [ass](profanity)
+  *offensive i wanna get [ass](profanity) *non_offensive and i wanna drive a range rover
+  *non_offensive and i wanna drive a range rover *offensive okay well you better brennan this is the [fucking](profanity) catalina wine mixer
+  *offensive okay well you better brennan this is the [fucking](profanity) catalina wine mixer,
+
+
+intents: []
+entities: []
+silence_triggered_segmentation: 0
+enable_strict_nlu: false
+adaptation_audio_package: 15F425DD-7A95-4D4B-A4A6-0DF059715A9C
+disable_mel_caching: true

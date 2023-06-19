@@ -1,22 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { SpeechProvider } from '@speechly/react-client';
+import ReactDOM from 'react-dom/client';
 import { DemoNavigation } from '@speechly/demo-navigation';
-import * as serviceWorker from './serviceWorker';
+import { SpeechProvider } from '@speechly/react-client';
 import App from './App';
+import reportWebVitals from './reportWebVitals';
 import './index.css';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(
   <React.StrictMode>
-    <SpeechProvider appId="9dbba3e2-0d75-40db-a45a-a351d6cb8ce7" vad={{ enabled: true, signalSustainMillis: 2000 }}>
+    <SpeechProvider appId="6e0d5a0c-880c-4ffd-8229-01a3b7c75a12" vad={{ enabled: false }}>
       <DemoNavigation />
       <App />
     </SpeechProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

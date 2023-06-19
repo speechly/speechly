@@ -1,10 +1,10 @@
-name: deploy moderation
+name: deploy profanity
 on:
   push:
     branches:
       - main
     paths:
-      - 'demos/moderation/config/**'
+      - "demos/profanity/config/**"
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker://speechly/cli:latest
         with:
-          args: deploy -a ${{ secrets.APPID_MODERATION_V2 }} demos/moderation/config -w
+          args: deploy -a ${{ secrets.APPID_MODERATION }} demos/profanity/config -w
         env:
           SPEECHLY_APIKEY: ${{ secrets.SPEECHLY_APIKEY }}

@@ -10,6 +10,7 @@ specifiers:
   '@rush-temp/fashion-ecommerce': file:./projects/fashion-ecommerce.tgz
   '@rush-temp/logkit': file:./projects/logkit.tgz
   '@rush-temp/moderation': file:./projects/moderation.tgz
+  '@rush-temp/profanity': file:./projects/profanity.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
   '@rush-temp/transcription': file:./projects/transcription.tgz
   '@speechly/demo-navigation': ^0.2.14
@@ -81,6 +82,7 @@ dependencies:
   '@rush-temp/fashion-ecommerce': file:projects/fashion-ecommerce.tgz_eslint@7.32.0
   '@rush-temp/logkit': file:projects/logkit.tgz
   '@rush-temp/moderation': file:projects/moderation.tgz_ts-node@10.9.1
+  '@rush-temp/profanity': file:projects/profanity.tgz_ts-node@10.9.1
   '@rush-temp/react-client': file:projects/react-client.tgz
   '@rush-temp/transcription': file:projects/transcription.tgz_ts-node@10.9.1
   '@speechly/demo-navigation': 0.2.14
@@ -14730,7 +14732,7 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-4isg9PD8Udq011t9PRBxLm6OA4OwOwkSjWGozIF2evi3/HH5zBTLJl6zwsnwIgMsmup6pU+D//5ygnRmSY/Tgw==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-6AJJ/NpOBP2yELw/Ppqu6KCdQswDMDmMi8cYrCP5aJg9ibCCSu2ComuPr5Sw0J8+DMaFdl+b8LZrGC2wsPteyw==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
@@ -14740,6 +14742,62 @@ packages:
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
       '@types/jest': 25.2.3
+      '@types/node': 14.18.33
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.9
+      '@types/wavesurfer.js': 6.0.3
+      classnames: 2.3.2
+      clsx: 1.2.1
+      format-duration: 3.0.1
+      plyr-react: 4.0.0-alpha.1_react-dom@18.2.0+react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-scripts: 5.0.1_bb15ce2993c548faf38f556d6c0a445d
+      react-usestateref: 1.0.8_react@18.2.0
+      sentence-case: 3.0.4
+      typescript: 4.9.4
+      wavesurfer.js: 6.4.0
+      web-vitals: 2.1.4
+    transitivePeerDependencies:
+      - '@babel/plugin-syntax-flow'
+      - '@babel/plugin-transform-react-jsx'
+      - '@parcel/css'
+      - '@swc/core'
+      - '@types/babel__core'
+      - '@types/webpack'
+      - bufferutil
+      - canvas
+      - clean-css
+      - csso
+      - debug
+      - encoding
+      - esbuild
+      - fibers
+      - node-notifier
+      - node-sass
+      - rework
+      - rework-visit
+      - sass
+      - sass-embedded
+      - sockjs-client
+      - supports-color
+      - ts-node
+      - type-fest
+      - uglify-js
+      - utf-8-validate
+      - vue-template-compiler
+      - webpack-cli
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: false
+
+  file:projects/profanity.tgz_ts-node@10.9.1:
+    resolution: {integrity: sha512-fxg4wo7fW4u9K+RhEnyaIslHY4/EuT+IrgsPGWHW9nIgpmfK+MfwzZUpRcYMj6Sq094qhx2nHIidknBiWxtoeg==, tarball: file:projects/profanity.tgz}
+    id: file:projects/profanity.tgz
+    name: '@rush-temp/profanity'
+    version: 0.0.0
+    dependencies:
+      '@speechly/demo-navigation': 0.2.14
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9

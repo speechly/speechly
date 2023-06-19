@@ -514,7 +514,7 @@ function App() {
               <Empty className="EmptyState__icon" width={180} />
               <h2 className="EmptyState__title">Speech and audio analysis</h2>
               <p className="EmptyState__description">
-                Use one of our sample files, upload your own audio or use the microphone.
+                Use one of the sample files, upload your own audio or use the microphone.
               </p>
             </div>
           )}

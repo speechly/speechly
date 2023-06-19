@@ -1,6 +1,14 @@
 # Transcription Demo
 
-The transcription demo accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time. Highlighting the following Speechly features: Live Audio Transcription, Pre-recorded Audio Transcription, Interim Results, Segmentation and Timestamps.
+The transcription demo accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time.
+
+Speechly features
+
+- Live audio transcription
+- Pre-recorded audio transcription
+- Interim results
+- Segmentation
+- Timestamps
 
 https://demos.speechly.com/transcription/
 
@@ -50,5 +58,4 @@ rush build
 rushx start
 ```
 
-Please see [root level README](../../README.md#how-to-use-this-repository) and [the demos README](../README.md)
-for instructions on how to set up [Rush](https://rushjs.io/).
+Please see [root level README](../../README.md#how-to-use-this-rush-monorepository) for instructions on how to set up [Rush](https://rushjs.io/).

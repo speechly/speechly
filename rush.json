@@ -390,6 +390,10 @@
       "projectFolder": "demos/moderation"
     },
     {
+      "packageName": "profanity",
+      "projectFolder": "demos/profanity"
+    },
+    {
       "packageName": "analyzer",
       "projectFolder": "demos/analyzer"
     },

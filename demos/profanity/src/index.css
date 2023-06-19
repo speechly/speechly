@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+  --bg: #fff;
+  --header: #0F1923;
+  --segment: #F3F4F6;
+  --segment-active: #E5E9EC;
+  --text-primary: #00050A;
+  --text-secondary: #5A6B7C;
+  --label-info: #A8DBFA;
+  --label-info-text: #143B52;
+  --label-success: #ADEBB8;
+  --label-success-text: #14521F;
+  --label-danger: #F6CBD0;
+  --label-danger-text: #52141C;
+  --label-secondary: #D6DBE1;
+  --label-secondary-text: var(--text-secondary);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F1923;
+    --segment: #1F2D3B;
+    --segment-active: #30465C;
+    --text-primary: #FFF;
+    --text-secondary: #7D8FA1;
+    --label-info: hsl(203, 70%, 50%);
+    --label-info-text: var(--text-primary);
+    --label-success: hsl(131, 50%, 40%);
+    --label-success-text: #fffc;
+    --label-danger: hsl(353, 60%, 42%);
+    --label-danger-text: #fffc;
+    --label-secondary: #5A6B7C;
+    --label-secondary-text: #fffc;
+  }
+}
+
+html {
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.25;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.intercom-app,
+.intercom-lightweight-app {
+  display: none !important;
+}
