@@ -5,6 +5,7 @@ import { Tag } from './Tag';
 import { LabeledSpeechSegment } from '../utils/types';
 import { ReactComponent as Spinner } from '../assets/3-dots-fade-black-36.svg';
 import './SegmentItem.css';
+import { Tooltip } from './Tooltip';
 
 interface Props {
   segment: LabeledSpeechSegment;
@@ -37,7 +38,12 @@ export const SegmentItem: React.FC<Props> = ({ segment, currentTime }) => {
         <span>Abuse labels:</span>
         {abuseLabels === undefined && <Spinner width={16} height={16} fill="#7d8fa1" />}
         {abuseLabels?.map(({ label, score, flagged }) => (
-          <Tag key={label} label={label} score={score} isFlagged={flagged} />
+          <Tooltip
+            key={label}
+            title={flagged ? 'This label was flagged as abusive. Each label has its own threshold for flagging.' : ''}
+          >
+            <Tag label={label} score={score} isFlagged={flagged} />
+          </Tooltip>
         ))}
       </div>
     </div>
