@@ -6,17 +6,20 @@ import './MicButton.css';
 interface Props {
   isListening: boolean;
   isVadEnabled: boolean;
+  btnDisabled?: boolean;
+  vadDisabled?: boolean;
   onStartStop: React.MouseEventHandler<HTMLButtonElement>;
   onVadCheck: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-export const MicButton: React.FC<Props> = ({ isListening, isVadEnabled, onStartStop, onVadCheck }) => {
+export const MicButton: React.FC<Props> = ({ isListening, isVadEnabled, btnDisabled, vadDisabled, onStartStop, onVadCheck }) => {
   return (
     <div className="MicButton">
       <button
         type="button"
         className={clsx('MicButton__button', isListening && 'MicButton__button--active')}
         onClick={onStartStop}
+        disabled={btnDisabled}
       >
         <MicIcon width={28} height={28} />
       </button>
@@ -24,7 +27,7 @@ export const MicButton: React.FC<Props> = ({ isListening, isVadEnabled, onStartS
         {isListening ? 'Listening…' : isVadEnabled ? 'Speak to activate' : 'Press to talk'}
       </span>
       <span className="MicButton__description">
-        <input type="checkbox" id="vad" name="vad" checked={isVadEnabled} onChange={onVadCheck} />
+        <input type="checkbox" id="vad" name="vad" checked={isVadEnabled} onChange={onVadCheck} disabled={vadDisabled} />
         <label htmlFor="vad">Enable VAD</label>
       </span>
     </div>

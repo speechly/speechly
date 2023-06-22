@@ -28,6 +28,11 @@
   box-shadow: 0 0 0 8px var(--hover-dark);
 }
 
+.MicButton__button:disabled {
+  box-shadow: none;
+  cursor: auto;
+}
+
 .MicButton__button--active {
   color: #fff;
   background-color: var(--accent);

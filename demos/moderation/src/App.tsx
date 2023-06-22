@@ -30,6 +30,7 @@ function App() {
   const [audioSource, setAudioSource] = useState<string>();
   const [recData, setRecData] = useState<Blob>();
   const [isVadEnabled, setIsVadEnabled] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [showEmptyState, setShowEmptyState] = useState(true);
   const [currentTime, setCurrentTime] = useState<number | undefined>(undefined);
   const segmentEndRef: { current: HTMLDivElement | null } = useRef(null);
@@ -142,13 +143,13 @@ function App() {
   };
 
   const handleSelectFile = async (i: number) => {
-    if (selectedFileId === i) return;
-    if (clientState === DecoderState.Active) return;
+    if (selectedFileId === i || clientState === DecoderState.Active || isVadEnabled) return;
 
     setSelectedFileId(i);
     setAudioSource(undefined);
     setCurrentTime(undefined);
     setSpeechSegments([]);
+    setIsProcessing(true);
 
     const fileSrc = files[i].src;
     if (fileSrc) {
@@ -165,6 +166,7 @@ function App() {
       setAudioSource(fileSrc);
       const buffer = await response.arrayBuffer();
       await client?.uploadAudioData(buffer);
+      setIsProcessing(false);
       return;
     }
 
@@ -175,6 +177,7 @@ function App() {
       const url = URL.createObjectURL(blob);
       setAudioSource(url);
       await client?.uploadAudioData(buffer);
+      setIsProcessing(false);
       return;
     }
   };
@@ -182,14 +185,15 @@ function App() {
   const handleStopStart = async () => {
     if (isVadEnabled) {
       recorder.current?.stop();
-      await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
-      setIsVadEnabled(!isVadEnabled);
+      await client?.stopStream();
+      await client?.adjustAudioProcessor({ vad: { enabled: false } });
+      setIsVadEnabled(false);
       return;
     }
 
     if (clientState === DecoderState.Active) {
-      await stop();
       recorder.current?.stop();
+      await stop();
     } else {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
@@ -201,10 +205,9 @@ function App() {
   };
 
   const handleVadCheck = async () => {
-    if (clientState === DecoderState.Active) return;
-
     if (isVadEnabled) {
       recorder.current?.stop();
+      await client?.stopStream();
     } else {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
@@ -233,14 +236,20 @@ function App() {
           <div className="Sidebar__content">
             <Tabs>
               <TabItem title="Audio file">
-                <FileInput acceptMimes="audio/wav,audio/mpeg,audio/mp4" onFileSelected={handleFileAdd} />
+                <FileInput
+                  acceptMimes="audio/wav,audio/mpeg,audio/mp4"
+                  onFileSelected={handleFileAdd}
+                  disabled={isProcessing}
+                />
               </TabItem>
               <TabItem title="Microphone">
                 <MicButton
-                  isListening={isVadEnabled ? clientState === DecoderState.Active : listening}
+                  isListening={!isProcessing && clientState === DecoderState.Active}
                   isVadEnabled={isVadEnabled}
                   onStartStop={handleStopStart}
                   onVadCheck={handleVadCheck}
+                  btnDisabled={isProcessing}
+                  vadDisabled={isProcessing || listening}
                 />
               </TabItem>
             </Tabs>
