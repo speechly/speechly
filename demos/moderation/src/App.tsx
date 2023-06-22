@@ -191,15 +191,12 @@ function App() {
       await stop();
       recorder.current?.stop();
     } else {
-      await attachMicrophone();
-      await start();
-    }
-
-    if (speechSegments.length) {
       setSelectedFileId(undefined);
       setAudioSource(undefined);
       setCurrentTime(undefined);
       setSpeechSegments([]);
+      await attachMicrophone();
+      await start();
     }
   };
 
@@ -209,11 +206,11 @@ function App() {
     if (isVadEnabled) {
       recorder.current?.stop();
     } else {
-      await attachMicrophone();
       setSelectedFileId(undefined);
       setAudioSource(undefined);
       setCurrentTime(undefined);
       setSpeechSegments([]);
+      await attachMicrophone();
     }
 
     await client?.adjustAudioProcessor({ vad: { enabled: !isVadEnabled } });
