@@ -13,7 +13,7 @@ specifiers:
   '@rush-temp/profanity': file:./projects/profanity.tgz
   '@rush-temp/react-client': file:./projects/react-client.tgz
   '@rush-temp/transcription': file:./projects/transcription.tgz
-  '@speechly/demo-navigation': ^0.2.14
+  '@speechly/demo-navigation': ^0.2.15
   '@speechly/react-ui': ^2.7.5
   '@types/base-64': ^0.1.3
   '@types/jest': ^25
@@ -85,7 +85,7 @@ dependencies:
   '@rush-temp/profanity': file:projects/profanity.tgz_ts-node@10.9.1
   '@rush-temp/react-client': file:projects/react-client.tgz
   '@rush-temp/transcription': file:projects/transcription.tgz_ts-node@10.9.1
-  '@speechly/demo-navigation': 0.2.14
+  '@speechly/demo-navigation': 0.2.15
   '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
   '@types/base-64': 0.1.3
   '@types/jest': 25.2.3
@@ -2784,8 +2784,8 @@ packages:
       '@speechly/browser-client': 2.6.5
     dev: false
 
-  /@speechly/demo-navigation/0.2.14:
-    resolution: {integrity: sha512-5u6iaD2UyJgwpiOk9HAXt+vPqjxrYbonsnZPwjU76L948EIXaA/f0zYhTQm5ui2HpOYncwazAmI9YTbiFfz65Q==}
+  /@speechly/demo-navigation/0.2.15:
+    resolution: {integrity: sha512-ckj//Z2yvvlRwO8EpUSQcQdpapOoU9XAC6Gyp6ViWbdFovC8QscfhcfSePY6Lx0SCid+zLhLhKbwlWZpvNkUPw==}
     dependencies:
       '@segment/analytics-next': 1.49.2
       ga-gtag: 1.1.7
@@ -14549,12 +14549,12 @@ packages:
     dev: false
 
   file:projects/analyzer.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-PVhadMGUmKSng3X5dCWUOSR2FOyBrrIqCxHfH66GhEpyz4L4xkfmbgK+EIsmmuiEAQeDyAUpAh8bEJE6Nbbb9g==, tarball: file:projects/analyzer.tgz}
+    resolution: {integrity: sha512-Zj26Cco1xcwutOritPDY+AWRuGlGTHVOkDq4mtZ1R64yVy41p9m5IRvS7Cl0ZffLlyj2qznPlcT2Q9AnAjDnBQ==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.2.14
+      '@speechly/demo-navigation': 0.2.15
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -14651,12 +14651,12 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz_eslint@7.32.0:
-    resolution: {integrity: sha512-lVn1x1eA+/XfS22EpCkzQIOemFqNyt/lBNq+CvlviXhPbxfhhOxsI4WJrz44Jv/BAlXEWnDfBhl5Qz6Fv2SHDg==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-gvd1J4dY3yXBkzo2z0JqZdhghMd0FJvbkbP6lU37YJQvSNcfPozsD+YUbQ7CayLlUq4oZLKhUsmAu0uCeT3ULw==, tarball: file:projects/fashion-ecommerce.tgz}
     id: file:projects/fashion-ecommerce.tgz
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.2.14
+      '@speechly/demo-navigation': 0.2.15
       '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
       '@types/node': 14.18.33
       '@types/node-fetch': 2.6.2
@@ -14732,12 +14732,12 @@ packages:
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-6AJJ/NpOBP2yELw/Ppqu6KCdQswDMDmMi8cYrCP5aJg9ibCCSu2ComuPr5Sw0J8+DMaFdl+b8LZrGC2wsPteyw==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-ScgCJ9746oscSpYpQT3vW7c9JdyWdAv6/2lb1bLCe5Cn1Qdw3Uy+aJa8AIk/sC3ce8v8cdUSF4b7nWt1md/cmw==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.2.14
+      '@speechly/demo-navigation': 0.2.15
       '@testing-library/jest-dom': 4.2.4
       '@testing-library/react': 9.5.0_react-dom@18.2.0+react@18.2.0
       '@testing-library/user-event': 7.2.1
@@ -14792,12 +14792,12 @@ packages:
     dev: false
 
   file:projects/profanity.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-fxg4wo7fW4u9K+RhEnyaIslHY4/EuT+IrgsPGWHW9nIgpmfK+MfwzZUpRcYMj6Sq094qhx2nHIidknBiWxtoeg==, tarball: file:projects/profanity.tgz}
+    resolution: {integrity: sha512-nm3n+8QWMDko+sUrhAsi6yBLFyzBKcn5b9X8FCXlL0jbMNFuG/Lt1ShiQsQq8uHGfBjyiMFD/ZnPL8GgPsC8wQ==, tarball: file:projects/profanity.tgz}
     id: file:projects/profanity.tgz
     name: '@rush-temp/profanity'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.2.14
+      '@speechly/demo-navigation': 0.2.15
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -14872,12 +14872,12 @@ packages:
     dev: false
 
   file:projects/transcription.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-mAC9AC+Jr+MYwA4ZYWfyoMBI7dh9y6jqo6vn5Y/McCEM5tk/oqM4lMl7mbjvDXx5xfBV/71xC/+SwCBMtqhofQ==, tarball: file:projects/transcription.tgz}
+    resolution: {integrity: sha512-SulxIpGIhXs4mUkPx5bq4eDn4vcirq2PbhDBPT9Q604AaSydio8u8XCrwTjmTyQz3lvcTzzX76G4Prv3/+qUBw==, tarball: file:projects/transcription.tgz}
     id: file:projects/transcription.tgz
     name: '@rush-temp/transcription'
     version: 0.0.0
     dependencies:
-      '@speechly/demo-navigation': 0.2.14
+      '@speechly/demo-navigation': 0.2.15
       '@types/node': 14.18.33
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9

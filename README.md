@@ -43,11 +43,10 @@ Speechly client libraries provide the natural Spoken Language Understanding API 
 
 This monorepository contains the source code of Speechly demos available at [https://demos.speechly.com](https://demos.speechly.com). They are built using React and Speechly's [`react-client`](libraries/react-client/) and [`react-ui`](https://www.npmjs.com/package/@speechly/react-ui). Each of the demo subfolder is a stand-alone project. See the demos' README for further instructions.
 
-| Folder                                               | Description                                                                                                                                                                                                                                   |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [/demos/moderation](/demos/moderation)               | The [moderation demo](https://demos.speechly.com/moderation) highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time.                                                    |
-| [/demos/transcription](/demos/transcription)         | The [transcription demo](https://demos.speechly.com/transcription) accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time.                                                     |
-| [/demos/fashion-ecommerce](/demos/fashion-ecommerce) | The [voice interfaces demo](https://demos.speechly.com/fashion/) enables you to narrow down the product selection of an imaginary clothing store effectively. The results are updated in real time as you speak and you can make corrections. |
+| Folder                                       | Description                                                                                                                                                                                |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [/demos/moderation](/demos/moderation)       | The [moderation demo](https://demos.speechly.com/moderation) highlights profanities from various audio clips and labels the utterances into offensive and non offensive ones in real time. |
+| [/demos/transcription](/demos/transcription) | The [transcription demo](https://demos.speechly.com/transcription) accurately transcribes both live and pre-recorded audio using our off-the-shelf speech recognition model in real time.  |
 
 ## Examples
 
