@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      - 'demos/fashion-ecommerce/**'
       - 'demos/transcription/**'
       - 'demos/moderation/**'
       - 'demos/analyzer/**'
@@ -46,7 +45,6 @@ jobs:
         run: node common/scripts/install-run-rush.js rebuild --verbose
       - name: Prepare deployment directory
         run: mkdir -p tmp-upload-staging-area &&
-          cp -r demos/fashion-ecommerce/build/ tmp-upload-staging-area/fashion &&
           cp -r demos/moderation/build/ tmp-upload-staging-area/moderation &&
           cp -r demos/analyzer/build/ tmp-upload-staging-area/analyzer &&
           cp -r demos/transcription/build/ tmp-upload-staging-area/transcription
