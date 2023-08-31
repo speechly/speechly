@@ -20,7 +20,7 @@
     "@types/react-dom": "^18"
   },
   "scripts": {
-    "build": "pnpx tsc",
-    "build:watch": "pnpx tsc"
+    "build": "tsc",
+    "build:watch": "tsc"
   }
 }

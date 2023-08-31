@@ -40,7 +40,7 @@ export class BrowserClient {
   private readonly decoderOptions: ResolvedDecoderOptions & { vad?: VadOptions }
   private streamOptions: StreamOptions = { ...StreamDefaultOptions }
 
-  private stats = {
+  private readonly stats = {
     maxSignalEnergy: 0.0,
     sentSamples: 0,
   }
