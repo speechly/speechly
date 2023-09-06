@@ -1,7 +1,7 @@
 {
   "name": "@speechly/browser-client",
   "type": "module",
-  "version": "2.6.5",
+  "version": "2.6.6",
   "description": "JavaScript client for Speechly Streaming API",
   "keywords": [
     "client",

@@ -1,6 +1,13 @@
 # Change Log - @speechly/browser-client
 
-This log was last generated on Fri, 17 Feb 2023 13:50:07 GMT and should not be manually modified.
+This log was last generated on Wed, 06 Sep 2023 09:14:04 GMT and should not be manually modified.
+
+## 2.6.6
+Wed, 06 Sep 2023 09:14:04 GMT
+
+### Patches
+
+- Update dependencies
 
 ## 2.6.5
 Fri, 17 Feb 2023 13:50:07 GMT
