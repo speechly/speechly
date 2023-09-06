@@ -73,7 +73,8 @@
     "tsc-watch": "^4.3.5",
     "typedoc": "^0.22.6",
     "typedoc-plugin-markdown": "^3.11.3",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "@babel/plugin-proposal-private-property-in-object": "~7.21.11"
   },
   "files": ["dist/**/*", "src/**/*"],
   "publishConfig": {

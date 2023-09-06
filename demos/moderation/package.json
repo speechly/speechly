@@ -20,7 +20,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/wavesurfer.js": "^6.0.3",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "@babel/plugin-proposal-private-property-in-object": "~7.21.11"
   },
   "scripts": {
     "start": "react-scripts start",

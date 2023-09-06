@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@babel/plugin-proposal-private-property-in-object': ~7.21.11
   '@microsoft/api-extractor': ^7
   '@rollup/plugin-commonjs': ^21
   '@rollup/plugin-node-resolve': ^13
@@ -73,6 +74,7 @@ specifiers:
   web-vitals: ^2.1.4
 
 dependencies:
+  '@babel/plugin-proposal-private-property-in-object': 7.21.11
   '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
   '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
@@ -252,6 +254,19 @@ packages:
       semver: 6.3.1
     dev: false
 
+  /@babel/eslint-parser/7.22.11_eslint@7.32.0:
+    resolution: {integrity: sha512-YjOYZ3j7TjV8OhLW6NCtyg8G04uStATEUe5eiLuCZaXz2VSDQ3dsAtm2D+TuQyAqNMUK2WacGo0/uma9Pein1w==}
+    engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
+    peerDependencies:
+      '@babel/core': ^7.11.0
+      eslint: ^7.5.0 || ^8.0.0
+    dependencies:
+      '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
+      eslint: 7.32.0
+      eslint-visitor-keys: 2.1.0
+      semver: 6.3.1
+    dev: false
+
   /@babel/generator/7.22.10:
     resolution: {integrity: sha512-79KIf7YiWjjdZ81JnLujDRApWtl7BxTqWD88+FFdQEIOG8LJ0etDOM7CXuIgGJa55sGOwZVwuEsaLEm0PJ5/+A==}
     engines: {node: '>=6.9.0'}
@@ -284,6 +299,23 @@ packages:
       '@babel/helper-validator-option': 7.22.5
       browserslist: 4.21.10
       lru-cache: 5.1.1
+      semver: 6.3.1
+    dev: false
+
+  /@babel/helper-create-class-features-plugin/7.22.11:
+    resolution: {integrity: sha512-y1grdYL4WzmUDBRGK0pDbIoFd7UZKoDurDzWEoNMYoj1EL+foGRQNyPWDcC+YyegN5y1DUsFFmzjGijB3nSVAQ==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+    dependencies:
+      '@babel/helper-annotate-as-pure': 7.22.5
+      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-function-name': 7.22.5
+      '@babel/helper-member-expression-to-functions': 7.22.5
+      '@babel/helper-optimise-call-expression': 7.22.5
+      '@babel/helper-replace-supers': 7.22.9
+      '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
+      '@babel/helper-split-export-declaration': 7.22.6
       semver: 6.3.1
     dev: false
 
@@ -402,6 +434,17 @@ packages:
       '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-environment-visitor': 7.22.5
       '@babel/helper-wrap-function': 7.22.10
+    dev: false
+
+  /@babel/helper-replace-supers/7.22.9:
+    resolution: {integrity: sha512-LJIKvvpgPOPUThdYqcX6IXRuIcTkcAub0IaDRGCZH0p5GPUp7PhRU9QVgFcDDd51BaPkk77ZjqFwh6DZTAEmGg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0
+    dependencies:
+      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-member-expression-to-functions': 7.22.5
+      '@babel/helper-optimise-call-expression': 7.22.5
     dev: false
 
   /@babel/helper-replace-supers/7.22.9_@babel+core@7.22.11:
@@ -612,6 +655,18 @@ packages:
       '@babel/core': 7.22.11
     dev: false
 
+  /@babel/plugin-proposal-private-property-in-object/7.21.11:
+    resolution: {integrity: sha512-0QZ8qP/3RLDVBwBFoWAwCtgcDZJVwA5LUJRZU8x2YFfKNuFq161wK3cuGrALu5yiPu+vzwTAg/sMWVNeWeNyaw==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/helper-annotate-as-pure': 7.22.5
+      '@babel/helper-create-class-features-plugin': 7.22.11
+      '@babel/helper-plugin-utils': 7.22.5
+      '@babel/plugin-syntax-private-property-in-object': 7.14.5
+    dev: false
+
   /@babel/plugin-syntax-async-generators/7.8.4_@babel+core@7.22.11:
     resolution: {integrity: sha512-tycmZxkGfZaxhMRbXlPXuVFpdWlXpir2W4AMhSJgRKzk/eDlIXOhb2LHWoLpDF7TEHylV5zNhykX6KAgHJmTNw==}
     peerDependencies:
@@ -786,6 +841,15 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.11
+      '@babel/helper-plugin-utils': 7.22.5
+    dev: false
+
+  /@babel/plugin-syntax-private-property-in-object/7.14.5:
+    resolution: {integrity: sha512-0wVnp9dxJ72ZUJDV27ZfbSj6iHLoytYZmh3rFcxNnvsJF3ktkzLDZPy/mA17HGsaQT3/DQsWYX1f1QGWkCoVUg==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
       '@babel/helper-plugin-utils': 7.22.5
     dev: false
 
@@ -14631,11 +14695,12 @@ packages:
     dev: false
 
   file:projects/analyzer.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-OeS7vypoJ5Z0kcjGkJQ99HIzWwG3aTKi8z3ABKHGbRftD6xVo6BcjTq+ZN81dETMKS1K5UASCLarqEi4VteKYA==, tarball: file:projects/analyzer.tgz}
+    resolution: {integrity: sha512-AAjJQxFX9sd0ML0y+eYHhvcnzKqhm3Xwc5Fljmgo384/c03KLWXqJ4LJeZruHVQ2XZYB8i3kLSV6sYPDRYPPLg==, tarball: file:projects/analyzer.tgz}
     id: file:projects/analyzer.tgz
     name: '@rush-temp/analyzer'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@speechly/demo-navigation': 0.3.0_react@18.2.0
       '@types/node': 14.18.56
       '@types/react': 18.2.21
@@ -14652,6 +14717,7 @@ packages:
       wavesurfer.js: 6.6.4
       web-vitals: 2.1.4
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
@@ -14685,11 +14751,13 @@ packages:
     dev: false
 
   file:projects/browser-client.tgz_81e7cac8a052eab3ea2baaee6c9ad663:
-    resolution: {integrity: sha512-QGEDxBhDiYfmLfEFKMuEt+5ZG8AS+dir0AtUtXV+iH8NnHO/RvNxu0gMmhGDchwsTkwhpDz5HZNHaCKh7imjhw==, tarball: file:projects/browser-client.tgz}
+    resolution: {integrity: sha512-JavkkkWetchZXYu8v0sdGI2mNtE7cvnoAtdvywtcGRKTUJVynzphDkAomUvvxovd967mKrPfvl8j+0xdORDvlg==, tarball: file:projects/browser-client.tgz}
     id: file:projects/browser-client.tgz
     name: '@rush-temp/browser-client'
     version: 0.0.0
     dependencies:
+      '@babel/eslint-parser': 7.22.11_eslint@7.32.0
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
@@ -14724,6 +14792,7 @@ packages:
       typescript: 4.9.5
       uuid: 8.3.2
     transitivePeerDependencies:
+      - '@babel/core'
       - '@types/node'
       - bufferutil
       - canvas
@@ -14734,11 +14803,12 @@ packages:
     dev: false
 
   file:projects/fashion-ecommerce.tgz_eslint@7.32.0:
-    resolution: {integrity: sha512-LorWtWq4plAAHQlTMByddQBMEWNR8k9KVCcKLDx1rzCrCHPPyNWe0CzFKc5AMf9nFwXUZgcbumZjwPCFUlF15g==, tarball: file:projects/fashion-ecommerce.tgz}
+    resolution: {integrity: sha512-/w1fWpvlBA1K6wfni1NFN1rMy0Grke/149t8Sat0nftKFgbwwraDkaoBbqKu16ebQUJrdO6wxdVxHnJ6p7NtOw==, tarball: file:projects/fashion-ecommerce.tgz}
     id: file:projects/fashion-ecommerce.tgz
     name: '@rush-temp/fashion-ecommerce'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@speechly/demo-navigation': 0.3.0_react@18.2.0
       '@speechly/react-ui': 2.7.5_68b84df93deb6f260d90827a39a1a38f
       '@types/node': 14.18.56
@@ -14760,6 +14830,7 @@ packages:
       ts-node: 10.9.1_58361768164af64d7c6ca73a90747787
       typescript: 4.9.5
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
@@ -14802,24 +14873,28 @@ packages:
     dev: false
 
   file:projects/logkit.tgz:
-    resolution: {integrity: sha512-nHfCSXPV4NjP6IX2pgg4AXHZ1QUw3PADqOgC+sfKZoDVEJ/uEmEkc8P7gknyY0sxdVYyvC1ft0Nxfg3FpnqHBg==, tarball: file:projects/logkit.tgz}
+    resolution: {integrity: sha512-0p1bKoRsv5PlmApTT6H+GSutbBqOqe2JomHx20R/hLUyGK7c8lnnfEBltOsrLzmxcXf8evpQWU7c88hKePIK5Q==, tarball: file:projects/logkit.tgz}
     name: '@rush-temp/logkit'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@types/node': 14.18.56
       '@types/react': 18.2.21
       '@types/react-dom': 18.2.7
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.9.5
+    transitivePeerDependencies:
+      - '@babel/core'
     dev: false
 
   file:projects/moderation.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-NjPD/oL6/38dEWJwdaq/rCxPlub+PMU6n4Pz86ZOgH3GFu0SZhehCjtkaF3wF05hIS8GSLdLx+YMBcrsPeQvtQ==, tarball: file:projects/moderation.tgz}
+    resolution: {integrity: sha512-Sjc9LoMhga0qlEg9Oe3XKCyXqJ3F/XSaF7qmAtRxrKudymlSK6QLGFQBuADcTOeIcaDcNqufqW+9vdBX02Lv2Q==, tarball: file:projects/moderation.tgz}
     id: file:projects/moderation.tgz
     name: '@rush-temp/moderation'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@speechly/demo-navigation': 0.3.0_react@18.2.0
       '@types/node': 14.18.56
       '@types/react': 18.2.21
@@ -14835,6 +14910,7 @@ packages:
       wavesurfer.js: 6.6.4
       web-vitals: 2.1.4
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
@@ -14868,11 +14944,12 @@ packages:
     dev: false
 
   file:projects/profanity.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-luecjpm1Av295crIunIGAVrtaDlskKSua9pKn+gVxbuFf9YWO58gV4ZpB0l+9ymcJ8cCu+YVmdYOaGLq0OAGGQ==, tarball: file:projects/profanity.tgz}
+    resolution: {integrity: sha512-xHEql6l49KRDpPd1pJjjUqNAH8MqJxmX5f9y8E4zHRwh8Z83z/bb4PL4uNtonSo+oStIWxE7sBnU5TbVxGO/8A==, tarball: file:projects/profanity.tgz}
     id: file:projects/profanity.tgz
     name: '@rush-temp/profanity'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@speechly/demo-navigation': 0.3.0_react@18.2.0
       '@types/node': 14.18.56
       '@types/react': 18.2.21
@@ -14886,6 +14963,7 @@ packages:
       sentence-case: 3.0.4
       typescript: 4.9.5
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
@@ -14919,11 +14997,12 @@ packages:
     dev: false
 
   file:projects/react-client.tgz_@types+node@14.18.56:
-    resolution: {integrity: sha512-HB0Fdysi87vpAu1qRr9XIWFiRu4+BMN2XSrDa4j0+j6z1y0Mr02l+60s95Etiio3H/ywR7C0fxrrwjD3+7rysA==, tarball: file:projects/react-client.tgz}
+    resolution: {integrity: sha512-+7T2MQd+Kh+/wTYzlzJiUtTA2EJV9I+Gp1+4iWA7ecfM6OHpxvYSMbCb74idcyX3wkzQVR8XTUxnoAq2pw6Epg==, tarball: file:projects/react-client.tgz}
     id: file:projects/react-client.tgz
     name: '@rush-temp/react-client'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.56
       '@types/react': 18.2.21
       '@typescript-eslint/eslint-plugin': 5.62.0_47334185917a715e217310a014ab436b
@@ -14944,17 +15023,19 @@ packages:
       typedoc-plugin-markdown: 3.16.0_typedoc@0.22.18
       typescript: 4.9.5
     transitivePeerDependencies:
+      - '@babel/core'
       - '@types/node'
       - supports-color
       - webpack
     dev: false
 
   file:projects/transcription.tgz_ts-node@10.9.1:
-    resolution: {integrity: sha512-fsbjjcHyySOBvqbbHUHWbIywA3QFh0+bCwbgm71kDOdbT/odd1IlhVjnWvpEMFYCHR7RiYw+bVG2VnVrV+xCGA==, tarball: file:projects/transcription.tgz}
+    resolution: {integrity: sha512-dYP6WxIv0CBTbdXhQpuCmNzbgZBt62SI6KgU4IK4AkVMyreKTulSDX74EXxyqBThLWRB6GmKGH2o+64Qw6j/1Q==, tarball: file:projects/transcription.tgz}
     id: file:projects/transcription.tgz
     name: '@rush-temp/transcription'
     version: 0.0.0
     dependencies:
+      '@babel/plugin-proposal-private-property-in-object': 7.21.11
       '@speechly/demo-navigation': 0.3.0_react@18.2.0
       '@types/node': 14.18.56
       '@types/react': 18.2.21
@@ -14970,6 +15051,7 @@ packages:
       wavesurfer.js: 6.6.4
       web-vitals: 2.1.4
     transitivePeerDependencies:
+      - '@babel/core'
       - '@babel/plugin-syntax-flow'
       - '@babel/plugin-transform-react-jsx'
       - '@parcel/css'
