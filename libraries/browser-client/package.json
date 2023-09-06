@@ -30,7 +30,7 @@
     "getdeps": "pnpm install --force --frozen-lockfile",
     "lint": "pnpx eslint --cache --max-warnings 0 'src/**/*.{ts,tsx}'",
     "precommit": "pnpx prettier --write src/**/*.ts && pnpm run build && pnpx api-extractor run --local && pnpm run docs",
-    "test": "pnpx jest --config ./config/jest.config.js"
+    "test": "pnpx jest --config ./config/jest.config.cjs"
   },
   "repository": {
     "type": "git",
@@ -59,7 +59,7 @@
     "@types/uuid": "^7.0.3",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "eslint": "^7",
+    "eslint": "8",
     "eslint-config-standard-with-typescript": "^16",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^23.10.0",
@@ -72,7 +72,7 @@
     "prettier": "^2.1.2",
     "rimraf": "^3.0.2",
     "rollup": "^2.63.0",
-    "rollup-plugin-terser": "^7.0.2",
+    "@rollup/plugin-terser": "*",
     "ts-jest": "26.5.6",
     "ts-loader": "^9.2.5",
     "tsc-watch": "^4.3.5",
