@@ -11,7 +11,7 @@
     "@speechly/browser-client": "^2.6.3",
     "format-duration": "^3.0.2",
     "modern-normalize": "^1.1.0",
-    "parcel": "2.9.3"
+    "parcel": "2.10.3"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead"
 }
